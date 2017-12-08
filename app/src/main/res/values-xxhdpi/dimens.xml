@@ -1,0 +1,53 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="gudieview_width">6dp</dimen>
+    <dimen name="gudieview_heigh">6dp</dimen>
+
+    <!-- font -->
+    <dimen name="font_tiny">10sp</dimen>
+    <dimen name="font_small">12sp</dimen>
+    <dimen name="font_normal">14sp</dimen>
+    <dimen name="font_normal2">16sp</dimen>
+    <dimen name="font_normal3">20sp</dimen>
+    <dimen name="font_large">24sp</dimen>
+    <dimen name="textandiconmargin">10dp</dimen>
+
+    <dimen name="divider_size">1dp</dimen>
+    <dimen name="me_PersonImageWidth">90dp</dimen>
+    <dimen name="me_PersonImageHeight">90dp</dimen>
+    <!--欢迎页面-->
+    <dimen name="rl_login_margin">50dp</dimen>
+    <dimen name="rl_login_marginBottom">20dp</dimen>
+    <dimen name="login_text">20sp</dimen>
+    <!--手机登录-->
+    <dimen name="toolbar_marginBottom">60dp</dimen>
+    <dimen name="view_marginLeft">37dp</dimen>
+    <dimen name="dimen_1dp">1dp</dimen>
+    <dimen name="et_drawablePadding">16dp</dimen>
+    <dimen name="et_textSize">14sp</dimen>
+    <dimen name="btn_textSize">16sp</dimen>
+    <dimen name="et_height">46dp</dimen>
+    <dimen name="et_marginTop">20dp</dimen>
+    <dimen name="btn_marginTop">40dp</dimen>
+    <dimen name="tv_helper_textSize">12sp</dimen>
+    <dimen name="iv_thirdPartMarginLeft">40dp</dimen>
+    <dimen name="iv_loginIconHeight">20dp</dimen>
+    <dimen name="iv_loginIconWidth">15dp</dimen>
+    <dimen name="iv_hiddenWidth">14dp</dimen>
+    <dimen name="iv_hiddenHeight">7dp</dimen>
+    <dimen name="thirdPartWidth">40dp</dimen>
+    <!--简历检测-->
+    <dimen name="discoveryResumeTitle_textSize">18sp</dimen>
+    <dimen name="discoveryResumeContent_textSize">14sp</dimen>
+    <dimen name="discoveryResumeContent_marginTop">15dp</dimen>
+    <dimen name="discoveryResumeRv_marginTop">40dp</dimen>
+    <dimen name="item_resumeTitle">12sp</dimen>
+    <dimen name="item_resumeComplete_textSize">10sp</dimen>
+    <dimen name="item_resumeTitleWidth">100dp</dimen>
+    <dimen name="item_resumeTitleHeight">20dp</dimen>
+    <dimen name="item_resumeContentHeight">85dp</dimen>
+    <dimen name="item_resumeContent_marginTop">10dp</dimen>
+</resources>

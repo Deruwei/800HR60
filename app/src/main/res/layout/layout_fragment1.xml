@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:wdr="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
+        android:layout_marginTop="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp">
+        <TextView
+            android:elevation="10dp"
+            android:padding="5dp"
+            android:background="@drawable/view_shadow"
+            android:layout_centerInParent="true"
+            android:id="@+id/tv_fragment"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/goInto"
+            />
+        <TextView
+            android:id="@+id/tv_fragment2"
+            android:padding="5dp"
+            android:layout_marginTop="20dp"
+            android:elevation="15dp"
+            android:background="@color/white"
+            android:layout_centerInParent="true"
+            android:layout_below="@+id/tv_fragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/goInto"
+            />
+        <com.hr.ui.view.SnailBar
+            android:id="@+id/sb_fragment"
+            android:layout_below="@+id/tv_fragment2"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_height="wrap_content" />
+
+        <com.hr.ui.view.DialogView
+            android:id="@+id/dv_view"
+            wdr:textColor="@color/white"
+            wdr:textSizeDv="20dp"
+            android:layout_centerInParent="true"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:scaleType="fitXY" />
+        <com.hr.ui.view.MyResumeScoreProgressBar
+            android:layout_width="50dp"
+            android:id="@+id/pb"
+            wdr:firstColor="@color/new_main"
+            wdr:secondColor="@color/black"
+            wdr:circleWidth="10dp"
+            wdr:speed="3"
+            wdr:textSize="12sp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"/>
+        <com.hr.ui.view.PieChartView
+            android:id="@+id/pcv"
+            android:layout_width="60dp"
+            android:layout_height="60dp" />
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>

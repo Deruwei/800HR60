@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:id="@+id/cl_bg"
+    android:clipToPadding="true"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp">
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_welcome"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </android.support.v4.view.ViewPager>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="15dp"
+            android:layout_gravity="top"
+            android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/ll_welcome"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:gravity="center_horizontal"
+            android:layout_height="50dp">
+        </LinearLayout>
+        <Button
+            android:layout_below="@+id/ll_welcome"
+            android:layout_centerHorizontal="true"
+            android:text="@string/goInto"
+            android:visibility="gone"
+            android:background="@drawable/btn_ok"
+            android:id="@+id/btn_welcomeGoToMain"
+            android:textSize="15sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </FrameLayout>
+</android.support.constraint.ConstraintLayout>

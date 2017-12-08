@@ -1,0 +1,59 @@
+apply plugin: 'com.android.application'
+apply plugin:'org.greenrobot.greendao'
+android {
+    compileSdkVersion 26
+    defaultConfig {
+        applicationId "com.hr.ui"
+        minSdkVersion 15
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    greendao{
+        schemaVersion 1
+        daoPackage'com.afa.tourism.greendao.gen'
+        targetGenDir'src/main/java'
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    compile 'org.greenrobot:greendao:3.1.0'
+    compile 'org.greenrobot:greendao-generator:3.1.0'
+    compile 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    implementation 'com.google.code.gson:gson:2.2.4'
+    //rxjava+retrofit
+    compile 'com.squareup.retrofit2:retrofit:2.0.0-beta3'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.1.2'
+    compile 'com.orhanobut:logger:1.13'
+    //打印日志
+    compile 'io.reactivex:rxjava:1.0.1'
+    compile 'io.reactivex:rxandroid:1.0.1'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta4'
+    implementation 'com.android.support:design:26.1.0'
+    implementation files('libs/nineoldandroids-2.4.0.jar')
+    implementation files('libs/MobCommons-2017.1201.1507.jar')
+    implementation files('libs/MobTools-2017.1201.1507.jar')
+    implementation files('libs/ShareSDK-Core-3.1.2.jar')
+    implementation files('libs/ShareSDK-QQ-3.1.2.jar')
+    implementation files('libs/ShareSDK-QZone-3.1.2.jar')
+    implementation files('libs/ShareSDK-SinaWeibo-3.1.2.jar')
+    implementation files('libs/ShareSDK-Wechat-3.1.2.jar')
+    implementation files('libs/ShareSDK-Wechat-Core-3.1.2.jar')
+    implementation files('libs/ShareSDK-Wechat-Favorite-3.1.2.jar')
+    implementation files('libs/ShareSDK-Wechat-Moments-3.1.2.jar')
+}

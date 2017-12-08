@@ -1,0 +1,83 @@
+package com.hr.ui.constants;
+
+import com.hr.ui.api.HostType;
+
+/**
+ * Created by wdr on 2017/11/20.
+ */
+
+public class Constants {
+    public static final String ARGS = "args";
+    public static String TYPE_THIRDPARTLOGIN = "";
+    //数据库名称
+    public static final String DB_NAME="resume_db";
+    public static final int NETWORK_2G=1;
+    public static final int NETWORK_3G=2;
+    public static final int NETWORK_4G=3;
+    public static final int NETWORK_WIFI=4;
+    public static final int NETWORK_UNKNOWN=0;
+    public static final String BINDING="0";
+    /**
+     * The constant DEBUG_TAG.
+     */
+    public static final String DEBUG_TAG = "logger";// LogCat的标记
+    //api来源于
+    public static final  String DNFROM="800hr";
+    //当前使用的设备
+    public static final String OS_NAME = "android";
+    //api版本
+    public static final String API_VER = "2.1.0";
+    //线上
+    public static final String API_URL = "https://api.800hr.com/svrdo.php";
+    public static final String API_MIDDLE="svrdo.php";
+    //测试
+     public static final String API_URL_Text = "https://api.800hr.com/svrdo_v0.php";
+     public static final String  API_MIDDLE_TEST="svrdo_v0.php";
+    // SharedPreference中标识设备ID的字符
+    public static final String DEVICE_USER_ID = "device_user_id";
+    //标识是否是第一次进入app
+    public static final String IS_GUIDE = "GUIDE";
+    //标识是否是第一次请求验证码
+    public static final String IS_FIRSTGETVALIDCODE = "ValidCode";
+    // 字符集编码
+    public static final String ENCODE = "utf-8";
+    // SharedPreference文件名
+    public static final String PREFS_NAME = "800HR_HD";
+    //用户名
+    public static final String USERNAME = "username";
+    //手机号
+    public static final String USERPHONE = "user_phone";
+    //自动登录
+    public static final String AUTO_LOGIN = "autoLogin1";
+    //密码
+    public static final String PASSWORD = "password";
+    //AppCode
+    public static final String APPCODE="personal";
+    //sp存储的session_key名称
+    public static final String SESSION_KEY_SP="session_key";
+    //验证码需要的类型
+    public static final String VALIDCODE_REGISTER_YTPE="1";
+    public static final String VALIDCODE_LOGIN_YTPE="2";
+    public static final String VALIDCODE_FINDPSW_YTPE="3";
+    public static final String VALIDCODE_RESETORVALIDPHONE_YTPE="4";
+    public static final String VALIDCODE_RESETPHONEORPSW_YTPE="5";
+    //
+    public static final String PRE_SECRET_KRY= "2cb7G62b2drGdJobcQJ1O8813aV7fds7";
+    public static String INIT_SECRET_KRY = "2cb7G62b2drGdJobcQJ1O8813aV7fds7.800hr.com.800hr.";
+    public static String SVR_API_VER;
+    public static String SESSION_KEY;
+    // 第一次请求会话连接时用的加密密钥
+    public static final String SECRET_KEY= "2cb7G62b2drGdJobcQJ1O8813aV7fds7.800hr.com.800hr.";
+    public static String getHost(int hostType) {
+        String host;
+        switch (hostType) {
+            case HostType.HR:
+                host="https://api.800hr.com/";
+                break;
+            default:
+                host = "";
+                break;
+        }
+        return host;
+    }
+}

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="toast_white">#ffffff</color>
+    <color name="toast_stroke_gray">#99d4d4d4</color>
+    <color name="black">#000000</color>
+    <color name="smallYellow">#FFFAF0</color>
+    <color name="white">#ffffff</color>
+    <color name="gray">#FFF0F0F0</color>
+    <color name="new_main">#FB8900</color>
+    <color name="new_main2">#FBC042</color>
+    <color name="translucent">#99000000</color>
+    <color name="ww">#aaf4df</color>
+    <color name="color_333">#333333</color>
+    <color name="color_666">#666666</color>
+    <color name="color_999">#999999</color>
+    <!--白天主题-->
+    <color name="day_backgroup_color">#FFFFFFFF</color>
+    <color name="day_one_text_color">#FF000000</color>
+    <color name="day_two_text_color">#c9000000</color>
+    <color name="day_three_text_color">#8A9599</color>
+    <!--夜间主题-->
+    <color name="night_backgroup_color">#3F3F3F</color>
+    <color name="night_one_text_color">#FFbbbbbb</color>
+    <color name="night_two_text_color">#8A9599</color>
+    <color name="night_there_text_color">#8A9599</color>
+
+    <color name="guide1">#f3584f</color>
+    <color name="guide2">#60bce0</color>
+    <color name="guide3">#68dace</color>
+    <color name="guide4">#8fa2bb</color>
+
+    <color name="view_color">#CCCCCC</color>
+    <color name="bg_color">#ebebeb</color>
+    <color name="thirdPartColor">#FFC37B</color>
+    <color name="resumeComplete">#067677</color>
+    <color name="resumePreview">#0EACAE</color>
+    <color name="resumeContent_bg">#F6F6F6</color>
+</resources>
