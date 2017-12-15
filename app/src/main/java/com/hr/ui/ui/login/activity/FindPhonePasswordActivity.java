@@ -148,7 +148,7 @@ public class FindPhonePasswordActivity extends BaseActivity<FindPasswordPresente
                             mPresenter.getAutoCode();
                             initPopWindow();
                         } else {
-                            mPresenter.getValidCode(phoneNumber, "", 0, Constants.VALIDCODE_REGISTER_YTPE);
+                            mPresenter.getValidCode(phoneNumber, "", 0, Constants.VALIDCODE_FINDPSW_YTPE);
                         }
                     } else {
                         ToastUitl.show("请输入正确的手机号码", Toast.LENGTH_SHORT);
@@ -254,7 +254,7 @@ public class FindPhonePasswordActivity extends BaseActivity<FindPasswordPresente
             public void onClick(View v) {
                 String autoCodeText = etAutoCode.getText().toString();
                 if (autoCodeText != null && !"".equals(autoCodeText)) {
-                    mPresenter.getValidCode(etFindPhonePswNumber.getText().toString(), etAutoCode.getText().toString(), 1, Constants.VALIDCODE_REGISTER_YTPE);
+                    mPresenter.getValidCode(etFindPhonePswNumber.getText().toString(), etAutoCode.getText().toString(), 3, Constants.VALIDCODE_REGISTER_YTPE);
                 } else {
                     ToastUitl.show("请填写图形验证码", Toast.LENGTH_SHORT);
                 }

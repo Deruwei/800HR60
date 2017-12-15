@@ -1,5 +1,6 @@
 package com.hr.ui.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -17,6 +18,7 @@ import com.hr.ui.utils.recyclerviewutils.SelectorAttrs;
  * Created by wdr on 2017/11/27.
  */
 
+@SuppressLint("AppCompatCustomView")
 public class MaskImageView extends ImageView{
     // 遮罩的范围
     public static final int MASK_LEVEL_BACKGROUND = 1; // 背景图显示遮罩

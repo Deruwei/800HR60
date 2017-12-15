@@ -15,13 +15,13 @@
         app:showAsAction="ifRoom"
         android:elevation="2dp"
         android:icon="@drawable/bg_drawer_navigation_two"
-        android:title="好友" />
+        android:title="消息" />
     <item
         android:id="@+id/resume"
         android:enabled="true"
         android:elevation="2dp"
         app:showAsAction="ifRoom"
         android:icon="@drawable/bg_drawer_navigation_three"
-        android:title="广场" />
+        android:title="简历" />
 
 </menu>

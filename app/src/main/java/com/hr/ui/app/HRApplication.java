@@ -2,10 +2,13 @@ package com.hr.ui.app;
 
 import android.app.Application;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 
 import com.afa.tourism.greendao.gen.DaoMaster;
 import com.afa.tourism.greendao.gen.DaoSession;
 import com.hr.ui.constants.Constants;
+import com.hr.ui.db.MySQLiteOpenHelper;
+import com.hr.ui.utils.ToastUitl;
 import com.mob.MobApplication;
 
 /**
@@ -14,10 +17,10 @@ import com.mob.MobApplication;
 
 public class HRApplication extends MobApplication {
     private static HRApplication hrApplication;
-    private static DaoMaster daoMaster;
+    private  MySQLiteOpenHelper mHelper;
     private static DaoSession daoSession;
 
-    public static Context getAppContext() {
+    public static HRApplication getAppContext() {
         return hrApplication;
     }
 
@@ -27,30 +30,23 @@ public class HRApplication extends MobApplication {
         super.onCreate();
         if(hrApplication == null)
             hrApplication = this;
+        setupDatabase();
     }
-
-    public static DaoMaster getDaoMaster(Context context) {
-        if (daoMaster == null) {
-            DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(context, Constants.DB_NAME, null);
-            daoMaster = new DaoMaster(helper.getWritableDatabase());
-        }
-        return daoMaster;
-    }
-
     /**
-     * 取得DaoSession
-     *
-     * @param context
-     * @return
+     * 配置数据库
      */
-    public static DaoSession getDaoSession(Context context) {
-        if (daoSession == null) {
-            if (daoMaster == null) {
-                daoMaster = getDaoMaster(context);
-            }
-            daoSession = daoMaster.newSession();
-        }
+    private void setupDatabase() {
+        //创建数据库shop.db"
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "resume.db", null);
+        //获取可写数据库
+        SQLiteDatabase db = helper.getWritableDatabase();
+        //获取数据库对象
+        DaoMaster daoMaster = new DaoMaster(db);
+        //获取Dao对象管理者
+        daoSession = daoMaster.newSession();
+    }
+
+    public static DaoSession getDaoInstant() {
         return daoSession;
     }
-
 }

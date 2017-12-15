@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:fitsSystemWindows="true"
+    android:clipToPadding="true"
     android:background="@color/white"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -38,6 +39,8 @@
             android:layout_height="wrap_content" />
         <android.support.v7.widget.RecyclerView
             android:layout_marginTop="@dimen/discoveryResumeRv_marginTop"
+            android:layout_marginLeft="@dimen/dimen_75dp"
+            android:layout_marginRight="@dimen/dimen_75dp"
             android:id="@+id/rv_discoveryMultipleResumes"
             android:layout_width="match_parent"
             android:layout_height="match_parent">

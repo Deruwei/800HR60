@@ -3,6 +3,7 @@ package com.hr.ui.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
@@ -105,6 +106,8 @@ public class SlidingMenu extends HorizontalScrollView
 		{
 			// 将菜单隐藏
 			this.scrollTo(mMenuWidth, 0);
+			mShadow.setVisibility(GONE);
+			mShadow.setAlpha(0.3f);
 			once = true;
 		}
 	}
@@ -121,20 +124,23 @@ public class SlidingMenu extends HorizontalScrollView
 			if (scrollX > mHalfMenuWidth)
 			{
 				this.smoothScrollTo(mMenuWidth, 0);
-				mShadow.setVisibility(GONE);
+				this.mShadow.setVisibility(GONE);
+				mShadow.setAlpha(0.3f);
 				isOpen = false;
 			} else
 			{
 				this.smoothScrollTo(0, 0);
-				mShadow.setVisibility(VISIBLE);
 				isOpen = true;
 			}
 			return true;
 		case MotionEvent.ACTION_MOVE:
 			int scrollX1=getScrollX();
 			if(scrollX1>0){
-				mShadow.setAlpha(0.3f-0.3f/(mScreenWidth-mMenuWidth)*scrollX1);
-				mShadow.setVisibility(VISIBLE);
+				this.mShadow.setAlpha(0.3f-0.3f/(mScreenWidth-mMenuWidth)*scrollX1);
+				this.mShadow.setVisibility(VISIBLE);
+				if(scrollX1>mHalfMenuWidth){
+					this.mShadow.setVisibility(GONE);
+				}
 			}
 		}
 		return super.onTouchEvent(ev);
@@ -148,9 +154,8 @@ public class SlidingMenu extends HorizontalScrollView
 		if (isOpen)
 			return;
 		this.smoothScrollTo(0, 0);
-		mContent.setVisibility(VISIBLE);
-		mShadow.setVisibility(VISIBLE);
-		isOpen = true;
+		this.mShadow.setVisibility(VISIBLE);
+		isOpen=!isOpen;
 	}
 
 	/**
@@ -161,9 +166,9 @@ public class SlidingMenu extends HorizontalScrollView
 		if (isOpen)
 		{
 			this.smoothScrollTo(mMenuWidth, 0);
-			mShadow.setVisibility(GONE);
-			mContent.setVisibility(VISIBLE);
-			isOpen = false;
+			this.mShadow.setVisibility(GONE);
+			mShadow.setAlpha(0.3f);
+			isOpen=!isOpen;
 		}
 	}
 
@@ -179,6 +184,7 @@ public class SlidingMenu extends HorizontalScrollView
 		{
 			openMenu();
 		}
+		//Log.i("this",isOpen+""+"isvis"+mShadow.getVisibility());
 	}
 
 	@Override

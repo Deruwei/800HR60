@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="true"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <include layout="@layout/layout_toolbar"
+        android:id="@+id/in_workExp"
+        />
+    <android.support.v4.widget.NestedScrollView
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/in_workExp"
+        android:layout_width="0dp"
+        android:layout_height="0dp">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/workExperience"
+            android:textColor="@color/color_333"
+            android:textSize="@dimen/dimen_26sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/dimen_15dp"
+            android:src="@mipmap/program3" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_36dp"
+            android:layout_marginLeft="@dimen/dimen_36dp"
+            android:layout_marginRight="@dimen/dimen_36dp"
+            android:layout_marginTop="@dimen/dimen_15dp">
+
+            <com.hr.ui.view.MyTextView
+                android:id="@+id/tv_companyNameTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/companyName"
+                android:textColor="@color/color_666"
+                android:textSize="@dimen/dimen_16sp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dimen_25dp"
+                android:layout_toRightOf="@+id/tv_companyNameTag">
+
+                <EditText
+                    android:id="@+id/et_companyName"
+                    android:layout_width="match_parent"
+                    android:layout_centerInParent="true"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/iv_companyNameDelete"
+                    android:background="@null"
+                    android:singleLine="true"
+                    android:textColor="@color/color_333"
+                    android:textColorHint="@color/view_color"
+                    android:textSize="@dimen/dimen_16sp" />
+
+                <ImageView
+                    android:id="@+id/iv_companyNameDelete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/close" />
+
+                <View
+                    android:layout_marginTop="@dimen/dimen_5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_below="@id/et_companyName"
+                    android:background="@color/view_color" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_36dp"
+            android:layout_marginLeft="@dimen/dimen_36dp"
+            android:layout_marginRight="@dimen/dimen_36dp"
+            android:layout_marginTop="@dimen/dimen_15dp">
+
+            <com.hr.ui.view.MyTextView
+                android:id="@+id/tv_positionTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/Appointment"
+                android:textColor="@color/color_666"
+                android:textSize="@dimen/dimen_16sp" />
+
+            <RelativeLayout
+                android:id="@+id/rl_position"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dimen_25dp"
+                android:layout_toRightOf="@+id/tv_positionTag">
+
+                <EditText
+                    android:id="@+id/tv_position"
+                    android:layout_width="match_parent"
+                    android:layout_centerInParent="true"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/tv_positionSelect"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:textColor="@color/color_333"
+                    android:textColorHint="@color/view_color"
+                    android:textSize="@dimen/dimen_16sp" />
+
+                <ImageView
+                    android:id="@+id/tv_positionSelect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/close" />
+
+                <View
+                    android:layout_marginTop="@dimen/dimen_5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_below="@id/tv_position"
+                    android:background="@color/view_color" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_36dp"
+            android:layout_marginLeft="@dimen/dimen_36dp"
+            android:layout_marginRight="@dimen/dimen_36dp"
+            android:layout_marginTop="@dimen/dimen_15dp">
+
+            <com.hr.ui.view.MyTextView
+                android:id="@+id/tv_workPlaceTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/workPlace"
+                android:textColor="@color/color_666"
+                android:textSize="@dimen/dimen_16sp" />
+
+            <RelativeLayout
+                android:id="@+id/rl_workPlace"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dimen_25dp"
+                android:layout_toRightOf="@+id/tv_workPlaceTag">
+
+                <TextView
+                    android:id="@+id/tv_workPlace"
+                    android:layout_width="match_parent"
+                    android:layout_centerInParent="true"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:background="@null"
+                    android:singleLine="true"
+                    android:textColor="@color/color_333"
+                    android:textColorHint="@color/view_color"
+                    android:textSize="@dimen/dimen_16sp" />
+
+                <ImageView
+                    android:id="@+id/tv_workPlaceSelect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/arrowright" />
+
+                <View
+                    android:layout_marginTop="@dimen/dimen_5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_below="@id/tv_workPlace"
+                    android:background="@color/view_color" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_36dp"
+            android:layout_marginLeft="@dimen/dimen_36dp"
+            android:layout_marginRight="@dimen/dimen_36dp"
+            android:layout_marginTop="@dimen/dimen_15dp">
+
+            <com.hr.ui.view.MyTextView
+                android:id="@+id/tv_grossPayTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/pre_texSalary"
+                android:textColor="@color/color_666"
+                android:textSize="@dimen/dimen_16sp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dimen_25dp"
+                android:layout_toRightOf="@+id/tv_grossPayTag">
+
+                <EditText
+                    android:id="@+id/et_grossPay"
+                    android:layout_width="match_parent"
+                    android:layout_centerInParent="true"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/iv_grossPayDelete"
+                    android:background="@null"
+                    android:inputType="number"
+                    android:singleLine="true"
+                    android:textColor="@color/color_333"
+                    android:textColorHint="@color/view_color"
+                    android:textSize="@dimen/dimen_16sp" />
+
+                <ImageView
+                    android:id="@+id/iv_grossPayDelete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/close" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="@dimen/dimen_5dp"
+                    android:layout_below="@id/et_grossPay"
+                    android:background="@color/view_color" />
+            </RelativeLayout>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_36dp"
+            android:layout_marginLeft="@dimen/dimen_36dp"
+            android:layout_marginRight="@dimen/dimen_36dp"
+            android:layout_marginTop="@dimen/dimen_15dp">
+
+            <com.hr.ui.view.MyTextView
+                android:id="@+id/tv_workExpStartAndEndTimeTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/startAndEndTime"
+                android:textColor="@color/color_666"
+                android:textSize="@dimen/dimen_16sp" />
+
+            <RelativeLayout
+                android:id="@+id/rl_workExpStartAndEndTime"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dimen_25dp"
+                android:layout_toRightOf="@+id/tv_workExpStartAndEndTimeTag">
+
+                <TextView
+                    android:id="@+id/tv_workExpStartAndEndTime"
+                    android:layout_width="match_parent"
+                    android:layout_centerInParent="true"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/tv_workExpStartAndEndTimeSelect"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:textColor="@color/color_333"
+                    android:textColorHint="@color/view_color"
+                    android:textSize="@dimen/dimen_16sp" />
+
+                <ImageView
+                    android:id="@+id/tv_workExpStartAndEndTimeSelect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/arrowright" />
+
+                <View
+                    android:layout_marginTop="@dimen/dimen_5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_below="@id/tv_workExpStartAndEndTime"
+                    android:background="@color/view_color" />
+            </RelativeLayout>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_36dp"
+            android:layout_marginLeft="@dimen/dimen_36dp"
+            android:layout_marginRight="@dimen/dimen_36dp"
+            android:layout_marginTop="@dimen/dimen_15dp">
+
+            <com.hr.ui.view.MyTextView
+                android:id="@+id/tv_responsibilityDesTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/jobDescription"
+                android:textColor="@color/color_666"
+                android:textSize="@dimen/dimen_16sp" />
+            <RelativeLayout
+                android:id="@+id/rl_responsibilityDes"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dimen_25dp"
+                android:layout_toRightOf="@+id/tv_responsibilityDesTag">
+
+                <TextView
+                    android:id="@+id/tv_responsibilityDes"
+                    android:layout_width="match_parent"
+                    android:layout_centerInParent="true"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/tv_responsibilityDesSelect"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:textColor="@color/color_333"
+                    android:textColorHint="@color/view_color"
+                    android:textSize="@dimen/dimen_16sp" />
+
+                <ImageView
+                    android:id="@+id/tv_responsibilityDesSelect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/arrowright" />
+
+                <View
+                    android:layout_marginTop="@dimen/dimen_5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_below="@id/tv_responsibilityDes"
+                    android:background="@color/view_color" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/btn_nextEdu"
+            android:layout_marginTop="@dimen/btn_marginTop"
+            android:layout_marginRight="@dimen/dimen_16sp"
+            android:layout_marginLeft="@dimen/dimen_16sp"
+            android:layout_width="match_parent"
+            android:text="@string/next"
+            android:textSize="@dimen/btn_textSize"
+            android:textColor="@color/white"
+            android:background="@drawable/button_login"
+            android:layout_height="@dimen/et_height"/>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</android.support.constraint.ConstraintLayout>

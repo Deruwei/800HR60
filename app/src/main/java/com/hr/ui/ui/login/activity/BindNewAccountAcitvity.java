@@ -20,9 +20,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hr.ui.R;
+import com.hr.ui.app.AppManager;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
+import com.hr.ui.bean.LoginBean;
+import com.hr.ui.bean.MultipleResumeBean;
+import com.hr.ui.bean.ResumeBean;
+import com.hr.ui.bean.ThirdLoginBean;
 import com.hr.ui.constants.Constants;
+import com.hr.ui.db.LoginDBUtils;
+import com.hr.ui.db.ThirdPartDao;
 import com.hr.ui.ui.login.contract.RegisterContract;
 import com.hr.ui.ui.login.model.RegisterModel;
 import com.hr.ui.ui.login.presenter.RegisterPresenter;
@@ -31,8 +38,12 @@ import com.hr.ui.utils.CodeTimer;
 import com.hr.ui.utils.EncryptUtils;
 import com.hr.ui.utils.RegularExpression;
 import com.hr.ui.utils.ToastUitl;
+import com.hr.ui.utils.ToolUtils;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.service.CodeTimerService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,7 +73,12 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
     public static final String CODE = "code";
     private ImageView ivAutoCode;
     private EditText etAutoCode;
+    private String uid;
     private int code;
+    private String phoneNumber,password;
+    private int[] imageIds={R.mipmap.resume1,R.mipmap.resume2,R.mipmap.resume3,R.mipmap.resume4,R.mipmap.resume5};
+    private ArrayList<String> titles;
+    private int userId;
 
     /**
      * 入口
@@ -137,8 +153,49 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
 
     @Override
     public void sendRegisterSuccess(int userId) {
-        MainActivity.startAction(this,userId);
-        finish();
+        ThirdLoginBean thirdPartBean=new ThirdLoginBean();
+        List<ThirdLoginBean> thirdPartBeanList= ThirdPartDao.queryThirdPart(Constants.TYPE_THIRDPARTLOGIN);
+        // List<ThirdLoginBean> thirdPartBeanList= HRApplication.getDaoSession().getThirdLoginBeanDao().queryBuilder().where(ThirdPartBeanDao.Properties.Type.eq(Constants.TYPE_THIRDPARTLOGIN)).list();
+        for(int i=0;i<thirdPartBeanList.size();i++){
+            if(thirdPartBeanList.get(i).getType().equals(Constants.TYPE_THIRDPARTLOGIN)){
+                thirdPartBean=thirdPartBeanList.get(i);
+                uid=thirdPartBean.getUId();
+                thirdPartBean.setSUId(userId+"");
+                break;
+            }
+        }
+        mPresenter.getThidBinding(thirdPartBean,phoneNumber,password,0);
+    }
+
+    @Override
+    public void bindingSuccess(int userId) {
+        sUtils.setIntValue(Constants.ISAUTOLOGIN,1);
+        LoginBean loginBean=new LoginBean();
+        if("QQ".equals(Constants.TYPE_THIRDPARTLOGIN)) {
+            loginBean.setLoginType(2);
+            sUtils.setIntValue(Constants.AUTOLOGINTYPE,2);
+        }else{
+            loginBean.setLoginType(3);
+            sUtils.setIntValue(Constants.AUTOLOGINTYPE,3);
+        }
+        loginBean.setName(phoneNumber);
+        loginBean.setPassword(password);
+        loginBean.setThirdPartUid(uid);
+        loginBean.setThirdPartLoginType(Constants.TYPE_THIRDPARTLOGIN);
+        loginBean.setThirdPartSUid(userId+"");
+        LoginDBUtils.insertData(loginBean);
+        this.userId=userId;
+        mPresenter.getResumeList();
+    }
+
+    @Override
+    public void getResumeListSuccess(MultipleResumeBean multipleResumeBean) {
+        ToolUtils.getInstance().judgeResumeMultipleOrOne2(this, multipleResumeBean,userId,imageIds,mPresenter);
+    }
+
+    @Override
+    public void getResumeDataSuccess(ResumeBean resumeBean) {
+        ToolUtils.getInstance().judgeResumeIsComplete(resumeBean,this,titles);
     }
 
     @Override
@@ -184,9 +241,9 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
         }
     }
     private void doRegister() {
-        String phoneNumber=etBindNewAccountNumber.getText().toString();
+        phoneNumber=etBindNewAccountNumber.getText().toString();
         String validCode=etBindPhoneAccountValidCode.getText().toString();
-        String password=etBindNewAccountPsw.getText().toString();
+        password=etBindNewAccountPsw.getText().toString();
 
         if ("".equals(phoneNumber) || phoneNumber == null) {
             ToastUitl.showShort("请输入手机号码");

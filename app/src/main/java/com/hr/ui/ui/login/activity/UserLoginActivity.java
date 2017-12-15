@@ -9,20 +9,37 @@ import android.text.Selection;
 import android.text.Spannable;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
+import android.util.MutableInt;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hr.ui.R;
+import com.hr.ui.app.AppManager;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
+import com.hr.ui.bean.LoginBean;
+import com.hr.ui.bean.MultipleResumeBean;
+import com.hr.ui.bean.ResumeBean;
+import com.hr.ui.bean.ResumeData;
+import com.hr.ui.constants.Constants;
+import com.hr.ui.db.LoginDBUtils;
+import com.hr.ui.db.ResumeDataUtils;
 import com.hr.ui.ui.login.contract.LoginContract;
 import com.hr.ui.ui.login.model.LoginModel;
 import com.hr.ui.ui.login.presenter.LoginPresenter;
 import com.hr.ui.ui.main.activity.MainActivity;
+import com.hr.ui.ui.main.activity.MultipleResumeActivity;
+import com.hr.ui.ui.main.activity.RobotActivity;
 import com.hr.ui.utils.ThirdPartLoginUtils;
 import com.hr.ui.utils.ToastUitl;
+import com.hr.ui.utils.ToolUtils;
+import com.hr.ui.utils.datautils.SharedPreferencesUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,6 +61,11 @@ public class UserLoginActivity extends BaseActivity<LoginPresenter, LoginModel> 
     @BindView(R.id.iv_userLoginHiddenPsw)
     ImageView ivUserLoginHiddenPsw;
     private boolean isHidden = true;
+    private String userNum,psw;
+    private SharedPreferencesUtils sUtils;
+    private int[] imageIds={R.mipmap.resume1,R.mipmap.resume2,R.mipmap.resume3,R.mipmap.resume4,R.mipmap.resume5};
+    private ArrayList<String> titles;
+    private int userId;
 
     /**
      * 入口
@@ -74,23 +96,42 @@ public class UserLoginActivity extends BaseActivity<LoginPresenter, LoginModel> 
 
     @Override
     public void sendLoginSuccess(int userId) {
-        MainActivity.startAction(this, userId);
-        finish();
+        sUtils.setIntValue(Constants.ISAUTOLOGIN,1);
+        sUtils.setIntValue(Constants.AUTOLOGINTYPE,1);
+        this.userId=userId;
+        mPresenter.getResumeList();
     }
 
     @Override
-    public void thirdPartLoginSuccess() {
-
+    public void thirdPartLoginSuccess(int userId) {
+        this.userId=userId;
+        sUtils.setIntValue(Constants.ISAUTOLOGIN,1);
+        if("QQ".equals(Constants.TYPE_THIRDPARTLOGIN)) {
+            sUtils.setIntValue(Constants.AUTOLOGINTYPE, 2);
+        }else{
+            sUtils.setIntValue(Constants.AUTOLOGINTYPE, 3);
+        }
+        mPresenter.getResumeList();
     }
 
     @Override
     public void thirdPartLoginGoToBind() {
+        BindNewAccountAcitvity.startAction(this);
+    }
+
+    @Override
+    public void bindingSuccess(int userId) {
 
     }
 
     @Override
-    public void bindingSuccess() {
+    public void getResumeListSuccess(MultipleResumeBean multipleResumeBean) {
+        ToolUtils.getInstance().judgeResumeMultipleOrOne(this, multipleResumeBean,userId,imageIds,mPresenter);
+    }
 
+    @Override
+    public void getResumeDataSuccess(ResumeBean resumeBean) {
+       ToolUtils.getInstance().judgeResumeIsComplete(resumeBean,this,titles);
     }
 
 
@@ -106,6 +147,7 @@ public class UserLoginActivity extends BaseActivity<LoginPresenter, LoginModel> 
 
     @Override
     public void initView() {
+        sUtils=new SharedPreferencesUtils(this);
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -166,8 +208,8 @@ public class UserLoginActivity extends BaseActivity<LoginPresenter, LoginModel> 
     }
 
     private void doLogin() {
-        String userNum = etUserLoginNumber.getText().toString();
-        String psw = etUserLoginPsw.getText().toString();
+       userNum = etUserLoginNumber.getText().toString();
+        psw = etUserLoginPsw.getText().toString();
         if ("".equals(userNum) || userNum == null) {
             ToastUitl.showShort("请输入手机号码");
             return;

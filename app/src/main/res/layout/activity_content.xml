@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="true"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <include layout="@layout/layout_toolbar"
+        android:id="@+id/in_content"/>
+    <LinearLayout
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/in_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp">
+        <EditText
+            android:id="@+id/et_content"
+            android:textSize="@dimen/dimen_16sp"
+            android:background="@drawable/edit_bg"
+            android:padding="@dimen/dimen_5dp"
+            android:gravity="top|left"
+            android:textColor="@color/color_333"
+            android:layout_marginTop="@dimen/dimen_20dp"
+            android:layout_marginLeft="@dimen/dimen_36dp"
+            android:layout_marginRight="@dimen/dimen_36dp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_400dp" />
+        <Button
+            android:id="@+id/btn_contentOK"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/et_height"
+            android:layout_marginLeft="@dimen/dimen_15dp"
+            android:layout_marginRight="@dimen/dimen_15dp"
+            android:layout_marginTop="@dimen/btn_marginTop"
+            android:background="@drawable/button_login"
+            android:text="@string/complete"
+            android:textColor="@color/white"
+            android:textSize="@dimen/btn_textSize" />
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

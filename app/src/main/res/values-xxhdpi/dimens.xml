@@ -50,4 +50,28 @@
     <dimen name="item_resumeTitleHeight">20dp</dimen>
     <dimen name="item_resumeContentHeight">85dp</dimen>
     <dimen name="item_resumeContent_marginTop">10dp</dimen>
+    <dimen name="robot_width">100dp</dimen>
+    <dimen name="robot_height">68dp</dimen>
+    <dimen name="dimen_50dp">50dp</dimen>
+    <dimen name="dimen_5dp">5dp</dimen>
+    <dimen name="dimen_80dp">80dp</dimen>
+    <dimen name="dimen_75dp">75dp</dimen>
+    <dimen name="dimen_15dp">15dp</dimen>
+    <dimen name="dimen_20dp">20dp</dimen>
+    <dimen name="dimen_25dp">25dp</dimen>
+    <dimen name="dimen_36dp">36dp</dimen>
+    <dimen name="rl_height">30dp</dimen>
+    <dimen name="dimen_40dp">40dp</dimen>
+    <dimen name="dimen_120dp">120dp</dimen>
+    <dimen name="dimen_200dp">200dp</dimen>
+    <dimen name="dimen_400dp">400dp</dimen>
+    <dimen name="dimen_30dp">30dp</dimen>
+    <dimen name="dimen_10dp">10dp</dimen>
+
+
+    <dimen name="dimen_10sp">10sp</dimen>
+    <dimen name="dimen_12sp">12sp</dimen>
+    <dimen name="dimen_14sp">14sp</dimen>
+    <dimen name="dimen_16sp">16sp</dimen>
+    <dimen name="dimen_26sp">26sp</dimen>
 </resources>

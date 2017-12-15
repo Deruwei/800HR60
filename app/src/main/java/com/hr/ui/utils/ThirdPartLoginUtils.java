@@ -2,11 +2,10 @@ package com.hr.ui.utils;
 
 import android.util.Log;
 
-import com.afa.tourism.greendao.gen.ThirdPartBeanDao;
+import com.afa.tourism.greendao.gen.ThirdLoginBeanDao;
 import com.hr.ui.app.HRApplication;
-import com.hr.ui.bean.ThirdPartBean;
+import com.hr.ui.bean.ThirdLoginBean;
 import com.hr.ui.constants.Constants;
-import com.hr.ui.db.DBThirdPartService;
 import com.hr.ui.ui.login.presenter.LoginPresenter;
 
 import java.util.HashMap;
@@ -24,9 +23,8 @@ import cn.sharesdk.wechat.friends.Wechat;
 public class ThirdPartLoginUtils {
     public static final String TAG=ThirdPartLoginUtils.class.getSimpleName();
     public static void  LoginQQ(final LoginPresenter mPresenter){
-        final DBThirdPartService dbThirdPartService=new DBThirdPartService();
         //final ThirdPartBeanDao thirdPartBeanDao= HRApplication.getDaoSession(HRApplication.getAppContext()).getThirdPartBeanDao();
-        final ThirdPartBean thirdPartBean=new ThirdPartBean();
+        final ThirdLoginBean thirdPartBean=new ThirdLoginBean();
         Platform qq= ShareSDK.getPlatform(QQ.NAME);
         if(qq.isAuthValid()){
             qq.removeAccount(true);
@@ -35,14 +33,22 @@ public class ThirdPartLoginUtils {
         qq.setPlatformActionListener(new PlatformActionListener() {
             @Override
             public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
-                System.out.println("wechat-complete"+hashMap.toString());
+                System.out.println("qq-complete"+hashMap.toString());
+                String nickNameString = hashMap.get("nickname") + "";
+                String uidString = platform.getDb().getUserId() + "";
+                String birthdayString = hashMap.get("birthday") + "";
+                String tinyurlString = hashMap.get("figureurl_qq_2") + "";
+                String genderString = hashMap.get("gender") + "";
                 thirdPartBean.setType("QQ");
-                thirdPartBean.setName(hashMap.get("nickname") + "");
-                thirdPartBean.setUId(platform.getDb().getUserId() + "");
-                thirdPartBean.setBirthDay(hashMap.get("birthday") + "");
-                thirdPartBean.setPhoto(hashMap.get("figureurl_qq_2") + "");
-                thirdPartBean.setGender(hashMap.get("gender") + "");
-                dbThirdPartService.saveData(thirdPartBean);
+                thirdPartBean.setName(nickNameString);
+                thirdPartBean.setUId(uidString);
+                thirdPartBean.setBirthDay(birthdayString);
+                thirdPartBean.setPhoto(tinyurlString);
+                thirdPartBean.setGender(genderString);
+                //dbThirdPartService.insertData(thirdPartBean);
+                //ThirdPartDBUtils.getInstance(HRApplication.getAppContext()).insertData(thirdPartBean);
+                //thirdPartBeanDao.insert(thirdPartBean);
+               // HRApplication.getDaoSession().getThirdLoginBeanDao().insert(thirdPartBean);
                 Constants.TYPE_THIRDPARTLOGIN="QQ";
                 mPresenter.getThirdPartLogin(thirdPartBean);
                // ToastUitl.showLong(hashMap.toString());
@@ -61,7 +67,7 @@ public class ThirdPartLoginUtils {
         qq.showUser(null);
     }
     public static void  LoginWeChat(final LoginPresenter mPresenter){
-        final ThirdPartBean thirdPartBean=new ThirdPartBean();
+        final ThirdLoginBean thirdPartBean=new ThirdLoginBean();
         Platform wechat = ShareSDK.getPlatform(Wechat.NAME);
 //        if (wechat.isAuthValid()) {
         wechat.removeAccount(true);

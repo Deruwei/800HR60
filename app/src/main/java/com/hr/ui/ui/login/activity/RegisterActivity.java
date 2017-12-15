@@ -24,7 +24,11 @@ import android.widget.Toast;
 import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
+import com.hr.ui.bean.LoginBean;
+import com.hr.ui.bean.MultipleResumeBean;
+import com.hr.ui.bean.ResumeBean;
 import com.hr.ui.constants.Constants;
+import com.hr.ui.db.LoginDBUtils;
 import com.hr.ui.ui.login.contract.RegisterContract;
 import com.hr.ui.ui.login.model.RegisterModel;
 import com.hr.ui.ui.login.presenter.RegisterPresenter;
@@ -34,10 +38,12 @@ import com.hr.ui.utils.EncryptUtils;
 import com.hr.ui.utils.RegularExpression;
 import com.hr.ui.utils.TimeCount;
 import com.hr.ui.utils.ToastUitl;
+import com.hr.ui.utils.ToolUtils;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.service.CodeTimerService;
 
 import java.security.spec.PSSParameterSpec;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,14 +71,18 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
     TextView tvToolbarTitle;
     @BindView(R.id.tv_phoneRegisterGetValidCode)
     TextView tvPhoneRegisterGetValidCode;
-    private SharedPreferencesUtils sUtils;
     private PopupWindow popupWindow;
     private String autoCode;
     private Intent mCodeTimerServiceIntent;
     public static final String CODE = "code";
     private ImageView ivAutoCode;
     private EditText etAutoCode;
+    private SharedPreferencesUtils sUtils;
     private int code;
+    private String phoneNumber,password;
+    private int[] imageIds={R.mipmap.resume1,R.mipmap.resume2,R.mipmap.resume3,R.mipmap.resume4,R.mipmap.resume5};
+    private ArrayList<String> titles;
+    private int userId;
     /**
      * 入口
      *
@@ -115,11 +125,26 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
     public void sendAutoCode(String autoCode) {
         ivAutoCode.setImageBitmap(EncryptUtils.stringtoBitmap(autoCode));
     }
+    @Override
+    public void getResumeListSuccess(MultipleResumeBean multipleResumeBean) {
+        ToolUtils.getInstance().judgeResumeMultipleOrOne2(this, multipleResumeBean,userId,imageIds,mPresenter);
+    }
 
     @Override
+    public void getResumeDataSuccess(ResumeBean resumeBean) {
+        ToolUtils.getInstance().judgeResumeIsComplete(resumeBean,this,titles);
+    }
+    @Override
     public void sendRegisterSuccess(int userId) {
-       MainActivity.startAction(this,userId);
-       finish();
+        sUtils.setIntValue(Constants.ISAUTOLOGIN,1);
+        sUtils.setIntValue(Constants.AUTOLOGINTYPE,0);
+        this.userId=userId;
+        mPresenter.getResumeList();
+    }
+
+    @Override
+    public void bindingSuccess(int userId) {
+
     }
 
     @Override
@@ -190,9 +215,9 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
     }
 
     private void doRegister() {
-        String phoneNumber=etPhoneRegisterNumber.getText().toString();
+        phoneNumber=etPhoneRegisterNumber.getText().toString();
         String validCode=etPhoneRegisterValidCode.getText().toString();
-        String password=etPhoneRegisterPsw.getText().toString();
+         password=etPhoneRegisterPsw.getText().toString();
 
         if ("".equals(phoneNumber) || phoneNumber == null) {
             ToastUitl.showShort("请输入手机号码");

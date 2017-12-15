@@ -5,11 +5,12 @@ import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 
 /**
- * Created by wdr on 2017/12/7.
+ * Created by wdr on 2017/12/11.
  */
 @Entity
-public class ThirdPartBean {
-    @Id
+public class ThirdLoginBean {
+    @Id(autoincrement = true)
+    private long id;
     private String type;
     private String name;
     private String nikeName;
@@ -66,9 +67,16 @@ public class ThirdPartBean {
     public void setType(String type) {
         this.type = type;
     }
-    @Generated(hash = 930487056)
-    public ThirdPartBean(String type, String name, String nikeName, String uId,
-            String birthDay, String photo, String gender, String sUId) {
+    public long getId() {
+        return this.id;
+    }
+    public void setId(long id) {
+        this.id = id;
+    }
+    @Generated(hash = 1190174790)
+    public ThirdLoginBean(long id, String type, String name, String nikeName,
+            String uId, String birthDay, String photo, String gender, String sUId) {
+        this.id = id;
         this.type = type;
         this.name = name;
         this.nikeName = nikeName;
@@ -78,7 +86,7 @@ public class ThirdPartBean {
         this.gender = gender;
         this.sUId = sUId;
     }
-    @Generated(hash = 1980064110)
-    public ThirdPartBean() {
+    @Generated(hash = 1435251695)
+    public ThirdLoginBean() {
     }
 }

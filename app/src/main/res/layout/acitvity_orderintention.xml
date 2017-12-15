@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="true"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <include layout="@layout/layout_toolbar"
+        android:id="@+id/in_orderIntention"
+        />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/dimen_16sp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/in_orderIntention"
+        app:layout_constraintVertical_bias="0.0">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/jobIntention"
+            android:textColor="@color/color_333"
+            android:textSize="@dimen/dimen_26sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/dimen_15dp"
+            android:src="@mipmap/program4" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_36dp"
+            android:layout_marginLeft="@dimen/dimen_36dp"
+            android:layout_marginRight="@dimen/dimen_36dp"
+            android:layout_marginTop="@dimen/dimen_15dp">
+
+            <com.hr.ui.view.MyTextView
+                android:id="@+id/tv_jobTypeTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/workType"
+                android:textColor="@color/color_666"
+                android:textSize="@dimen/dimen_16sp" />
+
+            <RelativeLayout
+                android:id="@+id/rl_jobType"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dimen_25dp"
+                android:layout_toRightOf="@+id/tv_jobTypeTag">
+
+                <TextView
+                    android:id="@+id/tv_jobType"
+                    android:layout_width="match_parent"
+                    android:layout_centerInParent="true"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/iv_jobTypeSelect"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:textColor="@color/color_333"
+                    android:textColorHint="@color/view_color"
+                    android:textSize="@dimen/dimen_16sp" />
+
+                <ImageView
+                    android:id="@+id/iv_jobTypeSelect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/right_arrow" />
+
+                <View
+                    android:layout_marginTop="@dimen/dimen_5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_below="@+id/tv_jobType"
+                    android:background="@color/view_color" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_36dp"
+            android:layout_marginLeft="@dimen/dimen_36dp"
+            android:layout_marginRight="@dimen/dimen_36dp"
+            android:layout_marginTop="@dimen/dimen_15dp">
+
+            <com.hr.ui.view.MyTextView
+                android:id="@+id/tv_expectedFieldTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/expectedField"
+                android:textColor="@color/color_666"
+                android:textSize="@dimen/dimen_16sp" />
+
+            <RelativeLayout
+                android:id="@+id/rl_expectedField"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dimen_25dp"
+                android:layout_toRightOf="@+id/tv_expectedFieldTag">
+                <TextView
+                    android:id="@+id/tv_expectedField"
+                    android:layout_width="match_parent"
+                    android:layout_centerInParent="true"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/tv_expectedFieldSelect"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:textColor="@color/color_333"
+                    android:textColorHint="@color/view_color"
+                    android:textSize="@dimen/dimen_16sp" />
+                <ImageView
+                    android:id="@+id/tv_expectedFieldSelect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/right_arrow" />
+
+                <View
+                    android:layout_marginTop="@dimen/dimen_5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_below="@+id/tv_expectedField"
+                    android:background="@color/view_color" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_36dp"
+            android:layout_marginLeft="@dimen/dimen_36dp"
+            android:layout_marginRight="@dimen/dimen_36dp"
+            android:layout_marginTop="@dimen/dimen_15dp">
+
+            <com.hr.ui.view.MyTextView
+                android:id="@+id/tv_expectedPositionTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/expectedPosition"
+                android:textColor="@color/color_666"
+                android:textSize="@dimen/dimen_16sp" />
+
+            <RelativeLayout
+                android:id="@+id/rl_expectedPosition"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dimen_25dp"
+                android:layout_toRightOf="@+id/tv_expectedPositionTag">
+
+                <TextView
+                    android:id="@+id/tv_expectedPosition"
+                    android:layout_width="match_parent"
+                    android:layout_centerInParent="true"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/tv_expectedPositionSelect"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+
+                    android:singleLine="true"
+                    android:textColor="@color/color_333"
+                    android:textColorHint="@color/view_color"
+                    android:textSize="@dimen/dimen_16sp" />
+
+                <ImageView
+                    android:id="@+id/tv_expectedPositionSelect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/right_arrow" />
+
+                <View
+                    android:layout_marginTop="@dimen/dimen_5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_below="@+id/tv_expectedPosition"
+                    android:background="@color/view_color" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_36dp"
+            android:layout_marginLeft="@dimen/dimen_36dp"
+            android:layout_marginRight="@dimen/dimen_36dp"
+            android:layout_marginTop="@dimen/dimen_15dp">
+
+            <com.hr.ui.view.MyTextView
+                android:id="@+id/tv_expectSalaryTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:text="@string/expectSalary"
+                android:textColor="@color/color_666"
+                android:textSize="@dimen/dimen_16sp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dimen_25dp"
+                android:layout_toRightOf="@+id/tv_expectSalaryTag">
+
+                <TextView
+                    android:id="@+id/tv_expectSalary"
+                    android:layout_width="match_parent"
+                    android:layout_centerInParent="true"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/tv_expectSalarySelect"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:textColor="@color/color_333"
+                    android:textColorHint="@color/view_color"
+                    android:textSize="@dimen/dimen_16sp" />
+
+                <ImageView
+                    android:id="@+id/tv_expectSalarySelect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/right_arrow" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="@dimen/dimen_5dp"
+                    android:layout_below="@+id/tv_expectSalary"
+                    android:background="@color/view_color" />
+            </RelativeLayout>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/btn_nextEdu"
+            android:layout_marginTop="@dimen/btn_marginTop"
+            android:layout_marginRight="@dimen/dimen_16sp"
+            android:layout_marginLeft="@dimen/dimen_16sp"
+            android:layout_width="match_parent"
+            android:background="@drawable/button_login"
+            android:layout_height="@dimen/et_height">
+            <ImageView
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/tv_complete"
+                android:src="@mipmap/smile"
+                android:layout_marginRight="@dimen/dimen_5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_complete"
+                android:text="@string/complete"
+                android:layout_centerInParent="true"
+                android:textSize="@dimen/btn_textSize"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

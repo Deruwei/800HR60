@@ -1,11 +1,15 @@
 package com.hr.ui.api;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
-import com.hr.ui.bean.ThirdPartBean;
+import com.hr.ui.bean.EducationData;
+import com.hr.ui.bean.JobOrderData;
+import com.hr.ui.bean.PersonalInformationData;
+import com.hr.ui.bean.ThirdLoginBean;
+import com.hr.ui.bean.WorkExpData;
 import com.hr.ui.constants.Constants;
 import com.hr.ui.utils.AndroidUtils;
 import com.hr.ui.utils.NetworkMng;
@@ -30,7 +34,7 @@ public class ApiParameter {
         requestMap.put("os_ver", android.os.Build.VERSION.RELEASE);
         if (sUtils.getBooleanValue(Constants.IS_GUIDE, false)) {// 第一次运行
             sUtils.setBooleanValue(Constants.IS_GUIDE, true);
-            requestMap.put("new_setup", "0");
+            requestMap.put("new_setup", "1");
             sUtils.setStringValue(Constants.DEVICE_USER_ID, newRandomUUID());
         } else {
             //Toast.makeText(context,"2",Toast.LENGTH_SHORT).show();
@@ -155,7 +159,7 @@ public class ApiParameter {
      * @param thirdPartBean
      * @return
      */
-    public static HashMap<String,String> getThirdPartLogin(ThirdPartBean thirdPartBean){
+    public static HashMap<String,String> getThirdPartLogin(ThirdLoginBean thirdPartBean){
         HashMap<String,String>  requestMap=new HashMap<>();
         requestMap.put("method","user.thirdlogin");
         requestMap.put("third_code",thirdPartBean.getType());
@@ -178,7 +182,7 @@ public class ApiParameter {
      * @param type
      * @return
      */
-    public static HashMap<String,String> getThirdPartBinding(ThirdPartBean thirdPartBean,String userName,String psw,int type){
+    public static HashMap<String,String> getThirdPartBinding(ThirdLoginBean thirdPartBean, String userName, String psw, int type){
         HashMap<String,String>  requestMap=new HashMap<>();
         requestMap.put("method","user.thirdbinding");
         requestMap.put("third_code",thirdPartBean.getType());
@@ -190,6 +194,111 @@ public class ApiParameter {
             requestMap.put("user_name",userName);
             requestMap.put("user_pwd", psw);
         }
+        return requestMap;
+    }
+
+    /**
+     * 获取简历列表
+     * @return
+     */
+    public static HashMap<String,String> getResumeList(){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user_resume.resumelist");
+        requestMap.put("is_complete","0");
+        requestMap.put("mb","");
+        return requestMap;
+    }
+
+    /**
+     * 获取具体简历的信息
+     * @param resumeId
+     * @return
+     */
+    public static HashMap<String,String> getResumeDate(String resumeId){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user_resume.get");
+        requestMap.put("resume_id",resumeId);
+        requestMap.put("resume_language","");
+        return requestMap;
+    }
+
+    /**
+     * 添加或者修改简历的个人信息
+     * @param personalInformationData
+     * @return
+     */
+    public static HashMap<String,String> sendPersonalInformationToResume(PersonalInformationData personalInformationData){
+        HashMap<String,String> requestMap=new HashMap<>();
+        String birth=personalInformationData.getBirth();
+        String year=birth.substring(0,birth.indexOf("-"));
+        String month=birth.substring(birth.indexOf("-")+1,birth.lastIndexOf("-"));
+        String day=birth.substring(birth.lastIndexOf("-")+1);
+        requestMap.put("method","user_resume.baseinfoset");
+        requestMap.put("resume_language","zh");
+        requestMap.put("pic_filekey","");
+        requestMap.put("name",personalInformationData.getName());
+        requestMap.put("sex",personalInformationData.getSex());
+        requestMap.put("year",year);
+        requestMap.put("month",month);
+        requestMap.put("location",personalInformationData.getLivePlace());
+        requestMap.put("day",day);
+        requestMap.put("work_beginyear",personalInformationData.getWorkTime());
+        requestMap.put("post_rank",personalInformationData.getPositionTitle());
+        requestMap.put("ydphone",personalInformationData.getPhoneNumber());
+        requestMap.put("emailaddress",personalInformationData.getEmail());
+        requestMap.put("is_app","1");
+        System.out.println(requestMap.toString()+"haha");
+        return requestMap;
+    }
+    public static HashMap<String,String> sendEducationToResume(EducationData educationData){
+        HashMap<String,String> requestMap=new HashMap<>();
+        String startTime=educationData.getStartTime();
+        String endTime=educationData.getEndTime();
+        String fromYear=startTime.substring(0,startTime.indexOf("-"));
+        String fromMonth=startTime.substring(startTime.indexOf("-")+1);
+        String toYear=endTime.substring(0,endTime.indexOf("-"));
+        String toMonth=endTime.substring(endTime.indexOf("-")+1);
+        requestMap.put("method","user_resume.educationset");
+        requestMap.put("fromyear",fromYear);
+        requestMap.put("frommonth",fromMonth);
+        requestMap.put("toyear",toYear);
+        requestMap.put("tomonth",toMonth);
+        requestMap.put("schoolname",educationData.getSchoolName());
+        requestMap.put("degree",educationData.getDegree());
+        requestMap.put("moremajor",educationData.getProfession());
+        requestMap.put("edudetail","");
+        return requestMap;
+    }
+    public static HashMap<String,String> sendWorkExpToResume(WorkExpData workExpData){
+        HashMap<String,String> requestMap=new HashMap<>();
+        String startTime=workExpData.getStartTime();
+        String endTime=workExpData.getEndTime();
+        String fromYear=startTime.substring(0,startTime.indexOf("-"));
+        String fromMonth=startTime.substring(startTime.indexOf("-")+1);
+        String toYear=endTime.substring(0,endTime.indexOf("-"));
+        String toMonth=endTime.substring(endTime.indexOf("-")+1);
+        requestMap.put("method","user_resume.experienceset");
+        requestMap.put("company",workExpData.getCompany());
+        requestMap.put("fromyear",fromYear);
+        requestMap.put("frommonth",fromMonth);
+        requestMap.put("toyear",toYear);
+        requestMap.put("tomonth",toMonth);
+        requestMap.put("companyaddress",workExpData.getWorkPlace());
+        requestMap.put("salary",workExpData.getGrossPay());
+        requestMap.put("position",workExpData.getPosition());
+        requestMap.put("responsiblity",workExpData.getResponsibilityDescription());
+        return requestMap;
+    }
+    public static HashMap<String,String> sendJobOrderToResume(JobOrderData jobOrderData){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user_resume.orderset");
+        requestMap.put("current_workstate","");
+        requestMap.put("jobtype",jobOrderData.getWorkType());
+        requestMap.put("industry",jobOrderData.getIndustry());
+        requestMap.put("func",jobOrderData.getExpectPosition());
+        requestMap.put("workarea","");
+        requestMap.put("order_salary",jobOrderData.getSalary());
+        requestMap.put("resume_language","zh");
         return requestMap;
     }
 }

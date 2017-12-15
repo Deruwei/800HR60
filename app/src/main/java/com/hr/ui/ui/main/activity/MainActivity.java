@@ -4,32 +4,49 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.util.MutableInt;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.hr.ui.R;
+import com.hr.ui.base.BaseActivity;
+import com.hr.ui.base.BaseNoConnectNetworkAcitivty;
+import com.hr.ui.bean.MultipleResumeBean;
+import com.hr.ui.bean.ResumeBean;
+import com.hr.ui.bean.ResumeData;
+import com.hr.ui.db.ResumeDataUtils;
+import com.hr.ui.ui.main.contract.MainContract;
 import com.hr.ui.ui.main.fragment.Fragment1;
 import com.hr.ui.ui.main.fragment.Fragment2;
 import com.hr.ui.ui.main.fragment.Fragment3;
 import com.hr.ui.ui.main.fragment.HomeFragment;
+import com.hr.ui.ui.main.modle.MainModel;
+import com.hr.ui.ui.main.presenter.MainPresenter;
 import com.hr.ui.utils.BottomNavigationViewHelper;
 import com.hr.ui.view.SlidingMenu;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseNoConnectNetworkAcitivty {
 
     @BindView(R.id.one)
     ImageView one;
@@ -56,13 +73,16 @@ public class MainActivity extends AppCompatActivity {
     private int userId;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        initView();
-        setCurrentFragment();
     }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.activity_main;
+    }
+
 
     private void setCurrentFragment() {
         llMain.setOnClickListener(new View.OnClickListener() {
@@ -109,8 +129,8 @@ public class MainActivity extends AppCompatActivity {
         idMenu.toggle();
         transaction.commit();
     }
-
-    private void initView() {
+    @Override
+    public void initView() {
         userId=getIntent().getIntExtra("userId",0);
         @SuppressLint("ResourceType") ColorStateList csl=(ColorStateList)getResources().getColorStateList(R.drawable.bottomnavigation_textcolor);
         bnvMain.setItemTextColor(csl);
@@ -165,29 +185,25 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-       /* vpHomeFragment.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        setCurrentFragment();
+    }
 
+    // 用来计算返回键的点击间隔时间
+    private long exitTime = 0;
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK
+                && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if ((System.currentTimeMillis() - exitTime) > 2000) {
+                //弹出提示，可以有多种方式
+                Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
             }
+            return true;
+        }
 
-            @Override
-            public void onPageSelected(int position) {
-                if (menuItem != null) {
-                    menuItem.setChecked(false);
-                } else {
-                    bnvHomeFragment.getMenu().getItem(0).setChecked(false);
-                }
-                menuItem = bnvHomeFragment.getMenu().getItem(position);
-                menuItem.setChecked(true);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-        setupViewPager(vpHomeFragment);
-    }*/
+        return super.onKeyDown(keyCode, event);
     }
 }

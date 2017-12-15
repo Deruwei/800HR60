@@ -174,7 +174,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
      */
     protected void SetStatusBarColor(){
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT >Build.VERSION_CODES.KITKAT) {
             this.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
             localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);

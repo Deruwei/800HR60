@@ -31,7 +31,7 @@
     <color name="guide2">#60bce0</color>
     <color name="guide3">#68dace</color>
     <color name="guide4">#8fa2bb</color>
-
+    <color name="split_line">#11112233</color>
     <color name="view_color">#CCCCCC</color>
     <color name="bg_color">#ebebeb</color>
     <color name="thirdPartColor">#FFC37B</color>

@@ -34,7 +34,6 @@ public class MyIndustryAdapter extends RecyclerView.Adapter<MyIndustryAdapter.My
     public MyIndustryHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (myIndustryHolder == null) {
             myIndustryHolder = new MyIndustryHolder(LayoutInflater.from(context).inflate(R.layout.item_industry, parent, false));
-
         }
         return myIndustryHolder;
     }

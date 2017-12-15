@@ -21,14 +21,26 @@ public class DaoMaster extends AbstractDaoMaster {
 
     /** Creates underlying database table using DAOs. */
     public static void createAllTables(Database db, boolean ifNotExists) {
-        ThirdPartBeanDao.createTable(db, ifNotExists);
+        EducationDataDao.createTable(db, ifNotExists);
+        JobOrderDataDao.createTable(db, ifNotExists);
+        LoginBeanDao.createTable(db, ifNotExists);
+        PersonalInformationDataDao.createTable(db, ifNotExists);
+        ResumeDataDao.createTable(db, ifNotExists);
+        ThirdLoginBeanDao.createTable(db, ifNotExists);
         UserDao.createTable(db, ifNotExists);
+        WorkExpDataDao.createTable(db, ifNotExists);
     }
 
     /** Drops underlying database table using DAOs. */
     public static void dropAllTables(Database db, boolean ifExists) {
-        ThirdPartBeanDao.dropTable(db, ifExists);
+        EducationDataDao.dropTable(db, ifExists);
+        JobOrderDataDao.dropTable(db, ifExists);
+        LoginBeanDao.dropTable(db, ifExists);
+        PersonalInformationDataDao.dropTable(db, ifExists);
+        ResumeDataDao.dropTable(db, ifExists);
+        ThirdLoginBeanDao.dropTable(db, ifExists);
         UserDao.dropTable(db, ifExists);
+        WorkExpDataDao.dropTable(db, ifExists);
     }
 
     /**
@@ -47,8 +59,14 @@ public class DaoMaster extends AbstractDaoMaster {
 
     public DaoMaster(Database db) {
         super(db, SCHEMA_VERSION);
-        registerDaoClass(ThirdPartBeanDao.class);
+        registerDaoClass(EducationDataDao.class);
+        registerDaoClass(JobOrderDataDao.class);
+        registerDaoClass(LoginBeanDao.class);
+        registerDaoClass(PersonalInformationDataDao.class);
+        registerDaoClass(ResumeDataDao.class);
+        registerDaoClass(ThirdLoginBeanDao.class);
         registerDaoClass(UserDao.class);
+        registerDaoClass(WorkExpDataDao.class);
     }
 
     public DaoSession newSession() {

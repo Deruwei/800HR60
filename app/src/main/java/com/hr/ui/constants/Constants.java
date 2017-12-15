@@ -10,13 +10,18 @@ public class Constants {
     public static final String ARGS = "args";
     public static String TYPE_THIRDPARTLOGIN = "";
     //数据库名称
-    public static final String DB_NAME="resume_db";
+    public static final String DB_NAME="hr_db";
     public static final int NETWORK_2G=1;
     public static final int NETWORK_3G=2;
     public static final int NETWORK_4G=3;
     public static final int NETWORK_WIFI=4;
     public static final int NETWORK_UNKNOWN=0;
     public static final String BINDING="0";
+    public static final String ISAUTOLOGIN="isAutoLogin";
+    public static final String AUTOLOGINTYPE="autoLoginType";
+    public static final String CITY_VER="city_ver";
+    public static final String JOB_VER="job_ver";
+    public static final String LINGYU_VER="lingYu_ver";
     /**
      * The constant DEBUG_TAG.
      */
@@ -32,7 +37,7 @@ public class Constants {
     public static final String API_MIDDLE="svrdo.php";
     //测试
      public static final String API_URL_Text = "https://api.800hr.com/svrdo_v0.php";
-     public static final String  API_MIDDLE_TEST="svrdo_v0.php";
+     public static final String  API_MIDDLE_TEST="svrdo.php";
     // SharedPreference中标识设备ID的字符
     public static final String DEVICE_USER_ID = "device_user_id";
     //标识是否是第一次进入app

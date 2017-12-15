@@ -6,12 +6,12 @@
     android:background="@drawable/button_resumedefault"
     android:layout_height="wrap_content">
     <TextView
+        android:background="@drawable/button_resumedefault"
         android:id="@+id/tv_itemResumeTitle"
         android:textSize="@dimen/item_resumeTitle"
         android:text="赵航的简历"
         android:gravity="center"
         android:singleLine="true"
-        android:background="@color/bg_color"
         android:textColor="@color/color_333"
         android:layout_width="@dimen/item_resumeTitleWidth"
         android:layout_height="@dimen/item_resumeTitleHeight" />
@@ -56,7 +56,7 @@
         android:textColor="@color/white"
         android:layout_width="@dimen/item_resumeTitleWidth"
         android:layout_height="@dimen/item_resumeTitleHeight"
-        android:background="@color/new_main"
+        android:background="@drawable/button_resumedefault_bottom"
         android:text="@string/setDefault"
         android:textSize="@dimen/item_resumeTitle" />
 </LinearLayout>

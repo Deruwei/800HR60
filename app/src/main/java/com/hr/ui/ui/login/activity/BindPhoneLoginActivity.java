@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.view.menu.MenuPresenter;
 import android.support.v7.widget.Toolbar;
 import android.text.Selection;
 import android.text.Spannable;
@@ -16,18 +15,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hr.ui.R;
+import com.hr.ui.app.AppManager;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
-import com.hr.ui.bean.ThirdPartBean;
+import com.hr.ui.bean.LoginBean;
+import com.hr.ui.bean.MultipleResumeBean;
+import com.hr.ui.bean.ResumeBean;
+import com.hr.ui.bean.ThirdLoginBean;
 import com.hr.ui.constants.Constants;
-import com.hr.ui.db.DBThirdPartService;
+import com.hr.ui.db.LoginDBUtils;
+import com.hr.ui.db.ThirdPartDao;
 import com.hr.ui.ui.login.contract.LoginContract;
 import com.hr.ui.ui.login.model.LoginModel;
 import com.hr.ui.ui.login.presenter.LoginPresenter;
 import com.hr.ui.ui.main.activity.MainActivity;
 import com.hr.ui.utils.RegularExpression;
-import com.hr.ui.utils.ThirdPartLoginUtils;
 import com.hr.ui.utils.ToastUitl;
+import com.hr.ui.utils.ToolUtils;
+import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +57,12 @@ public class BindPhoneLoginActivity extends BaseActivity<LoginPresenter, LoginMo
     @BindView(R.id.iv_bindPhoneLoginHiddenPsw)
     ImageView ivBindPhoneLoginHiddenPsw;
     private boolean isHidden = true;
-    private ThirdPartBean thirdPartBean;
+    private ThirdLoginBean thirdPartBean;
+    private String phoneNum,psw,uid;
+    private SharedPreferencesUtils sUtils;
+    private int[] imageIds={R.mipmap.resume1,R.mipmap.resume2,R.mipmap.resume3,R.mipmap.resume4,R.mipmap.resume5};
+    private ArrayList<String> titles;
+    private int userId;
     /**
      * 入口
      *
@@ -81,21 +91,22 @@ public class BindPhoneLoginActivity extends BaseActivity<LoginPresenter, LoginMo
 
     @Override
     public void sendLoginSuccess(int userId) {
-        thirdPartBean=new ThirdPartBean();
-        List<ThirdPartBean> thirdPartBeanList=new DBThirdPartService().queryDataByType();
+        thirdPartBean=new ThirdLoginBean();
+        List<ThirdLoginBean> thirdPartBeanList= ThirdPartDao.queryThirdPart(Constants.TYPE_THIRDPARTLOGIN);
+       // List<ThirdLoginBean> thirdPartBeanList= HRApplication.getDaoSession().getThirdLoginBeanDao().queryBuilder().where(ThirdPartBeanDao.Properties.Type.eq(Constants.TYPE_THIRDPARTLOGIN)).list();
         for(int i=0;i<thirdPartBeanList.size();i++){
             if(thirdPartBeanList.get(i).getType().equals(Constants.TYPE_THIRDPARTLOGIN)){
                 thirdPartBean=thirdPartBeanList.get(i);
+                uid=thirdPartBean.getUId();
                 thirdPartBean.setSUId(userId+"");
                 break;
             }
         }
-        MainActivity.startAction(this, userId);
-        finish();
+        mPresenter.getThidBinding(thirdPartBean,phoneNum,psw,0);
     }
 
     @Override
-    public void thirdPartLoginSuccess() {
+    public void thirdPartLoginSuccess(int userId) {
 
     }
 
@@ -105,8 +116,34 @@ public class BindPhoneLoginActivity extends BaseActivity<LoginPresenter, LoginMo
     }
 
     @Override
-    public void bindingSuccess() {
+    public void bindingSuccess(int userId) {
+        sUtils.setIntValue(Constants.ISAUTOLOGIN,1);
+        LoginBean loginBean=new LoginBean();
+        if("QQ".equals(Constants.TYPE_THIRDPARTLOGIN)) {
+            loginBean.setLoginType(2);
+            sUtils.setIntValue(Constants.AUTOLOGINTYPE,2);
+        }else{
+            loginBean.setLoginType(3);
+            sUtils.setIntValue(Constants.AUTOLOGINTYPE,3);
+        }
+        loginBean.setName(phoneNum);
+        loginBean.setPassword(psw);
+        loginBean.setThirdPartUid(uid);
+        loginBean.setThirdPartLoginType(Constants.TYPE_THIRDPARTLOGIN);
+        loginBean.setThirdPartSUid(userId+"");
+        LoginDBUtils.insertData(loginBean);
+        this.userId=userId;
+      mPresenter.getResumeList();
+    }
 
+    @Override
+    public void getResumeListSuccess(MultipleResumeBean multipleResumeBean) {
+        ToolUtils.getInstance().judgeResumeMultipleOrOne(this, multipleResumeBean,userId,imageIds,mPresenter);
+    }
+
+    @Override
+    public void getResumeDataSuccess(ResumeBean resumeBean) {
+        ToolUtils.getInstance().judgeResumeIsComplete(resumeBean,this,titles);
     }
 
     @Override
@@ -121,6 +158,7 @@ public class BindPhoneLoginActivity extends BaseActivity<LoginPresenter, LoginMo
 
     @Override
     public void initView() {
+        sUtils=new SharedPreferencesUtils(this);
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -177,8 +215,8 @@ public class BindPhoneLoginActivity extends BaseActivity<LoginPresenter, LoginMo
      * 登录
      */
     private void doLogin() {
-        String phoneNum = etBindPhoneLoginNumber.getText().toString();
-        String psw = etBindPhoneLoginPsw.getText().toString();
+         phoneNum = etBindPhoneLoginNumber.getText().toString();
+         psw = etBindPhoneLoginPsw.getText().toString();
         if ("".equals(phoneNum) || phoneNum == null) {
             ToastUitl.showShort("请输入手机号码");
             return;
