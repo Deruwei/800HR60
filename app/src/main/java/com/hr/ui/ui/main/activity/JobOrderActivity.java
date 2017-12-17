@@ -5,8 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hr.ui.R;
@@ -16,6 +20,7 @@ import com.hr.ui.bean.CityBean;
 import com.hr.ui.ui.main.contract.JobOrderContract;
 import com.hr.ui.ui.main.modle.JobOrderModel;
 import com.hr.ui.ui.main.presenter.JobOrderPresenter;
+import com.hr.ui.utils.datautils.ResumeInfoIDToString;
 import com.hr.ui.view.MyTextView;
 
 import java.util.ArrayList;
@@ -60,6 +65,8 @@ public class JobOrderActivity extends BaseActivity<JobOrderPresenter, JobOrderMo
     TextView tvComplete;
     public  static JobOrderActivity instance;
     private List<CityBean> selectPositonList=new ArrayList<>();
+    private List<CityBean> selectFunctionList=new ArrayList<>();
+    private String industryId;
     /**
      * 入口
      *
@@ -136,6 +143,7 @@ public class JobOrderActivity extends BaseActivity<JobOrderPresenter, JobOrderMo
             case R.id.rl_jobType:
                 break;
             case R.id.rl_expectedField:
+                SelectFunctionActivity.startAction(this,industryId,selectFunctionList);
                 break;
             case R.id.rl_expectedPosition:
                 SelectPositionActivity.startAction(this,"11",selectPositonList);
@@ -159,4 +167,19 @@ public class JobOrderActivity extends BaseActivity<JobOrderPresenter, JobOrderMo
         sbName.deleteCharAt(0);
         tvExpectedPosition.setText(sbName);
     }
+    public void getFunctionList(String industryId,List<CityBean> selectFunctionList){
+       selectFunctionList.clear();
+       this.industryId=industryId;
+       this.selectFunctionList=selectFunctionList;
+       StringBuffer sb=new StringBuffer();
+       StringBuffer sbName=new StringBuffer();
+       for(int i=0;i<selectFunctionList.size();i++){
+           sb.append(","+selectFunctionList.get(i).getId());
+           sbName.append(","+selectFunctionList.get(i).getName());
+       }
+       sb.deleteCharAt(0);
+        sbName.deleteCharAt(0);
+        tvExpectedField.setText("["+ResumeInfoIDToString.getIndustry(this,industryId,true)+"]"+sbName);
+    }
+
 }

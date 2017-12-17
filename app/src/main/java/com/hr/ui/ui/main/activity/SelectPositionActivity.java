@@ -206,7 +206,7 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
     }
 
     /**
-     * 添加已选城市视图
+     * 添加已选职位视图
      *
      * @param cityBean
      */
