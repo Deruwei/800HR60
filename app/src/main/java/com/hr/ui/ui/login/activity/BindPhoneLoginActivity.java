@@ -102,6 +102,7 @@ public class BindPhoneLoginActivity extends BaseActivity<LoginPresenter, LoginMo
                 break;
             }
         }
+        System.out.println("hello"+thirdPartBean.toString());
         mPresenter.getThidBinding(thirdPartBean,phoneNum,psw,0);
     }
 

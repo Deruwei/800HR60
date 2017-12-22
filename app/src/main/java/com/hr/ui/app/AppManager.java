@@ -89,7 +89,6 @@ public class AppManager {
             activity = null;
         }
     }
-
     /**
      * 移除指定的Activity
      */

@@ -1,9 +1,11 @@
 package com.hr.ui.ui.main.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.hardware.usb.UsbRequest;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.hr.ui.R;
+import com.hr.ui.app.AppManager;
 import com.hr.ui.base.BaseActivity;
 import com.hr.ui.bean.LoginBean;
 import com.hr.ui.bean.MultipleResumeBean;
@@ -42,8 +45,6 @@ import butterknife.OnClick;
  */
 
 public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> implements SplashContract.View {
-    @BindView(R.id.lt_splash)
-    LoadingTip ltSplash;
     @BindView(R.id.rl_login)
     RelativeLayout rlLogin;
     @BindView(R.id.rl_register)
@@ -55,7 +56,12 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
     private int[] imageIds={R.mipmap.resume1,R.mipmap.resume2,R.mipmap.resume3,R.mipmap.resume4,R.mipmap.resume5};
     private ArrayList<String> titles;
     private int userId;
-
+    public static void startAction(Activity activity) {
+        Intent intent = new Intent(activity, SplashActivity.class);
+        activity.startActivity(intent);
+        activity.overridePendingTransition(R.anim.fade_in,
+                R.anim.fade_out);
+    }
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +85,13 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
         autoLoginType=sUtils.getIntValue(Constants.AUTOLOGINTYPE,5);
         mPresenter.getConnect(this);
         setViewVisible();
+        int screenWidth = getWindowManager().getDefaultDisplay().getWidth();//真实分辨率 宽
+         int screenHeight = getWindowManager().getDefaultDisplay().getHeight();//真实分辨率 高
+
+        /* DisplayMetrics dm = new DisplayMetrics();
+         dm = getResources().getDisplayMetrics();
+         int densityDPI = dm.densityDpi;     // 屏幕密度（每寸像素：120(ldpi)/160(mdpi)/213(tvdpi)/240(hdpi)/320(xhdpi)）
+        Toast.makeText(this, "真实分辨率："+screenWidth+"*"+screenHeight+"  每英寸:"+densityDPI, Toast.LENGTH_LONG).show();*/
     }
 
     private void setViewVisible() {
@@ -113,21 +126,6 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
                 }
             });
         }
-    }
-
-    @Override
-    public void showLoading(String title) {
-        ltSplash.setLoadingTip(LoadingTip.LoadStatus.loading);
-    }
-
-    @Override
-    public void stopLoading() {
-        ltSplash.setLoadingTip(LoadingTip.LoadStatus.finish);
-    }
-
-    @Override
-    public void showErrorTip(String msg) {
-        ltSplash.setLoadingTip(LoadingTip.LoadStatus.error);
     }
 
     @Override
@@ -172,7 +170,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
             }else{
                 ResumeDataUtils.deleteAll();
                 List<MultipleResumeBean.ResumeListBean> resumeListBeanList=multipleResumeBean.getResume_list();
-                Log.i("niham,s,s,",resumeListBeanList.toString());
+                //Log.i("niham,s,s,",resumeListBeanList.toString());
                 for(int j=0;j<resumeListBeanList.size();j++){
                     ResumeData resumeData=new ResumeData();
                     resumeData.setResumeId(resumeListBeanList.get(j).getResume_id());
@@ -192,19 +190,20 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
         if(resumeBean.getResume_info().getBase_info()==null||"".equals(resumeBean.getResume_info().getBase_info())){
             titles.add("基本信息");
         }
-        if(resumeBean.getResume_info().getOrder_info()==null||"".equals(resumeBean.getResume_info().getOrder_info())){
-            titles.add("求职意向");
-        }
         if(resumeBean.getResume_info().getEducation_list()==null||"".equals(resumeBean.getResume_info().getEducation_list())||resumeBean.getResume_info().getEducation_list().size()==0){
             titles.add("教育背景");
         }
         if(resumeBean.getResume_info().getExperience_list()==null||"".equals(resumeBean.getResume_info().getEducation_list())||resumeBean.getResume_info().getExperience_list().size()==0){
             titles.add("工作经验");
         }
+        if(resumeBean.getResume_info().getOrder_info()==null||"".equals(resumeBean.getResume_info().getOrder_info())){
+            titles.add("求职意向");
+        }
         if(titles!=null&&!"".equals(titles)&&titles.size()!=0) {
             RobotActivity.startAction(this, titles);
         }else{
-            MainActivity.startAction(this,Integer.parseInt(resumeBean.getResume_info().getAssess_info().getUser_id()));
+            MainActivity.startAction(this,Integer.parseInt(resumeBean.getResume_info().getTitle_info().get(0).getUser_id()));
+            AppManager.getAppManager().finishAllActivity();
         }
     }
 
@@ -229,5 +228,20 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
                 }
                 break;
         }
+    }
+
+    @Override
+    public void showLoading(String title) {
+
+    }
+
+    @Override
+    public void stopLoading() {
+
+    }
+
+    @Override
+    public void showErrorTip(String msg) {
+
     }
 }

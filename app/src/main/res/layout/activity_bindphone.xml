@@ -4,6 +4,8 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:fitsSystemWindows="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:clipToPadding="true"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <include layout="@layout/layout_toolbar"
@@ -11,107 +13,78 @@
         />
     <LinearLayout
         android:id="@+id/ll_bindPhoneLogin_middle"
-        android:orientation="vertical"
-        android:layout_marginTop="@dimen/toolbar_marginBottom"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginLeft="@dimen/view_marginLeft"
-        android:layout_marginRight="@dimen/view_marginLeft"
         app:layout_constraintTop_toBottomOf="@+id/in_bindPhoneLogin_toolbar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content">
+        style="@style/login_contentLinearLayout"
+        >
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/et_height">
+            style="@style/login_relativeLayout">
             <ImageView
                 android:id="@+id/iv_bindPhoneLoginNumberIcon"
-                android:layout_centerVertical="true"
+                style="@style/Login_imageViewIcon"
                 android:src="@mipmap/phone"
-                android:layout_width="@dimen/iv_loginIconWidth"
-                android:layout_height="@dimen/iv_loginIconHeight"
                 />
             <EditText
-                android:layout_marginLeft="@dimen/et_marginTop"
                 android:layout_toRightOf="@+id/iv_bindPhoneLoginNumberIcon"
                 android:id="@+id/et_bindPhoneLoginNumber"
-                android:layout_width="match_parent"
-                android:textColor="@color/color_333"
-                android:layout_height="@dimen/et_height"
-                android:textColorHint="@color/view_color"
-                android:background="@null"
-                android:textSize="@dimen/et_textSize"
+                style="@style/login_editText"
+                android:singleLine="true"
+                android:inputType="number"
                 android:hint="@string/phoneNumber"
                 />
+            <View
+                android:layout_below="@+id/et_bindPhoneLoginNumber"
+               style="@style/login_view"/>
         </RelativeLayout>
-        <View
-            android:background="@color/view_color"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_1dp"/>
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/et_marginTop"
-            android:layout_height="@dimen/et_height">
+            style="@style/login_relativeLayout">
             <ImageView
                 android:id="@+id/iv_bindPhoneLoginPswIcon"
-                android:layout_centerVertical="true"
+               style="@style/Login_imageViewIcon"
                 android:src="@mipmap/psw"
-                android:layout_width="@dimen/iv_loginIconWidth"
-                android:layout_height="@dimen/iv_loginIconHeight"
+                android:layout_width="@dimen/x30"
+                android:layout_height="@dimen/y40"
                 />
             <EditText
-                android:layout_marginLeft="@dimen/et_marginTop"
                 android:layout_toRightOf="@+id/iv_bindPhoneLoginPswIcon"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/et_height"
-                android:background="@null"
                 android:inputType="textPassword"
                 android:id="@+id/et_bindPhoneLoginPsw"
                 android:layout_toLeftOf="@+id/rl_bindPhoneLoginHiddenPsw"
-                android:textSize="@dimen/et_textSize"
-                android:textColor="@color/color_333"
-                android:textColorHint="@color/view_color"
+                android:singleLine="true"
+               style="@style/login_editText"
                 android:hint="@string/psw"
                 />
             <RelativeLayout
                 android:id="@+id/rl_bindPhoneLoginHiddenPsw"
                 android:layout_alignParentRight="true"
-                android:layout_width="40dp"
-                android:layout_height="match_parent">
+                android:layout_width="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content">
                 <ImageView
                     android:id="@+id/iv_bindPhoneLoginHiddenPsw"
-                    android:layout_centerInParent="true"
-                    android:layout_width="@dimen/iv_hiddenWidth"
-                    android:layout_height="@dimen/iv_hiddenHeight"
-                    android:src="@mipmap/hidden"
+                    style="@style/login_ImageViewHidden"
                     />
             </RelativeLayout>
+            <View
+                android:layout_below="@+id/et_bindPhoneLoginPsw"
+              style="@style/login_view"/>
         </RelativeLayout>
-        <View
-            android:background="@color/view_color"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_1dp"/>
         <Button
             android:id="@+id/btn_bindPhoneLoginOK"
-            android:layout_marginTop="@dimen/btn_marginTop"
-            android:layout_width="match_parent"
             android:text="@string/bindComplete"
-            android:textSize="@dimen/btn_textSize"
-            android:textColor="@color/white"
-            android:background="@drawable/button_login"
-            android:layout_height="@dimen/et_height" />
+            style="@style/login_buttonOK"
+          />
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/et_height">
+            android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/tv_bindPhoneToFindUser"
                 android:layout_alignParentRight="true"
-                android:textColor="@color/color_666"
-                android:gravity="center"
-                android:textSize="@dimen/et_textSize"
-                android:layout_width="wrap_content"
                 android:text="@string/hasUserAccount"
-                android:layout_height="match_parent" />
+               style="@style/login_textViewFindPsw"
+                />
         </RelativeLayout>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

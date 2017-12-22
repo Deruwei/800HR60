@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:clipToPadding="true"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <include layout="@layout/layout_toolbar"
+        android:id="@+id/in_resumeJobOrder"
+        />
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/in_resumeJobOrder"
+        android:layout_height="0dp">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <View
+               style="@style/resume_viewTop"/>
+            <RelativeLayout
+                style="@style/resume_RelativeLayout">
+                <TextView
+                    style="@style/Resume_TextViewTag"
+                    android:id="@+id/tv_resumeJobOrderJobTypeTag"
+                    android:text="@string/jobType"
+                    />
+                <TextView
+                    android:id="@+id/tv_resumeJobOrderJobType"
+                    android:layout_toLeftOf="@+id/iv_resumeJobOrderJobTypeSelect"
+                    android:layout_toRightOf="@+id/tv_resumeJobOrderJobTypeTag"
+                    style="@style/resume_editView" />
+                <ImageView
+                    android:id="@+id/iv_resumeJobOrderJobTypeSelect"
+                    android:src="@mipmap/right_arrow"
+                    style="@style/resume_ImageViewRight" />
+            </RelativeLayout>
+            <View
+                style="@style/resume_view"/>
+            <RelativeLayout
+                style="@style/resume_RelativeLayout">
+                <TextView
+                    style="@style/Resume_TextViewTag"
+                    android:id="@+id/tv_resumeJobOrderJobStyleTag"
+                    android:text="@string/jobStyle"
+                    />
+                <TextView
+                    android:id="@+id/tv_resumeJobOrderJobStyle"
+                    android:layout_toLeftOf="@+id/iv_resumeJobOrderJobStyleSelect"
+                    android:layout_toRightOf="@+id/tv_resumeJobOrderJobStyleTag"
+                    style="@style/resume_editView" />
+                <ImageView
+                    android:id="@+id/iv_resumeJobOrderJobStyleSelect"
+                    android:src="@mipmap/right_arrow"
+                    style="@style/resume_ImageViewRight" />
+            </RelativeLayout>
+            <View
+                style="@style/resume_viewTop"/>
+            <RelativeLayout
+                style="@style/resume_RelativeLayout">
+                <TextView
+                    style="@style/Resume_TextViewTag"
+                    android:id="@+id/tv_resumeJobOrderExpectedSalaryTag"
+                    android:text="@string/jobType"
+                    />
+                <TextView
+                    android:id="@+id/tv_resumeJobOrderExpectedSalary"
+                    android:layout_toLeftOf="@+id/iv_resumeJobOrderExpectedSalaryDelete"
+                    android:layout_toRightOf="@+id/tv_resumeJobOrderExpectedSalaryTag"
+                    style="@style/resume_editView" />
+                <ImageView
+                    android:id="@+id/iv_resumeJobOrderExpectedSalaryDelete"
+                    android:src="@mipmap/delete"
+                    style="@style/resume_ImageViewRight" />
+            </RelativeLayout>
+            <View
+                style="@style/resume_view"/>
+            <RelativeLayout
+                style="@style/resume_RelativeLayout">
+                <TextView
+                    style="@style/Resume_TextViewTag"
+                    android:id="@+id/tv_resumeJobOrderWorkCityTag"
+                    android:text="@string/workCity"
+                    />
+                <TextView
+                    android:id="@+id/tv_resumeJobOrderWorkCity"
+                    android:layout_toLeftOf="@+id/iv_resumeJobOrderWorkCitySelect"
+                    android:layout_toRightOf="@+id/tv_resumeJobOrderWorkCityTag"
+                    style="@style/resume_editView" />
+                <ImageView
+                    android:id="@+id/iv_resumeJobOrderWorkCitySelect"
+                    android:src="@mipmap/right_arrow"
+                    style="@style/resume_ImageViewRight" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:id="@+id/rl_resumeJobOrderIndustry"
+                    android:layout_above="@+id/btn_resumeJobOrderOK"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                </LinearLayout>
+                <Button
+                    android:id="@+id/btn_resumeJobOrderOK"
+                    style="@style/button_resumeOK"/>
+            </RelativeLayout>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</android.support.constraint.ConstraintLayout>

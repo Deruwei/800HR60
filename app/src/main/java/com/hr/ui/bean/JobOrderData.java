@@ -14,14 +14,16 @@ public class JobOrderData {
     private String industry;
     private String expectArea;
     private String expectPosition;
+    private String address;
     private String salary;
-    @Generated(hash = 91804590)
+    @Generated(hash = 688458132)
     public JobOrderData(String workType, String industry, String expectArea,
-            String expectPosition, String salary) {
+            String expectPosition, String address, String salary) {
         this.workType = workType;
         this.industry = industry;
         this.expectArea = expectArea;
         this.expectPosition = expectPosition;
+        this.address = address;
         this.salary = salary;
     }
     @Generated(hash = 1495632613)
@@ -56,5 +58,11 @@ public class JobOrderData {
     }
     public void setSalary(String salary) {
         this.salary = salary;
+    }
+    public String getAddress() {
+        return this.address;
+    }
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

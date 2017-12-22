@@ -4,6 +4,8 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:clipToPadding="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <include layout="@layout/layout_toolbar"
@@ -27,236 +29,134 @@
             android:gravity="center"
             android:text="@string/educationBackground"
             android:textColor="@color/color_333"
-            android:textSize="@dimen/dimen_26sp" />
+            android:textSize="@dimen/x52" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/dimen_15dp"
+            android:layout_marginTop="@dimen/y28"
             android:src="@mipmap/program2" />
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_36dp"
-            android:layout_marginLeft="@dimen/dimen_36dp"
-            android:layout_marginRight="@dimen/dimen_36dp"
-            android:layout_marginTop="@dimen/dimen_15dp">
+            style="@style/fastResume_EditView2">
 
             <com.hr.ui.view.MyTextView
                 android:id="@+id/tv_schoolTag"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+                style="@style/fastResume_MyTextView"
                 android:text="@string/school"
-                android:textColor="@color/color_666"
-                android:textSize="@dimen/dimen_16sp" />
+                />
 
             <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/dimen_25dp"
+                style="@style/fastResume_relativeLayoutContent"
                 android:layout_toRightOf="@+id/tv_schoolTag">
 
                 <EditText
                     android:id="@+id/et_school"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_toLeftOf="@+id/iv_schoolDelete"
-                    android:background="@null"
-                    android:singleLine="true"
-                    android:textColor="@color/color_666"
-                    android:textColorHint="@color/view_color"
-                    android:textSize="@dimen/dimen_16sp" />
+                    style="@style/fastResume_editView"
+                    android:layout_toLeftOf="@+id/iv_schoolDelete" />
 
                 <ImageView
                     android:id="@+id/iv_schoolDelete"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
+                    style="@style/fastResume_ImageViewRightIcon"
                     android:src="@mipmap/close" />
 
                 <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
                     android:layout_below="@+id/et_school"
-                    android:layout_marginTop="@dimen/dimen_5dp"
-                    android:background="@color/view_color" />
+                    style="@style/fastResume_view"/>
             </RelativeLayout>
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_36dp"
-            android:layout_marginLeft="@dimen/dimen_36dp"
-            android:layout_marginRight="@dimen/dimen_36dp"
-            android:layout_marginTop="@dimen/dimen_15dp">
+            style="@style/fastResume_EditView2">
 
             <com.hr.ui.view.MyTextView
                 android:id="@+id/tv_professionTag"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="@string/major"
-                android:textColor="@color/color_666"
-                android:textSize="@dimen/dimen_16sp" />
+                style="@style/fastResume_MyTextView"
+                android:text="@string/major" />
 
             <RelativeLayout
                 android:id="@+id/rl_profession"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/dimen_25dp"
+                style="@style/fastResume_relativeLayoutContent"
                 android:layout_toRightOf="@+id/tv_professionTag">
 
                 <EditText
                     android:id="@+id/tv_profession"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_toLeftOf="@+id/tv_professionSelect"
-                    android:background="@null"
-                    android:gravity="center_vertical"
-                    android:singleLine="true"
-                    android:textColor="@color/color_333"
-                    android:textColorHint="@color/view_color"
-                    android:textSize="@dimen/dimen_16sp" />
+                    style="@style/fastResume_editView"
+                    android:layout_toLeftOf="@+id/tv_professionSelect" />
 
                 <ImageView
                     android:id="@+id/tv_professionSelect"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginTop="@dimen/dimen_5dp"
+                    style="@style/fastResume_ImageViewRightIcon"
                     android:src="@mipmap/close" />
 
                 <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
                     android:layout_below="@+id/tv_profession"
-                    android:layout_marginTop="@dimen/dimen_5dp"
-                    android:background="@color/view_color" />
+                    style="@style/fastResume_view"/>
             </RelativeLayout>
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_36dp"
-            android:layout_marginLeft="@dimen/dimen_36dp"
-            android:layout_marginRight="@dimen/dimen_36dp"
-            android:layout_marginTop="@dimen/dimen_15dp">
+            style="@style/fastResume_EditView2">
 
             <com.hr.ui.view.MyTextView
                 android:id="@+id/tv_educationTag"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="@string/education"
-                android:textColor="@color/color_666"
-                android:textSize="@dimen/dimen_16sp" />
+                style="@style/fastResume_MyTextView"
+                android:text="@string/education" />
 
             <RelativeLayout
                 android:id="@+id/rl_education"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/dimen_25dp"
+                style="@style/fastResume_relativeLayoutContent"
                 android:layout_toRightOf="@+id/tv_educationTag">
 
                 <TextView
                     android:id="@+id/tv_education"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_toLeftOf="@+id/tv_educationSelect"
-                    android:background="@null"
-                    android:gravity="center_vertical"
-                    android:singleLine="true"
-                    android:textColor="@color/color_333"
-                    android:textColorHint="@color/view_color"
-                    android:textSize="@dimen/dimen_16sp" />
+                    style="@style/fastResume_editView"
+                    android:layout_toLeftOf="@+id/tv_educationSelect" />
 
                 <ImageView
                     android:id="@+id/tv_educationSelect"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:src="@mipmap/right_arrow" />
+                    style="@style/fastResume_ImageViewRightIcon"
+                    android:src="@mipmap/arrowright" />
 
                 <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
                     android:layout_below="@+id/tv_education"
-                    android:layout_marginTop="@dimen/dimen_5dp"
-                    android:background="@color/view_color" />
+                    style="@style/fastResume_view" />
             </RelativeLayout>
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_36dp"
-            android:layout_marginLeft="@dimen/dimen_36dp"
-            android:layout_marginRight="@dimen/dimen_36dp"
-            android:layout_marginTop="@dimen/dimen_15dp">
+            style="@style/fastResume_EditView2">
 
             <com.hr.ui.view.MyTextView
                 android:id="@+id/tv_startAndEndTimeTag"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="@string/startAndEndTime"
-                android:textColor="@color/color_666"
-                android:textSize="@dimen/dimen_16sp" />
+                style="@style/fastResume_MyTextView"
+                android:text="@string/startAndEndTime" />
 
             <RelativeLayout
                 android:id="@+id/rl_startAndEndTime"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/dimen_25dp"
+                style="@style/fastResume_relativeLayoutContent"
                 android:layout_toRightOf="@+id/tv_startAndEndTimeTag">
 
                 <TextView
                     android:id="@+id/tv_startAndEndTime"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_toLeftOf="@+id/tv_startAndEndTimeSelect"
-                    android:background="@null"
-                    android:gravity="center_vertical"
-                    android:singleLine="true"
-                    android:textColor="@color/color_333"
-                    android:textColorHint="@color/view_color"
-                    android:textSize="@dimen/dimen_16sp" />
+                    style="@style/fastResume_editView"
+                    android:layout_toLeftOf="@+id/tv_startAndEndTimeSelect" />
 
                 <ImageView
                     android:id="@+id/tv_startAndEndTimeSelect"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:src="@mipmap/right_arrow" />
+                    style="@style/fastResume_ImageViewRightIcon"
+                    android:src="@mipmap/arrowright" />
 
                 <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_below="@+id/tv_startAndEndTime"
-                    android:layout_marginTop="@dimen/dimen_5dp"
-                    android:background="@color/view_color" />
+                    style="@style/fastResume_view"
+                    android:layout_below="@+id/tv_startAndEndTime" />
             </RelativeLayout>
         </RelativeLayout>
 
         <Button
             android:id="@+id/btn_nextEdu"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/et_height"
-            android:layout_marginLeft="@dimen/dimen_16sp"
-            android:layout_marginRight="@dimen/dimen_16sp"
-            android:layout_marginTop="@dimen/btn_marginTop"
-            android:background="@drawable/button_login"
             android:text="@string/next"
-            android:textColor="@color/white"
-            android:textSize="@dimen/btn_textSize" />
+            style="@style/fastResume_ButtonOK2" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

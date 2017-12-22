@@ -16,10 +16,45 @@
         android:layout_width="0dp"
         android:layout_height="0dp">
         <View
+            android:id="@+id/view_industry"
             android:background="@color/resumeContent_bg"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"/>
         <LinearLayout
+            android:orientation="horizontal"
+            android:layout_below="@+id/view_industry"
+            android:id="@+id/ll_industryTitle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_50dp">
+            <TextView
+                android:textColor="@color/color_333"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="@string/industry"
+                android:gravity="center"
+                android:textSize="@dimen/dimen_16sp"
+                android:layout_height="match_parent" />
+            <View
+                android:background="@color/resumeContent_bg"
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"/>
+            <TextView
+                android:textColor="@color/color_333"
+                android:text="@string/function"
+                android:textSize="@dimen/dimen_16sp"
+                android:layout_width="0dp"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+        <View
+            android:layout_below="@+id/ll_industryTitle"
+            android:id="@+id/view_industryBottom"
+            android:background="@color/resumeContent_bg"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"/>
+        <LinearLayout
+            android:layout_below="@id/view_industryBottom"
             android:orientation="horizontal"
             android:layout_above="@+id/rl_selectData"
             android:layout_width="match_parent"

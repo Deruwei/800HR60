@@ -33,7 +33,7 @@ public class HomeFragment extends BaseFragment {
     MyViewPager vpHomeFragment;
     private Fragment1 fragment1;
     private Fragment2 fragment2;
-    private Fragment3 fragment3,fragment4;
+    private ResumeFragment fragment3,fragment4;
 
     public static HomeFragment newInstance(String s) {
         HomeFragment navigationFragment = new HomeFragment();
@@ -56,8 +56,8 @@ public class HomeFragment extends BaseFragment {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager());
         fragment1=new Fragment1();
         fragment2=new Fragment2();
-        fragment3=new Fragment3();
-        fragment4=new Fragment3();
+        fragment3=new ResumeFragment();
+        fragment4=new ResumeFragment();
         adapter.addFragment(fragment1);
         adapter.addFragment(fragment2);
         adapter.addFragment(fragment3);

@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -14,8 +15,12 @@ import android.widget.RelativeLayout;
 
 import com.hr.ui.R;
 import com.hr.ui.app.AppManager;
+import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseNoConnectNetworkAcitivty;
+import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.main.adapter.MyRobotAdapter;
+import com.hr.ui.utils.datautils.SharedPreferencesUtils;
+import com.hr.ui.view.MyDialog;
 
 import java.util.ArrayList;
 
@@ -38,6 +43,7 @@ public class RobotActivity extends BaseNoConnectNetworkAcitivty{
     private MyRobotAdapter mAdapter;
     private String TAG = MultipleResumeActivity.class.getSimpleName();
     private int userId;
+    private MyDialog myDialog;
 
     /**
      * 入口
@@ -75,6 +81,7 @@ public class RobotActivity extends BaseNoConnectNetworkAcitivty{
     public void initView() {
         userId = getIntent().getIntExtra("userId", 0);
         titles = getIntent().getStringArrayListExtra("titles");
+        //Log.i("title",titles.toString());
         if (titles != null && titles.size() != 0) {
             rlRobot.setVisibility(View.VISIBLE);
         }
@@ -82,7 +89,17 @@ public class RobotActivity extends BaseNoConnectNetworkAcitivty{
     }
 
     private void initDate() {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this){
+            @Override
+            public boolean canScrollHorizontally() {
+                return false;
+            }
+
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvRobot.setLayoutManager(linearLayoutManager);
         mAdapter = new MyRobotAdapter(this, titles);
@@ -91,18 +108,50 @@ public class RobotActivity extends BaseNoConnectNetworkAcitivty{
 
     @OnClick(R.id.btn_robotWriteResume)
     public void onViewClicked() {
-        PersonalInformationActivity.startAction(this);
+        if(titles!=null&&titles.size()!=0){
+            if("基本信息".equals(titles.get(0))){
+                PersonalInformationActivity.startAction(this);
+            }else  if("教育背景".equals(titles.get(0))){
+                EducationActivity.startAction(this);
+            }else  if("工作经验".equals(titles.get(0))||"实习经历".equals(titles.get(0))){
+                WorkExpActivity.startAction(this);
+            }else  if("求职意向".equals(titles.get(0))){
+                JobOrderActivity.startAction(this);
+            }
+        }else{
+            SelectResumeTypeActivity.startAction(this);
+        }
     }
 
+    private void exitOrFinishActivity(){
+            myDialog=new MyDialog(this,2);
+            myDialog.setMessage(getString(R.string.exitWarning));
+            myDialog.setYesOnclickListener("确定",new MyDialog.onYesOnclickListener() {
+                @Override
+                public void onYesClick() {
+                    myDialog.dismiss();
+                    SplashActivity.startAction(RobotActivity.this);
+                    SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
+                    sUtils.setIntValue(Constants.ISAUTOLOGIN,0);
+                    AppManager.getAppManager().finishAllActivity();
+                }
+            });
+            myDialog.setNoOnclickListener("取消", new MyDialog.onNoOnclickListener() {
+                @Override
+                public void onNoClick() {
+                    myDialog.dismiss();
+                }
+            });
+            myDialog.show();
+    }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            finish();
-            MainActivity.startAction(RobotActivity.this, userId);
-            AppManager.getAppManager().finishAllActivity();
-            return false;
+        if (keyCode == KeyEvent.KEYCODE_BACK
+                && event.getAction() == KeyEvent.ACTION_DOWN) {
+            exitOrFinishActivity();
+            return true;
         }
+
         return super.onKeyDown(keyCode, event);
     }
-
 }

@@ -108,4 +108,75 @@ public class FromStringToArrayList {
         }
         return expectFieldList;
     }
+
+    public  String getExpectPositionString(String industryId,String text){
+        List<CityBean> expectPositionList=new ArrayList<>();
+        String s=SaveFile.getDataFromInternalStorage(HRApplication.getAppContext(),"job.txt");
+        try {
+            JSONObject jsonObject=new JSONObject(s);
+            JSONArray jsonArray=jsonObject.getJSONArray(industryId);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                CityBean cityBean=new CityBean();
+                JSONObject object = jsonArray.getJSONObject(i);
+                Iterator it=object.keys();
+                while(it.hasNext()){
+                    String key=(String) it.next();
+                    cityBean.setId(key);
+                    cityBean.setName(object.getString(key));
+                    cityBean.setCheck(false);
+                }
+                expectPositionList.add(cityBean);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String[] ids=text.split(",");
+        StringBuffer sb=new StringBuffer();
+        for(int j=0;j<ids.length;j++) {
+            for (int i = 0; i < expectPositionList.size(); i++) {
+                if(ids[j].equals(expectPositionList.get(i).getId())) {
+                    sb.append(","+expectPositionList.get(i).getName());
+                    continue;
+                }
+            }
+
+        }
+        sb.deleteCharAt(0);
+        return sb.toString();
+    }
+    public  String getExpectFieldName(String industryId,String text){
+        List<CityBean> expectFieldList=new ArrayList<>();
+        String s=SaveFile.getDataFromInternalStorage(HRApplication.getAppContext(),"lingyu.txt");
+        try {
+            JSONObject jsonObject=new JSONObject(s);
+            JSONArray jsonArray=jsonObject.getJSONArray(industryId);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                CityBean cityBean=new CityBean();
+                JSONObject object = jsonArray.getJSONObject(i);
+                Iterator it=object.keys();
+                while(it.hasNext()){
+                    String key=(String) it.next();
+                    cityBean.setId(key);
+                    cityBean.setName(object.getString(key));
+                    cityBean.setCheck(false);
+                }
+                expectFieldList.add(cityBean);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String[] ids=text.split(",");
+        StringBuffer sb=new StringBuffer();
+        for(int j=0;j<ids.length;j++) {
+            for (int i = 0; i <  expectFieldList.size(); i++) {
+                if(ids[j].equals( expectFieldList.get(i).getId())) {
+                    sb.append(","+ expectFieldList.get(i).getName());
+                    continue;
+                }
+            }
+
+        }
+        sb.deleteCharAt(0);
+        return sb.toString();
+    }
 }

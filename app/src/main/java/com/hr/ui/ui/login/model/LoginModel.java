@@ -2,6 +2,8 @@ package com.hr.ui.ui.login.model;
 
 import android.content.Context;
 import android.util.Log;
+
+import com.google.gson.Gson;
 import com.hr.ui.api.Api;
 import com.hr.ui.api.ApiParameter;
 import com.hr.ui.api.HostType;
@@ -106,7 +108,7 @@ public class LoginModel implements LoginContract.Model {
                         ResumeBean resumeBean=new ResumeBean();
                         try {
                             String s=responseBody.string().toString();
-                            resumeBean= JsonUtils.getInstance().fixJson(s);
+                            resumeBean= new Gson().fromJson(s,ResumeBean.class);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

@@ -101,7 +101,7 @@ public class SplashModel implements SplashContract.Model {
                         ResumeBean resumeBean=new ResumeBean();
                         try {
                             String s=responseBody.string().toString();
-                            resumeBean= JsonUtils.getInstance().fixJson(s);
+                            resumeBean= new Gson().fromJson(s,ResumeBean.class);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

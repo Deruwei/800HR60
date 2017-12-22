@@ -4,15 +4,13 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.util.MutableInt;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,24 +21,13 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.hr.ui.R;
-import com.hr.ui.base.BaseActivity;
 import com.hr.ui.base.BaseNoConnectNetworkAcitivty;
-import com.hr.ui.bean.MultipleResumeBean;
-import com.hr.ui.bean.ResumeBean;
-import com.hr.ui.bean.ResumeData;
-import com.hr.ui.db.ResumeDataUtils;
-import com.hr.ui.ui.main.contract.MainContract;
 import com.hr.ui.ui.main.fragment.Fragment1;
 import com.hr.ui.ui.main.fragment.Fragment2;
-import com.hr.ui.ui.main.fragment.Fragment3;
+import com.hr.ui.ui.main.fragment.ResumeFragment;
 import com.hr.ui.ui.main.fragment.HomeFragment;
-import com.hr.ui.ui.main.modle.MainModel;
-import com.hr.ui.ui.main.presenter.MainPresenter;
 import com.hr.ui.utils.BottomNavigationViewHelper;
-import com.hr.ui.view.SlidingMenu;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.hr.ui.view.MyDrawLayout2;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,18 +43,24 @@ public class MainActivity extends BaseNoConnectNetworkAcitivty {
     ImageView three;
     @BindView(R.id.five)
     ImageView five;
-    @BindView(R.id.id_menu)
-    SlidingMenu idMenu;
     @BindView(R.id.iv_mainPersonImg)
     ImageView ivMainPersonImg;
     @BindView(R.id.ll_main)
     LinearLayout llMain;
     @BindView(R.id.bnv_main)
     BottomNavigationView bnvMain;
+    @BindView(R.id.id_menu)
+    MyDrawLayout2 idMenu;
+    @BindView(R.id.iv_personImage_left)
+    ImageView ivPersonImageLeft;
+    @BindView(R.id.rl_rightPage)
+    RelativeLayout rlRightPage;
+    @BindView(R.id.rl_leftPage)
+    RelativeLayout rlLeftPage;
     private HomeFragment mHomeFragment;
     private Fragment1 fragment1;
     private Fragment2 fragment2;
-    private Fragment3 fragment3, fragment4;
+    private ResumeFragment fragment3, fragment4;
     private MenuItem menuItem;
     private PopupWindow popupWindow;
     private int userId;
@@ -85,29 +78,29 @@ public class MainActivity extends BaseNoConnectNetworkAcitivty {
 
 
     private void setCurrentFragment() {
-        llMain.setOnClickListener(new View.OnClickListener() {
+      /*  llMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 idMenu.closeMenu();
             }
-        });
+        });*/
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         fragment1 = Fragment1.newInstance(getString(R.string.navigation_navigation_bar));
         transaction.replace(R.id.ll_main, fragment1).commit();
     }
 
-    public void toggleMenu(View view) {
+   /* public void toggleMenu(View view) {
         idMenu.toggle();
-    }
+    }*/
 
     /**
      * 入口
      *
      * @param activity
      */
-    public static void startAction(Activity activity,int userId) {
+    public static void startAction(Activity activity, int userId) {
         Intent intent = new Intent(activity, MainActivity.class);
-        intent.putExtra("userId",userId);
+        intent.putExtra("userId", userId);
         activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.fade_in,
                 R.anim.fade_out);
@@ -126,13 +119,51 @@ public class MainActivity extends BaseNoConnectNetworkAcitivty {
             case R.id.five:
                 break;
         }
-        idMenu.toggle();
+       /* idMenu.toggle();*/
         transaction.commit();
     }
+
     @Override
     public void initView() {
-        userId=getIntent().getIntExtra("userId",0);
-        @SuppressLint("ResourceType") ColorStateList csl=(ColorStateList)getResources().getColorStateList(R.drawable.bottomnavigation_textcolor);
+        userId = getIntent().getIntExtra("userId", 0);
+        //设置监听
+        ivMainPersonImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggle();
+            }
+        });
+        //setDrawerRightEdgeSize(idMenu,this,0.6f);
+        //setDrawerRightEdgeSize(idMenu,this,0.6f);
+        idMenu.setDrawerListener(new MyDrawLayout2.DrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                // 导航图标渐变效果
+                ivMainPersonImg.setAlpha(1 - slideOffset);
+                // 判断是否左菜单并设置移动(如果不这样设置,则主页面的内容不会向右移动)
+                if (drawerView.getTag().equals("left")) {
+                    View content = idMenu.getChildAt(0);
+                    int offset = (int) (drawerView.getWidth() * slideOffset);
+                    content.setTranslationX(offset);
+                }
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+
+            }
+        });
+        @SuppressLint("ResourceType") ColorStateList csl = (ColorStateList) getResources().getColorStateList(R.drawable.bottomnavigation_textcolor);
         bnvMain.setItemTextColor(csl);
         bnvMain.setItemIconTintList(csl);
         BottomNavigationViewHelper.disableShiftMode(bnvMain);
@@ -142,6 +173,8 @@ public class MainActivity extends BaseNoConnectNetworkAcitivty {
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 switch (item.getItemId()) {
                     case R.id.home:
+                        rlLeftPage.setBackgroundResource(R.color.white);
+                        ivMainPersonImg.setVisibility(View.VISIBLE);
                         if (menuItem != null) {
                             menuItem.setChecked(false);
                         } else {
@@ -155,6 +188,8 @@ public class MainActivity extends BaseNoConnectNetworkAcitivty {
                         transaction.replace(R.id.ll_main, fragment1);
                         break;
                     case R.id.message:
+                        rlLeftPage.setBackgroundResource(R.color.white);
+                        ivMainPersonImg.setVisibility(View.VISIBLE);
                         if (menuItem != null) {
                             menuItem.setChecked(false);
                         } else {
@@ -168,6 +203,8 @@ public class MainActivity extends BaseNoConnectNetworkAcitivty {
                         transaction.replace(R.id.ll_main, fragment2);
                         break;
                     case R.id.resume:
+                        rlLeftPage.setBackgroundResource(R.drawable.resume_title_bg);
+                        ivMainPersonImg.setVisibility(View.GONE);
                         if (menuItem != null) {
                             menuItem.setChecked(false);
                         } else {
@@ -176,7 +213,7 @@ public class MainActivity extends BaseNoConnectNetworkAcitivty {
                         menuItem = bnvMain.getMenu().getItem(2);
                         menuItem.setChecked(true);
                         if (fragment3 == null) {
-                            fragment3 = Fragment3.newInstance(getString(R.string.navigation_navigation_bar));
+                            fragment3 = ResumeFragment.newInstance(getString(R.string.navigation_navigation_bar));
                         }
                         transaction.replace(R.id.ll_main, fragment3);
                         break;
@@ -190,6 +227,7 @@ public class MainActivity extends BaseNoConnectNetworkAcitivty {
 
     // 用来计算返回键的点击间隔时间
     private long exitTime = 0;
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK
@@ -205,5 +243,18 @@ public class MainActivity extends BaseNoConnectNetworkAcitivty {
         }
 
         return super.onKeyDown(keyCode, event);
+    }
+
+    /**
+     * 自定义NavigationIcon设置关联DrawerLayout
+     */
+    private void toggle() {
+        int drawerLockMode = idMenu.getDrawerLockMode(GravityCompat.START);
+        if (idMenu.isDrawerVisible(GravityCompat.START)
+                && (drawerLockMode != DrawerLayout.LOCK_MODE_LOCKED_OPEN)) {
+            idMenu.closeDrawer(GravityCompat.START);
+        } else if (drawerLockMode != DrawerLayout.LOCK_MODE_LOCKED_CLOSED) {
+            idMenu.openDrawer(GravityCompat.START);
+        }
     }
 }

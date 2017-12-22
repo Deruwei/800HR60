@@ -9,6 +9,9 @@ import com.hr.ui.api.HostType;
 public class Constants {
     public static final String ARGS = "args";
     public static String TYPE_THIRDPARTLOGIN = "";
+    public static final String RESUME_ID="resume_id";
+    public static final String RESUME_TYPE="resume_type";
+    public static final String RESUME_STOPTYPE="stop_type";//表示快速简历页面在哪页停止，然后进入主页面
     //数据库名称
     public static final String DB_NAME="hr_db";
     public static final int NETWORK_2G=1;
@@ -37,7 +40,7 @@ public class Constants {
     public static final String API_MIDDLE="svrdo.php";
     //测试
      public static final String API_URL_Text = "https://api.800hr.com/svrdo_v0.php";
-     public static final String  API_MIDDLE_TEST="svrdo.php";
+     public static final String  API_MIDDLE_TEST="svrdo_v0.php";
     // SharedPreference中标识设备ID的字符
     public static final String DEVICE_USER_ID = "device_user_id";
     //标识是否是第一次进入app

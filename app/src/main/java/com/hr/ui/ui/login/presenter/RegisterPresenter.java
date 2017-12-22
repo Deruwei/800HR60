@@ -126,7 +126,7 @@ public class RegisterPresenter extends RegisterContract.Presenter {
                     if("QQ".equals(Constants.TYPE_THIRDPARTLOGIN)){
                         loginBean.setLoginType(2);
                     }else{
-                        loginBean.setLoginType(2);
+                        loginBean.setLoginType(3);
                     }
                     loginBean.setThirdPartUid(thirdPartBean.getUId());
                     loginBean.setThirdPartLoginType(Constants.TYPE_THIRDPARTLOGIN);

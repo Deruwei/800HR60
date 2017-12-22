@@ -23,7 +23,7 @@
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/goInto"
+            android:text="@string/exit"
             />
         <TextView
             android:id="@+id/tv_fragment2"
@@ -42,7 +42,7 @@
             android:layout_below="@+id/tv_fragment2"
             android:layout_width="match_parent"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="12dp"
             android:layout_height="wrap_content" />
 
         <com.hr.ui.view.DialogView

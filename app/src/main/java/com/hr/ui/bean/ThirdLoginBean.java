@@ -89,4 +89,19 @@ public class ThirdLoginBean {
     @Generated(hash = 1435251695)
     public ThirdLoginBean() {
     }
+
+    @Override
+    public String toString() {
+        return "ThirdLoginBean{" +
+                "id=" + id +
+                ", type='" + type + '\'' +
+                ", name='" + name + '\'' +
+                ", nikeName='" + nikeName + '\'' +
+                ", uId='" + uId + '\'' +
+                ", birthDay='" + birthDay + '\'' +
+                ", photo='" + photo + '\'' +
+                ", gender='" + gender + '\'' +
+                ", sUId='" + sUId + '\'' +
+                '}';
+    }
 }

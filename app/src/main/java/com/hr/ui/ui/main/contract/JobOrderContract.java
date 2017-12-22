@@ -17,11 +17,14 @@ import rx.Observable;
 public interface JobOrderContract {
     interface Model extends BaseModel{
         Observable<ResponseBody> sendJobOrderToResume(JobOrderData jobOrderData);
+        Observable<ResponseBody> setDefaultResume(String resumeId,String important);
     }
     interface View extends BaseView{
         void sendJobOrderSuccess();
+        void setDefaultResumeSuccess();
     }
     abstract  class Presenter extends BasePresenter<View,Model>{
         public abstract void sendJobOrderToResume(JobOrderData jobOrderData);
+        public abstract void setDefaultResume(String resumeId,String important);
     }
 }

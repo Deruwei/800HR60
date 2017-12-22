@@ -8,7 +8,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
-        android:layout_marginTop="@dimen/discoveryResumeRv_marginTop"
+        android:layout_marginTop="@dimen/y132"
         android:orientation="vertical"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -17,26 +17,26 @@
         android:layout_width="0dp"
         android:layout_height="0dp">
         <TextView
-            android:layout_marginTop="@dimen/discoveryResumeRv_marginTop"
+
             android:gravity="center"
-            android:textSize="@dimen/discoveryResumeTitle_textSize"
+            android:textSize="@dimen/x36"
             android:text="@string/intelligentRobotGreeting"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <ImageView
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/discoveryResumeRv_marginTop"
-            android:layout_marginBottom="@dimen/discoveryResumeRv_marginTop"
+            android:layout_marginTop="@dimen/y103"
+            android:layout_marginBottom="@dimen/y110"
             android:src="@mipmap/robot"
             android:scaleType="fitXY"
-            android:layout_width="@dimen/robot_width"
-            android:layout_height="@dimen/robot_height" />
+            android:layout_width="@dimen/x200"
+            android:layout_height="@dimen/y135" />
         <TextView
-            android:textSize="@dimen/discoveryResumeTitle_textSize"
+            android:textSize="@dimen/x32"
             android:lineSpacingMultiplier="1.2"
-            android:layout_marginLeft="@dimen/dimen_50dp"
+            android:layout_marginLeft="@dimen/x102"
             android:gravity="center"
-            android:layout_marginRight="@dimen/dimen_50dp"
+            android:layout_marginRight="@dimen/x102"
             android:text="@string/intelligentRobotHelper"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -44,14 +44,13 @@
         <RelativeLayout
             android:id="@+id/rl_robot"
             android:visibility="gone"
-            android:layout_marginTop="@dimen/dimen_20dp"
+            android:layout_marginTop="@dimen/x40"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/tv_robot"
-                android:layout_marginBottom="@dimen/dimen_5dp"
                 android:layout_centerHorizontal="true"
-                android:textSize="@dimen/dimen_12sp"
+                android:textSize="@dimen/x24"
                 android:text="@string/resumeNone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -64,15 +63,15 @@
             </android.support.v7.widget.RecyclerView>
         </RelativeLayout>
         <Button
-            android:layout_marginTop="@dimen/dimen_80dp"
+            android:layout_marginTop="@dimen/x80"
             android:id="@+id/btn_robotWriteResume"
             android:layout_width="match_parent"
             android:text="@string/alright"
-            android:layout_marginLeft="@dimen/dimen_15dp"
-            android:layout_marginRight="@dimen/dimen_15dp"
-            android:textSize="@dimen/btn_textSize"
+            android:layout_marginLeft="@dimen/x25"
+            android:layout_marginRight="@dimen/x25"
+            android:textSize="@dimen/x32"
             android:textColor="@color/white"
             android:background="@drawable/button_login"
-            android:layout_height="@dimen/et_height" />
+            android:layout_height="@dimen/y90" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

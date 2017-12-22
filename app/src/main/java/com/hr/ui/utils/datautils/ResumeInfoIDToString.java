@@ -47,6 +47,32 @@ public class ResumeInfoIDToString {
 		}
 		return "";
 	}
+	/**
+	 * 获取工作类型Id
+	 */
+	public static String getWorkTypeId(Context context, String name, boolean isCHS) {
+		if (name == null || name.length() == 0) {
+			return "";
+		}
+		if(context!=null) {
+			String[] workTypeIdsStrings = context.getResources().getStringArray(
+					R.array.array_jobtype_ids);
+			String[] workTypeStrings;
+			if (!isCHS) {// en
+				workTypeStrings = context.getResources().getStringArray(
+						R.array.array_jobtype_en);
+			} else {// zh
+				workTypeStrings = context.getResources().getStringArray(
+						R.array.array_jobtype_zh);
+			}
+			for (int i = 0; i < workTypeStrings.length; i++) {
+				if (workTypeStrings[i].equals(name)) {
+					return workTypeIdsStrings[i];
+				}
+			}
+		}
+		return "";
+	}
 
 	/**
 	 * 获取国家/地区
@@ -306,6 +332,24 @@ public class ResumeInfoIDToString {
 			for (int i = 0; i < zhichengStrings.length; i++) {
 				if (zhichengStrings[i].equals(name)) {
 					return zhichengIdStrings[i];
+				}
+			}
+		}
+		return "";
+	}
+	/**
+	 * 获取男女id
+	 */
+	public static String getSexName(Context context, String id) {
+		if(context!=null) {
+			String[] zhichengIdStrings = context.getResources().getStringArray(
+					R.array.array_sex_ids);
+			String[] zhichengStrings;
+
+			zhichengStrings = context.getResources().getStringArray(R.array.array_sex_zh);
+			for (int i = 0; i < zhichengStrings.length; i++) {
+				if (zhichengIdStrings[i].equals(id)) {
+					return zhichengStrings[i];
 				}
 			}
 		}

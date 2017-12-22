@@ -76,7 +76,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     @BindView(R.id.iv_phoneLoginWeChat)
     ImageView ivPhoneLoginWeChat;
     @BindView(R.id.rl_phoneLoginThirdPart)
-    LinearLayout rlPhoneLoginThirdPart;
+    RelativeLayout rlPhoneLoginThirdPart;
     private boolean isHidden = true;
     private String phoneNum,psw;
     private SharedPreferencesUtils sUtils;
@@ -116,6 +116,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
         this.userId=userId;
         sUtils.setIntValue(Constants.ISAUTOLOGIN,1);
         sUtils.setIntValue(Constants.AUTOLOGINTYPE,0);
+        sUtils.setStringValue(Constants.USERPHONE,phoneNum);
         mPresenter.getResumeList();
     }
 
@@ -149,6 +150,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
 
     @Override
     public void getResumeDataSuccess(ResumeBean resumeBean) {
+        Log.i("ok","你好");
         ToolUtils.getInstance().judgeResumeIsComplete(resumeBean,this,titles);
     }
 
@@ -213,6 +215,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                 break;
             case R.id.btn_phoneLoginOK:
                 doLogin();
+                //MainActivity.startAction(this,0);
                 break;
             case R.id.tv_phoneLoginAccountLogin:
                 UserLoginActivity.startAction(this);

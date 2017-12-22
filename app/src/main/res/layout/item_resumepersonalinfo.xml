@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@drawable/resume_title_bg"
+    xmlns:wdr="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:id="@+id/rl_ResumePersonImg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:src="@mipmap/personimage"
+            android:layout_centerHorizontal="true"
+            android:layout_width="@dimen/x160"
+            android:layout_height="@dimen/x160" />
+        <ImageView
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/edit"
+            android:layout_marginRight="@dimen/dimen_20dp"
+            android:layout_width="@dimen/x34"
+            android:layout_height="@dimen/y37" />
+    </RelativeLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/x25"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/rl_ResumePersonImg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_gravity="center"
+            android:id="@+id/tv_resumePersonName"
+            android:textColor="@color/white"
+            android:textSize="@dimen/x36"
+            android:text="@string/previewResume"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_gravity="center"
+            android:id="@+id/tv_resumeJobState"
+            android:layout_marginTop="@dimen/x19"
+            android:textColor="@color/white"
+            android:textSize="@dimen/x24"
+            android:text="@string/previewResume"
+            android:singleLine="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_resumePersonInfo"
+            android:drawableLeft="@mipmap/people_white"
+            android:drawablePadding="@dimen/x24"
+            android:layout_marginTop="@dimen/x42"
+            android:textColor="@color/white"
+            android:textSize="@dimen/x24"
+            android:text="@string/previewResume"
+            android:singleLine="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_resumeEduInfo"
+            android:drawableLeft="@mipmap/educational_background"
+            android:drawablePadding="@dimen/x24"
+            android:layout_marginTop="@dimen/x19"
+            android:textColor="@color/white"
+            android:textSize="@dimen/x24"
+            android:singleLine="true"
+            android:text="@string/previewResume"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_resumePersonTel"
+            android:drawableLeft="@mipmap/telephone"
+            android:drawablePadding="@dimen/x24"
+            android:layout_marginTop="@dimen/x19"
+            android:textColor="@color/white"
+            android:textSize="@dimen/x24"
+            android:singleLine="true"
+            android:text="@string/previewResume"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_resumePersonEmail"
+            android:drawableLeft="@mipmap/email_white"
+            android:drawablePadding="@dimen/x24"
+            android:layout_marginTop="@dimen/x19"
+            android:textColor="@color/white"
+            android:textSize="@dimen/x24"
+            android:text="@string/previewResume"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_marginTop="@dimen/dimen_10dp"
+            android:layout_marginBottom="@dimen/dimen_20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.hr.ui.view.SnailBar
+                android:layout_toLeftOf="@+id/pb_resume"
+                android:id="@+id/sb_resume"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="@dimen/x24"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/x29"
+                android:layout_height="@dimen/x20" />
+            <com.hr.ui.view.MyResumeScoreProgressBar
+                android:layout_width="@dimen/x45"
+                android:id="@+id/pb_resume"
+                wdr:firstColor="@color/color_program"
+                wdr:secondColor="@color/color_resume2"
+                wdr:circleWidth="@dimen/x4"
+                wdr:speed="3"
+                wdr:textSize="@dimen/x20"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/x25"
+                android:layout_height="@dimen/x45" />
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>

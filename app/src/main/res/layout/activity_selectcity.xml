@@ -21,11 +21,12 @@
             android:background="@color/resumeContent_bg"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"/>
-        <LinearLayout
+        <RelativeLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <RelativeLayout
+                android:id="@+id/ll_location"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_50dp">
                 <ImageView
@@ -63,10 +64,14 @@
                     android:layout_height="wrap_content" />
             </RelativeLayout>
             <View
+                android:id="@+id/view_selectCity"
+                android:layout_below="@+id/ll_location"
                 android:background="@color/resumeContent_bg"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"/>
             <LinearLayout
+                android:layout_above="@+id/rl_selectCityShow"
+                android:layout_below="@+id/view_selectCity"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -85,9 +90,76 @@
                     android:scrollbars="none"
                     android:layout_width="0dp"
                     android:layout_height="match_parent">
-
                 </ListView>
             </LinearLayout>
-        </LinearLayout>
+            <RelativeLayout
+                android:layout_above="@+id/ll_selectCityBottom"
+                android:id="@+id/rl_selectCityShow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:id="@+id/rl_selectedCityTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/tv_selectCityTag"
+                        android:textColor="@color/color_666"
+                        android:textSize="@dimen/dimen_14sp"
+                        android:text="@string/selectedCity"
+                        android:layout_marginLeft="@dimen/dimen_15dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:layout_toRightOf="@+id/tv_selectCityTag"
+                        android:layout_marginLeft="@dimen/dimen_5dp"
+                        android:textColor="@color/new_main"
+                        android:textSize="@dimen/dimen_14sp"
+                        android:id="@+id/tv_selectCityNum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:layout_toRightOf="@+id/tv_selectCityNum"
+                        android:layout_marginLeft="@dimen/dimen_5dp"
+                        android:textColor="@color/color_666"
+                        android:text="/5"
+                        android:textSize="@dimen/dimen_14sp"
+                        android:id="@+id/tv_selectPositionRightTag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+                <com.hr.ui.view.MyFlowLayout
+                    android:id="@+id/ll_selectedCity"
+                    android:layout_below="@+id/rl_selectedCityTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </com.hr.ui.view.MyFlowLayout>
+            </RelativeLayout>
+            <LinearLayout
+                android:id="@+id/ll_selectCityBottom"
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_50dp">
+                <TextView
+                    android:id="@+id/tv_selectCityCancel"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:textColor="@color/white"
+                    android:text="@string/cancel"
+                    android:gravity="center"
+                    android:textSize="@dimen/dimen_16sp"
+                    android:background="@color/color_333"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:id="@+id/tv_selectCityOK"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/sure"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:background="@color/new_main"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

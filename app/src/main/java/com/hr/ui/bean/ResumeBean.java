@@ -59,10 +59,10 @@ public class ResumeBean {
          * attachment : []
          */
 
-        private TitleInfoBean title_info;
-        private BaseInfoBean base_info;
-        private OrderInfoBean order_info;
-        private AssessInfoBean assess_info;
+        private List<TitleInfoBean> title_info;
+        private List<BaseInfoBean> base_info;
+        private List<OrderInfoBean> order_info;
+        private List<AssessInfoBean> assess_info;
         private List<LanguageListBean> language_list;
         private List<EducationListBean> education_list;
         private List<ExperienceListBean> experience_list;
@@ -73,35 +73,35 @@ public class ResumeBean {
         private List<?> slave_list;
         private List<?> attachment;
 
-        public TitleInfoBean getTitle_info() {
+        public List<TitleInfoBean> getTitle_info() {
             return title_info;
         }
 
-        public void setTitle_info(TitleInfoBean title_info) {
+        public void setTitle_info(List<TitleInfoBean> title_info) {
             this.title_info = title_info;
         }
 
-        public BaseInfoBean getBase_info() {
+        public List<BaseInfoBean> getBase_info() {
             return base_info;
         }
 
-        public void setBase_info(BaseInfoBean base_info) {
+        public void setBase_info(List<BaseInfoBean> base_info) {
             this.base_info = base_info;
         }
 
-        public OrderInfoBean getOrder_info() {
+        public List<OrderInfoBean> getOrder_info() {
             return order_info;
         }
 
-        public void setOrder_info(OrderInfoBean order_info) {
+        public void setOrder_info(List<OrderInfoBean> order_info) {
             this.order_info = order_info;
         }
 
-        public AssessInfoBean getAssess_info() {
+        public List<AssessInfoBean> getAssess_info() {
             return assess_info;
         }
 
-        public void setAssess_info(AssessInfoBean assess_info) {
+        public void setAssess_info(List<AssessInfoBean> assess_info) {
             this.assess_info = assess_info;
         }
 
@@ -340,6 +340,28 @@ public class ResumeBean {
 
             public void setTalent_svr_state(String talent_svr_state) {
                 this.talent_svr_state = talent_svr_state;
+            }
+
+            @Override
+            public String toString() {
+                return "TitleInfoBean{" +
+                        "user_id='" + user_id + '\'' +
+                        ", resume_id='" + resume_id + '\'' +
+                        ", title='" + title + '\'' +
+                        ", key_word='" + key_word + '\'' +
+                        ", apply='" + apply + '\'' +
+                        ", click='" + click + '\'' +
+                        ", resume_language='" + resume_language + '\'' +
+                        ", resume_type='" + resume_type + '\'' +
+                        ", open='" + open + '\'' +
+                        ", uptime='" + uptime + '\'' +
+                        ", fill_scale='" + fill_scale + '\'' +
+                        ", castbehalf='" + castbehalf + '\'' +
+                        ", add_time='" + add_time + '\'' +
+                        ", important='" + important + '\'' +
+                        ", modify_time='" + modify_time + '\'' +
+                        ", talent_svr_state='" + talent_svr_state + '\'' +
+                        '}';
             }
         }
 
@@ -959,6 +981,7 @@ public class ResumeBean {
             public void setOrder_industry(List<OrderIndustryBean> order_industry) {
                 this.order_industry = order_industry;
             }
+
 
             public static class OrderIndustryBean {
                 /**
@@ -2200,6 +2223,25 @@ public class ResumeBean {
                         ", skill_id='" + skill_id + '\'' +
                         '}';
             }
+        }
+
+        @Override
+        public String toString() {
+            return "ResumeInfoBean{" +
+                    "title_info=" + title_info +
+                    ", base_info=" + base_info +
+                    ", order_info=" + order_info +
+                    ", assess_info=" + assess_info +
+                    ", language_list=" + language_list +
+                    ", education_list=" + education_list +
+                    ", experience_list=" + experience_list +
+                    ", project_list=" + project_list +
+                    ", plant_list=" + plant_list +
+                    ", skill_list=" + skill_list +
+                    ", subjoin_list=" + subjoin_list +
+                    ", slave_list=" + slave_list +
+                    ", attachment=" + attachment +
+                    '}';
         }
     }
 

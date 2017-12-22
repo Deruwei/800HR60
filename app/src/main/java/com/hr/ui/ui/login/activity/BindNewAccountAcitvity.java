@@ -164,6 +164,7 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
                 break;
             }
         }
+        System.out.println("hello"+thirdPartBean.toString());
         mPresenter.getThidBinding(thirdPartBean,phoneNumber,password,0);
     }
 

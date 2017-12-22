@@ -66,9 +66,10 @@ public class LoginPresenter extends LoginContract.Presenter {
                     Log.i(TAG,responseBody.string());
                     JSONObject jsonObject=new JSONObject(s);
                     double error_code=jsonObject.getDouble("error_code");
+                    ThirdPartDao.insertThirPart(thirdPartBean);
                     if(error_code==0){
-                        ThirdPartDao.insertThirPart(thirdPartBean);
                         //ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) error_code));
+                        System.out.println(thirdPartBean.toString());
                         int userId=jsonObject.getInt("user_id");
                         LoginBean loginBean=new LoginBean();
                         if("QQ".equals(Constants.TYPE_THIRDPARTLOGIN)){
@@ -154,7 +155,9 @@ public class LoginPresenter extends LoginContract.Presenter {
             @Override
             protected void _onNext(ResumeBean resumeBean) throws IOException {
                 if(resumeBean.getError_code()==0){
+                   // Log.i("ok","你好");
                     mView.getResumeDataSuccess(resumeBean);
+
                 }else{
                     ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) resumeBean.getError_code()));
                 }

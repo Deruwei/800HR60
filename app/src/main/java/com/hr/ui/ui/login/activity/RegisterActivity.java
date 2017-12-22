@@ -24,25 +24,20 @@ import android.widget.Toast;
 import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
-import com.hr.ui.bean.LoginBean;
 import com.hr.ui.bean.MultipleResumeBean;
 import com.hr.ui.bean.ResumeBean;
 import com.hr.ui.constants.Constants;
-import com.hr.ui.db.LoginDBUtils;
 import com.hr.ui.ui.login.contract.RegisterContract;
 import com.hr.ui.ui.login.model.RegisterModel;
 import com.hr.ui.ui.login.presenter.RegisterPresenter;
-import com.hr.ui.ui.main.activity.MainActivity;
 import com.hr.ui.utils.CodeTimer;
 import com.hr.ui.utils.EncryptUtils;
 import com.hr.ui.utils.RegularExpression;
-import com.hr.ui.utils.TimeCount;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.ToolUtils;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.service.CodeTimerService;
 
-import java.security.spec.PSSParameterSpec;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -79,10 +74,11 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
     private EditText etAutoCode;
     private SharedPreferencesUtils sUtils;
     private int code;
-    private String phoneNumber,password;
-    private int[] imageIds={R.mipmap.resume1,R.mipmap.resume2,R.mipmap.resume3,R.mipmap.resume4,R.mipmap.resume5};
+    private String phoneNumber, password;
+    private int[] imageIds = {R.mipmap.resume1, R.mipmap.resume2, R.mipmap.resume3, R.mipmap.resume4, R.mipmap.resume5};
     private ArrayList<String> titles;
     private int userId;
+
     /**
      * 入口
      *
@@ -112,11 +108,11 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
 
     @Override
     public void sendValidCode(int code) {
-       this.code=code;
-       sUtils.setIntValue("code",code);
+        this.code = code;
+        sUtils.setIntValue("code", code);
         tvPhoneRegisterGetValidCode.setEnabled(false);
         startService(mCodeTimerServiceIntent);//启动服务
-        if(popupWindow!=null){
+        if (popupWindow != null) {
             popupWindow.dismiss();
         }
     }
@@ -125,20 +121,23 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
     public void sendAutoCode(String autoCode) {
         ivAutoCode.setImageBitmap(EncryptUtils.stringtoBitmap(autoCode));
     }
+
     @Override
     public void getResumeListSuccess(MultipleResumeBean multipleResumeBean) {
-        ToolUtils.getInstance().judgeResumeMultipleOrOne2(this, multipleResumeBean,userId,imageIds,mPresenter);
+        ToolUtils.getInstance().judgeResumeMultipleOrOne2(this, multipleResumeBean, userId, imageIds, mPresenter);
     }
 
     @Override
     public void getResumeDataSuccess(ResumeBean resumeBean) {
-        ToolUtils.getInstance().judgeResumeIsComplete(resumeBean,this,titles);
+        ToolUtils.getInstance().judgeResumeIsComplete(resumeBean, this, titles);
     }
+
     @Override
     public void sendRegisterSuccess(int userId) {
-        sUtils.setIntValue(Constants.ISAUTOLOGIN,1);
-        sUtils.setIntValue(Constants.AUTOLOGINTYPE,0);
-        this.userId=userId;
+        sUtils.setIntValue(Constants.ISAUTOLOGIN, 1);
+        sUtils.setIntValue(Constants.AUTOLOGINTYPE, 0);
+        sUtils.setStringValue(Constants.USERPHONE, phoneNumber);
+        this.userId = userId;
         mPresenter.getResumeList();
     }
 
@@ -159,7 +158,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
 
     @Override
     public void initView() {
-        sUtils=new SharedPreferencesUtils(this);
+        sUtils = new SharedPreferencesUtils(this);
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -194,13 +193,13 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
             case R.id.tv_phoneRegisterGetValidCode:
                 String phoneNumber = etPhoneRegisterNumber.getText().toString();
                 if (!"".equals(phoneNumber) && phoneNumber != null) {
-                    if (RegularExpression.isCellphone(phoneNumber)){
-                            if(sUtils.getIntValue("code",0)>=1){
-                                mPresenter.getAutoCode();
-                                initPopWindow();
-                            } else {
-                                 mPresenter.getValidCode(phoneNumber, "", 0,Constants.VALIDCODE_REGISTER_YTPE);
-                            }
+                    if (RegularExpression.isCellphone(phoneNumber)) {
+                        if (sUtils.getIntValue("code", 0) >= 1) {
+                            mPresenter.getAutoCode();
+                            initPopWindow();
+                        } else {
+                            mPresenter.getValidCode(phoneNumber, "", 0, Constants.VALIDCODE_REGISTER_YTPE);
+                        }
                     } else {
                         ToastUitl.show("请输入正确的手机号码", Toast.LENGTH_SHORT);
                     }
@@ -215,45 +214,45 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
     }
 
     private void doRegister() {
-        phoneNumber=etPhoneRegisterNumber.getText().toString();
-        String validCode=etPhoneRegisterValidCode.getText().toString();
-         password=etPhoneRegisterPsw.getText().toString();
+        phoneNumber = etPhoneRegisterNumber.getText().toString();
+        String validCode = etPhoneRegisterValidCode.getText().toString();
+        password = etPhoneRegisterPsw.getText().toString();
 
         if ("".equals(phoneNumber) || phoneNumber == null) {
             ToastUitl.showShort("请输入手机号码");
             return;
         }
-        if (RegularExpression.isCellphone(phoneNumber)==false){
+        if (RegularExpression.isCellphone(phoneNumber) == false) {
             ToastUitl.showShort("请输入正确的手机号码");
             return;
         }
-        if("".equals(validCode)||validCode==null){
+        if ("".equals(validCode) || validCode == null) {
             ToastUitl.showShort("请输入验证码");
             return;
         }
-        if("".equals(password)||password==null){
+        if ("".equals(password) || password == null) {
             ToastUitl.showShort("请输入密码");
             return;
         }
-        if(password.length()<6||password.length()>16){
+        if (password.length() < 6 || password.length() > 16) {
             ToastUitl.showShort("请输入长度为6-16位的密码");
             return;
         }
-        mPresenter.getRegister(phoneNumber,validCode,password);
+        mPresenter.getRegister(phoneNumber, validCode, password);
     }
 
     /**
      * 图形验证码界面
      */
-    public  void initPopWindow(){
+    public void initPopWindow() {
         final View popView = LayoutInflater.from(this).inflate(R.layout.layout_autocode, null);
         popupWindow = new PopupWindow(popView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, true);
         popupWindow.setOutsideTouchable(true);
-        ivAutoCode=popView.findViewById(R.id.vc_image);
-       TextView tvReflesh=popView.findViewById(R.id.vc_refresh);
-         etAutoCode=popView.findViewById(R.id.vc_code);
-        RelativeLayout rlConfirm=popView.findViewById(R.id.rl__item_autocode_confirm);
-        LinearLayout llClose=popView.findViewById(R.id.ll_autoCodeClose);
+        ivAutoCode = popView.findViewById(R.id.vc_image);
+        TextView tvReflesh = popView.findViewById(R.id.vc_refresh);
+        etAutoCode = popView.findViewById(R.id.vc_code);
+        RelativeLayout rlConfirm = popView.findViewById(R.id.rl__item_autocode_confirm);
+        LinearLayout llClose = popView.findViewById(R.id.ll_autoCodeClose);
         llClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -263,11 +262,11 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
         rlConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String autoCodeText=etAutoCode.getText().toString();
-                if(autoCodeText!=null&&!"".equals(autoCodeText)) {
-                    mPresenter.getValidCode(etPhoneRegisterNumber.getText().toString(), etAutoCode.getText().toString(),1,Constants.VALIDCODE_REGISTER_YTPE);
-                }else{
-                    ToastUitl.show("请填写图形验证码",Toast.LENGTH_SHORT);
+                String autoCodeText = etAutoCode.getText().toString();
+                if (autoCodeText != null && !"".equals(autoCodeText)) {
+                    mPresenter.getValidCode(etPhoneRegisterNumber.getText().toString(), etAutoCode.getText().toString(), 1, Constants.VALIDCODE_REGISTER_YTPE);
+                } else {
+                    ToastUitl.show("请填写图形验证码", Toast.LENGTH_SHORT);
                 }
             }
         });
@@ -280,6 +279,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
         View rootview = LayoutInflater.from(this).inflate(R.layout.activity_register, null);
         popupWindow.showAtLocation(rootview, Gravity.CENTER, 0, 0);
     }
+
     /**
      * 验证码倒计时的广播
      */
@@ -302,5 +302,11 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
         super.onDestroy();
         stopService(mCodeTimerServiceIntent);
         unregisterReceiver(mCodeTimerReceiver);
+    }
+
+    @OnClick(R.id.tv_registerHasAccount)
+    public void onViewClicked() {
+        LoginActivity.startAction(this);
+        finish();
     }
 }

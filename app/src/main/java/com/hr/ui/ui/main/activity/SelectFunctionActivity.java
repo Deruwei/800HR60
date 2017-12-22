@@ -6,9 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.view.menu.MenuWrapperFactory;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,8 +21,9 @@ import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseNoConnectNetworkAcitivty;
 import com.hr.ui.bean.CityBean;
-import com.hr.ui.ui.main.adapter.MySelectPositionLeftAdapter;
+import com.hr.ui.ui.main.adapter.MySelectFunctionLeftAdapter;
 import com.hr.ui.ui.main.adapter.MySelectPositionRightAdapter;
+import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.datautils.FromStringToArrayList;
 import com.hr.ui.view.MyFlowLayout;
 
@@ -55,13 +54,18 @@ public class SelectFunctionActivity extends BaseNoConnectNetworkAcitivty {
     MyFlowLayout llSelectedPosition;
     @BindView(R.id.rl_selectData)
     RelativeLayout rlSelectData;
+    @BindView(R.id.tv_selectPositionTag)
+    TextView tvSelectPositionTag;
+    @BindView(R.id.tv_selectPositionRightTag)
+    TextView tvSelectPositionRightTag;
     private List<CityBean> industryList;
     private List<CityBean> functionList;
-    private MySelectPositionLeftAdapter leftAdapter;
+    private MySelectFunctionLeftAdapter leftAdapter;
     private MySelectPositionRightAdapter rightAdapter;
     private String industryId;
-    private List<CityBean> selectFunctionList=new ArrayList<>();
+    private List<CityBean> selectFunctionList = new ArrayList<>();
     private int sum;
+    private int currentPosition;
 
     /**
      * 入口
@@ -71,11 +75,12 @@ public class SelectFunctionActivity extends BaseNoConnectNetworkAcitivty {
     public static void startAction(Activity activity, String industryId, List<CityBean> selectFunctionList) {
         Intent intent = new Intent(activity, SelectFunctionActivity.class);
         intent.putExtra("selectFunction", (Serializable) selectFunctionList);
-        intent.putExtra("industryId",industryId);
+        intent.putExtra("industryId", industryId);
         activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.fade_in,
                 R.anim.fade_out);
     }
+
     @Override
     public int getLayoutId() {
         return R.layout.acticity_selectposition;
@@ -86,71 +91,127 @@ public class SelectFunctionActivity extends BaseNoConnectNetworkAcitivty {
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        industryId=getIntent().getStringExtra("industryId");
-        selectFunctionList= (List<CityBean>) getIntent().getSerializableExtra("selectFunction");
+        industryId = getIntent().getStringExtra("industryId");
+        selectFunctionList = (List<CityBean>) getIntent().getSerializableExtra("selectFunction");
         toolBar.setTitle("");
         toolBar.setTitleTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
         toolBar.setNavigationIcon(R.mipmap.back);
-        tvToolbarTitle.setText(R.string.expectedPosition);
+        tvToolbarTitle.setText(R.string.expectedField);
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-        industryList=FromStringToArrayList.getInstance().getIndustryList();
-        final Message message= Message.obtain();
-        message.what=1;
+        industryList = FromStringToArrayList.getInstance().getIndustryList();
+        tvSelectPositionTag.setText(R.string.selectField);
+        tvSelectPositionNum.setVisibility(View.GONE);
+        tvSelectPositionRightTag.setVisibility(View.GONE);
+        //显示传过来的行业
+        if (industryId != null) {
+            for (int i = 0; i < industryList.size(); i++) {
+                if (industryList.get(i).getId().equals(industryId)) {
+                    industryList.get(i).setCheck(true);
+                }
+            }
+
+        }
+        final Message message = Message.obtain();
+        message.what = 1;
         handler.sendMessage(message);
+        //显示传过来的领域列表
+        functionList = FromStringToArrayList.getInstance().getExpectField(industryId);
+        if (selectFunctionList != null && selectFunctionList.size() != 0) {
+            for (int j = 0; j < functionList.size(); j++) {
+                for (int k = 0; k < selectFunctionList.size(); k++) {
+                    if (functionList.get(j).getId().equals(selectFunctionList.get(k).getId())) {
+                        functionList.get(j).setCheck(true);
+                        addView(selectFunctionList.get(k));
+                    }
+
+                }
+            }
+        } else {
+            rlSelectData.setVisibility(View.GONE);
+        }
+        Message message1 = new Message();
+        message1.what = 2;
+        handler.sendMessage(message1);
+
+
         lvLeft.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                industryId=industryList.get(i).getId();
-                functionList=FromStringToArrayList.getInstance().getExpectField(industryId);
-                for(int j=0;j<industryList.size();j++){
+                industryId = industryList.get(i).getId();
+                currentPosition = i;
+                functionList = FromStringToArrayList.getInstance().getExpectField(industryId);
+                if (i < 5) {
+
+                    for (int j = 0; j < industryList.size(); j++) {
                         industryList.get(j).setCheck(false);
-                }
-                if(selectFunctionList!=null&&selectFunctionList.size()!=0) {
-                    for (int j = 0; j < functionList.size(); j++) {
-                        for (int k = 0; k < selectFunctionList.size(); k++) {
-                            if (functionList.get(j).getId().equals(selectFunctionList.get(k).getId())) {
-                                functionList.get(j).setCheck(true);
+                    }
+                    if (selectFunctionList != null && selectFunctionList.size() != 0) {
+                        for (int j = 0; j < functionList.size(); j++) {
+                            for (int k = 0; k < selectFunctionList.size(); k++) {
+                                if (functionList.get(j).getId().equals(selectFunctionList.get(k).getId())) {
+                                    functionList.get(j).setCheck(true);
+                                }
                             }
                         }
                     }
+                    industryList.get(i).setCheck(true);
+
+                } else {
+                    for(int j=0;j<selectFunctionList.size();j++){
+                        removeView(selectFunctionList.get(j));
+                    }
+                    selectFunctionList.clear();
+                    setNum();
+                    if (industryList.get(i).isCheck() == false) {
+                        for (int j = 0; j < industryList.size(); j++) {
+                            industryList.get(j).setCheck(false);
+                        }
+                        industryList.get(i).setCheck(true);
+                    } else {
+                        industryList.get(i).setCheck(false);
+                    }
                 }
-                industryList.get(i).setCheck(true);
                 leftAdapter.notifyDataSetChanged();
-                Message message1=new Message();
-                message1.what=2;
+                Message message1 = new Message();
+                message1.what = 2;
                 handler.sendMessage(message1);
             }
         });
         lvRight.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(functionList.get(i).isCheck()==true){
+                if (functionList.get(i).isCheck() == true) {
                     functionList.get(i).setCheck(false);
-                    for(int j=0;j<selectFunctionList.size();j++){
-                        if(selectFunctionList.get(j).getId().equals(functionList.get(i).getId())){
+                    for (int j = 0; j < selectFunctionList.size(); j++) {
+                        if (selectFunctionList.get(j).getId().equals(functionList.get(i).getId())) {
                             selectFunctionList.remove(selectFunctionList.get(j));
                         }
                     }
                     removeView(functionList.get(i));
-                }else{
+                } else {
+                    sum = selectFunctionList.size();
+                    if (sum == 0) {
+                        rlSelectData.setVisibility(View.VISIBLE);
+                    }
                     functionList.get(i).setCheck(true);
-                    if(selectFunctionList!=null&&selectFunctionList.size()!=0) {
+                    if (selectFunctionList != null && selectFunctionList.size() != 0) {
                         for (int j = 0; j < selectFunctionList.size(); j++) {
-                            if (!selectFunctionList.get(j).getId().substring(0,3).equals(functionList.get(i).getId().substring(0,3))) {
+                            if (!selectFunctionList.get(j).getId().substring(0, 2).equals(functionList.get(i).getId().substring(0, 2))) {
                                 removeView(selectFunctionList.get(j));
-                                if(selectFunctionList.size()-1==j) {
+                                if (selectFunctionList.size() - 1 == j) {
                                     selectFunctionList.clear();
                                 }
                             }
                         }
                     }
-                    addView(functionList.get(i));
                     selectFunctionList.add(functionList.get(i));
+                    addView(functionList.get(i));
+                    //Log.i("当前选择的",selectFunctionList.toString());
                 }
                 rightAdapter.notifyDataSetChanged();
             }
@@ -168,26 +229,44 @@ public class SelectFunctionActivity extends BaseNoConnectNetworkAcitivty {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_selectPositionCancel:
+                finish();
                 break;
             case R.id.tv_selectPositionOK:
+                if (industryId != null) {
+                    if (currentPosition < 5) {
+                        if (selectFunctionList != null && selectFunctionList.size() != 0) {
+                            JobOrderActivity.instance.setFunctionList(industryId, selectFunctionList);
+                            finish();
+                        } else {
+                            ToastUitl.showShort("请选择领域");
+                        }
+                    } else {
+                        JobOrderActivity.instance.setFunctionList(industryId, selectFunctionList);
+                        finish();
+                    }
+                } else {
+                    ToastUitl.showShort("请选择行业");
+                }
                 break;
         }
     }
-    private Handler handler=new Handler(){
+
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case 1:
-                    leftAdapter=new MySelectPositionLeftAdapter(industryList);
+                    leftAdapter = new MySelectFunctionLeftAdapter(industryList);
                     lvLeft.setAdapter(leftAdapter);
                     break;
                 case 2:
-                    rightAdapter=new MySelectPositionRightAdapter(functionList);
+                    rightAdapter = new MySelectPositionRightAdapter(functionList);
                     lvRight.setAdapter(rightAdapter);
                     break;
             }
         }
     };
+
     /**
      * 添加已选领域视图
      *
@@ -212,7 +291,7 @@ public class SelectFunctionActivity extends BaseNoConnectNetworkAcitivty {
                 selectFunctionList.remove(cityBean);
                 llSelectedPosition.removeView(llSelectedPosition.findViewWithTag(cityBean.getId()));
                 sum = selectFunctionList.size();
-               /* getRightDataFresh();*/
+                getRightDataFresh();
                 if (sum == 0) {
                     rlSelectData.setVisibility(View.GONE);
                 }
@@ -224,28 +303,39 @@ public class SelectFunctionActivity extends BaseNoConnectNetworkAcitivty {
         setNum();
     }
 
-   /* private void getRightDataFresh() {
-        if(positionRightList!=null&&positionRightList.size()!=0) {
-            for (int i = 0; i < positionRightList.size(); i++) {
-                positionRightList.get(i).setCheck(false);
-                for (int j = 0; j < selectPositionList.size(); j++) {
-                    if (positionRightList.get(i).equals(selectPositionList.get(j))) {
-                        positionRightList.get(i).setCheck(true);
+    /**
+     * 刷新一下右边的listView
+     */
+    private void getRightDataFresh() {
+        if (functionList != null && functionList.size() != 0) {
+            for (int i = 0; i < functionList.size(); i++) {
+                functionList.get(i).setCheck(false);
+                for (int j = 0; j < selectFunctionList.size(); j++) {
+                    if (functionList.get(i).getId().equals(selectFunctionList.get(j).getId())) {
+                        functionList.get(i).setCheck(true);
                     }
                 }
             }
             rightAdapter.notifyDataSetChanged();
         }
-    }*/
+    }
+
     private void setNum() {
         sum = selectFunctionList.size();
-        tvSelectPositionNum.setText(sum+"");
+        if (sum > 0) {
+            rlSelectData.setVisibility(View.VISIBLE);
+        }else{
+            rlSelectData.setVisibility(View.GONE);
+        }
+        tvSelectPositionNum.setText(sum + "");
     }
+
     private void removeView(CityBean cityBean) {
         llSelectedPosition.removeView(llSelectedPosition.findViewWithTag(cityBean.getId()));
-        sum=selectFunctionList.size();
+        sum = selectFunctionList.size();
         if (sum == 0) {
             rlSelectData.setVisibility(View.GONE);
         }
+        setNum();
     }
 }

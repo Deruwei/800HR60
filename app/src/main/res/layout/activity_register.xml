@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:fitsSystemWindows="true"
     android:clipToPadding="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:background="@color/white"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -11,122 +13,101 @@
         android:id="@+id/in_register"
         />
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_marginTop="@dimen/toolbar_marginBottom"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginLeft="@dimen/view_marginLeft"
-        android:layout_marginRight="@dimen/view_marginLeft"
         app:layout_constraintTop_toBottomOf="@+id/in_register"
-        android:layout_width="0dp"
-        android:layout_height="0dp">
+        style="@style/login_contentLinearLayout"
+        android:layout_height="0dp"
+        >
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/et_height">
+            style="@style/login_relativeLayout">
             <ImageView
+                android:layout_marginLeft="@dimen/x3"
                 android:id="@+id/iv_phoneRegisterNumberIcon"
-                android:layout_centerVertical="true"
+                style="@style/Login_imageViewIcon"
                 android:src="@mipmap/phone"
-                android:layout_width="@dimen/iv_loginIconWidth"
-                android:layout_height="@dimen/iv_loginIconHeight"
                 />
             <EditText
-                android:layout_marginLeft="@dimen/et_marginTop"
                 android:layout_toRightOf="@+id/iv_phoneRegisterNumberIcon"
                 android:id="@+id/et_phoneRegisterNumber"
-                android:layout_width="match_parent"
-                android:textColor="@color/color_333"
                 android:inputType="number"
-                android:layout_height="@dimen/et_height"
                 android:maxLength="11"
-                android:textColorHint="@color/view_color"
-                android:background="@null"
-                android:textSize="@dimen/et_textSize"
                 android:hint="@string/phoneNumber"
+                style="@style/login_editText"
                 />
+            <View
+                android:layout_below="@+id/et_phoneRegisterNumber"
+                style="@style/login_view"/>
         </RelativeLayout>
-        <View
-            android:background="@color/view_color"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_1dp"/>
+
         <RelativeLayout
-            android:layout_marginTop="@dimen/et_marginTop"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/et_height">
+            style="@style/login_relativeLayout">
             <ImageView
                 android:id="@+id/iv_phoneRegisterValidCodeIcon"
-                android:layout_centerVertical="true"
                 android:src="@mipmap/validcode"
-                android:layout_width="@dimen/iv_loginIconWidth"
-                android:layout_height="@dimen/iv_loginIconHeight"
+                android:layout_width="@dimen/x35"
+                android:layout_height="@dimen/x30"
+                style="@style/Login_imageViewIcon"
                 />
             <EditText
-                android:layout_marginLeft="@dimen/et_marginTop"
+                android:layout_toLeftOf="@+id/tv_phoneRegisterGetValidCode"
                 android:layout_toRightOf="@+id/iv_phoneRegisterValidCodeIcon"
                 android:id="@+id/et_phoneRegisterValidCode"
-                android:layout_width="match_parent"
-                android:textColor="@color/color_333"
-                android:layout_height="@dimen/et_height"
-                android:textColorHint="@color/view_color"
-                android:background="@null"
-                android:textSize="@dimen/et_textSize"
                 android:hint="@string/ValidCode"
+                android:inputType="number"
+                android:maxLength="6"
+                style="@style/login_editText"
                 />
             <TextView
-                android:padding="5dp"
+                android:paddingLeft="@dimen/x25"
+                android:paddingRight="@dimen/x25"
+                android:paddingTop="@dimen/x12"
+                android:paddingBottom="@dimen/x12"
                 android:id="@+id/tv_phoneRegisterGetValidCode"
                 android:background="@drawable/validcode_bg"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:textColor="@color/new_main"
-                android:textSize="@dimen/tv_helper_textSize"
+               android:layout_above="@+id/View_lineValidCode"
+                android:textColor="@color/white"
+                android:textSize="@dimen/x28"
                 android:text="@string/getValidCode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 />
+            <View
+                android:id="@+id/View_lineValidCode"
+                android:layout_below="@+id/et_phoneRegisterValidCode"
+                style="@style/login_view"/>
         </RelativeLayout>
 
-        <View
-            android:background="@color/view_color"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_1dp"/>
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/et_marginTop"
-            android:layout_height="@dimen/et_height">
+            style="@style/login_relativeLayout">
             <ImageView
                 android:id="@+id/iv_phoneRegisterPswIcon"
-                android:layout_centerVertical="true"
                 android:src="@mipmap/psw"
-                android:layout_width="@dimen/iv_loginIconWidth"
-                android:layout_height="@dimen/iv_loginIconHeight"
+                style="@style/Login_imageViewIcon"
+                android:layout_marginLeft="@dimen/x3"
+                android:layout_width="@dimen/x30"
+                android:layout_height="@dimen/y40"
                 />
             <EditText
-                android:layout_marginLeft="@dimen/et_marginTop"
                 android:layout_toRightOf="@+id/iv_phoneRegisterPswIcon"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/et_height"
-                android:background="@null"
                 android:id="@+id/et_phoneRegisterPsw"
-                android:textSize="@dimen/et_textSize"
-                android:textColor="@color/color_333"
-                android:textColorHint="@color/view_color"
+               style="@style/login_editText"
                 android:hint="@string/psw"
                 />
+            <View
+                android:layout_below="@+id/et_phoneRegisterPsw"
+               style="@style/login_view"/>
         </RelativeLayout>
-        <View
-            android:background="@color/view_color"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_1dp"/>
         <Button
             android:id="@+id/btn_phoneRegisterOK"
-            android:layout_marginTop="@dimen/btn_marginTop"
-            android:layout_width="match_parent"
-            android:text="@string/register"
-            android:textSize="@dimen/btn_textSize"
-            android:textColor="@color/white"
-            android:background="@drawable/button_login"
-            android:layout_height="@dimen/et_height" />
+            style="@style/login_buttonOK"
+            android:text="@string/register" />
+        <TextView
+            android:id="@+id/tv_registerHasAccount"
+            android:text="@string/hasAccount"
+            android:layout_gravity="right"
+            style="@style/login_textViewFindPsw" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

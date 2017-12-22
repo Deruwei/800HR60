@@ -5,6 +5,8 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:clipToPadding="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <include layout="@layout/layout_toolbar"
@@ -18,421 +20,306 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/in_personalInformation"
             android:layout_height="0dp">
+
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-        <TextView
-            android:id="@+id/view1"
-            android:textSize="@dimen/dimen_26sp"
-            android:textColor="@color/color_333"
-            android:gravity="center"
-            android:text="@string/personalInformation"
-            android:layout_width="0dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-           app:layout_constraintRight_toRightOf="parent"
-            android:layout_height="wrap_content" />
-        <ImageView
-            android:id="@+id/view2"
-            android:layout_marginTop="@dimen/dimen_15dp"
-            android:src="@mipmap/program1"
-            android:layout_width="0dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/view1"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_height="wrap_content" />
-        <ImageView
-            android:id="@+id/iv_personalInformationImage"
-            android:layout_width="0dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/view2"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/personimage"
-            android:layout_marginTop="@dimen/dimen_25dp"
-            android:layout_gravity="center_horizontal"
-            />
-        <TextView
-            android:id="@+id/view3"
-            android:layout_gravity="center_horizontal"
-            android:textSize="@dimen/dimen_10sp"
-            android:text="@string/selectImage"
-            android:layout_marginTop="@dimen/dimen_5dp"
-            android:layout_width="0dp"
-            android:gravity="center_horizontal"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_personalInformationImage"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_height="wrap_content" />
-        <RelativeLayout
-            android:id="@+id/view4"
-            android:layout_marginLeft="@dimen/dimen_36dp"
-            android:layout_marginRight="@dimen/dimen_36dp"
-            android:layout_marginTop="@dimen/dimen_15dp"
-            android:layout_width="0dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/view3"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_height="@dimen/dimen_36dp">
-            <com.hr.ui.view.MyTextView
-                android:id="@+id/tv_nameTag"
-                android:text="@string/name"
-                android:layout_centerVertical="true"
-                android:textSize="@dimen/dimen_16sp"
-                android:textColor="@color/color_666"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <RelativeLayout
-                android:id="@+id/rl_name"
-                android:layout_marginLeft="@dimen/dimen_25dp"
-                android:layout_toRightOf="@+id/tv_nameTag"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <EditText
-                    android:id="@+id/et_name"
-                    android:textColorHint="@color/view_color"
-                    android:background="@null"
-                    android:singleLine="true"
-                    android:textColor="@color/color_333"
-                    android:textSize="@dimen/dimen_16sp"
-                    android:layout_toLeftOf="@+id/iv_nameDelete"
-                    android:layout_width="match_parent"
-                    android:layout_centerInParent="true"
-                    android:layout_height="wrap_content" />
-                <ImageView
-                    android:id="@+id/iv_nameDelete"
-                    android:src="@mipmap/close"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <View
-                    android:layout_below="@id/et_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginTop="3dp"
-                    android:background="@color/view_color"/>
-            </RelativeLayout>
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/view5"
-            android:layout_marginLeft="@dimen/dimen_36dp"
-            android:layout_marginRight="@dimen/dimen_36dp"
-            android:layout_marginTop="@dimen/dimen_15dp"
-            android:layout_width="0dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/view4"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_height="@dimen/dimen_36dp">
-            <com.hr.ui.view.MyTextView
-                android:id="@+id/tv_sexTag"
-                android:text="@string/sex"
-                android:layout_centerVertical="true"
-                android:textSize="@dimen/dimen_16sp"
-                android:textColor="@color/color_666"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <RelativeLayout
-                android:id="@+id/rl_sex"
-                android:layout_marginLeft="@dimen/dimen_25dp"
-                android:layout_toRightOf="@+id/tv_sexTag"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
+
                 <TextView
-                    android:id="@+id/tv_sex"
-                    android:textColorHint="@color/view_color"
-                    android:background="@null"
-                    android:textColor="@color/color_333"
-                    android:singleLine="true"
-                    android:textSize="@dimen/dimen_16sp"
-                    android:layout_toLeftOf="@+id/iv_sexSelect"
-                    android:layout_width="match_parent"
-                    android:layout_centerInParent="true"
-                    android:layout_height="wrap_content" />
-                <ImageView
-                    android:id="@+id/iv_sexSelect"
-                    android:src="@mipmap/arrowright"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <View
-                    android:layout_below="@+id/tv_sex"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginTop="3dp"
-                    android:background="@color/view_color"/>
-            </RelativeLayout>
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/view6"
-            android:layout_marginLeft="@dimen/dimen_36dp"
-            android:layout_marginRight="@dimen/dimen_36dp"
-            android:layout_marginTop="@dimen/dimen_15dp"
-            android:layout_width="0dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/view5"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_height="@dimen/rl_height">
-            <com.hr.ui.view.MyTextView
-                android:id="@+id/tv_birthTag"
-                android:text="@string/birth"
-                android:layout_centerVertical="true"
-                android:textSize="@dimen/dimen_16sp"
-                android:textColor="@color/color_666"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <RelativeLayout
-                android:id="@+id/rl_birth"
-                android:layout_marginLeft="@dimen/dimen_25dp"
-                android:layout_toRightOf="@+id/tv_birthTag"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <TextView
-                    android:id="@+id/tv_birth"
-                    android:textColorHint="@color/view_color"
-                    android:background="@null"
-                    android:singleLine="true"
-                    android:textColor="@color/color_333"
-                    android:textSize="@dimen/dimen_16sp"
-                    android:layout_toLeftOf="@+id/tv_birthSelect"
-                    android:layout_width="match_parent"
-                    android:layout_centerInParent="true"
-                    android:layout_height="wrap_content" />
-                <ImageView
-                    android:id="@+id/tv_birthSelect"
-                    android:src="@mipmap/arrowright"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <View
-                    android:layout_below="@+id/tv_birth"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginTop="3dp"
-                    android:background="@color/view_color"/>
-            </RelativeLayout>
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/view7"
-            android:layout_marginLeft="@dimen/dimen_36dp"
-            android:layout_marginRight="@dimen/dimen_36dp"
-            android:layout_marginTop="@dimen/dimen_15dp"
-            android:layout_width="0dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/view6"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_height="@dimen/dimen_36dp">
-            <com.hr.ui.view.MyTextView
-                android:id="@+id/tv_livePlaceTag"
-                android:text="@string/nowAddress"
-                android:layout_centerVertical="true"
-                android:textSize="@dimen/dimen_16sp"
-                android:textColor="@color/color_666"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <RelativeLayout
-                android:id="@+id/rl_livePlace"
-                android:layout_marginLeft="@dimen/dimen_25dp"
-                android:layout_toRightOf="@+id/tv_livePlaceTag"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <TextView
-                    android:id="@+id/tv_livePlace"
-                    android:textColorHint="@color/view_color"
-                    android:background="@null"
-                    android:singleLine="true"
-                    android:textColor="@color/color_333"
-                    android:textSize="@dimen/dimen_16sp"
-                    android:layout_toLeftOf="@+id/tv_livePlaceSelect"
-                    android:layout_width="match_parent"
-                    android:layout_centerInParent="true"
-                    android:layout_height="wrap_content" />
-                <ImageView
-                    android:id="@+id/tv_livePlaceSelect"
-                    android:src="@mipmap/arrowright"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <View
-                    android:layout_below="@+id/tv_livePlace"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginTop="3dp"
-                    android:background="@color/view_color"/>
-            </RelativeLayout>
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/view8"
-            android:layout_marginLeft="@dimen/dimen_36dp"
-            android:layout_marginRight="@dimen/dimen_36dp"
-            android:layout_marginTop="@dimen/dimen_15dp"
-            android:layout_width="0dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/view7"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_height="@dimen/dimen_36dp">
-            <com.hr.ui.view.MyTextView
-                android:id="@+id/tv_workTimeTag"
-                android:text="@string/workTime"
-                android:layout_centerVertical="true"
-                android:textSize="@dimen/dimen_16sp"
-                android:textColor="@color/color_666"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <RelativeLayout
-                android:id="@+id/rl_workTime"
-                android:layout_marginLeft="@dimen/dimen_25dp"
-                android:layout_toRightOf="@+id/tv_workTimeTag"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <TextView
-                    android:id="@+id/tv_workTime"
-                    android:textColorHint="@color/view_color"
-                    android:background="@null"
-                    android:singleLine="true"
-                    android:textColor="@color/color_333"
-                    android:textSize="@dimen/dimen_16sp"
-                    android:layout_toLeftOf="@+id/tv_workTimeSelect"
-                    android:layout_width="match_parent"
-                    android:layout_centerInParent="true"
-                    android:layout_height="wrap_content" />
-                <ImageView
-                    android:id="@+id/tv_workTimeSelect"
-                    android:src="@mipmap/arrowright"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <View
-                    android:layout_marginTop="3dp"
-                    android:layout_below="@+id/tv_workTime"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/view_color"/>
-            </RelativeLayout>
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/view9"
-            android:layout_marginLeft="@dimen/dimen_36dp"
-            android:layout_marginRight="@dimen/dimen_36dp"
-            android:layout_marginTop="@dimen/dimen_15dp"
-            android:layout_width="0dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/view8"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_height="@dimen/dimen_36dp">
-            <com.hr.ui.view.MyTextView
-                android:id="@+id/tv_emailTag"
-                android:text="@string/email"
-                android:layout_centerVertical="true"
-                android:textSize="@dimen/dimen_16sp"
-                android:textColor="@color/color_666"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <RelativeLayout
-                android:id="@+id/rl_email"
-                android:layout_marginLeft="@dimen/dimen_25dp"
-                android:layout_toRightOf="@+id/tv_emailTag"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <EditText
-                    android:id="@+id/et_email"
-                    android:textColorHint="@color/view_color"
-                    android:background="@null"
-                    android:singleLine="true"
-                    android:textColor="@color/color_333"
-                    android:textSize="@dimen/dimen_16sp"
-                    android:layout_toLeftOf="@+id/tv_emailDelete"
-                    android:layout_width="match_parent"
-                    android:layout_centerInParent="true"
-                    android:layout_height="wrap_content"/>
-                <ImageView
-                    android:id="@+id/tv_emailDelete"
-                    android:src="@mipmap/close"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <View
-                    android:layout_below="@+id/et_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginTop="3dp"
-                    android:background="@color/view_color"/>
-            </RelativeLayout>
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/view10"
-            android:layout_marginLeft="@dimen/dimen_36dp"
-            android:layout_marginRight="@dimen/dimen_36dp"
-            android:layout_marginTop="@dimen/dimen_15dp"
-            android:layout_width="0dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/view9"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_height="@dimen/dimen_36dp">
-            <com.hr.ui.view.MyTextView
-                android:id="@+id/tv_positionTitleTag"
-                android:text="@string/jobTitle"
-                android:layout_centerVertical="true"
-                android:textSize="@dimen/dimen_16sp"
-                android:textColor="@color/color_666"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <RelativeLayout
-                android:id="@+id/rl_positionTitle"
-                android:layout_marginLeft="@dimen/dimen_25dp"
-                android:layout_toRightOf="@+id/tv_positionTitleTag"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <TextView
-                    android:id="@+id/tv_positionTitle"
-                    android:textColorHint="@color/view_color"
-                    android:background="@null"
-                    android:singleLine="true"
-                    android:textColor="@color/color_333"
-                    android:textSize="@dimen/dimen_16sp"
-                    android:layout_toLeftOf="@+id/tv_positionTitleSelect"
-                    android:layout_width="match_parent"
-                    android:layout_centerInParent="true"
-                    android:layout_height="wrap_content" />
-                <ImageView
-                    android:id="@+id/tv_positionTitleSelect"
-                    android:src="@mipmap/arrowright"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <View
-                    android:layout_marginTop="3dp"
-                    android:layout_below="@+id/tv_positionTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/view_color"/>
-            </RelativeLayout>
-        </RelativeLayout>
-                <Button
-                android:id="@+id/btn_next"
-                android:layout_marginTop="@dimen/btn_marginTop"
-                android:layout_marginRight="@dimen/dimen_16sp"
-                android:layout_marginLeft="@dimen/dimen_16sp"
-                android:layout_width="0dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/view10"
-                app:layout_constraintRight_toRightOf="parent"
-                android:text="@string/next"
-                android:textSize="@dimen/btn_textSize"
-                android:textColor="@color/white"
-                android:background="@drawable/button_login"
-                android:layout_height="@dimen/et_height"/>
-                <View
+                    android:id="@+id/view1"
                     android:layout_width="0dp"
-                    app:layout_constraintTop_toBottomOf="@+id/btn_next"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/personalInformation"
+                    android:textColor="@color/color_333"
+                    android:textSize="@dimen/x50"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent" />
+
+                <ImageView
+                    android:id="@+id/view2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/x28"
+                    android:src="@mipmap/program1"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    android:layout_height="@dimen/dimen_36dp"/>
+                    app:layout_constraintTop_toBottomOf="@id/view1" />
+
+                <ImageView
+                    android:id="@+id/iv_personalInformationImage"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/y100"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/y49"
+                    android:src="@mipmap/personimage"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/view2" />
+
+                <TextView
+                    android:id="@+id/view3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/x14"
+                    android:gravity="center_horizontal"
+                    android:text="@string/selectImage"
+                    android:textSize="@dimen/x20"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_personalInformationImage" />
+
+                <RelativeLayout
+                    android:id="@+id/view4"
+                    style="@style/fastResume_RelativeLayout"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/view3">
+
+                    <com.hr.ui.view.MyTextView
+                        android:id="@+id/tv_nameTag"
+                        style="@style/fastResume_MyTextView"
+                        android:text="@string/name" />
+
+                    <RelativeLayout
+                        android:id="@+id/rl_name"
+                        style="@style/fastResume_relativeLayoutContent"
+                        android:layout_toRightOf="@+id/tv_nameTag">
+
+                        <EditText
+                            android:id="@+id/et_name"
+                            style="@style/fastResume_editView"
+                            android:layout_toLeftOf="@+id/iv_nameDelete" />
+
+                        <ImageView
+                            android:id="@+id/iv_nameDelete"
+                            style="@style/fastResume_ImageViewRightIcon"
+                            android:src="@mipmap/close" />
+
+                        <View
+                            style="@style/fastResume_view"
+                            android:layout_below="@id/et_name" />
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/view5"
+                    style="@style/fastResume_RelativeLayout"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/view4">
+
+                    <com.hr.ui.view.MyTextView
+                        android:id="@+id/tv_sexTag"
+                        style="@style/fastResume_MyTextView"
+                        android:text="@string/sex" />
+
+                    <RelativeLayout
+                        android:id="@+id/rl_sex"
+                        style="@style/fastResume_relativeLayoutContent"
+                        android:layout_toRightOf="@+id/tv_sexTag">
+
+                        <TextView
+                            android:id="@+id/tv_sex"
+                            style="@style/fastResume_editView"
+                            android:layout_toLeftOf="@+id/iv_sexSelect" />
+
+                        <ImageView
+                            android:id="@+id/iv_sexSelect"
+                            style="@style/fastResume_ImageViewRightIcon"
+                            android:src="@mipmap/arrowright" />
+
+                        <View
+                            style="@style/fastResume_view"
+                            android:layout_below="@+id/tv_sex" />
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/view6"
+                    style="@style/fastResume_RelativeLayout"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/view5">
+
+                    <com.hr.ui.view.MyTextView
+                        android:id="@+id/tv_birthTag"
+                        style="@style/fastResume_MyTextView"
+                        android:text="@string/birth" />
+
+                    <RelativeLayout
+                        android:id="@+id/rl_birth"
+                        style="@style/fastResume_relativeLayoutContent"
+                        android:layout_toRightOf="@+id/tv_birthTag">
+
+                        <TextView
+                            android:id="@+id/tv_birth"
+                            style="@style/fastResume_editView"
+                            android:layout_toLeftOf="@+id/tv_birthSelect" />
+
+                        <ImageView
+                            android:id="@+id/tv_birthSelect"
+                            style="@style/fastResume_ImageViewRightIcon"
+                            android:src="@mipmap/arrowright" />
+
+                        <View
+                            style="@style/fastResume_view"
+                            android:layout_below="@+id/tv_birth" />
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/view7"
+                    style="@style/fastResume_RelativeLayout"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/view6">
+
+                    <com.hr.ui.view.MyTextView
+                        android:id="@+id/tv_livePlaceTag"
+                        style="@style/fastResume_MyTextView"
+                        android:text="@string/nowAddress" />
+
+                    <RelativeLayout
+                        android:id="@+id/rl_livePlace"
+                        style="@style/fastResume_relativeLayoutContent"
+                       android:layout_toRightOf="@+id/tv_livePlaceTag">
+
+                        <TextView
+                            android:id="@+id/tv_livePlace"
+                            style="@style/fastResume_editView"
+                            android:layout_toLeftOf="@+id/tv_livePlaceSelect"
+                          />
+
+                        <ImageView
+                            android:id="@+id/tv_livePlaceSelect"
+                            style="@style/fastResume_ImageViewRightIcon"
+                            android:src="@mipmap/arrowright" />
+
+                        <View
+                            style="@style/fastResume_view"
+                            android:layout_below="@+id/tv_livePlace" />
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/view8"
+                    style="@style/fastResume_RelativeLayout"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/view7">
+
+                    <com.hr.ui.view.MyTextView
+                        android:id="@+id/tv_workTimeTag"
+                        style="@style/fastResume_MyTextView"
+                        android:text="@string/workTime" />
+
+                    <RelativeLayout
+                        android:id="@+id/rl_workTime"
+                        style="@style/fastResume_relativeLayoutContent"
+
+                        android:layout_toRightOf="@+id/tv_workTimeTag">
+
+                        <TextView
+                            android:id="@+id/tv_workTime"
+                            style="@style/fastResume_editView"
+                            android:layout_toLeftOf="@+id/tv_workTimeSelect"
+                            />
+
+                        <ImageView
+                            android:id="@+id/tv_workTimeSelect"
+                            style="@style/fastResume_ImageViewRightIcon"
+                            android:src="@mipmap/arrowright" />
+
+                        <View
+                            style="@style/fastResume_view"
+                            android:layout_below="@+id/tv_workTime"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/view9"
+                    style="@style/fastResume_RelativeLayout"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/view8">
+
+                    <com.hr.ui.view.MyTextView
+                        android:id="@+id/tv_emailTag"
+                        style="@style/fastResume_MyTextView"
+                        android:text="@string/email" />
+
+                    <RelativeLayout
+                        android:id="@+id/rl_email"
+                        style="@style/fastResume_relativeLayoutContent"
+                        android:layout_toRightOf="@+id/tv_emailTag">
+
+                        <EditText
+                            android:id="@+id/et_email"
+                            style="@style/fastResume_editView"
+                            android:layout_toLeftOf="@+id/tv_emailDelete"
+                          />
+
+                        <ImageView
+                            android:id="@+id/tv_emailDelete"
+                            style="@style/fastResume_ImageViewRightIcon"
+                            android:src="@mipmap/close" />
+
+                        <View
+                            style="@style/fastResume_view"
+                            android:layout_below="@+id/et_email" />
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/view10"
+                    style="@style/fastResume_RelativeLayout"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/view9">
+
+                    <com.hr.ui.view.MyTextView
+                        android:id="@+id/tv_positionTitleTag"
+                        style="@style/fastResume_MyTextView"
+                        android:text="@string/jobTitle" />
+
+                    <RelativeLayout
+                        android:id="@+id/rl_positionTitle"
+                        style="@style/fastResume_relativeLayoutContent"
+                        android:layout_toRightOf="@+id/tv_positionTitleTag">
+
+                        <TextView
+                            android:id="@+id/tv_positionTitle"
+                            style="@style/fastResume_editView"
+                            android:layout_toLeftOf="@+id/tv_positionTitleSelect"
+                            />
+
+                        <ImageView
+                            android:id="@+id/tv_positionTitleSelect"
+                            style="@style/fastResume_ImageViewRightIcon"
+                            android:src="@mipmap/arrowright" />
+
+                        <View
+                            android:layout_below="@+id/tv_positionTitle"
+                            style="@style/fastResume_view" />
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <Button
+                    android:id="@+id/btn_next"
+                    android:text="@string/next"
+                    style="@style/fastResume_ButtonOK"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/view10" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dimen_36dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/btn_next" />
             </android.support.constraint.ConstraintLayout>
         </android.support.v4.widget.NestedScrollView>
 

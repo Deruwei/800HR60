@@ -6,7 +6,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_40dp"
+        android:layout_height="wrap_content"
         android:background="@color/white"
         >
 
@@ -19,7 +19,7 @@
             android:padding="10dp"
             android:text="@string/cancel"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="@dimen/x36" />
 
 
         <TextView
@@ -32,14 +32,14 @@
             android:padding="10dp"
             android:text="@string/sure"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="@dimen/x36" />
 
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/split_line" />
+        android:layout_height="@dimen/x1"
+        android:background="@color/view_color" />
 
     <RelativeLayout
         android:layout_width="match_parent"

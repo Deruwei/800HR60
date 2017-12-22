@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="@dimen/item_resumeTitleWidth"
+    android:layout_width="@dimen/x200"
     android:orientation="vertical"
     android:background="@drawable/button_resumedefault"
     android:layout_height="wrap_content">
@@ -13,27 +13,26 @@
         android:gravity="center"
         android:singleLine="true"
         android:textColor="@color/color_333"
-        android:layout_width="@dimen/item_resumeTitleWidth"
-        android:layout_height="@dimen/item_resumeTitleHeight" />
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x50" />
     <RelativeLayout
         android:id="@+id/rl_itemResumePreview"
         android:background="@color/resumeContent_bg"
-        android:layout_width="@dimen/item_resumeTitleWidth"
-        android:paddingBottom="@dimen/item_resumeContent_marginTop"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x169">
         <ImageView
             android:id="@+id/iv_ItemResumeIcon"
-            android:layout_marginTop="@dimen/item_resumeContent_marginTop"
+            android:layout_marginTop="@dimen/x18"
             android:src="@mipmap/resume1"
             android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="@dimen/x72"
+            android:layout_height="@dimen/y80" />
 
         <TextView
-            android:layout_marginTop="@dimen/item_resumeContent_marginTop"
+            android:layout_marginTop="@dimen/x10"
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/iv_ItemResumeIcon"
-            android:textSize="@dimen/item_resumeComplete_textSize"
+            android:textSize="@dimen/x20"
             android:id="@+id/tv_discoveryMultipleResumesComplete"
             android:textColor="@color/resumeComplete"
             android:text="@string/completeRegister"
@@ -44,7 +43,7 @@
             android:layout_below="@+id/tv_discoveryMultipleResumesComplete"
             android:text="@string/preview"
             android:gravity="center"
-            android:textSize="@dimen/item_resumeComplete_textSize"
+            android:textSize="@dimen/x20"
             android:textColor="@color/resumePreview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -54,9 +53,10 @@
         android:id="@+id/tv_itemResumeSetDefault"
         android:gravity="center"
         android:textColor="@color/white"
-        android:layout_width="@dimen/item_resumeTitleWidth"
-        android:layout_height="@dimen/item_resumeTitleHeight"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y58"
         android:background="@drawable/button_resumedefault_bottom"
         android:text="@string/setDefault"
-        android:textSize="@dimen/item_resumeTitle" />
+        android:textSize="@dimen/x28" />
+
 </LinearLayout>

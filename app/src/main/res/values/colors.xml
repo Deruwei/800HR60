@@ -16,6 +16,9 @@
     <color name="color_333">#333333</color>
     <color name="color_666">#666666</color>
     <color name="color_999">#999999</color>
+    <color name="color_resume1">#7F6651</color>
+    <color name="color_resume2">#574C45</color>
+    <color name="color_program">#D3C3B7</color>
     <!--白天主题-->
     <color name="day_backgroup_color">#FFFFFFFF</color>
     <color name="day_one_text_color">#FF000000</color>

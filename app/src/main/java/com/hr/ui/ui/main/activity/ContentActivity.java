@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,6 +35,8 @@ public class ContentActivity extends BaseNoConnectNetworkAcitivty {
     EditText etContent;
     @BindView(R.id.btn_contentOK)
     Button btnContentOK;
+    @BindView(R.id.tv_textSum)
+    TextView tvTextSum;
 
     @Override
     public int getLayoutId() {
@@ -43,6 +48,13 @@ public class ContentActivity extends BaseNoConnectNetworkAcitivty {
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if(getIntent().getStringExtra("text")!=null||!"".equals(getIntent().getStringExtra("text"))){
+            etContent.setText(getIntent().getStringExtra("text"));
+            tvTextSum.setText(etContent.getText().toString().length()+" / 600");
+        }else{
+            etContent.setText("");
+            tvTextSum.setText("0 / 600");
+        }
         toolBar.setTitle("");
         toolBar.setTitleTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
         toolBar.setNavigationIcon(R.mipmap.back);
@@ -51,6 +63,23 @@ public class ContentActivity extends BaseNoConnectNetworkAcitivty {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+        etContent.setFilters(new InputFilter[]{new InputFilter.LengthFilter(600)});
+        etContent.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tvTextSum.setText(s.length()+" / 600");
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
     }
@@ -64,13 +93,14 @@ public class ContentActivity extends BaseNoConnectNetworkAcitivty {
 
     @OnClick(R.id.btn_contentOK)
     public void onViewClicked() {
-        if(etContent.getText().toString()==null||"".equals(etContent.getText().toString())){
+        if (etContent.getText().toString() == null || "".equals(etContent.getText().toString())) {
             ToastUitl.showShort("请填写职位描述");
             return;
         }
         WorkExpActivity.instance.setTvResponsibilityDes(etContent.getText().toString());
         finish();
     }
+
     /**
      * 入口
      *
@@ -78,6 +108,13 @@ public class ContentActivity extends BaseNoConnectNetworkAcitivty {
      */
     public static void startAction(Activity activity) {
         Intent intent = new Intent(activity, ContentActivity.class);
+        activity.startActivity(intent);
+        activity.overridePendingTransition(R.anim.fade_in,
+                R.anim.fade_out);
+    }
+    public static void startAction(Activity activity,String s) {
+        Intent intent = new Intent(activity, ContentActivity.class);
+        intent.putExtra("text",s);
         activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.fade_in,
                 R.anim.fade_out);

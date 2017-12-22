@@ -16,29 +16,45 @@
         app:layout_constraintTop_toBottomOf="@+id/in_content"
         android:layout_width="0dp"
         android:layout_height="0dp">
+        <View
+            android:background="@color/resumeContent_bg"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"/>
         <EditText
             android:id="@+id/et_content"
             android:textSize="@dimen/dimen_16sp"
-            android:background="@drawable/edit_bg"
-            android:padding="@dimen/dimen_5dp"
+            android:background="@null"
+            android:padding="@dimen/dimen_15dp"
             android:gravity="top|left"
             android:textColor="@color/color_333"
-            android:layout_marginTop="@dimen/dimen_20dp"
-            android:layout_marginLeft="@dimen/dimen_36dp"
-            android:layout_marginRight="@dimen/dimen_36dp"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_400dp" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:background="@color/resumeContent_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/tv_textSum"
+                android:layout_marginTop="@dimen/dimen_10dp"
+                android:gravity="right"
+                android:layout_marginRight="16dp"
+                android:text="100/600"
+                android:textSize="@dimen/dimen_12sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
         <Button
             android:id="@+id/btn_contentOK"
             android:layout_width="match_parent"
             android:layout_height="@dimen/et_height"
             android:layout_marginLeft="@dimen/dimen_15dp"
             android:layout_marginRight="@dimen/dimen_15dp"
-            android:layout_marginTop="@dimen/btn_marginTop"
+            android:layout_marginTop="@dimen/btnEdit_marginTop"
             android:background="@drawable/button_login"
-            android:text="@string/complete"
+            android:text="@string/save"
             android:textColor="@color/white"
             android:textSize="@dimen/btn_textSize" />
+        </LinearLayout>
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

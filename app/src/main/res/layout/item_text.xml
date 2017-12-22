@@ -11,8 +11,8 @@
         android:text="@string/register"
         android:gravity="center"
         android:textColor="@color/color_999"
-        android:textSize="@dimen/dimen_12sp"
-        android:layout_margin="@dimen/dimen_5dp"
+        android:textSize="@dimen/x24"
+        android:layout_marginTop="@dimen/y21"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_height="wrap_content" />
 </android.support.constraint.ConstraintLayout>

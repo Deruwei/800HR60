@@ -1,5 +1,6 @@
 package com.hr.ui.ui.main.adapter;
 
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -23,9 +24,11 @@ import butterknife.ButterKnife;
 public class MyProvinceAdapter extends BaseAdapter {
     private List<CityBean> cityBeanList;
     private ViewHolder holder;
+    private int type;
 
-    public MyProvinceAdapter(List<CityBean> cityBeanList) {
+    public MyProvinceAdapter(List<CityBean> cityBeanList,int type) {
         this.cityBeanList = cityBeanList;
+        this.type=type;
     }
 
     @Override
@@ -54,12 +57,21 @@ public class MyProvinceAdapter extends BaseAdapter {
         }
         holder.tvItemSelectCityName.setText(cityBeanList.get(position).getName());
         if(position<4){
-            if(cityBeanList.get(position).isCheck()==true){
-                holder.ivItemSelectCityCheck.setVisibility(View.VISIBLE);
+            if(type==2) {
+                if (cityBeanList.get(position).isCheck() == true) {
+                    holder.ivItemSelectCityCheck.setVisibility(View.VISIBLE);
+                } else {
+                    holder.ivItemSelectCityCheck.setVisibility(View.GONE);
+                }
             }else{
                 holder.ivItemSelectCityCheck.setVisibility(View.GONE);
             }
         }else{
+            if (cityBeanList.get(position).isCheck() == true) {
+                holder.rlItemSelectCity.setBackgroundResource( R.color.resumeContent_bg);
+            }else{
+                holder.rlItemSelectCity.setBackgroundResource( R.color.white);
+            }
             holder.ivItemSelectCityCheck.setVisibility(View.GONE);
         }
         return convertView;

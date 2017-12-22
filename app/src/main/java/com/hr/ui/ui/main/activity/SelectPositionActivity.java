@@ -56,8 +56,12 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
     TextView tvSelectPositionNum;
     @BindView(R.id.ll_selectPositionBottom)
     LinearLayout llSelectPositionBottom;
+    @BindView(R.id.ll_industryTitle)
+    LinearLayout llIndustryTitle;
+    @BindView(R.id.view_industryBottom)
+    View viewIndustryBottom;
     private List<CityBean> positonBeanList;
-    private String industryId = "11";
+    private String industryId;
     private List<CityBean> positonLeftList, positionRightList;
     private MySelectPositionLeftAdapter leftAdapter;
     private MySelectPositionRightAdapter rightAdapter;
@@ -69,8 +73,9 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
      *
      * @param activity
      */
-    public static void startAction(Activity activity, String industryId,List<CityBean> selectPositionList) {
+    public static void startAction(Activity activity, String industryId, List<CityBean> selectPositionList) {
         Intent intent = new Intent(activity, SelectPositionActivity.class);
+        intent.putExtra("industryId",industryId);
         intent.putExtra("selectPosition", (Serializable) selectPositionList);
         activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.fade_in,
@@ -84,7 +89,10 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
 
     @Override
     public void initView() {
-        selectPositionList= (List<CityBean>) getIntent().getSerializableExtra("selectPosition");
+        viewIndustryBottom.setVisibility(View.GONE);
+        llIndustryTitle.setVisibility(View.GONE);
+        selectPositionList = (List<CityBean>) getIntent().getSerializableExtra("selectPosition");
+        industryId=getIntent().getStringExtra("industryId");
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -99,17 +107,19 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
             }
         });
         positonBeanList = FromStringToArrayList.getInstance().getExpectPosition(industryId);
-        System.out.println(positonBeanList.toString());
+        //System.out.println(positonBeanList.toString());
         positonLeftList = new ArrayList<>();
         for (int i = 0; i < positonBeanList.size(); i++) {
             if (positonBeanList.get(i).getId().endsWith("000")) {
                 positonLeftList.add(positonBeanList.get(i));
             }
         }
-        if(selectPositionList!=null&&selectPositionList.size()!=0) {
+        if (selectPositionList != null && selectPositionList.size() != 0) {
             for (int i = 0; i < selectPositionList.size(); i++) {
                 addView(selectPositionList.get(i));
             }
+        }else{
+            rlSelectData.setVisibility(View.GONE);
         }
         final Message message = Message.obtain();
         message.what = 1;
@@ -150,31 +160,31 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
         lvRight.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                sum=selectPositionList.size();
-                    if (positionRightList.get(position).isCheck() == false) {
-                        sum = selectPositionList.size();
-                        if (sum == 0) {
-                            rlSelectData.setVisibility(View.VISIBLE);
-                        }
-                        if(sum>=5){
-                            ToastUitl.showShort("最多只能选择5个职位");
-                            return;
-                        }else {
-                            selectPositionList.add(positionRightList.get(position));
-                            addView(positionRightList.get(position));
-                            positionRightList.get(position).setCheck(true);
-                        }
-                    } else {
-
-                        positionRightList.get(position).setCheck(false);
-                        for(int i=0;i<selectPositionList.size();i++){
-                            if(positionRightList.get(position).getId().equals(selectPositionList.get(i).getId())){
-                                selectPositionList.remove(selectPositionList.get(i));
-                            }
-                        }
-                        removeView(positionRightList.get(position));
-                        setNum();
+                sum = selectPositionList.size();
+                if (positionRightList.get(position).isCheck() == false) {
+                    sum = selectPositionList.size();
+                    if (sum == 0) {
+                        rlSelectData.setVisibility(View.VISIBLE);
                     }
+                    if (sum >= 5) {
+                        ToastUitl.showShort("最多只能选择5个职位");
+                        return;
+                    } else {
+                        selectPositionList.add(positionRightList.get(position));
+                        addView(positionRightList.get(position));
+                        positionRightList.get(position).setCheck(true);
+                    }
+                } else {
+
+                    positionRightList.get(position).setCheck(false);
+                    for (int i = 0; i < selectPositionList.size(); i++) {
+                        if (positionRightList.get(position).getId().equals(selectPositionList.get(i).getId())) {
+                            selectPositionList.remove(selectPositionList.get(i));
+                        }
+                    }
+                    removeView(positionRightList.get(position));
+                    setNum();
+                }
 
                 rightAdapter.notifyDataSetChanged();
             }
@@ -195,10 +205,10 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
                 finish();
                 break;
             case R.id.tv_selectPositionOK:
-                if(selectPositionList!=null&&selectPositionList.size()!=0) {
+                if (selectPositionList != null && selectPositionList.size() != 0) {
                     JobOrderActivity.instance.setPositionList(selectPositionList);
                     finish();
-                }else{
+                } else {
                     ToastUitl.showShort("请选择期望职位");
                 }
                 break;
@@ -242,11 +252,11 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
     }
 
     private void getRightDataFresh() {
-        if(positionRightList!=null&&positionRightList.size()!=0) {
+        if (positionRightList != null && positionRightList.size() != 0) {
             for (int i = 0; i < positionRightList.size(); i++) {
                 positionRightList.get(i).setCheck(false);
                 for (int j = 0; j < selectPositionList.size(); j++) {
-                    if (positionRightList.get(i).equals(selectPositionList.get(j))) {
+                    if (positionRightList.get(i).getId().equals(selectPositionList.get(j).getId())) {
                         positionRightList.get(i).setCheck(true);
                     }
                 }
@@ -257,7 +267,7 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
 
     private void removeView(CityBean cityBean) {
         llSelectedPosition.removeView(llSelectedPosition.findViewWithTag(cityBean.getId()));
-        sum=selectPositionList.size();
+        sum = selectPositionList.size();
         if (sum == 0) {
             rlSelectData.setVisibility(View.GONE);
         }
@@ -265,7 +275,7 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
 
     private void setNum() {
         sum = selectPositionList.size();
-        tvSelectPositionNum.setText(sum+"");
+        tvSelectPositionNum.setText(sum + "");
     }
 
     private Handler handler = new Handler() {

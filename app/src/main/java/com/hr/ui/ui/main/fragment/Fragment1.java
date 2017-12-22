@@ -1,5 +1,6 @@
 package com.hr.ui.ui.main.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
@@ -15,6 +16,8 @@ import com.hr.ui.R;
 import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.main.activity.CompanyDetailActivity;
 import com.hr.ui.ui.main.activity.ShowMsgActivity;
+import com.hr.ui.ui.main.activity.SplashActivity;
+import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.DialogView;
 import com.hr.ui.view.MyResumeScoreProgressBar;
 import com.hr.ui.view.PieChartView;
@@ -134,7 +137,9 @@ public class Fragment1 extends Fragment {
                 ShowMsgActivity.startAction(getActivity());
                 break;
             case R.id.tv_fragment:
-                initPopWindow();
+                startActivity(new Intent(getActivity(),SplashActivity.class));
+                SharedPreferencesUtils sUtils=new SharedPreferencesUtils(getActivity());
+                sUtils.setIntValue(Constants.ISAUTOLOGIN,0);
                 break;
 
         }

@@ -5,6 +5,8 @@ import android.util.Log;
 import com.hr.ui.base.RxSubscriber;
 import com.hr.ui.bean.WorkExpData;
 import com.hr.ui.ui.main.contract.WorkExpContract;
+import com.hr.ui.utils.Rc4Md5Utils;
+import com.hr.ui.utils.ToastUitl;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,6 +33,8 @@ public class WorkExpPresenter extends WorkExpContract.Presenter {
                         double error_code=jsonObject.getDouble("error_code");
                         if(error_code==0) {
                             mView.sendWorkExpSuccess();
+                        }else{
+                            ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) error_code));
                         }
                     } catch (IOException e) {
                         e.printStackTrace();

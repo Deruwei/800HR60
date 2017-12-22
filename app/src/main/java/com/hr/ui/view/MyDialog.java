@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hr.ui.R;
@@ -20,6 +21,7 @@ public class MyDialog extends Dialog{
         private Button no;//取消按钮
         private TextView titleTv;//消息标题文本
         private TextView messageTv;//消息提示文本
+        private RelativeLayout rl_title;
         private String titleStr;//从外界设置的title文本
         private String messageStr;//从外界设置的消息文本
         //确定文本和取消文本的显示内容
@@ -133,6 +135,11 @@ public class MyDialog extends Dialog{
             }
             titleTv = (TextView) findViewById(R.id.title);
             messageTv = (TextView) findViewById(R.id.message);
+            rl_title=findViewById(R.id.rl_title);
+            if(type==2){
+                rl_title.setVisibility(View.GONE);
+            }
+
         }
         public void setNoGone(){
             if(no!=null){

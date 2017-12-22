@@ -5,21 +5,29 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hr.ui.R;
+import com.hr.ui.app.AppManager;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
 import com.hr.ui.bean.CityBean;
 import com.hr.ui.bean.WorkExpData;
+import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.main.contract.WorkExpContract;
 import com.hr.ui.ui.main.modle.WorkExpModel;
 import com.hr.ui.ui.main.presenter.WorkExpPresenter;
 import com.hr.ui.utils.ToastUitl;
+import com.hr.ui.utils.datautils.SharedPreferencesUtils;
+import com.hr.ui.view.MyDialog;
 import com.hr.ui.view.MyStartAndEndTimeCustomDatePicker;
 import com.hr.ui.view.MyTextView;
 
@@ -70,10 +78,27 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
     TextView tvResponsibilityDes;
     @BindView(R.id.tv_responsibilityDesSelect)
     ImageView tvResponsibilityDesSelect;
-    private String endTimes,startTimes,cityId,responbilityDes;
+    @BindView(R.id.tv_workExpTitle)
+    TextView tvWorkExpTitle;
+    @BindView(R.id.btn_nextEdu)
+    Button btnNextEdu;
+    @BindView(R.id.iv_companyNameDelete)
+    ImageView ivCompanyNameDelete;
+    @BindView(R.id.iv_grossPayDelete)
+    ImageView ivGrossPayDelete;
+    @BindView(R.id.rl_workExpStartAndEndTime)
+    RelativeLayout rlWorkExpStartAndEndTime;
+    @BindView(R.id.rl_responsibilityDes)
+    RelativeLayout rlResponsibilityDes;
+    private String endTimes, startTimes, cityId, responbilityDes;
     private MyStartAndEndTimeCustomDatePicker datePickerSE;
-    public static final String TAG=WorkExpActivity.class.getSimpleName();
-    public static  WorkExpActivity instance;
+    public static final String TAG = WorkExpActivity.class.getSimpleName();
+    public static WorkExpActivity instance;
+    private String type;//简历类型
+    private SharedPreferencesUtils sUtis;
+    private MyDialog myDialog;
+    private int stopType;
+
     /**
      * 入口
      *
@@ -103,7 +128,12 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
 
     @Override
     public void sendWorkExpSuccess() {
-        JobOrderActivity.startAction(this);
+        if (stopType == 3) {
+            MainActivity.startAction(this, 0);
+            AppManager.getAppManager().finishAllActivity();
+        } else {
+            JobOrderActivity.startAction(this);
+        }
     }
 
     @Override
@@ -118,17 +148,28 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
 
     @Override
     public void initView() {
+        sUtis = new SharedPreferencesUtils(this);
+        type = sUtis.getStringValue(Constants.RESUME_TYPE, "");
+        stopType = sUtis.getIntValue(Constants.RESUME_STOPTYPE, 0);
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolBar.setTitle("");
         toolBar.setTitleTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
         toolBar.setNavigationIcon(R.mipmap.back);
-        tvToolbarTitle.setText("");
+        if (!"".equals(type) && type != null) {
+            if ("1".equals(type)) {
+                tvWorkExpTitle.setText(R.string.workExperience);
+                tvWorkPlaceTag.setText(R.string.workPlace);
+            } else if ("2".equals(type)) {
+                tvWorkExpTitle.setText(R.string.internshipExperience);
+                tvWorkPlaceTag.setText(R.string.internshipPlace);
+            }
+        }
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+               exitOrFinishActivity();
             }
         });
         tvCompanyNameTag.setTitleWidth(tvCompanyNameTag);
@@ -137,6 +178,9 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
         tvResponsibilityDesTag.setTitleWidth(tvCompanyNameTag);
         tvWorkPlaceTag.setTitleWidth(tvCompanyNameTag);
         tvWorkExpStartAndEndTimeTag.setTitleWidth(tvCompanyNameTag);
+        if (stopType == 3) {
+            btnNextEdu.setText(R.string.complete);
+        }
     }
 
     @Override
@@ -144,69 +188,200 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
-        instance=this;
+        instance = this;
         initDialog();
+        initListener();
     }
 
-    private void initDialog() {
-        datePickerSE=new MyStartAndEndTimeCustomDatePicker(this, new MyStartAndEndTimeCustomDatePicker.ResultHandler() {
+    private void initListener() {
+        tvPositionSelect.setVisibility(View.GONE);
+        ivCompanyNameDelete.setVisibility(View.GONE);
+        ivCompanyNameDelete.setVisibility(View.GONE);
+        etGrossPay.addTextChangedListener(new TextWatcher() {
             @Override
-            public void handle(String startTime, String endTime) {
-                tvWorkExpStartAndEndTime.setText(startTime+"  至  "+endTime);
-                startTimes=startTime;
-                endTimes=endTime;
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length()>0){
+                    ivCompanyNameDelete.setVisibility(View.VISIBLE);
+                }else{
+                    ivCompanyNameDelete.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        etGrossPay.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length()>0){
+                    ivGrossPayDelete.setVisibility(View.VISIBLE);
+                }else{
+                    ivGrossPayDelete.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        tvPosition.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length()>0){
+                    tvPositionSelect.setVisibility(View.VISIBLE);
+                }else{
+                    tvPositionSelect.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        tvWorkExpStartAndEndTime.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length()>0){
+                    tvWorkExpStartAndEndTimeSelect.setImageResource(R.mipmap.right_arrow);
+                }else{
+                    tvWorkExpStartAndEndTimeSelect.setImageResource(R.mipmap.arrowright);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        tvWorkPlace.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length()>0){
+                    tvWorkPlaceSelect.setImageResource(R.mipmap.right_arrow);
+                }else{
+                    tvWorkPlaceSelect.setImageResource(R.mipmap.arrowright);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        tvResponsibilityDes.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length()>0){
+                    tvResponsibilityDesSelect.setImageResource(R.mipmap.right_arrow);
+                }else{
+                    tvResponsibilityDesSelect.setImageResource(R.mipmap.arrowright);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
     }
 
-    @OnClick({R.id.iv_companyNameDelete,R.id.rl_workPlace, R.id.iv_grossPayDelete, R.id.rl_position, R.id.rl_workExpStartAndEndTime, R.id.btn_nextEdu})
+    private void initDialog() {
+        datePickerSE = new MyStartAndEndTimeCustomDatePicker(this, new MyStartAndEndTimeCustomDatePicker.ResultHandler() {
+            @Override
+            public void handle(String startTime, String endTime) {
+                tvWorkExpStartAndEndTime.setText(startTime + "  至  " + endTime);
+                startTimes = startTime;
+                endTimes = endTime;
+            }
+        });
+    }
+
+    @OnClick({R.id.iv_companyNameDelete, R.id.rl_workPlace, R.id.tv_positionSelect, R.id.iv_grossPayDelete, R.id.rl_position, R.id.rl_workExpStartAndEndTime, R.id.btn_nextEdu})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_companyNameDelete:
+                etCompanyName.setText("");
                 break;
             case R.id.iv_grossPayDelete:
+                etGrossPay.setText("");
                 break;
+            case R.id.tv_positionSelect:
+                tvPosition.setText("");
             case R.id.rl_position:
                 break;
             case R.id.rl_workExpStartAndEndTime:
-                datePickerSE.show(startTimes,endTimes);
+                datePickerSE.show(startTimes, endTimes);
                 break;
             case R.id.btn_nextEdu:
-                 //doSendWorkExp();
-                JobOrderActivity.startAction(this);
+                    doSendWorkExp();
+                //JobOrderActivity.startAction(this);
                 break;
             case R.id.rl_workPlace:
-                SelectCityActivity.startAction(this,1,TAG);
+                SelectCityActivity.startAction(this, 1, TAG);
                 break;
         }
     }
 
     private void doSendWorkExp() {
-        if(etCompanyName.getText().toString()==null||"".equals(etCompanyName.getText().toString())){
+        if (etCompanyName.getText().toString() == null || "".equals(etCompanyName.getText().toString())) {
             ToastUitl.showShort("请填写公司名称");
             return;
         }
-        if(tvPosition.getText().toString()==null||"".equals(tvPosition.getText().toString())){
+        if (tvPosition.getText().toString() == null || "".equals(tvPosition.getText().toString())) {
             ToastUitl.showShort("请填写所任职位");
             return;
         }
-        if(cityId==null||"".equals(cityId)){
+        if (cityId == null || "".equals(cityId)) {
             ToastUitl.showShort("请选择工作地点");
             return;
         }
-        if(etGrossPay.getText().toString()==null||"".equals(etGrossPay.getText().toString())){
+        if (etGrossPay.getText().toString() == null || "".equals(etGrossPay.getText().toString())) {
             ToastUitl.showShort("请填写税前月薪");
             return;
         }
-        if(startTimes==null||endTimes==null||"".equals(startTimes)||"".equals(endTimes)){
+        if (startTimes == null || endTimes == null || "".equals(startTimes) || "".equals(endTimes)) {
             ToastUitl.showShort("请选择起止时间");
             return;
         }
-        if(tvResponsibilityDes.getText().toString()==null||"".equals(tvResponsibilityDes.getText().toString())){
+        if (tvResponsibilityDes.getText().toString() == null || "".equals(tvResponsibilityDes.getText().toString())) {
             ToastUitl.showShort("请填写职位描述");
             return;
         }
-        WorkExpData workExpData=new WorkExpData();
+        WorkExpData workExpData = new WorkExpData();
         workExpData.setCompany(etCompanyName.getText().toString());
         workExpData.setPosition(tvPosition.getText().toString());
         workExpData.setWorkPlace(cityId);
@@ -216,18 +391,60 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
         workExpData.setResponsibilityDescription(responbilityDes);
         mPresenter.sendWorkExpToResume(workExpData);
     }
-    public void setSelectCity(CityBean cityBean){
-        if(tvWorkPlace!=null) {
+
+    public void setSelectCity(CityBean cityBean) {
+        if (tvWorkPlace != null) {
             tvWorkPlace.setText(cityBean.getName());
         }
-        cityId=cityBean.getId();
+        cityId = cityBean.getId();
     }
-    public void setTvResponsibilityDes(String content){
+
+    public void setTvResponsibilityDes(String content) {
         tvResponsibilityDes.setText(content);
-        responbilityDes=content;
+        responbilityDes = content;
     }
+
     @OnClick(R.id.rl_responsibilityDes)
     public void onViewClicked() {
-        ContentActivity.startAction(this);
+        if ("".equals(tvResponsibilityDes.getText().toString()) || tvResponsibilityDes.getText().toString() == null) {
+            ContentActivity.startAction(this);
+        } else {
+            ContentActivity.startAction(this, tvResponsibilityDes.getText().toString());
+        }
+    }
+    private void exitOrFinishActivity(){
+        if(stopType==4){
+            myDialog=new MyDialog(this,2);
+            myDialog.setMessage(getString(R.string.exitWarning));
+            myDialog.setYesOnclickListener("确定",new MyDialog.onYesOnclickListener() {
+                @Override
+                public void onYesClick() {
+                    myDialog.dismiss();
+                    SplashActivity.startAction(WorkExpActivity.this);
+                    SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
+                    sUtils.setIntValue(Constants.ISAUTOLOGIN,0);
+                    AppManager.getAppManager().finishAllActivity();
+                }
+            });
+            myDialog.setNoOnclickListener("取消", new MyDialog.onNoOnclickListener() {
+                @Override
+                public void onNoClick() {
+                    myDialog.dismiss();
+                }
+            });
+            myDialog.show();
+        }else {
+            finish();
+        }
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK
+                && event.getAction() == KeyEvent.ACTION_DOWN) {
+            exitOrFinishActivity();
+            return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 }

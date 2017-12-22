@@ -1,5 +1,7 @@
 package com.hr.ui.utils;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hr.ui.bean.ResumeBean;
@@ -20,19 +22,19 @@ public class JsonUtils {
     /**
      * 基本信息
      */
-    private ResumeBean.ResumeInfoBean.BaseInfoBean resumeBaseInfo;
+    private List<ResumeBean.ResumeInfoBean.BaseInfoBean> resumeBaseInfo;
     /**
      * 简历头信息
      */
-    private ResumeBean.ResumeInfoBean.TitleInfoBean resumeTitle;
+    private List<ResumeBean.ResumeInfoBean.TitleInfoBean> resumeTitle;
     /**
      * 求职意向
      */
-    private ResumeBean.ResumeInfoBean.OrderInfoBean resumeOrder;
+    private List<ResumeBean.ResumeInfoBean.OrderInfoBean> resumeOrder;
     /**
      * 自我评价
      */
-    private ResumeBean.ResumeInfoBean.AssessInfoBean resumeAssessInfo;
+    private List<ResumeBean.ResumeInfoBean.AssessInfoBean> resumeAssessInfo;
     /**
      * 工作经验
      */
@@ -70,9 +72,6 @@ public class JsonUtils {
             jsonObject = new JSONObject(json);
             JSONObject jsonObject1=jsonObject.getJSONObject("resume_info");
            error_code=jsonObject.getInt("error_code");
-            resumeBaseInfo =new Gson().fromJson(jsonObject1.getString("base_info"),ResumeBean.ResumeInfoBean.BaseInfoBean.class);
-            resumeTitle = new Gson().fromJson(jsonObject1.getString("title_info"),ResumeBean.ResumeInfoBean.TitleInfoBean.class);
-            resumeOrder = new Gson().fromJson(jsonObject1.getString("order_info"),ResumeBean.ResumeInfoBean.OrderInfoBean.class);
             Type type1 = new TypeToken<ArrayList<ResumeBean.ResumeInfoBean.AssessInfoBean>>() {}.getType();
             Type type2 = new TypeToken<ArrayList<ResumeBean.ResumeInfoBean.ExperienceListBean>>() {}.getType();
             Type type3 = new TypeToken<ArrayList<ResumeBean.ResumeInfoBean.EducationListBean>>() {}.getType();
@@ -80,11 +79,11 @@ public class JsonUtils {
             Type type5 = new TypeToken<ArrayList<ResumeBean.ResumeInfoBean.LanguageListBean>>() {}.getType();
             Type type6 = new TypeToken<ArrayList<ResumeBean.ResumeInfoBean.SkillListBean>>() {}.getType();
             Type type7 = new TypeToken<ArrayList<ResumeBean.ResumeInfoBean.ProjectListBean>>() {}.getType();
-            //Log.i("个人简介",jsonObject1.getString("assess_info"));
-            if("[]".equals(jsonObject1.getString("assess_info"))||jsonObject1.getString("assess_info")==null) {
-            }else{
-                resumeAssessInfo = new Gson().fromJson(jsonObject1.getString("assess_info"), ResumeBean.ResumeInfoBean.AssessInfoBean.class);
-            }
+            Type type8 = new TypeToken<ArrayList<ResumeBean.ResumeInfoBean.TitleInfoBean>>() {}.getType();
+            Type type9 = new TypeToken<ArrayList<ResumeBean.ResumeInfoBean.OrderInfoBean>>() {}.getType();
+            Type type10 = new TypeToken<ArrayList<ResumeBean.ResumeInfoBean.BaseInfoBean>>() {}.getType();
+            Log.i("个人简介",jsonObject1.getString("assess_info"));
+            resumeAssessInfo = new Gson().fromJson(jsonObject1.getString("assess_info"), type1);
             resumeExperiences = new Gson().fromJson(jsonObject1.getString("experience_list"),type2);
             resumeEducations = new Gson().fromJson(jsonObject1.getString("education_list"),type3);
             resumePlants = new Gson().fromJson(jsonObject1.getString("plant_list"),type4);

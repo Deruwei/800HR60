@@ -5,21 +5,30 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hr.ui.R;
+import com.hr.ui.app.AppManager;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
 import com.hr.ui.bean.EducationData;
+import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.main.contract.EducationContract;
 import com.hr.ui.ui.main.modle.EducationModel;
 import com.hr.ui.ui.main.presenter.EducationPresenter;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.datautils.ResumeInfoIDToString;
+import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.CustomDatePicker;
+import com.hr.ui.view.MyDialog;
 import com.hr.ui.view.MyStartAndEndTimeCustomDatePicker;
 import com.hr.ui.view.MyTextView;
 
@@ -58,9 +67,25 @@ public class EducationActivity extends BaseActivity<EducationPresenter, Educatio
     TextView tvStartAndEndTime;
     @BindView(R.id.tv_startAndEndTimeSelect)
     ImageView tvStartAndEndTimeSelect;
-    private String degreeId,startTimes="",endTimes="";
+    @BindView(R.id.btn_nextEdu)
+    Button btnNextEdu;
+    @BindView(R.id.tv_toolbarSave)
+    TextView tvToolbarSave;
+    @BindView(R.id.iv_schoolDelete)
+    ImageView ivSchoolDelete;
+    @BindView(R.id.rl_profession)
+    RelativeLayout rlProfession;
+    @BindView(R.id.rl_education)
+    RelativeLayout rlEducation;
+    @BindView(R.id.rl_startAndEndTime)
+    RelativeLayout rlStartAndEndTime;
+    private String degreeId, startTimes = "", endTimes = "";
     private CustomDatePicker datePickerDegree;
     private MyStartAndEndTimeCustomDatePicker datePickerSE;
+    private SharedPreferencesUtils sUtils;
+    private int stopType;
+    private MyDialog myDialog;
+
     /**
      * 入口
      *
@@ -72,6 +97,7 @@ public class EducationActivity extends BaseActivity<EducationPresenter, Educatio
         activity.overridePendingTransition(R.anim.fade_in,
                 R.anim.fade_out);
     }
+
     @Override
     public void showLoading(String title) {
 
@@ -89,7 +115,12 @@ public class EducationActivity extends BaseActivity<EducationPresenter, Educatio
 
     @Override
     public void sendEducationSuccess() {
-        WorkExpActivity.startAction(this);
+        if (stopType == 2) {
+            MainActivity.startAction(this, 0);
+            AppManager.getAppManager().finishAllActivity();
+        } else {
+            WorkExpActivity.startAction(this);
+        }
     }
 
     @Override
@@ -104,6 +135,8 @@ public class EducationActivity extends BaseActivity<EducationPresenter, Educatio
 
     @Override
     public void initView() {
+        sUtils = new SharedPreferencesUtils(HRApplication.getAppContext());
+        stopType = sUtils.getIntValue(Constants.RESUME_STOPTYPE, 0);
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -114,13 +147,16 @@ public class EducationActivity extends BaseActivity<EducationPresenter, Educatio
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                exitOrFinishActivity();
             }
         });
         tvEducationTag.setTitleWidth(tvStartAndEndTimeTag);
         tvProfessionTag.setTitleWidth(tvStartAndEndTimeTag);
         tvSchoolTag.setTitleWidth(tvStartAndEndTimeTag);
         tvStartAndEndTimeTag.setTitleWidth(tvStartAndEndTimeTag);
+        if (stopType == 2) {
+            btnNextEdu.setText(R.string.complete);
+        }
     }
 
     @Override
@@ -129,69 +165,194 @@ public class EducationActivity extends BaseActivity<EducationPresenter, Educatio
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
         initDialog();
+        initListener();
     }
 
-    private void initDialog() {
-        datePickerDegree=new CustomDatePicker(this, new CustomDatePicker.ResultHandler() {
+    private void initListener() {
+        ivSchoolDelete.setVisibility(View.GONE);
+        tvProfessionSelect.setVisibility(View.GONE);
+        etSchool.addTextChangedListener(new TextWatcher() {
             @Override
-            public void handle(String time) {
-                tvEducation.setText(time);
-                degreeId= ResumeInfoIDToString.getEducationDegreeId(HRApplication.getAppContext(),time);
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                if(s.length()==0){
+                    ivSchoolDelete.setVisibility(View.GONE);
+                }
             }
-        },getResources().getStringArray(R.array.array_degree_zh));
-        datePickerSE=new MyStartAndEndTimeCustomDatePicker(this, new MyStartAndEndTimeCustomDatePicker.ResultHandler() {
 
             @Override
-            public void handle(String startTime, String endTime) {
-                tvStartAndEndTime.setText(startTime+"  至  "+endTime);
-               startTimes=startTime;
-               endTimes=endTime;
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() > 0) {
+                    ivSchoolDelete.setVisibility(View.VISIBLE);
+                }else {
+                    ivSchoolDelete.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        tvProfession.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length()>0){
+                    tvProfessionSelect.setVisibility(View.VISIBLE);
+                }else{
+                    tvProfessionSelect.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        tvEducation.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length()>0){
+                    tvEducationSelect.setImageResource(R.mipmap.right_arrow);
+                }else{
+                    tvEducationSelect.setImageResource(R.mipmap.arrowright);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        tvStartAndEndTime.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length()>0){
+                    tvStartAndEndTimeSelect.setImageResource(R.mipmap.right_arrow);
+                }else{
+                    tvStartAndEndTimeSelect.setImageResource(R.mipmap.arrowright);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
     }
 
-    @OnClick({R.id.iv_schoolDelete, R.id.rl_profession, R.id.rl_education, R.id.rl_startAndEndTime, R.id.btn_nextEdu})
+    private void initDialog() {
+        datePickerDegree = new CustomDatePicker(this, new CustomDatePicker.ResultHandler() {
+            @Override
+            public void handle(String time) {
+                tvEducation.setText(time);
+                degreeId = ResumeInfoIDToString.getEducationDegreeId(HRApplication.getAppContext(), time);
+            }
+        }, getResources().getStringArray(R.array.array_degree_zh));
+        datePickerSE = new MyStartAndEndTimeCustomDatePicker(this, new MyStartAndEndTimeCustomDatePicker.ResultHandler() {
+
+            @Override
+            public void handle(String startTime, String endTime) {
+                tvStartAndEndTime.setText(startTime + "  至  " + endTime);
+                startTimes = startTime;
+                endTimes = endTime;
+            }
+        });
+    }
+
+    @OnClick({R.id.iv_schoolDelete, R.id.tv_professionSelect, R.id.rl_education, R.id.rl_startAndEndTime, R.id.btn_nextEdu})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_schoolDelete:
+                etSchool.setText("");
                 break;
-            case R.id.rl_profession:
+            case R.id.tv_professionSelect:
+                tvProfession.setText("");
                 break;
             case R.id.rl_education:
                 datePickerDegree.show(tvEducation.getText().toString());
                 break;
             case R.id.rl_startAndEndTime:
-                datePickerSE.show(startTimes,endTimes);
+                datePickerSE.show(startTimes, endTimes);
                 break;
             case R.id.btn_nextEdu:
-                WorkExpActivity.startAction(this);
-                //doSendEducation();
+                //WorkExpActivity.startAction(this);
+                doSendEducation();
                 break;
         }
     }
 
     private void doSendEducation() {
-        if(etSchool.getText().toString()==null||"".equals(etSchool.getText().toString())){
+        if (etSchool.getText().toString() == null || "".equals(etSchool.getText().toString())) {
             ToastUitl.showShort("请填写学校");
             return;
         }
-        if("".equals(tvProfession.getText().toString())||tvProfession.getText().toString()==null){
+        if ("".equals(tvProfession.getText().toString()) || tvProfession.getText().toString() == null) {
             ToastUitl.showShort("请填写专业");
             return;
         }
-        if(degreeId==null||"".equals(degreeId)){
+        if (degreeId == null || "".equals(degreeId)) {
             ToastUitl.showShort("请选择学历");
             return;
         }
-        if("".equals(startTimes)||"".equals(endTimes)||endTimes==null||startTimes==null){
+        if ("".equals(startTimes) || "".equals(endTimes) || endTimes == null || startTimes == null) {
             ToastUitl.showShort("请选择起止时间");
         }
-        EducationData educationData=new EducationData();
+        EducationData educationData = new EducationData();
         educationData.setSchoolName(etSchool.getText().toString());
         educationData.setDegree(degreeId);
         educationData.setProfession(tvProfession.getText().toString());
         educationData.setStartTime(startTimes);
         educationData.setEndTime(endTimes);
         mPresenter.sendEducationToResume(educationData);
+    }
+    private void exitOrFinishActivity(){
+        if(stopType==4){
+            myDialog=new MyDialog(this,2);
+            myDialog.setMessage(getString(R.string.exitWarning));
+            myDialog.setYesOnclickListener("确定",new MyDialog.onYesOnclickListener() {
+                @Override
+                public void onYesClick() {
+                    myDialog.dismiss();
+                    SplashActivity.startAction(EducationActivity.this);
+                    SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
+                    sUtils.setIntValue(Constants.ISAUTOLOGIN,0);
+                    AppManager.getAppManager().finishAllActivity();
+                }
+            });
+            myDialog.setNoOnclickListener("取消", new MyDialog.onNoOnclickListener() {
+                @Override
+                public void onNoClick() {
+                    myDialog.dismiss();
+                }
+            });
+            myDialog.show();
+        }else {
+            finish();
+        }
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK
+                && event.getAction() == KeyEvent.ACTION_DOWN) {
+            exitOrFinishActivity();
+            return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 }

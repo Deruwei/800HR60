@@ -3,7 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/tv_bg_newmain"
-    android:drawableRight="@drawable/close_orange"
+    android:drawableRight="@mipmap/delete_orange"
     android:drawablePadding="10dp"
     android:textColor="@color/new_main">
 </TextView>

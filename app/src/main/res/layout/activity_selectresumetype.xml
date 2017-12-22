@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
+        android:id="@+id/rl_selectIdentify"
+        android:layout_width="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dimen_selectIdentify_marginTop"
+            android:textSize="@dimen/dimen_selectIdentifyTitle"
+            android:text="@string/selectIdentify"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <LinearLayout
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rl_selectIdentify"
+        android:layout_width="0dp"
+        android:layout_height="0dp">
+        <RelativeLayout
+            android:id="@+id/rl_selectStudent"
+            android:layout_marginTop="@dimen/dimen_selectIdentify2_marginTop"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/iv_student"
+                android:src="@mipmap/student"
+                android:layout_width="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="@dimen/dimen_selectIdentifyStudent_marginTop"
+                android:text="@string/student"
+                android:textSize="@dimen/dimen_Student"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rl_selectHasJob"
+            android:layout_marginTop="@dimen/dimen_selectIdentify2_marginTop"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/iv_hasJob"
+                android:src="@mipmap/job"
+                android:layout_width="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="@dimen/dimen_selectIdentifyStudent_marginTop"
+                android:text="@string/alreadyWork"
+                android:textSize="@dimen/dimen_Student"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

@@ -292,13 +292,37 @@ public class ApiParameter {
     public static HashMap<String,String> sendJobOrderToResume(JobOrderData jobOrderData){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_resume.orderset");
-        requestMap.put("current_workstate","");
+        requestMap.put("current_workstate","11");
         requestMap.put("jobtype",jobOrderData.getWorkType());
         requestMap.put("industry",jobOrderData.getIndustry());
         requestMap.put("func",jobOrderData.getExpectPosition());
-        requestMap.put("workarea","");
+        requestMap.put("lingyu",jobOrderData.getExpectArea());
         requestMap.put("order_salary",jobOrderData.getSalary());
+        requestMap.put("workarea",jobOrderData.getAddress());
         requestMap.put("resume_language","zh");
+        requestMap.put("save_mode","1");
+        return requestMap;
+    }
+
+    /**
+     * 修改简历的类型
+     * @param type
+     * @return
+     */
+    public static HashMap<String,String> setResumeType(String type){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user_resume.typeset");
+        requestMap.put("resume_type",type);
+        return requestMap;
+    }
+
+    public static HashMap<String,String> setDefaultResume(String resumeId,String important){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user_resume.setimportant");
+        requestMap.put("resume_id",resumeId);
+        requestMap.put("resume_language","zh");
+        requestMap.put("resume_id",resumeId);
+        requestMap.put("important",important);
         return requestMap;
     }
 }

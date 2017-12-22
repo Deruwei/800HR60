@@ -80,11 +80,13 @@
     <string name="error_2013">用户名不合法(支持字母、数字、下划线，长度4-25位)</string>
     <string name="error_2014">用户名已存在</string>
     <string name="goInto">立即体验</string>
+    <string name="exit">退出</string>
     //我的
     <string name="collection">收藏</string>
     <string name="scan_history">历史记录</string>
     <string name="feedback">意见反馈</string>
     <string name="setting">设置</string>
+    <string name="company">企业入口</string>
     <string name="home">主页</string>
     <string name="message">消息</string>
     <string name="resume">简历</string>
@@ -104,6 +106,7 @@
     <string name="bindUserAccount">绑定帐号</string>
     <string name="hasPhoneAcccount">已有手机帐号？</string>
     <string name="hasUserAccount">已有邮箱帐号？</string>
+    <string name="hasAccount">已有帐号？去登录</string>
     <string name="findPswUsePhone">用手机找回密码</string>
     <string name="userThirdPartLogin">使用下列帐号快速登录</string>
     <string name="accountNumber">用户名</string>
@@ -116,17 +119,22 @@
     <string name="hasMoreResumeWarnning">为确保求职的准确性，请选择一份简历为默认简历</string>
     <string name="hasMoreResumeHelper">点击预览可查看该简历内容</string>
     <string name="preview">点击预览</string>
+    <string name="previewResume">预览</string>
     <string name="setDefault">设置默认</string>
+    <string name="industry">行业</string>
+    <string name="function">领域</string>
     <string name="intelligentRobotGreeting">您好，我是职位智能匹配机器人。</string>
     <string name="intelligentRobotHelper">为了帮助您匹配到更多合适的职位，能填写下面的这份简历吗？</string>
     <string name="resumeNone">简历未填写部分：</string>
     <string name="fillInResume">开始填写</string>
     <string name="submitSuccess">提交成功</string>
+    <string name="exitWarning">当前内容还未保存，确定要退出吗？</string>
     <string name="cancle">取消</string>
     <string name="startTime">开始时间</string>
     <string name="endTime">结束时间</string>
     <string name="sure">确定</string>
     <string name="selectedPosition">已选职位</string>
+    <string name="selectedCity">已选城市</string>
     <string name="submitSuccessMsg">密码修改链接已提交到您的邮箱，请前去邮箱验证。</string>
     <string name="alright">好的,开始填写</string>
 
@@ -136,6 +144,7 @@
     <string name="month">月</string>
     <string name="day">日</string>
     <string name="selectCity">选择城市</string>
+    <string name="selectField">选择领域</string>
     <string name="student">学生</string>
     <string name="alreadyWork">已工作</string>
     <string name="selectIdentify">选择身份</string>
@@ -156,6 +165,7 @@
     <string name="workTime">工作时间</string>
     <string name="email">电子邮箱</string>
     <string name="jobTitle">现有职称</string>
+    <string name="phone">手机</string>
     <string name="next">下一步</string>
     <string name="educationBackground">教育背景</string>
     <string name="educationBackgroundHelper">有助于展现你过去的学习情况</string>
@@ -168,6 +178,7 @@
     <string name="startAndEndTime">起止时间</string>
     <string name="startAndEndTime_hint">请选择起止时间</string>
     <string name="workExperience">工作经验</string>
+    <string name="workExp">工作经历</string>
     <string name="workExperienceHelper">有助于hr了解你过去的工作情况</string>
     <string name="companyName">公司名称</string>
     <string name="companyName_hint">请填写公司名称</string>
@@ -182,21 +193,56 @@
     <string name="jobIntention">求职意向</string>
     <string name="jobIntentionHelper">设置求职意向，开始找工作吧！</string>
     <string name="workType">工作性质</string>
+    <string name="jobType">求职类型</string>
+    <string name="jobStyle">求职状态</string>
     <string name="workType_hint">请选择工作性质</string>
     <string name="expectedField">期望领域</string>
+    <string name="expectedIndustry">期望行业</string>
+    <string name="workCity">工作城市</string>
     <string name="expectedField_hint">请选择期望领域</string>
     <string name="expectedPosition">期望职位</string>
     <string name="expectedPosition_hint">请选择期望职位</string>
-    <string name="expectSalary">期望月薪</string>
+    <string name="expectSalary">期望薪资</string>
     <string name="expectSalary_hint">请填写期望月薪</string>
     <string name="internshipExperience">实习经历</string>
     <string name="internshipExperienceHelper">有助于hr了解你过去的实习情况</string>
     <string name="internshipPlace">实习地点</string>
     <string name="noIntership">没有实习经历，跳过</string>
     <string name="complete">完成</string>
-    
+    <string name="trainExp">培训经历</string>
+    <string name="trainORG">培训机构</string>
+    <string name="trainClass">培训课程</string>
+    <string name="trainDes">培训描述</string>
+    <string name="languageSkill">语言能力</string>
+    <string name="language">语言</string>
+    <string name="listenSpeak">听说</string>
+    <string name="readWrite">读写</string>
+    <string name="projectExp">项目经验</string>
+    <string name="projectName">项目名称</string>
+    <string name="projectTime">项目时间</string>
+    <string name="projectDes">项目描述</string>
+    <string name="projectPosition">项目职务</string>
+    <string name="projectResponsibility">项目职责</string>
+    <string name="professionSkill">专业技能</string>
+    <string name="professionName">技能名称</string>
+    <string name="professionUseTime">使用时间</string>
+    <string name="professionLevel">专业水平</string>
+    <string name="addEducationBackground">+增加教育背景</string>
+    <string name="uploadResume">上传附件简历</string>
+    <string name="addWorkExp">+增加工作经历</string>
+    <string name="addInternshipExp">+增加实习经历</string>
+    <string name="addProjectExp">+增加项目经验</string>
+    <string name="addProfessionSkill">+增加专业技能</string>
+    <string name="addLanguageSkill">+增加语言能力</string>
+    <string name="addTrainExp">+增加培训经历</string>
+    <string name="addIntroduction">+增加自我介绍</string>
+    <string name="introduction">自我介绍</string>
+    <string name="resumeAttachment">附件简历</string>
+    <string name="hideResume">隐藏简历</string>
+    <string name="addResumeAttachment">+增加附件简历</string>
     //编辑页面
     <string name="save">保存</string>
+    <string name="deleteThis">删除本条</string>
     <string name="cancel">取消</string>
     <string name="confirm">确定</string>
     <string name="chooseIndustry">选择一个行业</string>
@@ -221,4 +267,6 @@
     <string name="refresh_done">refresh done</string>
     <string name="loading_done">loading done</string>
     <string name="listview_header_last_time">last update：</string>
+    <string name="resumeInfo">简历详情</string>
+    <string name="photo">头像</string>
 </resources>

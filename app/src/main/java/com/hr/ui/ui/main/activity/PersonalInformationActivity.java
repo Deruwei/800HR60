@@ -4,13 +4,17 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hr.ui.R;
@@ -19,14 +23,17 @@ import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
 import com.hr.ui.bean.CityBean;
 import com.hr.ui.bean.PersonalInformationData;
+import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.main.contract.PersonalInformationContract;
 import com.hr.ui.ui.main.modle.PersonalInformationModel;
 import com.hr.ui.ui.main.presenter.PersonalInformationPresenter;
 import com.hr.ui.utils.RegularExpression;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.datautils.ResumeInfoIDToString;
+import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.CustomDatePicker;
 import com.hr.ui.view.MyCustomDatePicker;
+import com.hr.ui.view.MyDialog;
 import com.hr.ui.view.MyTextView;
 
 import java.text.SimpleDateFormat;
@@ -89,14 +96,21 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
     TextView tvPositionTitle;
     @BindView(R.id.tv_positionTitleSelect)
     ImageView tvPositionTitleSelect;
+    @BindView(R.id.view8)
+    RelativeLayout view8;
+    @BindView(R.id.rl_workTime)
+    RelativeLayout rlWorkTime;
     @BindView(R.id.btn_next)
     Button btnNext;
-    private CustomDatePicker customDatePickerJobTitle,datePickerSex,datePickerStartJobTime;
+    private SharedPreferencesUtils sUtis;
+    private int stopType;
+    private CustomDatePicker customDatePickerJobTitle, datePickerSex, datePickerStartJobTime;
     private MyCustomDatePicker datePickerBirth;
-    private String jobTitleId,sex,bitrh,cityId,workTime;
+    private String jobTitleId, sex, bitrh, cityId, workTime, phoneNumber;
     public static PersonalInformationActivity instance;
-    public static final String TAG=PersonalInformationActivity.class.getSimpleName();
-
+    private String type;//简历类型 学生 已工作
+    public static final String TAG = PersonalInformationActivity.class.getSimpleName();
+    private MyDialog myDialog;
     /**
      * 入口
      *
@@ -108,6 +122,7 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
         activity.overridePendingTransition(R.anim.fade_in,
                 R.anim.fade_out);
     }
+
     @Override
     public void showLoading(String title) {
 
@@ -125,7 +140,12 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
 
     @Override
     public void sendInformationSuccess() {
-        EducationActivity.startAction(this);
+        if(stopType==1) {
+            MainActivity.startAction(this,0);
+            AppManager.getAppManager().finishAllActivity();
+        }else{
+            EducationActivity.startAction(this);
+        }
     }
 
     @Override
@@ -140,6 +160,8 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
 
     @Override
     public void initView() {
+        sUtis = new SharedPreferencesUtils(this);
+        stopType = sUtis.getIntValue(Constants.RESUME_STOPTYPE, 0);
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -150,9 +172,21 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                exitOrFinishActivity();
             }
         });
+        type = sUtis.getStringValue(Constants.RESUME_TYPE, "");
+        phoneNumber = sUtis.getStringValue(Constants.USERPHONE, "");
+        if (type != null && !"".equals(type)) {
+            if ("1".equals(type)) {
+                view8.setVisibility(View.VISIBLE);
+            } else if ("2".equals(type)) {
+                view8.setVisibility(View.GONE);
+            }
+        }
+        if(stopType==1){
+            btnNext.setText(R.string.complete);
+        }
         tvNameTag.setTitleWidth(tvBirthTag);
         tvSexTag.setTitleWidth(tvBirthTag);
         tvBirthTag.setTitleWidth(tvBirthTag);
@@ -170,11 +204,11 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    if(s.length()>0){
-                        ivNameDelete.setVisibility(View.VISIBLE);
-                    }else{
-                        ivNameDelete.setVisibility(View.GONE);
-                    }
+                if (s.length() > 0) {
+                    ivNameDelete.setVisibility(View.VISIBLE);
+                } else {
+                    ivNameDelete.setVisibility(View.GONE);
+                }
             }
 
             @Override
@@ -190,9 +224,9 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()>0){
+                if (s.length() > 0) {
                     tvEmailDelete.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     tvEmailDelete.setVisibility(View.GONE);
                 }
             }
@@ -210,9 +244,9 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()>0){
+                if (s.length() > 0) {
                     tvBirthSelect.setImageResource(R.mipmap.right_arrow);
-                }else{
+                } else {
                     tvBirthSelect.setImageResource(R.mipmap.arrowright);
                 }
             }
@@ -230,9 +264,9 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()>0){
+                if (s.length() > 0) {
                     ivSexSelect.setImageResource(R.mipmap.right_arrow);
-                }else{
+                } else {
                     ivSexSelect.setImageResource(R.mipmap.arrowright);
                 }
             }
@@ -250,9 +284,9 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()>0){
+                if (s.length() > 0) {
                     tvLivePlaceSelect.setImageResource(R.mipmap.right_arrow);
-                }else{
+                } else {
                     tvLivePlaceSelect.setImageResource(R.mipmap.arrowright);
                 }
             }
@@ -270,9 +304,9 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()>0){
+                if (s.length() > 0) {
                     tvWorkTimeSelect.setImageResource(R.mipmap.right_arrow);
-                }else{
+                } else {
                     tvWorkTimeSelect.setImageResource(R.mipmap.arrowright);
                 }
             }
@@ -290,9 +324,9 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()>0){
+                if (s.length() > 0) {
                     tvPositionTitleSelect.setImageResource(R.mipmap.right_arrow);
-                }else{
+                } else {
                     tvPositionTitleSelect.setImageResource(R.mipmap.arrowright);
                 }
             }
@@ -309,61 +343,61 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
-        instance=this;
+        instance = this;
         initDialog();
     }
 
     private void initDialog() {
-        customDatePickerJobTitle=new CustomDatePicker(this, new CustomDatePicker.ResultHandler() {
+        customDatePickerJobTitle = new CustomDatePicker(this, new CustomDatePicker.ResultHandler() {
             @Override
             public void handle(String time) {
-                jobTitleId= ResumeInfoIDToString.getZhiChengId(HRApplication.getAppContext(),time);
+                jobTitleId = ResumeInfoIDToString.getZhiChengId(HRApplication.getAppContext(), time);
                 tvPositionTitle.setText(time);
             }
-        },getResources().getStringArray(R.array.array_zhicheng_zh));
-        datePickerSex=new CustomDatePicker(this, new CustomDatePicker.ResultHandler() {
+        }, getResources().getStringArray(R.array.array_zhicheng_zh));
+        datePickerSex = new CustomDatePicker(this, new CustomDatePicker.ResultHandler() {
             @Override
             public void handle(String time) {
-              sex=ResumeInfoIDToString.getSexId(HRApplication.getAppContext(),time);
-              tvSex.setText(time);
+                sex = ResumeInfoIDToString.getSexId(HRApplication.getAppContext(), time);
+                tvSex.setText(time);
             }
-        },getResources().getStringArray(R.array.array_sex_zh));
+        }, getResources().getStringArray(R.array.array_sex_zh));
 
-        datePickerBirth=new MyCustomDatePicker(this, new MyCustomDatePicker.ResultHandler() {
+        datePickerBirth = new MyCustomDatePicker(this, new MyCustomDatePicker.ResultHandler() {
             @Override
             public void handle(String time) {
                 tvBirth.setText(time);
-                bitrh=time;
+                bitrh = time;
             }
         });
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy");//格式为 2013年9月3日 14:44
         Date curDate = new Date(System.currentTimeMillis());//获取当前时间
-        int endYear=Integer.parseInt(formatter.format(curDate)) ;
-        String[] s=new String[70];
-        for(int i=0;i<70;i++){
-            s[i]=(endYear-i)+"";
+        int endYear = Integer.parseInt(formatter.format(curDate));
+        String[] s = new String[70];
+        for (int i = 0; i < 70; i++) {
+            s[i] = (endYear - i) + "";
         }
-        datePickerStartJobTime=new CustomDatePicker(this, new CustomDatePicker.ResultHandler() {
+        datePickerStartJobTime = new CustomDatePicker(this, new CustomDatePicker.ResultHandler() {
             @Override
             public void handle(String time) {
                 tvWorkTime.setText(time);
-                workTime=time;
+                workTime = time;
             }
-        },s);
+        }, s);
     }
 
-    @OnClick({R.id.rl_sex, R.id.rl_birth,R.id.tv_emailDelete, R.id.rl_livePlace, R.id.rl_workTime, R.id.rl_email,R.id.iv_nameDelete, R.id.rl_positionTitle,R.id.btn_next})
+    @OnClick({R.id.rl_sex, R.id.rl_birth, R.id.tv_emailDelete, R.id.rl_livePlace, R.id.rl_workTime, R.id.rl_email, R.id.iv_nameDelete, R.id.rl_positionTitle, R.id.btn_next})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_sex:
                 datePickerSex.show(tvSex.getText().toString());
                 break;
             case R.id.rl_birth:
-                String s=tvBirth.getText().toString();
-                datePickerBirth.show(s,3);
+                String s = tvBirth.getText().toString();
+                datePickerBirth.show(s, 3);
                 break;
             case R.id.rl_livePlace:
-                SelectCityActivity.startAction(this,1,TAG);
+                SelectCityActivity.startAction(this, 1, TAG);
                 break;
             case R.id.rl_workTime:
                 datePickerStartJobTime.show(tvWorkTime.getText().toString());
@@ -374,8 +408,7 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
                 customDatePickerJobTitle.show(tvPositionTitle.getText().toString());
                 break;
             case R.id.btn_next:
-                EducationActivity.startAction(this);
-                //doSendPersonalInformation();
+                doSendPersonalInformation();
                 break;
             case R.id.iv_nameDelete:
                 etName.setText("");
@@ -387,50 +420,90 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
     }
 
     private void doSendPersonalInformation() {
-        if(etName.getText().toString()==null||"".equals(etName.getText().toString())){
+        if (etName.getText().toString() == null || "".equals(etName.getText().toString())) {
             ToastUitl.showShort("请填写姓名");
             return;
         }
-        if("".equals(sex)){
+        if ("".equals(sex)) {
             ToastUitl.showShort("请选择性别");
             return;
         }
-        if("".equals(bitrh)||bitrh==null){
+        if ("".equals(bitrh) || bitrh == null) {
             ToastUitl.showShort("请选择出生日期");
             return;
         }
-        if("".equals(cityId)||cityId==null){
+        if ("".equals(cityId) || cityId == null) {
             ToastUitl.showShort("请选择现居住地");
             return;
         }
-        if(etEmail.getText().toString()==null||"".equals(etEmail.getText().toString())){
+        if (etEmail.getText().toString() == null || "".equals(etEmail.getText().toString())) {
             ToastUitl.showShort("请填写电子邮箱");
             return;
         }
-        if(RegularExpression.isEmail(etEmail.getText().toString())==false){
+        if (RegularExpression.isEmail(etEmail.getText().toString()) == false) {
             ToastUitl.showShort("请填写正确的邮箱");
             return;
         }
-        if("".equals(jobTitleId)||jobTitleId==null){
+        if ("".equals(jobTitleId) || jobTitleId == null) {
             ToastUitl.showShort("请选择现有职称");
             return;
         }
-        PersonalInformationData personalInformationData=new PersonalInformationData();
+        PersonalInformationData personalInformationData = new PersonalInformationData();
         personalInformationData.setName(etName.getText().toString());
         personalInformationData.setSex(sex);
         personalInformationData.setBirth(bitrh);
         personalInformationData.setLivePlace(cityId);
         personalInformationData.setEmail(etEmail.getText().toString());
-        personalInformationData.setWorkTime(workTime);
-        personalInformationData.setPhoneNumber("17319277396");
+        if ("1".equals(type)) {
+            personalInformationData.setWorkTime(workTime);
+        } else {
+            personalInformationData.setWorkTime("-1");
+        }
+        personalInformationData.setPhoneNumber(phoneNumber);
         personalInformationData.setPositionTitle(jobTitleId);
+        Log.i("手机号码", phoneNumber);
         mPresenter.sendPersonalInformationToResume(personalInformationData);
     }
 
-    public void setSelectCity(CityBean cityBean){
-        if(tvLivePlace!=null) {
+    public void setSelectCity(CityBean cityBean) {
+        if (tvLivePlace != null) {
             tvLivePlace.setText(cityBean.getName());
         }
-        cityId=cityBean.getId();
+        cityId = cityBean.getId();
+    }
+    private void exitOrFinishActivity(){
+        if(stopType==4){
+            myDialog=new MyDialog(this,2);
+            myDialog.setMessage(getString(R.string.exitWarning));
+            myDialog.setYesOnclickListener("确定",new MyDialog.onYesOnclickListener() {
+                @Override
+                public void onYesClick() {
+                    myDialog.dismiss();
+                    SplashActivity.startAction(PersonalInformationActivity.this);
+                    SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
+                    sUtils.setIntValue(Constants.ISAUTOLOGIN,0);
+                    AppManager.getAppManager().finishAllActivity();
+                }
+            });
+            myDialog.setNoOnclickListener("取消", new MyDialog.onNoOnclickListener() {
+                @Override
+                public void onNoClick() {
+                    myDialog.dismiss();
+                }
+            });
+            myDialog.show();
+        }else {
+            finish();
+        }
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK
+                && event.getAction() == KeyEvent.ACTION_DOWN) {
+            exitOrFinishActivity();
+            return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 }

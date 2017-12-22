@@ -11,6 +11,7 @@
         android:background="@drawable/free_dialog_bg"
         android:orientation="vertical">
         <RelativeLayout
+            android:id="@+id/rl_title"
             android:layout_margin="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

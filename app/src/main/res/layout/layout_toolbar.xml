@@ -22,6 +22,16 @@
             android:layout_gravity="center"
             android:text=""
             android:textColor="@color/color_333"
-            android:textSize="20sp" />
+            android:textSize="@dimen/x36" />
+        <TextView
+            android:visibility="gone"
+            android:text="@string/save"
+            android:layout_gravity="right"
+            android:layout_marginRight="@dimen/dimen_15dp"
+            android:id="@+id/tv_toolbarSave"
+            android:textColor="@color/new_main"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </android.support.v7.widget.Toolbar>
 </android.support.constraint.ConstraintLayout>

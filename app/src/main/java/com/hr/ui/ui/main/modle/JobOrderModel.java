@@ -32,4 +32,18 @@ public class JobOrderModel implements JobOrderContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(RxSchedulers.<ResponseBody>io_main());
     }
+
+    @Override
+    public Observable<ResponseBody> setDefaultResume(String resumeId, String important) {
+        return Api.getDefault(HostType.HR).getResponseString(EncryptUtils.encrypParams(ApiParameter.setDefaultResume(resumeId,important)))
+                .map(new Func1<ResponseBody, ResponseBody>() {
+                    @Override
+                    public ResponseBody call(ResponseBody responseBody) {
+                        return responseBody;
+                    }
+                })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxSchedulers.<ResponseBody>io_main());
+    }
 }

@@ -6,6 +6,7 @@ import com.hr.ui.bean.MultipleResumeBean;
 import com.hr.ui.bean.NoDataBean;
 import com.hr.ui.bean.RegisterBean;
 import com.hr.ui.bean.ResumeBean;
+import com.hr.ui.bean.ResumeIdBean;
 import com.hr.ui.bean.ValidCodeBean;
 import com.hr.ui.constants.Constants;
 
@@ -86,4 +87,8 @@ public interface ApiService {
 
     @GET
     Observable<ResponseBody> getLingYuArray(@Url String url);
+
+    @POST(Constants.API_MIDDLE_TEST)
+    @FormUrlEncoded
+    Observable<ResumeIdBean> setResumeType(@FieldMap HashMap<String,String> map);
 }
