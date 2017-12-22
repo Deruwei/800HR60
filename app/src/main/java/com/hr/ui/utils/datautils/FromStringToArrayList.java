@@ -49,6 +49,8 @@ public class FromStringToArrayList {
             e.printStackTrace();
         }
         return cityBeanList;
+
+
     }
     public  List<CityBean> getExpectPosition(String industryId){
         List<CityBean> expectPositionList=new ArrayList<>();
@@ -72,6 +74,41 @@ public class FromStringToArrayList {
             e.printStackTrace();
         }
         return expectPositionList;
+    }
+    public String getCityListName(String text) {
+        List<CityBean> cityBeanList = new ArrayList<>();
+        String s = SaveFile.getDataFromInternalStorage(HRApplication.getAppContext(), "city.txt");
+        try {
+            JSONArray cityJSONArray = new JSONArray(s);
+            for (int i = 0; i < cityJSONArray.length(); i++) {
+                CityBean cityBean = new CityBean();
+                JSONObject object = cityJSONArray.getJSONObject(i);
+                Iterator it = object.keys();
+                while (it.hasNext()) {
+                    String key = (String) it.next();
+                    cityBean.setId(key);
+                    cityBean.setName(object.getString(key));
+                    cityBean.setCheck(false);
+                }
+                cityBeanList.add(cityBean);
+            }
+            //System.out.println("cityBean"+cityBeanList.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String[] ids=text.split(",");
+        StringBuffer sb=new StringBuffer();
+        for(int j=0;j<ids.length;j++) {
+            for (int i = 0; i < cityBeanList.size(); i++) {
+                if(ids[j].equals(cityBeanList.get(i).getId())) {
+                    sb.append(","+cityBeanList.get(i).getName());
+                    continue;
+                }
+            }
+
+        }
+        sb.deleteCharAt(0);
+        return sb.toString();
     }
     public List<CityBean> getIndustryList(){
         List<CityBean> industryList=new ArrayList<>();

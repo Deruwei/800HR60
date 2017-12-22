@@ -150,7 +150,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
 
     @Override
     public void getResumeDataSuccess(ResumeBean resumeBean) {
-        Log.i("ok","你好");
+       // Log.i("ok","你好");
         ToolUtils.getInstance().judgeResumeIsComplete(resumeBean,this,titles);
     }
 

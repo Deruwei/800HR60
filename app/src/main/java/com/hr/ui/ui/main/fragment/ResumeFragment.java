@@ -200,7 +200,7 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
                 yearStringInt = Integer.parseInt(yearString);
             }
             int ageInt = curYear - yearStringInt;
-            tvResumePersonInfo.setText(ResumeInfoIDToString.getSexName(getActivity(),baseInfoBean.get(0).getSex())+" "+ageInt+"岁 "+ResumeInfoIDToString.getCityID(getActivity(),baseInfoBean.get(0).getAddress(),true));
+            tvResumePersonInfo.setText(ResumeInfoIDToString.getSexName(getActivity(),baseInfoBean.get(0).getSex())+"  "+ageInt+"岁  "+FromStringToArrayList.getInstance().getCityListName(baseInfoBean.get(0).getLocation()));
             tvResumePersonEmail.setText(baseInfoBean.get(0).getEmailaddress());
             tvResumePersonTel.setText(baseInfoBean.get(0).getYdphone());
         }
