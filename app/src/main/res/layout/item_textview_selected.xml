@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@drawable/tv_bg_newmain"
-    android:drawableRight="@mipmap/delete_orange"
-    android:drawablePadding="10dp"
-    android:textColor="@color/new_main">
-</TextView>
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/item_select"
+        android:padding="@dimen/x18"
+        android:background="@drawable/tv_bg_newmain"
+        android:drawableRight="@mipmap/delete_orange"
+        android:drawablePadding="@dimen/x13"
+        android:textColor="@color/new_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</LinearLayout>
