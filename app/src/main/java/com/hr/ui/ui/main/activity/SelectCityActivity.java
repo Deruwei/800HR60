@@ -335,11 +335,10 @@ public class SelectCityActivity extends BaseNoConnectNetworkAcitivty {
         params.topMargin = 12;
         params.bottomMargin = 12;
         params.rightMargin = 15;
-        final TextView tv = (TextView) LayoutInflater.from(this).inflate(
+        final LinearLayout ll = (LinearLayout) LayoutInflater.from(this).inflate(
                 R.layout.item_textview_selected, null, false);
-        tv.setLayoutParams(params);
-        tv.setGravity(Gravity.CENTER);
-        tv.setPadding(6, 4, 6, 4);
+        ll.setLayoutParams(params);
+       TextView tv=ll.findViewById(R.id.item_select);
         tv.setText(cityBean.getName());
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -355,8 +354,8 @@ public class SelectCityActivity extends BaseNoConnectNetworkAcitivty {
                 setNum();
             }
         });
-        tv.setTag(cityBean.getId());
-        llSelectedCity.addView(tv);
+        ll.setTag(cityBean.getId());
+        llSelectedCity.addView(ll);
         setNum();
     }
 

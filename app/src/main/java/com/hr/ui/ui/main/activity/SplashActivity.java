@@ -29,6 +29,7 @@ import com.hr.ui.ui.main.modle.SplashModel;
 import com.hr.ui.ui.main.presenter.SplashPresenter;
 import com.hr.ui.utils.AnimationUtil;
 import com.hr.ui.utils.LoadingTip;
+import com.hr.ui.utils.ToolUtils;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 
 import java.util.ArrayList;
@@ -162,49 +163,12 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
 
     @Override
     public void getResumeListSuccess(MultipleResumeBean multipleResumeBean) {
-        if(multipleResumeBean.getResume_list()==null||"".equals(multipleResumeBean.getResume_list())||multipleResumeBean.getResume_list().size()==0){
-            RobotActivity.startAction(this,userId);
-        }else{
-            if(multipleResumeBean.getResume_list().size()==1){
-                mPresenter.getResumeData(multipleResumeBean.getResume_list().get(0).getResume_id());
-            }else{
-                ResumeDataUtils.deleteAll();
-                List<MultipleResumeBean.ResumeListBean> resumeListBeanList=multipleResumeBean.getResume_list();
-                //Log.i("niham,s,s,",resumeListBeanList.toString());
-                for(int j=0;j<resumeListBeanList.size();j++){
-                    ResumeData resumeData=new ResumeData();
-                    resumeData.setResumeId(resumeListBeanList.get(j).getResume_id());
-                    resumeData.setTitle(resumeListBeanList.get(j).getTitle());
-                    resumeData.setComplete(resumeListBeanList.get(j).getFill_scale());
-                    resumeData.setImageId(imageIds[j]);
-                    ResumeDataUtils.insertResumeData(resumeData);
-                }
-                MultipleResumeActivity.startAction(this,userId);
-            }
-        }
+        ToolUtils.getInstance().judgeResumeMultipleOrOne3(this, multipleResumeBean,userId,imageIds,mPresenter);
     }
 
     @Override
     public void getResumeDataSuccess(ResumeBean resumeBean) {
-        titles=new ArrayList<>();
-        if(resumeBean.getResume_info().getBase_info()==null||"".equals(resumeBean.getResume_info().getBase_info())){
-            titles.add("基本信息");
-        }
-        if(resumeBean.getResume_info().getEducation_list()==null||"".equals(resumeBean.getResume_info().getEducation_list())||resumeBean.getResume_info().getEducation_list().size()==0){
-            titles.add("教育背景");
-        }
-        if(resumeBean.getResume_info().getExperience_list()==null||"".equals(resumeBean.getResume_info().getEducation_list())||resumeBean.getResume_info().getExperience_list().size()==0){
-            titles.add("工作经验");
-        }
-        if(resumeBean.getResume_info().getOrder_info()==null||"".equals(resumeBean.getResume_info().getOrder_info())){
-            titles.add("求职意向");
-        }
-        if(titles!=null&&!"".equals(titles)&&titles.size()!=0) {
-            RobotActivity.startAction(this, titles);
-        }else{
-            MainActivity.startAction(this,Integer.parseInt(resumeBean.getResume_info().getTitle_info().get(0).getUser_id()));
-            AppManager.getAppManager().finishAllActivity();
-        }
+        ToolUtils.getInstance().judgeResumeIsComplete(resumeBean,this,titles);
     }
 
     @OnClick({R.id.rl_login, R.id.rl_register})
