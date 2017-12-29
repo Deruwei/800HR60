@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.hr.ui.base.RxSubscriber;
 import com.hr.ui.bean.PersonalInformationData;
+import com.hr.ui.bean.PictureBean;
 import com.hr.ui.ui.main.contract.PersonalInformationContract;
 import com.hr.ui.utils.Rc4Md5Utils;
 import com.hr.ui.utils.ToastUitl;
@@ -23,7 +24,7 @@ public class PersonalInformationPresenter extends PersonalInformationContract.Pr
     public static final String TAG=PersonalInformationPresenter.class.getSimpleName();
     @Override
     public void sendPersonalInformationToResume(PersonalInformationData personalInformationData) {
-        mRxManage.add(mModel.sendPersonalInformationToResume(personalInformationData).subscribe(new RxSubscriber<ResponseBody>(mContext,false) {
+        mRxManage.add(mModel.sendPersonalInformationToResume(personalInformationData).subscribe(new RxSubscriber<ResponseBody>(mContext,true) {
             @Override
             protected void _onNext(ResponseBody responseBody){
                 String s= null;
@@ -43,6 +44,25 @@ public class PersonalInformationPresenter extends PersonalInformationContract.Pr
                     e.printStackTrace();
                 }
 
+            }
+
+            @Override
+            protected void _onError(String message) {
+
+            }
+        }));
+    }
+
+    @Override
+    public void upLoadImage(String content) {
+        mRxManage.add(mModel.upLoadImage(content).subscribe(new RxSubscriber<PictureBean>(mContext,false) {
+            @Override
+            protected void _onNext(PictureBean pictureBean) throws IOException {
+                if (pictureBean.getError_code()==0){
+                    mView.uploadImageSuccess(pictureBean.getPic_filekey());
+                }else{
+                    ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) pictureBean.getError_code()));
+                }
             }
 
             @Override

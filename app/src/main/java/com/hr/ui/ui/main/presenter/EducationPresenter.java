@@ -23,7 +23,7 @@ public class EducationPresenter extends EducationContract.Presenter {
     public static final String TAG=EducationPresenter.class.getSimpleName();
     @Override
     public void sendEducationToResume(EducationData educationData) {
-        mRxManage.add(mModel.sendEducationToResume(educationData).subscribe(new RxSubscriber<ResponseBody>(mContext,false) {
+        mRxManage.add(mModel.sendEducationToResume(educationData).subscribe(new RxSubscriber<ResponseBody>(mContext,true) {
             @Override
             protected void _onNext(ResponseBody responseBody) throws IOException {
                 String s= null;

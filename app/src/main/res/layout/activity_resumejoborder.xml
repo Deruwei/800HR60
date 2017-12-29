@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:focusable="true"
+    android:id="@+id/cl_resumeJobOrder"
     android:focusableInTouchMode="true"
     android:clipToPadding="true"
     android:background="@color/white"
@@ -25,6 +26,7 @@
             <View
                style="@style/resume_viewTop"/>
             <RelativeLayout
+                android:id="@+id/rl_resumeJobOrderJobType"
                 style="@style/resume_RelativeLayout">
                 <TextView
                     style="@style/Resume_TextViewTag"
@@ -39,11 +41,15 @@
                 <ImageView
                     android:id="@+id/iv_resumeJobOrderJobTypeSelect"
                     android:src="@mipmap/right_arrow"
-                    style="@style/resume_ImageViewRight" />
+                    style="@style/resume_ImageViewRight"
+                    android:layout_marginRight="@dimen/x10"
+                    android:layout_width="@dimen/x11"
+                    android:layout_height="@dimen/y18"/>
             </RelativeLayout>
             <View
                 style="@style/resume_view"/>
             <RelativeLayout
+                android:id="@+id/rl_resumeJobOrderJobStyle"
                 style="@style/resume_RelativeLayout">
                 <TextView
                     style="@style/Resume_TextViewTag"
@@ -58,8 +64,12 @@
                 <ImageView
                     android:id="@+id/iv_resumeJobOrderJobStyleSelect"
                     android:src="@mipmap/right_arrow"
-                    style="@style/resume_ImageViewRight" />
+                    style="@style/resume_ImageViewRight"
+                    android:layout_marginRight="@dimen/x10"
+                    android:layout_width="@dimen/x11"
+                    android:layout_height="@dimen/y18"/>
             </RelativeLayout>
+
             <View
                 style="@style/resume_viewTop"/>
             <RelativeLayout
@@ -67,12 +77,13 @@
                 <TextView
                     style="@style/Resume_TextViewTag"
                     android:id="@+id/tv_resumeJobOrderExpectedSalaryTag"
-                    android:text="@string/jobType"
+                    android:text="@string/expectSalary"
                     />
-                <TextView
+                <EditText
                     android:id="@+id/tv_resumeJobOrderExpectedSalary"
                     android:layout_toLeftOf="@+id/iv_resumeJobOrderExpectedSalaryDelete"
                     android:layout_toRightOf="@+id/tv_resumeJobOrderExpectedSalaryTag"
+                    android:inputType="number"
                     style="@style/resume_editView" />
                 <ImageView
                     android:id="@+id/iv_resumeJobOrderExpectedSalaryDelete"
@@ -82,6 +93,7 @@
             <View
                 style="@style/resume_view"/>
             <RelativeLayout
+                android:id="@+id/rl_resumeJobOrderWorkCity"
                 style="@style/resume_RelativeLayout">
                 <TextView
                     style="@style/Resume_TextViewTag"
@@ -96,20 +108,25 @@
                 <ImageView
                     android:id="@+id/iv_resumeJobOrderWorkCitySelect"
                     android:src="@mipmap/right_arrow"
-                    style="@style/resume_ImageViewRight" />
+                    style="@style/resume_ImageViewRight"
+                    android:layout_marginRight="@dimen/x10"
+                    android:layout_width="@dimen/x11"
+                    android:layout_height="@dimen/y18"/>
             </RelativeLayout>
             <RelativeLayout
+                android:background="@color/resumeContent_bg"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <LinearLayout
+                    android:layout_marginTop="@dimen/x20"
                     android:orientation="vertical"
                     android:id="@+id/rl_resumeJobOrderIndustry"
-                    android:layout_above="@+id/btn_resumeJobOrderOK"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                 </LinearLayout>
                 <Button
+                    android:layout_below="@+id/rl_resumeJobOrderIndustry"
                     android:id="@+id/btn_resumeJobOrderOK"
                     style="@style/button_resumeOK"/>
             </RelativeLayout>

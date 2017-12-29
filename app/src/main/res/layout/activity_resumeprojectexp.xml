@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:clipToPadding="true"
+    android:id="@+id/cl_projectExp"
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:background="@color/white"
@@ -63,6 +64,7 @@
         <View
             style="@style/resume_view"/>
         <RelativeLayout
+            android:id="@+id/rl_resumeProjectExpTime"
             style="@style/resume_RelativeLayout">
             <TextView
                 android:id="@+id/tv_resumeProjectExpTimeTag"
@@ -83,6 +85,7 @@
         <View
             style="@style/resume_viewTop"/>
         <RelativeLayout
+            android:id="@+id/rl_resumeProjectExpDes"
             style="@style/resume_RelativeLayout">
             <TextView
                 android:id="@+id/tv_resumeProjectExpDesTag"
@@ -103,6 +106,7 @@
         <View
             style="@style/resume_view"/>
         <RelativeLayout
+            android:id="@+id/rl_resumeProjectExpResponsibility"
             style="@style/resume_RelativeLayout">
             <TextView
                 android:id="@+id/tv_resumeProjectExpResponsibilityTag"

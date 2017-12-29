@@ -11,8 +11,10 @@ public class Constants {
     public static String TYPE_THIRDPARTLOGIN = "";
     public static final String RESUME_ID="resume_id";
     public static final String RESUME_TYPE="resume_type";
-    public static final String RESUME_STOPTYPE="stop_type";//表示快速简历页面在哪页停止，然后进入主页面
+    public static final String RESUME_STARTTYPE="start_type";//表示快速简历页面在哪页停止，然后进入主页面
+    public static final String RESUME_STOPTYPE="stop_type";
     //数据库名称
+    public static final String CURRENT_TIME="current_time";
     public static final String DB_NAME="hr_db";
     public static final int NETWORK_2G=1;
     public static final int NETWORK_3G=2;
@@ -36,6 +38,7 @@ public class Constants {
     //api版本
     public static final String API_VER = "2.1.0";
     //线上
+    public static final String IMAGE_BASEPATH="http://file.800hr.com/";
     public static final String API_URL = "https://api.800hr.com/svrdo.php";
     public static final String API_MIDDLE="svrdo.php";
     //测试

@@ -30,7 +30,7 @@ public class LoginPresenter extends LoginContract.Presenter {
     public static final String TAG=LoginPresenter.class.getSimpleName();
     @Override
     public void getLogin(final String phoneNumber, final String psw, final int type) {
-        mRxManage.add(mModel.getLogin(phoneNumber,psw,type).subscribe(new RxSubscriber<RegisterBean>(mContext,false) {
+        mRxManage.add(mModel.getLogin(phoneNumber,psw,type).subscribe(new RxSubscriber<RegisterBean>(mContext,true) {
             @Override
             protected void _onNext(RegisterBean registerBean) {
                 if(registerBean.getError_code()==0){

@@ -23,7 +23,6 @@
         <activity android:name=".ui.main.activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -49,6 +48,9 @@
         <service
             android:name="com.service.CodeTimerService"
             android:enabled="true" />
+        <service android:name="com.service.MyTimeService"
+            android:enabled="true"
+            />
 
         <!--QQ分享-->
         <activity
@@ -74,7 +76,8 @@
         <activity android:name=".ui.main.activity.MainActivity"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait"
-            />
+            >
+        </activity>
         <activity android:name=".ui.main.activity.WelcomeActivity"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait"
@@ -92,28 +95,36 @@
             android:screenOrientation="portrait"
             />
         <activity android:name=".ui.login.activity.RegisterActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait"
             />
         <activity android:name=".ui.login.activity.LoginActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.login.activity.UserLoginActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.login.activity.FindPhonePasswordActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.login.activity.FindUserPasswordActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.login.activity.bindUserLoginActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.login.activity.BindPhoneLoginActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.login.activity.BindNewAccountAcitvity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.main.activity.MultipleResumeActivity"
@@ -123,30 +134,57 @@
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.main.activity.PersonalInformationActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.main.activity.EducationActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.main.activity.WorkExpActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.main.activity.JobOrderActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.main.activity.SelectCityActivity"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.main.activity.ContentActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.main.activity.SelectPositionActivity"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.main.activity.SelectFunctionActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.main.activity.SelectResumeTypeActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.resume.activity.ResumePersonalInfoActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.resume.activity.ResumeJobOrderActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.lzy.imagepicker.ui.ImagePreviewDelActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ImagePickerThemeFullScreen"/>
+        <activity android:name=".ui.resume.activity.ResumeEducationActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.resume.activity.ResumeWorkExpActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait"/>
     </application>

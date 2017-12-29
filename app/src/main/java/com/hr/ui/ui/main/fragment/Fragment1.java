@@ -135,9 +135,10 @@ public class Fragment1 extends Fragment {
             case R.id.tv_fragment2:
                 //SelectOptionsActivity.startAction(getActivity());
                 ShowMsgActivity.startAction(getActivity());
+                getActivity().finish();
                 break;
             case R.id.tv_fragment:
-                startActivity(new Intent(getActivity(),SplashActivity.class));
+               SplashActivity.startAction(getActivity(),1);
                 SharedPreferencesUtils sUtils=new SharedPreferencesUtils(getActivity());
                 sUtils.setIntValue(Constants.ISAUTOLOGIN,0);
                 break;

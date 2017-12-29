@@ -25,10 +25,11 @@ public class EducationDataDao extends AbstractDao<EducationData, String> {
      */
     public static class Properties {
         public final static Property SchoolName = new Property(0, String.class, "schoolName", true, "SCHOOL_NAME");
-        public final static Property Profession = new Property(1, String.class, "profession", false, "PROFESSION");
-        public final static Property Degree = new Property(2, String.class, "degree", false, "DEGREE");
-        public final static Property StartTime = new Property(3, String.class, "startTime", false, "START_TIME");
-        public final static Property EndTime = new Property(4, String.class, "endTime", false, "END_TIME");
+        public final static Property EducationId = new Property(1, String.class, "educationId", false, "EDUCATION_ID");
+        public final static Property Profession = new Property(2, String.class, "profession", false, "PROFESSION");
+        public final static Property Degree = new Property(3, String.class, "degree", false, "DEGREE");
+        public final static Property StartTime = new Property(4, String.class, "startTime", false, "START_TIME");
+        public final static Property EndTime = new Property(5, String.class, "endTime", false, "END_TIME");
     }
 
 
@@ -45,10 +46,11 @@ public class EducationDataDao extends AbstractDao<EducationData, String> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"EDUCATION_DATA\" (" + //
                 "\"SCHOOL_NAME\" TEXT PRIMARY KEY NOT NULL ," + // 0: schoolName
-                "\"PROFESSION\" TEXT," + // 1: profession
-                "\"DEGREE\" TEXT," + // 2: degree
-                "\"START_TIME\" TEXT," + // 3: startTime
-                "\"END_TIME\" TEXT);"); // 4: endTime
+                "\"EDUCATION_ID\" TEXT," + // 1: educationId
+                "\"PROFESSION\" TEXT," + // 2: profession
+                "\"DEGREE\" TEXT," + // 3: degree
+                "\"START_TIME\" TEXT," + // 4: startTime
+                "\"END_TIME\" TEXT);"); // 5: endTime
     }
 
     /** Drops the underlying database table. */
@@ -66,24 +68,29 @@ public class EducationDataDao extends AbstractDao<EducationData, String> {
             stmt.bindString(1, schoolName);
         }
  
+        String educationId = entity.getEducationId();
+        if (educationId != null) {
+            stmt.bindString(2, educationId);
+        }
+ 
         String profession = entity.getProfession();
         if (profession != null) {
-            stmt.bindString(2, profession);
+            stmt.bindString(3, profession);
         }
  
         String degree = entity.getDegree();
         if (degree != null) {
-            stmt.bindString(3, degree);
+            stmt.bindString(4, degree);
         }
  
         String startTime = entity.getStartTime();
         if (startTime != null) {
-            stmt.bindString(4, startTime);
+            stmt.bindString(5, startTime);
         }
  
         String endTime = entity.getEndTime();
         if (endTime != null) {
-            stmt.bindString(5, endTime);
+            stmt.bindString(6, endTime);
         }
     }
 
@@ -96,24 +103,29 @@ public class EducationDataDao extends AbstractDao<EducationData, String> {
             stmt.bindString(1, schoolName);
         }
  
+        String educationId = entity.getEducationId();
+        if (educationId != null) {
+            stmt.bindString(2, educationId);
+        }
+ 
         String profession = entity.getProfession();
         if (profession != null) {
-            stmt.bindString(2, profession);
+            stmt.bindString(3, profession);
         }
  
         String degree = entity.getDegree();
         if (degree != null) {
-            stmt.bindString(3, degree);
+            stmt.bindString(4, degree);
         }
  
         String startTime = entity.getStartTime();
         if (startTime != null) {
-            stmt.bindString(4, startTime);
+            stmt.bindString(5, startTime);
         }
  
         String endTime = entity.getEndTime();
         if (endTime != null) {
-            stmt.bindString(5, endTime);
+            stmt.bindString(6, endTime);
         }
     }
 
@@ -126,10 +138,11 @@ public class EducationDataDao extends AbstractDao<EducationData, String> {
     public EducationData readEntity(Cursor cursor, int offset) {
         EducationData entity = new EducationData( //
             cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // schoolName
-            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // profession
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // degree
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // startTime
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4) // endTime
+            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // educationId
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // profession
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // degree
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // startTime
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5) // endTime
         );
         return entity;
     }
@@ -137,10 +150,11 @@ public class EducationDataDao extends AbstractDao<EducationData, String> {
     @Override
     public void readEntity(Cursor cursor, EducationData entity, int offset) {
         entity.setSchoolName(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
-        entity.setProfession(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
-        entity.setDegree(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setStartTime(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setEndTime(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setEducationId(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
+        entity.setProfession(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setDegree(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setStartTime(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setEndTime(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
      }
     
     @Override

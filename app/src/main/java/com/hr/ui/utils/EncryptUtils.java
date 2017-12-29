@@ -12,7 +12,9 @@ import android.graphics.BitmapFactory;
 import android.util.Base64;
 import android.util.Log;
 
+import com.hr.ui.app.HRApplication;
 import com.hr.ui.constants.Constants;
+import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 
 /**
  * 加密网络请求参数的工具类
@@ -25,6 +27,7 @@ public class EncryptUtils {
 	public static String secret_key = Constants.SECRET_KEY;
 
 	public static HashMap<String,String> encrypParams(Map<String, String> params2) {
+		SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
 		HashMap<String,String> requestMap=new HashMap<>();
 		StringBuilder params = new StringBuilder();
 		for (Map.Entry<String, String> entry : params2.entrySet()) {

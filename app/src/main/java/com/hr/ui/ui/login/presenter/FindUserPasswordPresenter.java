@@ -24,7 +24,7 @@ public class FindUserPasswordPresenter extends FindUserPasswordContract.Presente
                     mView.resetUserPswSuccess();
                 }else{
                     if(noDataBean.getError_code()==204) {
-                        Constants.SESSION_KEY="";
+                        Constants.SESSION_KEY=null;
                     }else {
                         ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) noDataBean.getError_code()));
                     }

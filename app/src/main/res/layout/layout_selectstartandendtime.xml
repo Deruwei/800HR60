@@ -8,20 +8,22 @@
         <RelativeLayout
             android:id="@+id/rl_select"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_30dp">
+            android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/tv_cancle"
                 android:textColor="@color/color_333"
                 android:layout_centerVertical="true"
-                android:textSize="@dimen/dimen_14sp"
-                android:layout_marginLeft="@dimen/dimen_15dp"
+                android:textSize="@dimen/x32"
+                android:layout_marginTop="@dimen/x30"
+                android:layout_marginLeft="@dimen/x30"
                 android:text="@string/cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
                 android:id="@+id/tv_submit"
-                android:layout_marginRight="@dimen/dimen_15dp"
-                android:textSize="@dimen/dimen_14sp"
+                android:layout_marginRight="@dimen/x30"
+                android:textSize="@dimen/x32"
+                android:layout_marginTop="@dimen/x30"
                 android:textColor="@color/color_333"
                 android:text="@string/sure"
                 android:layout_alignParentRight="true"
@@ -29,14 +31,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </RelativeLayout>
+        <View
+            android:layout_below="@+id/rl_select"
+            android:id="@+id/view_select"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x1"
+            android:background="@color/view_color"/>
         <LinearLayout
             android:id="@+id/ll_text"
             android:orientation="horizontal"
-            android:layout_below="@+id/rl_select"
+            android:layout_below="@+id/view_select"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_30dp">
+            android:padding="@dimen/x30"
+            android:layout_height="wrap_content">
             <TextView
-                android:textSize="@dimen/dimen_14sp"
+                android:textSize="@dimen/x28"
                 android:text="@string/startTime"
                 android:layout_width="0dp"
                 android:gravity="center"
@@ -47,13 +56,14 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:textSize="@dimen/x28"
                 android:layout_height="match_parent" />
         </LinearLayout>
         <LinearLayout
             android:layout_below="@+id/ll_text"
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_200dp">
+            android:layout_height="@dimen/x400">
             <LinearLayout
                 android:orientation="horizontal"
                 android:id="@+id/rl_startTime"

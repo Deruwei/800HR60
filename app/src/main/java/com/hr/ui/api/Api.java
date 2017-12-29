@@ -1,15 +1,30 @@
 package com.hr.ui.api;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.SparseArray;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.hr.ui.app.HRApplication;
+import com.hr.ui.bean.BaseBean;
 import com.hr.ui.constants.Constants;
+import com.hr.ui.ui.main.activity.SplashActivity;
+import com.hr.ui.ui.main.presenter.MainPresenter;
+import com.hr.ui.ui.main.presenter.SplashPresenter;
+import com.hr.ui.utils.CodeTimer;
+import com.hr.ui.utils.EncryptUtils;
+import com.hr.ui.utils.LogUtils;
 import com.hr.ui.utils.NetWorkUtils;
+import com.hr.ui.utils.Rc4Md5Utils;
+import com.hr.ui.utils.datautils.SharedPreferencesUtils;
+import com.service.CodeTimerService;
 
 
 import java.io.File;
@@ -26,6 +41,10 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * des:retorfit api
@@ -33,9 +52,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class Api {
     //读超时长，单位：毫秒
-    public static final int READ_TIME_OUT = 3000;
+    public static final int READ_TIME_OUT = 6000;
     //连接时长，单位：毫秒
-    public static final int CONNECT_TIME_OUT = 3000;
+    public static final int CONNECT_TIME_OUT = 6000;
     public Retrofit retrofit;
     public ApiService movieService;
     public OkHttpClient okHttpClient;
@@ -58,7 +77,6 @@ public class Api {
     7. FORCE_NETWORK 只走网络
 
     8. FORCE_CACHE 只走缓存*/
-
     /**
      * 设缓存有效期为两天
      */
@@ -79,6 +97,7 @@ public class Api {
     private Api(int hostType) {
         //开启Log
         HttpLoggingInterceptor logInterceptor = new HttpLoggingInterceptor();
+       /* HRApplication.getAppContext().startService(HRApplication.getAppContext().getmCodeTimerServiceIntent());//启动服务*/
         logInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         //缓存
         File cacheFile = new File(HRApplication.getAppContext().getCacheDir(), "cache");
@@ -93,6 +112,7 @@ public class Api {
                 .addHeader("Content-Type", "application/json")
                 .addHeader("Connection", "Keep-alive")*/
                        .addHeader("Content-Type", "application/json")
+                       /* .addHeader("Connection", "Keep-alive")*/
                         .build();
                 return chain.proceed(build);
             }

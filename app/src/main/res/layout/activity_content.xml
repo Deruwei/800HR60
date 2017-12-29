@@ -4,6 +4,8 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:clipToPadding="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <include layout="@layout/layout_toolbar"
@@ -17,18 +19,18 @@
         android:layout_width="0dp"
         android:layout_height="0dp">
         <View
-            android:background="@color/resumeContent_bg"
+            android:background="@color/view_color"
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"/>
+            android:layout_height="@dimen/x1"/>
         <EditText
             android:id="@+id/et_content"
-            android:textSize="@dimen/dimen_16sp"
+            android:textSize="@dimen/x28"
             android:background="@null"
-            android:padding="@dimen/dimen_15dp"
+            android:padding="@dimen/x36"
             android:gravity="top|left"
             android:textColor="@color/color_333"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_400dp" />
+            android:layout_height="@dimen/x720" />
         <LinearLayout
             android:orientation="vertical"
             android:background="@color/resumeContent_bg"
@@ -36,24 +38,24 @@
             android:layout_height="match_parent">
             <TextView
                 android:id="@+id/tv_textSum"
-                android:layout_marginTop="@dimen/dimen_10dp"
+                android:layout_marginTop="@dimen/x17"
                 android:gravity="right"
-                android:layout_marginRight="16dp"
+                android:layout_marginRight="@dimen/x31"
                 android:text="100/600"
-                android:textSize="@dimen/dimen_12sp"
+                android:textSize="@dimen/x24"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         <Button
             android:id="@+id/btn_contentOK"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/et_height"
-            android:layout_marginLeft="@dimen/dimen_15dp"
-            android:layout_marginRight="@dimen/dimen_15dp"
-            android:layout_marginTop="@dimen/btnEdit_marginTop"
+            android:layout_height="@dimen/x90"
+            android:layout_marginLeft="@dimen/x25"
+            android:layout_marginRight="@dimen/x25"
+            android:layout_marginTop="@dimen/x54"
             android:background="@drawable/button_login"
             android:text="@string/save"
             android:textColor="@color/white"
-            android:textSize="@dimen/btn_textSize" />
+            android:textSize="@dimen/x32" />
         </LinearLayout>
     </LinearLayout>
 

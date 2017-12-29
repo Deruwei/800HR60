@@ -11,17 +11,19 @@ import org.greenrobot.greendao.annotation.Generated;
 public class WorkExpData {
     @Id
     private String company;
+    private String experienceId;
     private String position;
     private String workPlace;
     private String grossPay;
     private String startTime;
     private String endTime;
     private String responsibilityDescription;
-    @Generated(hash = 1580614)
-    public WorkExpData(String company, String position, String workPlace,
-            String grossPay, String startTime, String endTime,
+    @Generated(hash = 772593882)
+    public WorkExpData(String company, String experienceId, String position,
+            String workPlace, String grossPay, String startTime, String endTime,
             String responsibilityDescription) {
         this.company = company;
+        this.experienceId = experienceId;
         this.position = position;
         this.workPlace = workPlace;
         this.grossPay = grossPay;
@@ -73,5 +75,11 @@ public class WorkExpData {
     }
     public void setResponsibilityDescription(String responsibilityDescription) {
         this.responsibilityDescription = responsibilityDescription;
+    }
+    public String getExperienceId() {
+        return this.experienceId;
+    }
+    public void setExperienceId(String experienceId) {
+        this.experienceId = experienceId;
     }
 }

@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:id="@+id/rl_resumePersonalMain"
     android:clipToPadding="true"
     android:background="@color/white"
     android:focusable="true"
@@ -13,6 +14,7 @@
         />
     <android.support.v4.widget.NestedScrollView
         android:layout_width="0dp"
+        android:transcriptMode="normal"
         app:layout_constraintTop_toBottomOf="@id/in_resumePersonalInfo"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -24,289 +26,207 @@
             android:layout_height="match_parent">
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_20dp"
+                android:layout_height="@dimen/x20"
                 android:background="@color/resumeContent_bg"
                 />
             <RelativeLayout
-                android:layout_marginLeft="@dimen/dimen_15dp"
-                android:layout_marginRight="@dimen/dimen_15dp"
+                android:id="@+id/rl_resumePersonalInfoImage"
+                android:layout_marginLeft="@dimen/x32"
+                android:layout_marginRight="@dimen/x32"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_100dp">
+                android:layout_height="@dimen/x200">
                 <TextView
                     android:layout_centerVertical="true"
-                    android:textSize="@dimen/dimen_14sp"
+                    android:textSize="@dimen/x28"
                     android:text="@string/photo"
                     android:textColor="@color/color_666"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-                <ImageView
+                <com.hr.ui.view.CircleImageView
+                    android:src="@mipmap/persondefault"
+                    android:id="@+id/iv_ResumePersonPhoto"
                     android:layout_centerVertical="true"
-                    android:layout_width="@dimen/dimen_60dp"
+                    android:layout_width="@dimen/x120"
+                    android:scaleType="centerCrop"
                     android:layout_alignParentRight="true"
-                    android:layout_height="@dimen/dimen_60dp" />
+                    android:layout_height="@dimen/x120" />
             </RelativeLayout>
             <View
-                android:layout_marginLeft="@dimen/dimen_15dp"
-                android:layout_marginRight="@dimen/dimen_15dp"
-                android:background="@color/view_color"
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"/>
+               style="@style/resume_view"/>
             <RelativeLayout
-                android:layout_marginLeft="@dimen/dimen_15dp"
-                android:layout_marginRight="@dimen/dimen_15dp"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_50dp">
+              style="@style/resume_RelativeLayout">
                 <TextView
                     android:id="@+id/tv_resumeName"
                     android:text="@string/name"
-                    android:layout_centerVertical="true"
-                    android:layout_width="@dimen/dimen_100dp"
-                    android:layout_height="wrap_content" />
+                   style="@style/Resume_TextViewTag" />
                 <EditText
                     android:id="@+id/et_resumePersonName"
                     android:layout_toRightOf="@+id/tv_resumeName"
                     android:layout_toLeftOf="@+id/iv_personNameDelete"
-                    android:layout_centerVertical="true"
-                    android:background="@null"
                     android:textCursorDrawable="@drawable/cursordrawable"
-                    android:singleLine="true"
-                    android:layout_marginRight="@dimen/dimen_5dp"
-                    android:textColor="@color/color_333"
-                    android:textSize="@dimen/dimen_14sp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    style="@style/resume_editView" />
                 <ImageView
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
                     android:id="@+id/iv_personNameDelete"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                   style="@style/resume_ImageViewRight"
                     android:src="@mipmap/delete"
                     />
             </RelativeLayout>
             <View
-                android:layout_marginLeft="@dimen/dimen_15dp"
-                android:layout_marginRight="@dimen/dimen_15dp"
-                android:background="@color/view_color"
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"/>
+                style="@style/resume_view"/>
             <RelativeLayout
-                android:layout_marginLeft="@dimen/dimen_15dp"
-                android:layout_marginRight="@dimen/dimen_15dp"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_50dp">
+                android:id="@+id/rl_resumePersonalInfoSex"
+                style="@style/resume_RelativeLayout">
                 <TextView
                     android:id="@+id/tv_resumeSex"
                     android:text="@string/sex"
-                    android:layout_centerVertical="true"
-                    android:layout_width="@dimen/dimen_100dp"
-                    android:layout_height="wrap_content" />
-                <EditText
+                    style="@style/Resume_TextViewTag" />
+                <TextView
                     android:id="@+id/et_resumeSex"
                     android:layout_toRightOf="@+id/tv_resumeSex"
                     android:layout_toLeftOf="@+id/iv_resumeSexSelect"
-                    android:layout_centerVertical="true"
-                    android:background="@null"
-                    android:singleLine="true"
-                    android:layout_marginRight="@dimen/dimen_5dp"
-                    android:textColor="@color/color_333"
-                    android:textSize="@dimen/dimen_14sp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    style="@style/resume_editView" />
                 <ImageView
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
                     android:id="@+id/iv_resumeSexSelect"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/resume_ImageViewRight"
                     android:src="@mipmap/right_arrow"
+                    android:layout_marginRight="@dimen/x10"
+                    android:layout_width="@dimen/x11"
+                    android:layout_height="@dimen/y18"
                     />
             </RelativeLayout>
             <View
-                android:layout_marginLeft="@dimen/dimen_15dp"
-                android:layout_marginRight="@dimen/dimen_15dp"
-                android:background="@color/view_color"
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"/>
+                style="@style/resume_view"/>
             <RelativeLayout
-                android:layout_marginLeft="@dimen/dimen_15dp"
-                android:layout_marginRight="@dimen/dimen_15dp"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_50dp">
+                android:id="@+id/rl_resumePersonalInfoBirth"
+                style="@style/resume_RelativeLayout">
                 <TextView
                     android:id="@+id/tv_resumeBirth"
                     android:text="@string/birth"
-                    android:layout_centerVertical="true"
-                    android:layout_width="@dimen/dimen_100dp"
-                    android:layout_height="wrap_content" />
-                <EditText
+                    style="@style/Resume_TextViewTag"  />
+                <TextView
                     android:id="@+id/et_resumeBirth"
                     android:layout_toRightOf="@+id/tv_resumeBirth"
                     android:layout_toLeftOf="@+id/iv_resumeBirthSelect"
-                    android:layout_centerVertical="true"
-                    android:background="@null"
-                    android:singleLine="true"
-                    android:layout_marginRight="@dimen/dimen_5dp"
-                    android:textColor="@color/color_333"
-                    android:textSize="@dimen/dimen_14sp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    style="@style/resume_editView" />
                 <ImageView
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
+                    style="@style/resume_ImageViewRight"
                     android:id="@+id/iv_resumeBirthSelect"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:src="@mipmap/right_arrow"
+                    android:layout_width="@dimen/x11"
+                    android:layout_height="@dimen/y18"
+                    android:layout_marginRight="@dimen/x10"
                     />
             </RelativeLayout>
             <View
-                android:layout_marginLeft="@dimen/dimen_15dp"
-                android:layout_marginRight="@dimen/dimen_15dp"
-                android:background="@color/view_color"
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"/>
+                style="@style/resume_view"/>
             <RelativeLayout
-                android:layout_marginLeft="@dimen/dimen_15dp"
-                android:layout_marginRight="@dimen/dimen_15dp"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_50dp">
+                android:id="@+id/rl_resumePersonalInfoLivePlace"
+                style="@style/resume_RelativeLayout">
                 <TextView
                     android:id="@+id/tv_resumeLivePlace"
                     android:text="@string/nowAddress"
-                    android:layout_centerVertical="true"
-                    android:layout_width="@dimen/dimen_100dp"
-                    android:layout_height="wrap_content" />
-                <EditText
+                    style="@style/Resume_TextViewTag" />
+                <TextView
                     android:id="@+id/et_resumeLivePlace"
                     android:layout_toRightOf="@+id/tv_resumeLivePlace"
                     android:layout_toLeftOf="@+id/iv_resumeLivePlaceSelect"
-                    android:layout_centerVertical="true"
-                    android:background="@null"
-                    android:singleLine="true"
-                    android:layout_marginRight="@dimen/dimen_5dp"
-                    android:textColor="@color/color_333"
-                    android:textSize="@dimen/dimen_14sp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    style="@style/resume_editView" />
                 <ImageView
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
+                    style="@style/resume_ImageViewRight"
                     android:id="@+id/iv_resumeLivePlaceSelect"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:src="@mipmap/right_arrow"
+                    android:layout_marginRight="@dimen/x10"
+                    android:layout_width="@dimen/x11"
+                    android:layout_height="@dimen/y18"
                     />
             </RelativeLayout>
             <View
-                android:layout_marginLeft="@dimen/dimen_15dp"
-                android:layout_marginRight="@dimen/dimen_15dp"
-                android:background="@color/view_color"
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"/>
+                style="@style/resume_view"/>
             <RelativeLayout
-                android:layout_marginLeft="@dimen/dimen_15dp"
-                android:layout_marginRight="@dimen/dimen_15dp"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_50dp">
+                android:id="@+id/rl_resumePersonalInfoWorkTime"
+                style="@style/resume_RelativeLayout">
                 <TextView
                     android:id="@+id/tv_resumeWorkTime"
                     android:text="@string/workTime"
-                    android:layout_centerVertical="true"
-                    android:layout_width="@dimen/dimen_100dp"
-                    android:layout_height="wrap_content" />
-                <EditText
+                    style="@style/Resume_TextViewTag" />
+                <TextView
                     android:id="@+id/et_resumeWorkTime"
                     android:layout_toRightOf="@+id/tv_resumeWorkTime"
                     android:layout_toLeftOf="@+id/iv_resumeWorkTimeSelect"
-                    android:layout_centerVertical="true"
-                    android:background="@null"
-                    android:singleLine="true"
-                    android:layout_marginRight="@dimen/dimen_5dp"
-                    android:textColor="@color/color_333"
-                    android:textSize="@dimen/dimen_14sp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    style="@style/resume_editView" />
                 <ImageView
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
+                    style="@style/resume_ImageViewRight"
                     android:id="@+id/iv_resumeWorkTimeSelect"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:src="@mipmap/right_arrow"
+                    android:layout_width="@dimen/x11"
+                    android:layout_height="@dimen/y18"
+                    android:layout_marginRight="@dimen/x10"
+                    />
+            </RelativeLayout>
+            <View
+                style="@style/resume_view"/>
+            <RelativeLayout
+                android:id="@+id/rl_resumePersonalInfoPositionTitle"
+                style="@style/resume_RelativeLayout">
+                <TextView
+                    android:id="@+id/tv_resumePositionTitle"
+                    android:text="@string/jobTitle"
+                    style="@style/Resume_TextViewTag" />
+                <TextView
+                    android:id="@+id/et_resumePositionTitle"
+                    android:layout_toRightOf="@+id/tv_resumePositionTitle"
+                    android:layout_toLeftOf="@+id/iv_resumePositionTitleSelect"
+                    style="@style/resume_editView" />
+                <ImageView
+                    style="@style/resume_ImageViewRight"
+                    android:id="@+id/iv_resumePositionTitleSelect"
+                    android:src="@mipmap/right_arrow"
+                    android:layout_width="@dimen/x11"
+                    android:layout_height="@dimen/y18"
+                    android:layout_marginRight="@dimen/x10"
                     />
             </RelativeLayout>
             <View
                 android:background="@color/resumeContent_bg"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_10dp"/>
+                android:layout_height="@dimen/x20"/>
             <RelativeLayout
-                android:layout_marginLeft="@dimen/dimen_15dp"
-                android:layout_marginRight="@dimen/dimen_15dp"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_50dp">
+                android:id="@+id/rl_resumePersonalInfoPhone"
+                style="@style/resume_RelativeLayout">
                 <TextView
                     android:id="@+id/tv_resumePhone"
                     android:text="@string/phoneNumber"
-                    android:layout_centerVertical="true"
-                    android:layout_width="@dimen/dimen_100dp"
-                    android:layout_height="wrap_content" />
-                <EditText
+                    style="@style/Resume_TextViewTag"  />
+                <TextView
                     android:id="@+id/et_resumePhone"
                     android:layout_toRightOf="@+id/tv_resumePhone"
                     android:layout_toLeftOf="@+id/iv_resumePhoneSelect"
-                    android:layout_centerVertical="true"
-                    android:background="@null"
-                    android:singleLine="true"
-                    android:layout_marginRight="@dimen/dimen_5dp"
-                    android:textColor="@color/color_333"
-                    android:textSize="@dimen/dimen_14sp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    style="@style/resume_editView"/>
                 <ImageView
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
+                    style="@style/resume_ImageViewRight"
                     android:id="@+id/iv_resumePhoneSelect"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:src="@mipmap/right_arrow"
+                    android:layout_width="@dimen/x11"
+                    android:layout_height="@dimen/y18"
+                    android:layout_marginRight="@dimen/x10"
                     />
             </RelativeLayout>
             <View
-                android:layout_marginLeft="@dimen/dimen_15dp"
-                android:layout_marginRight="@dimen/dimen_15dp"
-                android:background="@color/view_color"
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"/>
+                style="@style/resume_view"/>
             <RelativeLayout
-                android:layout_marginLeft="@dimen/dimen_15dp"
-                android:layout_marginRight="@dimen/dimen_15dp"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_50dp">
+                style="@style/resume_RelativeLayout">
                 <TextView
                     android:id="@+id/tv_resumeEmail"
                     android:text="@string/email"
-                    android:layout_centerVertical="true"
-                    android:layout_width="@dimen/dimen_100dp"
-                    android:layout_height="wrap_content" />
+                    style="@style/Resume_TextViewTag"  />
                 <EditText
                     android:id="@+id/et_resumeEmail"
                     android:layout_toRightOf="@+id/tv_resumeEmail"
                     android:layout_toLeftOf="@+id/iv_resumeEmailDelete"
-                    android:layout_centerVertical="true"
-                    android:background="@null"
-                    android:singleLine="true"
-                    android:layout_marginRight="@dimen/dimen_5dp"
-                    android:textColor="@color/color_333"
-                    android:textSize="@dimen/dimen_14sp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    style="@style/resume_editView" />
                 <ImageView
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
                     android:id="@+id/iv_resumeEmailDelete"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/resume_ImageViewRight"
                     android:src="@mipmap/delete"
                     />
             </RelativeLayout>
@@ -315,16 +235,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
             <Button
-                android:layout_marginLeft="@dimen/dimen_15dp"
-                android:layout_marginRight="@dimen/dimen_15dp"
+                style="@style/button_resumeOK"
                 android:id="@+id/btn_resumeSave"
-                android:layout_marginTop="@dimen/dimen_20dp"
-                android:layout_width="match_parent"
                 android:text="@string/save"
-                android:textSize="@dimen/btn_textSize"
-                android:textColor="@color/white"
-                android:background="@drawable/button_login"
-                android:layout_height="@dimen/et_height" />
+                android:layout_marginBottom="@dimen/x40"/>
             </RelativeLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

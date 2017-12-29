@@ -10,6 +10,7 @@ import android.util.Log;
 import com.hr.ui.app.AppManager;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.bean.MultipleResumeBean;
+import com.hr.ui.bean.PersonalInformationData;
 import com.hr.ui.bean.ResumeBean;
 import com.hr.ui.bean.ResumeData;
 import com.hr.ui.constants.Constants;
@@ -17,11 +18,14 @@ import com.hr.ui.db.ResumeDataUtils;
 import com.hr.ui.ui.login.activity.UserLoginActivity;
 import com.hr.ui.ui.login.presenter.LoginPresenter;
 import com.hr.ui.ui.login.presenter.RegisterPresenter;
+import com.hr.ui.ui.main.activity.EducationActivity;
 import com.hr.ui.ui.main.activity.JobOrderActivity;
 import com.hr.ui.ui.main.activity.MainActivity;
 import com.hr.ui.ui.main.activity.MultipleResumeActivity;
+import com.hr.ui.ui.main.activity.PersonalInformationActivity;
 import com.hr.ui.ui.main.activity.RobotActivity;
 import com.hr.ui.ui.main.activity.SplashActivity;
+import com.hr.ui.ui.main.activity.WorkExpActivity;
 import com.hr.ui.ui.main.presenter.SplashPresenter;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 
@@ -90,27 +94,46 @@ public class ToolUtils {
             titles.add("求职意向");
         }
         if(titles!=null&&!"".equals(titles)&&titles.size()!=0) {
-            if ("基本信息".equals(titles.get(titles.size() - 1))){
+            if ("基本信息".equals(titles.get(0))){
+                sharedPreferencesUtils.setIntValue(Constants.RESUME_STARTTYPE,1);
+            }
+            if ("教育背景".equals(titles.get(0))){
+                sharedPreferencesUtils.setIntValue(Constants.RESUME_STARTTYPE,2);
+            }
+            if ("工作经验".equals(titles.get(0))){
+                sharedPreferencesUtils.setIntValue(Constants.RESUME_STARTTYPE,3);
+            }
+            if ("实习经历".equals(titles.get(0))){
+                sharedPreferencesUtils.setIntValue(Constants.RESUME_STARTTYPE,3);
+            }
+            if ("求职意向".equals(titles.get(0))){
+                sharedPreferencesUtils.setIntValue(Constants.RESUME_STARTTYPE,4);
+            }
+            if ("基本信息".equals(titles.get(titles.size()-1))){
                 sharedPreferencesUtils.setIntValue(Constants.RESUME_STOPTYPE,1);
             }
-            if ("教育背景".equals(titles.get(titles.size() - 1))){
+            if ("教育背景".equals(titles.get(titles.size()-1))){
                 sharedPreferencesUtils.setIntValue(Constants.RESUME_STOPTYPE,2);
             }
-            if ("工作经验".equals(titles.get(titles.size() - 1))){
+            if ("工作经验".equals(titles.get(titles.size()-1))){
                 sharedPreferencesUtils.setIntValue(Constants.RESUME_STOPTYPE,3);
             }
-            if ("实习经历".equals(titles.get(titles.size() - 1))){
+            if ("实习经历".equals(titles.get(titles.size()-1))){
                 sharedPreferencesUtils.setIntValue(Constants.RESUME_STOPTYPE,3);
             }
-            if ("求职意向".equals(titles.get(titles.size() - 1))){
+            if ("求职意向".equals(titles.get(titles.size()-1))){
                 sharedPreferencesUtils.setIntValue(Constants.RESUME_STOPTYPE,4);
             }
         }
         if(titles!=null&&!"".equals(titles)&&titles.size()!=0) {
             RobotActivity.startAction(activity, titles);
         }else{
-            MainActivity.startAction(activity,Integer.parseInt(resumeBean.getResume_info().getTitle_info().get(0).getUser_id()));
+           MainActivity.startAction(activity,Integer.parseInt(resumeBean.getResume_info().getTitle_info().get(0).getUser_id()));
             AppManager.getAppManager().finishAllActivity();
+           // PersonalInformationActivity.startAction(activity);
+            //WorkExpActivity.startAction(activity);
+            //JobOrderActivity.startAction(activity);
+            //EducationActivity.startAction(activity);
         }
     }
     public  void judgeResumeMultipleOrOne2(Activity activity, MultipleResumeBean multipleResumeBean, int userId, int[] imageIds, RegisterPresenter mPresenter){

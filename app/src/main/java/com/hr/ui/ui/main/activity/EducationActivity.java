@@ -3,6 +3,7 @@ package com.hr.ui.ui.main.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -79,11 +80,13 @@ public class EducationActivity extends BaseActivity<EducationPresenter, Educatio
     RelativeLayout rlEducation;
     @BindView(R.id.rl_startAndEndTime)
     RelativeLayout rlStartAndEndTime;
+    @BindView(R.id.cl_education)
+    ConstraintLayout clEducation;
     private String degreeId, startTimes = "", endTimes = "";
     private CustomDatePicker datePickerDegree;
     private MyStartAndEndTimeCustomDatePicker datePickerSE;
     private SharedPreferencesUtils sUtils;
-    private int stopType;
+    private int stopType,startType;
     private MyDialog myDialog;
 
     /**
@@ -137,6 +140,7 @@ public class EducationActivity extends BaseActivity<EducationPresenter, Educatio
     public void initView() {
         sUtils = new SharedPreferencesUtils(HRApplication.getAppContext());
         stopType = sUtils.getIntValue(Constants.RESUME_STOPTYPE, 0);
+        startType=sUtils.getIntValue(Constants.RESUME_STARTTYPE,0);
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -174,7 +178,7 @@ public class EducationActivity extends BaseActivity<EducationPresenter, Educatio
         etSchool.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                if(s.length()==0){
+                if (s.length() == 0) {
                     ivSchoolDelete.setVisibility(View.GONE);
                 }
             }
@@ -183,7 +187,7 @@ public class EducationActivity extends BaseActivity<EducationPresenter, Educatio
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() > 0) {
                     ivSchoolDelete.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     ivSchoolDelete.setVisibility(View.GONE);
                 }
             }
@@ -201,9 +205,9 @@ public class EducationActivity extends BaseActivity<EducationPresenter, Educatio
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()>0){
+                if (s.length() > 0) {
                     tvProfessionSelect.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     tvProfessionSelect.setVisibility(View.GONE);
                 }
             }
@@ -221,9 +225,9 @@ public class EducationActivity extends BaseActivity<EducationPresenter, Educatio
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()>0){
+                if (s.length() > 0) {
                     tvEducationSelect.setImageResource(R.mipmap.right_arrow);
-                }else{
+                } else {
                     tvEducationSelect.setImageResource(R.mipmap.arrowright);
                 }
             }
@@ -241,9 +245,9 @@ public class EducationActivity extends BaseActivity<EducationPresenter, Educatio
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()>0){
+                if (s.length() > 0) {
                     tvStartAndEndTimeSelect.setImageResource(R.mipmap.right_arrow);
-                }else{
+                } else {
                     tvStartAndEndTimeSelect.setImageResource(R.mipmap.arrowright);
                 }
             }
@@ -251,6 +255,30 @@ public class EducationActivity extends BaseActivity<EducationPresenter, Educatio
             @Override
             public void afterTextChanged(Editable s) {
 
+            }
+        });
+        tvProfession.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    tvProfessionSelect.setVisibility(View.GONE);
+                }else{
+                    if(tvProfession.getText().toString()!=null&&!"".equals(tvProfession.getText().toString())){
+                        tvProfessionSelect.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
+        etSchool.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    ivSchoolDelete.setVisibility(View.GONE);
+                }else{
+                    if(etSchool.getText().toString()!=null&&!"".equals(etSchool.getText().toString())){
+                        ivSchoolDelete.setVisibility(View.VISIBLE);
+                    }
+                }
             }
         });
     }
@@ -274,6 +302,13 @@ public class EducationActivity extends BaseActivity<EducationPresenter, Educatio
         });
     }
 
+    private void setFocus() {
+        clEducation.setFocusableInTouchMode(true);
+        clEducation.setFocusable(true);
+        clEducation.requestFocus();
+        clEducation.findFocus();
+    }
+
     @OnClick({R.id.iv_schoolDelete, R.id.tv_professionSelect, R.id.rl_education, R.id.rl_startAndEndTime, R.id.btn_nextEdu})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -284,9 +319,11 @@ public class EducationActivity extends BaseActivity<EducationPresenter, Educatio
                 tvProfession.setText("");
                 break;
             case R.id.rl_education:
+                setFocus();
                 datePickerDegree.show(tvEducation.getText().toString());
                 break;
             case R.id.rl_startAndEndTime:
+                setFocus();
                 datePickerSE.show(startTimes, endTimes);
                 break;
             case R.id.btn_nextEdu:
@@ -320,17 +357,18 @@ public class EducationActivity extends BaseActivity<EducationPresenter, Educatio
         educationData.setEndTime(endTimes);
         mPresenter.sendEducationToResume(educationData);
     }
-    private void exitOrFinishActivity(){
-        if(stopType==4){
-            myDialog=new MyDialog(this,2);
+
+    private void exitOrFinishActivity() {
+        if (startType == 2) {
+            myDialog = new MyDialog(this, 2);
             myDialog.setMessage(getString(R.string.exitWarning));
-            myDialog.setYesOnclickListener("确定",new MyDialog.onYesOnclickListener() {
+            myDialog.setYesOnclickListener("确定", new MyDialog.onYesOnclickListener() {
                 @Override
                 public void onYesClick() {
                     myDialog.dismiss();
-                    SplashActivity.startAction(EducationActivity.this);
-                    SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
-                    sUtils.setIntValue(Constants.ISAUTOLOGIN,0);
+                    SplashActivity.startAction(EducationActivity.this,1);
+                    SharedPreferencesUtils sUtils = new SharedPreferencesUtils(HRApplication.getAppContext());
+                    sUtils.setIntValue(Constants.ISAUTOLOGIN, 0);
                     AppManager.getAppManager().finishAllActivity();
                 }
             });
@@ -341,10 +379,11 @@ public class EducationActivity extends BaseActivity<EducationPresenter, Educatio
                 }
             });
             myDialog.show();
-        }else {
+        } else {
             finish();
         }
     }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK

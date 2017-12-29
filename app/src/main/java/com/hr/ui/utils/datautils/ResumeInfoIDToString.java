@@ -435,6 +435,34 @@ public class ResumeInfoIDToString {
 	}
 
 	/**
+	 * 获取当前求职状态
+	 */
+	public static String getCurrentStateId(Context context, String name,
+										 boolean isCHS) {
+		if(context!=null) {
+			String[] workstateStrings;
+			if (!isCHS) {// en
+				workstateStrings = context.getResources().getStringArray(
+						R.array.array_workstate_en);
+			} else {// zh
+				workstateStrings = context.getResources().getStringArray(
+						R.array.array_workstate_zh);
+			}
+			String[] workstateIdStrings = context.getResources().getStringArray(
+					R.array.array_workstate_ids);
+			if (name== null || name.trim().length() == 0) {
+				name = workstateStrings[0];
+			}
+			for (int i = 0; i < workstateIdStrings.length; i++) {
+				if (workstateStrings[i].equals(name)) {
+					return workstateIdStrings[i];
+				}
+			}
+		}
+		return "";
+	}
+
+	/**
 	 * 获取学历
 	 */
 	public static String getEducationDegree(Context context, String id,

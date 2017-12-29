@@ -5,9 +5,11 @@ import android.graphics.drawable.BitmapDrawable;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
+import com.hr.ui.app.HRApplication;
 import com.hr.ui.bean.EducationData;
 import com.hr.ui.bean.JobOrderData;
 import com.hr.ui.bean.PersonalInformationData;
+import com.hr.ui.bean.ProjectExpData;
 import com.hr.ui.bean.ThirdLoginBean;
 import com.hr.ui.bean.WorkExpData;
 import com.hr.ui.constants.Constants;
@@ -24,6 +26,12 @@ import java.util.UUID;
 
 public class ApiParameter {
     public static final String TAG=ApiParameter.class.getSimpleName();
+
+    /**
+     * 连接服务器
+     * @param context
+     * @return
+     */
     public static HashMap<String,String> getConnect(Context context){
         SharedPreferencesUtils sUtils=new SharedPreferencesUtils(context);
         HashMap<String,String> requestMap=new HashMap<>();
@@ -235,7 +243,11 @@ public class ApiParameter {
         String day=birth.substring(birth.lastIndexOf("-")+1);
         requestMap.put("method","user_resume.baseinfoset");
         requestMap.put("resume_language","zh");
-        requestMap.put("pic_filekey","");
+        SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
+        requestMap.put("resume",sUtils.getIntValue(Constants.RESUME_ID,0)+"");
+        if(personalInformationData.getImageUrl()!=null&&!"".equals(personalInformationData.getImageUrl())) {
+            requestMap.put("pic_filekey", personalInformationData.getImageUrl());
+        }
         requestMap.put("name",personalInformationData.getName());
         requestMap.put("sex",personalInformationData.getSex());
         requestMap.put("year",year);
@@ -247,7 +259,7 @@ public class ApiParameter {
         requestMap.put("ydphone",personalInformationData.getPhoneNumber());
         requestMap.put("emailaddress",personalInformationData.getEmail());
         requestMap.put("is_app","1");
-        System.out.println(requestMap.toString()+"haha");
+        //System.out.println(requestMap.toString()+"haha");
         return requestMap;
     }
     public static HashMap<String,String> sendEducationToResume(EducationData educationData){
@@ -259,7 +271,12 @@ public class ApiParameter {
         String toYear=endTime.substring(0,endTime.indexOf("-"));
         String toMonth=endTime.substring(endTime.indexOf("-")+1);
         requestMap.put("method","user_resume.educationset");
+        if(!"".equals(educationData.getEducationId())&&educationData.getEducationId()!=null){
+            requestMap.put("education_id",educationData.getEducationId());
+        }
         requestMap.put("fromyear",fromYear);
+        SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
+        requestMap.put("resume_id",sUtils.getIntValue(Constants.RESUME_ID,0)+"");
         requestMap.put("frommonth",fromMonth);
         requestMap.put("toyear",toYear);
         requestMap.put("tomonth",toMonth);
@@ -278,6 +295,8 @@ public class ApiParameter {
         String toYear=endTime.substring(0,endTime.indexOf("-"));
         String toMonth=endTime.substring(endTime.indexOf("-")+1);
         requestMap.put("method","user_resume.experienceset");
+        SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
+        requestMap.put("resume",sUtils.getIntValue(Constants.RESUME_ID,0)+"");
         requestMap.put("company",workExpData.getCompany());
         requestMap.put("fromyear",fromYear);
         requestMap.put("frommonth",fromMonth);
@@ -290,9 +309,15 @@ public class ApiParameter {
         return requestMap;
     }
     public static HashMap<String,String> sendJobOrderToResume(JobOrderData jobOrderData){
+        SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_resume.orderset");
-        requestMap.put("current_workstate","11");
+        requestMap.put("resume_id",sUtils.getIntValue(Constants.RESUME_ID,0)+"");
+        if(jobOrderData.getJobStyle()==null||"".equals(jobOrderData.getJobStyle())){
+                requestMap.put("current_workstate", "11");
+        }else{
+            requestMap.put("current_workstate", jobOrderData.getJobStyle());
+        }
         requestMap.put("jobtype",jobOrderData.getWorkType());
         requestMap.put("industry",jobOrderData.getIndustry());
         requestMap.put("func",jobOrderData.getExpectPosition());
@@ -300,7 +325,12 @@ public class ApiParameter {
         requestMap.put("order_salary",jobOrderData.getSalary());
         requestMap.put("workarea",jobOrderData.getAddress());
         requestMap.put("resume_language","zh");
-        requestMap.put("save_mode","1");
+        if("".equals(jobOrderData.getMode())) {
+            requestMap.put("save_mode", "1");
+        }else{
+            requestMap.put("save_mode",jobOrderData.getMode());
+        }
+        Log.i("数据",requestMap.toString());
         return requestMap;
     }
 
@@ -316,6 +346,12 @@ public class ApiParameter {
         return requestMap;
     }
 
+    /**
+     * 设置默认简历
+     * @param resumeId
+     * @param important
+     * @return
+     */
     public static HashMap<String,String> setDefaultResume(String resumeId,String important){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_resume.setimportant");
@@ -324,5 +360,105 @@ public class ApiParameter {
         requestMap.put("resume_id",resumeId);
         requestMap.put("important",important);
         return requestMap;
+    }
+
+    /**
+     * 获取简历中的个人信息
+     * @return
+     */
+    public static HashMap<String,String> getResumePersonnalInfo(){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user_resume.baseinfoget");
+        requestMap.put("resume_language","zh");
+        return requestMap;
+    }
+
+    /**
+     * 上传图片
+     * @param content
+     * @return
+     */
+    public static HashMap<String,String> upLoadImage(String content){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user_resume.uploadphoto");
+        requestMap.put("photo_content",content);
+        //Log.i("数据",requestMap.toString());
+        return requestMap;
+    }
+    public static HashMap<String,String> getJobOrderInfo(){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user_resume.orderget");
+        //Log.i("数据",requestMap.toString());
+        return requestMap;
+    }
+    public static HashMap<String,String> getEducation(String educationId){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user_resume.educationget");
+        requestMap.put("education_id",educationId);
+        requestMap.put("resume_language","zh");
+        return requestMap;
+    }
+    public static HashMap<String,String> deleteEducation(String educationId){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user_resume.educationdel");
+        requestMap.put("education_id",educationId);
+        requestMap.put("resume_language","zh");
+        return requestMap;
+    }
+    public static HashMap<String,String> getWorkExp(String experienceId){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user_resume.experienceget");
+        SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
+        requestMap.put("resume_id",sUtils.getIntValue(Constants.RESUME_ID,0)+"");
+        requestMap.put("experience_id",experienceId);
+        return  requestMap;
+    }
+    public static HashMap<String,String> deleteWorkExp(String experienceId){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user_resume.experiencedel");
+        SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
+        requestMap.put("resume_id",sUtils.getIntValue(Constants.RESUME_ID,0)+"");
+        requestMap.put("experience_id",experienceId);
+        return  requestMap;
+    }
+    public static HashMap<String,String> addOrReplaceProjectExp(ProjectExpData projectExpData){
+        HashMap<String,String> requestMap=new HashMap<>();
+        String startTime=projectExpData.getStartTime();
+        String endTime=projectExpData.getEndTime();
+        String fromYear=startTime.substring(0,startTime.indexOf("-"));
+        String fromMonth=startTime.substring(startTime.indexOf("-")+1);
+        String toYear=endTime.substring(0,endTime.indexOf("-"));
+        String toMonth=endTime.substring(endTime.indexOf("-")+1);
+        requestMap.put("method","user_resume.projectset");
+        SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
+        requestMap.put("resume_id",sUtils.getIntValue(Constants.RESUME_ID,0)+"");
+        if(projectExpData.getProjectId()!=null&&!"".equals(projectExpData.getProjectId())) {
+            requestMap.put("project_id", projectExpData.getProjectId());
+        }
+        requestMap.put("fromyear",fromYear);
+        requestMap.put("frommonth",fromMonth);
+        requestMap.put("toyear",toYear);
+        requestMap.put("tomonth",toMonth);
+        requestMap.put("projectname",projectExpData.getProjectName());
+        requestMap.put("projectdesc",projectExpData.getProjectDes());
+        requestMap.put("responsibility",projectExpData.getProjectResponsibility());
+        requestMap.put("position",projectExpData.getProjectPosition());
+        return  requestMap;
+    }
+    public static HashMap<String,String> deleteProjectInfo(String projectId){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user_resume.experiencedel");
+        SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
+        requestMap.put("resume_id",sUtils.getIntValue(Constants.RESUME_ID,0)+"");
+        requestMap.put("project_id",projectId);
+        return  requestMap;
+    }
+    public static HashMap<String,String> getProjectInfo(String projectId){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user_resume.experiencedel");
+        SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
+        requestMap.put("resume_id",sUtils.getIntValue(Constants.RESUME_ID,0)+"");
+        requestMap.put("project_id",projectId);
+        return  requestMap;
     }
 }

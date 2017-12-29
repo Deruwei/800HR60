@@ -24,7 +24,7 @@ public class JobOrderPresenter extends JobOrderContract.Presenter{
 
     @Override
     public void sendJobOrderToResume(JobOrderData jobOrderData) {
-        mRxManage.add(mModel.sendJobOrderToResume(jobOrderData).subscribe(new RxSubscriber<ResponseBody>(mContext,false) {
+        mRxManage.add(mModel.sendJobOrderToResume(jobOrderData).subscribe(new RxSubscriber<ResponseBody>(mContext,true) {
             @Override
             protected void _onNext(ResponseBody responseBody) throws IOException {
                 String s= null;

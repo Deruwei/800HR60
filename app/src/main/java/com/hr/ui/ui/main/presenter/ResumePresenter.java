@@ -4,6 +4,7 @@ import android.util.MutableInt;
 
 import com.hr.ui.base.RxSubscriber;
 import com.hr.ui.bean.MultipleResumeBean;
+import com.hr.ui.bean.PictureBean;
 import com.hr.ui.bean.ResumeBean;
 import com.hr.ui.ui.main.activity.MultipleResumeActivity;
 import com.hr.ui.ui.main.fragment.ResumeContract;
@@ -53,6 +54,24 @@ public class ResumePresenter extends ResumeContract.Presenter {
                     mView.getResumeList(resumeId);
                 }else{
                     ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId(Integer.parseInt(multipleResumeBean.getError_code())));
+                }
+            }
+
+            @Override
+            protected void _onError(String message) {
+
+            }
+        }));
+    }
+    @Override
+    public void upLoadImage(String content) {
+        mRxManage.add(mModel.upLoadImage(content).subscribe(new RxSubscriber<PictureBean>(mContext,false) {
+            @Override
+            protected void _onNext(PictureBean pictureBean) throws IOException {
+                if (pictureBean.getError_code()==0){
+                    mView.uploadImageSuccess(pictureBean.getPic_filekey());
+                }else{
+                    ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) pictureBean.getError_code()));
                 }
             }
 

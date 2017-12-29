@@ -107,23 +107,24 @@
     -->
     <style name="Resume_TextViewTag">
         <item name="android:layout_centerVertical">true</item>
-        <item name="android:textSize">@dimen/dimen_14sp</item>
+        <item name="android:textSize">@dimen/x28</item>
         <item name="android:textColor">@color/color_666</item>
-        <item name="android:layout_width">@dimen/dimen_100dp</item>
+        <item name="android:layout_width">@dimen/x220</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
     <style name="resume_editView" >
         <item name="android:layout_centerVertical">true</item>
         <item name="android:singleLine">true</item>
         <item name="android:background">@null</item>
-        <item name="android:textSize">@dimen/dimen_14sp</item>
+        <item name="android:textSize">@dimen/x28</item>
+        <item name="android:textColor">@color/color_333</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
     <style name="resume_ImageViewRight">
-        <item name="android:layout_marginLeft">@dimen/dimen_5dp</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/x10</item>
+        <item name="android:layout_width">@dimen/x28</item>
+        <item name="android:layout_height">@dimen/x28</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:layout_alignParentRight">true</item>
     </style>
@@ -140,15 +141,15 @@
                 android:layout_height="@dimen/et_height"
     -->
     <style name="button_resumeOK">
-        <item name="android:layout_marginLeft">@dimen/dimen_15dp</item>
-        <item name="android:layout_marginRight">@dimen/dimen_15dp</item>
-        <item name="android:layout_marginTop">@dimen/dimen_20dp</item>
+        <item name="android:layout_marginLeft">@dimen/x25</item>
+        <item name="android:layout_marginRight">@dimen/x25</item>
+        <item name="android:layout_marginTop">@dimen/x41</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:text">@string/save</item>
         <item name="android:textSize">@dimen/btn_textSize</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:background">@drawable/button_login</item>
-        <item name="android:layout_height">@dimen/et_height</item>
+        <item name="android:layout_height">@dimen/x90</item>
     </style>
     <style name="resume_textViewDelete">
         <item name="android:layout_width">wrap_content</item>
@@ -160,30 +161,34 @@
         <item name="android:layout_marginTop">@dimen/dimen_25dp</item>
     </style>
     <style name="resume_view">
-        <item name="android:layout_marginLeft">@dimen/dimen_15dp</item>
-        <item name="android:layout_marginRight">@dimen/dimen_15dp</item>
+        <item name="android:layout_marginLeft">@dimen/x32</item>
+        <item name="android:layout_marginRight">@dimen/x32</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">1dp</item>
-        <item name="android:background">@color/resumeContent_bg</item>
+        <item name="android:layout_height">@dimen/x1</item>
+        <item name="android:background">@color/view_color</item>
     </style>
     <style name="resume_viewTop">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/dimen_10dp</item>
+        <item name="android:layout_height">@dimen/x20</item>
         <item name="android:background">@color/resumeContent_bg</item>
     </style>
     <style name="resume_RelativeLayout">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_marginLeft">@dimen/dimen_15dp</item>
-        <item name="android:layout_marginRight">@dimen/dimen_15dp</item>
-        <item name="android:layout_height">@dimen/dimen_50dp</item>
+        <item name="android:layout_marginLeft">@dimen/x32</item>
+        <item name="android:layout_marginRight">@dimen/x32</item>
+        <item name="android:layout_height">@dimen/x100</item>
+    </style>
+    <style name="style_pop_animation">
+        <item name="android:windowEnterAnimation">@anim/anim_pop_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_pop_out</item>
     </style>
     <style name="resume_industryTextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/dimen_14sp</item>
+        <item name="android:textSize">@dimen/x28</item>
         <item name="android:layout_centerVertical">true</item>
-        <item name="android:layout_marginLeft">@dimen/dimen_30dp</item>
-        <item name="android:layout_marginRight">@dimen/dimen_30dp</item>
+        <item name="android:layout_marginLeft">@dimen/x58</item>
+        <item name="android:layout_marginRight">@dimen/x58</item>
         <item name="android:textColor">@color/color_333</item>
 
     </style>

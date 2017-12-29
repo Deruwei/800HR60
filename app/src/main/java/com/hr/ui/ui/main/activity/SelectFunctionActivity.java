@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +24,7 @@ import com.hr.ui.ui.main.adapter.MySelectFunctionLeftAdapter;
 import com.hr.ui.ui.main.adapter.MySelectPositionRightAdapter;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.datautils.FromStringToArrayList;
+import com.hr.ui.utils.datautils.ResumeInfoIDToString;
 import com.hr.ui.view.MyFlowLayout;
 
 import java.io.Serializable;
@@ -58,6 +58,8 @@ public class SelectFunctionActivity extends BaseNoConnectNetworkAcitivty {
     TextView tvSelectPositionTag;
     @BindView(R.id.tv_selectPositionRightTag)
     TextView tvSelectPositionRightTag;
+    @BindView(R.id.rl_noFunction)
+    RelativeLayout rlNoFunction;
     private List<CityBean> industryList;
     private List<CityBean> functionList;
     private MySelectFunctionLeftAdapter leftAdapter;
@@ -105,8 +107,6 @@ public class SelectFunctionActivity extends BaseNoConnectNetworkAcitivty {
         });
         industryList = FromStringToArrayList.getInstance().getIndustryList();
         tvSelectPositionTag.setText(R.string.selectField);
-        tvSelectPositionNum.setVisibility(View.GONE);
-        tvSelectPositionRightTag.setVisibility(View.GONE);
         //显示传过来的行业
         if (industryId != null) {
             for (int i = 0; i < industryList.size(); i++) {
@@ -126,7 +126,7 @@ public class SelectFunctionActivity extends BaseNoConnectNetworkAcitivty {
                 for (int k = 0; k < selectFunctionList.size(); k++) {
                     if (functionList.get(j).getId().equals(selectFunctionList.get(k).getId())) {
                         functionList.get(j).setCheck(true);
-                        addView(selectFunctionList.get(k));
+                        addView(selectFunctionList.get(k), industryId);
                     }
 
                 }
@@ -146,7 +146,8 @@ public class SelectFunctionActivity extends BaseNoConnectNetworkAcitivty {
                 currentPosition = i;
                 functionList = FromStringToArrayList.getInstance().getExpectField(industryId);
                 if (i < 5) {
-
+                    lvRight.setVisibility(View.VISIBLE);
+                    rlNoFunction.setVisibility(View.GONE);
                     for (int j = 0; j < industryList.size(); j++) {
                         industryList.get(j).setCheck(false);
                     }
@@ -162,7 +163,9 @@ public class SelectFunctionActivity extends BaseNoConnectNetworkAcitivty {
                     industryList.get(i).setCheck(true);
 
                 } else {
-                    for(int j=0;j<selectFunctionList.size();j++){
+                    lvRight.setVisibility(View.GONE);
+                    rlNoFunction.setVisibility(View.VISIBLE);
+                    for (int j = 0; j < selectFunctionList.size(); j++) {
                         removeView(selectFunctionList.get(j));
                     }
                     selectFunctionList.clear();
@@ -198,7 +201,6 @@ public class SelectFunctionActivity extends BaseNoConnectNetworkAcitivty {
                     if (sum == 0) {
                         rlSelectData.setVisibility(View.VISIBLE);
                     }
-                    functionList.get(i).setCheck(true);
                     if (selectFunctionList != null && selectFunctionList.size() != 0) {
                         for (int j = 0; j < selectFunctionList.size(); j++) {
                             if (!selectFunctionList.get(j).getId().substring(0, 2).equals(functionList.get(i).getId().substring(0, 2))) {
@@ -209,9 +211,14 @@ public class SelectFunctionActivity extends BaseNoConnectNetworkAcitivty {
                             }
                         }
                     }
-                    selectFunctionList.add(functionList.get(i));
-                    addView(functionList.get(i));
-                    //Log.i("当前选择的",selectFunctionList.toString());
+                    if (sum >= 5) {
+                        ToastUitl.showShort("最多只能选择五个领域");
+                    } else {
+                        functionList.get(i).setCheck(true);
+                        selectFunctionList.add(functionList.get(i));
+                        addView(functionList.get(i), industryList.get(currentPosition).getId());
+                        //Log.i("当前选择的",selectFunctionList.toString());
+                    }
                 }
                 rightAdapter.notifyDataSetChanged();
             }
@@ -233,6 +240,12 @@ public class SelectFunctionActivity extends BaseNoConnectNetworkAcitivty {
                 break;
             case R.id.tv_selectPositionOK:
                 if (industryId != null) {
+                    for (int i = 0; i < industryList.size(); i++) {
+                        if (industryId.equals(industryList.get(i).getId())) {
+                            currentPosition = i;
+                            break;
+                        }
+                    }
                     if (currentPosition < 5) {
                         if (selectFunctionList != null && selectFunctionList.size() != 0) {
                             JobOrderActivity.instance.setFunctionList(industryId, selectFunctionList);
@@ -272,18 +285,18 @@ public class SelectFunctionActivity extends BaseNoConnectNetworkAcitivty {
      *
      * @param cityBean
      */
-    private void addView(final CityBean cityBean) {
+    private void addView(final CityBean cityBean, String industryId) {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.leftMargin = 15;
         params.topMargin = 12;
         params.bottomMargin = 12;
         params.rightMargin = 15;
-        final LinearLayout ll= (LinearLayout) LayoutInflater.from(this).inflate(
+        final LinearLayout ll = (LinearLayout) LayoutInflater.from(this).inflate(
                 R.layout.item_textview_selected, null, false);
         ll.setLayoutParams(params);
-        TextView tv=ll.findViewById(R.id.item_select);
-        tv.setText(cityBean.getName());
+        TextView tv = ll.findViewById(R.id.item_select);
+        tv.setText("[" + ResumeInfoIDToString.getIndustry(this, industryId + "", true) + "]" + cityBean.getName());
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -323,7 +336,7 @@ public class SelectFunctionActivity extends BaseNoConnectNetworkAcitivty {
         sum = selectFunctionList.size();
         if (sum > 0) {
             rlSelectData.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             rlSelectData.setVisibility(View.GONE);
         }
         tvSelectPositionNum.setText(sum + "");

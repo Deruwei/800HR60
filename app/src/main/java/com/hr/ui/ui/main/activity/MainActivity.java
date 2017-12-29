@@ -173,6 +173,7 @@ public class MainActivity extends BaseNoConnectNetworkAcitivty {
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 switch (item.getItemId()) {
                     case R.id.home:
+                        idMenu.setDrawerLockMode(MyDrawLayout2.LOCK_MODE_UNLOCKED);
                         rlLeftPage.setBackgroundResource(R.color.white);
                         ivMainPersonImg.setVisibility(View.VISIBLE);
                         if (menuItem != null) {
@@ -188,6 +189,7 @@ public class MainActivity extends BaseNoConnectNetworkAcitivty {
                         transaction.replace(R.id.ll_main, fragment1);
                         break;
                     case R.id.message:
+                        idMenu.setDrawerLockMode(MyDrawLayout2.LOCK_MODE_UNLOCKED);
                         rlLeftPage.setBackgroundResource(R.color.white);
                         ivMainPersonImg.setVisibility(View.VISIBLE);
                         if (menuItem != null) {
@@ -203,6 +205,7 @@ public class MainActivity extends BaseNoConnectNetworkAcitivty {
                         transaction.replace(R.id.ll_main, fragment2);
                         break;
                     case R.id.resume:
+                        idMenu.setDrawerLockMode(MyDrawLayout2.LOCK_MODE_LOCKED_CLOSED);
                         rlLeftPage.setBackgroundResource(R.drawable.resume_title_bg);
                         ivMainPersonImg.setVisibility(View.GONE);
                         if (menuItem != null) {
@@ -216,6 +219,7 @@ public class MainActivity extends BaseNoConnectNetworkAcitivty {
                             fragment3 = ResumeFragment.newInstance(getString(R.string.navigation_navigation_bar));
                         }
                         transaction.replace(R.id.ll_main, fragment3);
+
                         break;
                 }
                 transaction.commit();

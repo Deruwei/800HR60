@@ -134,17 +134,23 @@
     <string name="endTime">结束时间</string>
     <string name="sure">确定</string>
     <string name="selectedPosition">已选职位</string>
+    <string name="selectedExpectPosition">选择期望职位</string>
     <string name="selectedCity">已选城市</string>
     <string name="submitSuccessMsg">密码修改链接已提交到您的邮箱，请前去邮箱验证。</string>
     <string name="alright">好的,开始填写</string>
+    <string name="addSuccess">添加成功</string>
+    <string name="saveSuccess">保存成功</string>
+    <string name="deleteSuccess">删除成功</string>
 
     //简历部分
     <string name="location">定位城市:</string>
     <string name="year">年</string>
     <string name="month">月</string>
     <string name="day">日</string>
+    <string name="selectIndustry">选择行业</string>
     <string name="selectCity">选择城市</string>
     <string name="selectField">选择领域</string>
+    <string name="choosePosition">选择职位</string>
     <string name="student">学生</string>
     <string name="alreadyWork">已工作</string>
     <string name="selectIdentify">选择身份</string>
@@ -165,7 +171,11 @@
     <string name="workTime">工作时间</string>
     <string name="email">电子邮箱</string>
     <string name="jobTitle">现有职称</string>
+    <string name="noFunction">该行业的领域要等会才上线,现在直接选择行业即可！</string>
     <string name="phone">手机</string>
+
+    <string name="takePhoto">拍照</string>
+    <string name="selectPicture">图片</string>
     <string name="next">下一步</string>
     <string name="educationBackground">教育背景</string>
     <string name="educationBackgroundHelper">有助于展现你过去的学习情况</string>
@@ -201,6 +211,7 @@
     <string name="workCity">工作城市</string>
     <string name="expectedField_hint">请选择期望领域</string>
     <string name="expectedPosition">期望职位</string>
+    <string name="deleteOrderInfo">删除该求职意向</string>
     <string name="expectedPosition_hint">请选择期望职位</string>
     <string name="expectSalary">期望薪资</string>
     <string name="expectSalary_hint">请填写期望月薪</string>

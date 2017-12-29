@@ -3,6 +3,7 @@ package com.hr.ui.ui.main.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -90,6 +91,12 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
     RelativeLayout rlWorkExpStartAndEndTime;
     @BindView(R.id.rl_responsibilityDes)
     RelativeLayout rlResponsibilityDes;
+    @BindView(R.id.tv_toolbarSave)
+    TextView tvToolbarSave;
+    @BindView(R.id.rl_position)
+    RelativeLayout rlPosition;
+    @BindView(R.id.cl_workExp)
+    ConstraintLayout clWorkExp;
     private String endTimes, startTimes, cityId, responbilityDes;
     private MyStartAndEndTimeCustomDatePicker datePickerSE;
     public static final String TAG = WorkExpActivity.class.getSimpleName();
@@ -97,7 +104,7 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
     private String type;//简历类型
     private SharedPreferencesUtils sUtis;
     private MyDialog myDialog;
-    private int stopType;
+    private int stopType,startType;
 
     /**
      * 入口
@@ -151,6 +158,7 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
         sUtis = new SharedPreferencesUtils(this);
         type = sUtis.getStringValue(Constants.RESUME_TYPE, "");
         stopType = sUtis.getIntValue(Constants.RESUME_STOPTYPE, 0);
+        startType=sUtis.getIntValue(Constants.RESUME_STARTTYPE,0);
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -169,7 +177,7 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               exitOrFinishActivity();
+                exitOrFinishActivity();
             }
         });
         tvCompanyNameTag.setTitleWidth(tvCompanyNameTag);
@@ -196,8 +204,8 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
     private void initListener() {
         tvPositionSelect.setVisibility(View.GONE);
         ivCompanyNameDelete.setVisibility(View.GONE);
-        ivCompanyNameDelete.setVisibility(View.GONE);
-        etGrossPay.addTextChangedListener(new TextWatcher() {
+        ivGrossPayDelete.setVisibility(View.GONE);
+        etCompanyName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -205,9 +213,9 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()>0){
+                if (s.length() > 0) {
                     ivCompanyNameDelete.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     ivCompanyNameDelete.setVisibility(View.GONE);
                 }
             }
@@ -225,9 +233,9 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()>0){
+                if (s.length() > 0) {
                     ivGrossPayDelete.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     ivGrossPayDelete.setVisibility(View.GONE);
                 }
             }
@@ -245,9 +253,9 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()>0){
+                if (s.length() > 0) {
                     tvPositionSelect.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     tvPositionSelect.setVisibility(View.GONE);
                 }
             }
@@ -265,9 +273,9 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()>0){
+                if (s.length() > 0) {
                     tvWorkExpStartAndEndTimeSelect.setImageResource(R.mipmap.right_arrow);
-                }else{
+                } else {
                     tvWorkExpStartAndEndTimeSelect.setImageResource(R.mipmap.arrowright);
                 }
             }
@@ -285,9 +293,9 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()>0){
+                if (s.length() > 0) {
                     tvWorkPlaceSelect.setImageResource(R.mipmap.right_arrow);
-                }else{
+                } else {
                     tvWorkPlaceSelect.setImageResource(R.mipmap.arrowright);
                 }
             }
@@ -305,9 +313,9 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()>0){
+                if (s.length() > 0) {
                     tvResponsibilityDesSelect.setImageResource(R.mipmap.right_arrow);
-                }else{
+                } else {
                     tvResponsibilityDesSelect.setImageResource(R.mipmap.arrowright);
                 }
             }
@@ -315,6 +323,42 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
             @Override
             public void afterTextChanged(Editable s) {
 
+            }
+        });
+        etGrossPay.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    ivGrossPayDelete.setVisibility(View.GONE);
+                }else{
+                    if(etGrossPay.getText().toString()!=null&&!"".equals(etGrossPay.getText().toString())){
+                        ivGrossPayDelete.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
+        etCompanyName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    ivCompanyNameDelete.setVisibility(View.GONE);
+                }else{
+                    if(etCompanyName.getText().toString()!=null&&!"".equals(etCompanyName.getText().toString())){
+                        ivCompanyNameDelete.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
+        tvPosition.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    tvPositionSelect.setVisibility(View.GONE);
+                }else{
+                    if(tvPosition.getText().toString()!=null&&!"".equals(tvPosition.getText().toString())){
+                        tvPositionSelect.setVisibility(View.VISIBLE);
+                    }
+                }
             }
         });
     }
@@ -344,18 +388,25 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
             case R.id.rl_position:
                 break;
             case R.id.rl_workExpStartAndEndTime:
+                setFocus();
                 datePickerSE.show(startTimes, endTimes);
                 break;
             case R.id.btn_nextEdu:
-                    doSendWorkExp();
+                doSendWorkExp();
                 //JobOrderActivity.startAction(this);
                 break;
             case R.id.rl_workPlace:
+                setFocus();
                 SelectCityActivity.startAction(this, 1, TAG);
                 break;
         }
     }
-
+    private void setFocus() {
+        clWorkExp.setFocusableInTouchMode(true);
+        clWorkExp.setFocusable(true);
+        clWorkExp.requestFocus();
+        clWorkExp.findFocus();
+    }
     private void doSendWorkExp() {
         if (etCompanyName.getText().toString() == null || "".equals(etCompanyName.getText().toString())) {
             ToastUitl.showShort("请填写公司名称");
@@ -407,22 +458,23 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
     @OnClick(R.id.rl_responsibilityDes)
     public void onViewClicked() {
         if ("".equals(tvResponsibilityDes.getText().toString()) || tvResponsibilityDes.getText().toString() == null) {
-            ContentActivity.startAction(this);
+            ContentActivity.startAction(this,TAG);
         } else {
-            ContentActivity.startAction(this, tvResponsibilityDes.getText().toString());
+            ContentActivity.startAction(this, tvResponsibilityDes.getText().toString(),TAG);
         }
     }
-    private void exitOrFinishActivity(){
-        if(stopType==4){
-            myDialog=new MyDialog(this,2);
+
+    private void exitOrFinishActivity() {
+        if (startType== 3) {
+            myDialog = new MyDialog(this, 2);
             myDialog.setMessage(getString(R.string.exitWarning));
-            myDialog.setYesOnclickListener("确定",new MyDialog.onYesOnclickListener() {
+            myDialog.setYesOnclickListener("确定", new MyDialog.onYesOnclickListener() {
                 @Override
                 public void onYesClick() {
                     myDialog.dismiss();
-                    SplashActivity.startAction(WorkExpActivity.this);
-                    SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
-                    sUtils.setIntValue(Constants.ISAUTOLOGIN,0);
+                    SplashActivity.startAction(WorkExpActivity.this,1);
+                    SharedPreferencesUtils sUtils = new SharedPreferencesUtils(HRApplication.getAppContext());
+                    sUtils.setIntValue(Constants.ISAUTOLOGIN, 0);
                     AppManager.getAppManager().finishAllActivity();
                 }
             });
@@ -433,10 +485,11 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
                 }
             });
             myDialog.show();
-        }else {
+        } else {
             finish();
         }
     }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK

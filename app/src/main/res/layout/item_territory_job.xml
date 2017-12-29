@@ -4,14 +4,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:gravity="center"
-    android:layout_height="wrap_content">
+    android:background="@drawable/tv_bg_newmain"
+    android:layout_height="@dimen/x58">
     <TextView
+        android:textSize="@dimen/x24"
+        android:padding="@dimen/x17"
+        android:textColor="@color/new_main"
         android:id="@+id/tv_territoryOrJobName"
         android:layout_width="wrap_content"
         android:text="工程设计"
         android:layout_height="wrap_content" />
     <ImageView
         android:layout_width="wrap_content"
-        android:src="@mipmap/zhinengxuanze_xiala"
+        android:src="@mipmap/delete_orange"
         android:layout_height="wrap_content" />
 </LinearLayout>

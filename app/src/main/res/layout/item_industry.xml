@@ -4,15 +4,20 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:gravity="center"
+    android:paddingTop="@dimen/x33"
+    android:paddingLeft="@dimen/x72"
     android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/iv_industryImg"
         android:src="@mipmap/ic_launcher_round"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="@dimen/x49"
+        android:layout_height="@dimen/x46" />
     <TextView
+        android:layout_marginTop="@dimen/x19"
         android:id="@+id/tv_industryName"
         android:text="[建筑]"
+        android:textColor="@color/color_333"
+        android:textSize="@dimen/x28"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </LinearLayout>

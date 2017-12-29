@@ -3,19 +3,36 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
+    android:id="@+id/rl_resumeIndustry"
+    android:background="@color/white"
     android:layout_height="wrap_content">
-    <TextView
-        android:id="@+id/tv_resumeIndustryName"
-        android:text="@string/industry"
-        style="@style/resume_industryTextView" />
     <LinearLayout
         android:orientation="vertical"
-        android:layout_toRightOf="@+id/tv_resumeIndustryName"
+        android:id="@+id/ll_resumeIndustry"
+        android:layout_width="wrap_content"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/iv_industryIcon"
+            android:layout_width="@dimen/x46"
+            android:layout_height="@dimen/y49" />
+        <TextView
+            android:layout_marginTop="@dimen/x19"
+            android:id="@+id/tv_resumeIndustryName"
+            android:text="@string/industry"
+            style="@style/resume_industryTextView" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_toRightOf="@+id/ll_resumeIndustry"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <com.hr.ui.view.MyFlowLayout
-            android:id="@+id/rl_expectedPosition"
+            android:id="@+id/fl_expectedPosition"
             android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/x40"
+            android:layout_marginBottom="@dimen/x40"
             android:layout_height="wrap_content">
 
         </com.hr.ui.view.MyFlowLayout>
@@ -24,7 +41,9 @@
 
         </View>
         <com.hr.ui.view.MyFlowLayout
-            android:id="@+id/rl_expectedFeiield"
+            android:layout_marginBottom="@dimen/x40"
+            android:layout_marginTop="@dimen/x40"
+            android:id="@+id/fl_expectedField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

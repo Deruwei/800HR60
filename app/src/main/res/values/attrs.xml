@@ -32,7 +32,13 @@
         <attr name="speed" />
         <attr name="textSize"/>
     </declare-styleable>
-
+    <!-- 圆形头像边框属性-->
+    <declare-styleable name="CircleImageView">
+        <attr name="civ_border_width" format="dimension" />
+        <attr name="civ_border_color" format="color" />
+        <attr name="civ_border_overlay" format="boolean" />
+        <attr name="civ_fill_color" format="color" />
+    </declare-styleable>
     <declare-styleable name="MyDialogView">
         <attr name="triangleWith" format="dimension"/><!--三角形的宽度-->
         <attr name="bg" format="reference"/>

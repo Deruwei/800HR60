@@ -86,7 +86,7 @@ public class RegisterPresenter extends RegisterContract.Presenter {
 
     @Override
     public void getRegister(final String phoneNumber, String validCode, final String psw) {
-        mRxManage.add(mModel.getRegister(phoneNumber,validCode,psw).subscribe(new RxSubscriber<RegisterBean>(mContext,false) {
+        mRxManage.add(mModel.getRegister(phoneNumber,validCode,psw).subscribe(new RxSubscriber<RegisterBean>(mContext,true) {
             @Override
             public void onStart() {
                 super.onStart();
@@ -118,7 +118,7 @@ public class RegisterPresenter extends RegisterContract.Presenter {
 
     @Override
     public void getThidBinding(final ThirdLoginBean thirdPartBean, final String userName, final String psw, final int type) {
-        mRxManage.add(mModel.getThirdBinding(thirdPartBean,userName,psw,type).subscribe(new RxSubscriber<RegisterBean>(mContext,false) {
+        mRxManage.add(mModel.getThirdBinding(thirdPartBean,userName,psw,type).subscribe(new RxSubscriber<RegisterBean>(mContext,true) {
             @Override
             protected void _onNext(RegisterBean registerBean) throws IOException {
                 if(registerBean.getError_code()==0){

@@ -63,6 +63,7 @@ public class CustomDatePicker {
             datePickerDialog.setContentView(R.layout.custom_date_picker);
             Window window = datePickerDialog.getWindow();
             window.setGravity(Gravity.BOTTOM);
+            datePickerDialog.setCanceledOnTouchOutside(true);
             window.setWindowAnimations(R.style.dialogWindowAnim); //设置窗口弹出动画
             WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
             DisplayMetrics dm = new DisplayMetrics();

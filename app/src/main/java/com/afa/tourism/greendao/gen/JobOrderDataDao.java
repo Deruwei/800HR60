@@ -28,8 +28,10 @@ public class JobOrderDataDao extends AbstractDao<JobOrderData, String> {
         public final static Property Industry = new Property(1, String.class, "industry", false, "INDUSTRY");
         public final static Property ExpectArea = new Property(2, String.class, "expectArea", false, "EXPECT_AREA");
         public final static Property ExpectPosition = new Property(3, String.class, "expectPosition", false, "EXPECT_POSITION");
-        public final static Property Address = new Property(4, String.class, "address", false, "ADDRESS");
-        public final static Property Salary = new Property(5, String.class, "salary", false, "SALARY");
+        public final static Property JobStyle = new Property(4, String.class, "jobStyle", false, "JOB_STYLE");
+        public final static Property Address = new Property(5, String.class, "address", false, "ADDRESS");
+        public final static Property Salary = new Property(6, String.class, "salary", false, "SALARY");
+        public final static Property Mode = new Property(7, String.class, "mode", false, "MODE");
     }
 
 
@@ -49,8 +51,10 @@ public class JobOrderDataDao extends AbstractDao<JobOrderData, String> {
                 "\"INDUSTRY\" TEXT," + // 1: industry
                 "\"EXPECT_AREA\" TEXT," + // 2: expectArea
                 "\"EXPECT_POSITION\" TEXT," + // 3: expectPosition
-                "\"ADDRESS\" TEXT," + // 4: address
-                "\"SALARY\" TEXT);"); // 5: salary
+                "\"JOB_STYLE\" TEXT," + // 4: jobStyle
+                "\"ADDRESS\" TEXT," + // 5: address
+                "\"SALARY\" TEXT," + // 6: salary
+                "\"MODE\" TEXT);"); // 7: mode
     }
 
     /** Drops the underlying database table. */
@@ -83,14 +87,24 @@ public class JobOrderDataDao extends AbstractDao<JobOrderData, String> {
             stmt.bindString(4, expectPosition);
         }
  
+        String jobStyle = entity.getJobStyle();
+        if (jobStyle != null) {
+            stmt.bindString(5, jobStyle);
+        }
+ 
         String address = entity.getAddress();
         if (address != null) {
-            stmt.bindString(5, address);
+            stmt.bindString(6, address);
         }
  
         String salary = entity.getSalary();
         if (salary != null) {
-            stmt.bindString(6, salary);
+            stmt.bindString(7, salary);
+        }
+ 
+        String mode = entity.getMode();
+        if (mode != null) {
+            stmt.bindString(8, mode);
         }
     }
 
@@ -118,14 +132,24 @@ public class JobOrderDataDao extends AbstractDao<JobOrderData, String> {
             stmt.bindString(4, expectPosition);
         }
  
+        String jobStyle = entity.getJobStyle();
+        if (jobStyle != null) {
+            stmt.bindString(5, jobStyle);
+        }
+ 
         String address = entity.getAddress();
         if (address != null) {
-            stmt.bindString(5, address);
+            stmt.bindString(6, address);
         }
  
         String salary = entity.getSalary();
         if (salary != null) {
-            stmt.bindString(6, salary);
+            stmt.bindString(7, salary);
+        }
+ 
+        String mode = entity.getMode();
+        if (mode != null) {
+            stmt.bindString(8, mode);
         }
     }
 
@@ -141,8 +165,10 @@ public class JobOrderDataDao extends AbstractDao<JobOrderData, String> {
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // industry
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // expectArea
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // expectPosition
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // address
-            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5) // salary
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // jobStyle
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // address
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // salary
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7) // mode
         );
         return entity;
     }
@@ -153,8 +179,10 @@ public class JobOrderDataDao extends AbstractDao<JobOrderData, String> {
         entity.setIndustry(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setExpectArea(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setExpectPosition(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setAddress(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setSalary(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setJobStyle(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setAddress(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setSalary(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setMode(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
      }
     
     @Override

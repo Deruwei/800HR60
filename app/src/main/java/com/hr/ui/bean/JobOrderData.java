@@ -14,17 +14,22 @@ public class JobOrderData {
     private String industry;
     private String expectArea;
     private String expectPosition;
+    private String jobStyle;
     private String address;
     private String salary;
-    @Generated(hash = 688458132)
+    private String mode;
+    @Generated(hash = 2076546083)
     public JobOrderData(String workType, String industry, String expectArea,
-            String expectPosition, String address, String salary) {
+            String expectPosition, String jobStyle, String address, String salary,
+            String mode) {
         this.workType = workType;
         this.industry = industry;
         this.expectArea = expectArea;
         this.expectPosition = expectPosition;
+        this.jobStyle = jobStyle;
         this.address = address;
         this.salary = salary;
+        this.mode = mode;
     }
     @Generated(hash = 1495632613)
     public JobOrderData() {
@@ -64,5 +69,17 @@ public class JobOrderData {
     }
     public void setAddress(String address) {
         this.address = address;
+    }
+    public String getJobStyle() {
+        return this.jobStyle;
+    }
+    public void setJobStyle(String jobStyle) {
+        this.jobStyle = jobStyle;
+    }
+    public String getMode() {
+        return this.mode;
+    }
+    public void setMode(String mode) {
+        this.mode = mode;
     }
 }

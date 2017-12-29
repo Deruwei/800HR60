@@ -11,14 +11,16 @@ import org.greenrobot.greendao.annotation.Generated;
 public class EducationData {
     @Id
     private String schoolName;
+    private String educationId;
     private String profession;
     private String degree;
     private String startTime;
     private String endTime;
-    @Generated(hash = 1685699355)
-    public EducationData(String schoolName, String profession, String degree,
-            String startTime, String endTime) {
+    @Generated(hash = 1979053671)
+    public EducationData(String schoolName, String educationId, String profession,
+            String degree, String startTime, String endTime) {
         this.schoolName = schoolName;
+        this.educationId = educationId;
         this.profession = profession;
         this.degree = degree;
         this.startTime = startTime;
@@ -56,5 +58,11 @@ public class EducationData {
     }
     public void setEndTime(String endTime) {
         this.endTime = endTime;
+    }
+    public String getEducationId() {
+        return this.educationId;
+    }
+    public void setEducationId(String educationId) {
+        this.educationId = educationId;
     }
 }

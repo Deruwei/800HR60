@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.hr.ui.api.Api;
 import com.hr.ui.api.HostType;
+import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.RxSubscriber;
 import com.hr.ui.bean.ArrayInfoBean;
 import com.hr.ui.bean.BaseBean;
@@ -16,6 +17,7 @@ import com.hr.ui.bean.MultipleResumeBean;
 import com.hr.ui.bean.RegisterBean;
 import com.hr.ui.bean.ResumeBean;
 import com.hr.ui.constants.Constants;
+import com.hr.ui.ui.main.activity.SplashActivity;
 import com.hr.ui.ui.main.contract.SplashContract;
 import com.hr.ui.utils.NetUtils;
 import com.hr.ui.utils.Rc4Md5Utils;
@@ -32,6 +34,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import cn.sharesdk.framework.Platform;
 import okhttp3.ResponseBody;
 
 /**
@@ -53,6 +56,7 @@ public class SplashPresenter extends SplashContract.Presenter {
             protected void _onNext(BaseBean baseBean) {
                 mView.stopLoading();
                 if(baseBean.getError_code()==0){
+                    HRApplication.getAppContext().setService();
                     SharedPreferencesUtils sUtils=new SharedPreferencesUtils(mContext);
                     sUtils.setStringValue(Constants.SESSION_KEY,baseBean.getSession_key());
                     Constants.SESSION_KEY=baseBean.getSession_key();
@@ -61,7 +65,7 @@ public class SplashPresenter extends SplashContract.Presenter {
                     Constants.SVR_API_VER = baseBean.getSvr_api_ver();
                     mView.SendConnectSuccess();
                 }else{
-                    if(baseBean.getError_code()==204||baseBean.getError_code()==205) {
+                    if(baseBean.getError_code()==204||baseBean.getError_code()==205||baseBean.getError_code()==303) {
                         Constants.SESSION_KEY=null;
                         Rc4Md5Utils.secret_key = Constants.INIT_SECRET_KRY;
                         getConnect(context);
@@ -81,7 +85,7 @@ public class SplashPresenter extends SplashContract.Presenter {
 
     @Override
     public void getAutoPhoneLogin(String phoneNumber, String psw,int type) {
-        mRxManage.add(mModel.getAutoPhoneLogin(phoneNumber,psw,type).subscribe(new RxSubscriber<RegisterBean>(mContext,false) {
+        mRxManage.add(mModel.getAutoPhoneLogin(phoneNumber,psw,type).subscribe(new RxSubscriber<RegisterBean>(mContext,true) {
             @Override
             protected void _onNext(RegisterBean registerBean) throws IOException {
                 if(registerBean.getError_code()==0){

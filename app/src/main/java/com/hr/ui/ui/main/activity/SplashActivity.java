@@ -1,10 +1,15 @@
 package com.hr.ui.ui.main.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.hardware.usb.UsbRequest;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -40,6 +45,7 @@ import java.util.TimerTask;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.http.PUT;
 
 /**
  * Created by wdr on 2017/11/21.
@@ -54,11 +60,15 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
     private SharedPreferencesUtils sUtils;
     private int isAutoLogin,autoLoginType;
     private LoginBean loginBean;
+    String[] permissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS};
+    List<String> mPermissionList = new ArrayList<>();
     private int[] imageIds={R.mipmap.resume1,R.mipmap.resume2,R.mipmap.resume3,R.mipmap.resume4,R.mipmap.resume5};
     private ArrayList<String> titles;
     private int userId;
-    public static void startAction(Activity activity) {
+    private int type;
+    public static void startAction(Activity activity,int type) {
         Intent intent = new Intent(activity, SplashActivity.class);
+        intent.putExtra("type",type);
         activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.fade_in,
                 R.anim.fade_out);
@@ -67,6 +77,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
+        getPermission();
     }
 
     @Override
@@ -81,20 +92,88 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
 
     @Override
     public void initView() {
+        type=getIntent().getIntExtra("type",0);
         sUtils=new SharedPreferencesUtils(this);
         isAutoLogin=sUtils.getIntValue(Constants.ISAUTOLOGIN,0);
         autoLoginType=sUtils.getIntValue(Constants.AUTOLOGINTYPE,5);
         mPresenter.getConnect(this);
-        setViewVisible();
-        int screenWidth = getWindowManager().getDefaultDisplay().getWidth();//真实分辨率 宽
-         int screenHeight = getWindowManager().getDefaultDisplay().getHeight();//真实分辨率 高
-
+       /* int screenWidth = getWindowManager().getDefaultDisplay().getWidth();//真实分辨率 宽
+         int screenHeight = getWindowManager().getDefaultDisplay().getHeight();//真实分辨率 高*/
+        if(type==1){
+            setViewVisible();
+        }
         /* DisplayMetrics dm = new DisplayMetrics();
          dm = getResources().getDisplayMetrics();
          int densityDPI = dm.densityDpi;     // 屏幕密度（每寸像素：120(ldpi)/160(mdpi)/213(tvdpi)/240(hdpi)/320(xhdpi)）
         Toast.makeText(this, "真实分辨率："+screenWidth+"*"+screenHeight+"  每英寸:"+densityDPI, Toast.LENGTH_LONG).show();*/
     }
+    private void getPermission(){
+        mPermissionList.clear();
+        for (int i = 0; i < permissions.length; i++) {
+            if (ContextCompat.checkSelfPermission(mContext, permissions[i]) != PackageManager.PERMISSION_GRANTED) {
+                mPermissionList.add(permissions[i]);
+            }
+        }
+    /**
+    * 判断是否为空
+     */
+        if (mPermissionList.isEmpty()) {//未授予的权限为空，表示都授予了
+            setViewVisible();
+            //delayEntryPage();
+        } else {//请求权限方法
+            String[] permissions = mPermissionList.toArray(new String[mPermissionList.size()]);//将List转为数组
+            ActivityCompat.requestPermissions(SplashActivity.this, permissions, 1);
+        }
+     /*   if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            //申请WRITE_EXTERNAL_STORAGE权限
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},
+                    1);}*/
+    }
+    boolean mShowRequestPermission = true;//用户是否禁止权限
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 1:
+                for (int i = 0; i < grantResults.length; i++) {
+                    if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                        //判断是否勾选禁止后不再询问
+                        boolean showRequestPermission = ActivityCompat.shouldShowRequestPermissionRationale(SplashActivity.this, permissions[i]);
+                        if (showRequestPermission) {//
+                            getPermission();
+                            return;
+                        } else {
+                            mShowRequestPermission = false;//已经禁止
+                        }
+                    }
+                }
+              //  delayEntryPage();
+                break;
+            default:
+                break;
+        }
+    }
+  /*  @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        doNext(requestCode, grantResults);
+    }
+
+    private void doNext(int requestCode, int[] grantResults) {
+        if (requestCode == 1) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission Granted
+
+            } else {
+                // Permission Denied
+                //  displayFrameworkBugMessageAndExit();
+                Toast.makeText(this, "请在应用管理中打开“相机”访问权限！", Toast.LENGTH_LONG).show();
+                finish();
+            }
+        }
+    }*/
     private void setViewVisible() {
         //添加动画属性
         if (sUtils.getBooleanValue(Constants.IS_GUIDE, false) == false) {
@@ -131,12 +210,11 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
 
     @Override
     public void SendConnectSuccess() {
-
         if(autoLoginType!=5) {
             loginBean = LoginDBUtils.queryDataById(autoLoginType + "");
-            System.out.println("auto"+loginBean.toString());
+           // System.out.println("auto"+loginBean.toString());
             if (isAutoLogin == 0) {
-
+                setViewVisible();
             } else {
                 if (autoLoginType == 0) {
                     mPresenter.getAutoPhoneLogin(loginBean.getName(), loginBean.getPassword(), 1);
@@ -146,12 +224,15 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
                     mPresenter.getThirdBindingLogin(loginBean);
                 }
             }
+        }else {
+             setViewVisible();
         }
     }
 
     @Override
     public void phoneLoginSuccess(int userId) {
         this.userId=userId;
+        Log.i("现在的时候","好吧");
        mPresenter.getResumeList();
     }
 

@@ -3,6 +3,7 @@ package com.hr.ui.ui.main.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -13,7 +14,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.hr.ui.R;
 import com.hr.ui.app.AppManager;
@@ -80,19 +80,22 @@ public class JobOrderActivity extends BaseActivity<JobOrderPresenter, JobOrderMo
     ImageView tvExpectedAddressSelect;
     @BindView(R.id.btn_nextEdu)
     RelativeLayout btnNextEdu;
+    @BindView(R.id.cl_jobOrder)
+    ConstraintLayout clJobOrder;
     private int userId;
     public static JobOrderActivity instance;
     @BindView(R.id.tv_expectSalarySelect)
     ImageView tvExpectSalarySelect;
     private List<CityBean> selectPositonList = new ArrayList<>();
     private List<CityBean> selectFunctionList = new ArrayList<>();
-    private List<CityBean> selectPlaceList=new ArrayList<>();
-    private String industryId, jobTypeId, functionId, positionId,placeId;
+    private List<CityBean> selectPlaceList = new ArrayList<>();
+    private String industryId, jobTypeId, functionId, positionId, placeId;
     private CustomDatePicker datePickerJobType;
     private SharedPreferencesUtils sUtils;
-    public static final String TAG=JobOrderActivity.class.getSimpleName();
-    private int stopType;
+    public static final String TAG = JobOrderActivity.class.getSimpleName();
+    private int stopType,startType;
     private MyDialog myDialog;
+
     /**
      * 入口
      *
@@ -122,13 +125,13 @@ public class JobOrderActivity extends BaseActivity<JobOrderPresenter, JobOrderMo
 
     @Override
     public void sendJobOrderSuccess() {
-        int resumeId=sUtils.getIntValue(Constants.RESUME_ID,0);
-       mPresenter.setDefaultResume(resumeId+"","1");
+        int resumeId = sUtils.getIntValue(Constants.RESUME_ID, 0);
+        mPresenter.setDefaultResume(resumeId + "", "1");
     }
 
     @Override
     public void setDefaultResumeSuccess() {
-        MainActivity.startAction(this,userId);
+        MainActivity.startAction(this, userId);
         AppManager.getAppManager().finishAllActivity();
     }
 
@@ -144,8 +147,9 @@ public class JobOrderActivity extends BaseActivity<JobOrderPresenter, JobOrderMo
 
     @Override
     public void initView() {
-        sUtils=new SharedPreferencesUtils(this);
-        stopType=sUtils.getIntValue(Constants.RESUME_STOPTYPE,0);
+        sUtils = new SharedPreferencesUtils(this);
+        stopType = sUtils.getIntValue(Constants.RESUME_STOPTYPE, 0);
+        startType=sUtils.getIntValue(Constants.RESUME_STARTTYPE,0);
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -273,6 +277,25 @@ public class JobOrderActivity extends BaseActivity<JobOrderPresenter, JobOrderMo
 
             }
         });
+        tvExpectSalary.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    tvExpectSalarySelect.setVisibility(View.GONE);
+                }else{
+                    if(tvExpectSalary.getText().toString()!=null&&!"".equals(tvExpectSalary.getText().toString())){
+                        tvExpectSalary.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
+    }
+
+    private void setFocus() {
+        clJobOrder.setFocusableInTouchMode(true);
+        clJobOrder.setFocusable(true);
+        clJobOrder.requestFocus();
+        clJobOrder.findFocus();
     }
 
     @Override
@@ -298,12 +321,15 @@ public class JobOrderActivity extends BaseActivity<JobOrderPresenter, JobOrderMo
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_jobType:
+                setFocus();
                 datePickerJobType.show(tvJobType.getText().toString());
                 break;
             case R.id.rl_expectedField:
+                setFocus();
                 SelectFunctionActivity.startAction(this, industryId, selectFunctionList);
                 break;
             case R.id.rl_expectedPosition:
+                setFocus();
                 if (industryId != null && !"".equals(industryId)) {
                     SelectPositionActivity.startAction(this, industryId, selectPositonList);
                 } else {
@@ -324,17 +350,17 @@ public class JobOrderActivity extends BaseActivity<JobOrderPresenter, JobOrderMo
             ToastUitl.showShort("请选择工作性质");
             return;
         }
-        if("期望行业".equals(tvExpectedFieldTag.getText().toString())){
+        if ("期望行业".equals(tvExpectedFieldTag.getText().toString())) {
 
-        }else {
+        } else {
             if (functionId == null || "".equals(functionId)) {
                 ToastUitl.showShort("请选择期望领域");
                 return;
             }
         }
         if (positionId == null && "".equals(positionId)) {
-                ToastUitl.showShort("请选择期望职位");
-                return;
+            ToastUitl.showShort("请选择期望职位");
+            return;
         }
         if ("".equals(tvExpectSalary.getText().toString()) || tvExpectSalary.getText().toString() == null) {
             ToastUitl.showShort("请填写期望月薪");
@@ -378,12 +404,12 @@ public class JobOrderActivity extends BaseActivity<JobOrderPresenter, JobOrderMo
      */
     public void setFunctionList(String industryId, List<CityBean> selectFunctionList) {
         this.selectFunctionList.clear();
-        if(!industryId.equals(this.industryId)) {
+        if (!industryId.equals(this.industryId)) {
             tvExpectedPosition.setText("");
             selectPositonList.clear();
         }
         this.industryId = industryId;
-        if(selectFunctionList!=null&&!"".equals(selectFunctionList)&&selectFunctionList.size()!=0) {
+        if (selectFunctionList != null && !"".equals(selectFunctionList) && selectFunctionList.size() != 0) {
             this.selectFunctionList = selectFunctionList;
             //Log.i("选择",selectFunctionList.toString());
             StringBuffer sb = new StringBuffer();
@@ -394,14 +420,16 @@ public class JobOrderActivity extends BaseActivity<JobOrderPresenter, JobOrderMo
             }
             sb.deleteCharAt(0);
             sbName.deleteCharAt(0);
+            tvExpectedFieldTag.setText(R.string.expectedField);
             functionId = sb.toString();
             tvExpectedField.setText("[" + ResumeInfoIDToString.getIndustry(this, industryId, true) + "]" + sbName);
-        }else{
+        } else {
             tvExpectedFieldTag.setText(R.string.expectedIndustry);
-            tvExpectedField.setText("["+ResumeInfoIDToString.getIndustry(HRApplication.getAppContext(),industryId,true)+ "]");
+            tvExpectedField.setText("[" + ResumeInfoIDToString.getIndustry(HRApplication.getAppContext(), industryId, true) + "]");
         }
     }
-    public void setAddress(List<CityBean> selectCityList){
+
+    public void setAddress(List<CityBean> selectCityList) {
         this.selectPlaceList.clear();
         this.selectPlaceList = selectCityList;
         //Log.i("选择",selectFunctionList.toString());
@@ -416,21 +444,24 @@ public class JobOrderActivity extends BaseActivity<JobOrderPresenter, JobOrderMo
         placeId = sb.toString();
         tvExpectedAddress.setText(sbName);
     }
+
     @OnClick(R.id.rl_expectedAddress)
     public void onViewClicked() {
-        SelectCityActivity.startAction(this,2,TAG,selectPlaceList);
+        setFocus();
+        SelectCityActivity.startAction(this, 2, TAG, selectPlaceList);
     }
-    private void exitOrFinishActivity(){
-        if(stopType==4){
-            myDialog=new MyDialog(this,2);
+
+    private void exitOrFinishActivity() {
+        if (startType == 4) {
+            myDialog = new MyDialog(this, 2);
             myDialog.setMessage(getString(R.string.exitWarning));
-            myDialog.setYesOnclickListener("确定",new MyDialog.onYesOnclickListener() {
+            myDialog.setYesOnclickListener("确定", new MyDialog.onYesOnclickListener() {
                 @Override
                 public void onYesClick() {
                     myDialog.dismiss();
-                    SplashActivity.startAction(JobOrderActivity.this);
-                    SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
-                    sUtils.setIntValue(Constants.ISAUTOLOGIN,0);
+                    SplashActivity.startAction(JobOrderActivity.this,1);
+                    SharedPreferencesUtils sUtils = new SharedPreferencesUtils(HRApplication.getAppContext());
+                    sUtils.setIntValue(Constants.ISAUTOLOGIN, 0);
                     AppManager.getAppManager().finishAllActivity();
                 }
             });
@@ -441,15 +472,16 @@ public class JobOrderActivity extends BaseActivity<JobOrderPresenter, JobOrderMo
                 }
             });
             myDialog.show();
-        }else {
+        } else {
             finish();
         }
     }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK
                 && event.getAction() == KeyEvent.ACTION_DOWN) {
-           exitOrFinishActivity();
+            exitOrFinishActivity();
             return true;
         }
 

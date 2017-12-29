@@ -25,12 +25,13 @@ public class WorkExpDataDao extends AbstractDao<WorkExpData, String> {
      */
     public static class Properties {
         public final static Property Company = new Property(0, String.class, "company", true, "COMPANY");
-        public final static Property Position = new Property(1, String.class, "position", false, "POSITION");
-        public final static Property WorkPlace = new Property(2, String.class, "workPlace", false, "WORK_PLACE");
-        public final static Property GrossPay = new Property(3, String.class, "grossPay", false, "GROSS_PAY");
-        public final static Property StartTime = new Property(4, String.class, "startTime", false, "START_TIME");
-        public final static Property EndTime = new Property(5, String.class, "endTime", false, "END_TIME");
-        public final static Property ResponsibilityDescription = new Property(6, String.class, "responsibilityDescription", false, "RESPONSIBILITY_DESCRIPTION");
+        public final static Property ExperienceId = new Property(1, String.class, "experienceId", false, "EXPERIENCE_ID");
+        public final static Property Position = new Property(2, String.class, "position", false, "POSITION");
+        public final static Property WorkPlace = new Property(3, String.class, "workPlace", false, "WORK_PLACE");
+        public final static Property GrossPay = new Property(4, String.class, "grossPay", false, "GROSS_PAY");
+        public final static Property StartTime = new Property(5, String.class, "startTime", false, "START_TIME");
+        public final static Property EndTime = new Property(6, String.class, "endTime", false, "END_TIME");
+        public final static Property ResponsibilityDescription = new Property(7, String.class, "responsibilityDescription", false, "RESPONSIBILITY_DESCRIPTION");
     }
 
 
@@ -47,12 +48,13 @@ public class WorkExpDataDao extends AbstractDao<WorkExpData, String> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"WORK_EXP_DATA\" (" + //
                 "\"COMPANY\" TEXT PRIMARY KEY NOT NULL ," + // 0: company
-                "\"POSITION\" TEXT," + // 1: position
-                "\"WORK_PLACE\" TEXT," + // 2: workPlace
-                "\"GROSS_PAY\" TEXT," + // 3: grossPay
-                "\"START_TIME\" TEXT," + // 4: startTime
-                "\"END_TIME\" TEXT," + // 5: endTime
-                "\"RESPONSIBILITY_DESCRIPTION\" TEXT);"); // 6: responsibilityDescription
+                "\"EXPERIENCE_ID\" TEXT," + // 1: experienceId
+                "\"POSITION\" TEXT," + // 2: position
+                "\"WORK_PLACE\" TEXT," + // 3: workPlace
+                "\"GROSS_PAY\" TEXT," + // 4: grossPay
+                "\"START_TIME\" TEXT," + // 5: startTime
+                "\"END_TIME\" TEXT," + // 6: endTime
+                "\"RESPONSIBILITY_DESCRIPTION\" TEXT);"); // 7: responsibilityDescription
     }
 
     /** Drops the underlying database table. */
@@ -70,34 +72,39 @@ public class WorkExpDataDao extends AbstractDao<WorkExpData, String> {
             stmt.bindString(1, company);
         }
  
+        String experienceId = entity.getExperienceId();
+        if (experienceId != null) {
+            stmt.bindString(2, experienceId);
+        }
+ 
         String position = entity.getPosition();
         if (position != null) {
-            stmt.bindString(2, position);
+            stmt.bindString(3, position);
         }
  
         String workPlace = entity.getWorkPlace();
         if (workPlace != null) {
-            stmt.bindString(3, workPlace);
+            stmt.bindString(4, workPlace);
         }
  
         String grossPay = entity.getGrossPay();
         if (grossPay != null) {
-            stmt.bindString(4, grossPay);
+            stmt.bindString(5, grossPay);
         }
  
         String startTime = entity.getStartTime();
         if (startTime != null) {
-            stmt.bindString(5, startTime);
+            stmt.bindString(6, startTime);
         }
  
         String endTime = entity.getEndTime();
         if (endTime != null) {
-            stmt.bindString(6, endTime);
+            stmt.bindString(7, endTime);
         }
  
         String responsibilityDescription = entity.getResponsibilityDescription();
         if (responsibilityDescription != null) {
-            stmt.bindString(7, responsibilityDescription);
+            stmt.bindString(8, responsibilityDescription);
         }
     }
 
@@ -110,34 +117,39 @@ public class WorkExpDataDao extends AbstractDao<WorkExpData, String> {
             stmt.bindString(1, company);
         }
  
+        String experienceId = entity.getExperienceId();
+        if (experienceId != null) {
+            stmt.bindString(2, experienceId);
+        }
+ 
         String position = entity.getPosition();
         if (position != null) {
-            stmt.bindString(2, position);
+            stmt.bindString(3, position);
         }
  
         String workPlace = entity.getWorkPlace();
         if (workPlace != null) {
-            stmt.bindString(3, workPlace);
+            stmt.bindString(4, workPlace);
         }
  
         String grossPay = entity.getGrossPay();
         if (grossPay != null) {
-            stmt.bindString(4, grossPay);
+            stmt.bindString(5, grossPay);
         }
  
         String startTime = entity.getStartTime();
         if (startTime != null) {
-            stmt.bindString(5, startTime);
+            stmt.bindString(6, startTime);
         }
  
         String endTime = entity.getEndTime();
         if (endTime != null) {
-            stmt.bindString(6, endTime);
+            stmt.bindString(7, endTime);
         }
  
         String responsibilityDescription = entity.getResponsibilityDescription();
         if (responsibilityDescription != null) {
-            stmt.bindString(7, responsibilityDescription);
+            stmt.bindString(8, responsibilityDescription);
         }
     }
 
@@ -150,12 +162,13 @@ public class WorkExpDataDao extends AbstractDao<WorkExpData, String> {
     public WorkExpData readEntity(Cursor cursor, int offset) {
         WorkExpData entity = new WorkExpData( //
             cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // company
-            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // position
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // workPlace
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // grossPay
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // startTime
-            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // endTime
-            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6) // responsibilityDescription
+            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // experienceId
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // position
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // workPlace
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // grossPay
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // startTime
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // endTime
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7) // responsibilityDescription
         );
         return entity;
     }
@@ -163,12 +176,13 @@ public class WorkExpDataDao extends AbstractDao<WorkExpData, String> {
     @Override
     public void readEntity(Cursor cursor, WorkExpData entity, int offset) {
         entity.setCompany(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
-        entity.setPosition(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
-        entity.setWorkPlace(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setGrossPay(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setStartTime(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setEndTime(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
-        entity.setResponsibilityDescription(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setExperienceId(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
+        entity.setPosition(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setWorkPlace(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setGrossPay(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setStartTime(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setEndTime(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setResponsibilityDescription(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
      }
     
     @Override

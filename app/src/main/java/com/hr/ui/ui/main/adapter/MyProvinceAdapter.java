@@ -64,7 +64,11 @@ public class MyProvinceAdapter extends BaseAdapter {
                     holder.ivItemSelectCityCheck.setVisibility(View.GONE);
                 }
             }else{
-                holder.ivItemSelectCityCheck.setVisibility(View.GONE);
+                if (cityBeanList.get(position).isCheck() == true) {
+                    holder.ivItemSelectCityCheck.setVisibility(View.VISIBLE);
+                } else {
+                    holder.ivItemSelectCityCheck.setVisibility(View.GONE);
+                }
             }
         }else{
             if (cityBeanList.get(position).isCheck() == true) {

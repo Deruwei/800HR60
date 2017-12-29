@@ -68,6 +68,7 @@ public class MyStartAndEndTimeCustomDatePicker {
             datePickerDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             datePickerDialog.setContentView(R.layout.layout_selectstartandendtime);
             Window window = datePickerDialog.getWindow();
+            datePickerDialog.setCanceledOnTouchOutside(true);
             window.setGravity(Gravity.BOTTOM);
             window.setWindowAnimations(R.style.dialogWindowAnim); //设置窗口弹出动画
             WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
@@ -159,7 +160,6 @@ public class MyStartAndEndTimeCustomDatePicker {
             @Override
             public void onSelect(String text) {
                 selectStartYear=Integer.valueOf(text);
-                monthChange();
             }
         });
 
@@ -174,7 +174,6 @@ public class MyStartAndEndTimeCustomDatePicker {
             @Override
             public void onSelect(String text) {
                 selectEndYear=Integer.valueOf(text);
-                monthEndChange();
             }
         });
         endMonth_pv.setOnSelectListener(new DatePickerView.onSelectListener() {

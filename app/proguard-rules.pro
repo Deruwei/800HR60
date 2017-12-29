@@ -29,3 +29,11 @@
 -dontwarn com.mob.**
 -dontwarn cn.sharesdk.**
 -dontwarn **.R$*
+##########################################################################
+#glide混淆
+-keeppublicclass *implements com.bumptech.glide.module.GlideModule
+
+-keeppublic enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$**{
+    **[] $VALUES;
+    public*;
+}

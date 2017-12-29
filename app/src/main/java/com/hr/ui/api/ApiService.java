@@ -4,6 +4,7 @@ import com.hr.ui.bean.AutoCodeBean;
 import com.hr.ui.bean.BaseBean;
 import com.hr.ui.bean.MultipleResumeBean;
 import com.hr.ui.bean.NoDataBean;
+import com.hr.ui.bean.PictureBean;
 import com.hr.ui.bean.RegisterBean;
 import com.hr.ui.bean.ResumeBean;
 import com.hr.ui.bean.ResumeIdBean;
@@ -91,4 +92,9 @@ public interface ApiService {
     @POST(Constants.API_MIDDLE_TEST)
     @FormUrlEncoded
     Observable<ResumeIdBean> setResumeType(@FieldMap HashMap<String,String> map);
+
+    @POST(Constants.API_MIDDLE_TEST)
+    @FormUrlEncoded
+    Observable<PictureBean> uploadImage(@FieldMap HashMap<String,String> map);
+
 }

@@ -23,7 +23,7 @@ public class WorkExpPresenter extends WorkExpContract.Presenter {
     public static final String TAG=WorkExpPresenter.class.getSimpleName();
     @Override
     public void sendWorkExpToResume(WorkExpData workExpData) {
-            mRxManage.add(mModel.sendWorkExpToResume(workExpData).subscribe(new RxSubscriber<ResponseBody>(mContext,false) {
+            mRxManage.add(mModel.sendWorkExpToResume(workExpData).subscribe(new RxSubscriber<ResponseBody>(mContext,true) {
                 @Override
                 protected void _onNext(ResponseBody responseBody) throws IOException {
                     String s= null;

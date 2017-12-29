@@ -152,6 +152,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     public void getResumeDataSuccess(ResumeBean resumeBean) {
        // Log.i("ok","你好");
         ToolUtils.getInstance().judgeResumeIsComplete(resumeBean,this,titles);
+        sUtils.setIntValue(Constants.RESUME_ID,Integer.parseInt(resumeBean.getResume_info().getTitle_info().get(0).getResume_id()));
     }
 
     @Override

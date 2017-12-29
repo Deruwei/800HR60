@@ -578,12 +578,10 @@
         <item>高级</item>
     </string-array>
     <string-array name="array_sex_zh">
-        <item>请选择</item>
         <item>男</item>
         <item>女</item>
     </string-array>
     <string-array name="array_sex_ids">
-        <item></item>
         <item>1</item>
         <item>2</item>
     </string-array>

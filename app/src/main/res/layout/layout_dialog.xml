@@ -5,47 +5,45 @@
     android:background="#0e000000">
 
     <LinearLayout
-        android:layout_width="260dp"
+        android:layout_width="@dimen/x480"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:background="@drawable/free_dialog_bg"
         android:orientation="vertical">
         <RelativeLayout
             android:id="@+id/rl_title"
-            android:layout_margin="15dp"
+            android:layout_marginTop="@dimen/x41"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <ImageView
-                android:layout_marginRight="5dp"
+                android:layout_marginRight="@dimen/x10"
                 android:layout_toLeftOf="@+id/title"
                 android:layout_centerVertical="true"
                 android:src="@mipmap/smile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
-                android:layout_marginLeft="8dp"
                 android:layout_centerHorizontal="true"
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="消息提示"
                 android:textColor="@color/color_333"
-                android:textSize="16sp" />
+                android:textSize="@dimen/x32" />
         </RelativeLayout>
         <TextView
             android:id="@+id/message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/x67"
-            android:gravity="center"
             android:textSize="@dimen/x28"
             android:lineSpacingMultiplier="1.2"
             android:textColor="@color/color_333"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/x41"
             android:layout_marginBottom="@dimen/x41"
-            android:layout_marginRight="@dimen/x67"
-            android:text="提示消息" />
+            android:layout_marginRight="@dimen/x61"
+            android:text="中的男女都能拿到" />
 
         <View
             android:layout_width="match_parent"
@@ -66,7 +64,7 @@
                 android:gravity="center"
                 android:singleLine="true"
                 android:text="No"
-                android:textColor="@color/new_main"
+                android:textColor="@color/blue_color"
                 android:textSize="@dimen/x28" />
 
             <View
@@ -83,7 +81,7 @@
                 android:gravity="center"
                 android:singleLine="true"
                 android:text="Yes"
-                android:textColor="@color/new_main"
+                android:textColor="@color/blue_color"
                 android:textSize="@dimen/x28"  />
         </LinearLayout>
     </LinearLayout>

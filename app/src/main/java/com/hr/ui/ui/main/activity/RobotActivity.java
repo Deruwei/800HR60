@@ -130,7 +130,7 @@ public class RobotActivity extends BaseNoConnectNetworkAcitivty{
                 @Override
                 public void onYesClick() {
                     myDialog.dismiss();
-                    SplashActivity.startAction(RobotActivity.this);
+                    SplashActivity.startAction(RobotActivity.this,1);
                     SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
                     sUtils.setIntValue(Constants.ISAUTOLOGIN,0);
                     AppManager.getAppManager().finishAllActivity();

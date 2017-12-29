@@ -9,12 +9,14 @@
         android:id="@+id/rl_ResumePersonImg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <ImageView
-            android:src="@mipmap/personimage"
+        <com.hr.ui.view.CircleImageView
+            android:id="@+id/iv_resumePersonImage"
+            android:src="@mipmap/persondefault"
             android:layout_centerHorizontal="true"
             android:layout_width="@dimen/x160"
             android:layout_height="@dimen/x160" />
         <ImageView
+            android:id="@+id/iv_editResumePersonal"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:src="@mipmap/edit"

@@ -57,7 +57,6 @@ public class ShowMsgActivity extends BaseActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvMsg.setLayoutManager(linearLayoutManager);
         Drawable dividerDrawable = ContextCompat.getDrawable(this, R.drawable.divider_sample);
-
         rvMsg.addItemDecoration(rvMsg.new DividerItemDecoration(dividerDrawable));
         rvMsg.setRefreshProgressStyle(ProgressStyle.LineScaleParty);
         rvMsg.setLoadingMoreProgressStyle(ProgressStyle.BallTrianglePath);

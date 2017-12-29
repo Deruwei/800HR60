@@ -16,7 +16,9 @@ import android.widget.TextView;
 import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseNoConnectNetworkAcitivty;
+import com.hr.ui.ui.resume.activity.ResumeWorkExpActivity;
 import com.hr.ui.utils.ToastUitl;
+import com.hr.ui.view.MyDialog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,6 +39,8 @@ public class ContentActivity extends BaseNoConnectNetworkAcitivty {
     Button btnContentOK;
     @BindView(R.id.tv_textSum)
     TextView tvTextSum;
+    private MyDialog myDialog;
+    private String tag;
 
     @Override
     public int getLayoutId() {
@@ -48,6 +52,7 @@ public class ContentActivity extends BaseNoConnectNetworkAcitivty {
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        tag=getIntent().getStringExtra("tag");
         if(getIntent().getStringExtra("text")!=null||!"".equals(getIntent().getStringExtra("text"))){
             etContent.setText(getIntent().getStringExtra("text"));
             tvTextSum.setText(etContent.getText().toString().length()+" / 600");
@@ -62,7 +67,25 @@ public class ContentActivity extends BaseNoConnectNetworkAcitivty {
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                if(etContent.getText().toString()!=null&&!"".equals(etContent.getText().toString())) {
+                    myDialog = new MyDialog(ContentActivity.this, 2);
+                    myDialog.setMessage(getString(R.string.exitWarning));
+                    myDialog.setYesOnclickListener("确定", new MyDialog.onYesOnclickListener() {
+                        @Override
+                        public void onYesClick() {
+                            finish();
+                        }
+                    });
+                    myDialog.setNoOnclickListener("取消", new MyDialog.onNoOnclickListener() {
+                        @Override
+                        public void onNoClick() {
+                            myDialog.dismiss();
+                        }
+                    });
+                    myDialog.show();
+                }else{
+                    finish();
+                }
             }
         });
         etContent.setFilters(new InputFilter[]{new InputFilter.LengthFilter(600)});
@@ -97,7 +120,11 @@ public class ContentActivity extends BaseNoConnectNetworkAcitivty {
             ToastUitl.showShort("请填写职位描述");
             return;
         }
-        WorkExpActivity.instance.setTvResponsibilityDes(etContent.getText().toString());
+        if(tag.equals(WorkExpActivity.TAG)) {
+            WorkExpActivity.instance.setTvResponsibilityDes(etContent.getText().toString());
+        }else if(tag.equals(ResumeWorkExpActivity.TAG)){
+            ResumeWorkExpActivity.instance.setTvResponsibilityDes(etContent.getText().toString());
+        }
         finish();
     }
 
@@ -106,17 +133,27 @@ public class ContentActivity extends BaseNoConnectNetworkAcitivty {
      *
      * @param activity
      */
-    public static void startAction(Activity activity) {
+    public static void startAction(Activity activity,String tag) {
         Intent intent = new Intent(activity, ContentActivity.class);
+        intent.putExtra("tag",tag);
         activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.fade_in,
                 R.anim.fade_out);
     }
-    public static void startAction(Activity activity,String s) {
+    public static void startAction(Activity activity,String s,String tag) {
         Intent intent = new Intent(activity, ContentActivity.class);
+        intent.putExtra("tag",tag);
         intent.putExtra("text",s);
         activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.fade_in,
                 R.anim.fade_out);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(myDialog!=null){
+            myDialog.dismiss();
+        }
     }
 }

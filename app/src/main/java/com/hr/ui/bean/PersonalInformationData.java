@@ -12,18 +12,20 @@ public class PersonalInformationData {
     @Id
     private String name;
     private String sex;
+    private String imageUrl;
     private String birth;
     private String livePlace;
     private String workTime;
     private String phoneNumber;
     private String Email;
     private String positionTitle;
-    @Generated(hash = 152496905)
-    public PersonalInformationData(String name, String sex, String birth,
-            String livePlace, String workTime, String phoneNumber, String Email,
-            String positionTitle) {
+    @Generated(hash = 1185485971)
+    public PersonalInformationData(String name, String sex, String imageUrl,
+            String birth, String livePlace, String workTime, String phoneNumber,
+            String Email, String positionTitle) {
         this.name = name;
         this.sex = sex;
+        this.imageUrl = imageUrl;
         this.birth = birth;
         this.livePlace = livePlace;
         this.workTime = workTime;
@@ -81,5 +83,11 @@ public class PersonalInformationData {
     }
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+    public String getImageUrl() {
+        return this.imageUrl;
+    }
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

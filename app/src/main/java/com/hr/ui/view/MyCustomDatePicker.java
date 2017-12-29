@@ -72,6 +72,7 @@ public class MyCustomDatePicker {
             datePickerDialog.setContentView(R.layout.my_custom_date_picker);
             Window window = datePickerDialog.getWindow();
             window.setGravity(Gravity.BOTTOM);
+            datePickerDialog.setCanceledOnTouchOutside(true);
             window.setWindowAnimations(R.style.dialogWindowAnim); //设置窗口弹出动画
             WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
             DisplayMetrics dm = new DisplayMetrics();
@@ -190,7 +191,7 @@ public class MyCustomDatePicker {
                     month_text.setVisibility(View.VISIBLE);
                     month_pv.setVisibility(View.VISIBLE);
                 }
-                monthChange();
+                //monthChange();
             }
         });
 
@@ -198,7 +199,7 @@ public class MyCustomDatePicker {
             @Override
             public void onSelect(String text) {
               selectMonth=Integer.valueOf(text);
-                dayChange();
+                //dayChange();
             }
         });
 

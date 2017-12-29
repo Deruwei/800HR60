@@ -11,28 +11,26 @@
         >
 
         <TextView
-            android:layout_marginLeft="@dimen/dimen_10dp"
+            android:layout_margin="@dimen/x30"
             android:id="@+id/tv_cancle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:padding="10dp"
             android:text="@string/cancel"
-            android:textColor="@color/black"
-            android:textSize="@dimen/x36" />
+            android:textColor="@color/color_333"
+            android:textSize="@dimen/x32" />
 
 
         <TextView
             android:id="@+id/tv_select"
-            android:layout_marginRight="@dimen/dimen_10dp"
+            android:layout_margin="@dimen/x30"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:padding="10dp"
             android:text="@string/sure"
-            android:textColor="@color/black"
-            android:textSize="@dimen/x36" />
+            android:textColor="@color/color_333"
+            android:textSize="@dimen/x32" />
 
     </RelativeLayout>
 
@@ -46,10 +44,10 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:layout_margin="@dimen/dimen_15dp"
+            android:layout_marginLeft="@dimen/x30"
+            android:layout_marginRight="@dimen/x30"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_200dp"
-            android:layout_marginBottom="5dp"
+            android:layout_height="@dimen/x400"
             android:background="@color/white"
             android:orientation="horizontal">
             <LinearLayout
@@ -74,7 +72,7 @@
                         android:gravity="center"
                         android:text="@string/year"
                         android:textColor="@color/color_333"
-                        android:textSize="@dimen/dimen_16sp" />
+                        android:textSize="@dimen/x32" />
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout
@@ -95,7 +93,7 @@
                     android:text="@string/month"
                     android:id="@+id/month_text"
                     android:textColor="@color/color_333"
-                    android:textSize="@dimen/dimen_16sp" />
+                    android:textSize="@dimen/x32"  />
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/day_ll"
@@ -116,7 +114,7 @@
                     android:gravity="center"
                     android:text="@string/day"
                     android:textColor="@color/color_333"
-                    android:textSize="@dimen/dimen_16sp" />
+                    android:textSize="@dimen/x32"  />
             </LinearLayout>
         </LinearLayout>
 

@@ -6,6 +6,7 @@ import com.hr.ui.api.ApiParameter;
 import com.hr.ui.api.HostType;
 import com.hr.ui.base.RxSchedulers;
 import com.hr.ui.bean.MultipleResumeBean;
+import com.hr.ui.bean.PictureBean;
 import com.hr.ui.bean.ResumeBean;
 import com.hr.ui.ui.main.fragment.ResumeContract;
 import com.hr.ui.utils.EncryptUtils;
@@ -57,5 +58,18 @@ public class ResumeModel implements ResumeContract.Model {
                 .subscribeOn(Schedulers.newThread())        //在新线程里面处理网络请求
                 .observeOn(AndroidSchedulers.mainThread())  //在主线程里面接受返回的数据
                 .compose(RxSchedulers.<MultipleResumeBean>io_main());
+    }
+    @Override
+    public Observable<PictureBean> upLoadImage(String content) {
+        return Api.getDefault(HostType.HR).uploadImage(EncryptUtils.encrypParams(ApiParameter.upLoadImage(content)))
+                .map(new Func1<PictureBean, PictureBean>() {
+                    @Override
+                    public PictureBean call(PictureBean pictureBean) {
+                        return pictureBean;
+                    }
+                })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxSchedulers.<PictureBean>io_main());
     }
 }
