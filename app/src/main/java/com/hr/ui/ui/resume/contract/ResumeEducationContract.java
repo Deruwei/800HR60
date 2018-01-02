@@ -3,6 +3,7 @@ package com.hr.ui.ui.resume.contract;
 import com.hr.ui.base.BaseModel;
 import com.hr.ui.base.BasePresenter;
 import com.hr.ui.base.BaseView;
+import com.hr.ui.bean.EducationBean;
 import com.hr.ui.bean.EducationData;
 
 import okhttp3.ResponseBody;
@@ -15,11 +16,11 @@ import rx.Observable;
 public interface ResumeEducationContract {
     interface Model extends BaseModel {
         Observable<ResponseBody> addOrUpdateEducation(EducationData educationData);
-        Observable<ResponseBody> getEducationInfo(String educationId);
+        Observable<EducationBean> getEducationInfo(String educationId);
         Observable<ResponseBody> deleteEducation(String educationId);
     }
     interface View extends BaseView {
-        void getEducationInfoSuccess();
+        void getEducationInfoSuccess(EducationBean.EducationListBean educationBean);
         void addOrUpdateEducationSuccess();
         void deleteEducationSuccess();
     }

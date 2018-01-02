@@ -19,6 +19,7 @@ import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
 import com.hr.ui.bean.CityBean;
+import com.hr.ui.bean.WorkExpBean;
 import com.hr.ui.bean.WorkExpData;
 import com.hr.ui.ui.main.activity.ContentActivity;
 import com.hr.ui.ui.main.activity.SelectCityActivity;
@@ -27,6 +28,7 @@ import com.hr.ui.ui.resume.contract.ResumeWorkExpContract;
 import com.hr.ui.ui.resume.model.ResumeWorkExpModel;
 import com.hr.ui.ui.resume.presenter.ResumeWorkExpPresenter;
 import com.hr.ui.utils.ToastUitl;
+import com.hr.ui.utils.datautils.FromStringToArrayList;
 import com.hr.ui.view.MyStartAndEndTimeCustomDatePicker;
 
 import butterknife.BindView;
@@ -117,7 +119,7 @@ public class ResumeWorkExpActivity extends BaseActivity<ResumeWorkExpPresenter, 
      */
     public static void startAction(Activity activity,String experienceId) {
         Intent intent = new Intent(activity,ResumeWorkExpActivity.class);
-        intent.putExtra("educationId",experienceId);
+        intent.putExtra("experienceId",experienceId);
         activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
@@ -137,18 +139,35 @@ public class ResumeWorkExpActivity extends BaseActivity<ResumeWorkExpPresenter, 
     }
 
     @Override
-    public void getWorkExpinfo() {
+    public void getWorkExpinfo(WorkExpBean.ExperienceListBean workExpBean) {
+        setUI(workExpBean);
+    }
 
+    private void setUI(WorkExpBean.ExperienceListBean workExpBean) {
+        etResumeWorkExpPosition.setText(workExpBean.getPosition());
+        etResumeWorkExpCompany.setText(workExpBean.getCompany());
+        tvResumeWorkExpStartAndTime.setText(workExpBean.getFromyear()+"-"+workExpBean.getFrommonth()+"  至  "+workExpBean.getToyear()+"-"+workExpBean.getTomonth() );
+        startTimes=workExpBean.getFromyear()+"-"+workExpBean.getFrommonth();
+        endTimes=workExpBean.getToyear()+"-"+workExpBean.getTomonth();
+        tvResumeWorkExpGrossPay.setText(workExpBean.getSalary());
+        tvResumeWorkExpJobDescription.setText(workExpBean.getResponsiblity());
+        tvResumeWorkExpWorkPlace.setText(FromStringToArrayList.getInstance().getCityListName(workExpBean.getCompanyaddress()));
+        cityid=workExpBean.getCompanyaddress();
+        ivResumeWorkExpPositionDelete.setVisibility(View.GONE);
+        ivResumeWorkExpCompanyDelete.setVisibility(View.GONE);
+        ivResumeWorkExpGrossPaySelect.setVisibility(View.GONE);
     }
 
     @Override
     public void deleteSuccess() {
-
+        ToastUitl.showShort(R.string.deleteSuccess);
+        finish();
     }
 
     @Override
     public void addOrUpdateWorkExp() {
-
+        ToastUitl.showShort(R.string.saveSuccess);
+        finish();
     }
 
     @Override
@@ -172,6 +191,9 @@ public class ResumeWorkExpActivity extends BaseActivity<ResumeWorkExpPresenter, 
         toolBar.setTitleTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
         toolBar.setNavigationIcon(R.mipmap.back);
         tvToolbarTitle.setText(R.string.workExp);
+        ivResumeWorkExpCompanyDelete.setVisibility(View.GONE);
+        ivResumeWorkExpPositionDelete.setVisibility(View.GONE);
+        ivResumeWorkExpGrossPaySelect.setVisibility(View.GONE);
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

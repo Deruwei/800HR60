@@ -1,5 +1,7 @@
 package com.hr.ui.bean;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 /**
@@ -8,10 +10,11 @@ import java.util.List;
 
 public class ResumeBean {
 
+
     /**
      * error_code : 0
-     * resume_info : {"title_info":{"user_id":"9491509","resume_id":"1","title":"我的简历","key_word":"","apply":"0","click":"0","resume_language":"zh","resume_type":"1","open":"0","uptime":"1513042043","fill_scale":"85","castbehalf":"1","add_time":"1512979996","important":"1","modify_time":"1513042043","talent_svr_state":"0"},"base_info":{"user_id":"9491509","name":"iejkk","sex":"1","year":"1998","month":"9","day":"11","height":"0","nationality":"11","hukou":"0","idnumber":"","cardtype":"0","marriage":"0","salary":"22","current_salary":"64646","work_beginyear":"1999","high_education":"16","location":"1802","ydphone":"13581848569","emailaddress":"jdjjs@qq.com","address":"","zipcode":"","homepage":"","echo_yes":"1","resume_language":"zh","post_rank":"12","polity":"0","blood":"","last_position":"bidhdh","current_workstate":"15","pic_filekey":"","modify_time":"1513042010","current_yearsalary":"0","capability":"0","other_benefits":"","other_benefits_txt":"","linkinfo_show":"1","ydphone_verify_status":"2","telephone":"","im_account":"","im_type":""},"order_info":{"user_id":"9491509","jobtype":"13","industry":"11","func":"240101","workarea":"1602","zhixi":"","order_salary":"66464","order_salary_noshow":"0","resume_id":"1","resume_language":"zh","jobname":"","lingyu":"111300","order_yearsalary":"0","order_industry":[{"industry":"11","func":"240101","lingyu":"111300"}],"current_workstate":"15","castbehalf":"1"},"assess_info":{"user_id":"9491509","introduction":"计算机等级记得记得就","resume_id":"1","resume_language":"zh","virtue":"","weakness":""},"language_list":[{"langname":"11","user_id":"9491509","read_level":"4","speak_level":"3","grade_exam":[{"id":"1103","score":"568"}]}],"education_list":[{"user_id":"9491509","fromyear":"2004","frommonth":"10","toyear":"2009","tomonth":"1","schoolname":"bdjdj","moremajor":"bdjjdj","degree":"16","edudetail":"","is_overseas":"0","country":"0","resume_id":"1","resume_language":"zh","recruit_students":"0","degreecerti_no":"","a_degreecerti_no":"","education_id":"9558623"}],"experience_list":[{"user_id":"9491509","fromyear":"2014","frommonth":"1","toyear":"2016","tomonth":"9","company":"bdjdjdj","companyhide":"0","industry":"0","companytype":"0","stuffmunber":"0","division":"","companyaddress":"1200","position":"bidhdh","responsiblity":"bxjdndmmdmd","offreason":"","achievement":"","zhixi":"0","zhicheng":"0","is_overseas":"0","country":"0","resume_id":"1","resume_language":"zh","lingyu":"0","func":"0","salary":"64646","salary_hide":"0","reterence":"","yearsalary":"0","underling":"","superior":"","experience_id":"10148692"}],"project_list":[{"user_id":"9491509","fromyear":"2008","frommonth":"10","toyear":"2015","tomonth":"12","projectname":"红色警戒十几万","projectdesc":"家电家具单开双控","responsibility":"抱着你辛苦辛苦面对面的","position":"那乍办","resume_id":"1","resume_language":"zh","companyname":"","companyhide":"0","achievement":"","reterence":"","project_id":"4523385"}],"plant_list":[{"user_id":"9491509","fromyear":"2013","frommonth":"11","toyear":"2015","tomonth":"12","institution":"锦江大酒店就","place":"1200","course":"计算机技术","certification":"计算机考试","traindetail":"嗯就是计算机三级","resume_id":"1","resume_language":"zh","certi_number":"","plant_id":"1938709"}],"skill_list":[{"user_id":"9491509","usetime":"964","ability":"5","skilltitle":"贾九转金身决","resume_id":"1","resume_language":"zh","skill_id":"3152630"}],"subjoin_list":[],"slave_list":[],"attachment":[]}
-     * _run_time : 0.033774852752686
+     * resume_info : {"title_info":[{"user_id":"9495365","resume_id":"1","title":"我的简历","key_word":"","apply":"0","click":"0","resume_language":"zh","resume_type":"1","open":"2","uptime":"1514857274","fill_scale":"100","castbehalf":"1","add_time":"1513317828","important":"1","modify_time":"1514857274","talent_svr_state":"0"}],"base_info":[{"user_id":"9495365","name":"僵尸尖叫","sex":"2","year":"1997","month":"9","day":"28","height":"","nationality":"","hukou":"0","idnumber":"","cardtype":"","marriage":"","salary":"18","current_salary":"12000","work_beginyear":"2015","high_education":"16","location":"1300","ydphone":"17319277396","emailaddress":"106466@163.com","address":"","zipcode":"","homepage":"","echo_yes":"","resume_language":"zh","post_rank":"11","polity":"","blood":"","last_position":"淡淡的","current_workstate":"12","pic_filekey":"aa236ccd991643d4a63552b2c7e5dd77","modify_time":"1514857161","current_yearsalary":"0","capability":"0","other_benefits":"","other_benefits_txt":"","linkinfo_show":"1","ydphone_verify_status":"2","telephone":"","im_account":"","im_type":""}],"order_info":[{"user_id":"9495365","jobtype":"13","industry":"11,14,22","func":"241102,241138,241104,264102,264103,264104,503101,503102","workarea":"1100,1200,1604","zhixi":"","order_salary":"13230","order_salary_noshow":"0","resume_id":"1","resume_language":"zh","jobname":"","lingyu":"111100,111200,141200,141100,221100,221200,221300","order_yearsalary":"0","order_industry":[{"industry":"11","func":"241102,241138,241104","lingyu":"111100,111200"},{"industry":"14","func":"264102,264103,264104","lingyu":"141200,141100"},{"industry":"22","func":"503101,503102","lingyu":"221100,221200,221300"}],"current_workstate":"12","castbehalf":"1"}],"assess_info":[{"user_id":"9495365","introduction":"dddddddddddddddddddddddddddd","resume_id":"1","resume_language":"zh","virtue":"","weakness":""}],"language_list":[{"langname":"12","user_id":"9495365","read_level":"3","speak_level":"3","grade_exam":[]}],"education_list":[{"user_id":"9495365","fromyear":"2016","frommonth":"4","toyear":"2018","tomonth":"3","schoolname":"淡淡的","moremajor":"玩玩的","degree":"16","edudetail":"","is_overseas":"0","country":"0","resume_id":"1","resume_language":"zh","recruit_students":"0","degreecerti_no":"","a_degreecerti_no":"","education_id":"9572686"}],"experience_list":[{"user_id":"9495365","fromyear":"2014","frommonth":"12","toyear":"2018","tomonth":"1","company":"发热方法","companyhide":"0","industry":"0","companytype":"0","stuffmunber":"0","division":"","companyaddress":"1604","position":"淡淡的","responsiblity":"dddddddddddddddd","offreason":"","achievement":"","zhixi":"0","zhicheng":"0","is_overseas":"0","country":"0","resume_id":"1","resume_language":"zh","lingyu":"0","func":"0","salary":"12000","salary_hide":"0","reterence":"","yearsalary":"0","underling":"","superior":"","experience_id":"10170910"},{"user_id":"9495365","fromyear":"2014","frommonth":"10","toyear":"2017","tomonth":"11","company":"www","companyhide":"0","industry":"0","companytype":"0","stuffmunber":"0","division":"","companyaddress":"1100","position":"eeee","responsiblity":"dddddddd","offreason":"","achievement":"","zhixi":"0","zhicheng":"0","is_overseas":"0","country":"0","resume_id":"1","resume_language":"zh","lingyu":"0","func":"0","salary":"12000","salary_hide":"0","reterence":"","yearsalary":"0","underling":"","superior":"","experience_id":"10154530"}],"project_list":[{"user_id":"9495365","fromyear":"2013","frommonth":"3","toyear":"2015","tomonth":"1","projectname":"ffffff","projectdesc":"fffffff","responsibility":"ffffffff","position":"ffff","resume_id":"1","resume_language":"zh","companyname":"","companyhide":"0","achievement":"","reterence":"","project_id":"4556647"}],"plant_list":[{"user_id":"9495365","fromyear":"2015","frommonth":"3","toyear":"2017","tomonth":"6","institution":"2222","place":"1613","co 01-02 09:59:30.886 9565-9681/com.hr.ui D/OkHttp: urse":"2222","certification":"2eeee","traindetail":"2222","resume_id":"1","resume_language":"zh","certi_number":"","plant_id":"1943046"}],"skill_list":[{"user_id":"9495365","usetime":"12","ability":"4","skilltitle":"fff","resume_id":"1","resume_language":"zh","skill_id":"3165029"}],"subjoin_list":[],"slave_list":[{"user_id":"9495365","type":"0","attachname":"dddd","attachdescribe":"2222","slave_filekey":"d64f6f646abbd153825fc0c3d3c29fcd","resume_id":"1","resume_language":"zh","slave_id":"3559771"}],"attachment":[],"certificate_list":[]}
+     * _run_time : 0.036678791046143
      */
 
     private int error_code;
@@ -43,22 +46,6 @@ public class ResumeBean {
     }
 
     public static class ResumeInfoBean {
-        /**
-         * title_info : {"user_id":"9491509","resume_id":"1","title":"我的简历","key_word":"","apply":"0","click":"0","resume_language":"zh","resume_type":"1","open":"0","uptime":"1513042043","fill_scale":"85","castbehalf":"1","add_time":"1512979996","important":"1","modify_time":"1513042043","talent_svr_state":"0"}
-         * base_info : {"user_id":"9491509","name":"iejkk","sex":"1","year":"1998","month":"9","day":"11","height":"0","nationality":"11","hukou":"0","idnumber":"","cardtype":"0","marriage":"0","salary":"22","current_salary":"64646","work_beginyear":"1999","high_education":"16","location":"1802","ydphone":"13581848569","emailaddress":"jdjjs@qq.com","address":"","zipcode":"","homepage":"","echo_yes":"1","resume_language":"zh","post_rank":"12","polity":"0","blood":"","last_position":"bidhdh","current_workstate":"15","pic_filekey":"","modify_time":"1513042010","current_yearsalary":"0","capability":"0","other_benefits":"","other_benefits_txt":"","linkinfo_show":"1","ydphone_verify_status":"2","telephone":"","im_account":"","im_type":""}
-         * order_info : {"user_id":"9491509","jobtype":"13","industry":"11","func":"240101","workarea":"1602","zhixi":"","order_salary":"66464","order_salary_noshow":"0","resume_id":"1","resume_language":"zh","jobname":"","lingyu":"111300","order_yearsalary":"0","order_industry":[{"industry":"11","func":"240101","lingyu":"111300"}],"current_workstate":"15","castbehalf":"1"}
-         * assess_info : {"user_id":"9491509","introduction":"计算机等级记得记得就","resume_id":"1","resume_language":"zh","virtue":"","weakness":""}
-         * language_list : [{"langname":"11","user_id":"9491509","read_level":"4","speak_level":"3","grade_exam":[{"id":"1103","score":"568"}]}]
-         * education_list : [{"user_id":"9491509","fromyear":"2004","frommonth":"10","toyear":"2009","tomonth":"1","schoolname":"bdjdj","moremajor":"bdjjdj","degree":"16","edudetail":"","is_overseas":"0","country":"0","resume_id":"1","resume_language":"zh","recruit_students":"0","degreecerti_no":"","a_degreecerti_no":"","education_id":"9558623"}]
-         * experience_list : [{"user_id":"9491509","fromyear":"2014","frommonth":"1","toyear":"2016","tomonth":"9","company":"bdjdjdj","companyhide":"0","industry":"0","companytype":"0","stuffmunber":"0","division":"","companyaddress":"1200","position":"bidhdh","responsiblity":"bxjdndmmdmd","offreason":"","achievement":"","zhixi":"0","zhicheng":"0","is_overseas":"0","country":"0","resume_id":"1","resume_language":"zh","lingyu":"0","func":"0","salary":"64646","salary_hide":"0","reterence":"","yearsalary":"0","underling":"","superior":"","experience_id":"10148692"}]
-         * project_list : [{"user_id":"9491509","fromyear":"2008","frommonth":"10","toyear":"2015","tomonth":"12","projectname":"红色警戒十几万","projectdesc":"家电家具单开双控","responsibility":"抱着你辛苦辛苦面对面的","position":"那乍办","resume_id":"1","resume_language":"zh","companyname":"","companyhide":"0","achievement":"","reterence":"","project_id":"4523385"}]
-         * plant_list : [{"user_id":"9491509","fromyear":"2013","frommonth":"11","toyear":"2015","tomonth":"12","institution":"锦江大酒店就","place":"1200","course":"计算机技术","certification":"计算机考试","traindetail":"嗯就是计算机三级","resume_id":"1","resume_language":"zh","certi_number":"","plant_id":"1938709"}]
-         * skill_list : [{"user_id":"9491509","usetime":"964","ability":"5","skilltitle":"贾九转金身决","resume_id":"1","resume_language":"zh","skill_id":"3152630"}]
-         * subjoin_list : []
-         * slave_list : []
-         * attachment : []
-         */
-
         private List<TitleInfoBean> title_info;
         private List<BaseInfoBean> base_info;
         private List<OrderInfoBean> order_info;
@@ -70,8 +57,9 @@ public class ResumeBean {
         private List<PlantListBean> plant_list;
         private List<SkillListBean> skill_list;
         private List<?> subjoin_list;
-        private List<?> slave_list;
+        private List<SlaveListBean> slave_list;
         private List<?> attachment;
+        private List<?> certificate_list;
 
         public List<TitleInfoBean> getTitle_info() {
             return title_info;
@@ -161,11 +149,11 @@ public class ResumeBean {
             this.subjoin_list = subjoin_list;
         }
 
-        public List<?> getSlave_list() {
+        public List<SlaveListBean> getSlave_list() {
             return slave_list;
         }
 
-        public void setSlave_list(List<?> slave_list) {
+        public void setSlave_list(List<SlaveListBean> slave_list) {
             this.slave_list = slave_list;
         }
 
@@ -177,9 +165,17 @@ public class ResumeBean {
             this.attachment = attachment;
         }
 
+        public List<?> getCertificate_list() {
+            return certificate_list;
+        }
+
+        public void setCertificate_list(List<?> certificate_list) {
+            this.certificate_list = certificate_list;
+        }
+
         public static class TitleInfoBean {
             /**
-             * user_id : 9491509
+             * user_id : 9495365
              * resume_id : 1
              * title : 我的简历
              * key_word :
@@ -187,13 +183,13 @@ public class ResumeBean {
              * click : 0
              * resume_language : zh
              * resume_type : 1
-             * open : 0
-             * uptime : 1513042043
-             * fill_scale : 85
+             * open : 2
+             * uptime : 1514857274
+             * fill_scale : 100
              * castbehalf : 1
-             * add_time : 1512979996
+             * add_time : 1513317828
              * important : 1
-             * modify_time : 1513042043
+             * modify_time : 1514857274
              * talent_svr_state : 0
              */
 
@@ -341,63 +337,41 @@ public class ResumeBean {
             public void setTalent_svr_state(String talent_svr_state) {
                 this.talent_svr_state = talent_svr_state;
             }
-
-            @Override
-            public String toString() {
-                return "TitleInfoBean{" +
-                        "user_id='" + user_id + '\'' +
-                        ", resume_id='" + resume_id + '\'' +
-                        ", title='" + title + '\'' +
-                        ", key_word='" + key_word + '\'' +
-                        ", apply='" + apply + '\'' +
-                        ", click='" + click + '\'' +
-                        ", resume_language='" + resume_language + '\'' +
-                        ", resume_type='" + resume_type + '\'' +
-                        ", open='" + open + '\'' +
-                        ", uptime='" + uptime + '\'' +
-                        ", fill_scale='" + fill_scale + '\'' +
-                        ", castbehalf='" + castbehalf + '\'' +
-                        ", add_time='" + add_time + '\'' +
-                        ", important='" + important + '\'' +
-                        ", modify_time='" + modify_time + '\'' +
-                        ", talent_svr_state='" + talent_svr_state + '\'' +
-                        '}';
-            }
         }
 
         public static class BaseInfoBean {
             /**
-             * user_id : 9491509
-             * name : iejkk
-             * sex : 1
-             * year : 1998
+             * user_id : 9495365
+             * name : 僵尸尖叫
+             * sex : 2
+             * year : 1997
              * month : 9
-             * day : 11
-             * height : 0
-             * nationality : 11
+             * day : 28
+             * height :
+             * nationality :
              * hukou : 0
              * idnumber :
-             * cardtype : 0
-             * marriage : 0
-             * salary : 22
-             * current_salary : 64646
-             * work_beginyear : 1999
+             * cardtype :
+             * marriage :
+             * salary : 18
+             * current_salary : 12000
+             * work_beginyear : 2015
              * high_education : 16
-             * location : 1802
-             * ydphone : 13581848569
-             * emailaddress : jdjjs@qq.com
+             * location : 1300
+             * ydphone : 17319277396
+             * emailaddress : 106466@163.com
              * address :
              * zipcode :
              * homepage :
-             * echo_yes : 1
+             * echo_yes :
              * resume_language : zh
-             * post_rank : 12
-             * polity : 0
+             * post_rank : 11
+             * polity :
              * blood :
-             * last_position : bidhdh
-             * current_workstate : 15
-             * pic_filekey :
-             * modify_time : 1513042010
+             * last_position : 淡淡的
+             * current_workstate : 12
+             * pic_filekey : aa236ccd991643d4a63552b2c7e5dd77
+             * modify_time : 1514857161
              * current_yearsalary : 0
              * capability : 0
              * other_benefits :
@@ -769,71 +743,25 @@ public class ResumeBean {
             public void setIm_type(String im_type) {
                 this.im_type = im_type;
             }
-
-            @Override
-            public String toString() {
-                return "BaseInfoBean{" +
-                        "user_id='" + user_id + '\'' +
-                        ", name='" + name + '\'' +
-                        ", sex='" + sex + '\'' +
-                        ", year='" + year + '\'' +
-                        ", month='" + month + '\'' +
-                        ", day='" + day + '\'' +
-                        ", height='" + height + '\'' +
-                        ", nationality='" + nationality + '\'' +
-                        ", hukou='" + hukou + '\'' +
-                        ", idnumber='" + idnumber + '\'' +
-                        ", cardtype='" + cardtype + '\'' +
-                        ", marriage='" + marriage + '\'' +
-                        ", salary='" + salary + '\'' +
-                        ", current_salary='" + current_salary + '\'' +
-                        ", work_beginyear='" + work_beginyear + '\'' +
-                        ", high_education='" + high_education + '\'' +
-                        ", location='" + location + '\'' +
-                        ", ydphone='" + ydphone + '\'' +
-                        ", emailaddress='" + emailaddress + '\'' +
-                        ", address='" + address + '\'' +
-                        ", zipcode='" + zipcode + '\'' +
-                        ", homepage='" + homepage + '\'' +
-                        ", echo_yes='" + echo_yes + '\'' +
-                        ", resume_language='" + resume_language + '\'' +
-                        ", post_rank='" + post_rank + '\'' +
-                        ", polity='" + polity + '\'' +
-                        ", blood='" + blood + '\'' +
-                        ", last_position='" + last_position + '\'' +
-                        ", current_workstate='" + current_workstate + '\'' +
-                        ", pic_filekey='" + pic_filekey + '\'' +
-                        ", modify_time='" + modify_time + '\'' +
-                        ", current_yearsalary='" + current_yearsalary + '\'' +
-                        ", capability='" + capability + '\'' +
-                        ", other_benefits='" + other_benefits + '\'' +
-                        ", other_benefits_txt='" + other_benefits_txt + '\'' +
-                        ", linkinfo_show='" + linkinfo_show + '\'' +
-                        ", ydphone_verify_status='" + ydphone_verify_status + '\'' +
-                        ", telephone='" + telephone + '\'' +
-                        ", im_account='" + im_account + '\'' +
-                        ", im_type='" + im_type + '\'' +
-                        '}';
-            }
         }
 
         public static class OrderInfoBean {
             /**
-             * user_id : 9491509
+             * user_id : 9495365
              * jobtype : 13
-             * industry : 11
-             * func : 240101
-             * workarea : 1602
+             * industry : 11,14,22
+             * func : 241102,241138,241104,264102,264103,264104,503101,503102
+             * workarea : 1100,1200,1604
              * zhixi :
-             * order_salary : 66464
+             * order_salary : 13230
              * order_salary_noshow : 0
              * resume_id : 1
              * resume_language : zh
              * jobname :
-             * lingyu : 111300
+             * lingyu : 111100,111200,141200,141100,221100,221200,221300
              * order_yearsalary : 0
-             * order_industry : [{"industry":"11","func":"240101","lingyu":"111300"}]
-             * current_workstate : 15
+             * order_industry : [{"industry":"11","func":"241102,241138,241104","lingyu":"111100,111200"},{"industry":"14","func":"264102,264103,264104","lingyu":"141200,141100"},{"industry":"22","func":"503101,503102","lingyu":"221100,221200,221300"}]
+             * current_workstate : 12
              * castbehalf : 1
              */
 
@@ -982,12 +910,11 @@ public class ResumeBean {
                 this.order_industry = order_industry;
             }
 
-
             public static class OrderIndustryBean {
                 /**
                  * industry : 11
-                 * func : 240101
-                 * lingyu : 111300
+                 * func : 241102,241138,241104
+                 * lingyu : 111100,111200
                  */
 
                 private String industry;
@@ -1017,44 +944,13 @@ public class ResumeBean {
                 public void setLingyu(String lingyu) {
                     this.lingyu = lingyu;
                 }
-
-                @Override
-                public String toString() {
-                    return "OrderIndustryBean{" +
-                            "industry='" + industry + '\'' +
-                            ", func='" + func + '\'' +
-                            ", lingyu='" + lingyu + '\'' +
-                            '}';
-                }
-            }
-
-            @Override
-            public String toString() {
-                return "OrderInfoBean{" +
-                        "user_id='" + user_id + '\'' +
-                        ", jobtype='" + jobtype + '\'' +
-                        ", industry='" + industry + '\'' +
-                        ", func='" + func + '\'' +
-                        ", workarea='" + workarea + '\'' +
-                        ", zhixi='" + zhixi + '\'' +
-                        ", order_salary='" + order_salary + '\'' +
-                        ", order_salary_noshow='" + order_salary_noshow + '\'' +
-                        ", resume_id='" + resume_id + '\'' +
-                        ", resume_language='" + resume_language + '\'' +
-                        ", jobname='" + jobname + '\'' +
-                        ", lingyu='" + lingyu + '\'' +
-                        ", order_yearsalary='" + order_yearsalary + '\'' +
-                        ", current_workstate='" + current_workstate + '\'' +
-                        ", castbehalf='" + castbehalf + '\'' +
-                        ", order_industry=" + order_industry +
-                        '}';
             }
         }
 
         public static class AssessInfoBean {
             /**
-             * user_id : 9491509
-             * introduction : 计算机等级记得记得就
+             * user_id : 9495365
+             * introduction : dddddddddddddddddddddddddddd
              * resume_id : 1
              * resume_language : zh
              * virtue :
@@ -1115,34 +1011,22 @@ public class ResumeBean {
             public void setWeakness(String weakness) {
                 this.weakness = weakness;
             }
-
-            @Override
-            public String toString() {
-                return "AssessInfoBean{" +
-                        "user_id='" + user_id + '\'' +
-                        ", introduction='" + introduction + '\'' +
-                        ", resume_id='" + resume_id + '\'' +
-                        ", resume_language='" + resume_language + '\'' +
-                        ", virtue='" + virtue + '\'' +
-                        ", weakness='" + weakness + '\'' +
-                        '}';
-            }
         }
 
         public static class LanguageListBean {
             /**
-             * langname : 11
-             * user_id : 9491509
-             * read_level : 4
+             * langname : 12
+             * user_id : 9495365
+             * read_level : 3
              * speak_level : 3
-             * grade_exam : [{"id":"1103","score":"568"}]
+             * grade_exam : []
              */
 
             private String langname;
             private String user_id;
             private String read_level;
             private String speak_level;
-            private List<GradeExamBean> grade_exam;
+            private List<?> grade_exam;
 
             public String getLangname() {
                 return langname;
@@ -1176,69 +1060,24 @@ public class ResumeBean {
                 this.speak_level = speak_level;
             }
 
-            public List<GradeExamBean> getGrade_exam() {
+            public List<?> getGrade_exam() {
                 return grade_exam;
             }
 
-            public void setGrade_exam(List<GradeExamBean> grade_exam) {
+            public void setGrade_exam(List<?> grade_exam) {
                 this.grade_exam = grade_exam;
-            }
-
-            public static class GradeExamBean {
-                /**
-                 * id : 1103
-                 * score : 568
-                 */
-
-                private String id;
-                private String score;
-
-                public String getId() {
-                    return id;
-                }
-
-                public void setId(String id) {
-                    this.id = id;
-                }
-
-                public String getScore() {
-                    return score;
-                }
-
-                public void setScore(String score) {
-                    this.score = score;
-                }
-
-                @Override
-                public String toString() {
-                    return "GradeExamBean{" +
-                            "id='" + id + '\'' +
-                            ", score='" + score + '\'' +
-                            '}';
-                }
-            }
-
-            @Override
-            public String toString() {
-                return "LanguageListBean{" +
-                        "langname='" + langname + '\'' +
-                        ", user_id='" + user_id + '\'' +
-                        ", read_level='" + read_level + '\'' +
-                        ", speak_level='" + speak_level + '\'' +
-                        ", grade_exam=" + grade_exam +
-                        '}';
             }
         }
 
         public static class EducationListBean {
             /**
-             * user_id : 9491509
-             * fromyear : 2004
-             * frommonth : 10
-             * toyear : 2009
-             * tomonth : 1
-             * schoolname : bdjdj
-             * moremajor : bdjjdj
+             * user_id : 9495365
+             * fromyear : 2016
+             * frommonth : 4
+             * toyear : 2018
+             * tomonth : 3
+             * schoolname : 淡淡的
+             * moremajor : 玩玩的
              * degree : 16
              * edudetail :
              * is_overseas : 0
@@ -1248,7 +1087,7 @@ public class ResumeBean {
              * recruit_students : 0
              * degreecerti_no :
              * a_degreecerti_no :
-             * education_id : 9558623
+             * education_id : 9572686
              */
 
             private String user_id;
@@ -1404,47 +1243,24 @@ public class ResumeBean {
             public void setEducation_id(String education_id) {
                 this.education_id = education_id;
             }
-
-            @Override
-            public String toString() {
-                return "EducationListBean{" +
-                        "user_id='" + user_id + '\'' +
-                        ", fromyear='" + fromyear + '\'' +
-                        ", frommonth='" + frommonth + '\'' +
-                        ", toyear='" + toyear + '\'' +
-                        ", tomonth='" + tomonth + '\'' +
-                        ", schoolname='" + schoolname + '\'' +
-                        ", moremajor='" + moremajor + '\'' +
-                        ", degree='" + degree + '\'' +
-                        ", edudetail='" + edudetail + '\'' +
-                        ", is_overseas='" + is_overseas + '\'' +
-                        ", country='" + country + '\'' +
-                        ", resume_id='" + resume_id + '\'' +
-                        ", resume_language='" + resume_language + '\'' +
-                        ", recruit_students='" + recruit_students + '\'' +
-                        ", degreecerti_no='" + degreecerti_no + '\'' +
-                        ", a_degreecerti_no='" + a_degreecerti_no + '\'' +
-                        ", education_id='" + education_id + '\'' +
-                        '}';
-            }
         }
 
         public static class ExperienceListBean {
             /**
-             * user_id : 9491509
+             * user_id : 9495365
              * fromyear : 2014
-             * frommonth : 1
-             * toyear : 2016
-             * tomonth : 9
-             * company : bdjdjdj
+             * frommonth : 12
+             * toyear : 2018
+             * tomonth : 1
+             * company : 发热方法
              * companyhide : 0
              * industry : 0
              * companytype : 0
              * stuffmunber : 0
              * division :
-             * companyaddress : 1200
-             * position : bidhdh
-             * responsiblity : bxjdndmmdmd
+             * companyaddress : 1604
+             * position : 淡淡的
+             * responsiblity : dddddddddddddddd
              * offreason :
              * achievement :
              * zhixi : 0
@@ -1455,13 +1271,13 @@ public class ResumeBean {
              * resume_language : zh
              * lingyu : 0
              * func : 0
-             * salary : 64646
+             * salary : 12000
              * salary_hide : 0
              * reterence :
              * yearsalary : 0
              * underling :
              * superior :
-             * experience_id : 10148692
+             * experience_id : 10170910
              */
 
             private String user_id;
@@ -1743,63 +1559,26 @@ public class ResumeBean {
             public void setExperience_id(String experience_id) {
                 this.experience_id = experience_id;
             }
-
-            @Override
-            public String toString() {
-                return "ExperienceListBean{" +
-                        "user_id='" + user_id + '\'' +
-                        ", fromyear='" + fromyear + '\'' +
-                        ", frommonth='" + frommonth + '\'' +
-                        ", toyear='" + toyear + '\'' +
-                        ", tomonth='" + tomonth + '\'' +
-                        ", company='" + company + '\'' +
-                        ", companyhide='" + companyhide + '\'' +
-                        ", industry='" + industry + '\'' +
-                        ", companytype='" + companytype + '\'' +
-                        ", stuffmunber='" + stuffmunber + '\'' +
-                        ", division='" + division + '\'' +
-                        ", companyaddress='" + companyaddress + '\'' +
-                        ", position='" + position + '\'' +
-                        ", responsiblity='" + responsiblity + '\'' +
-                        ", offreason='" + offreason + '\'' +
-                        ", achievement='" + achievement + '\'' +
-                        ", zhixi='" + zhixi + '\'' +
-                        ", zhicheng='" + zhicheng + '\'' +
-                        ", is_overseas='" + is_overseas + '\'' +
-                        ", country='" + country + '\'' +
-                        ", resume_id='" + resume_id + '\'' +
-                        ", resume_language='" + resume_language + '\'' +
-                        ", lingyu='" + lingyu + '\'' +
-                        ", func='" + func + '\'' +
-                        ", salary='" + salary + '\'' +
-                        ", salary_hide='" + salary_hide + '\'' +
-                        ", reterence='" + reterence + '\'' +
-                        ", yearsalary='" + yearsalary + '\'' +
-                        ", underling='" + underling + '\'' +
-                        ", superior='" + superior + '\'' +
-                        ", experience_id='" + experience_id + '\'' +
-                        '}';
-            }
         }
 
         public static class ProjectListBean {
             /**
-             * user_id : 9491509
-             * fromyear : 2008
-             * frommonth : 10
+             * user_id : 9495365
+             * fromyear : 2013
+             * frommonth : 3
              * toyear : 2015
-             * tomonth : 12
-             * projectname : 红色警戒十几万
-             * projectdesc : 家电家具单开双控
-             * responsibility : 抱着你辛苦辛苦面对面的
-             * position : 那乍办
+             * tomonth : 1
+             * projectname : ffffff
+             * projectdesc : fffffff
+             * responsibility : ffffffff
+             * position : ffff
              * resume_id : 1
              * resume_language : zh
              * companyname :
              * companyhide : 0
              * achievement :
              * reterence :
-             * project_id : 4523385
+             * project_id : 4556647
              */
 
             private String user_id;
@@ -1946,46 +1725,24 @@ public class ResumeBean {
             public void setProject_id(String project_id) {
                 this.project_id = project_id;
             }
-
-            @Override
-            public String toString() {
-                return "ProjectListBean{" +
-                        "user_id='" + user_id + '\'' +
-                        ", fromyear='" + fromyear + '\'' +
-                        ", frommonth='" + frommonth + '\'' +
-                        ", toyear='" + toyear + '\'' +
-                        ", tomonth='" + tomonth + '\'' +
-                        ", projectname='" + projectname + '\'' +
-                        ", projectdesc='" + projectdesc + '\'' +
-                        ", responsibility='" + responsibility + '\'' +
-                        ", position='" + position + '\'' +
-                        ", resume_id='" + resume_id + '\'' +
-                        ", resume_language='" + resume_language + '\'' +
-                        ", companyname='" + companyname + '\'' +
-                        ", companyhide='" + companyhide + '\'' +
-                        ", achievement='" + achievement + '\'' +
-                        ", reterence='" + reterence + '\'' +
-                        ", project_id='" + project_id + '\'' +
-                        '}';
-            }
         }
 
         public static class PlantListBean {
             /**
-             * user_id : 9491509
-             * fromyear : 2013
-             * frommonth : 11
-             * toyear : 2015
-             * tomonth : 12
-             * institution : 锦江大酒店就
-             * place : 1200
-             * course : 计算机技术
-             * certification : 计算机考试
-             * traindetail : 嗯就是计算机三级
+             * user_id : 9495365
+             * fromyear : 2015
+             * frommonth : 3
+             * toyear : 2017
+             * tomonth : 6
+             * institution : 2222
+             * place : 1613
+             * co 01-02 09:59:30.886 9565-9681/com.hr.ui D/OkHttp: urse : 2222
+             * certification : 2eeee
+             * traindetail : 2222
              * resume_id : 1
              * resume_language : zh
              * certi_number :
-             * plant_id : 1938709
+             * plant_id : 1943046
              */
 
             private String user_id;
@@ -1995,7 +1752,8 @@ public class ResumeBean {
             private String tomonth;
             private String institution;
             private String place;
-            private String course;
+            @SerializedName("co 01-02 09:59:30.886 9565-9681/com.hr.ui D/OkHttp: urse")
+            private String _$Co010209593088695659681ComHrUiDOkHttpUrse248; // FIXME check this code
             private String certification;
             private String traindetail;
             private String resume_id;
@@ -2059,12 +1817,12 @@ public class ResumeBean {
                 this.place = place;
             }
 
-            public String getCourse() {
-                return course;
+            public String get_$Co010209593088695659681ComHrUiDOkHttpUrse248() {
+                return _$Co010209593088695659681ComHrUiDOkHttpUrse248;
             }
 
-            public void setCourse(String course) {
-                this.course = course;
+            public void set_$Co010209593088695659681ComHrUiDOkHttpUrse248(String _$Co010209593088695659681ComHrUiDOkHttpUrse248) {
+                this._$Co010209593088695659681ComHrUiDOkHttpUrse248 = _$Co010209593088695659681ComHrUiDOkHttpUrse248;
             }
 
             public String getCertification() {
@@ -2114,37 +1872,17 @@ public class ResumeBean {
             public void setPlant_id(String plant_id) {
                 this.plant_id = plant_id;
             }
-
-            @Override
-            public String toString() {
-                return "PlantListBean{" +
-                        "user_id='" + user_id + '\'' +
-                        ", fromyear='" + fromyear + '\'' +
-                        ", frommonth='" + frommonth + '\'' +
-                        ", toyear='" + toyear + '\'' +
-                        ", tomonth='" + tomonth + '\'' +
-                        ", institution='" + institution + '\'' +
-                        ", place='" + place + '\'' +
-                        ", course='" + course + '\'' +
-                        ", certification='" + certification + '\'' +
-                        ", traindetail='" + traindetail + '\'' +
-                        ", resume_id='" + resume_id + '\'' +
-                        ", resume_language='" + resume_language + '\'' +
-                        ", certi_number='" + certi_number + '\'' +
-                        ", plant_id='" + plant_id + '\'' +
-                        '}';
-            }
         }
 
         public static class SkillListBean {
             /**
-             * user_id : 9491509
-             * usetime : 964
-             * ability : 5
-             * skilltitle : 贾九转金身决
+             * user_id : 9495365
+             * usetime : 12
+             * ability : 4
+             * skilltitle : fff
              * resume_id : 1
              * resume_language : zh
-             * skill_id : 3152630
+             * skill_id : 3165029
              */
 
             private String user_id;
@@ -2210,47 +1948,92 @@ public class ResumeBean {
             public void setSkill_id(String skill_id) {
                 this.skill_id = skill_id;
             }
+        }
 
-            @Override
-            public String toString() {
-                return "SkillListBean{" +
-                        "user_id='" + user_id + '\'' +
-                        ", usetime='" + usetime + '\'' +
-                        ", ability='" + ability + '\'' +
-                        ", skilltitle='" + skilltitle + '\'' +
-                        ", resume_id='" + resume_id + '\'' +
-                        ", resume_language='" + resume_language + '\'' +
-                        ", skill_id='" + skill_id + '\'' +
-                        '}';
+        public static class SlaveListBean {
+            /**
+             * user_id : 9495365
+             * type : 0
+             * attachname : dddd
+             * attachdescribe : 2222
+             * slave_filekey : d64f6f646abbd153825fc0c3d3c29fcd
+             * resume_id : 1
+             * resume_language : zh
+             * slave_id : 3559771
+             */
+
+            private String user_id;
+            private String type;
+            private String attachname;
+            private String attachdescribe;
+            private String slave_filekey;
+            private String resume_id;
+            private String resume_language;
+            private String slave_id;
+
+            public String getUser_id() {
+                return user_id;
+            }
+
+            public void setUser_id(String user_id) {
+                this.user_id = user_id;
+            }
+
+            public String getType() {
+                return type;
+            }
+
+            public void setType(String type) {
+                this.type = type;
+            }
+
+            public String getAttachname() {
+                return attachname;
+            }
+
+            public void setAttachname(String attachname) {
+                this.attachname = attachname;
+            }
+
+            public String getAttachdescribe() {
+                return attachdescribe;
+            }
+
+            public void setAttachdescribe(String attachdescribe) {
+                this.attachdescribe = attachdescribe;
+            }
+
+            public String getSlave_filekey() {
+                return slave_filekey;
+            }
+
+            public void setSlave_filekey(String slave_filekey) {
+                this.slave_filekey = slave_filekey;
+            }
+
+            public String getResume_id() {
+                return resume_id;
+            }
+
+            public void setResume_id(String resume_id) {
+                this.resume_id = resume_id;
+            }
+
+            public String getResume_language() {
+                return resume_language;
+            }
+
+            public void setResume_language(String resume_language) {
+                this.resume_language = resume_language;
+            }
+
+            public String getSlave_id() {
+                return slave_id;
+            }
+
+            public void setSlave_id(String slave_id) {
+                this.slave_id = slave_id;
             }
         }
-
-        @Override
-        public String toString() {
-            return "ResumeInfoBean{" +
-                    "title_info=" + title_info +
-                    ", base_info=" + base_info +
-                    ", order_info=" + order_info +
-                    ", assess_info=" + assess_info +
-                    ", language_list=" + language_list +
-                    ", education_list=" + education_list +
-                    ", experience_list=" + experience_list +
-                    ", project_list=" + project_list +
-                    ", plant_list=" + plant_list +
-                    ", skill_list=" + skill_list +
-                    ", subjoin_list=" + subjoin_list +
-                    ", slave_list=" + slave_list +
-                    ", attachment=" + attachment +
-                    '}';
-        }
-    }
-
-    @Override
-    public String toString() {
-        return "ResumeBean{" +
-                "error_code=" + error_code +
-                ", resume_info=" + resume_info +
-                ", _run_time='" + _run_time + '\'' +
-                '}';
     }
 }

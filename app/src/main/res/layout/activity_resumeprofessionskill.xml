@@ -59,6 +59,7 @@
         <View
             style="@style/resume_view"/>
         <RelativeLayout
+            android:id="@+id/rl_resumeProfessionSkillLevel"
             style="@style/resume_RelativeLayout">
             <TextView
                 android:id="@+id/tv_resumeProfessionSkillLevelTag"

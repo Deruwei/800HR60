@@ -3,6 +3,7 @@ package com.hr.ui.ui.resume.contract;
 import com.hr.ui.base.BaseModel;
 import com.hr.ui.base.BasePresenter;
 import com.hr.ui.base.BaseView;
+import com.hr.ui.bean.ProjectBean;
 import com.hr.ui.bean.ProjectExpData;
 
 import okhttp3.ResponseBody;
@@ -14,12 +15,12 @@ import rx.Observable;
 
 public interface ResumeProjectExpContract {
     interface  Model extends BaseModel{
-        Observable<ResponseBody> getProjectInfo(String projectId);
+        Observable<ProjectBean> getProjectInfo(String projectId);
         Observable<ResponseBody> deleteProjectInfo(String projectId);
         Observable<ResponseBody> addOrUpdateProjectInfo(ProjectExpData projectExpData);
     }
     interface View extends BaseView{
-        void getProjectInfoSuccess();
+        void getProjectInfoSuccess(ProjectBean.ProjectListBean projectBean);
         void deleteProjectSuccess();
         void addOrUpdateProjectInfo();
     }

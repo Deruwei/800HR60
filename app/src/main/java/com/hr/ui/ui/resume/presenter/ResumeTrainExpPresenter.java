@@ -1,12 +1,9 @@
 package com.hr.ui.ui.resume.presenter;
 
-import com.hr.ui.base.RxBus;
 import com.hr.ui.base.RxSubscriber;
-import com.hr.ui.bean.WorkExpBean;
-import com.hr.ui.bean.WorkExpData;
-import com.hr.ui.ui.resume.contract.ResumeJobOrderContract;
-import com.hr.ui.ui.resume.contract.ResumeWorkExpContract;
-import com.hr.ui.ui.resume.model.ResumeWorkExpModel;
+import com.hr.ui.bean.ResumeTrainBean;
+import com.hr.ui.bean.TrainExpData;
+import com.hr.ui.ui.resume.contract.ResumeTrainExpContract;
 import com.hr.ui.utils.Rc4Md5Utils;
 import com.hr.ui.utils.ToastUitl;
 
@@ -18,21 +15,20 @@ import java.io.IOException;
 import okhttp3.ResponseBody;
 
 /**
- * Created by wdr on 2017/12/29.
+ * Created by wdr on 2018/1/2.
  */
 
-public class ResumeWorkExpPresenter extends ResumeWorkExpContract.Presenter {
+public class ResumeTrainExpPresenter extends ResumeTrainExpContract.Presenter {
     @Override
-    public void getWorkExpInfo(String experienceId) {
-        mRxManage.add(mModel.getWorkExpInfo(experienceId).subscribe(new RxSubscriber<WorkExpBean>(mContext,false) {
+    public void getTrainExpData(String trainId) {
+        mRxManage.add(mModel.getTrainExpData(trainId).subscribe(new RxSubscriber<ResumeTrainBean>(mContext,false) {
             @Override
-            protected void _onNext(WorkExpBean workExpBean) throws IOException {
-                    if(workExpBean.getError_code()==0) {
-                        //System.out.print(s);
-                        mView.getWorkExpinfo(workExpBean.getExperience_list().get(0));
-                    }else{
-                        ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) workExpBean.getError_code()));
-                    }
+            protected void _onNext(ResumeTrainBean resumeTrainBean) throws IOException {
+              if(resumeTrainBean.getError_code()==0){
+                  mView.getTrainSuccess(resumeTrainBean.getPlant_list().get(0));
+              }else{
+                  ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) resumeTrainBean.getError_code()));
+              }
             }
 
             @Override
@@ -43,8 +39,8 @@ public class ResumeWorkExpPresenter extends ResumeWorkExpContract.Presenter {
     }
 
     @Override
-    public void deleteWorkExp(String experienceId) {
-        mRxManage.add(mModel.deleteWorkExp(experienceId).subscribe(new RxSubscriber<ResponseBody>(mContext,true) {
+    public void deleteExpDate(String trainId) {
+        mRxManage.add(mModel.deleteExpData(trainId).subscribe(new RxSubscriber<ResponseBody>(mContext,true) {
             @Override
             protected void _onNext(ResponseBody responseBody) throws IOException {
                 String s= null;
@@ -53,8 +49,8 @@ public class ResumeWorkExpPresenter extends ResumeWorkExpContract.Presenter {
                     JSONObject jsonObject=new JSONObject(s);
                     double error_code=jsonObject.getDouble("error_code");
                     if(error_code==0) {
-                        System.out.print(s);
-                        mView.deleteSuccess();
+                        //System.out.print(s);
+                        mView.deleteTrainSuccess();
                     }else{
                         ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) error_code));
                     }
@@ -73,8 +69,8 @@ public class ResumeWorkExpPresenter extends ResumeWorkExpContract.Presenter {
     }
 
     @Override
-    public void addOrUpdateWorkExp(WorkExpData workExpData) {
-        mRxManage.add(mModel.addOrUpdateWorkExp(workExpData).subscribe(new RxSubscriber<ResponseBody>(mContext,true) {
+    public void addOrReplaceData(TrainExpData trainExpData) {
+        mRxManage.add(mModel.AddOrReplaceData(trainExpData).subscribe(new RxSubscriber<ResponseBody>(mContext,true) {
             @Override
             protected void _onNext(ResponseBody responseBody) throws IOException {
                 String s= null;
@@ -83,8 +79,8 @@ public class ResumeWorkExpPresenter extends ResumeWorkExpContract.Presenter {
                     JSONObject jsonObject=new JSONObject(s);
                     double error_code=jsonObject.getDouble("error_code");
                     if(error_code==0) {
-                        System.out.print(s);
-                        mView.addOrUpdateWorkExp();
+                        //System.out.print(s);
+                        mView.addOrReplaceSucess();
                     }else{
                         ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) error_code));
                     }

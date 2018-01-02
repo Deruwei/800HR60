@@ -8,6 +8,13 @@
     android:clipToPadding="true"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <RelativeLayout
+        android:layout_height="0dp"
+        android:layout_width="0dp"
+       wdr:layout_constraintTop_toTopOf="parent"
+        wdr:layout_constraintBottom_toBottomOf="parent"
+        wdr:layout_constraintLeft_toLeftOf="parent"
+        wdr:layout_constraintRight_toRightOf="parent">
+    <RelativeLayout
         android:background="@color/color_resume1"
         android:id="@+id/ll_resumeTitleTop"
         android:layout_width="match_parent"
@@ -32,13 +39,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </RelativeLayout>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_below="@+id/ll_resumeTitleTop"
+        android:id="@+id/srl_resume"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <android.support.v4.widget.NestedScrollView
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        wdr:layout_constraintTop_toBottomOf="@+id/ll_resumeTitleTop"
-        wdr:layout_constraintBottom_toBottomOf="parent"
-        android:layout_width="0dp"
-        android:layout_height="0dp">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -125,7 +134,7 @@
                 </LinearLayout>
                 <TextView
                     android:id="@+id/tv_addResumeProjectExp"
-                    android:text="@string/addEducationBackground"
+                    android:text="@string/addProjectExp"
                     style="@style/resume_textViewAdd"
                     />
                 <TextView
@@ -194,11 +203,13 @@
                     android:background="@color/resumeContent_bg"
                     />
                 <RelativeLayout
+                    android:id="@+id/rl_hideResume"
                     style="@style/resume_RelativeItem">
                     <TextView
                         android:text="@string/hideResume"
                         style="@style/resume_TextViewItemTitleHideResume" />
                     <ImageView
+                        android:id="@+id/iv_hideResume"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@mipmap/off"
@@ -231,4 +242,6 @@
 
         </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+    </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

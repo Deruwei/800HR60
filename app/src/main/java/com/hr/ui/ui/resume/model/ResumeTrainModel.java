@@ -5,9 +5,10 @@ import com.hr.ui.api.Api;
 import com.hr.ui.api.ApiParameter;
 import com.hr.ui.api.HostType;
 import com.hr.ui.base.RxSchedulers;
-import com.hr.ui.bean.ProjectBean;
-import com.hr.ui.bean.ProjectExpData;
-import com.hr.ui.ui.resume.contract.ResumeProjectExpContract;
+import com.hr.ui.bean.ResumeTrainBean;
+import com.hr.ui.bean.TrainExpData;
+import com.hr.ui.ui.resume.activity.ResumeTrainActivity;
+import com.hr.ui.ui.resume.contract.ResumeTrainExpContract;
 import com.hr.ui.utils.EncryptUtils;
 
 import java.io.IOException;
@@ -19,34 +20,35 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by wdr on 2017/12/29.
+ * Created by wdr on 2018/1/2.
  */
 
-public class ResumeProjectExpModel implements ResumeProjectExpContract.Model {
+public class ResumeTrainModel implements ResumeTrainExpContract.Model{
+
     @Override
-    public Observable<ProjectBean> getProjectInfo(String projectId) {
-        return Api.getDefault(HostType.HR).getResponseString(EncryptUtils.encrypParams(ApiParameter.getProjectInfo(projectId)))
-                .map(new Func1<ResponseBody, ProjectBean>() {
+    public Observable<ResumeTrainBean> getTrainExpData(String trainId) {
+        return Api.getDefault(HostType.HR).getResponseString(EncryptUtils.encrypParams(ApiParameter.getTrainExp(trainId)))
+                .map(new Func1<ResponseBody, ResumeTrainBean>() {
                     @Override
-                    public ProjectBean call(ResponseBody responseBody) {
-                        ProjectBean projectBean=null;
+                    public ResumeTrainBean call(ResponseBody responseBody) {
+                        ResumeTrainBean resumeTrainBean=null;
                         try {
                             String s=responseBody.string().toString();
-                            projectBean=new Gson().fromJson(s,ProjectBean.class);
+                            resumeTrainBean=new Gson().fromJson(s,ResumeTrainBean.class);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        return projectBean;
+                        return resumeTrainBean;
                     }
                 })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxSchedulers.<ProjectBean>io_main());
+                .compose(RxSchedulers.<ResumeTrainBean>io_main());
     }
 
     @Override
-    public Observable<ResponseBody> deleteProjectInfo(String projectId) {
-        return Api.getDefault(HostType.HR).getResponseString(EncryptUtils.encrypParams(ApiParameter.deleteProjectInfo(projectId)))
+    public Observable<ResponseBody> deleteExpData(String trainId) {
+        return Api.getDefault(HostType.HR).getResponseString(EncryptUtils.encrypParams(ApiParameter.deleteTrainExp(trainId)))
                 .map(new Func1<ResponseBody, ResponseBody>() {
                     @Override
                     public ResponseBody call(ResponseBody responseBody) {
@@ -59,8 +61,8 @@ public class ResumeProjectExpModel implements ResumeProjectExpContract.Model {
     }
 
     @Override
-    public Observable<ResponseBody> addOrUpdateProjectInfo(ProjectExpData projectExpData) {
-        return Api.getDefault(HostType.HR).getResponseString(EncryptUtils.encrypParams(ApiParameter.addOrReplaceProjectExp(projectExpData)))
+    public Observable<ResponseBody> AddOrReplaceData(TrainExpData trainExpData) {
+        return Api.getDefault(HostType.HR).getResponseString(EncryptUtils.encrypParams(ApiParameter.addOrReplaceTrainExp(trainExpData)))
                 .map(new Func1<ResponseBody, ResponseBody>() {
                     @Override
                     public ResponseBody call(ResponseBody responseBody) {

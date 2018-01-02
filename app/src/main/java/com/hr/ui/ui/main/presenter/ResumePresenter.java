@@ -11,7 +11,12 @@ import com.hr.ui.ui.main.fragment.ResumeContract;
 import com.hr.ui.utils.Rc4Md5Utils;
 import com.hr.ui.utils.ToastUitl;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+
+import okhttp3.ResponseBody;
 
 /**
  * Created by wdr on 2017/12/22.
@@ -80,5 +85,35 @@ public class ResumePresenter extends ResumeContract.Presenter {
 
             }
         }));
+    }
+
+    @Override
+    public void setHide(String openstate) {
+       mRxManage.add(mModel.setHide(openstate).subscribe(new RxSubscriber<ResponseBody>(mContext,false) {
+           @Override
+           protected void _onNext(ResponseBody responseBody) throws IOException {
+               String s= null;
+               try {
+                   s = responseBody.string().toString();
+                   JSONObject jsonObject=new JSONObject(s);
+                   double error_code=jsonObject.getDouble("error_code");
+                   if(error_code==0) {
+                       System.out.print(s);
+                       mView.setHideSuccess();
+                   }else{
+                       ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) error_code));
+                   }
+               } catch (IOException e) {
+                   e.printStackTrace();
+               } catch (JSONException e) {
+                   e.printStackTrace();
+               }
+           }
+
+           @Override
+           protected void _onError(String message) {
+
+           }
+       }));
     }
 }

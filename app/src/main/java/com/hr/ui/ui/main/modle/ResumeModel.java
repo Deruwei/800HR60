@@ -72,4 +72,18 @@ public class ResumeModel implements ResumeContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(RxSchedulers.<PictureBean>io_main());
     }
+
+    @Override
+    public Observable<ResponseBody> setHide(String openstate) {
+        return Api.getDefault(HostType.HR).getResponseString(EncryptUtils.encrypParams(ApiParameter.setHide(openstate)))
+                .map(new Func1<ResponseBody, ResponseBody>() {
+                    @Override
+                    public ResponseBody call(ResponseBody responseBody) {
+                        return responseBody;
+                    }
+                })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxSchedulers.<ResponseBody>io_main());
+    }
 }

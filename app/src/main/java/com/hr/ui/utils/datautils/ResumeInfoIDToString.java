@@ -528,6 +528,20 @@ public class ResumeInfoIDToString {
 		}
 		return "";
 	}
+	public static String getLanguageTpyeId(Context context, String name) {
+		if(context!=null) {
+			String[] languageTypeIdStrings = context.getResources().getStringArray(
+					R.array.array_language_type_ids);
+			String[] languageTypeStrings = context.getResources().getStringArray(
+						R.array.array_language_type_zh);
+			for (int i = 0; i < languageTypeIdStrings.length; i++) {
+				if (languageTypeStrings[i].equals(name)) {
+					return languageTypeIdStrings[i];
+				}
+			}
+		}
+		return "";
+	}
 	/**
 	 * 获取语言等级考试
 	 */
@@ -601,6 +615,21 @@ public class ResumeInfoIDToString {
 		}
 		return "";
 	}
+	public static String getLanguageSpeakLevelId(Context context, String name) {
+		if(context!=null) {
+			String[] speakLevelIdStrings = context.getResources().getStringArray(
+					R.array.array_language_speaklevel_ids);
+			String[] speakLevelStrings = context.getResources().getStringArray(
+						R.array.array_language_speaklevel_zh);
+
+			for (int i = 0; i < speakLevelIdStrings.length; i++) {
+				if (speakLevelStrings[i].equals(name)) {
+					return speakLevelIdStrings[i];
+				}
+			}
+		}
+		return "";
+	}
 
 	/**
 	 * 获取技能水平
@@ -620,6 +649,20 @@ public class ResumeInfoIDToString {
 			for (int i = 0; i < skillLevelIdStrings.length; i++) {
 				if (skillLevelIdStrings[i].equals(id)) {
 					return skillLevelStrings[i];
+				}
+			}
+		}
+		return "";
+	}
+	public static String getSkillLevelId(Context context, String name) {
+		if(context!=null) {
+			String[] skillLevelIdStrings = context.getResources().getStringArray(
+					R.array.array_skilllevel_ids);
+			String[] skillLevelStrings = context.getResources().getStringArray(
+						R.array.array_skilllevel_zh);
+			for (int i = 0; i < skillLevelIdStrings.length; i++) {
+				if (skillLevelStrings[i].equals(name)) {
+					return skillLevelIdStrings[i];
 				}
 			}
 		}

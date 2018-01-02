@@ -1,12 +1,16 @@
 package com.hr.ui.ui.resume.model;
 
+import com.google.gson.Gson;
 import com.hr.ui.api.Api;
 import com.hr.ui.api.ApiParameter;
 import com.hr.ui.api.HostType;
 import com.hr.ui.base.RxSchedulers;
+import com.hr.ui.bean.WorkExpBean;
 import com.hr.ui.bean.WorkExpData;
 import com.hr.ui.ui.resume.contract.ResumeWorkExpContract;
 import com.hr.ui.utils.EncryptUtils;
+
+import java.io.IOException;
 
 import okhttp3.ResponseBody;
 import rx.Observable;
@@ -20,17 +24,24 @@ import rx.schedulers.Schedulers;
 
 public class ResumeWorkExpModel implements ResumeWorkExpContract.Model {
     @Override
-    public Observable<ResponseBody> getWorkExpInfo(String experienceId) {
+    public Observable<WorkExpBean> getWorkExpInfo(String experienceId) {
         return Api.getDefault(HostType.HR).getResponseString(EncryptUtils.encrypParams(ApiParameter.getWorkExp(experienceId)))
-                .map(new Func1<ResponseBody, ResponseBody>() {
+                .map(new Func1<ResponseBody, WorkExpBean>() {
                     @Override
-                    public ResponseBody call(ResponseBody responseBody) {
-                        return responseBody;
+                    public WorkExpBean call(ResponseBody responseBody) {
+                        WorkExpBean workExpBean=null;
+                        try {
+                            String s=responseBody.string().toString();
+                            workExpBean=new Gson().fromJson(s,WorkExpBean.class);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        return workExpBean;
                     }
                 })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxSchedulers.<ResponseBody>io_main());
+                .compose(RxSchedulers.<WorkExpBean>io_main());
     }
 
     @Override

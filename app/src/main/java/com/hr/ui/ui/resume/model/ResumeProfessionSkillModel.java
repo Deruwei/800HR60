@@ -5,9 +5,9 @@ import com.hr.ui.api.Api;
 import com.hr.ui.api.ApiParameter;
 import com.hr.ui.api.HostType;
 import com.hr.ui.base.RxSchedulers;
-import com.hr.ui.bean.ProjectBean;
-import com.hr.ui.bean.ProjectExpData;
-import com.hr.ui.ui.resume.contract.ResumeProjectExpContract;
+import com.hr.ui.bean.ProfessionSkillData;
+import com.hr.ui.bean.ResumeProfessionSkillBean;
+import com.hr.ui.ui.resume.contract.ResumeProfessionSkillContract;
 import com.hr.ui.utils.EncryptUtils;
 
 import java.io.IOException;
@@ -19,34 +19,34 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by wdr on 2017/12/29.
+ * Created by wdr on 2018/1/2.
  */
 
-public class ResumeProjectExpModel implements ResumeProjectExpContract.Model {
+public class ResumeProfessionSkillModel implements ResumeProfessionSkillContract.Model{
     @Override
-    public Observable<ProjectBean> getProjectInfo(String projectId) {
-        return Api.getDefault(HostType.HR).getResponseString(EncryptUtils.encrypParams(ApiParameter.getProjectInfo(projectId)))
-                .map(new Func1<ResponseBody, ProjectBean>() {
+    public Observable<ResumeProfessionSkillBean> getSkill(String skillId) {
+        return Api.getDefault(HostType.HR).getResponseString(EncryptUtils.encrypParams(ApiParameter.getProfessionSkill(skillId)))
+                .map(new Func1<ResponseBody, ResumeProfessionSkillBean>() {
                     @Override
-                    public ProjectBean call(ResponseBody responseBody) {
-                        ProjectBean projectBean=null;
+                    public ResumeProfessionSkillBean call(ResponseBody responseBody) {
+                        ResumeProfessionSkillBean resumeProfessionSkillBean=null;
                         try {
                             String s=responseBody.string().toString();
-                            projectBean=new Gson().fromJson(s,ProjectBean.class);
+                            resumeProfessionSkillBean=new Gson().fromJson(s,ResumeProfessionSkillBean.class);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        return projectBean;
+                        return resumeProfessionSkillBean;
                     }
                 })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxSchedulers.<ProjectBean>io_main());
+                .compose(RxSchedulers.<ResumeProfessionSkillBean>io_main());
     }
 
     @Override
-    public Observable<ResponseBody> deleteProjectInfo(String projectId) {
-        return Api.getDefault(HostType.HR).getResponseString(EncryptUtils.encrypParams(ApiParameter.deleteProjectInfo(projectId)))
+    public Observable<ResponseBody> deleteSkill(String skillid) {
+        return Api.getDefault(HostType.HR).getResponseString(EncryptUtils.encrypParams(ApiParameter.deleteProfessionSkill(skillid)))
                 .map(new Func1<ResponseBody, ResponseBody>() {
                     @Override
                     public ResponseBody call(ResponseBody responseBody) {
@@ -59,8 +59,8 @@ public class ResumeProjectExpModel implements ResumeProjectExpContract.Model {
     }
 
     @Override
-    public Observable<ResponseBody> addOrUpdateProjectInfo(ProjectExpData projectExpData) {
-        return Api.getDefault(HostType.HR).getResponseString(EncryptUtils.encrypParams(ApiParameter.addOrReplaceProjectExp(projectExpData)))
+    public Observable<ResponseBody> addOrReplaceSkill(ProfessionSkillData skillData) {
+        return Api.getDefault(HostType.HR).getResponseString(EncryptUtils.encrypParams(ApiParameter.addOrReplaceProfessionSkill(skillData)))
                 .map(new Func1<ResponseBody, ResponseBody>() {
                     @Override
                     public ResponseBody call(ResponseBody responseBody) {

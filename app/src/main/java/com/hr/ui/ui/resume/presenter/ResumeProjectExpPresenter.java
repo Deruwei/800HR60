@@ -1,6 +1,7 @@
 package com.hr.ui.ui.resume.presenter;
 
 import com.hr.ui.base.RxSubscriber;
+import com.hr.ui.bean.ProjectBean;
 import com.hr.ui.bean.ProjectExpData;
 import com.hr.ui.ui.resume.contract.ResumeProjectExpContract;
 import com.hr.ui.utils.Rc4Md5Utils;
@@ -20,25 +21,15 @@ import okhttp3.ResponseBody;
 public class ResumeProjectExpPresenter extends ResumeProjectExpContract.Presenter {
     @Override
     public void getProjectInfo(String projectId) {
-        mRxManage.add(mModel.getProjectInfo(projectId).subscribe(new RxSubscriber<ResponseBody>(mContext,false) {
+        mRxManage.add(mModel.getProjectInfo(projectId).subscribe(new RxSubscriber<ProjectBean>(mContext,false) {
             @Override
-            protected void _onNext(ResponseBody responseBody) throws IOException {
-                String s= null;
-                try {
-                    s = responseBody.string().toString();
-                    JSONObject jsonObject=new JSONObject(s);
-                    double error_code=jsonObject.getDouble("error_code");
-                    if(error_code==0) {
-                        System.out.print(s);
-                        mView.getProjectInfoSuccess();
+            protected void _onNext(ProjectBean projectBean) throws IOException {
+                    if(projectBean.getError_code()==0) {
+                        //System.out.print(s);
+                        mView.getProjectInfoSuccess(projectBean.getProject_list().get(0));
                     }else{
-                        ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) error_code));
+                        ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) projectBean.getError_code()));
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
             }
 
             @Override

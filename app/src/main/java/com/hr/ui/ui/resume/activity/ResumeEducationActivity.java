@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
+import com.hr.ui.bean.EducationBean;
 import com.hr.ui.bean.EducationData;
 import com.hr.ui.ui.resume.contract.ResumeEducationContract;
 import com.hr.ui.ui.resume.model.ResumeEducationModel;
@@ -119,15 +120,19 @@ public class ResumeEducationActivity extends BaseActivity<ResumeEducationPresent
     }
 
     @Override
-    public void getEducationInfoSuccess() {
-        setUI();
+    public void getEducationInfoSuccess(EducationBean.EducationListBean  educationBean) {
+        setUI(educationBean);
     }
 
-    private void setUI() {
-        tvResumeEduBDStartEndTime.setText("");
-        tvResumeEduBDEducation.setText(ResumeInfoIDToString.getEducationDegree(this,"",true));
-        etResumeEduBDSchool.setText("");
-        etResumeEduBDProfession.setText("");
+    private void setUI(EducationBean.EducationListBean  educationBean) {
+        tvResumeEduBDStartEndTime.setText(educationBean.getFromyear()+"-"+educationBean.getFrommonth()+"  至  "+educationBean.getToyear()+"-"+educationBean.getTomonth());
+        startTimes=educationBean.getFromyear()+"-"+educationBean.getFrommonth();
+        endTimes=educationBean.getToyear()+"-"+educationBean.getTomonth();
+        tvResumeEduBDEducation.setText(ResumeInfoIDToString.getEducationDegree(this,educationBean.getDegree(),true));
+        degreeId=educationBean.getDegree();
+        etResumeEduBDSchool.setText(educationBean.getSchoolname());
+        educationId=educationBean.getEducation_id();
+        etResumeEduBDProfession.setText(educationBean.getMoremajor());
     }
 
     @Override
@@ -143,6 +148,7 @@ public class ResumeEducationActivity extends BaseActivity<ResumeEducationPresent
     @Override
     public void deleteEducationSuccess() {
         ToastUitl.showShort(R.string.deleteSuccess);
+        finish();
     }
 
     @Override
@@ -166,6 +172,8 @@ public class ResumeEducationActivity extends BaseActivity<ResumeEducationPresent
         toolBar.setTitleTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
         toolBar.setNavigationIcon(R.mipmap.back);
         tvToolbarTitle.setText(R.string.educationBackground);
+        ivResumeEduBDProfessionDelete.setVisibility(View.GONE);
+        ivResumeEduBDSchoolDelete.setVisibility(View.GONE);
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -329,7 +337,7 @@ public class ResumeEducationActivity extends BaseActivity<ResumeEducationPresent
         educationData.setEndTime(endTimes);
         educationData.setProfession(etResumeEduBDProfession.getText().toString());
         educationData.setSchoolName(etResumeEduBDSchool.getText().toString());
-        educationData.setEducationId(degreeId);
+        educationData.setDegree(degreeId);
         mPresenter.addOrUpdateEducation(educationData);
     }
 }

@@ -22,6 +22,7 @@
         <View
             style="@style/resume_viewTop"/>
         <RelativeLayout
+            android:id="@+id/rl_resumeLanguageSkillLanguage"
             style="@style/resume_RelativeLayout">
             <TextView
                 style="@style/Resume_TextViewTag"
@@ -42,6 +43,7 @@
         <View
             style="@style/resume_view"/>
         <RelativeLayout
+            android:id="@+id/rl_resumeLanguageSkillListenSpeak"
             style="@style/resume_RelativeLayout">
             <TextView
                 style="@style/Resume_TextViewTag"
@@ -62,6 +64,7 @@
         <View
             style="@style/resume_view"/>
         <RelativeLayout
+            android:id="@+id/rl_resumeLanguageSkillReadWrite"
             style="@style/resume_RelativeLayout">
             <TextView
                 style="@style/Resume_TextViewTag"

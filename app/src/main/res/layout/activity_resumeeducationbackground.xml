@@ -25,10 +25,7 @@
             android:background="@color/resumeContent_bg"
             android:layout_height="@dimen/dimen_10dp"/>
         <RelativeLayout
-            android:layout_marginRight="@dimen/dimen_15dp"
-            android:layout_marginLeft="@dimen/dimen_15dp"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_50dp">
+            style="@style/resume_RelativeLayout">
             <TextView
                 android:id="@+id/tv_resumeEduBGSchoolTag"
                 android:text="@string/school"
@@ -45,16 +42,9 @@
                 style="@style/resume_ImageViewRight" />
         </RelativeLayout>
         <View
-            android:layout_marginRight="@dimen/dimen_15dp"
-            android:layout_marginLeft="@dimen/dimen_15dp"
-            android:background="@color/resumeContent_bg"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"/>
+            style="@style/resume_view"/>
         <RelativeLayout
-            android:layout_marginRight="@dimen/dimen_15dp"
-            android:layout_marginLeft="@dimen/dimen_15dp"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_50dp">
+            style="@style/resume_RelativeLayout">
             <TextView
                 android:id="@+id/tv_resumeEduBGProfessionTag"
                 android:text="@string/major"
@@ -71,17 +61,10 @@
                 style="@style/resume_ImageViewRight" />
         </RelativeLayout>
         <View
-            android:layout_marginRight="@dimen/dimen_15dp"
-            android:layout_marginLeft="@dimen/dimen_15dp"
-            android:background="@color/resumeContent_bg"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"/>
+            style="@style/resume_view"/>
         <RelativeLayout
             android:id="@+id/rl_resumeEduBDStartEndTime"
-            android:layout_marginRight="@dimen/dimen_15dp"
-            android:layout_marginLeft="@dimen/dimen_15dp"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_50dp">
+            style="@style/resume_RelativeLayout">
             <TextView
                 android:id="@+id/tv_resumeEduBGStartEndTimeTag"
                 android:text="@string/startAndEndTime"
@@ -98,17 +81,10 @@
                 style="@style/resume_ImageViewRight" />
         </RelativeLayout>
         <View
-            android:layout_marginRight="@dimen/dimen_15dp"
-            android:layout_marginLeft="@dimen/dimen_15dp"
-            android:background="@color/resumeContent_bg"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"/>
+            style="@style/resume_view"/>
         <RelativeLayout
             android:id="@+id/rl_resumeEduBDEducation"
-            android:layout_marginRight="@dimen/dimen_15dp"
-            android:layout_marginLeft="@dimen/dimen_15dp"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_50dp">
+            style="@style/resume_RelativeLayout">
             <TextView
                 android:id="@+id/tv_resumeEduBGEducationTag"
                 android:text="@string/education"

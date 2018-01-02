@@ -6,6 +6,7 @@ import com.hr.ui.base.BaseModel;
 import com.hr.ui.base.BasePresenter;
 import com.hr.ui.base.BaseView;
 import com.hr.ui.base.RxSubscriber;
+import com.hr.ui.bean.EducationBean;
 import com.hr.ui.bean.EducationData;
 import com.hr.ui.ui.resume.activity.ResumeEducationActivity;
 import com.hr.ui.ui.resume.contract.ResumeEducationContract;
@@ -59,25 +60,16 @@ public class ResumeEducationPresenter  extends ResumeEducationContract.Presenter
 
     @Override
     public void getEducationInfo(String education) {
-        mRxManage.add(mModel.getEducationInfo(education).subscribe(new RxSubscriber<ResponseBody>(mContext,false) {
+        mRxManage.add(mModel.getEducationInfo(education).subscribe(new RxSubscriber<EducationBean>(mContext,false) {
             @Override
-            protected void _onNext(ResponseBody responseBody) throws IOException {
-                String s= null;
-                try {
-                    s = responseBody.string().toString();
-                    JSONObject jsonObject=new JSONObject(s);
-                    double error_code=jsonObject.getDouble("error_code");
-                    if(error_code==0) {
-                        System.out.print(s);
-                        mView.getEducationInfoSuccess();
+            protected void _onNext(EducationBean educationBean) throws IOException {
+
+                    if(educationBean.getError_code()==0) {
+                        //System.out.print(s);
+                        mView.getEducationInfoSuccess(educationBean.getEducation_list().get(0));
                     }else{
-                        ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) error_code));
+                        ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) educationBean.getError_code()));
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
             }
 
             @Override

@@ -409,4 +409,43 @@
         <item name="android:layout_marginRight">@dimen/x72</item>
         <item name="android:layout_marginTop">@dimen/y49</item>
     </style>
+    <style name="previewResume_title">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@color/resumeContent_bg</item>
+        <item name="android:layout_height">@dimen/x81</item>
+    </style>
+    <style name="previewResume_titleIcon">
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_width">@dimen/x8</item>
+        <item name="android:layout_height">@dimen/x24</item>
+        <item name="android:layout_marginLeft">@dimen/x24</item>
+        <item name="android:layout_marginRight">@dimen/x20</item>
+    </style>
+    <style name="previewResume_titleName">
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/color_333</item>
+        <item name="android:textSize">@dimen/x28</item>
+    </style>
+    <style name="previewResume_itemName">
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_width">@dimen/x160</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/color_999</item>
+        <item name="android:textSize">@dimen/x30</item>
+    </style>
+    <style name="previewResume_itemRL">
+        <item name="android:paddingLeft">@dimen/x53</item>
+        <item name="android:paddingRight">@dimen/x53</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/x50</item>
+    </style>
+    <style name="preview_itemValue">
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textColor">@color/color_333</item>
+        <item name="android:textSize">@dimen/x30</item>
+    </style>
 </resources>

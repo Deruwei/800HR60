@@ -8,9 +8,12 @@ import android.util.Log;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.bean.EducationData;
 import com.hr.ui.bean.JobOrderData;
+import com.hr.ui.bean.LanguageLevelData;
 import com.hr.ui.bean.PersonalInformationData;
+import com.hr.ui.bean.ProfessionSkillData;
 import com.hr.ui.bean.ProjectExpData;
 import com.hr.ui.bean.ThirdLoginBean;
+import com.hr.ui.bean.TrainExpData;
 import com.hr.ui.bean.WorkExpData;
 import com.hr.ui.constants.Constants;
 import com.hr.ui.utils.AndroidUtils;
@@ -19,6 +22,8 @@ import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 
 import java.util.HashMap;
 import java.util.UUID;
+
+import cn.sharesdk.framework.Platform;
 
 /**
  * Created by wdr on 2017/11/21.
@@ -296,7 +301,10 @@ public class ApiParameter {
         String toMonth=endTime.substring(endTime.indexOf("-")+1);
         requestMap.put("method","user_resume.experienceset");
         SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
-        requestMap.put("resume",sUtils.getIntValue(Constants.RESUME_ID,0)+"");
+        requestMap.put("resume_id",sUtils.getIntValue(Constants.RESUME_ID,0)+"");
+        if(!"".equals(workExpData.getExperienceId())&&workExpData.getExperienceId()!=null){
+            requestMap.put("experience_id",workExpData.getExperienceId());
+        }
         requestMap.put("company",workExpData.getCompany());
         requestMap.put("fromyear",fromYear);
         requestMap.put("frommonth",fromMonth);
@@ -447,7 +455,7 @@ public class ApiParameter {
     }
     public static HashMap<String,String> deleteProjectInfo(String projectId){
         HashMap<String,String> requestMap=new HashMap<>();
-        requestMap.put("method","user_resume.experiencedel");
+        requestMap.put("method","user_resume.projectdel");
         SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
         requestMap.put("resume_id",sUtils.getIntValue(Constants.RESUME_ID,0)+"");
         requestMap.put("project_id",projectId);
@@ -455,10 +463,112 @@ public class ApiParameter {
     }
     public static HashMap<String,String> getProjectInfo(String projectId){
         HashMap<String,String> requestMap=new HashMap<>();
-        requestMap.put("method","user_resume.experiencedel");
+        requestMap.put("method","user_resume.projectget");
         SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
         requestMap.put("resume_id",sUtils.getIntValue(Constants.RESUME_ID,0)+"");
         requestMap.put("project_id",projectId);
+        return  requestMap;
+    }
+    public static HashMap<String,String> addOrReplaceTrainExp(TrainExpData trainExpData){
+        HashMap<String,String> requestMap=new HashMap<>();
+        String startTime=trainExpData.getStartTime();
+        String endTime=trainExpData.getEndTime();
+        String fromYear=startTime.substring(0,startTime.indexOf("-"));
+        String fromMonth=startTime.substring(startTime.indexOf("-")+1);
+        String toYear=endTime.substring(0,endTime.indexOf("-"));
+        String toMonth=endTime.substring(endTime.indexOf("-")+1);
+        requestMap.put("method","user_resume.plantset");
+        SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
+        requestMap.put("resume_id",sUtils.getIntValue(Constants.RESUME_ID,0)+"");
+        if(trainExpData.getTrainId()!=null&&!"".equals(trainExpData.getTrainId())) {
+            requestMap.put("plant_id", trainExpData.getTrainId());
+        }
+        requestMap.put("fromyear",fromYear);
+        requestMap.put("frommonth",fromMonth);
+        requestMap.put("toyear",toYear);
+        requestMap.put("tomonth",toMonth);
+        requestMap.put("institution",trainExpData.getTrainInstruction());
+        requestMap.put("course",trainExpData.getTrainClass());
+        requestMap.put("traindetail",trainExpData.getTrainDes());
+       /* requestMap.put("",);*/
+        return requestMap;
+    }
+    public static HashMap<String,String> deleteTrainExp(String trainId){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user_resume.plantdel");
+        SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
+        requestMap.put("resume_id",sUtils.getIntValue(Constants.RESUME_ID,0)+"");
+        requestMap.put("plant_id",trainId);
+        return  requestMap;
+    }
+    public static HashMap<String,String> getTrainExp(String trainId){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user_resume.plantget");
+        SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
+        requestMap.put("resume_id",sUtils.getIntValue(Constants.RESUME_ID,0)+"");
+        requestMap.put("plant_id", trainId);
+        return  requestMap;
+    }
+    public static HashMap<String,String> addOrReplaceLanguageLevel(LanguageLevelData languageLevelData){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user_resume.languageset");
+        requestMap.put("langname",languageLevelData.getLanguageId());
+        requestMap.put("read_level", languageLevelData.getReadLevel());
+        requestMap.put("speak_level", languageLevelData.getSpeakLevel());
+        return requestMap;
+    }
+    public static HashMap<String,String> deleteLanguageLevel(String LanguageId){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user_resume.languagedel");
+        requestMap.put("langname",LanguageId);
+        return  requestMap;
+    }
+    public static HashMap<String,String> getLanguage(String languageId){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user_resume.languageget");
+        requestMap.put("langname",languageId);
+        return  requestMap;
+    }
+    public static HashMap<String,String> addOrReplaceProfessionSkill(ProfessionSkillData professionSkillData){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user_resume.skillset");
+        if(professionSkillData.getSkillId()!=null&&!"".equals(professionSkillData.getSkillId())) {
+            requestMap.put("skill_id", professionSkillData.getSkillId());
+        }
+        requestMap.put("skilltitle", professionSkillData.getSkillName());
+        requestMap.put("usetime",professionSkillData.getSkillUseTime());
+        requestMap.put("ability", professionSkillData.getSkillLevel());
+        return requestMap;
+    }
+    public static HashMap<String,String> deleteProfessionSkill(String skillId){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user_resume.skilldel");
+        requestMap.put("skill_id",skillId);
+        return  requestMap;
+    }
+    public static HashMap<String,String> getProfessionSkill(String skillId){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user_resume.skillget");
+        requestMap.put("skill_id",skillId);
+        return  requestMap;
+    }
+    public static HashMap<String,String> addOrReplaceIntroduction(String content){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user_resume.assessset");
+        requestMap.put("introduction",content);
+        return  requestMap;
+    }
+    public static HashMap<String,String> getIntroduction(){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user_resume.assessget");
+        return  requestMap;
+    }
+    public static HashMap<String,String> setHide(String openstate){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user_resume.setopenstate");
+        SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
+        requestMap.put("resume_id",sUtils.getIntValue(Constants.RESUME_ID,0)+"");
+        requestMap.put("openstate",openstate);
         return  requestMap;
     }
 }

@@ -80,6 +80,9 @@
                 style="@style/resume_ImageViewRight"
                 android:src="@mipmap/right_arrow"
                 android:id="@+id/iv_resumeProjectExpTimeSelect"
+                android:layout_marginRight="@dimen/x10"
+                android:layout_width="@dimen/x11"
+                android:layout_height="@dimen/y18"
                 />
         </RelativeLayout>
         <View
@@ -101,6 +104,9 @@
                 style="@style/resume_ImageViewRight"
                 android:src="@mipmap/right_arrow"
                 android:id="@+id/iv_resumeProjectExpDesSelect"
+                android:layout_marginRight="@dimen/x10"
+                android:layout_width="@dimen/x11"
+                android:layout_height="@dimen/y18"
                 />
         </RelativeLayout>
         <View
@@ -111,17 +117,20 @@
             <TextView
                 android:id="@+id/tv_resumeProjectExpResponsibilityTag"
                 style="@style/Resume_TextViewTag"
-                android:text="@string/projectDes"
+                android:text="@string/projectResponsibility"
                 />
             <TextView
                 android:layout_toLeftOf="@+id/iv_resumeProjectExpResponsibilitySelect"
                 android:layout_toRightOf="@+id/tv_resumeProjectExpResponsibilityTag"
                 style="@style/resume_editView"
-                android:id="@+id/tv_resumeProjectExpName"/>
+                android:id="@+id/tv_resumeProjectExpResponsibility"/>
             <ImageView
                 style="@style/resume_ImageViewRight"
                 android:src="@mipmap/right_arrow"
                 android:id="@+id/iv_resumeProjectExpResponsibilitySelect"
+                android:layout_marginRight="@dimen/x10"
+                android:layout_width="@dimen/x11"
+                android:layout_height="@dimen/y18"
                 />
         </RelativeLayout>
         <RelativeLayout

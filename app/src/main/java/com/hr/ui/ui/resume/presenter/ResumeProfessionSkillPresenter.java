@@ -1,12 +1,9 @@
 package com.hr.ui.ui.resume.presenter;
 
-import com.hr.ui.base.RxBus;
 import com.hr.ui.base.RxSubscriber;
-import com.hr.ui.bean.WorkExpBean;
-import com.hr.ui.bean.WorkExpData;
-import com.hr.ui.ui.resume.contract.ResumeJobOrderContract;
-import com.hr.ui.ui.resume.contract.ResumeWorkExpContract;
-import com.hr.ui.ui.resume.model.ResumeWorkExpModel;
+import com.hr.ui.bean.ProfessionSkillData;
+import com.hr.ui.bean.ResumeProfessionSkillBean;
+import com.hr.ui.ui.resume.contract.ResumeProfessionSkillContract;
 import com.hr.ui.utils.Rc4Md5Utils;
 import com.hr.ui.utils.ToastUitl;
 
@@ -18,20 +15,20 @@ import java.io.IOException;
 import okhttp3.ResponseBody;
 
 /**
- * Created by wdr on 2017/12/29.
+ * Created by wdr on 2018/1/2.
  */
 
-public class ResumeWorkExpPresenter extends ResumeWorkExpContract.Presenter {
+public class ResumeProfessionSkillPresenter extends ResumeProfessionSkillContract.Presenter {
     @Override
-    public void getWorkExpInfo(String experienceId) {
-        mRxManage.add(mModel.getWorkExpInfo(experienceId).subscribe(new RxSubscriber<WorkExpBean>(mContext,false) {
+    public void getSkill(String skillId) {
+        mRxManage.add(mModel.getSkill(skillId).subscribe(new RxSubscriber<ResumeProfessionSkillBean>(mContext,false) {
             @Override
-            protected void _onNext(WorkExpBean workExpBean) throws IOException {
-                    if(workExpBean.getError_code()==0) {
-                        //System.out.print(s);
-                        mView.getWorkExpinfo(workExpBean.getExperience_list().get(0));
+            protected void _onNext(ResumeProfessionSkillBean professionSkillBean) throws IOException {
+
+                    if(professionSkillBean.getError_code()==0) {
+                        mView.getSkillSuccess(professionSkillBean.getSkill_list().get(0));
                     }else{
-                        ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) workExpBean.getError_code()));
+                        ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) professionSkillBean.getError_code()));
                     }
             }
 
@@ -43,8 +40,8 @@ public class ResumeWorkExpPresenter extends ResumeWorkExpContract.Presenter {
     }
 
     @Override
-    public void deleteWorkExp(String experienceId) {
-        mRxManage.add(mModel.deleteWorkExp(experienceId).subscribe(new RxSubscriber<ResponseBody>(mContext,true) {
+    public void deleteSkill(String skillId) {
+        mRxManage.add(mModel.deleteSkill(skillId).subscribe(new RxSubscriber<ResponseBody>(mContext,false) {
             @Override
             protected void _onNext(ResponseBody responseBody) throws IOException {
                 String s= null;
@@ -54,7 +51,7 @@ public class ResumeWorkExpPresenter extends ResumeWorkExpContract.Presenter {
                     double error_code=jsonObject.getDouble("error_code");
                     if(error_code==0) {
                         System.out.print(s);
-                        mView.deleteSuccess();
+                        mView.deleteSkillSuccess();
                     }else{
                         ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) error_code));
                     }
@@ -73,8 +70,8 @@ public class ResumeWorkExpPresenter extends ResumeWorkExpContract.Presenter {
     }
 
     @Override
-    public void addOrUpdateWorkExp(WorkExpData workExpData) {
-        mRxManage.add(mModel.addOrUpdateWorkExp(workExpData).subscribe(new RxSubscriber<ResponseBody>(mContext,true) {
+    public void addOrReplaceSkill(ProfessionSkillData skillData) {
+        mRxManage.add(mModel.addOrReplaceSkill(skillData).subscribe(new RxSubscriber<ResponseBody>(mContext,false) {
             @Override
             protected void _onNext(ResponseBody responseBody) throws IOException {
                 String s= null;
@@ -84,7 +81,7 @@ public class ResumeWorkExpPresenter extends ResumeWorkExpContract.Presenter {
                     double error_code=jsonObject.getDouble("error_code");
                     if(error_code==0) {
                         System.out.print(s);
-                        mView.addOrUpdateWorkExp();
+                        mView.addOrReplaceSkillSuccess();
                     }else{
                         ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) error_code));
                     }
