@@ -21,6 +21,7 @@ import com.hr.ui.base.BaseActivity;
 import com.hr.ui.bean.CityBean;
 import com.hr.ui.bean.WorkExpBean;
 import com.hr.ui.bean.WorkExpData;
+import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.main.activity.ContentActivity;
 import com.hr.ui.ui.main.activity.SelectCityActivity;
 import com.hr.ui.ui.main.activity.WorkExpActivity;
@@ -29,6 +30,7 @@ import com.hr.ui.ui.resume.model.ResumeWorkExpModel;
 import com.hr.ui.ui.resume.presenter.ResumeWorkExpPresenter;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.datautils.FromStringToArrayList;
+import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.MyStartAndEndTimeCustomDatePicker;
 
 import butterknife.BindView;
@@ -102,6 +104,7 @@ public class ResumeWorkExpActivity extends BaseActivity<ResumeWorkExpPresenter, 
     private String experienceId,startTimes,endTimes,cityid;
     private MyStartAndEndTimeCustomDatePicker datePickerTime;
     public static ResumeWorkExpActivity instance;
+    private SharedPreferencesUtils sUtils;
     /**
      * 入口
      *
@@ -161,12 +164,14 @@ public class ResumeWorkExpActivity extends BaseActivity<ResumeWorkExpPresenter, 
     @Override
     public void deleteSuccess() {
         ToastUitl.showShort(R.string.deleteSuccess);
+        sUtils.setBooleanValue(Constants.IS_FERSH,true);
         finish();
     }
 
     @Override
     public void addOrUpdateWorkExp() {
         ToastUitl.showShort(R.string.saveSuccess);
+        sUtils.setBooleanValue(Constants.IS_FERSH,true);
         finish();
     }
 
@@ -184,6 +189,7 @@ public class ResumeWorkExpActivity extends BaseActivity<ResumeWorkExpPresenter, 
     public void initView() {
         instance=this;
         setSupportActionBar(toolBar);
+        sUtils=new SharedPreferencesUtils(this);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolBar.setTitle("");

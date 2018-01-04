@@ -17,10 +17,12 @@ import android.widget.TextView;
 import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
+import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.resume.contract.ResumeIntroductionContract;
 import com.hr.ui.ui.resume.model.ResumeIntroductionModel;
 import com.hr.ui.ui.resume.presenter.ResumeIntroductionPresenter;
 import com.hr.ui.utils.ToastUitl;
+import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.MyDialog;
 
 import butterknife.BindView;
@@ -47,6 +49,7 @@ public class ResumeIntroductionActivity extends BaseActivity<ResumeIntroductionP
     @BindView(R.id.btn_contentOK)
     Button btnContentOK;
     private MyDialog myDialog;
+    private SharedPreferencesUtils sUtils;
 
     public static void startAction(Activity activity) {
         Intent intent = new Intent(activity, ResumeIntroductionActivity.class);
@@ -86,6 +89,7 @@ public class ResumeIntroductionActivity extends BaseActivity<ResumeIntroductionP
     @Override
     public void addOrReplaceIntroductionSuccess() {
         ToastUitl.showShort(R.string.saveSuccess);
+        sUtils.setBooleanValue(Constants.IS_FERSH,true);
         finish();
     }
 
@@ -102,6 +106,7 @@ public class ResumeIntroductionActivity extends BaseActivity<ResumeIntroductionP
     @Override
     public void initView() {
         setSupportActionBar(toolBar);
+        sUtils=new SharedPreferencesUtils(this);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (getIntent().getStringExtra("text") != null || !"".equals(getIntent().getStringExtra("text"))) {
@@ -114,7 +119,7 @@ public class ResumeIntroductionActivity extends BaseActivity<ResumeIntroductionP
         toolBar.setTitle("");
         toolBar.setTitleTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
         toolBar.setNavigationIcon(R.mipmap.back);
-        tvToolbarTitle.setText(R.string.projectDes);
+        tvToolbarTitle.setText(R.string.introduction);
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -109,7 +109,9 @@ public class FromStringToArrayList {
             }
 
         }
-        sb.deleteCharAt(0);
+        if(sb.length()>0) {
+            sb.deleteCharAt(0);
+        }
         return sb.toString();
     }
     public List<CityBean> getSelectCityList(String text) {
@@ -205,6 +207,13 @@ public class FromStringToArrayList {
             e.printStackTrace();
         }
         String[] ids=text.split(",");
+        for(int i=0;i<ids.length;i++){
+            if("14".equals(industryId)) {
+                if(ids[i].indexOf("|")!=-1) {
+                   ids[i]=ids[i].substring(0,ids[i].indexOf("|"));
+                }
+            }
+        }
         StringBuffer sb=new StringBuffer();
         for(int j=0;j<ids.length;j++) {
             for (int i = 0; i < expectPositionList.size(); i++) {

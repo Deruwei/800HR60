@@ -54,49 +54,85 @@
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/tv_resumePersonInfo"
-            android:drawableLeft="@mipmap/people_white"
-            android:drawablePadding="@dimen/x24"
-            android:layout_marginTop="@dimen/x42"
-            android:textColor="@color/white"
-            android:textSize="@dimen/x24"
-            android:text="@string/previewResume"
-            android:singleLine="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/tv_resumeEduInfo"
-            android:drawableLeft="@mipmap/educational_background"
-            android:drawablePadding="@dimen/x24"
-            android:layout_marginTop="@dimen/x19"
-            android:textColor="@color/white"
-            android:textSize="@dimen/x24"
-            android:singleLine="true"
-            android:text="@string/previewResume"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/tv_resumePersonTel"
-            android:drawableLeft="@mipmap/telephone"
-            android:drawablePadding="@dimen/x24"
-            android:layout_marginTop="@dimen/x19"
-            android:textColor="@color/white"
-            android:textSize="@dimen/x24"
-            android:singleLine="true"
-            android:text="@string/previewResume"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/tv_resumePersonEmail"
-            android:drawableLeft="@mipmap/email_white"
-            android:drawablePadding="@dimen/x24"
-            android:layout_marginTop="@dimen/x19"
-            android:textColor="@color/white"
-            android:textSize="@dimen/x24"
-            android:text="@string/previewResume"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            <LinearLayout
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="@dimen/x42"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:src="@mipmap/people_white"
+                    android:layout_width="@dimen/x24"
+                    android:layout_height="@dimen/x26" />
+                <TextView
+                    android:id="@+id/tv_resumePersonInfo"
+                    android:layout_marginLeft="@dimen/x21"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/x24"
+                    android:text="@string/previewResume"
+                    android:singleLine="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:gravity="center"
+                android:layout_marginTop="@dimen/x19"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/educational_background"
+                    android:layout_width="@dimen/x24"
+                    android:layout_height="@dimen/x26" />
+                <TextView
+                    android:id="@+id/tv_resumeEduInfo"
+                    android:layout_marginLeft="@dimen/x21"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/x24"
+                    android:singleLine="true"
+                    android:text="@string/previewResume"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:gravity="center"
+                android:layout_marginTop="@dimen/x19"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:scaleType="fitXY"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/x26"
+                    android:src="@mipmap/telephone" />
+                <TextView
+                    android:id="@+id/tv_resumePersonTel"
+                    android:layout_marginLeft="@dimen/x21"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/x24"
+                    android:singleLine="true"
+                    android:text="@string/previewResume"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:gravity="center"
+                android:layout_marginTop="@dimen/x19"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:src="@mipmap/email_white"
+                    android:layout_width="@dimen/x24"
+                    android:layout_height="@dimen/x26" />
+                <TextView
+                    android:id="@+id/tv_resumePersonEmail"
+                    android:layout_marginLeft="@dimen/x21"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/x24"
+                    android:text="@string/previewResume"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
         </LinearLayout>
         <RelativeLayout
             android:layout_marginTop="@dimen/dimen_10dp"

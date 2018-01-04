@@ -36,6 +36,9 @@
                 style="@style/resume_editView" />
             <ImageView
                 style="@style/resume_ImageViewRight"
+                android:layout_marginRight="@dimen/x10"
+                android:layout_width="@dimen/x11"
+                android:layout_height="@dimen/y18"
                 android:src="@mipmap/right_arrow"
                 android:id="@+id/iv_resumeLanguageSkillLanguageSelect"
                 />
@@ -58,6 +61,9 @@
             <ImageView
                 style="@style/resume_ImageViewRight"
                 android:src="@mipmap/right_arrow"
+                android:layout_marginRight="@dimen/x10"
+                android:layout_width="@dimen/x11"
+                android:layout_height="@dimen/y18"
                 android:id="@+id/iv_resumeLanguageSkillListenSpeakSelect"
                 />
         </RelativeLayout>
@@ -79,6 +85,9 @@
             <ImageView
                 style="@style/resume_ImageViewRight"
                 android:src="@mipmap/right_arrow"
+                android:layout_marginRight="@dimen/x10"
+                android:layout_width="@dimen/x11"
+                android:layout_height="@dimen/y18"
                 android:id="@+id/iv_resumeLanguageSkillReadWriteSelect"
                 />
         </RelativeLayout>

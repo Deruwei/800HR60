@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:fitsSystemWindows="true"
     android:clipToPadding="true"
+    android:id="@+id/cl_resumeProfessionSkill"
     android:background="@color/white"
     android:layout_height="match_parent"
     android:focusable="true"
@@ -73,6 +74,9 @@
             <ImageView
                 style="@style/resume_ImageViewRight"
                 android:src="@mipmap/right_arrow"
+                android:layout_marginRight="@dimen/x10"
+                android:layout_width="@dimen/x11"
+                android:layout_height="@dimen/y18"
                 android:id="@+id/iv_resumeProfessionSkillLevelDelete" />
         </RelativeLayout>
         <RelativeLayout

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_marginBottom="@dimen/x32"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/tv_previewResumeProfessionSkillName"
+        android:layout_marginTop="@dimen/x32"
+        android:textColor="@color/color_333"
+        android:textSize="@dimen/x30"
+        android:layout_marginLeft="@dimen/x54"
+        android:text="@string/projectName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/tv_previewResumeProfessionSkillUseTime"
+        android:layout_marginTop="@dimen/x32"
+        android:textColor="@color/color_333"
+        android:textSize="@dimen/x30"
+        android:layout_marginLeft="@dimen/x54"
+        android:text="@string/projectName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/tv_previewResumeProfessionSkillLevel"
+        android:layout_marginTop="@dimen/x32"
+        android:textColor="@color/color_333"
+        android:textSize="@dimen/x30"
+        android:layout_marginLeft="@dimen/x54"
+        android:text="@string/projectName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</LinearLayout>

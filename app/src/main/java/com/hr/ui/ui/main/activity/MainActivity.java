@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -24,10 +25,12 @@ import com.hr.ui.R;
 import com.hr.ui.base.BaseNoConnectNetworkAcitivty;
 import com.hr.ui.ui.main.fragment.Fragment1;
 import com.hr.ui.ui.main.fragment.Fragment2;
-import com.hr.ui.ui.main.fragment.ResumeFragment;
 import com.hr.ui.ui.main.fragment.HomeFragment;
+import com.hr.ui.ui.main.fragment.ResumeFragment;
 import com.hr.ui.utils.BottomNavigationViewHelper;
 import com.hr.ui.view.MyDrawLayout2;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,7 +46,7 @@ public class MainActivity extends BaseNoConnectNetworkAcitivty {
     ImageView three;
     @BindView(R.id.five)
     ImageView five;
-    @BindView(R.id.iv_mainPersonImg)
+    @BindView(R.id.iv_ResumePersonPhoto)
     ImageView ivMainPersonImg;
     @BindView(R.id.ll_main)
     LinearLayout llMain;
@@ -57,6 +60,8 @@ public class MainActivity extends BaseNoConnectNetworkAcitivty {
     RelativeLayout rlRightPage;
     @BindView(R.id.rl_leftPage)
     RelativeLayout rlLeftPage;
+    @BindView(R.id.rl_fragmentTitle)
+    RelativeLayout rlFragmentTitle;
     private HomeFragment mHomeFragment;
     private Fragment1 fragment1;
     private Fragment2 fragment2;
@@ -64,6 +69,7 @@ public class MainActivity extends BaseNoConnectNetworkAcitivty {
     private MenuItem menuItem;
     private PopupWindow popupWindow;
     private int userId;
+    private ArrayList<Fragment> fragments;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,17 +83,17 @@ public class MainActivity extends BaseNoConnectNetworkAcitivty {
     }
 
 
-    private void setCurrentFragment() {
-      /*  llMain.setOnClickListener(new View.OnClickListener() {
+ /*   private void setCurrentFragment() {
+      *//*  llMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 idMenu.closeMenu();
             }
-        });*/
+        });*//*
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         fragment1 = Fragment1.newInstance(getString(R.string.navigation_navigation_bar));
         transaction.replace(R.id.ll_main, fragment1).commit();
-    }
+    }*/
 
    /* public void toggleMenu(View view) {
         idMenu.toggle();
@@ -135,6 +141,9 @@ public class MainActivity extends BaseNoConnectNetworkAcitivty {
         });
         //setDrawerRightEdgeSize(idMenu,this,0.6f);
         //setDrawerRightEdgeSize(idMenu,this,0.6f);
+        fragments = new ArrayList<>();
+        addFragment();
+        switchFragment(0);
         idMenu.setDrawerListener(new MyDrawLayout2.DrawerListener() {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
@@ -183,10 +192,7 @@ public class MainActivity extends BaseNoConnectNetworkAcitivty {
                         }
                         menuItem = bnvMain.getMenu().getItem(0);
                         menuItem.setChecked(true);
-                        if (fragment1 == null) {
-                            fragment1 = Fragment1.newInstance(getString(R.string.navigation_navigation_bar));
-                        }
-                        transaction.replace(R.id.ll_main, fragment1);
+                        switchFragment(0);
                         break;
                     case R.id.message:
                         idMenu.setDrawerLockMode(MyDrawLayout2.LOCK_MODE_UNLOCKED);
@@ -199,15 +205,13 @@ public class MainActivity extends BaseNoConnectNetworkAcitivty {
                         }
                         menuItem = bnvMain.getMenu().getItem(1);
                         menuItem.setChecked(true);
-                        if (fragment2 == null) {
-                            fragment2 = Fragment2.newInstance(getString(R.string.navigation_navigation_bar));
-                        }
-                        transaction.replace(R.id.ll_main, fragment2);
+                        switchFragment(1);
+
                         break;
                     case R.id.resume:
                         idMenu.setDrawerLockMode(MyDrawLayout2.LOCK_MODE_LOCKED_CLOSED);
                         rlLeftPage.setBackgroundResource(R.drawable.resume_title_bg);
-                        ivMainPersonImg.setVisibility(View.GONE);
+                        rlFragmentTitle.setVisibility(View.GONE);
                         if (menuItem != null) {
                             menuItem.setChecked(false);
                         } else {
@@ -215,18 +219,52 @@ public class MainActivity extends BaseNoConnectNetworkAcitivty {
                         }
                         menuItem = bnvMain.getMenu().getItem(2);
                         menuItem.setChecked(true);
-                        if (fragment3 == null) {
-                            fragment3 = ResumeFragment.newInstance(getString(R.string.navigation_navigation_bar));
-                        }
-                        transaction.replace(R.id.ll_main, fragment3);
-
+                        switchFragment(2);
                         break;
                 }
                 transaction.commit();
                 return false;
             }
         });
-        setCurrentFragment();
+        // setCurrentFragment();
+    }
+
+    /**
+     * 点击切换fragment
+     *
+     * @param position
+     */
+    public void switchFragment(int position) {
+        //开启事务
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        //遍历集合
+        for (int i = 0; i < fragments.size(); i++) {
+            Fragment fragment = fragments.get(i);
+            if (i == position) {
+                //显示fragment
+                if (fragment.isAdded()) {
+                    //如果这个fragment已经被事务添加,显示
+                    fragmentTransaction.show(fragment);
+                } else {
+                    //如果这个fragment没有被事务添加过,添加
+                    fragmentTransaction.add(R.id.ll_main, fragment);
+                }
+            } else {
+                //隐藏fragment
+                if (fragment.isAdded()) {
+                    //如果这个fragment已经被事务添加,隐藏
+                    fragmentTransaction.hide(fragment);
+                }
+            }
+        }
+        //提交事务
+        fragmentTransaction.commit();
+    }
+
+    public void addFragment() {
+        fragments.add(Fragment1.newInstance(getString(R.string.navigation_navigation_bar)));
+        fragments.add(Fragment2.newInstance(getString(R.string.navigation_navigation_bar)));
+        fragments.add(ResumeFragment.newInstance(getString(R.string.navigation_navigation_bar)));
     }
 
     // 用来计算返回键的点击间隔时间

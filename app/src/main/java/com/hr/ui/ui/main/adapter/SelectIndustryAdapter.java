@@ -78,44 +78,72 @@ public class SelectIndustryAdapter extends RecyclerView.Adapter<SelectIndustryAd
                 }
             }else{
                 for(int i=0;i<industryIds.size();i++){
-                    if(industryIds.get(i).equals(industryList.get(position).getId())&&!industryId.equals(industryList.get(position).getId())){
+                    if(industryIds.get(i).equals(industryList.get(position).getId())&&!industryId.equals(industryIds.get(i))){
                         holder.tvIndustryItemName.setPaintFlags(Paint. STRIKE_THRU_TEXT_FLAG| Paint.ANTI_ALIAS_FLAG);
                         holder.tvIndustryItemName.setBackgroundResource(R.drawable.tv_bg_gray_noselct);
                         holder.tvIndustryItemName.setTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_999));
-                    }else{
-                        holder.tvIndustryItemName.setBackgroundResource(R.drawable.tv_bg_white);
-                        holder.tvIndustryItemName.setTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
-                        if (onItemClickListener != null) {
-                            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    onItemClickListener.OnItemCLick(v, position);
-                                }
-                            });
-                        }
                     }
                 }
             }
-        } else {
-            if (industryList.get(position).isCheck() == true) {
-                holder.tvIndustryItemName.setBackgroundResource(R.drawable.tv_bg_orange);
-                holder.tvIndustryItemName.setTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.new_main));
-            } else {
+            if(!industryIds.contains(industryList.get(position).getId())&&industryList.get(position).isCheck()!=true){
                 holder.tvIndustryItemName.setBackgroundResource(R.drawable.tv_bg_white);
                 holder.tvIndustryItemName.setTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
+                if (onItemClickListener != null) {
+                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            onItemClickListener.OnItemCLick(v, position);
+                        }
+                    });
+                }
             }
-            if (onItemClickListener != null) {
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        onItemClickListener.OnItemCLick(v, position);
+        } else {
+            if (type == 1) {
+                if (industryList.get(position).isCheck() == true) {
+                    holder.tvIndustryItemName.setBackgroundResource(R.drawable.tv_bg_orange);
+                    holder.tvIndustryItemName.setTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.new_main));
+                }else{
+                    holder.tvIndustryItemName.setBackgroundResource(R.drawable.tv_bg_white);
+                    holder.tvIndustryItemName.setTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
+                }
+                if (onItemClickListener != null) {
+                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            onItemClickListener.OnItemCLick(v, position);
+                        }
+                    });
+                }
+            } else {
+                if (industryList.get(position).isCheck() == true) {
+                    holder.tvIndustryItemName.setBackgroundResource(R.drawable.tv_bg_orange);
+                    holder.tvIndustryItemName.setTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.new_main));
+                } else {
+                    for (int i = 0; i < industryIds.size(); i++) {
+                        if (industryIds.get(i).equals(industryList.get(position).getId())) {
+                            holder.tvIndustryItemName.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
+                            holder.tvIndustryItemName.setBackgroundResource(R.drawable.tv_bg_gray_noselct);
+                            holder.tvIndustryItemName.setTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_999));
+                        }
                     }
-                });
+                }
+                if (!industryIds.contains(industryList.get(position).getId())&&industryList.get(position).isCheck()!=true) {
+                    holder.tvIndustryItemName.setBackgroundResource(R.drawable.tv_bg_white);
+                    holder.tvIndustryItemName.setTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
+                    if (onItemClickListener != null) {
+                        holder.itemView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                onItemClickListener.OnItemCLick(v, position);
+                            }
+                        });
+                    }
+                }
+
             }
 
         }
-       holder.tvIndustryItemName.setText(industryList.get(position).getName());
-
+        holder.tvIndustryItemName.setText(industryList.get(position).getName());
     }
 
     @Override

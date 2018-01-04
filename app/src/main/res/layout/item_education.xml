@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_marginTop="@dimen/x32"
+        android:layout_marginLeft="@dimen/x22"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/iv_circle"
+            android:layout_marginTop="@dimen/x14"
+            android:src="@mipmap/circle"
+            android:layout_width="@dimen/x18"
+            android:layout_height="@dimen/x18" />
+        <View
+            android:layout_below="@+id/iv_circle"
+            android:layout_centerHorizontal="true"
+            android:background="@color/view_color"
+            android:layout_width="@dimen/x2"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_marginTop="@dimen/x32"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+            <TextView
+                android:id="@+id/tv_previewResumeEduTime"
+                android:text="建筑行业"
+                android:layout_marginLeft="@dimen/x13"
+                android:textSize="@dimen/x30"
+                android:textColor="@color/color_999"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            style="@style/previewResume_itemRL"
+            android:layout_marginLeft="@dimen/x13"
+            android:padding="0dp"
+            android:layout_height="wrap_content"
+            >
+            <TextView
+                android:text="@string/schoolName"
+                style="@style/previewResume_itemNameLL" />
+            <TextView
+                android:id="@+id/tv_previewResumeEduSchool"
+                android:text="@string/expectedField"
+                style="@style/preview_itemValueLL" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            style="@style/previewResume_itemRL"
+            android:layout_marginLeft="@dimen/x13"
+            android:padding="0dp"
+            android:layout_height="wrap_content"
+            >
+            <TextView
+                android:text="@string/education"
+                style="@style/previewResume_itemNameLL" />
+            <TextView
+                android:id="@+id/tv_previewResumeEduDegree"
+                android:text="@string/expectedField"
+                style="@style/preview_itemValueLL" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            style="@style/previewResume_itemRL"
+            android:layout_marginLeft="@dimen/x13"
+            android:padding="0dp"
+            android:layout_height="wrap_content"
+            >
+            <TextView
+                android:text="@string/major"
+                style="@style/previewResume_itemNameLL" />
+            <TextView
+                android:id="@+id/tv_previewResumeEduEducation"
+                android:text="@string/expectedField"
+                style="@style/preview_itemValueLL" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            style="@style/previewResume_itemRL"
+            android:layout_marginLeft="@dimen/x13"
+            android:padding="0dp"
+            android:layout_height="wrap_content"
+            >
+            <TextView
+                android:text="@string/majorDes"
+                style="@style/previewResume_itemNameLL" />
+            <TextView
+                android:id="@+id/tv_previewResumeEduDes"
+                android:text="@string/expectedField"
+                style="@style/preview_itemValueLL" />
+        </LinearLayout>
+    </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

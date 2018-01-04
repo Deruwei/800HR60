@@ -78,6 +78,9 @@
             <ImageView
                 style="@style/resume_ImageViewRight"
                 android:src="@mipmap/right_arrow"
+                android:layout_marginRight="@dimen/x10"
+                android:layout_width="@dimen/x11"
+                android:layout_height="@dimen/y18"
                 android:id="@+id/iv_resumeWorkExpStartAndTimeSelect"
                 />
         </RelativeLayout>
@@ -99,6 +102,9 @@
             <ImageView
                 style="@style/resume_ImageViewRight"
                 android:src="@mipmap/right_arrow"
+                android:layout_marginRight="@dimen/x10"
+                android:layout_width="@dimen/x11"
+                android:layout_height="@dimen/y18"
                 android:id="@+id/iv_resumeWorkExpJobDescriptionDelete"
                 />
         </RelativeLayout>
@@ -120,6 +126,9 @@
             <ImageView
                 style="@style/resume_ImageViewRight"
                 android:src="@mipmap/right_arrow"
+                android:layout_marginRight="@dimen/x10"
+                android:layout_width="@dimen/x11"
+                android:layout_height="@dimen/y18"
                 android:id="@+id/iv_resumeWorkExpWorkPlaceDelete"
                 />
         </RelativeLayout>

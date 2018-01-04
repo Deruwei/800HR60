@@ -38,6 +38,7 @@
     <color name="split_line">#11112233</color>
     <color name="view_color">#CCCCCC</color>
     <color name="bg_color">#ebebeb</color>
+    <color name="bg_homeTitle">#f0f0f0</color>
     <color name="thirdPartColor">#FFC37B</color>
     <color name="resumeComplete">#067677</color>
     <color name="resumePreview">#0EACAE</color>

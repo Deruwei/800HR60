@@ -78,6 +78,9 @@
             <ImageView
                 android:id="@+id/iv_resumeEduBDStartEndTimeSelect"
                 android:src="@mipmap/right_arrow"
+                android:layout_marginRight="@dimen/x10"
+                android:layout_width="@dimen/x11"
+                android:layout_height="@dimen/y18"
                 style="@style/resume_ImageViewRight" />
         </RelativeLayout>
         <View
@@ -98,6 +101,9 @@
             <ImageView
                 android:id="@+id/iv_resumeEduBDEducationSelect"
                 android:src="@mipmap/right_arrow"
+                android:layout_marginRight="@dimen/x10"
+                android:layout_width="@dimen/x11"
+                android:layout_height="@dimen/y18"
                 style="@style/resume_ImageViewRight" />
         </RelativeLayout>
         <RelativeLayout

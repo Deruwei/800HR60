@@ -8,6 +8,7 @@
         android:background="@drawable/tv_bg_newmain"
         android:drawableRight="@mipmap/delete_orange"
         android:drawablePadding="@dimen/x13"
+        android:textSize="@dimen/x24"
         android:textColor="@color/new_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

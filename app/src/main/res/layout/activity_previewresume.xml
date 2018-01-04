@@ -2,10 +2,15 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="true"
+    android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <include layout="@layout/layout_toolbar"
+        android:id="@+id/in_previewResume"/>
     <android.support.v4.widget.NestedScrollView
         android:layout_width="0dp"
-        app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/in_previewResume"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -13,8 +18,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <include layout="@layout/layout_toolbar"
-                android:id="in_previewResume"/>
+
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -27,7 +31,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/x300">
                     <com.hr.ui.view.CircleImageView
-                        android:src="@mipmap/persondefault"
+                        android:src="@mipmap/person_preview"
                         android:layout_centerInParent="true"
                         android:id="@+id/iv_previewResumePhoto"
                         android:layout_width="@dimen/x120"
@@ -36,12 +40,12 @@
                 <LinearLayout
                     android:id="@+id/ll_previewResumePerson"
                     android:orientation="vertical"
+                    android:layout_marginBottom="@dimen/x32"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                 <RelativeLayout
                     style="@style/previewResume_title">
                     <ImageView
-                        android:src="@mipmap/edit"
                         android:id="@+id/iv_personalIcon"
                        style="@style/previewResume_titleIcon" />
                     <TextView
@@ -157,18 +161,18 @@
                 </LinearLayout>
                 <LinearLayout
                     android:orientation="vertical"
+                    android:layout_marginBottom="@dimen/x32"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <RelativeLayout
                         style="@style/previewResume_title">
                         <ImageView
-                            android:src="@mipmap/edit"
                             android:id="@+id/iv_jobOrderIcon"
                             style="@style/previewResume_titleIcon" />
                         <TextView
                             android:layout_toRightOf="@+id/iv_jobOrderIcon"
                             style="@style/previewResume_titleName"
-                            android:text="@string/personalInformation"
+                            android:text="@string/jobIntention"
                             />
                     </RelativeLayout>
                     <LinearLayout
@@ -203,7 +207,7 @@
                         style="@style/previewResume_itemRL">
                         <TextView
                             android:singleLine="true"
-                            android:text="@string/name"
+                            android:text="@string/expectSalary"
                             style="@style/previewResume_itemName"/>
                         <TextView
                             android:id="@+id/tv_previewResumeJobOrderExpertSalary"
@@ -232,14 +236,176 @@
                     </LinearLayout>
                 </LinearLayout>
                 <LinearLayout
-
+                    android:orientation="vertical"
+                    android:layout_marginBottom="@dimen/x32"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <RelativeLayout
+                        style="@style/previewResume_title">
+                        <ImageView
+                            android:id="@+id/iv_educationIcon"
+                            style="@style/previewResume_titleIcon" />
+                        <TextView
+                            android:layout_toRightOf="@+id/iv_educationIcon"
+                            style="@style/previewResume_titleName"
+                            android:text="@string/educationBackground"
+                            />
+                    </RelativeLayout>
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:id="@+id/ll_previewResume_education"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_marginBottom="@dimen/x32"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+                    <RelativeLayout
+                        style="@style/previewResume_title">
+                        <ImageView
+                            android:id="@+id/iv_workExpIcon"
+                            style="@style/previewResume_titleIcon" />
+                        <TextView
+                            android:layout_toRightOf="@+id/iv_workExpIcon"
+                            style="@style/previewResume_titleName"
+                            android:text="@string/workExp"
+                            />
+                    </RelativeLayout>
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:id="@+id/ll_previewResume_workExp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_marginBottom="@dimen/x32"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <RelativeLayout
+                        style="@style/previewResume_title">
+                        <ImageView
+                            android:id="@+id/iv_languageSkillIcon"
+                            style="@style/previewResume_titleIcon" />
+                        <TextView
+                            android:layout_toRightOf="@+id/iv_languageSkillIcon"
+                            style="@style/previewResume_titleName"
+                            android:text="@string/languageSkill"
+                            />
+                    </RelativeLayout>
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:id="@+id/ll_previewResume_languageSkill"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_marginBottom="@dimen/x32"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <RelativeLayout
+                        style="@style/previewResume_title">
+                        <ImageView
+                            android:id="@+id/iv_introductionIcon"
+                            style="@style/previewResume_titleIcon" />
+                        <TextView
+                            android:layout_toRightOf="@+id/iv_introductionIcon"
+                            style="@style/previewResume_titleName"
+                            android:text="@string/introduction"
+                            />
+                    </RelativeLayout>
+                    <TextView
+                        android:layout_margin="@dimen/x23"
+                        android:textSize="@dimen/x30"
+                        android:lineSpacingMultiplier="1.2 "
+                        android:textColor="@color/color_333"
+                        android:id="@+id/tv_previewResume_introduction"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    </TextView>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_marginBottom="@dimen/x32"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <RelativeLayout
+                        style="@style/previewResume_title">
+                        <ImageView
+                            android:id="@+id/iv_projectExpIcon"
+                            style="@style/previewResume_titleIcon" />
+                        <TextView
+                            android:layout_toRightOf="@+id/iv_projectExpIcon"
+                            style="@style/previewResume_titleName"
+                            android:text="@string/projectExp"
+                            />
+                    </RelativeLayout>
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:id="@+id/ll_previewResume_projectExp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_marginBottom="@dimen/x32"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <RelativeLayout
+                        style="@style/previewResume_title">
+                        <ImageView
+                            android:id="@+id/iv_professionSkillIcon"
+                            style="@style/previewResume_titleIcon" />
+                        <TextView
+                            android:layout_toRightOf="@+id/iv_professionSkillIcon"
+                            style="@style/previewResume_titleName"
+                            android:text="@string/languageSkill"
+                            />
+                    </RelativeLayout>
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:id="@+id/ll_previewResume_professionSkill"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_marginBottom="@dimen/x32"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <RelativeLayout
+                        style="@style/previewResume_title">
+                        <ImageView
+                            android:id="@+id/iv_plantExpIcon"
+                            style="@style/previewResume_titleIcon" />
+                        <TextView
+                            android:layout_toRightOf="@+id/iv_plantExpIcon"
+                            style="@style/previewResume_titleName"
+                            android:text="@string/trainExp"
+                            />
+                    </RelativeLayout>
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:id="@+id/ll_previewResume_plantExp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    </LinearLayout>
                 </LinearLayout>
         </LinearLayout>
-
         </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>
 </android.support.constraint.ConstraintLayout>

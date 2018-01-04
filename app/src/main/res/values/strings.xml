@@ -89,6 +89,7 @@
     <string name="company">企业入口</string>
     <string name="home">主页</string>
     <string name="message">消息</string>
+    <string name="hideTips">Tips: 隐藏后企业将无法搜到您的简历</string>
     <string name="resume">简历</string>
 
     //注册和登录
@@ -120,6 +121,7 @@
     <string name="hasMoreResumeHelper">点击预览可查看该简历内容</string>
     <string name="preview">点击预览</string>
     <string name="previewResume">预览</string>
+    <string name="resumePreview">简历预览</string>
     <string name="setDefault">设置默认</string>
     <string name="industry">行业</string>
     <string name="function">领域</string>
@@ -180,7 +182,9 @@
     <string name="educationBackground">教育背景</string>
     <string name="educationBackgroundHelper">有助于展现你过去的学习情况</string>
     <string name="school">学校</string>
+    <string name="schoolName">院校名称</string>
     <string name="school_hint">请填写学校</string>
+    <string name="majorDes">专业描述</string>
     <string name="major">专业</string>
     <string name="major_hint">请选择专业</string>
     <string name="education">学历</string>
@@ -191,11 +195,13 @@
     <string name="workExp">工作经历</string>
     <string name="workExperienceHelper">有助于hr了解你过去的工作情况</string>
     <string name="companyName">公司名称</string>
+    <string name="workPosition">担任职位</string>
     <string name="companyName_hint">请填写公司名称</string>
     <string name="Appointment">所任职位</string>
     <string name="appointment_hint">请选择所任职位</string>
     <string name="workPlace">工作地点</string>
     <string name="workPlace_hint">请选择工作地点</string>
+    <string name="positionSalary">职位月薪</string>
     <string name="pre_texSalary">税前月薪</string>
     <string name="grossPay_hint">请填写税前月薪</string>
     <string name="jobDescription">职位描述</string>
@@ -211,9 +217,11 @@
     <string name="workCity">工作城市</string>
     <string name="expectedField_hint">请选择期望领域</string>
     <string name="expectedPosition">期望职位</string>
+    <string name="responsibilityDes">职责描述</string>
     <string name="deleteOrderInfo">删除该求职意向</string>
     <string name="expectedPosition_hint">请选择期望职位</string>
     <string name="expectSalary">期望薪资</string>
+    <string name="positionOrCompanyName">输入公司名/职位名</string>
     <string name="expectSalary_hint">请填写期望月薪</string>
     <string name="internshipExperience">实习经历</string>
     <string name="internshipExperienceHelper">有助于hr了解你过去的实习情况</string>
@@ -222,6 +230,8 @@
     <string name="complete">完成</string>
     <string name="trainExp">培训经历</string>
     <string name="trainORG">培训机构</string>
+    <string name="trainPlace">培训地点</string>
+    <string name="trainVerti">培训证书</string>
     <string name="trainClass">培训课程</string>
     <string name="trainDes">培训描述</string>
     <string name="languageSkill">语言能力</string>

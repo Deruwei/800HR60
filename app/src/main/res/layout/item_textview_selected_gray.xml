@@ -7,6 +7,7 @@
         android:padding="@dimen/x18"
         android:background="@drawable/tv_bg_gray"
         android:textColor="@color/color_333"
+        android:textSize="@dimen/x24"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </LinearLayout>

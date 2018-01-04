@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_marginTop="@dimen/x32"
+        android:layout_marginLeft="@dimen/x22"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/iv_circle"
+            android:layout_marginTop="@dimen/x14"
+            android:src="@mipmap/circle"
+            android:layout_width="@dimen/x18"
+            android:layout_height="@dimen/x18" />
+        <View
+            android:layout_below="@+id/iv_circle"
+            android:layout_centerHorizontal="true"
+            android:background="@color/view_color"
+            android:layout_width="@dimen/x2"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_marginTop="@dimen/x32"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+            <TextView
+                android:id="@+id/tv_previewResumeLanguageName"
+                android:text="建筑行业"
+                android:layout_marginLeft="@dimen/x13"
+                android:textSize="@dimen/x30"
+                android:textColor="@color/color_333"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <RelativeLayout
+              android:layout_marginLeft="@dimen/x174"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="听说"
+                    android:id="@+id/tv_previewResumeSpeak"
+                    android:textSize="@dimen/x30"
+                    android:textColor="@color/color_333"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:text="听说"
+                    android:id="@+id/tv_previewResumeWrite"
+                    android:layout_toRightOf="@+id/tv_previewResumeSpeak"
+                    android:textSize="@dimen/x30"
+                    android:layout_marginLeft="@dimen/x26"
+                    android:textColor="@color/color_333"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:visibility="gone"
+                    android:text="@string/responsibilityDes"
+                    android:layout_below="@+id/tv_previewResumeWrite"
+                    android:textSize="@dimen/x30"
+                    android:layout_marginBottom="@dimen/x32"
+                    android:layout_marginTop="@dimen/x32"
+                    android:textColor="@color/color_333"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

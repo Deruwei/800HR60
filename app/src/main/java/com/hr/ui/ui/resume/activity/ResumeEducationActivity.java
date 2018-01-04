@@ -20,11 +20,13 @@ import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
 import com.hr.ui.bean.EducationBean;
 import com.hr.ui.bean.EducationData;
+import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.resume.contract.ResumeEducationContract;
 import com.hr.ui.ui.resume.model.ResumeEducationModel;
 import com.hr.ui.ui.resume.presenter.ResumeEducationPresenter;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.datautils.ResumeInfoIDToString;
+import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.CustomDatePicker;
 import com.hr.ui.view.MyStartAndEndTimeCustomDatePicker;
 
@@ -83,6 +85,7 @@ public class ResumeEducationActivity extends BaseActivity<ResumeEducationPresent
     private MyStartAndEndTimeCustomDatePicker datePickerTime;
     private CustomDatePicker datePickerDegree;
     private String startTimes,endTimes,degreeId,educationId;
+    private SharedPreferencesUtils sUtils;
     /**
      * 入口
      *
@@ -133,24 +136,28 @@ public class ResumeEducationActivity extends BaseActivity<ResumeEducationPresent
         etResumeEduBDSchool.setText(educationBean.getSchoolname());
         educationId=educationBean.getEducation_id();
         etResumeEduBDProfession.setText(educationBean.getMoremajor());
+        ivResumeEduBDSchoolDelete.setVisibility(View.GONE);
+        ivResumeEduBDProfessionDelete.setVisibility(View.GONE);
     }
 
     @Override
     public void addOrUpdateEducationSuccess() {
+        sUtils.setBooleanValue(Constants.IS_FERSH,true);
         if(educationId==null||"".equals(educationId)){
             ToastUitl.showShort(R.string.addSuccess);
         }else{
             ToastUitl.showShort(R.string.saveSuccess);
         }
+
         finish();
     }
 
     @Override
     public void deleteEducationSuccess() {
+        sUtils.setBooleanValue(Constants.IS_FERSH,true);
         ToastUitl.showShort(R.string.deleteSuccess);
         finish();
     }
-
     @Override
     public int getLayoutId() {
         return R.layout.activity_resumeeducationbackground;
@@ -164,6 +171,7 @@ public class ResumeEducationActivity extends BaseActivity<ResumeEducationPresent
     @Override
     public void initView() {
         instance = this;
+        sUtils=new SharedPreferencesUtils(this);
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

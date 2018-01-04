@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -598,6 +599,13 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
         TextView tvTakePhoto = popView.findViewById(R.id.tv_takePhoto);
         TextView tvSelectPicture = popView.findViewById(R.id.tv_selectPicture);
         TextView tvCancel = popView.findViewById(R.id.tv_cancelSelect);
+        FrameLayout rl_takePhoto=popView.findViewById(R.id.rl_popTakePhoto);
+        rl_takePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
         popupWindow.setOutsideTouchable(true);
         tvTakePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -624,6 +632,7 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
             }
         });
         View rootview = LayoutInflater.from(PersonalInformationActivity.this).inflate(R.layout.fragment_resume, null);
+        popupWindow.setAnimationStyle(R.style.MyPopupWindow_anim_style);
         popupWindow.showAtLocation(rootview, Gravity.BOTTOM, 0, 0);
     }
 

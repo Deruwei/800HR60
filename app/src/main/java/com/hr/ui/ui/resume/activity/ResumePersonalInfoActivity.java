@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -40,6 +41,7 @@ import com.hr.ui.utils.Base64;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.datautils.FromStringToArrayList;
 import com.hr.ui.utils.datautils.ResumeInfoIDToString;
+import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.CircleImageView;
 import com.hr.ui.view.CustomDatePicker;
 import com.hr.ui.view.MyCustomDatePicker;
@@ -150,6 +152,7 @@ public class ResumePersonalInfoActivity extends BaseActivity<ResumePersonalInfoP
     public static final int IMAGE_PICKER = 0x20;
     private String imagePath;
     private String content;
+    private SharedPreferencesUtils sUtils;
 
     /**
      * 入口
@@ -221,6 +224,7 @@ public class ResumePersonalInfoActivity extends BaseActivity<ResumePersonalInfoP
     @Override
     public void updatePersonalInfoSuccess() {
         ToastUitl.showShort("修改成功");
+        sUtils.setBooleanValue(Constants.IS_FERSH,true);
         finish();
     }
 
@@ -252,6 +256,7 @@ public class ResumePersonalInfoActivity extends BaseActivity<ResumePersonalInfoP
     @Override
     public void initView() {
         instance = this;
+        sUtils=new SharedPreferencesUtils(this);
         mPresenter.getPersonalInfo();
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -450,6 +455,13 @@ public class ResumePersonalInfoActivity extends BaseActivity<ResumePersonalInfoP
         TextView tvTakePhoto = popView.findViewById(R.id.tv_takePhoto);
         TextView tvSelectPicture = popView.findViewById(R.id.tv_selectPicture);
         TextView tvCancel = popView.findViewById(R.id.tv_cancelSelect);
+        FrameLayout rl_takePhoto=popView.findViewById(R.id.rl_popTakePhoto);
+        rl_takePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
         popupWindow.setOutsideTouchable(true);
         tvTakePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -476,6 +488,7 @@ public class ResumePersonalInfoActivity extends BaseActivity<ResumePersonalInfoP
             }
         });
         View rootview = LayoutInflater.from(this).inflate(R.layout.activity_resumepersonalinfo, null);
+        popupWindow.setAnimationStyle(R.style.MyPopupWindow_anim_style);
         popupWindow.showAtLocation(rootview, Gravity.BOTTOM, 0, 0);
     }
 

@@ -1,247 +1,277 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:wdr="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:wdr="http://schemas.android.com/apk/res-auto"
-    android:fitsSystemWindows="true"
     android:clipToPadding="true"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:fitsSystemWindows="true">
+
     <RelativeLayout
-        android:layout_height="0dp"
         android:layout_width="0dp"
-       wdr:layout_constraintTop_toTopOf="parent"
+        android:layout_height="0dp"
         wdr:layout_constraintBottom_toBottomOf="parent"
         wdr:layout_constraintLeft_toLeftOf="parent"
-        wdr:layout_constraintRight_toRightOf="parent">
-    <RelativeLayout
-        android:background="@color/color_resume1"
-        android:id="@+id/ll_resumeTitleTop"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/x80">
-        <ImageView
-            android:id="@+id/iv_resumeMenu"
-            android:src="@mipmap/setting"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/x43"
-            android:layout_marginTop="@dimen/x43"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:layout_centerVertical="true"
-            android:id="@+id/tv_resumePreview"
-            android:layout_alignParentRight="true"
-            android:textSize="@dimen/dimen_14sp"
-            android:textColor="@color/white"
-            android:layout_marginRight="@dimen/x30"
-            android:layout_marginTop="@dimen/x42"
-            android:text="@string/previewResume"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </RelativeLayout>
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:layout_below="@+id/ll_resumeTitleTop"
-        android:id="@+id/srl_resume"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        wdr:layout_constraintRight_toRightOf="parent"
+        wdr:layout_constraintTop_toTopOf="parent">
 
         <RelativeLayout
+            android:id="@+id/ll_resumeTitleTop"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <include layout="@layout/item_resumepersonalinfo"
-                android:id="@+id/in_resumePersonalInfo" />
-            <LinearLayout
-                android:background="@color/white"
-                android:orientation="vertical"
-                android:layout_below="@+id/in_resumePersonalInfo"
-                android:id="@+id/rl_resumeContent"
+            android:layout_height="@dimen/x80"
+            android:background="@color/color_resume1">
+
+            <ImageView
+                android:id="@+id/iv_resumeMenu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/x43"
+                android:layout_marginTop="@dimen/x43"
+                android:src="@mipmap/setting" />
+
+            <TextView
+                android:id="@+id/tv_resumePreview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/x30"
+                android:layout_marginTop="@dimen/x42"
+                android:text="@string/previewResume"
+                android:textColor="@color/white"
+                android:textSize="@dimen/x32" />
+        </RelativeLayout>
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/srl_resume"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/ll_resumeTitleTop">
+
+            <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-                <TextView
-                    style="@style/resume_TextViewItemTitle"
-                    android:text="@string/resumeInfo"
-                    />
-                <RelativeLayout
-                    android:id="@+id/rl_resumeJobOrder"
-                    android:layout_width="match_parent"
-                    android:paddingLeft="@dimen/x32"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:textSize="@dimen/x36"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginBottom="@dimen/y33"
-                        android:layout_marginTop="@dimen/y33"
-                        android:text="@string/jobIntention"
-                        android:textColor="@color/color_333"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                    <TextView
-                        android:id="@+id/tv_resumeJobOrder"
-                        android:textSize="@dimen/x28"
-                        android:layout_centerVertical="true"
-                        android:text="@string/resumeInfo"
-                        android:singleLine="true"
-                        android:maxLength="15"
-                        android:drawablePadding="@dimen/x13"
-                        android:drawableRight="@mipmap/right_arrow"
-                        android:textColor="@color/color_333"
-                        android:layout_marginRight="@dimen/x24"
-                        android:layout_alignParentRight="true"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </RelativeLayout>
-                <TextView
-                    style="@style/resume_TextViewItemTitle"
-                    android:text="@string/educationBackground" />
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:id="@+id/ll_resumeEduBGList"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                </LinearLayout>
-                <TextView
-                    android:id="@+id/tv_addResumeEduBG"
-                    android:text="@string/addEducationBackground"
-                    style="@style/resume_textViewAdd"
-                    />
-                <TextView
-                    style="@style/resume_TextViewItemTitle"
-                    android:text="@string/workExp"
-                  />
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:id="@+id/ll_resumeWorkExpList"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                </LinearLayout>
-                <TextView
-                    android:id="@+id/tv_resumeAddWorkExp"
-                    android:text="@string/addWorkExp"
-                    style="@style/resume_textViewAdd"
-                    />
-                <TextView
-                    style="@style/resume_TextViewItemTitle"
-                    android:text="@string/projectExp"
-                  />
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:id="@+id/ll_resumeProjectExpLIst"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                </LinearLayout>
-                <TextView
-                    android:id="@+id/tv_addResumeProjectExp"
-                    android:text="@string/addProjectExp"
-                    style="@style/resume_textViewAdd"
-                    />
-                <TextView
-                    android:text="@string/professionSkill"
-                    style="@style/resume_TextViewItemTitle"
-                   />
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:id="@+id/ll_resumeProfessionSkillList"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                </LinearLayout>
-                <TextView
-                    android:id="@+id/tv_addResumeProfessionSkill"
-                    android:text="@string/addProfessionSkill"
-                    style="@style/resume_textViewAdd"
-                    />
-                <TextView
-                    android:text="@string/languageSkill"
-                    style="@style/resume_TextViewItemTitle"
-                    />
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:id="@+id/ll_resumeLanguageSkillList"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                </LinearLayout>
-                <TextView
-                    android:id="@+id/tv_addResumeLanguageSkill"
-                    android:text="@string/addLanguageSkill"
-                    style="@style/resume_textViewAdd"
-                    />
-                <TextView
-                    android:text="@string/trainExp"
-                    style="@style/resume_TextViewItemTitle"
-                    />
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:id="@+id/ll_resumeTrainExpList"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                </LinearLayout>
-                <TextView
-                    android:id="@+id/tv_addResumeTrainExp"
-                    android:text="@string/addTrainExp"
-                    style="@style/resume_textViewAdd"
-                    />
-                <TextView
-                    android:text="@string/introduction"
-                    style="@style/resume_TextViewItemTitle"
-                    />
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:id="@+id/ll_resumeIntroductionList"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                </LinearLayout>
-                <TextView
-                    android:id="@+id/tv_addResumeIntroduction"
-                    android:text="@string/addIntroduction"
-                    style="@style/resume_textViewAdd"
-                    />
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/x1"
-                    android:background="@color/resumeContent_bg"
-                    />
-                <RelativeLayout
-                    android:id="@+id/rl_hideResume"
-                    style="@style/resume_RelativeItem">
-                    <TextView
-                        android:text="@string/hideResume"
-                        style="@style/resume_TextViewItemTitleHideResume" />
-                    <ImageView
-                        android:id="@+id/iv_hideResume"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/off"
-                        android:layout_marginRight="@dimen/x24"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentRight="true"
-                        />
-                </RelativeLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/resumeContent_bg"
-                    />
-                <TextView
-                    android:text="@string/resumeAttachment"
-                    style="@style/resume_TextViewItemTitle"
-                    />
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:id="@+id/ll_resumeAttachmentList"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                </LinearLayout>
-                <TextView
-                    android:id="@+id/tv_addResumeAttachment"
-                    android:text="@string/addResumeAttachment"
-                    style="@style/resume_textViewAdd"
-                    />
-            </LinearLayout>
 
-        </RelativeLayout>
-    </android.support.v4.widget.NestedScrollView>
-    </android.support.v4.widget.SwipeRefreshLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <include
+                        android:id="@+id/in_resumePersonalInfo"
+                        layout="@layout/item_resumepersonalinfo" />
+
+                    <LinearLayout
+                        android:id="@+id/rl_resumeContent"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/in_resumePersonalInfo"
+                        android:background="@color/white"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/resume_TextViewItemTitle"
+                            android:text="@string/resumeInfo" />
+
+                        <RelativeLayout
+                            android:id="@+id/rl_resumeJobOrder"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="@dimen/x32">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:layout_marginBottom="@dimen/y33"
+                                android:layout_marginTop="@dimen/y33"
+                                android:text="@string/jobIntention"
+                                android:textColor="@color/color_333"
+                                android:textSize="@dimen/x36" />
+
+                            <TextView
+                                android:id="@+id/tv_resumeJobOrder"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="@dimen/x24"
+                                android:drawablePadding="@dimen/x13"
+                                android:drawableRight="@mipmap/right_arrow"
+                                android:maxLength="15"
+                                android:singleLine="true"
+                                android:text="@string/resumeInfo"
+                                android:textColor="@color/color_333"
+                                android:textSize="@dimen/x28" />
+                        </RelativeLayout>
+
+                        <TextView
+                            style="@style/resume_TextViewItemTitle"
+                            android:text="@string/educationBackground" />
+
+                        <LinearLayout
+                            android:id="@+id/ll_resumeEduBGList"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"></LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tv_addResumeEduBG"
+                            style="@style/resume_textViewAdd"
+                            android:text="@string/addEducationBackground" />
+
+                        <TextView
+                            style="@style/resume_TextViewItemTitle"
+                            android:text="@string/workExp" />
+
+                        <LinearLayout
+                            android:id="@+id/ll_resumeWorkExpList"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"></LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tv_resumeAddWorkExp"
+                            style="@style/resume_textViewAdd"
+                            android:text="@string/addWorkExp" />
+
+                        <TextView
+                            style="@style/resume_TextViewItemTitle"
+                            android:text="@string/projectExp" />
+
+                        <LinearLayout
+                            android:id="@+id/ll_resumeProjectExpLIst"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"></LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tv_addResumeProjectExp"
+                            style="@style/resume_textViewAdd"
+                            android:text="@string/addProjectExp" />
+
+                        <TextView
+                            style="@style/resume_TextViewItemTitle"
+                            android:text="@string/professionSkill" />
+
+                        <LinearLayout
+                            android:id="@+id/ll_resumeProfessionSkillList"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"></LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tv_addResumeProfessionSkill"
+                            style="@style/resume_textViewAdd"
+                            android:text="@string/addProfessionSkill" />
+
+                        <TextView
+                            style="@style/resume_TextViewItemTitle"
+                            android:text="@string/languageSkill" />
+
+                        <LinearLayout
+                            android:id="@+id/ll_resumeLanguageSkillList"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"></LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tv_addResumeLanguageSkill"
+                            style="@style/resume_textViewAdd"
+                            android:text="@string/addLanguageSkill" />
+
+                        <TextView
+                            style="@style/resume_TextViewItemTitle"
+                            android:text="@string/trainExp" />
+
+                        <LinearLayout
+                            android:id="@+id/ll_resumeTrainExpList"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"></LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tv_addResumeTrainExp"
+                            style="@style/resume_textViewAdd"
+                            android:text="@string/addTrainExp" />
+
+                        <TextView
+                            style="@style/resume_TextViewItemTitle"
+                            android:text="@string/introduction" />
+
+                        <LinearLayout
+                            android:id="@+id/ll_resumeIntroductionList"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"></LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tv_addResumeIntroduction"
+                            style="@style/resume_textViewAdd"
+                            android:text="@string/addIntroduction" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/x20"
+                            android:background="@color/resumeContent_bg" />
+
+                        <RelativeLayout
+                            android:id="@+id/rl_hideResume"
+                            style="@style/resume_RelativeItem"
+                            android:layout_height="@dimen/x100">
+
+                            <TextView
+                                android:id="@+id/tv_hideResumeTag"
+                                android:layout_centerVertical="true"
+                                style="@style/resume_TextViewItemTitleHideResume"
+                                android:text="@string/hideResume" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_toRightOf="@+id/tv_hideResumeTag"
+                                android:text="@string/hideTips"
+                                android:layout_marginLeft="@dimen/x19"
+                                android:textColor="@color/color_999"
+                                android:textSize="@dimen/x20" />
+                            <Switch
+                                android:id="@+id/iv_hideResume"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="@dimen/x49"
+                                android:thumb="@drawable/thumb"
+                                android:track="@drawable/track" />
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/x20"
+                            android:background="@color/resumeContent_bg" />
+
+                        <TextView
+                            style="@style/resume_TextViewItemTitle"
+                            android:text="@string/resumeAttachment"
+                            android:visibility="gone" />
+
+                        <LinearLayout
+                            android:id="@+id/ll_resumeAttachmentList"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:visibility="gone"></LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tv_addResumeAttachment"
+                            style="@style/resume_textViewAdd"
+                            android:text="@string/addResumeAttachment"
+                            android:visibility="gone" />
+                    </LinearLayout>
+
+                </RelativeLayout>
+            </android.support.v4.widget.NestedScrollView>
+        </android.support.v4.widget.SwipeRefreshLayout>
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

@@ -16,11 +16,13 @@ import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
 import com.hr.ui.bean.LanguageLevelData;
 import com.hr.ui.bean.ResumeLanguageBean;
+import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.resume.contract.ResumeLanguageContract;
 import com.hr.ui.ui.resume.model.ResumeLanguageModel;
 import com.hr.ui.ui.resume.presenter.ResumeLanguagePresenter;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.datautils.ResumeInfoIDToString;
+import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.CustomDatePicker;
 
 import butterknife.BindView;
@@ -71,6 +73,7 @@ public class ResumeLanguageActivity extends BaseActivity<ResumeLanguagePresenter
     RelativeLayout rlResumeLanguageSkillReadWrite;
     private String languageId,speakId,writeId;
     private CustomDatePicker datePickerLanguageName,datePickerSpeak,datePickerWrite;
+    private SharedPreferencesUtils sUtils;
     /**
      * 入口
      *
@@ -124,12 +127,14 @@ public class ResumeLanguageActivity extends BaseActivity<ResumeLanguagePresenter
     @Override
     public void deleteLanguageSuccess() {
         ToastUitl.showShort(R.string.deleteSuccess);
+        sUtils.setBooleanValue(Constants.IS_FERSH,true);
         finish();
     }
 
     @Override
     public void addOrReplaceLanguageSuccess() {
         ToastUitl.showShort(R.string.saveSuccess);
+        sUtils.setBooleanValue(Constants.IS_FERSH,true);
         finish();
     }
 
@@ -146,13 +151,14 @@ public class ResumeLanguageActivity extends BaseActivity<ResumeLanguagePresenter
     @Override
     public void initView() {
         setSupportActionBar(toolBar);
+        sUtils=new SharedPreferencesUtils(this);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolBar.setTitle("");
         languageId = getIntent().getStringExtra("languageId");
         toolBar.setTitleTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
         toolBar.setNavigationIcon(R.mipmap.back);
-        tvToolbarTitle.setText(R.string.workExp);
+        tvToolbarTitle.setText(R.string.languageSkill);
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

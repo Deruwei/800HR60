@@ -3,6 +3,7 @@ package com.hr.ui.ui.resume.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -19,11 +20,13 @@ import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
 import com.hr.ui.bean.ProfessionSkillData;
 import com.hr.ui.bean.ResumeProfessionSkillBean;
+import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.resume.contract.ResumeProfessionSkillContract;
 import com.hr.ui.ui.resume.model.ResumeProfessionSkillModel;
 import com.hr.ui.ui.resume.presenter.ResumeProfessionSkillPresenter;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.datautils.ResumeInfoIDToString;
+import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.CustomDatePicker;
 
 import butterknife.BindView;
@@ -67,9 +70,13 @@ public class ResumeProfessionSkillActivity extends BaseActivity<ResumeProfession
     TextView tvResumeProfessionSkillDelete;
     @BindView(R.id.rl_resumeProfessionSkillLevel)
     RelativeLayout rlResumeProfessionSkillLevel;
+    @BindView(R.id.cl_resumeProfessionSkill)
+    ConstraintLayout clResumeProfessionSkill;
     private CustomDatePicker datePickerSkillLevel;
     private String skillLevelId;
     private String skillId;
+    private SharedPreferencesUtils sUtils;
+
     /**
      * 入口
      *
@@ -80,17 +87,19 @@ public class ResumeProfessionSkillActivity extends BaseActivity<ResumeProfession
         activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
+
     /**
      * 入口
      *
      * @param activity
      */
-    public static void startAction(Activity activity,String skillId) {
-        Intent intent = new Intent(activity,ResumeProfessionSkillActivity.class);
-        intent.putExtra("skillId",skillId);
+    public static void startAction(Activity activity, String skillId) {
+        Intent intent = new Intent(activity, ResumeProfessionSkillActivity.class);
+        intent.putExtra("skillId", skillId);
         activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
+
     @Override
     public void showLoading(String title) {
 
@@ -114,18 +123,24 @@ public class ResumeProfessionSkillActivity extends BaseActivity<ResumeProfession
     private void initUI(ResumeProfessionSkillBean.SkillListBean skillBean) {
         etResumeProjectExpName.setText(skillBean.getSkilltitle());
         etResumeProjectExpUseTime.setText(skillBean.getUsetime());
-        etResumeProjectExpLevel.setText(ResumeInfoIDToString.getSkillLevel(this,skillBean.getAbility(),true));
-        skillLevelId=skillBean.getAbility();
+        etResumeProjectExpLevel.setText(ResumeInfoIDToString.getSkillLevel(this, skillBean.getAbility(), true));
+        skillLevelId = skillBean.getAbility();
+        ivResumeProfessionSkillNameDelete.setVisibility(View.GONE);
+        ivResumeProfessionSkillUseTimeSelect.setVisibility(View.GONE);
     }
 
     @Override
     public void deleteSkillSuccess() {
-
+        ToastUitl.showShort(R.string.deleteSuccess);
+        sUtils.setBooleanValue(Constants.IS_FERSH, true);
+        finish();
     }
 
     @Override
     public void addOrReplaceSkillSuccess() {
-
+        ToastUitl.showShort(R.string.saveSuccess);
+        sUtils.setBooleanValue(Constants.IS_FERSH, true);
+        finish();
     }
 
     @Override
@@ -135,12 +150,13 @@ public class ResumeProfessionSkillActivity extends BaseActivity<ResumeProfession
 
     @Override
     public void initPresenter() {
-        mPresenter.setVM(this,mModel);
+        mPresenter.setVM(this, mModel);
     }
 
     @Override
     public void initView() {
         setSupportActionBar(toolBar);
+        sUtils = new SharedPreferencesUtils(this);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolBar.setTitle("");
@@ -148,7 +164,7 @@ public class ResumeProfessionSkillActivity extends BaseActivity<ResumeProfession
         toolBar.setTitleTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
         toolBar.setNavigationIcon(R.mipmap.back);
         tvToolbarTitle.setText(R.string.professionSkill);
-       ivResumeProfessionSkillNameDelete.setVisibility(View.GONE);
+        ivResumeProfessionSkillNameDelete.setVisibility(View.GONE);
         ivResumeProfessionSkillUseTimeSelect.setVisibility(View.GONE);
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,7 +172,7 @@ public class ResumeProfessionSkillActivity extends BaseActivity<ResumeProfession
                 finish();
             }
         });
-        if(!"".equals(skillId)&&skillId!=null){
+        if (!"".equals(skillId) && skillId != null) {
             mPresenter.getSkill(skillId);
         }
     }
@@ -169,7 +185,12 @@ public class ResumeProfessionSkillActivity extends BaseActivity<ResumeProfession
         initDlalog();
         textChanged();
     }
-
+    private void setFocus(){
+        clResumeProfessionSkill.setFocusableInTouchMode(true);
+        clResumeProfessionSkill.setFocusable(true);
+        clResumeProfessionSkill.requestFocus();
+        clResumeProfessionSkill.findFocus();
+    }
     private void textChanged() {
         etResumeProjectExpName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -257,6 +278,7 @@ public class ResumeProfessionSkillActivity extends BaseActivity<ResumeProfession
                 etResumeProjectExpUseTime.setText("");
                 break;
             case R.id.rl_resumeProfessionSkillLevel:
+                setFocus();
                 datePickerSkillLevel.show(etResumeProjectExpLevel.getText().toString());
                 break;
             case R.id.btn_resumeProfessionSkillOK:
@@ -269,20 +291,20 @@ public class ResumeProfessionSkillActivity extends BaseActivity<ResumeProfession
     }
 
     private void doAddOrReplaceProfessionSkill() {
-        if(etResumeProjectExpName.getText().toString()==null||"".equals(etResumeProjectExpName.getText().toString())){
+        if (etResumeProjectExpName.getText().toString() == null || "".equals(etResumeProjectExpName.getText().toString())) {
             ToastUitl.showShort("请填写技能名称");
             return;
         }
-        if(etResumeProjectExpUseTime.getText().toString()==null||"".equals(etResumeProjectExpUseTime.getText().toString())){
+        if (etResumeProjectExpUseTime.getText().toString() == null || "".equals(etResumeProjectExpUseTime.getText().toString())) {
             ToastUitl.showShort("请填写使用时间");
             return;
         }
-        if(skillLevelId==null||"".equals(skillLevelId)){
+        if (skillLevelId == null || "".equals(skillLevelId)) {
             ToastUitl.showShort("请选择专业水平");
             return;
         }
-        ProfessionSkillData professionSkillData=new ProfessionSkillData();
-        if(skillId!=null&&!"".equals(skillId)) {
+        ProfessionSkillData professionSkillData = new ProfessionSkillData();
+        if (skillId != null && !"".equals(skillId)) {
             professionSkillData.setSkillId(skillId);
         }
         professionSkillData.setSkillName(etResumeProjectExpName.getText().toString());

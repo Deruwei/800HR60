@@ -47,6 +47,7 @@ public class ProjectContentActivity extends BaseNoConnectNetworkAcitivty {
     private MyDialog myDialog;
     private String tag;
     private int where;
+    private String text;
 
 
     /**
@@ -100,6 +101,7 @@ public class ProjectContentActivity extends BaseNoConnectNetworkAcitivty {
         if (getIntent().getStringExtra("text") != null || !"".equals(getIntent().getStringExtra("text"))) {
             etContent.setText(getIntent().getStringExtra("text"));
             tvTextSum.setText(etContent.getText().toString().length() + " / 400");
+            text=getIntent().getStringExtra("text");
         } else {
             etContent.setText("");
             tvTextSum.setText("0 / 400");
@@ -118,7 +120,7 @@ public class ProjectContentActivity extends BaseNoConnectNetworkAcitivty {
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (etContent.getText().toString() != null && !"".equals(etContent.getText().toString())) {
+                if (etContent.getText().toString() != null && !"".equals(etContent.getText().toString())&&!text.equals(etContent.getText().toString())) {
                     myDialog = new MyDialog(ProjectContentActivity.this, 2);
                     myDialog.setMessage(getString(R.string.exitWarning));
                     myDialog.setYesOnclickListener("确定", new MyDialog.onYesOnclickListener() {

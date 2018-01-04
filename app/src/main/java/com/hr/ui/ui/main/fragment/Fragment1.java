@@ -2,7 +2,10 @@ package com.hr.ui.ui.main.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,11 +20,14 @@ import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.main.activity.CompanyDetailActivity;
 import com.hr.ui.ui.main.activity.ShowMsgActivity;
 import com.hr.ui.ui.main.activity.SplashActivity;
+import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.DialogView;
 import com.hr.ui.view.MyResumeScoreProgressBar;
 import com.hr.ui.view.PieChartView;
 import com.hr.ui.view.SnailBar;
+
+import java.util.TreeMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -71,10 +77,37 @@ public class Fragment1 extends Fragment {
             }
         });
         dvView.setVisibility(View.GONE);
+        pb.setProgram(60);
+        sbFragment.setMaxCount(100);
+        sbFragment.setCurrentCount(60);
+        pcv.SetProgram(80);
         return rootView;
     }
-
-
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 1:
+                    pb.setProgram(60);
+                    sbFragment.setMaxCount(100);
+                    sbFragment.setCurrentCount(60);
+                    pcv.SetProgram(80);
+                    ToastUitl.showShort("你好");
+                    break;
+            }
+        }
+    };
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        // TODO Auto-generated method stub
+        super.onHiddenChanged(hidden);
+        Log.i("当前的数据",hidden+"");
+        if (hidden==false) {
+         Message message=Message.obtain();
+         message.what=1;
+         handler.sendMessage(message);
+        }
+    }
     private void initPopWindow() {
         View popView = LayoutInflater.from(getActivity()).inflate(R.layout.layout_pop, null);
         popupWindow = new PopupWindow(popView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
@@ -112,17 +145,18 @@ public class Fragment1 extends Fragment {
         popupWindow2.showAtLocation(rootview, Gravity.BOTTOM, 0, 0);
     }
     @Override
-    public void onResume() {
-        super.onResume();
-        pb.setProgram(60);
-        sbFragment.setMaxCount(100);
-        sbFragment.setCurrentCount(60);
-        pcv.SetProgram(80);
-      /*  ivFragment.setBackgroundResource(R.drawable.snailanim);
-        AnimationDrawable animationDrawable = (AnimationDrawable) ivFragment.getBackground();
-        animationDrawable.start();*/
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser== true) {
+            //相当于Fragment的onResume
+            pb.setProgram(60);
+            sbFragment.setMaxCount(100);
+            sbFragment.setCurrentCount(60);
+            pcv.SetProgram(80);
+        } else {
+            //相当于Fragment的onPause
+        }
     }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();

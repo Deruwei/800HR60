@@ -24,6 +24,7 @@
             style="@style/resume_industryTextView" />
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/ll_functionAndPosition"
         android:orientation="vertical"
         android:layout_toRightOf="@+id/ll_resumeIndustry"
         android:layout_width="match_parent"
@@ -37,6 +38,7 @@
 
         </com.hr.ui.view.MyFlowLayout>
         <View
+            android:id="@+id/view_fengexian"
             style="@style/resume_view">
 
         </View>
@@ -49,4 +51,9 @@
 
         </com.hr.ui.view.MyFlowLayout>
     </LinearLayout>
+    <View
+        android:layout_below="@+id/ll_functionAndPosition"
+        android:background="@color/resumeContent_bg"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x22"/>
 </RelativeLayout>

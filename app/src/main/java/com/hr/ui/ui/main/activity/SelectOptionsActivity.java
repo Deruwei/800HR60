@@ -3,6 +3,8 @@ package com.hr.ui.ui.main.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.LightingColorFilter;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,6 +13,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,11 +27,13 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
 import com.hr.ui.bean.CityBean;
+import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.main.adapter.MySelectPositionLeftAdapter;
 import com.hr.ui.ui.main.adapter.MySelectPositionRightAdapter;
 import com.hr.ui.ui.main.adapter.SelectIndustryAdapter;
@@ -36,6 +41,7 @@ import com.hr.ui.ui.resume.activity.ResumeJobOrderActivity;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.datautils.FromStringToArrayList;
 import com.hr.ui.utils.datautils.ResumeInfoIDToString;
+import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.utils.recyclerviewutils.OnItemClickListener;
 import com.hr.ui.view.MyFlowLayout;
 
@@ -127,7 +133,8 @@ public class SelectOptionsActivity extends BaseActivity {
     private MySelectPositionLeftAdapter leftAdapter;
     private MySelectPositionRightAdapter rightAdapter;
     private int updatePositionNum;
-
+    private SharedPreferencesUtils sUtis;
+    private String  canSelectOther;
     /**
      * 入口
      *
@@ -149,8 +156,9 @@ public class SelectOptionsActivity extends BaseActivity {
      *
      * @param activity
      */
-    public static void startAction(Activity activity, List<String> industryIds,int type) {
+    public static void startAction(Activity activity, List<String> industryIds,int i,int type) {
         Intent intent = new Intent(activity, SelectOptionsActivity.class);
+        intent.putExtra("num", i);
         intent.putExtra("industryIds", (Serializable) industryIds);
         intent.putExtra("type",type);
         activity.startActivity(intent);
@@ -169,12 +177,14 @@ public class SelectOptionsActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        sUtis=new SharedPreferencesUtils(this);
         industryIdFir = getIntent().getStringExtra("industryId");
         indutryId = industryIdFir;
         updatePositionNum = getIntent().getIntExtra("num", 100);
         selectRealPositionList = (List<CityBean>) getIntent().getSerializableExtra("position");
         selectRealFuncList = (List<CityBean>) getIntent().getSerializableExtra("func");
         industryIds = (List<String>) getIntent().getSerializableExtra("industryIds");
+        //Log.i("你好2",industryIds.toString());
         type=getIntent().getIntExtra("type",0);
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -203,7 +213,7 @@ public class SelectOptionsActivity extends BaseActivity {
             rlIndustry.setVisibility(View.GONE);
             tvSelectJobOrderDelete.setVisibility(View.GONE);
         }
-        if (selectRealFuncList != null && !"".equals(selectRealFuncList) && selectRealFuncList.size() != 0) {
+        if (selectRealFuncList != null && !"".equals(selectRealFuncList) && selectRealFuncList.size() != 0&&!"".equals(selectRealFuncList.get(0).getId())) {
             rlTerritory.setVisibility(View.VISIBLE);
             addTerritoryView(selectRealFuncList);
         } else {
@@ -252,7 +262,7 @@ public class SelectOptionsActivity extends BaseActivity {
                 }else{
                     if(type==1){
                         if (FromStringToArrayList.getInstance().getIndustryIsHaveField(indutryId)) {
-                            if(industryIds==null&&"".equals(indutryId)){
+                            if(indutryId==null&&"".equals(indutryId)){
                                 ToastUitl.showShort("请选择行业");
                                 return;
                             }
@@ -266,7 +276,7 @@ public class SelectOptionsActivity extends BaseActivity {
                             }
                             ResumeJobOrderActivity.instance.addJobOrderInfo( indutryId, selectRealFuncList, selectRealPositionList);
                         } else {
-                            if(industryIds==null&&"".equals(indutryId)){
+                            if(indutryId==null&&"".equals(indutryId)){
                                 ToastUitl.showShort("请选择行业");
                                 return;
                             }
@@ -278,6 +288,7 @@ public class SelectOptionsActivity extends BaseActivity {
                         }
                     }
                 }
+                sUtis.setBooleanValue(Constants.IS_NEEDSAVEWARNNING,true);
                 finish();
                 break;
             case R.id.tv_selectJobOrderDelete:
@@ -304,44 +315,54 @@ public class SelectOptionsActivity extends BaseActivity {
                 isShowIndustry = !isShowIndustry;
                 break;
             case R.id.rl_selectTerritory:
-                if (FromStringToArrayList.getInstance().getIndustryIsHaveField(indutryId)) {
-                    if (isShowTerritory == false) {
-                        initTerritoryPopupWindow(indutryId);
+                if(indutryId!=null) {
+                    if (FromStringToArrayList.getInstance().getIndustryIsHaveField(indutryId)) {
+                        if (isShowTerritory == false) {
+                            initTerritoryPopupWindow(indutryId);
+                            if (popupWindowIndustry != null && popupWindowIndustry.isShowing() == true) {
+                                popupWindowIndustry.dismiss();
+                                isShowIndustry = !isShowIndustry;
+                            }
+                            if (popupWindowJob != null && popupWindowJob.isShowing() == true) {
+                                popupWindowJob.dismiss();
+                                isShowJob = !isShowJob;
+                            }
+                        } else {
+                            if (popupWindowTerritory != null) {
+                                popupWindowTerritory.dismiss();
+                            }
+                            setTitleColorAndIcon(4);
+                        }
+                        isShowTerritory = !isShowTerritory;
+                    }
+                }else{
+                    ToastUitl.showShort("请选择行业");
+                    return;
+                }
+                break;
+            case R.id.rl_selectJob:
+                if(indutryId!=null) {
+                    if (isShowJob == false) {
+                        initJobPopupWindow();
                         if (popupWindowIndustry != null && popupWindowIndustry.isShowing() == true) {
                             popupWindowIndustry.dismiss();
                             isShowIndustry = !isShowIndustry;
                         }
-                        if (popupWindowJob != null && popupWindowJob.isShowing() == true) {
-                            popupWindowJob.dismiss();
-                            isShowJob = !isShowJob;
+                        if (popupWindowTerritory != null && popupWindowTerritory.isShowing() == true) {
+                            popupWindowTerritory.dismiss();
+                            isShowTerritory = !isShowTerritory;
                         }
                     } else {
-                        if (popupWindowTerritory != null) {
-                            popupWindowTerritory.dismiss();
+                        if (popupWindowJob != null) {
+                            popupWindowJob.dismiss();
                         }
                         setTitleColorAndIcon(4);
                     }
-                    isShowTerritory = !isShowTerritory;
+                    isShowJob = !isShowJob;
+                }else{
+                    ToastUitl.showShort("请选择行业");
+                    return;
                 }
-                break;
-            case R.id.rl_selectJob:
-                if (isShowJob == false) {
-                    initJobPopupWindow();
-                    if (popupWindowIndustry != null && popupWindowIndustry.isShowing() == true) {
-                        popupWindowIndustry.dismiss();
-                        isShowIndustry = !isShowIndustry;
-                    }
-                    if (popupWindowTerritory != null && popupWindowTerritory.isShowing() == true) {
-                        popupWindowTerritory.dismiss();
-                        isShowTerritory = !isShowTerritory;
-                    }
-                } else {
-                    if (popupWindowJob != null) {
-                        popupWindowJob.dismiss();
-                    }
-                    setTitleColorAndIcon(4);
-                }
-                isShowJob = !isShowJob;
                 break;
         }
     }
@@ -514,10 +535,13 @@ public class SelectOptionsActivity extends BaseActivity {
                 }
             }
         }
-        SelectIndustryAdapter selectIndustryAdapter;
+        final SelectIndustryAdapter selectIndustryAdapter;
+        //Log.i("你好2",industryList.toString());
         if (updatePositionNum != 100) {
+            //Log.i("你好2","你好1");
             selectIndustryAdapter = new SelectIndustryAdapter(industryList, industryIdFir, SelectOptionsActivity.this, "1", industryIds);
         } else {
+            //Log.i("你好2","你好2");
             selectIndustryAdapter = new SelectIndustryAdapter(industryList, industryIdFir, SelectOptionsActivity.this, "2", industryIds);
         }
         rvIndustry.setAdapter(selectIndustryAdapter);
@@ -536,19 +560,22 @@ public class SelectOptionsActivity extends BaseActivity {
                 indutryId = industryList.get(position).getId();
                 if (FromStringToArrayList.getInstance().getIndustryIsHaveField(industryList.get(position).getId())) {
                     initTerritoryPopupWindow(indutryId);
+                    tvSelectTerritory.setTextColor(ContextCompat.getColor(HRApplication.getAppContext(),R.color.color_333));
                     isShowTerritory = !isShowTerritory;
                 } else {
+                    tvSelectTerritory.setTextColor(ContextCompat.getColor(HRApplication.getAppContext(),R.color.color_999));
+                    tvSelectTerritory.setPaintFlags(Paint. STRIKE_THRU_TEXT_FLAG| Paint.ANTI_ALIAS_FLAG);
                     initJobPopupWindow();
                     isShowJob = !isShowJob;
                 }
-
+                selectIndustryAdapter.notifyDataSetChanged();
                 popupWindowIndustry.dismiss();
                 isShowIndustry = !isShowIndustry;
             }
         });
         popupWindowIndustry.setFocusable(false);
         popupWindowIndustry.setAnimationStyle(R.style.style_pop_animation);
-        popupWindowIndustry.showAsDropDown(viewSelectJobOrder, 0, y);
+        popupWindowIndustry.showAtLocation(viewSelectJobOrder, Gravity.NO_GRAVITY, 0,  y);
     }
 
     /**
@@ -600,25 +627,30 @@ public class SelectOptionsActivity extends BaseActivity {
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                popupWindowTerritory.dismiss();
-                isShowTerritory = !isShowTerritory;
-                setTitleColorAndIcon(4);
-                if(selectRealFuncList!=null) {
-                    selectRealFuncList.clear();
-                }else{
-                    selectRealFuncList=new ArrayList<>();
-                }
-                for (int i = 0; i < selectFuncList.size(); i++) {
-                    for (int j = 0; j < terrirotyList.size(); j++) {
-                        if (terrirotyList.get(j).getId().equals(selectFuncList.get(i).getId())) {
-                            selectRealFuncList.add(terrirotyList.get(j));
-                            continue;
+                if(selectFuncList==null||selectFuncList.size()==0){
+                    ToastUitl.showShort("请选择领域");
+                    return;
+                }else {
+                    popupWindowTerritory.dismiss();
+                    isShowTerritory = !isShowTerritory;
+                    setTitleColorAndIcon(4);
+                    if (selectRealFuncList != null) {
+                        selectRealFuncList.clear();
+                    } else {
+                        selectRealFuncList = new ArrayList<>();
+                    }
+                    for (int i = 0; i < selectFuncList.size(); i++) {
+                        for (int j = 0; j < terrirotyList.size(); j++) {
+                            if (terrirotyList.get(j).getId().equals(selectFuncList.get(i).getId())) {
+                                selectRealFuncList.add(terrirotyList.get(j));
+                                continue;
+                            }
                         }
                     }
+                    setUI();
+                    initJobPopupWindow();
+                    isShowJob = !isShowJob;
                 }
-                setUI();
-                initJobPopupWindow();
-                isShowJob = !isShowJob;
             }
         });
         GridLayoutManager manager = new GridLayoutManager(this, 2);
@@ -653,7 +685,7 @@ public class SelectOptionsActivity extends BaseActivity {
         popupWindowTerritory.setHeight(wm.getDefaultDisplay().getHeight() - y);
         popupWindowTerritory.setFocusable(false);
         popupWindowTerritory.setAnimationStyle(R.style.style_pop_animation);
-        popupWindowTerritory.showAsDropDown(viewSelectJobOrder, 0, y);
+        popupWindowTerritory.showAtLocation(viewSelectJobOrder, Gravity.NO_GRAVITY, 0,  y);
     }
 
     /**
@@ -661,6 +693,8 @@ public class SelectOptionsActivity extends BaseActivity {
      */
     private void initJobPopupWindow() {
         List<CityBean> positionList2 = FromStringToArrayList.getInstance().getExpectPosition(indutryId);
+        //Log.i("当前的数据",selectRealPositionList.toString());
+        selectPositionList=new ArrayList<>();
         if(selectRealPositionList!=null&&!"".equals(selectRealPositionList)) {
             for (int i = 0; i < selectRealPositionList.size(); i++) {
                 for (int j = 0; j < positionList2.size(); j++) {
@@ -698,23 +732,29 @@ public class SelectOptionsActivity extends BaseActivity {
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                popupWindowJob.dismiss();
-                isShowJob = !isShowJob;
-                setTitleColorAndIcon(4);
-                if(selectRealPositionList!=null) {
-                    selectRealPositionList.clear();
-                }else{
-                    selectRealPositionList=new ArrayList<>();
-                }
-                for (int i = 0; i < selectPositionList.size(); i++) {
-                    for (int j = 0; j < positionRightList.size(); j++) {
-                        if (positionRightList.get(j).getId().equals(selectPositionList.get(i).getId())) {
-                            selectRealPositionList.add(positionRightList.get(j));
-                            continue;
-                        }
+                if(selectPositionList==null||selectPositionList.size()==0){
+                    ToastUitl.showShort("请选择职位");
+                    return;
+                }else {
+                    popupWindowJob.dismiss();
+                    isShowJob = !isShowJob;
+                    setTitleColorAndIcon(4);
+                    if (selectRealPositionList != null) {
+                        selectRealPositionList.clear();
+                    } else {
+                        selectRealPositionList = new ArrayList<>();
                     }
+
+                    for (int i = 0; i < selectPositionList.size(); i++) {
+                        CityBean cityBean=new CityBean();
+                        cityBean.setId(selectPositionList.get(i).getId());
+                        cityBean.setName(selectPositionList.get(i).getName());
+                        cityBean.setCheck(true);
+                        selectRealPositionList.add(cityBean);
+
+                    }
+                    setUI();
                 }
-                setUI();
             }
         });
         WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
@@ -722,7 +762,7 @@ public class SelectOptionsActivity extends BaseActivity {
         popupWindowJob.setHeight(wm.getDefaultDisplay().getHeight() - y);
         popupWindowJob.setFocusable(false);
         popupWindowJob.setAnimationStyle(R.style.style_pop_animation);
-        popupWindowJob.showAsDropDown(llSelectJobOrder, 0, y);
+        popupWindowJob.showAtLocation(viewSelectJobOrder, Gravity.NO_GRAVITY, 0,  y);
     }
 
     private void initChooseJobView(String industryId) {
@@ -899,7 +939,6 @@ public class SelectOptionsActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         if (popupWindowTerritory != null) {
             popupWindowTerritory.dismiss();
         }
@@ -909,5 +948,16 @@ public class SelectOptionsActivity extends BaseActivity {
         if (popupWindowIndustry != null) {
             popupWindowIndustry.dismiss();
         }
+        super.onDestroy();
+
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            finish();
+            return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 }

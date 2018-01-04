@@ -77,6 +77,8 @@ public class Constants {
     public static String INIT_SECRET_KRY = "2cb7G62b2drGdJobcQJ1O8813aV7fds7.800hr.com.800hr.";
     public static String SVR_API_VER;
     public static String SESSION_KEY;
+    public static String IS_FERSH="is_fresh";
+    public static String IS_NEEDSAVEWARNNING="warnning";
     // 第一次请求会话连接时用的加密密钥
     public static final String SECRET_KEY= "2cb7G62b2drGdJobcQJ1O8813aV7fds7.800hr.com.800hr.";
     public static String getHost(int hostType) {

@@ -13,10 +13,10 @@
         android:layout_marginTop="50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <ImageView
+        <com.hr.ui.view.CircleImageView
             android:id="@+id/iv_personImage_left"
             android:layout_centerInParent="true"
-            android:src="@mipmap/person"
+            android:src="@mipmap/persondefault"
             android:layout_width="@dimen/me_PersonImageWidth"
             android:layout_height="@dimen/me_PersonImageHeight"/>
     </RelativeLayout>

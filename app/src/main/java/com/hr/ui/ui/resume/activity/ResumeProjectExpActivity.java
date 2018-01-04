@@ -20,11 +20,13 @@ import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
 import com.hr.ui.bean.ProjectBean;
 import com.hr.ui.bean.ProjectExpData;
+import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.main.activity.ContentActivity;
 import com.hr.ui.ui.resume.contract.ResumeProjectExpContract;
 import com.hr.ui.ui.resume.model.ResumeProjectExpModel;
 import com.hr.ui.ui.resume.presenter.ResumeProjectExpPresenter;
 import com.hr.ui.utils.ToastUitl;
+import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.MyStartAndEndTimeCustomDatePicker;
 
 import butterknife.BindView;
@@ -91,6 +93,7 @@ public class ResumeProjectExpActivity extends BaseActivity<ResumeProjectExpPrese
     private String projectId;
     public static ResumeProjectExpActivity instance;
     public static String TAG=ResumeProjectExpActivity.class.getSimpleName();
+    private SharedPreferencesUtils sUtils;
     /**
      * 入口
      *
@@ -147,11 +150,14 @@ public class ResumeProjectExpActivity extends BaseActivity<ResumeProjectExpPrese
     @Override
     public void deleteProjectSuccess() {
         ToastUitl.showShort(R.string.deleteSuccess);
+        sUtils.setBooleanValue(Constants.IS_FERSH,true);
+        finish();
     }
 
     @Override
     public void addOrUpdateProjectInfo() {
         ToastUitl.showShort(R.string.saveSuccess);
+        sUtils.setBooleanValue(Constants.IS_FERSH,true);
         finish();
     }
 
@@ -168,6 +174,7 @@ public class ResumeProjectExpActivity extends BaseActivity<ResumeProjectExpPrese
     @Override
     public void initView() {
         setSupportActionBar(toolBar);
+        sUtils=new SharedPreferencesUtils(this);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         projectId=getIntent().getStringExtra("projectId");

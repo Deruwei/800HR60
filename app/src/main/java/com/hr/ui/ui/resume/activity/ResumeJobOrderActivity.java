@@ -23,20 +23,26 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hr.ui.R;
+import com.hr.ui.app.AppManager;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
 import com.hr.ui.bean.CityBean;
 import com.hr.ui.bean.JobOrderData;
 import com.hr.ui.bean.ResumeOrderInfoBean;
+import com.hr.ui.constants.Constants;
+import com.hr.ui.ui.main.activity.JobOrderActivity;
 import com.hr.ui.ui.main.activity.SelectCityActivity;
 import com.hr.ui.ui.main.activity.SelectOptionsActivity;
+import com.hr.ui.ui.main.activity.SplashActivity;
 import com.hr.ui.ui.resume.contract.ResumeJobOrderContract;
 import com.hr.ui.ui.resume.model.ResumeJobOrderModel;
 import com.hr.ui.ui.resume.presenter.ResumeJobOrderPresenter;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.datautils.FromStringToArrayList;
 import com.hr.ui.utils.datautils.ResumeInfoIDToString;
+import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.CustomDatePicker;
+import com.hr.ui.view.MyDialog;
 import com.hr.ui.view.MyFlowLayout;
 
 import java.util.ArrayList;
@@ -110,6 +116,8 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
     private List<List<CityBean>> selectFunctionLists=new ArrayList<>();
     private List<List<CityBean>> selectPositionLists=new ArrayList<>();
     private String mode="0";
+    private SharedPreferencesUtils sUtils;
+    private MyDialog myDialog;
 
     /**
      * 入口
@@ -168,10 +176,10 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
         StringBuffer sbPosition=new StringBuffer();
         StringBuffer sbFunc=new StringBuffer();
         StringBuffer sbIndustry=new StringBuffer();
-        selectFunctionLists.clear();
-        selectPositionLists.clear();
-        final List<String> industryIds = new ArrayList<>();
+        industryIds = new ArrayList<>();
         industryBeanList = orderInfoBean.getOrder_industry();
+        selectFunctionLists=new ArrayList<>();
+        selectPositionLists=new ArrayList<>();
         if (industryBeanList != null) {
             rlResumeJobOrderIndustry.removeAllViewsInLayout();
             for (int i = 0; i < industryBeanList.size(); i++) {
@@ -183,6 +191,7 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
                 MyFlowLayout flPosition = plantView.findViewById(R.id.fl_expectedPosition);
                 TextView tvIndustryName = plantView.findViewById(R.id.tv_resumeIndustryName);
                 ImageView iv_industryIcon = plantView.findViewById(R.id.iv_industryIcon);
+                View view=plantView.findViewById(R.id.view_fengexian);
                 MyFlowLayout flField = plantView.findViewById(R.id.fl_expectedField);
                 tvIndustryName.setText(ResumeInfoIDToString.getIndustry(this, industryBeanList.get(i).getIndustry(), true));
                 String positionNames = FromStringToArrayList.getInstance().getExpectPositionString(industryBeanList.get(i).getIndustry(), industryBeanList.get(i).getFunc());
@@ -198,16 +207,26 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
                 iv_industryIcon.setImageDrawable(FromStringToArrayList.getInstance().getIndustryIcon(industryBeanList.get(i).getIndustry()));
                 addView(flPosition, "期望职位");
                 addView(flField, "期望领域");
-                selectPositionList.clear();
+                selectPositionList=new ArrayList<>();
+                //Log.i("当前=",positionIds+"---------------"+fieldNameString[0].toString());
                 for (int j = 0; j < positionIds.length; j++) {
                     CityBean cityBean = new CityBean();
-                    cityBean.setId(positionIds[j]);
+                    if("14".equals(industryId)) {
+                        if(positionIds[j].indexOf("|")!=-1) {
+                            cityBean.setId(positionIds[j].substring(0, positionIds[j].indexOf("|")));
+                        }else{
+                            cityBean.setId(positionIds[j]);
+                        }
+                    }else{
+                        cityBean.setId(positionIds[j]);
+                    }
                     cityBean.setName(positionNameString[j]);
                     selectPositionList.add(cityBean);
                     addView(flPosition, positionNameString[j]);
                 }
                 selectPositionLists.add(selectPositionList);
-                selectFuncList.clear();
+                //Log.i("当前=",positionIds+"---------------"+selectPositionLists.toString());
+                selectFuncList=new ArrayList<>();
                 for (int j = 0; j < fieldNameString.length; j++) {
                     CityBean cityBean = new CityBean();
                     cityBean.setId(funcIds[j]);
@@ -215,8 +234,16 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
                     selectFuncList.add(cityBean);
                     addView(flField, fieldNameString[j]);
                 }
+                if(selectFuncList!=null&&!"".equals(selectFuncList)&&selectFuncList.size()!=0&&selectFuncList.get(0).getId()!=null&&!"".equals(selectFuncList.get(0).getId())){
+                    flField.setVisibility(View.VISIBLE);
+                    view.setVisibility(View.VISIBLE);
+                }else{
+                    flField.setVisibility(View.GONE);
+                    view.setVisibility(View.GONE);
+                }
                 selectFunctionLists.add(selectFuncList);
                 final int finalI = i;
+
                 rlIndustry.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -261,6 +288,9 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
 
     @Override
     public void setJobOrderSuccess() {
+        ToastUitl.showShort(R.string.saveSuccess);
+        sUtils.setBooleanValue(Constants.IS_NEEDSAVEWARNNING,false);
+        sUtils.setBooleanValue(Constants.IS_FERSH,true);
         finish();
     }
 
@@ -278,6 +308,7 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
     public void initView() {
         instance = this;
         setSupportActionBar(toolBar);
+        sUtils=new SharedPreferencesUtils(this);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolBar.setTitle("");
@@ -288,7 +319,26 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                if(sUtils.getBooleanValue(Constants.IS_NEEDSAVEWARNNING,false)==true) {
+                    myDialog=new MyDialog(ResumeJobOrderActivity.this,2);
+                    myDialog.setMessage(getString(R.string.exitWarning));
+                    myDialog.setYesOnclickListener("确定", new MyDialog.onYesOnclickListener() {
+                        @Override
+                        public void onYesClick() {
+                         doSaveOrUpdateJobOrder();
+                         myDialog.dismiss();
+                        }
+                    });
+                    myDialog.setNoOnclickListener("取消", new MyDialog.onNoOnclickListener() {
+                        @Override
+                        public void onNoClick() {
+                            myDialog.dismiss();
+                        }
+                    });
+                    myDialog.show();
+                }else{
+                    finish();
+                }
             }
         });
         setTextChangedListener();
@@ -362,7 +412,11 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.toolbarAdd:
-                SelectOptionsActivity.startAction(ResumeJobOrderActivity.this, industryIds, 1);
+                if(industryIds.size()>=5) {
+                    ToastUitl.showShort("最多只能添加五个行业");
+                }else {
+                    SelectOptionsActivity.startAction(ResumeJobOrderActivity.this, industryIds, 100,1);
+                }
                 break;
             case R.id.rl_resumeJobOrderJobType:
                 setFocus();
@@ -465,12 +519,16 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
         //Log.i("info数据","你好");
         ResumeOrderInfoBean.OrderInfoBean.OrderIndustryBean orderIndustryBean = new ResumeOrderInfoBean.OrderInfoBean.OrderIndustryBean();
         orderIndustryBean.setIndustry(industryId);
-        StringBuffer sbFunc = new StringBuffer();
-        for (int i = 0; i < selectFunclist.size(); i++) {
-            sbFunc.append("," + selectFunclist.get(i).getId());
+        if(FromStringToArrayList.getInstance().getIndustryIsHaveField(industryId)) {
+            StringBuffer sbFunc = new StringBuffer();
+            for (int i = 0; i < selectFunclist.size(); i++) {
+                sbFunc.append("," + selectFunclist.get(i).getId());
+            }
+            sbFunc.deleteCharAt(0);
+            orderIndustryBean.setLingyu(sbFunc.toString());
+        }else{
+            orderIndustryBean.setLingyu("");
         }
-        sbFunc.deleteCharAt(0);
-        orderIndustryBean.setLingyu(sbFunc.toString());
         StringBuffer sbPosition = new StringBuffer();
         for (int i = 0; i < slectPositionList.size(); i++) {
             sbPosition.append("," + slectPositionList.get(i).getId());
@@ -487,5 +545,13 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
         orderInfoBean.getOrder_industry().remove(orderInfoBean.getOrder_industry().get(updatePosition));
         mode="0";
         initIndustryUI();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(myDialog!=null){
+            myDialog.dismiss();
+        }
     }
 }

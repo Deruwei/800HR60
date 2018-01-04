@@ -14,7 +14,9 @@
             android:textColor="@color/color_333"
             android:layout_marginLeft="@dimen/x31"
             android:layout_centerVertical="true"
-            android:textSize="@dimen/x36"
+            android:textSize="@dimen/x32"
+            android:maxEms="12"
+            android:singleLine="true"
             android:layout_marginRight="@dimen/x31"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

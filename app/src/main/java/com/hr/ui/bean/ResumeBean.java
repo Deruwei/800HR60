@@ -2,13 +2,14 @@ package com.hr.ui.bean;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by wdr on 2017/12/11.
  */
 
-public class ResumeBean {
+public class ResumeBean implements Serializable{
 
 
     /**
@@ -45,7 +46,7 @@ public class ResumeBean {
         this._run_time = _run_time;
     }
 
-    public static class ResumeInfoBean {
+    public static class ResumeInfoBean implements Serializable{
         private List<TitleInfoBean> title_info;
         private List<BaseInfoBean> base_info;
         private List<OrderInfoBean> order_info;
@@ -173,7 +174,7 @@ public class ResumeBean {
             this.certificate_list = certificate_list;
         }
 
-        public static class TitleInfoBean {
+        public static class TitleInfoBean implements  Serializable{
             /**
              * user_id : 9495365
              * resume_id : 1
@@ -339,7 +340,7 @@ public class ResumeBean {
             }
         }
 
-        public static class BaseInfoBean {
+        public static class BaseInfoBean implements  Serializable{
             /**
              * user_id : 9495365
              * name : 僵尸尖叫
@@ -745,7 +746,7 @@ public class ResumeBean {
             }
         }
 
-        public static class OrderInfoBean {
+        public static class OrderInfoBean implements  Serializable{
             /**
              * user_id : 9495365
              * jobtype : 13
@@ -910,7 +911,7 @@ public class ResumeBean {
                 this.order_industry = order_industry;
             }
 
-            public static class OrderIndustryBean {
+            public static class OrderIndustryBean implements  Serializable{
                 /**
                  * industry : 11
                  * func : 241102,241138,241104
@@ -947,7 +948,7 @@ public class ResumeBean {
             }
         }
 
-        public static class AssessInfoBean {
+        public static class AssessInfoBean implements  Serializable{
             /**
              * user_id : 9495365
              * introduction : dddddddddddddddddddddddddddd
@@ -1013,7 +1014,7 @@ public class ResumeBean {
             }
         }
 
-        public static class LanguageListBean {
+        public static class LanguageListBean implements  Serializable{
             /**
              * langname : 12
              * user_id : 9495365
@@ -1069,7 +1070,7 @@ public class ResumeBean {
             }
         }
 
-        public static class EducationListBean {
+        public static class EducationListBean implements  Serializable{
             /**
              * user_id : 9495365
              * fromyear : 2016
@@ -1245,7 +1246,7 @@ public class ResumeBean {
             }
         }
 
-        public static class ExperienceListBean {
+        public static class ExperienceListBean implements  Serializable{
             /**
              * user_id : 9495365
              * fromyear : 2014
@@ -1561,7 +1562,7 @@ public class ResumeBean {
             }
         }
 
-        public static class ProjectListBean {
+        public static class ProjectListBean implements  Serializable{
             /**
              * user_id : 9495365
              * fromyear : 2013
@@ -1727,7 +1728,7 @@ public class ResumeBean {
             }
         }
 
-        public static class PlantListBean {
+        public static class PlantListBean implements  Serializable{
             /**
              * user_id : 9495365
              * fromyear : 2015
@@ -1752,8 +1753,7 @@ public class ResumeBean {
             private String tomonth;
             private String institution;
             private String place;
-            @SerializedName("co 01-02 09:59:30.886 9565-9681/com.hr.ui D/OkHttp: urse")
-            private String _$Co010209593088695659681ComHrUiDOkHttpUrse248; // FIXME check this code
+            private String course; // FIXME check this code
             private String certification;
             private String traindetail;
             private String resume_id;
@@ -1817,12 +1817,12 @@ public class ResumeBean {
                 this.place = place;
             }
 
-            public String get_$Co010209593088695659681ComHrUiDOkHttpUrse248() {
-                return _$Co010209593088695659681ComHrUiDOkHttpUrse248;
+            public String getCourse() {
+                return course;
             }
 
-            public void set_$Co010209593088695659681ComHrUiDOkHttpUrse248(String _$Co010209593088695659681ComHrUiDOkHttpUrse248) {
-                this._$Co010209593088695659681ComHrUiDOkHttpUrse248 = _$Co010209593088695659681ComHrUiDOkHttpUrse248;
+            public void setCourse(String course) {
+                this.course = course;
             }
 
             public String getCertification() {
@@ -1874,7 +1874,7 @@ public class ResumeBean {
             }
         }
 
-        public static class SkillListBean {
+        public static class SkillListBean implements  Serializable{
             /**
              * user_id : 9495365
              * usetime : 12
@@ -1950,7 +1950,7 @@ public class ResumeBean {
             }
         }
 
-        public static class SlaveListBean {
+        public static class SlaveListBean implements  Serializable{
             /**
              * user_id : 9495365
              * type : 0
