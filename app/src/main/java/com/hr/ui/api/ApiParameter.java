@@ -8,6 +8,7 @@ import android.util.Log;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.bean.EducationData;
 import com.hr.ui.bean.JobOrderData;
+import com.hr.ui.bean.JobSearchBean;
 import com.hr.ui.bean.LanguageLevelData;
 import com.hr.ui.bean.PersonalInformationData;
 import com.hr.ui.bean.ProfessionSkillData;
@@ -111,7 +112,7 @@ public class ApiParameter {
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user.phoneregister");
         requestMap.put("user_phone",phoneNumber);
-        requestMap.put("industry","11");
+        requestMap.put("industry","10");
         requestMap.put("user_pwd",psw);
         requestMap.put("token",validCode);
         return requestMap;
@@ -128,14 +129,15 @@ public class ApiParameter {
         if(type==1) {
             requestMap.put("method", "user.phonelogin");
             requestMap.put("user_phone", phoneNumber);
-            requestMap.put("industry", "11");
+            requestMap.put("industry", "10");
             requestMap.put("user_pwd", psw);
         }else if (type==2){
             requestMap.put("method", "user.login");
             requestMap.put("user_name", phoneNumber);
-            requestMap.put("industry", "11");
+            requestMap.put("industry", "10");
             requestMap.put("user_pwd", psw);
         }
+        //Log.i("当前的数据",requestMap.toString());
         return requestMap;
     }
     /**
@@ -177,7 +179,7 @@ public class ApiParameter {
         requestMap.put("method","user.thirdlogin");
         requestMap.put("third_code",thirdPartBean.getType());
         requestMap.put("third_uid",thirdPartBean.getUId());
-        requestMap.put("industry","11");
+        requestMap.put("industry","10");
         if(!"".equals(thirdPartBean.getSUId())&&thirdPartBean.getSUId()!=null) {
             requestMap.put("suid", thirdPartBean.getSUId());
         }else{
@@ -200,7 +202,7 @@ public class ApiParameter {
         requestMap.put("method","user.thirdbinding");
         requestMap.put("third_code",thirdPartBean.getType());
         requestMap.put("third_uid",thirdPartBean.getUId());
-        requestMap.put("industry","11");
+        requestMap.put("industry","10");
         requestMap.put("third_userinfo","");
         requestMap.put("binding",""+Constants.BINDING);
         if(type==1){
@@ -217,8 +219,8 @@ public class ApiParameter {
     public static HashMap<String,String> getResumeList(){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_resume.resumelist");
-        requestMap.put("is_complete","0");
-        requestMap.put("mb","");
+       /* requestMap.put("is_complete","1");
+        requestMap.put("mb","");*/
         return requestMap;
     }
 
@@ -231,7 +233,8 @@ public class ApiParameter {
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_resume.get");
         requestMap.put("resume_id",resumeId);
-        requestMap.put("resume_language","");
+        requestMap.put("resume_language","zh");
+        Log.i("简历信息",requestMap.toString());
         return requestMap;
     }
 
@@ -338,7 +341,7 @@ public class ApiParameter {
         }else{
             requestMap.put("save_mode",jobOrderData.getMode());
         }
-        Log.i("数据",requestMap.toString());
+        //Log.i("数据",requestMap.toString());
         return requestMap;
     }
 
@@ -571,4 +574,163 @@ public class ApiParameter {
         requestMap.put("openstate",openstate);
         return  requestMap;
     }
+    public static HashMap<String,String> getRecommendJobInfo(int page,int limit){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","job.jobrecom");
+        SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
+        requestMap.put("page",""+page);
+        requestMap.put("page_nums",""+limit);
+       /* Log.i("你好",requestMap.toString());*/
+        return requestMap;
+    }
+    public static HashMap<String,String> getJobSearchList(JobSearchBean jobSearchBean,int page){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","job.search");
+        if(jobSearchBean.getPositionId()!=null&&!"".equals(jobSearchBean.getPositionId())) {
+            requestMap.put("func", jobSearchBean.getPositionId());
+        }
+        if(!"".equals(jobSearchBean.getPlaceId())&&jobSearchBean.getPlaceId()!=null) {
+            requestMap.put("area", jobSearchBean.getPlaceId());
+        }
+        if(!"".equals(jobSearchBean.getSearchName())&&jobSearchBean.getSearchName()!=null) {
+            requestMap.put("searchword", jobSearchBean.getSearchName());
+        }
+        if(!"".equals(jobSearchBean.getWorkExp())&&jobSearchBean.getWorkExp()!=null) {
+            requestMap.put("filter_workyear", jobSearchBean.getWorkExp());
+        }
+        if(!"".equals(jobSearchBean.getWorkType())&&jobSearchBean.getWorkType()!=null) {
+            requestMap.put("filter_worktype", jobSearchBean.getWorkType());
+        }
+        if(!"".equals(jobSearchBean.getJobTime())&&jobSearchBean.getJobTime()!=null) {
+            requestMap.put("filter_issuedate", jobSearchBean.getJobTime());
+        }
+        if(!"".equals(jobSearchBean.getDegree())&&jobSearchBean.getDegree()!=null){
+            requestMap.put("filter_study",jobSearchBean.getDegree());
+        }
+        if(!"".equals(jobSearchBean.getCompanyType())&&jobSearchBean.getCompanyType()!=null) {
+            requestMap.put("companytype", jobSearchBean.getCompanyType());
+        }
+        if(!"".equals(jobSearchBean.getSalary_left())&&jobSearchBean.getSalary_left()!=null) {
+            requestMap.put("salaryfrom", jobSearchBean.getSalary_left());
+        }
+        if(!"".equals(jobSearchBean.getSalary_right())&&jobSearchBean.getSalary_right()!=null) {
+            requestMap.put("salaryto", jobSearchBean.getSalary_right());
+        }
+        if(!"".equals(jobSearchBean.getIndustryId())&&jobSearchBean.getIndustryId()!=null) {
+            requestMap.put("industry", jobSearchBean.getIndustryId());
+        }
+        if(!"".equals(jobSearchBean.getFieldId())&&jobSearchBean.getFieldId()!=null) {
+            requestMap.put("lingyu", jobSearchBean.getFieldId());
+        }
+
+        requestMap.put("page", page+"");
+        requestMap.put("page_nums", "20");
+        requestMap.put("wordtype",jobSearchBean.getJobType()+"");
+       // Log.i("数据1",requestMap.toString());
+        return requestMap;
+    }
+    public static HashMap<String,String> getPositionData(String jobId){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","job.jobinfo");
+        requestMap.put("job_id",""+jobId);
+       /* Log.i("你好",requestMap.toString());*/
+        return requestMap;
+    }
+    public static HashMap<String,String> collectionJob(String jobId){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","job.favour");
+        requestMap.put("job_id",""+jobId);
+       /* Log.i("你好",requestMap.toString());*/
+        return requestMap;
+    }
+    public static HashMap<String,String> deliverJob(String jobId){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","job.apply");
+        SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
+        requestMap.put("resume_id",sUtils.getIntValue(Constants.RESUME_ID,0)+"");
+        requestMap.put("job_id",""+jobId);
+        requestMap.put("resume_language","zh");
+       /* Log.i("你好",requestMap.toString());*/
+        return requestMap;
+    }
+    public static HashMap<String,String> getCompanyData(String companyId){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","job.enterprise");
+        requestMap.put("enterprise_id",companyId);
+        return requestMap;
+    }
+    public static HashMap<String,String> getReleaseJob(String CompanyId){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","job.alljobs");
+        requestMap.put("enterprise_id",CompanyId);
+       /* Log.i("你好",requestMap.toString());*/
+        return requestMap;
+    }
+    public static HashMap<String,String> getCollectionData(int page){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user_stow.favourite");
+        requestMap.put("page",page+"");
+        requestMap.put("page_nums","20");
+       /* Log.i("你好",requestMap.toString());*/
+        return requestMap;
+    }
+    public static HashMap<String,String> deleteCollectionData(String collectionId,String jobId){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user_stow.delefavourite");
+        requestMap.put("record_id",collectionId);
+        requestMap.put("job_id",jobId);
+       /* Log.i("你好",requestMap.toString());*/
+        return requestMap;
+    }
+    public static HashMap<String,String> getDeliverFeedback(int page,int isRead,int isInvite){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user_stow.applied");
+        requestMap.put("is_read",isRead+"");
+        requestMap.put("is_invite",isInvite+"");
+        requestMap.put("page",page+"");
+        requestMap.put("page_nums","20");
+       /* Log.i("你好",requestMap.toString());*/
+        return requestMap;
+    }
+    public static HashMap<String,String> getWhoSeeMe(int page){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user_stow.browsed");
+        requestMap.put("page",page+"");
+        requestMap.put("page_nums","20");
+       /* Log.i("你好",requestMap.toString());*/
+        return requestMap;
+    }
+    public static HashMap<String,String> getInviteInterview(int page){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user_stow.invited");
+        requestMap.put("page",page+"");
+        requestMap.put("page_nums","20");
+       /* Log.i("你好",requestMap.toString());*/
+        return requestMap;
+    }
+    public static HashMap<String,String> feedBack(String content,String email){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user.feedback");
+        requestMap.put("email",email);
+        requestMap.put("content",content);
+        requestMap.put("cate_id","20");
+       /* Log.i("你好",requestMap.toString());*/
+        return requestMap;
+    }
+    public static HashMap<String,String> getFind(int page){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","mobilead.list");
+        requestMap.put("page",page+"");
+        requestMap.put("page_nums","20");
+       /* Log.i("你好",requestMap.toString());*/
+        return requestMap;
+    }
+   /* public static HashMap<String,String> deleteAllWhoSeeMe(int page){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","mobilead.list");
+        requestMap.put("page",page+"");
+        requestMap.put("page_nums","20");
+       *//* Log.i("你好",requestMap.toString());*//*
+        return requestMap;
+    }*/
 }

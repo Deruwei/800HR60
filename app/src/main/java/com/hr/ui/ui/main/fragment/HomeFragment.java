@@ -1,20 +1,34 @@
 package com.hr.ui.ui.main.fragment;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v4.view.ViewPager;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.hr.ui.R;
 import com.hr.ui.base.BaseFragment;
+import com.hr.ui.base.MyEvent;
+import com.hr.ui.bean.RecommendJobBean;
 import com.hr.ui.constants.Constants;
-import com.hr.ui.ui.main.adapter.ViewPagerAdapter;
-import com.hr.ui.utils.BottomNavigationViewHelper;
-import com.hr.ui.view.MyViewPager;
+import com.hr.ui.ui.job.activity.PositionPageActivity;
+import com.hr.ui.ui.job.activity.PositionPageActivity2;
+import com.hr.ui.ui.main.adapter.MyAdapter;
+import com.hr.ui.ui.main.adapter.MyRecommendJobAdapter;
+import com.hr.ui.ui.main.contract.HomeFragmentContract;
+import com.hr.ui.ui.main.modle.HomeFragmentModel;
+import com.hr.ui.ui.main.presenter.HomeFragmentPresenter;
+import com.hr.ui.utils.ProgressStyle;
+import com.hr.ui.view.XRecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,16 +38,14 @@ import butterknife.Unbinder;
  * Created by wdr on 2017/11/22.
  */
 
-public class HomeFragment extends BaseFragment {
-    @BindView(R.id.bnv_homeFragment)
-    BottomNavigationView bnvHomeFragment;
+public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragmentModel> implements HomeFragmentContract.View {
+
+    @BindView(R.id.rv_homeFragment)
+    XRecyclerView rvHomeFragment;
     Unbinder unbinder;
-    private MenuItem menuItem;
-    @BindView(R.id.vp_homeFragment)
-    MyViewPager vpHomeFragment;
-    private Fragment1 fragment1;
-    private Fragment2 fragment2;
-    private ResumeFragment fragment3,fragment4;
+    private int page=1;
+    private MyRecommendJobAdapter jobAdapter;
+    private List<RecommendJobBean.JobsListBean> recommendList=new ArrayList<>();
 
     public static HomeFragment newInstance(String s) {
         HomeFragment navigationFragment = new HomeFragment();
@@ -50,63 +62,84 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public void initPresenter() {
+        mPresenter.setVM(this,mModel);
+    }
 
-    }
-    private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager());
-        fragment1=new Fragment1();
-        fragment2=new Fragment2();
-        fragment3=new ResumeFragment();
-        fragment4=new ResumeFragment();
-        adapter.addFragment(fragment1);
-        adapter.addFragment(fragment2);
-        adapter.addFragment(fragment3);
-        adapter.addFragment(fragment4);
-        viewPager.setAdapter(adapter);
-    }
     @Override
     protected void initView() {
-        BottomNavigationViewHelper.disableShiftMode(bnvHomeFragment);
-        bnvHomeFragment.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        jobAdapter=new MyRecommendJobAdapter();
+        mPresenter.getRecommendJobInfo(page,20);
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getActivity()){
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.home:
-                        vpHomeFragment.setCurrentItem(0);
-                        break;
-                    case R.id.message:
-                        vpHomeFragment.setCurrentItem(1);
-                        break;
-                    case R.id.resume:
-                        vpHomeFragment.setCurrentItem(2);
-                        break;
-                }
+            public boolean canScrollHorizontally() {
                 return false;
             }
+        };
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        rvHomeFragment.setLayoutManager(linearLayoutManager);
+        Drawable dividerDrawable = ContextCompat.getDrawable(getActivity(), R.drawable.divider_sample);
+        rvHomeFragment.addItemDecoration(rvHomeFragment.new DividerItemDecoration(dividerDrawable));
+        rvHomeFragment.setRefreshProgressStyle(ProgressStyle.LineScaleParty);
+        rvHomeFragment.setNestedScrollingEnabled(false);
+        rvHomeFragment.setLoadingMoreProgressStyle(ProgressStyle.BallTrianglePath);
+        rvHomeFragment.setArrowImageView(R.drawable.iconfont_downgrey);
+
+        rvHomeFragment.setLoadingListener(new XRecyclerView.LoadingListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable(){
+                    public void run() {
+                     mPresenter.getRecommendJobInfo(1,20);
+                        jobAdapter.notifyDataSetChanged();
+                        rvHomeFragment.refreshComplete();
+                    }
+
+                }, 1000);            //refresh data here
+            }
+
+            @Override
+            public void onLoadMore() {
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        page++;
+                        mPresenter.getRecommendJobInfo(page,20);
+                        rvHomeFragment.loadMoreComplete();
+                        jobAdapter.notifyDataSetChanged();
+                    }
+                }, 1000);
+            }
         });
-        vpHomeFragment.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        jobAdapter.setClickCallBack(new MyRecommendJobAdapter.ItemClickCallBack() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                if (menuItem != null) {
-                    menuItem.setChecked(false);
-                } else {
-                    bnvHomeFragment.getMenu().getItem(0).setChecked(false);
-                }
-                menuItem = bnvHomeFragment.getMenu().getItem(position);
-                menuItem.setChecked(true);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
+            public void onItemClick(int pos) {
+                PositionPageActivity.startAction(getActivity(),recommendList.get(pos).getJob_id());
             }
         });
-        setupViewPager(vpHomeFragment);
+
+      /*  listData = new ArrayList<String>();
+        for(int i = 0; i < 15 ;i++){
+            listData.add("item" + i);
+        }
+        mAdapter = new MyAdapter(listData);
+
+        rvMsg.setAdapter(mAdapter);
+        rvMsg.refresh();*/
+    }
+
+
+    @Override
+    public void showLoading(String title) {
+
+    }
+
+    @Override
+    public void stopLoading() {
+
+    }
+
+    @Override
+    public void showErrorTip(String msg) {
+
     }
 
     @Override
@@ -121,5 +154,23 @@ public class HomeFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void getRecommendJobSuccess(List<RecommendJobBean.JobsListBean> jobsBeanList) {
+        if(jobsBeanList!=null&&jobsBeanList.size()!=0){
+            if(page==1) {
+                recommendList.clear();
+                recommendList.addAll(jobsBeanList);
+                jobAdapter.setJobsListBeanList(recommendList);
+                rvHomeFragment.setAdapter(jobAdapter);
+                rvHomeFragment.refresh();
+            }else{
+                recommendList.addAll(jobsBeanList);
+                jobAdapter.notifyDataSetChanged();
+            }
+        }else{
+            rvHomeFragment.setNoMore(true);
+        }
     }
 }

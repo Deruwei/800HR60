@@ -1,5 +1,6 @@
 package com.hr.ui.ui.main.presenter;
 
+import android.util.Log;
 import android.util.MutableInt;
 
 import com.hr.ui.base.RxSubscriber;
@@ -53,6 +54,7 @@ public class ResumePresenter extends ResumeContract.Presenter {
                         for (int i = 0; i < multipleResumeBean.getResume_list().size(); i++) {
                             if("1".equals(multipleResumeBean.getResume_list().get(i).getImportant())){
                                 resumeId=multipleResumeBean.getResume_list().get(i).getResume_id();
+                               // Log.i("当前的数据",multipleResumeBean.toString());
                             }
                         }
                     }

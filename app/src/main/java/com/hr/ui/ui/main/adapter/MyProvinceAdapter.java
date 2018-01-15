@@ -1,6 +1,7 @@
 package com.hr.ui.ui.main.adapter;
 
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -59,6 +60,7 @@ public class MyProvinceAdapter extends BaseAdapter {
         if(position<4){
             if(type==2) {
                 if (cityBeanList.get(position).isCheck() == true) {
+                    //Log.i("id",cityBeanList.get(position).toString());
                     holder.ivItemSelectCityCheck.setVisibility(View.VISIBLE);
                 } else {
                     holder.ivItemSelectCityCheck.setVisibility(View.GONE);

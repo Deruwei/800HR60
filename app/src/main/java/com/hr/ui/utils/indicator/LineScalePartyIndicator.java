@@ -5,9 +5,15 @@ import android.animation.ValueAnimator;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.support.v4.content.ContextCompat;
+
+import com.hr.ui.R;
+import com.hr.ui.app.HRApplication;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import rx.internal.util.unsafe.MpmcArrayQueue;
 
 /**
  * Created by Jack on 2015/10/19.
@@ -31,6 +37,7 @@ public class LineScalePartyIndicator extends BaseIndicatorController {
             canvas.translate((2 + i * 2) * translateX - translateX / 2, translateY);//画布的平移
             canvas.scale(scaleFloats[i], scaleFloats[i]);//画布缩放
             RectF rectF=new RectF(-translateX/2,-getHeight()/2.5f,translateX/2,getHeight()/2.5f);
+            paint.setColor(ContextCompat.getColor(HRApplication.getAppContext(),R.color.new_main));
             canvas.drawRoundRect(rectF,5,5,paint);//第一个参数，矩形；第二个参数是半径，第三个参数也是半径，第四个参数是画笔
             canvas.restore();
         }

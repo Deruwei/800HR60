@@ -230,6 +230,7 @@ public class ResumePersonalInfoActivity extends BaseActivity<ResumePersonalInfoP
 
     @Override
     public void uploadImageSuccess(String imagePath) {
+        sUtils.setStringValue(Constants.PERSONIMAGE,imagePath);
         PersonalInformationData personalInformationData = new PersonalInformationData();
         personalInformationData.setImageUrl(imagePath);
         personalInformationData.setName(etResumePersonName.getText().toString());

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_marginTop="@dimen/x20"
+        android:paddingBottom="@dimen/x20"
+        android:background="@drawable/edit_bg_small"
+        android:layout_marginLeft="@dimen/x30"
+        android:layout_marginRight="@dimen/x30"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:scaleType="centerCrop"
+            android:layout_marginTop="@dimen/x20"
+            android:id="@+id/iv_findIcon"
+            android:layout_marginLeft="@dimen/x20"
+            android:layout_marginRight="@dimen/x20"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x140" />
+        <TextView
+            android:id="@+id/tv_findCompanyName"
+            android:layout_marginTop="@dimen/x20"
+            android:layout_marginLeft="@dimen/x20"
+            android:layout_marginRight="@dimen/x20"
+            android:textSize="@dimen/x28"
+            android:singleLine="true"
+            android:textColor="@color/color_333"
+            android:text="北京英才网联科技有限公司"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:id="@+id/rl_findHide"
+            android:layout_marginTop="@dimen/x16"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_marginLeft="@dimen/x20"
+                android:src="@mipmap/companytype"
+                android:layout_width="@dimen/x20"
+                android:layout_height="@dimen/x20" />
+            <TextView
+                android:id="@+id/tv_findCompanyType"
+                android:layout_marginLeft="@dimen/x10"
+                android:text="国有企业"
+                android:textSize="@dimen/x24"
+                android:textColor="@color/color_666"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:layout_marginLeft="@dimen/x63"
+                android:src="@mipmap/scale"
+                android:layout_width="@dimen/x22"
+                android:layout_height="@dimen/x20" />
+            <TextView
+                android:id="@+id/tv_findCompanyScale"
+                android:layout_marginLeft="@dimen/x10"
+                android:text="100-499人"
+                android:textSize="@dimen/x24"
+                android:textColor="@color/color_666"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

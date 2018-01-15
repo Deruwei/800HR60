@@ -66,7 +66,6 @@ public class SplashPresenter extends SplashContract.Presenter {
                     mView.SendConnectSuccess();
                 }else{
                     if(baseBean.getError_code()==204||baseBean.getError_code()==205||baseBean.getError_code()==303) {
-                        Constants.SESSION_KEY=null;
                         Rc4Md5Utils.secret_key = Constants.INIT_SECRET_KRY;
                         getConnect(context);
                     }else {

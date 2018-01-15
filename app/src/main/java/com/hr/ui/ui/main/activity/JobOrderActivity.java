@@ -25,6 +25,7 @@ import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.main.contract.JobOrderContract;
 import com.hr.ui.ui.main.modle.JobOrderModel;
 import com.hr.ui.ui.main.presenter.JobOrderPresenter;
+import com.hr.ui.utils.ClickUtils;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.datautils.ResumeInfoIDToString;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
@@ -331,7 +332,7 @@ public class JobOrderActivity extends BaseActivity<JobOrderPresenter, JobOrderMo
             case R.id.rl_expectedPosition:
                 setFocus();
                 if (industryId != null && !"".equals(industryId)) {
-                    SelectPositionActivity.startAction(this, industryId, selectPositonList);
+                    SelectPositionActivity.startAction(this, industryId, selectPositonList,TAG);
                 } else {
                     ToastUitl.showShort("请选择期望领域");
                 }
@@ -340,7 +341,9 @@ public class JobOrderActivity extends BaseActivity<JobOrderPresenter, JobOrderMo
                 tvExpectSalary.setText("");
                 break;
             case R.id.btn_nextEdu:
-                doSendJobOrderToResume();
+                if(!ClickUtils.isFastClick()) {
+                    doSendJobOrderToResume();
+                }
                 break;
         }
     }

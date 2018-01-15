@@ -193,6 +193,8 @@ public class ResumeProjectExpActivity extends BaseActivity<ResumeProjectExpPrese
         });
         if(!"".equals(projectId)&&projectId!=null){
             mPresenter.getProjectInfo(projectId);
+        }else{
+            tvResumeProjectExpDelete.setVisibility(View.GONE);
         }
     }
 

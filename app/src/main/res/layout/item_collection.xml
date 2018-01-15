@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:id="@+id/view_list_main_content"
+    android:background="@color/resumeContent_bg"
+    tools:showIn="@layout/list_item_main"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/x30"
+        android:layout_marginRight="@dimen/x30"
+        android:layout_marginTop="@dimen/x20"
+        android:paddingTop="@dimen/x40"
+        android:paddingLeft="@dimen/x40"
+        android:paddingRight="@dimen/x40"
+        android:paddingBottom="@dimen/x40"
+        android:background="@drawable/edit_bg_small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_itemCollectionJobName"
+                android:text="@string/atWorking"
+                android:textSize="@dimen/x36"
+                android:textColor="@color/color_333"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="@string/atWorking"
+                android:id="@+id/tv_itemCollectionSalary"
+                android:textSize="@dimen/x32"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/new_main"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_marginTop="@dimen/x20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+          <LinearLayout
+              android:orientation="horizontal"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content">
+              <TextView
+                  android:text="海淀区"
+                  android:id="@+id/tv_itemCollectionPlace"
+                  android:textSize="@dimen/x28"
+                  android:textColor="@color/color_999"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content" />
+              <TextView
+                  android:text="/"
+                  android:layout_marginLeft="@dimen/x6"
+                  android:textSize="@dimen/x28"
+                  android:textColor="@color/color_999"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content" />
+              <TextView
+                  android:text="3年"
+                  android:id="@+id/tv_itemCollectionExp"
+                  android:layout_marginLeft="@dimen/x6"
+                  android:textSize="@dimen/x28"
+                  android:textColor="@color/color_999"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content" />
+              <TextView
+                  android:text="/"
+                  android:layout_marginLeft="@dimen/x6"
+                  android:textSize="@dimen/x28"
+                  android:textColor="@color/color_999"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content" />
+              <TextView
+                  android:id="@+id/tv_itemCollectionDegree"
+                  android:layout_marginLeft="@dimen/x6"
+                  android:text="本科"
+                  android:textSize="@dimen/x28"
+                  android:textColor="@color/color_999"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content" />
+          </LinearLayout>
+            <TextView
+                android:layout_alignParentRight="true"
+                android:textColor="@color/color_999"
+                android:textSize="@dimen/x24"
+                android:text="11月15日"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_marginTop="@dimen/x45"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_itemCollectionCompanyName"
+                android:text="北京英才网联科技有限公司"
+                android:textSize="@dimen/x28"
+                android:textColor="@color/color_999"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <Button
+                android:gravity="center"
+                android:layout_alignParentRight="true"
+                android:textSize="@dimen/x24"
+                android:background="@drawable/edit_bg_black"
+                android:id="@+id/btn_itemCollectionDeliver"
+                android:layout_width="@dimen/x120"
+                android:text="@string/deliver"
+                android:layout_height="@dimen/x52" />
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

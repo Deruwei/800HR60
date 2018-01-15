@@ -19,15 +19,25 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.hr.ui.R;
 import com.hr.ui.base.BaseNoConnectNetworkAcitivty;
+import com.hr.ui.bean.JobSearchBean;
+import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.main.fragment.Fragment1;
-import com.hr.ui.ui.main.fragment.Fragment2;
+import com.hr.ui.ui.message.fragment.DeliverFeedbackFragment;
 import com.hr.ui.ui.main.fragment.HomeFragment;
+import com.hr.ui.ui.main.fragment.JobSearchFragment;
+import com.hr.ui.ui.main.fragment.MessageFragment;
 import com.hr.ui.ui.main.fragment.ResumeFragment;
+import com.hr.ui.ui.me.activity.CollectionActivity;
+import com.hr.ui.ui.me.activity.FeedBackActivity;
 import com.hr.ui.utils.BottomNavigationViewHelper;
+import com.hr.ui.utils.datautils.SharedPreferencesUtils;
+import com.hr.ui.view.CircleImageView;
 import com.hr.ui.view.MyDrawLayout2;
 
 import java.util.ArrayList;
@@ -47,7 +57,7 @@ public class MainActivity extends BaseNoConnectNetworkAcitivty {
     @BindView(R.id.five)
     ImageView five;
     @BindView(R.id.iv_ResumePersonPhoto)
-    ImageView ivMainPersonImg;
+    CircleImageView ivMainPersonImg;
     @BindView(R.id.ll_main)
     LinearLayout llMain;
     @BindView(R.id.bnv_main)
@@ -62,42 +72,37 @@ public class MainActivity extends BaseNoConnectNetworkAcitivty {
     RelativeLayout rlLeftPage;
     @BindView(R.id.rl_fragmentTitle)
     RelativeLayout rlFragmentTitle;
+    @BindView(R.id.iv_mainSearch)
+    ImageView ivMainSearch;
+    @BindView(R.id.rl_mainSearch)
+    RelativeLayout rlMainSearch;
+    @BindView(R.id.tv_fragmentMessage)
+    TextView tvFragmentMessage;
     private HomeFragment mHomeFragment;
     private Fragment1 fragment1;
-    private Fragment2 fragment2;
+    private DeliverFeedbackFragment fragment2;
     private ResumeFragment fragment3, fragment4;
     private MenuItem menuItem;
     private PopupWindow popupWindow;
     private int userId;
     private ArrayList<Fragment> fragments;
-
+    private  int REQUEST_CODE=0x1007;
+    public  boolean isHome=true;
+    private JobSearchBean jobSearchBean;
+    public static MainActivity instance;
+    private SharedPreferencesUtils sUtis;
+    private String personImage;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
+        //创建手势检测
     }
 
     @Override
     public int getLayoutId() {
         return R.layout.activity_main;
     }
-
-
- /*   private void setCurrentFragment() {
-      *//*  llMain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                idMenu.closeMenu();
-            }
-        });*//*
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        fragment1 = Fragment1.newInstance(getString(R.string.navigation_navigation_bar));
-        transaction.replace(R.id.ll_main, fragment1).commit();
-    }*/
-
-   /* public void toggleMenu(View view) {
-        idMenu.toggle();
-    }*/
 
     /**
      * 入口
@@ -108,21 +113,23 @@ public class MainActivity extends BaseNoConnectNetworkAcitivty {
         Intent intent = new Intent(activity, MainActivity.class);
         intent.putExtra("userId", userId);
         activity.startActivity(intent);
-        activity.overridePendingTransition(R.anim.fade_in,
+       activity.overridePendingTransition(R.anim.fade_in,
                 R.anim.fade_out);
     }
 
-    @OnClick({R.id.one, R.id.two, R.id.three, R.id.five})
+    @OnClick({R.id.rl_collection, R.id.rl_history, R.id.rl_feedback, R.id.rl_setting})
     public void onViewClicked(View view) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         switch (view.getId()) {
-            case R.id.one:
+            case R.id.rl_collection:
+                CollectionActivity.startAction(this);
                 break;
-            case R.id.two:
+            case R.id.rl_history:
                 break;
-            case R.id.three:
+            case R.id.rl_feedback:
+                FeedBackActivity.startAction(this);
                 break;
-            case R.id.five:
+            case R.id.rl_setting:
                 break;
         }
        /* idMenu.toggle();*/
@@ -130,7 +137,21 @@ public class MainActivity extends BaseNoConnectNetworkAcitivty {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        sUtis=new SharedPreferencesUtils(this);
+        setImage();
+    }
+    public void setImage(){
+        personImage=sUtis.getStringValue(Constants.PERSONIMAGE,"");
+        if(!"".equals(personImage)&&personImage!=null) {
+            Glide.with(this).load(Constants.IMAGE_BASEPATH+personImage).centerCrop().into(ivMainPersonImg);
+            Glide.with(this).load(Constants.IMAGE_BASEPATH+personImage).centerCrop().into(ivPersonImageLeft);
+        }
+    }
+    @Override
     public void initView() {
+        instance=this;
         userId = getIntent().getIntExtra("userId", 0);
         //设置监听
         ivMainPersonImg.setOnClickListener(new View.OnClickListener() {
@@ -182,9 +203,6 @@ public class MainActivity extends BaseNoConnectNetworkAcitivty {
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 switch (item.getItemId()) {
                     case R.id.home:
-                        idMenu.setDrawerLockMode(MyDrawLayout2.LOCK_MODE_UNLOCKED);
-                        rlLeftPage.setBackgroundResource(R.color.white);
-                        ivMainPersonImg.setVisibility(View.VISIBLE);
                         if (menuItem != null) {
                             menuItem.setChecked(false);
                         } else {
@@ -192,12 +210,31 @@ public class MainActivity extends BaseNoConnectNetworkAcitivty {
                         }
                         menuItem = bnvMain.getMenu().getItem(0);
                         menuItem.setChecked(true);
-                        switchFragment(0);
+                        if(isHome==true) {
+                            idMenu.setDrawerLockMode(MyDrawLayout2.LOCK_MODE_UNLOCKED);
+                            rlLeftPage.setBackgroundResource(R.color.resumeContent_bg);
+                            rlFragmentTitle.setVisibility(View.VISIBLE);
+                            rlFragmentTitle.setBackgroundResource(R.color.resumeContent_bg);
+                            rlMainSearch.setVisibility(View.VISIBLE);
+                            tvFragmentMessage.setVisibility(View.GONE);
+                            isHome=true;
+                            switchFragment(0);
+                        }else{
+                            idMenu.setDrawerLockMode(MyDrawLayout2.LOCK_MODE_LOCKED_CLOSED);
+                            rlFragmentTitle.setVisibility(View.GONE);
+                            rlLeftPage.setBackgroundResource(R.color.view_f0f0f0);
+
+                            isHome=false;
+                            switchFragment(3);
+                        }
                         break;
                     case R.id.message:
                         idMenu.setDrawerLockMode(MyDrawLayout2.LOCK_MODE_UNLOCKED);
                         rlLeftPage.setBackgroundResource(R.color.white);
-                        ivMainPersonImg.setVisibility(View.VISIBLE);
+                        rlFragmentTitle.setVisibility(View.VISIBLE);
+                        rlFragmentTitle.setBackgroundResource(R.color.white);
+                        tvFragmentMessage.setVisibility(View.VISIBLE);
+                        rlMainSearch.setVisibility(View.GONE);
                         if (menuItem != null) {
                             menuItem.setChecked(false);
                         } else {
@@ -237,6 +274,14 @@ public class MainActivity extends BaseNoConnectNetworkAcitivty {
     public void switchFragment(int position) {
         //开启事务
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        if (position == 0) {
+            idMenu.setDrawerLockMode(MyDrawLayout2.LOCK_MODE_UNLOCKED);
+            rlLeftPage.setBackgroundResource(R.color.resumeContent_bg);
+            rlFragmentTitle.setVisibility(View.VISIBLE);
+            rlFragmentTitle.setBackgroundResource(R.color.resumeContent_bg);
+            rlMainSearch.setVisibility(View.VISIBLE);
+            tvFragmentMessage.setVisibility(View.GONE);
+        }
         //遍历集合
         for (int i = 0; i < fragments.size(); i++) {
             Fragment fragment = fragments.get(i);
@@ -262,8 +307,8 @@ public class MainActivity extends BaseNoConnectNetworkAcitivty {
     }
 
     public void addFragment() {
-        fragments.add(Fragment1.newInstance(getString(R.string.navigation_navigation_bar)));
-        fragments.add(Fragment2.newInstance(getString(R.string.navigation_navigation_bar)));
+        fragments.add(HomeFragment.newInstance(getString(R.string.navigation_navigation_bar)));
+        fragments.add(MessageFragment.newInstance(getString(R.string.navigation_navigation_bar)));
         fragments.add(ResumeFragment.newInstance(getString(R.string.navigation_navigation_bar)));
     }
 
@@ -297,6 +342,33 @@ public class MainActivity extends BaseNoConnectNetworkAcitivty {
             idMenu.closeDrawer(GravityCompat.START);
         } else if (drawerLockMode != DrawerLayout.LOCK_MODE_LOCKED_CLOSED) {
             idMenu.openDrawer(GravityCompat.START);
+        }
+    }
+
+    @OnClick(R.id.rl_mainSearch)
+    public void onViewClicked() {
+        JobSerchActivity.startAction(this,REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==REQUEST_CODE&&resultCode==JobSerchActivity.instance.RESULT_CODE){
+            JobSearchBean jobSearchBean1= (JobSearchBean) data.getSerializableExtra("jobSearch");
+            idMenu.setDrawerLockMode(MyDrawLayout2.LOCK_MODE_LOCKED_CLOSED);
+            rlFragmentTitle.setVisibility(View.GONE);
+            rlLeftPage.setBackgroundResource(R.color.view_f0f0f0);
+            isHome=false;
+            if(fragments.contains(JobSearchFragment.instance)){
+                fragments.remove(JobSearchFragment.instance);
+            }
+            fragments.add(JobSearchFragment.newInstance(jobSearchBean1));
+            switchFragment(3);
+           // Log.i("数据",jobSearchBean.toString());
+           /* fragments[3].instance.setData(jobSearchBean);*/
+         /*  switchFragment(3);
+            Log.i("数据",jobSearchBean.toString());
+           JobSearchFragment.instance.initData(jobSearchBean);*/
         }
     }
 }

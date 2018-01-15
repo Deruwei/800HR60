@@ -51,7 +51,7 @@ public class XRecyclerView extends RecyclerView {
     private View mFootView;
     private final AdapterDataObserver mDataObserver = new DataObserver();
     private AppBarStateChangeListener.State appbarState = AppBarStateChangeListener.State.EXPANDED;
-
+    private int mLastMotionY,mLastMotionX;
     // limit number to call load more
     // 控制多出多少条的时候调用 onLoadMore
     private int limitNumberToCallLoadMore = 1;

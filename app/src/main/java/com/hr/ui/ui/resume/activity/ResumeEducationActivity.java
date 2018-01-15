@@ -190,6 +190,8 @@ public class ResumeEducationActivity extends BaseActivity<ResumeEducationPresent
         });
         if(educationId!=null&&!"".equals(educationId)) {
             mPresenter.getEducationInfo(educationId);
+        }else{
+            tvResumeEduBGDelete.setVisibility(View.GONE);
         }
     }
 

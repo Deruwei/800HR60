@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.hr.ui">
+    package="com.hr.ui"
+    android:versionCode="68"
+    android:versionName="6.0.0">
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <!-- 添加必要的权限shareSDK -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
@@ -10,6 +12,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <application
@@ -215,6 +218,46 @@
             android:windowSoftInputMode="stateHidden|adjustResize"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait"/>
+        <activity android:name=".ui.main.activity.JobSerchActivity"
+        android:windowSoftInputMode="adjustPan|stateHidden"
+        android:theme="@style/AppTheme"
+        android:screenOrientation="portrait"/>
+        <activity android:name=".ui.main.activity.SelectIndustryActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.job.activity.PositionPageActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:theme="@style/DialogTransparent"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.job.activity.PositionPageActivity2"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:theme="@style/DialogTransparent"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.job.activity.CompanyPageActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:theme="@style/DialogTransparent"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.me.activity.CollectionActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:theme="@style/DialogTransparent"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.me.activity.FeedBackActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:theme="@style/DialogTransparent"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.message.activity.DeliverFeedbackActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:theme="@style/DialogTransparent"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.message.activity.FindActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:theme="@style/DialogTransparent"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.message.activity.WhoSeeMeActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:theme="@style/DialogTransparent"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

@@ -102,7 +102,7 @@
 
                 <ImageView
                     android:scaleType="fitXY"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/x24"
                     android:layout_height="@dimen/x26"
                     android:src="@mipmap/telephone" />
                 <TextView

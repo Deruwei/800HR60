@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:background="#FF4444">
+
+    <include layout="@layout/item_collection"/>
+
+    <LinearLayout
+        android:id="@+id/view_list_repo_action_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"
+        android:layout_marginLeft="@dimen/x30"
+        android:layout_marginRight="@dimen/x30"
+        android:layout_marginTop="@dimen/x20"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/x40"
+        android:paddingLeft="@dimen/x40"
+        android:paddingRight="@dimen/x40"
+        android:paddingTop="@dimen/x40">
+
+        <TextView
+            android:id="@+id/view_list_repo_action_delete"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Delete"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:id="@+id/view_list_repo_action_update"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Refresh"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
+</FrameLayout>

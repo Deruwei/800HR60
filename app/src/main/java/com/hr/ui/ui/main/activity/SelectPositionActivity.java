@@ -67,14 +67,16 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
     private MySelectPositionRightAdapter rightAdapter;
     private List<CityBean> selectPositionList = new ArrayList<>();
     private int sum;//选择数量
+    private String tag;
 
     /**
      * 入口
      *
      * @param activity
      */
-    public static void startAction(Activity activity, String industryId, List<CityBean> selectPositionList) {
+    public static void startAction(Activity activity, String industryId, List<CityBean> selectPositionList,String tag) {
         Intent intent = new Intent(activity, SelectPositionActivity.class);
+        intent.putExtra("tag",tag);
         intent.putExtra("industryId",industryId);
         intent.putExtra("selectPosition", (Serializable) selectPositionList);
         activity.startActivity(intent);
@@ -93,6 +95,7 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
         llIndustryTitle.setVisibility(View.GONE);
         selectPositionList = (List<CityBean>) getIntent().getSerializableExtra("selectPosition");
         industryId=getIntent().getStringExtra("industryId");
+        tag=getIntent().getStringExtra("tag");
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -124,71 +127,8 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
         final Message message = Message.obtain();
         message.what = 1;
         handler.sendMessage(message);
-        lvLeft.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (positonLeftList.get(position).isCheck() == false) {
-                    for (int i = 0; i < positonLeftList.size(); i++) {
-                        positonLeftList.get(i).setCheck(false);
-                    }
-                    positonLeftList.get(position).setCheck(true);
-                } else {
-                    positonLeftList.get(position).setCheck(false);
-                }
-                positionRightList = new ArrayList<>();
-                for (int i = 0; i < positonBeanList.size(); i++) {
-                    if (positonLeftList.get(position).getId().substring(0, 3).equals(positonBeanList.get(i).getId().substring(0, 3)) && !positonLeftList.get(position).getId().equals(positonBeanList.get(i).getId())) {
-                        positonBeanList.get(i).setCheck(false);
-                        positionRightList.add(positonBeanList.get(i));
-                    }
-                }
-                if (selectPositionList != null && selectPositionList.size() != 0) {
-                    for (int i = 0; i < positionRightList.size(); i++) {
-                        for (int j = 0; j < selectPositionList.size(); j++) {
-                            if (positionRightList.get(i).getId().equals(selectPositionList.get(j).getId())) {
-                                positionRightList.get(i).setCheck(true);
-                            }
-                        }
-                    }
-                }
-                Message message1 = Message.obtain();
-                message1.what = 2;
-                handler.sendMessage(message1);
-                leftAdapter.notifyDataSetChanged();
-            }
-        });
-        lvRight.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                sum = selectPositionList.size();
-                if (positionRightList.get(position).isCheck() == false) {
-                    sum = selectPositionList.size();
-                    if (sum == 0) {
-                        rlSelectData.setVisibility(View.VISIBLE);
-                    }
-                    if (sum >= 5) {
-                        ToastUitl.showShort("最多只能选择5个职位");
-                        return;
-                    } else {
-                        selectPositionList.add(positionRightList.get(position));
-                        addView(positionRightList.get(position));
-                        positionRightList.get(position).setCheck(true);
-                    }
-                } else {
 
-                    positionRightList.get(position).setCheck(false);
-                    for (int i = 0; i < selectPositionList.size(); i++) {
-                        if (positionRightList.get(position).getId().equals(selectPositionList.get(i).getId())) {
-                            selectPositionList.remove(selectPositionList.get(i));
-                        }
-                    }
-                    removeView(positionRightList.get(position));
-                    setNum();
-                }
 
-                rightAdapter.notifyDataSetChanged();
-            }
-        });
     }
 
     @Override
@@ -206,7 +146,11 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
                 break;
             case R.id.tv_selectPositionOK:
                 if (selectPositionList != null && selectPositionList.size() != 0) {
-                    JobOrderActivity.instance.setPositionList(selectPositionList);
+                    if(JobOrderActivity.TAG.equals(tag)) {
+                        JobOrderActivity.instance.setPositionList(selectPositionList);
+                    }else if (JobSerchActivity.TAG.equals(tag)){
+                        JobSerchActivity.instance.setPosition(selectPositionList);
+                    }
                     finish();
                 } else {
                     ToastUitl.showShort("请选择期望职位");
@@ -284,10 +228,99 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
                 case 1:
                     leftAdapter = new MySelectPositionLeftAdapter(positonLeftList);
                     lvLeft.setAdapter(leftAdapter);
+                    lvLeft.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            if (positonLeftList.get(position).isCheck() == false) {
+                                for (int i = 0; i < positonLeftList.size(); i++) {
+                                    positonLeftList.get(i).setCheck(false);
+                                }
+                                positonLeftList.get(position).setCheck(true);
+                            } else {
+                                positonLeftList.get(position).setCheck(false);
+                            }
+                            positionRightList = new ArrayList<>();
+                            for (int i = 0; i < positonBeanList.size(); i++) {
+                                if (positonLeftList.get(position).getId().substring(0, 3).equals(positonBeanList.get(i).getId().substring(0, 3))) {
+                                    positonBeanList.get(i).setCheck(false);
+                                    positionRightList.add(positonBeanList.get(i));
+                                }
+                            }
+                            if (selectPositionList != null && selectPositionList.size() != 0) {
+                                for (int i = 0; i < positionRightList.size(); i++) {
+                                    for (int j = 0; j < selectPositionList.size(); j++) {
+                                        if (positionRightList.get(i).getId().equals(selectPositionList.get(j).getId())) {
+                                            positionRightList.get(i).setCheck(true);
+                                        }
+                                    }
+                                }
+                            }
+                            Message message1 = Message.obtain();
+                            message1.what = 2;
+                            handler.sendMessage(message1);
+                            leftAdapter.notifyDataSetChanged();
+                        }
+                    });
                     break;
                 case 2:
                     rightAdapter = new MySelectPositionRightAdapter(positionRightList);
                     lvRight.setAdapter(rightAdapter);
+                    lvRight.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            sum = selectPositionList.size();
+                            if (positionRightList.get(position).isCheck() == false) {
+                                sum = selectPositionList.size();
+                                if (sum == 0) {
+                                    rlSelectData.setVisibility(View.VISIBLE);
+                                }
+                                    if (position==0){
+                                        for(int i=0;i<positionRightList.size();i++){
+                                            positionRightList.get(i).setCheck(false);
+                                        }
+                                        List<CityBean> ints=new ArrayList<>();
+                                        for(int i=0;i<selectPositionList.size();i++){
+                                            if(selectPositionList.get(i).getId().substring(0,3).equals(positionRightList.get(position).getId().substring(0,3))) {
+                                               removeView(selectPositionList.get(i));
+                                                ints.add(selectPositionList.get(i));
+                                            }
+                                        }
+                                    selectPositionList.removeAll(ints);
+                                    }else {
+                                        if(positionRightList.get(0).isCheck()==true){
+                                            removeView(positionRightList.get(0));
+                                            for(int i=0;i<selectPositionList.size();i++){
+                                                if(selectPositionList.get(i).getId().equals(positionRightList.get(0).getId())){
+                                                    selectPositionList.remove(i);
+                                                }
+                                            }
+                                            positionRightList.get(0).setCheck(false);
+                                        }
+                                    }
+                                    sum=selectPositionList.size();
+                                if (sum >= 5) {
+                                    ToastUitl.showShort("最多只能选择5个职位");
+                                    return;
+                                } else {
+                                    selectPositionList.add(positionRightList.get(position));
+                                    addView(positionRightList.get(position));
+                                    positionRightList.get(position).setCheck(true);
+                                }
+                            } else {
+
+                                positionRightList.get(position).setCheck(false);
+                                for (int i = 0; i < selectPositionList.size(); i++) {
+                                    if (positionRightList.get(position).getId().equals(selectPositionList.get(i).getId())) {
+                                        selectPositionList.remove(selectPositionList.get(i));
+                                    }
+                                }
+                                removeView(positionRightList.get(position));
+                                setNum();
+                            }
+
+                            rightAdapter.notifyDataSetChanged();
+                        }
+                    });
                     break;
             }
         }

@@ -8,12 +8,14 @@
     <color name="black">#000000</color>
     <color name="smallYellow">#FFFAF0</color>
     <color name="white">#ffffff</color>
+    <color name="red">#ff0000</color><!--红色 -->
     <color name="gray">#FFF0F0F0</color>
     <color name="new_main">#FB8900</color>
     <color name="new_main2">#FBC042</color>
-    <color name="translucent">#99000000</color>
+    <color name="translucent">#80000000</color>
     <color name="ww">#aaf4df</color>
     <color name="color_333">#333333</color>
+    <color name="color_4b">#4b4b4b</color>
     <color name="blue_color">#2f6ed8</color>
     <color name="color_666">#666666</color>
     <color name="color_999">#999999</color>
@@ -36,6 +38,7 @@
     <color name="guide3">#68dace</color>
     <color name="guide4">#8fa2bb</color>
     <color name="split_line">#11112233</color>
+    <color name="view_f0f0f0">#f0f0f0</color>
     <color name="view_color">#CCCCCC</color>
     <color name="bg_color">#ebebeb</color>
     <color name="bg_homeTitle">#f0f0f0</color>

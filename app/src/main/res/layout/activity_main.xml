@@ -21,6 +21,7 @@
                 android:layout_marginLeft="@dimen/x37"
                 android:layout_marginBottom="@dimen/x15"
                 android:layout_marginRight="@dimen/x30"
+                app:civ_border_color="@color/black"
                 android:id="@+id/iv_ResumePersonPhoto"
                 android:layout_width="@dimen/x58"
                 android:layout_height="@dimen/x58"
@@ -42,7 +43,7 @@
                         <ImageView
                             android:layout_centerVertical="true"
                             android:id="@+id/iv_mainSearch"
-                            android:src="@mipmap/person"
+                            android:src="@mipmap/search"
                             android:layout_width="@dimen/x24"
                             android:layout_height="@dimen/x24" />
                         <TextView
@@ -56,6 +57,8 @@
                             android:layout_height="wrap_content" />
                     </RelativeLayout>
                   <TextView
+                      android:visibility="gone"
+                      android:id="@+id/tv_fragmentMessage"
                       android:layout_gravity="center_vertical"
                       android:gravity="right"
                       android:layout_marginRight="@dimen/x345"
@@ -76,12 +79,15 @@
 
             </LinearLayout>
             <android.support.design.widget.BottomNavigationView
+                android:paddingTop="@dimen/x10"
+                android:paddingBottom="@dimen/x10"
                 android:layout_alignParentBottom="true"
                 android:id="@+id/bnv_main"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/x95"
+                android:layout_height="@dimen/x115"
                 android:background="@color/white"
-                app:menu="@menu/bottom_view">
+                app:menu="@menu/bottom_view"
+                app:itemTextColor="@color/color_333">
             </android.support.design.widget.BottomNavigationView>
         </RelativeLayout>
         <include layout="@layout/layout_menu"

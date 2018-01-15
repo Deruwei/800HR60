@@ -167,6 +167,8 @@ public class ResumeLanguageActivity extends BaseActivity<ResumeLanguagePresenter
         });
         if(!"".equals(languageId )&&languageId !=null){
             mPresenter.getLanguage(languageId);
+        } else{
+            tvResumeLanguageSkillDelete.setVisibility(View.GONE);
         }
     }
 

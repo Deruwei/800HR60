@@ -1,5 +1,8 @@
 package com.hr.ui.utils;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
@@ -7,11 +10,16 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.Base64;
 import android.util.Log;
 
+import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.constants.Constants;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
@@ -51,9 +59,6 @@ public class EncryptUtils {
 					"0");
 			requestMap.put("s",Constants.SESSION_KEY == null ? "" : Constants.SESSION_KEY );
 			requestMap.put("d",encodeParams);
-			/*String param = (MyUtils2.session_key == null ? "" : "s="
-					+ MyUtils2.session_key + "&")
-					+ "d=" + encodeParams;*/
 			return requestMap;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -202,5 +207,172 @@ public class EncryptUtils {
 			e.printStackTrace();
 		}
 		return bitmap;
+	}
+	/**
+	 * 获取公司手机链接
+	 *
+	 * @param e_id
+	 * @return
+	 */
+	public static String getCompanyUrl(String e_id,String industryId) {
+		StringBuilder builder = new StringBuilder("http://m.");
+		if ("11".equals(industryId)/*.equals("11")*/) {// 建筑行业
+			builder.append("buildhr");
+		} else if ("12".equals(industryId)/*.equals("12")*/) {// 金融行业
+			builder.append("bankhr");
+		} else if ("13".equals(industryId)/*.equals("13")*/) {// 传媒行业
+			builder.append("media.800hr");
+		} else if ("14".equals(industryId)/*.equals("14")*/) {// 医药行业
+			builder.append("healthr");
+		} else if ("15".equals(industryId)/*.equals("15")*/) {// 教培行业
+			builder.append("edu.800hr");
+		} else if ("19".equals(industryId)/*.equals("19")*/) {// 电子行业
+			builder.append("ele.800hr");
+		} else if ("22".equals(industryId)/*.equals("22")*/) {// 机械行业
+			builder.append("michr");
+		} else if ("26".equals(industryId)/*.equals("26")*/) {// 服装行业
+			builder.append("clothr");
+		} else if ("29".equals(industryId)/*.equals("29")*/) {// 化工行业
+			builder.append("chenhr");
+		}else if ("23".equals(industryId)/*.equals("23")*/) {// IT行业
+			builder.append("it.800hr");
+		}
+		else if ("40".equals(industryId)/*.equals("40")*/) {// 酒店行业
+			builder.append("hotel.800hr");
+		}
+		else if ("16".equals(industryId)/*.equals("16")*/) {// 运输行业
+			builder.append("56.800hr");
+		}
+		else if ("21".equals(industryId)/*.equals("21")*/) {// 通信行业
+			builder.append("telecom.800hr");
+		}
+		else if ("20".equals(industryId)/*.equals("20")*/) {// 电力行业
+			builder.append("ep.800hr");
+		}
+		else if ("30".equals(industryId)/*.equals("30")*/) {// 旅游行业
+			builder.append("tour.800hr");
+		}
+		else if ("6".equals(industryId)/*.equals("6")*/) {// 旅游行业
+			builder.append("tour.800hr");
+		}
+		builder.append(".com/company/");
+		builder.append(e_id);
+
+		return builder.toString();
+	}
+
+	public static String getJobUrl(String j_id,String industryId) {
+
+		StringBuilder builder = new StringBuilder("http://m.");
+		if ("11".equals(industryId)/*.equals("11")*/) {// 建筑行业
+			builder.append("buildhr");
+		} else if ("12".equals(industryId)/*.equals("12")*/) {// 金融行业
+			builder.append("bankhr");
+		} else if ("13".equals(industryId)/*.equals("13")*/) {// 传媒行业
+			builder.append("media.800hr");
+		} else if ("14".equals(industryId)/*.equals("14")*/) {// 医药行业
+			builder.append("healthr");
+		} else if ("15".equals(industryId)/*.equals("15")*/) {// 教培行业
+			builder.append("edu.800hr");
+		} else if ("19".equals(industryId)/*.equals("19")*/) {// 电子行业
+			builder.append("ele.800hr");
+		} else if ("22".equals(industryId)/*.equals("22")*/) {// 机械行业
+			builder.append("michr");
+		} else if ("26".equals(industryId)/*.equals("26")*/) {// 服装行业
+			builder.append("clothr");
+		} else if ("29".equals(industryId)/*.equals("29")*/) {// 化工行业
+			builder.append("chenhr");
+		}else if ("23".equals(industryId)/*.equals("23")*/) {// IT行业
+			builder.append("it.800hr");
+		}
+		else if ("40".equals(industryId)/*.equals("40")*/) {// 酒店行业
+			builder.append("hotel.800hr");
+		}
+		else if ("16".equals(industryId)/*.equals("16")*/) {// 运输行业
+			builder.append("56.800hr");
+		}
+		else if ("21".equals(industryId)/*.equals("21")*/) {// 通信行业
+			builder.append("telecom.800hr");
+		}
+		else if ("20".equals(industryId)/*.equals("20")*/) {// 电力行业
+			builder.append("ep.800hr");
+		}
+		else if ("30".equals(industryId)/*.equals("30")*/) {// 旅游行业
+			builder.append("tour.800hr");
+		}
+      /*  else if ("6".equals(MyUtils.industryId)*//*.equals("6")*//*) {// 旅游行业
+            builder.append("tour.800hr");
+        }*/
+       /* if (MyUtils.industryId.equals("11")) {// 建筑行业
+            builder.append("buildhr");
+        } else if (MyUtils.industryId.equals("12")) {// 金融行业
+            builder.append("bankhr");
+        } else if (MyUtils.industryId.equals("13")) {// 传媒行业
+            builder.append("media.800hr");
+        } else if (MyUtils.industryId.equals("14")) {// 医药行业
+            builder.append("healthr");
+        } else if (MyUtils.industryId.equals("15")) {// 教培行业
+            builder.append("edu.800hr");
+        } else if (MyUtils.industryId.equals("19")) {// 电子行业
+            builder.append("ele.800hr");
+        } else if (MyUtils.industryId.equals("22")) {// 机械行业
+            builder.append("michr");
+        } else if (MyUtils.industryId.equals("26")) {// 服装行业
+            builder.append("clothr");
+        } else if (MyUtils.industryId.equals("29")) {// 化工行业
+            builder.append("chenhr");
+        } else if (MyUtils.industryId.equals("23")) {// IT行业
+            builder.append("it.800hr");
+        }
+        else if (MyUtils.industryId.equals("40")) {// 酒店行业
+            builder.append("hotel.800hr");
+        }
+        else if (MyUtils.industryId.equals("16")) {// 运输行业
+            builder.append("56.800hr");
+        }
+        else if (MyUtils.industryId.equals("21")) {// 通信行业
+            builder.append("telecom.800hr");
+        }
+        else if (MyUtils.industryId.equals("20")) {// 电力行业
+            builder.append("ep.800hr");
+        }
+        else if (MyUtils.industryId.equals("30")) {// 旅游行业
+            builder.append("tour.800hr");
+        }*/
+		builder.append(".com/job/");
+		builder.append(j_id);
+		builder.append(".html");
+
+		return builder.toString();
+
+	}
+	public static  String getBenDiPhoto(Context context){
+		Resources res = context.getResources();
+		BitmapDrawable d = (BitmapDrawable) res.getDrawable(R.drawable.share_logo);
+		Bitmap img = d.getBitmap();
+		int width = img.getWidth();
+		int height = img.getHeight();
+		// 设置想要的大小
+		int newWidth = 30;
+		int newHeight = 30;
+		// 计算缩放比例
+		float scaleWidth = ((float) newWidth) / width;
+		float scaleHeight = ((float) newHeight) / height;
+		// 取得想要缩放的matrix参数
+		Matrix matrix = new Matrix();
+		matrix.postScale(scaleWidth, scaleHeight);
+		// 得到新的图片
+		Bitmap newbm = Bitmap.createBitmap(img, 0, 0, width, height, matrix,
+				true);
+		String fn = "image_test.png";
+		String path = context.getFilesDir() + File.separator + fn;
+		try{
+			OutputStream os = new FileOutputStream(path);
+			img.compress(Bitmap.CompressFormat.PNG, 100, os);
+			os.close();
+		}catch(Exception e){
+			Log.e("TAG", "", e);
+		}
+		return path;
 	}
 }

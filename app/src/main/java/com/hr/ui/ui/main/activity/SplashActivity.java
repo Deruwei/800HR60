@@ -97,11 +97,10 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
         isAutoLogin=sUtils.getIntValue(Constants.ISAUTOLOGIN,0);
         autoLoginType=sUtils.getIntValue(Constants.AUTOLOGINTYPE,5);
         mPresenter.getConnect(this);
+        setViewVisible();
        /* int screenWidth = getWindowManager().getDefaultDisplay().getWidth();//真实分辨率 宽
          int screenHeight = getWindowManager().getDefaultDisplay().getHeight();//真实分辨率 高*/
-        if(type==1){
-            setViewVisible();
-        }
+           /* setViewVisible();*/
         /* DisplayMetrics dm = new DisplayMetrics();
          dm = getResources().getDisplayMetrics();
          int densityDPI = dm.densityDpi;     // 屏幕密度（每寸像素：120(ldpi)/160(mdpi)/213(tvdpi)/240(hdpi)/320(xhdpi)）
@@ -118,7 +117,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
     * 判断是否为空
      */
         if (mPermissionList.isEmpty()) {//未授予的权限为空，表示都授予了
-            setViewVisible();
+           /* setViewVisible();*/
             //delayEntryPage();
         } else {//请求权限方法
             String[] permissions = mPermissionList.toArray(new String[mPermissionList.size()]);//将List转为数组
@@ -155,25 +154,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
                 break;
         }
     }
-  /*  @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        doNext(requestCode, grantResults);
-    }
 
-    private void doNext(int requestCode, int[] grantResults) {
-        if (requestCode == 1) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission Granted
-
-            } else {
-                // Permission Denied
-                //  displayFrameworkBugMessageAndExit();
-                Toast.makeText(this, "请在应用管理中打开“相机”访问权限！", Toast.LENGTH_LONG).show();
-                finish();
-            }
-        }
-    }*/
     private void setViewVisible() {
         //添加动画属性
         if (sUtils.getBooleanValue(Constants.IS_GUIDE, false) == false) {
@@ -186,7 +167,6 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
                     /**
                      * 第一次跳转到导航页
                      */
-
                           /*  MainActivity.startAction(SplashActivity.this);*/
                     rlLogin.post(new Runnable() {
                         @Override
@@ -224,15 +204,15 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
                     mPresenter.getThirdBindingLogin(loginBean);
                 }
             }
-        }else {
+        }/*else {
              setViewVisible();
-        }
+        }*/
     }
 
     @Override
     public void phoneLoginSuccess(int userId) {
         this.userId=userId;
-        Log.i("现在的时候","好吧");
+        //Log.i("现在的时候","好吧");
        mPresenter.getResumeList();
     }
 
@@ -244,6 +224,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
 
     @Override
     public void getResumeListSuccess(MultipleResumeBean multipleResumeBean) {
+        Log.i("简历详情",multipleResumeBean.toString());
         ToolUtils.getInstance().judgeResumeMultipleOrOne3(this, multipleResumeBean,userId,imageIds,mPresenter);
     }
 

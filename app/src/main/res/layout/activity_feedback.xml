@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="true"
+    android:focusableInTouchMode="true"
+    android:focusable="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <include layout="@layout/layout_toolbar"
+        android:id="@+id/in_feedBack"
+        />
+    <LinearLayout
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/in_feedBack"
+        android:layout_width="0dp"
+        android:layout_height="0dp">
+        <View
+            android:background="@color/view_color"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x1"/>
+        <EditText
+            android:id="@+id/et_feedBackContent"
+            android:textSize="@dimen/x28"
+            android:background="@null"
+            android:padding="@dimen/x36"
+            android:gravity="top|left"
+            android:textColor="@color/color_333"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x720" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:background="@color/resumeContent_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/tv_feedBackTextSum"
+                android:layout_marginTop="@dimen/x17"
+                android:gravity="right"
+                android:layout_marginRight="@dimen/x31"
+                android:text="100/500"
+                android:textSize="@dimen/x24"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:background="@drawable/edit_bg_small"
+                android:id="@+id/et_feedbackEmail"
+                android:layout_marginTop="@dimen/x20"
+                android:layout_marginLeft="@dimen/x31"
+                android:layout_marginRight="@dimen/x31"
+                android:hint="请输入您的电子邮箱"
+                android:padding="@dimen/x6"
+                android:textSize="@dimen/x28"
+                android:textColor="@color/color_333"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <View
+                android:layout_marginLeft="@dimen/x31"
+                android:layout_marginRight="@dimen/x31"
+                android:layout_marginTop="@dimen/x6"
+                android:background="@color/bg_color"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x1"/>
+            <Button
+                android:id="@+id/btn_feedBackOK"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x90"
+                android:layout_marginLeft="@dimen/x25"
+                android:layout_marginRight="@dimen/x25"
+                android:layout_marginTop="@dimen/x54"
+                android:background="@drawable/button_login"
+                android:text="@string/submit"
+                android:textColor="@color/white"
+                android:textSize="@dimen/x32" />
+        </LinearLayout>
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

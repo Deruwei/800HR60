@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_marginLeft="@dimen/x30"
+    android:layout_marginRight="@dimen/x30"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_marginTop="@dimen/x20"
+        android:orientation="vertical"
+        android:background="@drawable/edit_bg_small"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:id="@+id/ll_whoSeeMeCompany"
+        android:paddingLeft="@dimen/x30"
+        android:paddingRight="@dimen/x30"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/x40"
+        android:layout_marginTop="@dimen/x38">
+        <ImageView
+            android:id="@+id/iv_whoSeeMeCompanyIcon"
+            android:layout_width="@dimen/x82"
+            android:layout_height="@dimen/x82"
+            android:src="@mipmap/person" />
+        <RelativeLayout
+            android:layout_marginLeft="@dimen/x20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_recommendJobCompanyName"
+                android:textSize="@dimen/x28"
+                android:textColor="@color/color_666"
+                android:text="北京英才网联科技有限公司"
+                android:singleLine="true"
+                android:maxEms="14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <LinearLayout
+                android:layout_marginTop="@dimen/x15"
+                android:layout_below="@+id/tv_recommendJobCompanyName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_whoSeeMeIndustry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="海淀区"
+                    android:textColor="@color/color_999"
+                    android:textSize="@dimen/x28" />
+
+                <TextView
+                    android:id="@+id/tv_recommendJobView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x10"
+                    android:layout_marginRight="@dimen/x10"
+                    android:layout_toRightOf="@+id/tv_recommendJobAddress"
+                    android:text="·"
+                    android:textColor="@color/color_999"
+                    android:textSize="@dimen/x28" />
+
+                <TextView
+                    android:id="@+id/tv_whoSeeMeCompanyType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/tv_recommendJobView3"
+                    android:text="3年"
+                    android:textColor="@color/color_999"
+                    android:textSize="@dimen/x28" />
+
+                <TextView
+                    android:id="@+id/tv_recommendJobView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x10"
+                    android:layout_marginRight="@dimen/x10"
+                    android:layout_toRightOf="@+id/tv_recommendJobWorkYear"
+                    android:text="/"
+                    android:textColor="@color/color_999"
+                    android:textSize="@dimen/x28" />
+
+                <TextView
+                    android:id="@+id/tv_whoSeeMePersonNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/tv_recommendJobView4"
+                    android:text="本科"
+                    android:textColor="@color/color_999"
+                    android:textSize="@dimen/x28" />
+            </LinearLayout>
+            <TextView
+                android:text="11-15"
+                android:id="@+id/tv_whoSeeMeTime"
+                android:textSize="@dimen/x24"
+                android:textColor="@color/color_999"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginBottom="@dimen/x20"
+        android:id="@+id/ll_whoSeeMePosition"
+        android:layout_marginLeft="@dimen/x30"
+        android:layout_marginRight="@dimen/x30"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_whoSeeMePosition"
+            android:textSize="@dimen/x28"
+            android:singleLine="true"
+            android:maxLength="12"
+            android:text="产品经理、项目经历"
+            android:textColor="@color/new_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:textSize="@dimen/x28"
+            android:text="等"
+            android:textColor="@color/color_333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_whoSeeMePositionNum"
+            android:textSize="@dimen/x28"
+            android:text="20+"
+            android:textColor="@color/new_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:textSize="@dimen/x28"
+            android:text="个职位在招"
+            android:textColor="@color/color_333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <ImageView
+            android:src="@mipmap/arrowright"
+            android:layout_gravity="end"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="@dimen/x9"
+            android:layout_height="@dimen/x18" />
+        </RelativeLayout>
+    </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

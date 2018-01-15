@@ -77,7 +77,7 @@
                 <TextView
                     style="@style/Resume_TextViewTag"
                     android:id="@+id/tv_resumeJobOrderExpectedSalaryTag"
-                    android:text="@string/expectSalary"
+                    android:text="@string/expectMonthSalary"
                     />
                 <EditText
                     android:id="@+id/tv_resumeJobOrderExpectedSalary"
@@ -98,7 +98,7 @@
                 <TextView
                     style="@style/Resume_TextViewTag"
                     android:id="@+id/tv_resumeJobOrderWorkCityTag"
-                    android:text="@string/workCity"
+                    android:text="@string/workPlace"
                     />
                 <TextView
                     android:id="@+id/tv_resumeJobOrderWorkCity"

@@ -26,6 +26,7 @@ import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.main.contract.WorkExpContract;
 import com.hr.ui.ui.main.modle.WorkExpModel;
 import com.hr.ui.ui.main.presenter.WorkExpPresenter;
+import com.hr.ui.utils.ClickUtils;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.MyDialog;
@@ -392,7 +393,9 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
                 datePickerSE.show(startTimes, endTimes);
                 break;
             case R.id.btn_nextEdu:
-                doSendWorkExp();
+                if(!ClickUtils.isFastClick()) {
+                    doSendWorkExp();
+                }
                 //JobOrderActivity.startAction(this);
                 break;
             case R.id.rl_workPlace:
@@ -497,7 +500,6 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
             exitOrFinishActivity();
             return true;
         }
-
         return super.onKeyDown(keyCode, event);
     }
 }

@@ -4,12 +4,15 @@ import android.content.Context;
 import android.util.Log;
 
 import com.hr.ui.R;
+import com.hr.ui.bean.CityBean;
 import com.hr.ui.constants.Constants;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.jar.Attributes;
 
 import javax.net.ssl.CertPathTrustManagerParameters;
@@ -754,5 +757,109 @@ public class ResumeInfoIDToString {
 			}
 		}
 		return "";
+	}
+
+	public static List<CityBean> getSalaryAroundList(Context context){
+		List<CityBean> selectList=new ArrayList<>();
+		if(context!=null) {
+			String[] salaryAroundNames = context.getResources().getStringArray(R.array.salaryAround);
+			String[] salaryAroundIds=context.getResources().getStringArray(R.array.salaryAroundId);
+			for(int i=0;i<salaryAroundIds.length;i++){
+				CityBean cityBean=new CityBean();
+				cityBean.setId(salaryAroundIds[i]);
+				cityBean.setName(salaryAroundNames[i]);
+				cityBean.setCheck(false);
+				selectList.add(cityBean);
+			}
+		}
+		return selectList;
+	}
+	public static String getSalaryAroundId(Context context,String name){
+		String s="";
+		if(context!=null) {
+			String[] salaryAroundNames = context.getResources().getStringArray(R.array.salaryAround);
+			String[] salaryAroundIds=context.getResources().getStringArray(R.array.salaryAroundId);
+			for(int i=0;i<salaryAroundIds.length;i++){
+				if(salaryAroundNames[i].equals(name)){
+					s=salaryAroundIds[i];
+				}
+			}
+		}
+		return s;
+	}
+	public static List<CityBean> getWorkExp(Context context){
+		List<CityBean> selectList=new ArrayList<>();
+		if(context!=null) {
+			String[] Names = context.getResources().getStringArray(R.array.workExp);
+			String[] Ids=context.getResources().getStringArray(R.array.workExpId);
+			for(int i=0;i<Ids.length;i++){
+				CityBean cityBean=new CityBean();
+				cityBean.setId(Ids[i]);
+				cityBean.setName(Names[i]);
+				cityBean.setCheck(false);
+				selectList.add(cityBean);
+			}
+		}
+		return selectList;
+	}
+	public static List<CityBean> getDegreeNeed(Context context){
+		List<CityBean> selectList=new ArrayList<>();
+		if(context!=null) {
+			String[] Names = context.getResources().getStringArray(R.array.degreeNeed);
+			String[] Ids=context.getResources().getStringArray(R.array.degreeNeedId);
+			for(int i=0;i<Ids.length;i++){
+				CityBean cityBean=new CityBean();
+				cityBean.setId(Ids[i]);
+				cityBean.setName(Names[i]);
+				cityBean.setCheck(false);
+				selectList.add(cityBean);
+			}
+		}
+		return selectList;
+	}
+	public static List<CityBean> getReleaseTime(Context context){
+		List<CityBean> selectList=new ArrayList<>();
+		if(context!=null) {
+			String[] Names = context.getResources().getStringArray(R.array.releaseTime);
+			String[] Ids=context.getResources().getStringArray(R.array.releaseTimeId );
+			for(int i=0;i<Ids.length;i++){
+				CityBean cityBean=new CityBean();
+				cityBean.setId(Ids[i]);
+				cityBean.setName(Names[i]);
+				cityBean.setCheck(false);
+				selectList.add(cityBean);
+			}
+		}
+		return selectList;
+	}
+	public static List<CityBean> getWorkType(Context context){
+		List<CityBean> selectList=new ArrayList<>();
+		if(context!=null) {
+			String[] Names = context.getResources().getStringArray(R.array.workType);
+			String[] Ids=context.getResources().getStringArray(R.array.workTypeId);
+			for(int i=0;i<Ids.length;i++){
+				CityBean cityBean=new CityBean();
+				cityBean.setId(Ids[i]);
+				cityBean.setName(Names[i]);
+				cityBean.setCheck(false);
+				selectList.add(cityBean);
+			}
+		}
+		return selectList;
+	}
+	public static List<CityBean> getCompanyType(Context context){
+		List<CityBean> selectList=new ArrayList<>();
+		if(context!=null) {
+			String[] Names = context.getResources().getStringArray(R.array.company_xingzhi_zh);
+			String[] Ids=context.getResources().getStringArray(R.array.company_xingzhi_zh_ids);
+			for(int i=0;i<Ids.length;i++){
+				CityBean cityBean=new CityBean();
+				cityBean.setId(Ids[i]);
+				cityBean.setName(Names[i]);
+				cityBean.setCheck(false);
+				selectList.add(cityBean);
+			}
+		}
+		return selectList;
 	}
 }

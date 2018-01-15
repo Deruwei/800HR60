@@ -27,6 +27,7 @@ public class Constants {
     public static final String CITY_VER="city_ver";
     public static final String JOB_VER="job_ver";
     public static final String LINGYU_VER="lingYu_ver";
+    public static final String PERSONIMAGE="person_image";
     /**
      * The constant DEBUG_TAG.
      */
@@ -39,6 +40,7 @@ public class Constants {
     public static final String API_VER = "2.1.0";
     //线上
     public static final String IMAGE_BASEPATH="http://file.800hr.com/";
+    public static final String IMAGE_BASEPATH2="http://img.800hr.com";
     public static final String API_URL = "https://api.800hr.com/svrdo.php";
     public static final String API_MIDDLE="svrdo.php";
     //测试

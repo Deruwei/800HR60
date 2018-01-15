@@ -1627,7 +1627,6 @@ public class MyDrawLayout2 extends ViewGroup
 		{
 			float offset;
 			final int childWidth = changedView.getWidth();
-
 			// This reverses the positioning shown in onLayout.
 			if (checkDrawerViewAbsoluteGravity(changedView, Gravity.LEFT))
 			{
@@ -1746,13 +1745,11 @@ public class MyDrawLayout2 extends ViewGroup
 			{
 				toCapture = findDrawerWithGravity(Gravity.RIGHT);
 			}
-
 			if (toCapture != null && getDrawerLockMode(toCapture) == LOCK_MODE_UNLOCKED)
 			{
 				mDragger.captureChildView(toCapture, pointerId);
 			}
 		}
-
 		@Override
 		public int getViewHorizontalDragRange(View child)
 		{
@@ -1909,18 +1906,14 @@ public class MyDrawLayout2 extends ViewGroup
 		private void copyNodeInfoNoChildren(AccessibilityNodeInfoCompat dest, AccessibilityNodeInfoCompat src)
 		{
 			final Rect rect = mTmpRect;
-
 			src.getBoundsInParent(rect);
 			dest.setBoundsInParent(rect);
-
 			src.getBoundsInScreen(rect);
 			dest.setBoundsInScreen(rect);
-
 			dest.setVisibleToUser(src.isVisibleToUser());
 			dest.setPackageName(src.getPackageName());
 			dest.setClassName(src.getClassName());
 			dest.setContentDescription(src.getContentDescription());
-
 			dest.setEnabled(src.isEnabled());
 			dest.setClickable(src.isClickable());
 			dest.setFocusable(src.isFocusable());
@@ -1928,7 +1921,6 @@ public class MyDrawLayout2 extends ViewGroup
 			dest.setAccessibilityFocused(src.isAccessibilityFocused());
 			dest.setSelected(src.isSelected());
 			dest.setLongClickable(src.isLongClickable());
-
 			dest.addAction(src.getActions());
 		}
 	}

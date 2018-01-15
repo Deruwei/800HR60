@@ -95,6 +95,7 @@
             <RelativeLayout
                 android:layout_above="@+id/ll_selectCityBottom"
                 android:id="@+id/rl_selectCityShow"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <RelativeLayout

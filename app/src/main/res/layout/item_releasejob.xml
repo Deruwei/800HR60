@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_marginTop="@dimen/x20"
+    android:background="@drawable/edit_bg_small"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_marginTop="@dimen/x29"
+            android:layout_marginRight="@dimen/x40"
+            android:layout_marginLeft="@dimen/x40"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_itemReleaseJobName"
+                android:text="餐品经历"
+                android:singleLine="true"
+                android:maxEms="10"
+                android:textSize="@dimen/x32"
+                android:textColor="@color/color_333"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_itemReleaseJobSalary"
+                android:text="8千-1万"
+                android:layout_alignParentRight="true"
+                android:textSize="@dimen/x32"
+                android:textColor="@color/new_main"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_marginTop="@dimen/x16"
+            android:layout_marginRight="@dimen/x40"
+            android:layout_marginLeft="@dimen/x40"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="@dimen/x20"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_itemReleaseJobAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="餐品经历"
+                    android:textColor="@color/color_999"
+                    android:textSize="@dimen/x28" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="@dimen/x6"
+                    android:text="/"
+                    android:textColor="@color/color_999"
+                    android:textSize="@dimen/x28" />
+
+                <TextView
+                    android:id="@+id/tv_itemReleaseJobExp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x6"
+                    android:text="8千-1万"
+                    android:textColor="@color/color_999"
+                    android:textSize="@dimen/x28" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x6"
+                    android:text="/"
+                    android:textColor="@color/color_999"
+                    android:textSize="@dimen/x28" />
+
+                <TextView
+                    android:id="@+id/tv_itemReleaseJobDegree"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x6"
+                    android:text="8千-1万"
+                    android:textColor="@color/color_999"
+                    android:textSize="@dimen/x28" />
+
+            </LinearLayout>
+            <TextView
+            android:id="@+id/tv_itemReleaseJobTime"
+            android:text="8千-1万"
+            android:layout_alignParentRight="true"
+            android:textSize="@dimen/x28"
+            android:textColor="@color/color_999"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -209,6 +209,9 @@ public class SelectOptionsActivity extends BaseActivity {
         if (indutryId != null && !"".equals(indutryId)) {
             rlIndustry.setVisibility(View.VISIBLE);
             addIndustryView();
+            if(industryIds.size()==1){
+                tvSelectJobOrderDelete.setVisibility(View.GONE);
+            }
         } else {
             rlIndustry.setVisibility(View.GONE);
             tvSelectJobOrderDelete.setVisibility(View.GONE);
@@ -292,8 +295,8 @@ public class SelectOptionsActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_selectJobOrderDelete:
-                ResumeJobOrderActivity.instance.deleteJobOrderInfo(updatePositionNum);
-                finish();
+                    ResumeJobOrderActivity.instance.deleteJobOrderInfo(updatePositionNum);
+                    finish();
                 break;
             case R.id.rl_selectIndustry:
                 if (isShowIndustry == false) {
@@ -381,6 +384,7 @@ public class SelectOptionsActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 llIndustryItems.removeView(llIndustryItems.findViewWithTag(indutryId));
+                industryIds.remove(indutryId);
                 indutryId = "";
                 selectRealFuncList.clear();
                 selectRealPositionList.clear();
@@ -797,7 +801,7 @@ public class SelectOptionsActivity extends BaseActivity {
                 }
                 positionRightList = new ArrayList<>();
                 for (int i = 0; i < PositionList.size(); i++) {
-                    if (positonLeftList.get(position).getId().substring(0, 3).equals(PositionList.get(i).getId().substring(0, 3)) && !positonLeftList.get(position).getId().equals(PositionList.get(i).getId())) {
+                    if (positonLeftList.get(position).getId().substring(0, 3).equals(PositionList.get(i).getId().substring(0, 3)) ) {
                         PositionList.get(i).setCheck(false);
                         positionRightList.add(PositionList.get(i));
                     }
@@ -826,6 +830,30 @@ public class SelectOptionsActivity extends BaseActivity {
                     if (sum == 0) {
                         rlChooseJobContent.setVisibility(View.VISIBLE);
                     }
+                    if (position==0){
+                        for(int i=0;i<positionRightList.size();i++){
+                            positionRightList.get(i).setCheck(false);
+                        }
+                        List<CityBean> ints=new ArrayList<>();
+                        for(int i=0;i<selectPositionList.size();i++){
+                            if(selectPositionList.get(i).getId().substring(0,3).equals(positionRightList.get(position).getId().substring(0,3))) {
+                                removeView(selectPositionList.get(i));
+                                ints.add(selectPositionList.get(i));
+                            }
+                        }
+                        selectPositionList.removeAll(ints);
+                    }else {
+                        if(positionRightList.get(0).isCheck()==true){
+                            removeView(positionRightList.get(0));
+                            for(int i=0;i<selectPositionList.size();i++){
+                                if(selectPositionList.get(i).getId().equals(positionRightList.get(0).getId())){
+                                    selectPositionList.remove(i);
+                                }
+                            }
+                            positionRightList.get(0).setCheck(false);
+                        }
+                    }
+                    sum=selectPositionList.size();
                     if (sum >= 5) {
                         ToastUitl.showShort("最多只能选择5个职位");
                         return;

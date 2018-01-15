@@ -81,7 +81,6 @@ public abstract  class BaseFragment<T extends BasePresenter, E extends BaseModel
     //初始化view
     protected abstract void initView();
 
-
     /**
      * 通过Class跳转界面
      **/

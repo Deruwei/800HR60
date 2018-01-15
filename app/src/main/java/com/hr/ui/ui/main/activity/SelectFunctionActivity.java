@@ -252,6 +252,7 @@ public class SelectFunctionActivity extends BaseNoConnectNetworkAcitivty {
                             finish();
                         } else {
                             ToastUitl.showShort("请选择领域");
+                            return;
                         }
                     } else {
                         JobOrderActivity.instance.setFunctionList(industryId, selectFunctionList);
@@ -259,6 +260,7 @@ public class SelectFunctionActivity extends BaseNoConnectNetworkAcitivty {
                     }
                 } else {
                     ToastUitl.showShort("请选择行业");
+                    return;
                 }
                 break;
         }

@@ -9,6 +9,7 @@ import org.greenrobot.greendao.identityscope.IdentityScopeType;
 import org.greenrobot.greendao.internal.DaoConfig;
 
 import com.hr.ui.bean.EducationData;
+import com.hr.ui.bean.HistoryBean;
 import com.hr.ui.bean.JobOrderData;
 import com.hr.ui.bean.LoginBean;
 import com.hr.ui.bean.PersonalInformationData;
@@ -18,6 +19,7 @@ import com.hr.ui.bean.User;
 import com.hr.ui.bean.WorkExpData;
 
 import com.afa.tourism.greendao.gen.EducationDataDao;
+import com.afa.tourism.greendao.gen.HistoryBeanDao;
 import com.afa.tourism.greendao.gen.JobOrderDataDao;
 import com.afa.tourism.greendao.gen.LoginBeanDao;
 import com.afa.tourism.greendao.gen.PersonalInformationDataDao;
@@ -36,6 +38,7 @@ import com.afa.tourism.greendao.gen.WorkExpDataDao;
 public class DaoSession extends AbstractDaoSession {
 
     private final DaoConfig educationDataDaoConfig;
+    private final DaoConfig historyBeanDaoConfig;
     private final DaoConfig jobOrderDataDaoConfig;
     private final DaoConfig loginBeanDaoConfig;
     private final DaoConfig personalInformationDataDaoConfig;
@@ -45,6 +48,7 @@ public class DaoSession extends AbstractDaoSession {
     private final DaoConfig workExpDataDaoConfig;
 
     private final EducationDataDao educationDataDao;
+    private final HistoryBeanDao historyBeanDao;
     private final JobOrderDataDao jobOrderDataDao;
     private final LoginBeanDao loginBeanDao;
     private final PersonalInformationDataDao personalInformationDataDao;
@@ -59,6 +63,9 @@ public class DaoSession extends AbstractDaoSession {
 
         educationDataDaoConfig = daoConfigMap.get(EducationDataDao.class).clone();
         educationDataDaoConfig.initIdentityScope(type);
+
+        historyBeanDaoConfig = daoConfigMap.get(HistoryBeanDao.class).clone();
+        historyBeanDaoConfig.initIdentityScope(type);
 
         jobOrderDataDaoConfig = daoConfigMap.get(JobOrderDataDao.class).clone();
         jobOrderDataDaoConfig.initIdentityScope(type);
@@ -82,6 +89,7 @@ public class DaoSession extends AbstractDaoSession {
         workExpDataDaoConfig.initIdentityScope(type);
 
         educationDataDao = new EducationDataDao(educationDataDaoConfig, this);
+        historyBeanDao = new HistoryBeanDao(historyBeanDaoConfig, this);
         jobOrderDataDao = new JobOrderDataDao(jobOrderDataDaoConfig, this);
         loginBeanDao = new LoginBeanDao(loginBeanDaoConfig, this);
         personalInformationDataDao = new PersonalInformationDataDao(personalInformationDataDaoConfig, this);
@@ -91,6 +99,7 @@ public class DaoSession extends AbstractDaoSession {
         workExpDataDao = new WorkExpDataDao(workExpDataDaoConfig, this);
 
         registerDao(EducationData.class, educationDataDao);
+        registerDao(HistoryBean.class, historyBeanDao);
         registerDao(JobOrderData.class, jobOrderDataDao);
         registerDao(LoginBean.class, loginBeanDao);
         registerDao(PersonalInformationData.class, personalInformationDataDao);
@@ -102,6 +111,7 @@ public class DaoSession extends AbstractDaoSession {
     
     public void clear() {
         educationDataDaoConfig.clearIdentityScope();
+        historyBeanDaoConfig.clearIdentityScope();
         jobOrderDataDaoConfig.clearIdentityScope();
         loginBeanDaoConfig.clearIdentityScope();
         personalInformationDataDaoConfig.clearIdentityScope();
@@ -113,6 +123,10 @@ public class DaoSession extends AbstractDaoSession {
 
     public EducationDataDao getEducationDataDao() {
         return educationDataDao;
+    }
+
+    public HistoryBeanDao getHistoryBeanDao() {
+        return historyBeanDao;
     }
 
     public JobOrderDataDao getJobOrderDataDao() {

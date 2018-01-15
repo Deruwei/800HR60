@@ -2,22 +2,19 @@
 <FrameLayout
     android:alpha="1"
     android:id="@+id/rl_popTakePhoto"
-    android:background="@color/translucent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_marginBottom="@dimen/x80"
+        android:elevation="@dimen/x40"
+        android:background="@drawable/top_shadow"
         android:layout_gravity="bottom"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/x400">
+        android:layout_height="wrap_content">
         <LinearLayout
-            android:background="@drawable/select_photo_dialog"
             android:orientation="vertical"
-            android:layout_marginLeft="@dimen/x80"
-            android:layout_marginRight="@dimen/x80"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         <TextView
@@ -43,16 +40,17 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/x100" />
         </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x1"
+            android:background="@color/view_color"
+            />
         <TextView
-            android:layout_marginLeft="@dimen/x80"
-            android:layout_marginRight="@dimen/x80"
-            android:background="@drawable/select_photo_dialog"
             android:gravity="center"
             android:textSize="@dimen/x36"
             android:textColor="@color/color_333"
             android:text="@string/cancel"
             android:id="@+id/tv_cancelSelect"
-            android:layout_marginTop="@dimen/x80"
             android:layout_width="match_parent"
             android:layout_height="@dimen/x100" />
     </LinearLayout>

@@ -97,7 +97,7 @@ public class SelectIndustryAdapter extends RecyclerView.Adapter<SelectIndustryAd
                     });
                 }
             }
-        } else {
+        } else if("2".equals(canSelectOther)){
             if (type == 1) {
                 if (industryList.get(position).isCheck() == true) {
                     holder.tvIndustryItemName.setBackgroundResource(R.drawable.tv_bg_orange);
@@ -142,6 +142,22 @@ public class SelectIndustryAdapter extends RecyclerView.Adapter<SelectIndustryAd
 
             }
 
+        }else{
+            if (industryList.get(position).isCheck() == true) {
+                holder.tvIndustryItemName.setBackgroundResource(R.drawable.tv_bg_orange);
+                holder.tvIndustryItemName.setTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.new_main));
+            } else{
+                holder.tvIndustryItemName.setBackgroundResource(R.drawable.tv_bg_white);
+                holder.tvIndustryItemName.setTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
+            }
+            if (onItemClickListener != null) {
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onItemClickListener.OnItemCLick(v, position);
+                    }
+                });
+            }
         }
         holder.tvIndustryItemName.setText(industryList.get(position).getName());
     }

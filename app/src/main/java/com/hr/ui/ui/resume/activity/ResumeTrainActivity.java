@@ -190,6 +190,8 @@ public class ResumeTrainActivity extends BaseActivity<ResumeTrainExpPresenter, R
         });
         if (!"".equals(trainId) && trainId != null) {
             mPresenter.getTrainExpData(trainId);
+        }else{
+            tvResumeTrainExpDelete.setVisibility(View.GONE);
         }
     }
 

@@ -370,7 +370,7 @@
                         <TextView
                             android:layout_toRightOf="@+id/iv_professionSkillIcon"
                             style="@style/previewResume_titleName"
-                            android:text="@string/languageSkill"
+                            android:text="@string/professionSkill"
                             />
                     </RelativeLayout>
                     <LinearLayout

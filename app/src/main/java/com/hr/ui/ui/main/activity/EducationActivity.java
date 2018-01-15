@@ -25,6 +25,7 @@ import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.main.contract.EducationContract;
 import com.hr.ui.ui.main.modle.EducationModel;
 import com.hr.ui.ui.main.presenter.EducationPresenter;
+import com.hr.ui.utils.ClickUtils;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.datautils.ResumeInfoIDToString;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
@@ -328,7 +329,9 @@ public class EducationActivity extends BaseActivity<EducationPresenter, Educatio
                 break;
             case R.id.btn_nextEdu:
                 //WorkExpActivity.startAction(this);
-                doSendEducation();
+                if(!ClickUtils.isFastClick()) {
+                    doSendEducation();
+                }
                 break;
         }
     }

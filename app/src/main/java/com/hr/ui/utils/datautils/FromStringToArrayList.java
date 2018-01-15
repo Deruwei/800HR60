@@ -313,4 +313,17 @@ public class FromStringToArrayList {
         }
         return sb.toString();
     }
+    public  String getDataId(List<CityBean> dataList){
+        if(dataList!=null&&!"".equals(dataList)&&dataList.size()!=0){
+            StringBuffer sb=new StringBuffer();
+            for(int i=0;i<dataList.size();i++){
+                sb.append(","+dataList.get(i).getId());
+            }
+            sb.deleteCharAt(0);
+            return sb.toString();
+        }else{
+            return "";
+        }
+
+    }
 }

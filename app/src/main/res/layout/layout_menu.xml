@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="@dimen/dimen_300dp"
+    android:layout_width="@dimen/x480"
     android:layout_height="match_parent"
     android:layout_gravity="start"
     android:id="@+id/rl_rightPage"
@@ -10,119 +10,120 @@
     android:tag="left"
     android:background="@color/white" >
     <RelativeLayout
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="@dimen/x110"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <com.hr.ui.view.CircleImageView
             android:id="@+id/iv_personImage_left"
             android:layout_centerInParent="true"
             android:src="@mipmap/persondefault"
-            android:layout_width="@dimen/me_PersonImageWidth"
-            android:layout_height="@dimen/me_PersonImageHeight"/>
+            android:layout_width="@dimen/x120"
+            android:layout_height="@dimen/x120"/>
     </RelativeLayout>
     <LinearLayout
+        android:layout_marginTop="@dimen/x366"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:orientation="vertical" >
 
         <RelativeLayout
+            android:id="@+id/rl_collection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
             <ImageView
                 android:id="@+id/one"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/x38"
+                android:layout_height="@dimen/x36"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:src="@mipmap/collection_gray" />
+                android:layout_marginLeft="@dimen/x40"
+                android:src="@mipmap/collection" />
 
             <TextView
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="@dimen/x40"
                 android:layout_toRightOf="@id/one"
                 android:text="@string/collection"
                 android:textColor="@color/color_333"
-                android:textSize="20sp" />
+                android:textSize="@dimen/x32" />
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_marginTop="20dp"
+            android:id="@+id/rl_history"
+            android:layout_marginTop="@dimen/x80"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
             <ImageView
                 android:id="@+id/two"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/x37"
+                android:layout_height="@dimen/x23"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:src="@mipmap/scan_history" />
+                android:layout_marginLeft="@dimen/x40"
+
+                android:src="@mipmap/message_history" />
 
             <TextView
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="@dimen/x40"
                 android:layout_toRightOf="@id/two"
                 android:text="@string/scan_history"
                 android:textColor="@color/color_333"
-                android:textSize="20sp" />
+                android:textSize="@dimen/x32" />
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_marginTop="20dp"
+            android:id="@+id/rl_feedback"
+            android:layout_marginTop="@dimen/x80"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
             <ImageView
                 android:id="@+id/three"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/x32"
+                android:layout_height="@dimen/x32"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:src="@mipmap/feedback" />
+                android:layout_marginLeft="@dimen/x40"
+                android:src="@mipmap/suggestion" />
 
             <TextView
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="@dimen/x40"
                 android:layout_toRightOf="@+id/three"
                 android:text="@string/feedback"
                 android:textColor="@color/color_333"
-                android:textSize="20sp" />
+                android:textSize="@dimen/x32" />
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_marginTop="20dp"
+            android:id="@+id/rl_setting"
+            android:layout_marginTop="@dimen/x80"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
             <ImageView
                 android:id="@+id/five"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/x33"
+                android:layout_height="@dimen/x31"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:src="@mipmap/settings" />
+                android:layout_marginLeft="@dimen/x40"
+                android:src="@mipmap/setting_black" />
 
             <TextView
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="@dimen/x40"
                 android:layout_toRightOf="@id/five"
                 android:text="@string/setting"
                 android:textColor="@color/color_333"
-                android:textSize="20sp" />
+                android:textSize="@dimen/x32" />
         </RelativeLayout>
     </LinearLayout>
 

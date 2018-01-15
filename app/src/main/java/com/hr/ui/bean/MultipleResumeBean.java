@@ -246,6 +246,31 @@ public class MultipleResumeBean {
         public void setOrder_salary(String order_salary) {
             this.order_salary = order_salary;
         }
+
+        @Override
+        public String toString() {
+            return "ResumeListBean{" +
+                    "user_id='" + user_id + '\'' +
+                    ", resume_id='" + resume_id + '\'' +
+                    ", title='" + title + '\'' +
+                    ", key_word='" + key_word + '\'' +
+                    ", resume_type='" + resume_type + '\'' +
+                    ", open='" + open + '\'' +
+                    ", uptime='" + uptime + '\'' +
+                    ", fill_scale='" + fill_scale + '\'' +
+                    ", castbehalf='" + castbehalf + '\'' +
+                    ", important='" + important + '\'' +
+                    ", modify_time='" + modify_time + '\'' +
+                    ", add_time='" + add_time + '\'' +
+                    ", talent_svr_state='" + talent_svr_state + '\'' +
+                    ", is_app='" + is_app + '\'' +
+                    ", other_language='" + other_language + '\'' +
+                    ", resume_language='" + resume_language + '\'' +
+                    ", func='" + func + '\'' +
+                    ", jobtype='" + jobtype + '\'' +
+                    ", order_salary='" + order_salary + '\'' +
+                    '}';
+        }
     }
 
     public static class BaseInfoBean {
@@ -582,6 +607,45 @@ public class MultipleResumeBean {
         public void setIm_type(String im_type) {
             this.im_type = im_type;
         }
+
+        @Override
+        public String toString() {
+            return "BaseInfoBean{" +
+                    "user_id='" + user_id + '\'' +
+                    ", name='" + name + '\'' +
+                    ", sex='" + sex + '\'' +
+                    ", year='" + year + '\'' +
+                    ", month='" + month + '\'' +
+                    ", day='" + day + '\'' +
+                    ", height='" + height + '\'' +
+                    ", nationality='" + nationality + '\'' +
+                    ", hukou='" + hukou + '\'' +
+                    ", idnumber='" + idnumber + '\'' +
+                    ", cardtype='" + cardtype + '\'' +
+                    ", marriage='" + marriage + '\'' +
+                    ", salary='" + salary + '\'' +
+                    ", current_salary='" + current_salary + '\'' +
+                    ", work_beginyear='" + work_beginyear + '\'' +
+                    ", location='" + location + '\'' +
+                    ", ydphone='" + ydphone + '\'' +
+                    ", emailaddress='" + emailaddress + '\'' +
+                    ", address='" + address + '\'' +
+                    ", zipcode='" + zipcode + '\'' +
+                    ", homepage='" + homepage + '\'' +
+                    ", echo_yes='" + echo_yes + '\'' +
+                    ", resume_language='" + resume_language + '\'' +
+                    ", post_rank='" + post_rank + '\'' +
+                    ", polity='" + polity + '\'' +
+                    ", blood='" + blood + '\'' +
+                    ", current_workstate='" + current_workstate + '\'' +
+                    ", pic_filekey='" + pic_filekey + '\'' +
+                    ", modify_time='" + modify_time + '\'' +
+                    ", ydphone_verify_status='" + ydphone_verify_status + '\'' +
+                    ", telephone='" + telephone + '\'' +
+                    ", im_account='" + im_account + '\'' +
+                    ", im_type='" + im_type + '\'' +
+                    '}';
+        }
     }
 
     public static class LanguageListBean {
@@ -628,5 +692,25 @@ public class MultipleResumeBean {
         public void setSpeak_level(String speak_level) {
             this.speak_level = speak_level;
         }
+
+        @Override
+        public String toString() {
+            return "LanguageListBean{" +
+                    "langname='" + langname + '\'' +
+                    ", user_id='" + user_id + '\'' +
+                    ", read_level='" + read_level + '\'' +
+                    ", speak_level='" + speak_level + '\'' +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "MultipleResumeBean{" +
+                "error_code='" + error_code + '\'' +
+                ", resume_list=" + resume_list +
+                ", base_info=" + base_info +
+                ", language_list=" + language_list +
+                '}';
     }
 }

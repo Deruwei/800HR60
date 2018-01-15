@@ -2,6 +2,7 @@ package com.hr.ui.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.provider.CalendarContract;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -51,28 +52,17 @@ public class ToolUtils {
         if(multipleResumeBean.getResume_list()==null||"".equals(multipleResumeBean.getResume_list())||multipleResumeBean.getResume_list().size()==0){
             RobotActivity.startAction(activity,userId);
         }else{
-            if(multipleResumeBean.getResume_list().size()==1){
-                mPresenter.getResumeData(multipleResumeBean.getResume_list().get(0).getResume_id());
-            }else{
-                ResumeDataUtils.deleteAll();
-                List<MultipleResumeBean.ResumeListBean> resumeListBeanList=multipleResumeBean.getResume_list();
-                //Log.i("niham,s,s,",resumeListBeanList.toString());
-                for(int j=0;j<resumeListBeanList.size();j++){
-                    ResumeData resumeData=new ResumeData();
-                    resumeData.setResumeId(resumeListBeanList.get(j).getResume_id());
-                    resumeData.setTitle(resumeListBeanList.get(j).getTitle());
-                    resumeData.setComplete(resumeListBeanList.get(j).getFill_scale());
-                    resumeData.setImageId(imageIds[j]);
-                    ResumeDataUtils.insertResumeData(resumeData);
-                }
-                MultipleResumeActivity.startAction(activity,userId);
-            }
+            mPresenter.getResumeData(multipleResumeBean.getResume_list().get(0).getResume_id());
         }
     }
     public void judgeResumeIsComplete(ResumeBean resumeBean, Activity activity, ArrayList<String> titles){
         titles=new ArrayList<>();
         SharedPreferencesUtils sharedPreferencesUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
-
+        if(!"".equals(resumeBean.getResume_info().getBase_info().get(0).getPic_filekey())&&resumeBean.getResume_info().getBase_info().get(0).getPic_filekey()!=null){
+            sharedPreferencesUtils.setStringValue(Constants.PERSONIMAGE,resumeBean.getResume_info().getBase_info().get(0).getPic_filekey());
+        }else{
+            sharedPreferencesUtils.setStringValue(Constants.PERSONIMAGE,"");
+        }
         if(!"".equals(resumeBean.getResume_info().getTitle_info().get(0).getResume_type())||resumeBean.getResume_info().getTitle_info().get(0).getResume_type()!=null) {
             sharedPreferencesUtils.setStringValue(Constants.RESUME_TYPE, resumeBean.getResume_info().getTitle_info().get(0).getResume_type());
         }
@@ -140,44 +130,14 @@ public class ToolUtils {
         if(multipleResumeBean.getResume_list()==null||"".equals(multipleResumeBean.getResume_list())||multipleResumeBean.getResume_list().size()==0){
             RobotActivity.startAction(activity,userId);
         }else{
-            if(multipleResumeBean.getResume_list().size()==1){
                 mPresenter.getResumeData(multipleResumeBean.getResume_list().get(0).getResume_id());
-            }else{
-                ResumeDataUtils.deleteAll();
-                List<MultipleResumeBean.ResumeListBean> resumeListBeanList=multipleResumeBean.getResume_list();
-                //Log.i("niham,s,s,",resumeListBeanList.toString());
-                for(int j=0;j<resumeListBeanList.size();j++){
-                    ResumeData resumeData=new ResumeData();
-                    resumeData.setResumeId(resumeListBeanList.get(j).getResume_id());
-                    resumeData.setTitle(resumeListBeanList.get(j).getTitle());
-                    resumeData.setComplete(resumeListBeanList.get(j).getFill_scale());
-                    resumeData.setImageId(imageIds[j]);
-                    ResumeDataUtils.insertResumeData(resumeData);
-                }
-                MultipleResumeActivity.startAction(activity,userId);
-            }
         }
     }
     public  void judgeResumeMultipleOrOne3(Activity activity, MultipleResumeBean multipleResumeBean, int userId, int[] imageIds, SplashPresenter mPresenter){
         if(multipleResumeBean.getResume_list()==null||"".equals(multipleResumeBean.getResume_list())||multipleResumeBean.getResume_list().size()==0){
             RobotActivity.startAction(activity,userId);
         }else{
-            if(multipleResumeBean.getResume_list().size()==1){
-                mPresenter.getResumeData(multipleResumeBean.getResume_list().get(0).getResume_id());
-            }else{
-                ResumeDataUtils.deleteAll();
-                List<MultipleResumeBean.ResumeListBean> resumeListBeanList=multipleResumeBean.getResume_list();
-                //Log.i("niham,s,s,",resumeListBeanList.toString());
-                for(int j=0;j<resumeListBeanList.size();j++){
-                    ResumeData resumeData=new ResumeData();
-                    resumeData.setResumeId(resumeListBeanList.get(j).getResume_id());
-                    resumeData.setTitle(resumeListBeanList.get(j).getTitle());
-                    resumeData.setComplete(resumeListBeanList.get(j).getFill_scale());
-                    resumeData.setImageId(imageIds[j]);
-                    ResumeDataUtils.insertResumeData(resumeData);
-                }
-                MultipleResumeActivity.startAction(activity,userId);
-            }
+            mPresenter.getResumeData(multipleResumeBean.getResume_list().get(0).getResume_id());
         }
     }
 }

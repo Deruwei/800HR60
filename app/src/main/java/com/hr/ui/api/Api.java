@@ -190,7 +190,7 @@ public class Api {
             String cacheControl = request.cacheControl().toString();
             if (!NetWorkUtils.isNetConnected(HRApplication.getAppContext())) {
                 request = request.newBuilder()
-                        .cacheControl(TextUtils.isEmpty(cacheControl)?CacheControl.FORCE_NETWORK:CacheControl.FORCE_CACHE)
+                        .cacheControl(TextUtils.isEmpty(cacheControl)?CacheControl.FORCE_CACHE:CacheControl.FORCE_NETWORK)
                         .build();
             }
             Response originalResponse = chain.proceed(request);

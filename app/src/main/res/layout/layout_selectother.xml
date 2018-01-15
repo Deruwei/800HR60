@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="match_parent">
+    <android.support.v4.widget.NestedScrollView
+        android:layout_above="@+id/ll_selectOtherBottom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:paddingBottom="@dimen/x40"
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/x30"
+        android:layout_marginRight="@dimen/x30"
+        android:layout_marginTop="@dimen/x40"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:textSize="@dimen/x28"
+            android:textColor="@color/color_333"
+            android:text="@string/salary_around"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <RelativeLayout
+            android:id="@+id/rl_selectOtherSalaryAround"
+            android:layout_marginTop="@dimen/x45"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_selectOtherSalaryAround"
+                android:textSize="@dimen/x28"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:src="@mipmap/arrowright"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_width="@dimen/x11"
+                android:layout_height="@dimen/x18" />
+        </RelativeLayout>
+        <View
+            android:layout_marginTop="@dimen/x18"
+            android:layout_width="match_parent"
+            android:background="@color/color_333"
+            android:layout_height="@dimen/x1"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:text="@string/workExp2"
+            android:textSize="@dimen/x28"
+            android:textColor="@color/color_333"
+            android:layout_marginTop="@dimen/x40"
+            android:layout_height="wrap_content" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_selectOtherWorkExp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
+        <TextView
+            android:text="@string/degreeNeed"
+            android:textSize="@dimen/x28"
+            android:layout_marginTop="@dimen/x40"
+            android:textColor="@color/color_333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_selectOtherDegreeNeed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
+        <TextView
+            android:textSize="@dimen/x28"
+            android:layout_marginTop="@dimen/x40"
+            android:textColor="@color/color_333"
+            android:text="@string/releaseTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_selectOtherReleaseTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
+        <TextView
+            android:textSize="@dimen/x28"
+            android:layout_marginTop="@dimen/x40"
+            android:textColor="@color/color_333"
+            android:text="@string/workType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_selectOtherWorkType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
+        <TextView
+            android:textSize="@dimen/x28"
+            android:layout_marginTop="@dimen/x40"
+            android:textColor="@color/color_333"
+            android:text="@string/companyType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_selectOtherCompanyType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
+        <TextView
+            android:textSize="@dimen/x28"
+            android:textColor="@color/color_333"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+    <LinearLayout
+        android:id="@+id/ll_selectOtherBottom"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x90">
+        <TextView
+            android:id="@+id/tv_selectOtherCancel"
+            android:gravity="center"
+            android:background="@color/color_333"
+            android:text="@string/cancel"
+            android:layout_width="0dp"
+            android:textSize="@dimen/x36"
+            android:textColor="@color/white"
+            android:layout_weight="1"
+            android:layout_height="match_parent" />
+        <TextView
+            android:id="@+id/tv_selectOtherOK"
+            android:gravity="center"
+            android:background="@color/new_main"
+            android:textSize="@dimen/x36"
+            android:text="@string/sure"
+            android:textColor="@color/white"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+</RelativeLayout>

@@ -4,10 +4,16 @@ import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.support.v4.content.ContextCompat;
 import android.view.animation.LinearInterpolator;
+
+import com.hr.ui.R;
+import com.hr.ui.app.HRApplication;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import rx.internal.util.unsafe.MpmcArrayQueue;
 
 /**
  * Created by Jack on 2015/10/19.
@@ -19,6 +25,7 @@ public class BallTrianglePathIndicator extends BaseIndicatorController {
     @Override
     public void draw(Canvas canvas, Paint paint) {
         paint.setStrokeWidth(3);
+        paint.setColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.new_main));
         paint.setStyle(Paint.Style.STROKE);
         for (int i = 0; i < 3; i++) {
             canvas.save();

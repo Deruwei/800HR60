@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -197,6 +198,7 @@ public class SelectCityActivity extends BaseNoConnectNetworkAcitivty {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 1:
+                    //Log.i("职位信息",provinceCityList.toString());
                     myProvinceAdapter = new MyProvinceAdapter(provinceCityList, type);
                     lvSelectProvince.setAdapter(myProvinceAdapter);
                     if(selectCityList!=null&&selectCityList.size()!=0){
@@ -207,7 +209,9 @@ public class SelectCityActivity extends BaseNoConnectNetworkAcitivty {
                                 currentPosition=i;
                             }
                         }
-                        provinceCityList.get(currentPosition).setCheck(true);
+                        if(currentPosition>=4) {
+                            provinceCityList.get(currentPosition).setCheck(true);
+                        }
                         for (int i = 0; i < cityBeanList2.size(); i++) {
                             if (provinceCityList.get(currentPosition).getId().substring(0, 2).equals(cityBeanList2.get(i).getId().substring(0, 2))&&currentPosition>=4) {
                                 cityList.add(cityBeanList2.get(i));
@@ -258,6 +262,13 @@ public class SelectCityActivity extends BaseNoConnectNetworkAcitivty {
                                         for (int i = 4; i < provinceCityList.size(); i++) {
                                             provinceCityList.get(i).setCheck(false);
                                         }
+                                        for(int i=0;i<selectCityList.size();i++){
+                                            if(selectCityList.get(i).getId().equals(provinceCityList.get(position).getId())){
+                                                selectCityList.remove(i);
+                                                break;
+                                            }
+                                        }
+                                        // Log.i("职位信息",selectCityList.toString()+"呵呵"+provinceCityList.get(position).toString());
                                         selectCityList.remove(provinceCityList.get(position));
                                         provinceCityList.get(position).setCheck(false);
                                         removeView(provinceCityList.get(position));
@@ -380,7 +391,7 @@ public class SelectCityActivity extends BaseNoConnectNetworkAcitivty {
         final LinearLayout ll = (LinearLayout) LayoutInflater.from(this).inflate(
                 R.layout.item_textview_selected, null, false);
         ll.setLayoutParams(params);
-       TextView tv=ll.findViewById(R.id.item_select);
+        TextView tv=ll.findViewById(R.id.item_select);
         tv.setText(cityBean.getName());
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -402,17 +413,17 @@ public class SelectCityActivity extends BaseNoConnectNetworkAcitivty {
     }
 
     private void getLeftDataFresh() {
-            for (int i = 0; i < provinceCityList.size(); i++) {
-                provinceCityList.get(i).setCheck(false);
-                for (int j = 0; j < selectCityList.size(); j++) {
-                    if (provinceCityList.get(i).getId().equals(selectCityList.get(j).getId())) {
-                        provinceCityList.get(i).setCheck(true);
-                    }
+        for (int i = 0; i < provinceCityList.size(); i++) {
+            provinceCityList.get(i).setCheck(false);
+            for (int j = 0; j < selectCityList.size(); j++) {
+                if (provinceCityList.get(i).getId().equals(selectCityList.get(j).getId())) {
+                    provinceCityList.get(i).setCheck(true);
                 }
             }
-            if (currentPosition >= 4) {
-                provinceCityList.get(currentPosition).setCheck(true);
-            }
+        }
+        if (currentPosition >= 4) {
+            provinceCityList.get(currentPosition).setCheck(true);
+        }
         myProvinceAdapter.notifyDataSetChanged();
     }
 
@@ -445,6 +456,8 @@ public class SelectCityActivity extends BaseNoConnectNetworkAcitivty {
         sum = selectCityList.size();
         if (sum > 0) {
             rlSelectCityShow.setVisibility(View.VISIBLE);
+        }else{
+            rlSelectCityShow.setVisibility(View.GONE);
         }
         tvSelectCityNum.setText(sum + "");
     }
@@ -461,6 +474,8 @@ public class SelectCityActivity extends BaseNoConnectNetworkAcitivty {
                         ResumeJobOrderActivity.instance.setSelectCityList(selectCityList);
                     }else if(JobOrderActivity.TAG.equals(tag)){
                             JobOrderActivity.instance.setAddress(selectCityList);
+                    }else if(JobSerchActivity.TAG.equals(tag)){
+                        JobSerchActivity.instance.setPlace(selectCityList);
                     }
                     finish();
                 }else{

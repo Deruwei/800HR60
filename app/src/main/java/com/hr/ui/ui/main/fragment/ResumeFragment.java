@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -24,8 +25,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.hr.ui.R;
 import com.hr.ui.base.BaseFragment;
+import com.hr.ui.base.MyEvent;
 import com.hr.ui.bean.ResumeBean;
 import com.hr.ui.constants.Constants;
+import com.hr.ui.ui.main.activity.MainActivity;
 import com.hr.ui.ui.main.modle.ResumeModel;
 import com.hr.ui.ui.main.presenter.ResumePresenter;
 import com.hr.ui.ui.resume.activity.PreviewResumeActivity;
@@ -160,6 +163,7 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
     private ResumeBean.ResumeInfoBean resumeInfoBean;
     private boolean isFlesh, isCanFresh;
     private SharedPreferencesUtils sUtils;
+    private int resumeId;
 
     public static ResumeFragment newInstance(String s) {
         ResumeFragment navigationFragment = new ResumeFragment();
@@ -184,8 +188,10 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
     @Override
     protected void initView() {
         sUtils = new SharedPreferencesUtils(getActivity());
-        mPresenter.getResumeList();
+      /*  mPresenter.getResumeList();*/
         // 设置进度条的颜色变化，最多可以设置4种颜色
+        resumeId=sUtils.getIntValue(Constants.RESUME_ID,0);
+        mPresenter.getResume(resumeId+"");
         srlResume.setColorSchemeResources(R.color.new_main);
         // 设置下拉监听，当用户下拉的时候会去执行回调
         srlResume.setOnRefreshListener(this);
@@ -203,6 +209,7 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
             }
         });
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -223,7 +230,8 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
         super.onResume();
         isCanFresh = sUtils.getBooleanValue(Constants.IS_FERSH, false);
         if (isCanFresh == true) {
-            mPresenter.getResumeList();
+         /*   mPresenter.getResumeList();*/
+            mPresenter.getResume(resumeId+"");
         }
     }
 
@@ -450,6 +458,8 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
 
     @Override
     public void uploadImageSuccess(String path) {
+        sUtils.setStringValue(Constants.PERSONIMAGE,path);
+        MainActivity.instance.setImage();
         Glide.with(this).load(Constants.IMAGE_BASEPATH + path).centerCrop().into(ivResumePersonImage);
         resumeInfoBean.getBase_info().get(0).setPic_filekey(path);
     }
@@ -728,7 +738,7 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
             public void run() {
                 isFlesh = true;
                 // 设置SwipeRefreshLayout当前是否处于刷新状态，一般是在请求数据的时候设置为true，在数据被加载到View中后，设置为false。
-                mPresenter.getResumeList();
+                mPresenter.getResume(resumeId+"");
                 if (srlResume != null) {
                     srlResume.setRefreshing(false);
                 }

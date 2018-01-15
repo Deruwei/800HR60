@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/shape_corner_blue_white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+        <!--<RelativeLayout-->
+            <!--&lt;!&ndash;android:background="@drawable/edit_bg"&ndash;&gt;-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
+            <!--<LinearLayout-->
+                <!--&lt;!&ndash;android:background="@drawable/edit_bg_top"&ndash;&gt;-->
+                <!--android:orientation="vertical"-->
+                <!--android:layout_above="@+id/ll_positionPageBottom"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent">-->
+                <!--<RelativeLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content">-->
+                    <!--<TextView-->
+                        <!--android:id="@+id/tv_positionPageJobName"-->
+                        <!--android:text="餐品经理"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content" />-->
+                    <!--<ImageView-->
+                        <!--android:layout_centerVertical="true"-->
+                        <!--android:id="@+id/iv_positionPageClose"-->
+                        <!--android:layout_alignParentRight="true"-->
+                         <!--/>-->
+                <!--</RelativeLayout>-->
+                <!--<LinearLayout-->
+                    <!--android:orientation="horizontal"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content">-->
+                    <!--<ImageView-->
+                        <!--android:layout_gravity="center_vertical"-->
+                        <!--/>-->
+                    <!--<TextView-->
+                        <!--android:id="@+id/tv_positionPageAddress"-->
+                        <!--android:layout_gravity="center_vertical"-->
+                        <!--android:text="背景"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content" />-->
+                    <!--<ImageView-->
+                        <!--android:layout_width="28dp"-->
+                        <!--android:layout_height="24dp"-->
+                        <!--android:layout_gravity="center_vertical"-->
+                       <!--/>-->
+                    <!--<TextView-->
+                        <!--android:id="@+id/tv_positionPageExp"-->
+                        <!--android:layout_gravity="center_vertical"-->
+                        <!--android:text="背景"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content" />-->
+
+                    <!--<ImageView-->
+                        <!--android:layout_width="28dp"-->
+                        <!--android:layout_height="24dp"-->
+                        <!--android:layout_gravity="center_vertical"-->
+                         <!--/>-->
+                    <!--<TextView-->
+                        <!--android:id="@+id/tv_positionPageDegree"-->
+                        <!--android:layout_gravity="center_vertical"-->
+                        <!--android:text="背景"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content" />-->
+                    <!--<ImageView-->
+                        <!--android:layout_gravity="center_vertical"-->
+                        <!--android:layout_width="22dp"-->
+                        <!--android:layout_height="24dp" />-->
+                    <!--<TextView-->
+                        <!--android:id="@+id/tv_positionPageNum"-->
+                        <!--android:layout_gravity="center_vertical"-->
+                        <!--android:text="背景"-->
+                        <!--android:textSize="@dimen/x24"-->
+                        <!--android:textColor="@color/color_333"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content" />-->
+                <!--</LinearLayout>-->
+                <!--<RelativeLayout-->
+                    <!--android:layout_marginLeft="@dimen/x38"-->
+                    <!--android:layout_marginRight="@dimen/x38"-->
+                    <!--android:layout_marginTop="@dimen/x30"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content">-->
+                    <!--<TextView-->
+                        <!--android:id="@+id/tv_positionPageSalary"-->
+                        <!--android:text="6千-1万"-->
+                        <!--android:textSize="@dimen/x32"-->
+                        <!--android:textColor="@color/new_main"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content" />-->
+                    <!--<TextView-->
+                        <!--android:id="@+id/tv_positionPageReleaseTime"-->
+                        <!--android:text="7-30"-->
+                        <!--android:textColor="@color/color_999"-->
+                        <!--android:textSize="@dimen/x28"-->
+                        <!--android:layout_alignParentRight="true"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content" />-->
+                <!--</RelativeLayout>-->
+                <!--<View-->
+                    <!--android:layout_marginTop="@dimen/x25"-->
+                    <!--android:background="@color/view_color"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="@dimen/x1"/>-->
+                <!--<RelativeLayout-->
+                    <!--android:layout_marginLeft="@dimen/x38"-->
+                    <!--android:layout_marginRight="@dimen/x38"-->
+                    <!--android:layout_marginTop="@dimen/x25"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content">-->
+                    <!--<ImageView-->
+                        <!--android:id="@+id/iv_positionPageCompanyIcon"-->
+                        <!--android:src="@mipmap/power"-->
+                        <!--android:layout_width="@dimen/x82"-->
+                        <!--android:layout_height="@dimen/x82" />-->
+                    <!--<TextView-->
+                        <!--android:id="@+id/tv_positionPageCompanyName"-->
+                        <!--android:layout_marginLeft="@dimen/x20"-->
+                        <!--android:singleLine="true"-->
+                        <!--android:maxEms="16"-->
+                        <!--android:layout_toRightOf="@+id/iv_positionPageCompanyIcon"-->
+                        <!--android:text="北京英才网联科技有限公司"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"/>-->
+                    <!--<LinearLayout-->
+                        <!--android:layout_marginTop="@dimen/x6"-->
+                        <!--android:layout_marginLeft="@dimen/x20"-->
+                        <!--android:layout_below="@+id/tv_positionPageCompanyName"-->
+                        <!--android:layout_toRightOf="@id/iv_positionPageCompanyIcon"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content">-->
+                        <!--<TextView-->
+                            <!--android:id="@+id/tv_positionPageIndustry"-->
+                            <!--android:text="[建筑]"-->
+                            <!--android:textColor="@color/color_999"-->
+                            <!--android:textSize="@dimen/x24"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content" />-->
+                        <!--<TextView-->
+                            <!--android:layout_marginLeft="@dimen/x6"-->
+                            <!--android:text="·"-->
+                            <!--android:textColor="@color/color_999"-->
+                            <!--android:textSize="@dimen/x24"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content" />-->
+                        <!--<TextView-->
+                            <!--android:id="@+id/tv_positionPageCompanyType"-->
+                            <!--android:layout_marginLeft="@dimen/x6"-->
+                            <!--android:text="[建筑]"-->
+                            <!--android:textColor="@color/color_999"-->
+                            <!--android:textSize="@dimen/x24"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content" />-->
+                        <!--<TextView-->
+                            <!--android:layout_marginLeft="@dimen/x6"-->
+                            <!--android:text="/"-->
+                            <!--android:textColor="@color/color_999"-->
+                            <!--android:textSize="@dimen/x24"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content" />-->
+                        <!--<TextView-->
+                            <!--android:id="@+id/tv_positionPageCompanyScale"-->
+                            <!--android:layout_marginLeft="@dimen/x6"-->
+                            <!--android:text="100-499人"-->
+                            <!--android:textColor="@color/color_999"-->
+                            <!--android:textSize="@dimen/x24"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content" />-->
+                    <!--</LinearLayout>-->
+                    <!--<ImageView-->
+                        <!--android:src="@mipmap/arrowright"-->
+                        <!--android:layout_width="@dimen/x9"-->
+                        <!--android:layout_centerVertical="true"-->
+                        <!--android:layout_alignParentRight="true"-->
+                        <!--android:layout_height="@dimen/x18" />-->
+                <!--</RelativeLayout>-->
+                <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="@dimen/x1"-->
+                    <!--android:layout_marginTop="@dimen/x25"-->
+                    <!--android:background="@color/color_333"/>-->
+                <!--<TextView-->
+                    <!--android:textColor="@color/color_333"-->
+                    <!--android:layout_marginLeft="@dimen/x38"-->
+                    <!--android:text="@string/JobDes"-->
+                    <!--android:textSize="@dimen/x32"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content" />-->
+                <!--<android.support.v4.widget.NestedScrollView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content">-->
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_positionPageJobDes"-->
+                    <!--android:layout_marginLeft="@dimen/x38"-->
+                    <!--android:layout_marginRight="@dimen/x38"-->
+                    <!--android:textColor="@color/color_333"-->
+                    <!--android:lineSpacingMultiplier="1.2"-->
+                    <!--android:textSize="@dimen/x32"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent" />-->
+                <!--</android.support.v4.widget.NestedScrollView>-->
+            <!--</LinearLayout>-->
+            <!--<LinearLayout-->
+                <!--android:background="@drawable/edit_bg_bottom"-->
+                <!--android:id="@+id/ll_positionPageBottom"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="@dimen/x120">-->
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/ll_positionPageCulScore"-->
+                    <!--android:background="@drawable/tv_bg_left"-->
+                    <!--android:orientation="horizontal"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:gravity="center"-->
+                    <!--android:layout_height="match_parent" >-->
+                    <!--<ImageView-->
+                        <!--android:src="@mipmap/robot_cul"-->
+                        <!--android:layout_width="@dimen/x40"-->
+                        <!--android:layout_height="@dimen/x48" />-->
+                    <!--<LinearLayout-->
+                        <!--android:layout_marginLeft="@dimen/x10"-->
+                        <!--android:orientation="vertical"-->
+                        <!--android:gravity="center"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content">-->
+                        <!--<TextView-->
+                            <!--android:id="@+id/tv_positionPageCulScore"-->
+                            <!--android:textColor="@color/white"-->
+                            <!--android:textSize="@dimen/x28"-->
+                            <!--android:text="@string/culculate"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content" />-->
+                        <!--<TextView-->
+                            <!--android:textColor="@color/white"-->
+                            <!--android:textSize="@dimen/x28"-->
+                            <!--android:text="@string/Score"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content" />-->
+                    <!--</LinearLayout>-->
+                <!--</LinearLayout>-->
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/ll_positionPageCollection"-->
+                    <!--android:background="@color/color_4b"-->
+                    <!--android:orientation="horizontal"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:gravity="center"-->
+                    <!--android:layout_height="match_parent" >-->
+                    <!--<ImageView-->
+                        <!--android:id="@+id/iv_positionPageCollection"-->
+                        <!--android:src="@mipmap/collection_white"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content" />-->
+                    <!--<TextView-->
+                        <!--android:id="@+id/tv_positionPageCollection"-->
+                        <!--android:layout_marginLeft="@dimen/x10"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:textSize="@dimen/x32"-->
+                        <!--android:text="@string/collection"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content" />-->
+                <!--</LinearLayout>-->
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/ll_positionPageDeliverResume"-->
+                    <!--android:orientation="horizontal"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:background="@drawable/tv_bg_right"-->
+                    <!--android:gravity="center"-->
+                    <!--android:layout_weight="2"-->
+                    <!--android:layout_height="match_parent" >-->
+                    <!--<TextView-->
+                        <!--android:id="@+id/tv_positionPageDeliverResume"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:textSize="@dimen/x40"-->
+                        <!--android:text="@string/deliverResume"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content" />-->
+                <!--</LinearLayout>-->
+            <!--</LinearLayout>-->
+        <!--</RelativeLayout>-->
+</LinearLayout>

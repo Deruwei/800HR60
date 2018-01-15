@@ -209,6 +209,9 @@ public class ResumeWorkExpActivity extends BaseActivity<ResumeWorkExpPresenter, 
         if(experienceId!=null&&!"".equals(experienceId)){
             mPresenter.getWorkExpInfo(experienceId);
         }
+        else{
+            tvResumeWorkExpDelete.setVisibility(View.GONE);
+        }
     }
 
     @Override

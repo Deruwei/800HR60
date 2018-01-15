@@ -174,6 +174,8 @@ public class ResumeProfessionSkillActivity extends BaseActivity<ResumeProfession
         });
         if (!"".equals(skillId) && skillId != null) {
             mPresenter.getSkill(skillId);
+        }else{
+            tvResumeProfessionSkillDelete.setVisibility(View.GONE);
         }
     }
 

@@ -180,7 +180,8 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
         industryBeanList = orderInfoBean.getOrder_industry();
         selectFunctionLists=new ArrayList<>();
         selectPositionLists=new ArrayList<>();
-        if (industryBeanList != null) {
+        if (industryBeanList != null&&industryBeanList.size()!=0) {
+            rlResumeJobOrderIndustry.setVisibility(View.VISIBLE);
             rlResumeJobOrderIndustry.removeAllViewsInLayout();
             for (int i = 0; i < industryBeanList.size(); i++) {
                 View plantView = LayoutInflater.from(this).inflate(
@@ -260,9 +261,17 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
                 llResumeWorkExpList.addView(plantView);*/
                 rlResumeJobOrderIndustry.addView(plantView);
             }
-            positionId=sbPosition.deleteCharAt(0).toString();
-            funId=sbFunc.deleteCharAt(0).toString();
-            industryId=sbIndustry.deleteCharAt(0).toString();
+            if(positionId!=null&&!"".equals(positionId)&&positionId.length()!=0) {
+                positionId = sbPosition.deleteCharAt(0).toString();
+            }
+            if(funId!=null&&!"".equals(funId)&&funId.length()!=0) {
+                funId = sbFunc.deleteCharAt(0).toString();
+            }
+            if(industryId!=null&&!"".equals(industryId)&&industryId.length()!=0) {
+                industryId = sbIndustry.deleteCharAt(0).toString();
+            }
+        }else{
+            rlResumeJobOrderIndustry.setVisibility(View.GONE);
         }
     }
 
@@ -325,7 +334,7 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
                     myDialog.setYesOnclickListener("确定", new MyDialog.onYesOnclickListener() {
                         @Override
                         public void onYesClick() {
-                         doSaveOrUpdateJobOrder();
+                            finish();
                          myDialog.dismiss();
                         }
                     });
@@ -502,7 +511,9 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
         for (int i = 0; i < selectFunclist.size(); i++) {
             sbFunc.append("," + selectFunclist.get(i).getId());
         }
-        sbFunc.deleteCharAt(0);
+        if(sbFunc.length()!=0) {
+            sbFunc.deleteCharAt(0);
+        }
         orderInfoBean.getOrder_industry().get(updatePostion).setLingyu(sbFunc.toString());
         StringBuffer sbPosition = new StringBuffer();
         for (int i = 0; i < slectPositionList.size(); i++) {

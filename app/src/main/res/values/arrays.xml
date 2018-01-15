@@ -179,16 +179,18 @@
 
     <!-- 公司性质 -->
     <string-array name="company_xingzhi_zh">
+        <item>不限</item>
         <item>外商独资</item>
-        <item>中外合资/合作</item>
-        <item>私营/民营企业</item>
+        <item>中外合资</item>
+        <item>私营/民营</item>
         <item>国有企业</item>
         <item>外企代表处</item>
-        <item>政府机关/非盈利机构</item>
+        <item>政府/非盈利</item>
         <item>事业单位</item>
         <item>其他</item>
     </string-array>
     <string-array name="company_xingzhi_zh_ids">
+        <item>0</item>
         <item>11</item>
         <item>13</item>
         <item>15</item>
@@ -1110,5 +1112,120 @@
         <item>2204</item>
         <item>2205</item>
         <item>2206</item>
+    </string-array>
+    <string-array name="releaseTime">
+        <item>不限</item>
+        <item>近一天</item>
+        <item>近两天</item>
+        <item>近三天</item>
+        <item>近一周</item>
+        <item>近两周</item>
+        <item>一个月</item>
+        <item>近六周</item>
+        <item>近两月</item>
+    </string-array>
+    <string-array name="releaseTimeId">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>7</item>
+        <item>14</item>
+        <item>30</item>
+        <item>42</item>
+        <item>60</item>
+    </string-array>
+    <string-array name="companyNum">
+        <item>不限</item>
+        <item>1-49人</item>
+        <item>50-99人</item>
+        <item>100-499人</item>
+        <item>500-999人</item>
+        <item>1000人以上</item>
+    </string-array>
+    <string-array name="companyNumId">
+        <item>0</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+    </string-array>
+    <string-array name="degreeNeed">
+        <item>不限</item>
+        <item>无要求</item>
+        <item>大专以下</item>
+        <item>大专及以上</item>
+        <item>本科及以上</item>
+        <item>硕士及以上</item>
+        <item>博士及以上</item>
+    </string-array>
+    <string-array name="degreeNeedId">
+        <item>0</item>
+        <item>10</item>
+        <item>11</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+    </string-array>
+    <string-array name="workExp">
+        <item>不限</item>
+        <item>无要求</item>
+        <item>应届生</item>
+        <item>一年以上</item>
+        <item>三年以上</item>
+        <item>五年以上</item>
+        <item>八年以上</item>
+
+    </string-array>
+    <string-array name="workExpId">
+        <item>0</item>
+        <item>10</item>
+        <item>11</item>
+        <item>13</item>
+        <item>15</item>
+        <item>17</item>
+        <item>20</item>
+    </string-array>
+    <string-array name="workType">
+        <item>不限</item>
+        <item>无要求</item>
+        <item>实习</item>
+        <item>兼职</item>
+        <item>全职</item>
+    </string-array>
+    <string-array name="workTypeId">
+        <item>0</item>
+        <item>14</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+    </string-array>
+    <string-array name="salaryAround">
+        <item>不限</item>
+        <item>2000以下</item>
+        <item>2000-4000</item>
+        <item>4000-6000</item>
+        <item>6000-8000</item>
+        <item>8000-10000</item>
+        <item>10000-15000</item>
+        <item>15000-20000</item>
+        <item>20000-30000</item>
+        <item>30000-50000</item>
+        <item>50000以上</item>
+    </string-array>
+    <string-array name="salaryAroundId">
+        <item>0</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
     </string-array>
 </resources>

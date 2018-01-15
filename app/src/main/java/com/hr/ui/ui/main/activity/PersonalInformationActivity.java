@@ -36,6 +36,7 @@ import com.hr.ui.ui.main.contract.PersonalInformationContract;
 import com.hr.ui.ui.main.modle.PersonalInformationModel;
 import com.hr.ui.ui.main.presenter.PersonalInformationPresenter;
 import com.hr.ui.utils.Base64;
+import com.hr.ui.utils.ClickUtils;
 import com.hr.ui.utils.RegularExpression;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.datautils.ResumeInfoIDToString;
@@ -173,6 +174,7 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
 
     @Override
     public void uploadImageSuccess(String path) {
+        sUtis.setStringValue(Constants.PERSONIMAGE,path);
         PersonalInformationData personalInformationData = new PersonalInformationData();
         personalInformationData.setImageUrl(imagePath);
         personalInformationData.setName(etName.getText().toString());
@@ -484,7 +486,9 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
                 customDatePickerJobTitle.show(tvPositionTitle.getText().toString());
                 break;
             case R.id.btn_next:
-                doSendPersonalInformation();
+                if(!ClickUtils.isFastClick()) {
+                    doSendPersonalInformation();
+                }
                 break;
             case R.id.iv_nameDelete:
                 etName.setText("");

@@ -1,5 +1,6 @@
 package com.hr.ui.ui.main.adapter;
 
+import android.graphics.Typeface;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,7 +55,12 @@ public class MySelectPositionRightAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         holder.tvItemSelectCityName.setText(positionList.get(position).getName());
-        holder.rlItemSelectCity.setBackgroundColor(ContextCompat.getColor(HRApplication.getAppContext(),R.color.resumeContent_bg));
+        if(position==0) {
+            holder.rlItemSelectCity.setBackgroundColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.resumeContent_bg));
+            holder.tvItemSelectCityName.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+        }else{
+            holder.rlItemSelectCity.setBackgroundColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.resumeContent_bg));
+        }
         if(positionList.get(position).isCheck()==true){
             holder.ivItemSelectCityCheck.setVisibility(View.VISIBLE);
         }else{

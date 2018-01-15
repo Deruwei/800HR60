@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:background="@color/view_color"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_jobTypeAll"
+            android:textColor="@color/color_333"
+            android:textSize="@dimen/x32"
+            android:text="全部"
+            android:gravity="center"
+            android:layout_width="@dimen/x80"
+            android:layout_height="@dimen/x50" />
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/bg_color"
+            android:layout_height="@dimen/x1"/>
+        <TextView
+            android:id="@+id/tv_jobTypeCompany"
+            android:textColor="@color/color_333"
+            android:textSize="@dimen/x32"
+            android:text="公司"
+            android:gravity="center"
+            android:layout_width="@dimen/x80"
+            android:layout_height="@dimen/x50" />
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/bg_color"
+            android:layout_height="@dimen/x1"/>
+        <TextView
+            android:id="@+id/tv_jobTypePosition"
+            android:textColor="@color/color_333"
+            android:textSize="@dimen/x32"
+            android:text="职位"
+            android:gravity="center"
+            android:layout_width="@dimen/x80"
+            android:layout_height="@dimen/x50" />
+    </LinearLayout>
+</LinearLayout>
