@@ -18,6 +18,7 @@ import com.hr.ui.bean.CollectionBean;
 import com.hr.ui.ui.job.activity.PositionPageActivity;
 import com.hr.ui.ui.main.presenter.MainPresenter;
 import com.hr.ui.ui.me.presenter.CollectionPresenter;
+import com.hr.ui.utils.Utils;
 import com.loopeer.itemtouchhelperextension.Extension;
 import com.loopeer.itemtouchhelperextension.ItemTouchHelperExtension;
 
@@ -175,6 +176,8 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView tvItemCollectionPlace;
         @BindView(R.id.tv_itemCollectionExp)
         TextView tvItemCollectionExp;
+        @BindView(R.id.tv_itemCollectionTime)
+        TextView tvItemCollectionTime;
         @BindView(R.id.tv_itemCollectionDegree)
         TextView tvItemCollectionDegree;
         @BindView(R.id.tv_itemCollectionCompanyName)
@@ -194,14 +197,15 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
 
         public void bind(CollectionBean.FavouriteListBean testModel) {
-            tvItemCollectionSalary.setText(testModel.getSalary());
+            tvItemCollectionSalary.setText(Utils.getSalary(testModel.getSalary()));
             tvItemCollectionDegree.setText(testModel.getStudy());
             tvItemCollectionExp.setText(testModel.getWorkyear());
             tvItemCollectionJobName.setText(testModel.getJob_name());
             tvItemCollectionPlace.setText(testModel.getWorkplace());
             tvItemCollectionCompanyName.setText(testModel.getEnterprise_name());
+            tvItemCollectionTime.setText(Utils.getDateMonthAndDay(testModel.getFavourite_time()));
             if (testModel.getIs_apply() == 0) {
-                btnItemCollectionDeliver.setClickable(true);
+                btnItemCollectionDeliver.setEnabled(true);
                 btnItemCollectionDeliver.setText(R.string.deliver);
             } else if (testModel.getIs_apply() == 1) {
                 btnItemCollectionDeliver.setText(R.string.allReadyDeliver);

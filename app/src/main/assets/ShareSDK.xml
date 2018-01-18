@@ -55,11 +55,11 @@
 		AppKey="1135940687"
 		AppSecret="3a6e4dee55dbf34ce86178fd237e8f78"
 		Enable="true"
-		Id="1"
+		Id="4"
 		RedirectUrl="http://www.800hr.com/app"
 		ShareByWebApi = "false"
 		ShareByAppClient="true"
-		SortId="1" />
+		SortId="4" />
 
 	<!-- <TencentWeibo
          AppKey="801197856"
@@ -74,9 +74,9 @@
 		AppId="100247251"
 		AppKey="39742dca3a07bbafd9bb6bd440771bb5"
 		Enable="true"
-		Id="2"
+		Id="6"
 		ShareByAppClient="true"
-		SortId="2" />
+		SortId="6" />
 
 	<!--
         Wechat微信和WechatMoments微信朋友圈的appid是一样的；
@@ -126,16 +126,16 @@
 		AppSecret="bf883d3b0c1407862935a8993be31d73"
 		BypassApproval="false"
 		Enable="true"
-		Id="3"
-		SortId="3" />
+		Id="1"
+		SortId="1" />
 
 	<WechatMoments
 		AppId="wx8badf82077e03ca2"
 		AppSecret="bf883d3b0c1407862935a8993be31d73"
 		BypassApproval="false"
 		Enable="true"
-		Id="4"
-		SortId="4" />
+		Id="2"
+		SortId="2" />
 
 	<WechatFavorite
 		AppId="wx8badf82077e03ca2"
@@ -148,8 +148,8 @@
 	<QQ AppId="100247251"
 		AppKey="39742dca3a07bbafd9bb6bd440771bb5"
 		Enable="true"
-		Id="6"
+		Id="5"
 		ShareByAppClient="true"
-		SortId="6" />
+		SortId="5" />
 	
 </DevInfor>

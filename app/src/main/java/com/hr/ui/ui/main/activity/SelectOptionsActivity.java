@@ -243,8 +243,9 @@ public class SelectOptionsActivity extends BaseActivity {
 
             case R.id.btn_selectJobOrderSave:
                 if (updatePositionNum != 100) {
-                        if (FromStringToArrayList.getInstance().getIndustryIsHaveField(indutryId)) {
-                            if ("".equals(selectRealFuncList) || selectRealFuncList == null || selectRealFuncList.size() == 0) {
+                        if (FromStringToArrayList.getInstance().getIndustryIsHaveField(indutryId)==true) {
+                            //Log.i("当前的行业id",indutryId+"-----");
+                            if ("".equals(selectRealFuncList) || selectRealFuncList == null || selectRealFuncList.size() == 0||"".equals(selectRealFuncList.get(0).getId())) {
                                 ToastUitl.showShort("请选择领域");
                                 return;
                             }
@@ -252,6 +253,7 @@ public class SelectOptionsActivity extends BaseActivity {
                                 ToastUitl.showShort("请选择职位");
                                 return;
                             }
+                            //Log.i("当前的行业",selectRealFuncList.toString());
                             ResumeJobOrderActivity.instance.updateJobOrderInfo(updatePositionNum, indutryId, selectRealFuncList, selectRealPositionList);
                         } else {
                             if (selectRealPositionList == null || "".equals(selectRealPositionList) || selectRealPositionList.size() == 0) {
@@ -264,7 +266,7 @@ public class SelectOptionsActivity extends BaseActivity {
 
                 }else{
                     if(type==1){
-                        if (FromStringToArrayList.getInstance().getIndustryIsHaveField(indutryId)) {
+                        if (FromStringToArrayList.getInstance().getIndustryIsHaveField(indutryId)==true) {
                             if(indutryId==null&&"".equals(indutryId)){
                                 ToastUitl.showShort("请选择行业");
                                 return;
@@ -552,6 +554,14 @@ public class SelectOptionsActivity extends BaseActivity {
         selectIndustryAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void OnItemCLick(View view, int position) {
+                if(industryIdFir!=null) {
+                    for (int i = 0; i < industryIds.size(); i++) {
+                        if (industryIdFir.equals(industryIds.get(i))) {
+                            industryIds.remove(industryIds.get(i));
+                            break;
+                        }
+                    }
+                }
                 if (!industryList.get(position).getId().equals(indutryId)) {
                     if(selectRealFuncList!=null) {
                         selectRealFuncList.clear();
@@ -565,6 +575,7 @@ public class SelectOptionsActivity extends BaseActivity {
                 if (FromStringToArrayList.getInstance().getIndustryIsHaveField(industryList.get(position).getId())) {
                     initTerritoryPopupWindow(indutryId);
                     tvSelectTerritory.setTextColor(ContextCompat.getColor(HRApplication.getAppContext(),R.color.color_333));
+                    tvSelectTerritory.setPaintFlags(Paint.ANTI_ALIAS_FLAG);
                     isShowTerritory = !isShowTerritory;
                 } else {
                     tvSelectTerritory.setTextColor(ContextCompat.getColor(HRApplication.getAppContext(),R.color.color_999));

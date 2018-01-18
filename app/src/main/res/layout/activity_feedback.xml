@@ -54,6 +54,8 @@
                 android:layout_marginRight="@dimen/x31"
                 android:hint="请输入您的电子邮箱"
                 android:padding="@dimen/x6"
+                android:singleLine="true"
+                android:maxLength="32"
                 android:textSize="@dimen/x28"
                 android:textColor="@color/color_333"
                 android:layout_width="match_parent"

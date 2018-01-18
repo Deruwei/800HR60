@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+        <RelativeLayout
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/x100">
+        <ImageView
+            android:id="@+id/iv_toolbarShieldCompanySearchBack"
+            android:layout_marginLeft="@dimen/x37"
+            android:layout_marginRight="@dimen/x33"
+            android:src="@mipmap/back"
+            android:layout_centerVertical="true"
+            android:layout_width="@dimen/x14"
+            android:layout_height="@dimen/x30" />
+        <RelativeLayout
+            android:layout_toRightOf="@+id/iv_toolbarShieldCompanySearchBack"
+            android:layout_centerVertical="true"
+            android:id="@+id/rl_mainSearch"
+            android:background="@drawable/fragmentlayout_bg_gray"
+            android:layout_width="@dimen/x550"
+            android:gravity="left"
+            android:layout_height="@dimen/x58">
+            <ImageView
+                android:layout_marginLeft="@dimen/x27"
+                android:layout_centerVertical="true"
+                android:id="@+id/iv_mainSearch"
+                android:src="@mipmap/search"
+                android:layout_width="@dimen/x24"
+                android:layout_height="@dimen/x24" />
+            <EditText
+                android:layout_toLeftOf="@+id/iv_toolbarShieldCompanySearchDelete"
+                android:background="@null"
+                android:id="@+id/et_toolbarShieldCompanySearch"
+                android:layout_marginLeft="@dimen/x15"
+                android:textColor="@color/color_333"
+                android:layout_centerVertical="true"
+                android:textSize="@dimen/x24"
+                android:layout_toRightOf="@+id/iv_mainSearch"
+                android:hint="@string/inputCompanyName"
+                android:textColorHint="@color/view_color"
+                android:layout_width="match_parent"
+                android:layout_marginRight="@dimen/x10"
+                android:layout_height="match_parent" />
+            <ImageView
+                android:layout_marginRight="@dimen/x15"
+                android:id="@+id/iv_toolbarShieldCompanySearchDelete"
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/delete"
+                android:layout_centerVertical="true"
+                android:layout_width="@dimen/x28"
+                android:layout_height="@dimen/x28" />
+        </RelativeLayout>
+        <TextView
+            android:text="@string/search"
+            android:id="@+id/tv_toolbarShieldCompanySearch"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/x27"
+            android:textColor="@color/new_main"
+            android:textSize="@dimen/x32"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        </RelativeLayout>
+</android.support.constraint.ConstraintLayout>

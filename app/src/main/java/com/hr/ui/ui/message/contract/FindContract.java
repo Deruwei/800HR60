@@ -17,12 +17,12 @@ import rx.Observable;
 
 public interface FindContract {
     interface Model extends BaseModel{
-        Observable<FindBean> getFindData(int page);
+        Observable<FindBean> getFindData(int page,String ad_type);
     }
     interface View extends BaseView{
         void getFiindDataSuccess(List<FindBean.ListBean> listBeans);
     }
     abstract class Presenter extends BasePresenter<View,Model>{
-        public  abstract void getFindData(int page);
+        public  abstract void getFindData(int page,String ad_type);
     }
 }

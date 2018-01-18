@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <include layout="@layout/layout_toolbar"
+        android:id="@+id/in_invite"
+        />
+    <android.support.v4.widget.NestedScrollView
+        android:background="@color/resumeContent_bg"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/in_invite"
+        android:layout_width="0dp"
+        android:layout_height="0dp">
+    <RelativeLayout
+        android:paddingBottom="@dimen/x20"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/ll_inviteTop"
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/x30"
+        android:layout_marginRight="@dimen/x30"
+        android:layout_marginTop="@dimen/x20"
+        android:paddingTop="@dimen/x40"
+        android:paddingLeft="@dimen/x40"
+        android:paddingRight="@dimen/x40"
+        android:paddingBottom="@dimen/x30"
+        android:background="@drawable/edit_bg_small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_inviteJobName"
+                android:text="@string/atWorking"
+                android:textSize="@dimen/x36"
+                android:textColor="@color/color_333"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="@string/atWorking"
+                android:id="@+id/tv_inviteSalary"
+                android:textSize="@dimen/x32"
+                android:layout_alignParentRight="true"
+                android:textColor="#f75a53"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_marginTop="@dimen/x20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="海淀区"
+                    android:id="@+id/tv_invitePlace"
+                    android:textSize="@dimen/x28"
+                    android:textColor="@color/color_999"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:text="/"
+                    android:layout_marginLeft="@dimen/x6"
+                    android:textSize="@dimen/x28"
+                    android:textColor="@color/color_999"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:text="3年"
+                    android:id="@+id/tv_inviteExp"
+                    android:layout_marginLeft="@dimen/x6"
+                    android:textSize="@dimen/x28"
+                    android:textColor="@color/color_999"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:text="/"
+                    android:layout_marginLeft="@dimen/x6"
+                    android:textSize="@dimen/x28"
+                    android:textColor="@color/color_999"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_inviteDegree"
+                    android:layout_marginLeft="@dimen/x6"
+                    android:text="本科"
+                    android:textSize="@dimen/x28"
+                    android:textColor="@color/color_999"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_marginTop="@dimen/x40"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:src="@mipmap/persondefault"
+                android:id="@+id/iv_inviteCompanyImage"
+                android:scaleType="centerCrop"
+                android:layout_width="@dimen/x52"
+                android:layout_height="@dimen/x52" />
+            <TextView
+                android:layout_marginLeft="@dimen/x10"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/iv_inviteCompanyImage"
+                android:id="@+id/tv_inviteCompanyName"
+                android:text="北京英才网联科技有限公司"
+                android:textSize="@dimen/x28"
+                android:textColor="@color/color_333"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_inviteTime"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/color_999"
+                android:textSize="@dimen/x28"
+                android:layout_centerVertical="true"
+                android:text="11月15日"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </LinearLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_invite"
+            android:layout_below="@+id/ll_inviteTop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+    </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
+</android.support.constraint.ConstraintLayout>

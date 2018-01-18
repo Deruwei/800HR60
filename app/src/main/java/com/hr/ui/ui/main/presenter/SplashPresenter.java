@@ -76,8 +76,7 @@ public class SplashPresenter extends SplashContract.Presenter {
 
             @Override
             protected void _onError(String message) {
-                mView.showErrorTip(message);
-                Log.i(TAG,message);
+                ToastUitl.showShort(message);
             }
         }));
     }
@@ -96,7 +95,7 @@ public class SplashPresenter extends SplashContract.Presenter {
 
             @Override
             protected void _onError(String message) {
-
+                ToastUitl.showShort(message);
             }
         }));
     }
@@ -147,7 +146,7 @@ public class SplashPresenter extends SplashContract.Presenter {
 
             @Override
             protected void _onError(String message) {
-
+                ToastUitl.showShort(message);
             }
         }));
     }
@@ -166,7 +165,7 @@ public class SplashPresenter extends SplashContract.Presenter {
 
             @Override
             protected void _onError(String message) {
-
+                ToastUitl.showShort(message);
             }
         }));
     }
@@ -193,7 +192,7 @@ public class SplashPresenter extends SplashContract.Presenter {
 
             @Override
             protected void _onError(String message) {
-
+                ToastUitl.showShort(message);
             }
         }));
     }
@@ -213,7 +212,7 @@ public class SplashPresenter extends SplashContract.Presenter {
 
             @Override
             protected void _onError(String message) {
-
+                ToastUitl.showShort(message);
             }
         }));
     }

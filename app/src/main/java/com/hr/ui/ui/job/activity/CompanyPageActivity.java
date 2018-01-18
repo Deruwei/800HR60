@@ -2,6 +2,7 @@ package com.hr.ui.ui.job.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
@@ -25,8 +27,12 @@ import com.hr.ui.ui.job.presenter.CompanyPagePresenter;
 import com.hr.ui.ui.main.adapter.MyRecommendJobAdapter;
 import com.hr.ui.ui.main.adapter.MyReleaseJobAdapter;
 import com.hr.ui.utils.EncryptUtils;
+import com.hr.ui.utils.Utils;
+import com.hr.ui.view.CircleImageView;
 import com.hr.ui.view.ExpandableTextView;
+import com.hr.ui.view.RoundImageView;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,7 +67,7 @@ public class CompanyPageActivity extends BaseActivity<CompanyPagePresenter, Comp
     @BindView(R.id.tv_companyPageCompanyScale)
     TextView tvCompanyPageCompanyScale;
     @BindView(R.id.iv_companyPageCompanyImage)
-    ImageView ivCompanyPageCompanyImage;
+    RoundImageView ivCompanyPageCompanyImage;
     @BindView(R.id.iv_companyLocationIcon)
     ImageView ivCompanyLocationIcon;
     @BindView(R.id.tv_companyPageAddress)
@@ -113,16 +119,21 @@ public class CompanyPageActivity extends BaseActivity<CompanyPagePresenter, Comp
 
     @Override
     public void getCompanyDataSuccess(CompanyBean.EnterpriseInfoBean enterpriseInfoBean1) {
-        enterpriseInfoBean=enterpriseInfoBean1;
-        tvCompanyPageAddress.setText(enterpriseInfoBean.getAddress());
-        tvCompanyPageCompanyName.setText(enterpriseInfoBean.getEnterprise_name());
-        tvCompanyPagePlace.setText(enterpriseInfoBean.getHome_area());
-        tvCompanyPageIndustry.setText(enterpriseInfoBean.getIndustry_name());
-        tvCompanyPageCompanyType.setText(enterpriseInfoBean.getCompany_type());
-        tvCompanyPageCompanyScale.setText(enterpriseInfoBean.getStuff_munber());
-        etvCompanyPage.setText(enterpriseInfoBean.getSynopsis(), true);
-        if (enterpriseInfoBean.getEnt_logo() != null && !"".equals(enterpriseInfoBean.getEnt_logo())) {
-            Glide.with(this).load(Constants.IMAGE_BASEPATH + enterpriseInfoBean.getEnt_logo()).centerCrop().into(ivCompanyPageCompanyImage);
+        if(enterpriseInfoBean1!=null&&!"".equals(enterpriseInfoBean1)) {
+
+            enterpriseInfoBean = enterpriseInfoBean1;
+            tvCompanyPageAddress.setText(enterpriseInfoBean.getAddress());
+            tvCompanyPageCompanyName.setText(enterpriseInfoBean.getEnterprise_name());
+            tvCompanyPagePlace.setText(enterpriseInfoBean.getHome_area());
+            tvCompanyPageIndustry.setText(enterpriseInfoBean.getIndustry_name());
+            tvCompanyPageCompanyType.setText(enterpriseInfoBean.getCompany_type());
+            tvCompanyPageCompanyScale.setText(enterpriseInfoBean.getStuff_munber());
+            etvCompanyPage.setText(enterpriseInfoBean.getSynopsis(), true);
+            if (enterpriseInfoBean.getEnt_logo() != null && !"".equals(enterpriseInfoBean.getEnt_logo())) {
+                Utils.setImageResource(this,ivCompanyPageCompanyImage,Constants.IMAGE_BASEPATH2+enterpriseInfoBean.getEnt_logo());
+            } else {
+               Utils.setImageResourceDefault(this,ivCompanyPageCompanyImage);
+            }
         }
     }
 

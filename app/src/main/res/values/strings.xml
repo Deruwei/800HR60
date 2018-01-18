@@ -88,12 +88,16 @@
     <string name="allReadyCollection">已收藏</string>
     <string name="allReadyDeliver">已投递</string>
     <string name="JobDes">岗位描述</string>
-    <string name="scan_history">历史记录</string>
+    <string name="scan_history">浏览记录</string>
+    <string name="companyAd1">品牌招聘</string>
+    <string name="companyAd2">炫公司</string>
+    <string name="companyAd3">专题活动</string>
     <string name="feedback">意见反馈</string>
     <string name="deliverFeedBack">投递反馈</string>
     <string name="whoSeeMe">谁看了我</string>
-    <string name="employmentGuidance">就业指导</string>
+    <string name="employmentGuidance">职场资讯</string>
     <string name="find">发现</string>
+    <string name="companyMessage">企业来信</string>
     <string name="setting">设置</string>
     <string name="company">企业入口</string>
     <string name="home">主页</string>
@@ -106,12 +110,24 @@
     <string name="historySearch">历史搜索</string>
     <string name="searchCondition">设置搜索条件</string>
     <string name="resume">简历</string>
-
+    //设置
+    <string name="messageNotification">消息通知</string>
+    <string name="shieldCompany">已屏蔽公司</string>
+    <string name="searchResult">搜索结果</string>
+    <string name="shield">屏蔽</string>
+    <string name="shieldCancel">取消屏蔽</string>
+    <string name="resetPsw">修改密码</string>
+    <string name="changeTel">更换手机</string>
+    <string name="evaluateMine">评价我们</string>
+    <string name="versionDes">版本说明</string>
+    <string name="changeAccount">更换帐号</string>
     //注册和登录
     <string name="login">登录</string>
     <string name="register">注册</string>
     <string name="phoneLogin">手机登录</string>
     <string name="phoneNumber">手机号码</string>
+    <string name="psw_old">旧密码（最少6位）</string>
+    <string name="psw_new">新密码（最少6位）</string>
     <string name="psw">密码（最少6位）</string>
     <string name="newPsw">新密码</string>
     <string name="accountLogin">帐号登录</string>
@@ -208,6 +224,7 @@
     <string name="major_hint">请选择专业</string>
     <string name="education">学历</string>
     <string name="edit">编辑</string>
+    <string name="clear">清空</string>
     <string name="education_hint">请选择学历</string>
     <string name="startAndEndTime">起止时间</string>
     <string name="startAndEndTime_hint">请选择起止时间</string>
@@ -259,6 +276,7 @@
     <string name="expectSalary">期望薪资</string>
     <string name="expectMonthSalary">期望月薪</string>
     <string name="positionOrCompanyName">输入公司名/职位名</string>
+    <string name="inputCompanyName">输入公司名</string>
     <string name="expectSalary_hint">请填写期望月薪</string>
     <string name="internshipExperience">实习经历</string>
     <string name="internshipExperienceHelper">有助于hr了解你过去的实习情况</string>

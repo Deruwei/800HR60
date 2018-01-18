@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -14,14 +15,23 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.Base2Activity;
 import com.hr.ui.base.BaseActivity;
 import com.hr.ui.bean.PositionBean;
+import com.hr.ui.bean.ScanHistoryBean;
+import com.hr.ui.constants.Constants;
+import com.hr.ui.db.ScanHistoryUtils;
 import com.hr.ui.ui.job.contract.PositionPageContract;
 import com.hr.ui.ui.job.model.PositionPageModel;
 import com.hr.ui.ui.job.presenter.PositionPagePresenter;
+import com.hr.ui.utils.Utils;
+import com.hr.ui.view.RoundImageView;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,7 +59,7 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
     @BindView(R.id.tv_positionPageReleaseTime)
     TextView tvPositionPageReleaseTime;
     @BindView(R.id.iv_positionPageCompanyIcon)
-    ImageView ivPositionPageCompanyIcon;
+    RoundImageView ivPositionPageCompanyIcon;
     @BindView(R.id.tv_positionPageCompanyName)
     TextView tvPositionPageCompanyName;
     @BindView(R.id.tv_positionPageIndustry)
@@ -124,31 +134,52 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
     }
 
     private void initUI(PositionBean.JobInfoBean jobInfoBean) {
-        tvPositionPageJobName.setText(jobInfoBean.getJob_name());
-        tvPositionPageAddress.setText(jobInfoBean.getWorkplace());
-        tvPositionPageExp.setText(jobInfoBean.getWorkyear());
-        tvPositionPageDegree.setText(jobInfoBean.getStudy());
-        tvPositionPageNum.setText(jobInfoBean.getNumber());
-        tvPositionPageSalary.setText(jobInfoBean.getMonthly_pay() + "-" + jobInfoBean.getMonthly_pay_to());
-        tvPositionPageReleaseTime.setText(jobInfoBean.getIssue_date());
-        tvPositionPageCompanyName.setText(jobInfoBean.getEnterprise_name());
-        tvPositionPageIndustry.setText("[" + jobInfoBean.getIndustry_name() + "]");
-        tvPositionPageCompanyType.setText(jobInfoBean.getCompany_type());
-        tvPositionPageCompanyScale.setText(jobInfoBean.getStuff_munber());
-        tvPositionPageJobDes.setText(jobInfoBean.getSynopsis());
-        collection=jobInfoBean.getIs_favourite();
-        companyId=jobInfoBean.getEnterprise_id();
-        if(jobInfoBean.getIs_favourite()==0){
+        if(jobInfoBean!=null&&!"".equals(jobInfoBean)&&!"[]".equals(jobInfoBean)) {
+            ScanHistoryBean scanHistoryBean=new ScanHistoryBean();
+            scanHistoryBean.setJobId(jobInfoBean.getJob_id());
+            scanHistoryBean.setCompanyName(jobInfoBean.getEnterprise_name());
+            scanHistoryBean.setDegree(jobInfoBean.getStudy());
+            scanHistoryBean.setPlace(jobInfoBean.getWorkplace());
+            scanHistoryBean.setJobName(jobInfoBean.getJob_name());
+            scanHistoryBean.setExp(jobInfoBean.getWorkyear());
+            scanHistoryBean.setSalary(jobInfoBean.getSalary());
+            SimpleDateFormat formatter   =   new   SimpleDateFormat   ("M - dd");
+            Date curDate =  new Date(System.currentTimeMillis());
+            String   str   =   formatter.format(curDate);
+            scanHistoryBean.setTime(str);
+            ScanHistoryUtils.getInstance().insertOrReplcae(scanHistoryBean);
+            //Log.i("职位的信息",jobInfoBean.toString());
+            tvPositionPageJobName.setText(jobInfoBean.getJob_name());
+            tvPositionPageAddress.setText(jobInfoBean.getWorkplace());
+            tvPositionPageExp.setText(jobInfoBean.getWorkyear());
+            tvPositionPageDegree.setText(jobInfoBean.getStudy());
+            tvPositionPageNum.setText(jobInfoBean.getNumber());
+            tvPositionPageSalary.setText(Utils.getSalary(jobInfoBean.getSalary()));
+            tvPositionPageReleaseTime.setText(Utils.getDateMonthAndDay(jobInfoBean.getIssue_date()));
+            tvPositionPageCompanyName.setText(jobInfoBean.getEnterprise_name());
+            tvPositionPageIndustry.setText("[" + jobInfoBean.getIndustry_name() + "]");
+            tvPositionPageCompanyType.setText(jobInfoBean.getCompany_type());
+            tvPositionPageCompanyScale.setText(jobInfoBean.getStuff_munber());
+            tvPositionPageJobDes.setText(jobInfoBean.getSynopsis());
+            collection = jobInfoBean.getIs_favourite();
+            if (jobInfoBean.getEnt_logo() != null && !"".equals(jobInfoBean.getEnt_logo())) {
+                Utils.setImageResource(this,ivPositionPageCompanyIcon,Constants.IMAGE_BASEPATH2+jobInfoBean.getEnt_logo());
+            } else {
+               Utils.setImageResourceDefault(this,ivPositionPageCompanyIcon);
+            }
+            companyId = jobInfoBean.getEnterprise_id();
+            if (jobInfoBean.getIs_favourite() == 0) {
                 tvPositionPageCollection.setText(R.string.collection);
-        }else if(jobInfoBean.getIs_favourite()==1){
+            } else if (jobInfoBean.getIs_favourite() == 1) {
                 tvPositionPageCollection.setText(R.string.allReadyCollection);
-        }
+            }
 
-        apply=jobInfoBean.getIs_apply();
-        if(apply==1){
-            tvPositionPageDeliverResume.setText(R.string.allReadyDeliver);
-        }else if(apply==0){
-            tvPositionPageDeliverResume.setText(R.string.deliverResume);
+            apply = jobInfoBean.getIs_apply();
+            if (apply == 1) {
+                tvPositionPageDeliverResume.setText(R.string.allReadyDeliver);
+            } else if (apply == 0) {
+                tvPositionPageDeliverResume.setText(R.string.deliverResume);
+            }
         }
     }
 

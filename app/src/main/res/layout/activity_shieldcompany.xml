@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="true"
+    android:background="@color/resumeContent_bg"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <include layout="@layout/layout_toolbar_shieldcompany"
+        android:id="@+id/in_shieldCompany"
+        />
+    <LinearLayout
+        android:layout_width="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/in_shieldCompany"
+        android:layout_height="0dp">
+        <TextView
+            android:id="@+id/tv_shieldCompanyTitle"
+            android:layout_marginTop="@dimen/x40"
+            android:layout_marginLeft="@dimen/x31"
+            android:textSize="@dimen/x28"
+            android:textColor="@color/color_666"
+            android:text="@string/shieldCompany"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+             <com.hr.ui.view.XRecyclerView
+                android:id="@+id/rv_shieldCompany"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </com.hr.ui.view.XRecyclerView>
+            <com.hr.ui.view.XRecyclerView
+                android:visibility="gone"
+                android:id="@+id/rv_shieldCompanyQuery"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </com.hr.ui.view.XRecyclerView>
+        </FrameLayout>
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

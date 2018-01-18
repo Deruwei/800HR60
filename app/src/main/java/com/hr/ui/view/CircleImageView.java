@@ -16,9 +16,11 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 import com.hr.ui.R;
+import com.hr.ui.app.HRApplication;
 
 /**
  * 作者：Colin
@@ -34,7 +36,7 @@ public class CircleImageView extends ImageView {
     private static final Bitmap.Config BITMAP_CONFIG = Bitmap.Config.ARGB_8888;
     private static final int COLORDRAWABLE_DIMENSION = 2;
 
-    private static final int DEFAULT_BORDER_WIDTH = 0;
+    private static final int DEFAULT_BORDER_WIDTH = 2;
     private static final int DEFAULT_BORDER_COLOR = Color.BLACK;
     private static final int DEFAULT_FILL_COLOR = Color.TRANSPARENT;
     private static final boolean DEFAULT_BORDER_OVERLAY = false;
@@ -291,7 +293,7 @@ public class CircleImageView extends ImageView {
 
         mBorderPaint.setStyle(Paint.Style.STROKE);
         mBorderPaint.setAntiAlias(true);
-        mBorderPaint.setColor(mBorderColor);
+        mBorderPaint.setColor(ContextCompat.getColor(HRApplication.getAppContext(),R.color.bg_color));
         mBorderPaint.setStrokeWidth(mBorderWidth);
 
         mFillPaint.setStyle(Paint.Style.FILL);

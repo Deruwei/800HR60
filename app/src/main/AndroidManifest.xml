@@ -78,6 +78,7 @@
 
         <activity android:name=".ui.main.activity.MainActivity"
             android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"
             >
         </activity>
@@ -219,9 +220,10 @@
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.main.activity.JobSerchActivity"
-        android:windowSoftInputMode="adjustPan|stateHidden"
-        android:theme="@style/AppTheme"
-        android:screenOrientation="portrait"/>
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:theme="@style/AppTheme"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"/>
         <activity android:name=".ui.main.activity.SelectIndustryActivity"
             android:windowSoftInputMode="adjustPan|stateHidden"
             android:theme="@style/AppTheme"
@@ -237,6 +239,7 @@
         <activity android:name=".ui.job.activity.CompanyPageActivity"
             android:windowSoftInputMode="adjustPan|stateHidden"
             android:theme="@style/DialogTransparent"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity android:name=".ui.me.activity.CollectionActivity"
             android:windowSoftInputMode="adjustPan|stateHidden"
@@ -255,6 +258,42 @@
             android:theme="@style/DialogTransparent"
             android:screenOrientation="portrait" />
         <activity android:name=".ui.message.activity.WhoSeeMeActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:theme="@style/DialogTransparent"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.message.activity.InviteActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:theme="@style/DialogTransparent"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.message.activity.EmploymentGuidanceActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:theme="@style/DialogTransparent"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.message.activity.GuidanceInfoActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:theme="@style/DialogTransparent"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.me.activity.SettingActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:theme="@style/DialogTransparent"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.message.activity.WebActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:theme="@style/DialogTransparent"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.me.activity.ShieldCompanyActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:theme="@style/DialogTransparent"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.me.activity.ScanHistoryActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:theme="@style/DialogTransparent"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.me.activity.ChangePhoneActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:theme="@style/DialogTransparent"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.me.activity.ChangePswActivity"
             android:windowSoftInputMode="adjustPan|stateHidden"
             android:theme="@style/DialogTransparent"
             android:screenOrientation="portrait" />

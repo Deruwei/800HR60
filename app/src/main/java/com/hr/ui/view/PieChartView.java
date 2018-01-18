@@ -74,7 +74,7 @@ public class PieChartView extends View {
         canvas.drawArc(rectF,startAngle,endAngle,true,mPaint);
         startAngle=endAngle;
         endAngle=360-endAngle;
-        mSecondPaint.setColor(ContextCompat.getColor(HRApplication.getAppContext(),R.color.color_999));
+        mSecondPaint.setColor(ContextCompat.getColor(HRApplication.getAppContext(),R.color.new_main));
         canvas.drawArc(rectF1,startAngle,endAngle,true,mSecondPaint);
     }
 }

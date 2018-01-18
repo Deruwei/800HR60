@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:paddingLeft="@dimen/x32"
+            android:background="#f6f6f6"
+            android:id="@+id/tv_itemScanHistoryTime"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/x24"
+            android:textColor="@color/color_666"
+            android:text="@string/shieldCompany"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x40" />
+        <LinearLayout
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_marginLeft="@dimen/x32"
+                android:layout_marginTop="@dimen/x28"
+                android:layout_marginRight="@dimen/x31"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_itemScanHistoryJobName"
+                    android:textSize="@dimen/x32"
+                    android:singleLine="true"
+                    android:textColor="@color/color_333"
+                    android:maxEms="12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_itemScanHistorySalary"
+                    android:textSize="@dimen/x32"
+                    android:layout_alignParentRight="true"
+                    android:textColor="@color/new_main"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_marginLeft="@dimen/x32"
+                android:layout_marginTop="@dimen/x10"
+                android:layout_marginRight="@dimen/x31"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_itemScanHistoryPlace"
+                    android:textSize="@dimen/x24"
+                    android:textColor="@color/color_999"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_marginLeft="@dimen/x6"
+                    android:text="/"
+                    android:textSize="@dimen/x24"
+                    android:textColor="@color/color_999"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_itemScanHistoryExp"
+                    android:layout_marginLeft="@dimen/x6"
+                    android:textSize="@dimen/x24"
+                    android:textColor="@color/color_999"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_marginLeft="@dimen/x6"
+                    android:textSize="@dimen/x24"
+                    android:text="/"
+                    android:textColor="@color/color_999"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_itemScanHistoryDegree"
+                    android:layout_marginLeft="@dimen/x6"
+                    android:textSize="@dimen/x24"
+                    android:textColor="@color/color_999"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/tv_itemScanHistoryCompanyName"
+                android:textSize="@dimen/x28"
+                android:textColor="@color/color_333"
+                android:singleLine="true"
+                android:layout_marginBottom="@dimen/x24"
+                android:layout_marginLeft="@dimen/x31"
+                android:layout_marginRight="@dimen/x31"
+                android:layout_marginTop="@dimen/x10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x1"
+                android:background="@color/bg_color"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

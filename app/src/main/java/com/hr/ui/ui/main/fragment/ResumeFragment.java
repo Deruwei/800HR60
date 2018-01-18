@@ -520,6 +520,8 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
         if (orderInfoBean != null) {
             tvResumeJobState.setText(ResumeInfoIDToString.getCurrentState(getActivity(), orderInfoBean.get(0).getCurrent_workstate(), true));
             tvResumeJobOrder.setText("[" + ResumeInfoIDToString.getIndustry(getActivity(), orderInfoBean.get(0).getOrder_industry().get(0).getIndustry(), true) + "]" + FromStringToArrayList.getInstance().getExpectPositionString(orderInfoBean.get(0).getOrder_industry().get(0).getIndustry(), orderInfoBean.get(0).getOrder_industry().get(0).getFunc()));
+            sUtils.setStringValue(Constants.INDUSTRY_ID,orderInfoBean.get(0).getIndustry());
+            HomeFragment.instance.refresh();
         }
     }
 
@@ -557,7 +559,7 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
 
     private void initWorkExp() {
         llResumeWorkExpList.removeAllViewsInLayout();
-        if (experienceListBeanList != null) {
+        if (experienceListBeanList != null&& experienceListBeanList.size() != 0) {
             llResumeWorkExpList.setVisibility(View.VISIBLE);
             for (int i = 0; i < experienceListBeanList.size(); i++) {
                 View plantView = LayoutInflater.from(getActivity()).inflate(

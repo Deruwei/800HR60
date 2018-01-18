@@ -303,7 +303,11 @@ public class XRecyclerView extends RecyclerView {
     }
 
     private int getHeaders_includingRefreshCount(){
-        return mWrapAdapter.getHeadersCount()+1;
+        if(mWrapAdapter!=null) {
+            return mWrapAdapter.getHeadersCount() + 1;
+        }else{
+            return 1;
+        }
     }
 
     /** ======================================================= end ======================================================= */

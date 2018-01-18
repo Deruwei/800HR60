@@ -2,6 +2,8 @@ package com.hr.ui.base;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
+
 import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.utils.LoadingDialog;
@@ -84,8 +86,9 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
     }
     @Override
     public void onError(Throwable e) {
+        Log.i("网络错误码",e.getMessage());
         if (showDialog)
-            LoadingDialog.cancelDialogForLoading();
+           /* LoadingDialog.cancelDialogForLoading();*/
         e.printStackTrace();
         //网络
         if (!NetWorkUtils.isNetConnected(HRApplication.getAppContext())) {

@@ -94,6 +94,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
     public void initView() {
         type=getIntent().getIntExtra("type",0);
         sUtils=new SharedPreferencesUtils(this);
+        /*sUtils.setIntValue("code",0);*/
         isAutoLogin=sUtils.getIntValue(Constants.ISAUTOLOGIN,0);
         autoLoginType=sUtils.getIntValue(Constants.AUTOLOGINTYPE,5);
         mPresenter.getConnect(this);

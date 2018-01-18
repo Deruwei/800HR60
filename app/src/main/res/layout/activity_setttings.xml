@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:background="@color/white"
+    android:focusableInTouchMode="true"
+    android:focusable="true"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <include layout="@layout/layout_toolbar"
+        android:id="@+id/in_setting"
+        />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/in_setting"
+        >
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x20"
+            android:background="@color/resumeContent_bg"/>
+        <RelativeLayout
+            android:id="@+id/rl_settingMessageNotification"
+            style="@style/rl_setting">
+            <TextView
+                android:text="@string/messageNotification"
+                style="@style/tv_setting" />
+            <Switch
+                android:id="@+id/iv_hideResume"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/x30"
+                android:thumb="@drawable/thumb"
+                android:track="@drawable/track" />
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x1"
+            android:background="@color/bg_color"/>
+        <RelativeLayout
+            android:id="@+id/rl_settingShieldCompany"
+            style="@style/rl_setting">
+            <TextView
+                android:text="@string/shieldCompany"
+                style="@style/tv_setting" />
+            <ImageView
+                style="@style/iv_setting" />
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x20"
+            android:background="@color/resumeContent_bg"/>
+        <RelativeLayout
+            android:id="@+id/rl_settingResetPsw"
+            style="@style/rl_setting">
+            <TextView
+                android:text="@string/resetPsw"
+                style="@style/tv_setting" />
+            <ImageView
+                style="@style/iv_setting" />
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x1"
+            android:background="@color/bg_color"/>
+        <RelativeLayout
+            android:id="@+id/rl_settingChangeTel"
+            style="@style/rl_setting">
+            <TextView
+                android:text="@string/changeTel"
+                style="@style/tv_setting" />
+            <ImageView
+                style="@style/iv_setting" />
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x20"
+            android:background="@color/resumeContent_bg"/>
+        <RelativeLayout
+            android:id="@+id/rl_settingEvaluateMine"
+            style="@style/rl_setting">
+            <TextView
+                android:text="@string/evaluateMine"
+                style="@style/tv_setting" />
+            <ImageView
+                style="@style/iv_setting" />
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x1"
+            android:background="@color/bg_color"/>
+        <RelativeLayout
+            android:id="@+id/rl_settingVersionDes"
+            style="@style/rl_setting">
+            <TextView
+                android:text="@string/versionDes"
+                style="@style/tv_setting" />
+            <ImageView
+                style="@style/iv_setting" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <View
+            android:layout_above="@+id/rl_settingChangeAccount"
+            android:background="@color/resumeContent_bg"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x306"/>
+        <RelativeLayout
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:id="@+id/rl_settingChangeAccount"
+            style="@style/rl_setting"
+            >
+            <TextView
+                android:layout_centerInParent="true"
+                android:text="@string/changeAccount"
+                style="@style/tv_setting" />
+        </RelativeLayout>
+        </RelativeLayout>
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

@@ -161,6 +161,25 @@ public class FromStringToArrayList {
         }
         return industryList;
     }
+    public String getIndustryName(String industryId){
+        List<CityBean> industryList=new ArrayList<>();
+        String industryName="";
+        String[] sName=HRApplication.getAppContext().getResources().getStringArray(R.array.array_industry_zh);
+        String[] sId=HRApplication.getAppContext().getResources().getStringArray(R.array.array_industry_ids);
+        for(int i=0;i<sName.length;i++){
+            CityBean cityBean=new CityBean();
+            cityBean.setId(sId[i]);
+            cityBean.setName(sName[i]);
+            industryList.add(cityBean);
+        }
+        for(int i=0;i<industryList.size();i++){
+            if(industryList.get(i).getId().equals(industryId)){
+                industryName=industryList.get(i).getName();
+                break;
+            }
+        }
+        return industryName;
+    }
     public  List<CityBean> getExpectField(String industryId){
         List<CityBean> expectFieldList=new ArrayList<>();
         String s=SaveFile.getDataFromInternalStorage(HRApplication.getAppContext(),"lingyu.txt");
@@ -261,6 +280,7 @@ public class FromStringToArrayList {
         }
         return null;
     }
+
     public boolean getIndustryIsHaveField(String industryId){
         if("11".equals(industryId)){
            return true;

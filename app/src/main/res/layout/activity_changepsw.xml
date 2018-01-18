@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    android:focusable="true"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <include layout="@layout/layout_toolbar"
+        android:id="@+id/in_changePsw"
+        />
+    <LinearLayout
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/in_changePsw"
+        style="@style/login_contentLinearLayout"
+        android:layout_height="0dp">
+        <RelativeLayout
+            style="@style/login_relativeLayout">
+            <ImageView
+                android:layout_marginLeft="@dimen/x3"
+                android:id="@+id/iv_changePswNewOldIcon"
+                android:src="@mipmap/old_psw"
+                style="@style/Login_imageViewIcon"
+                />
+            <EditText
+                android:layout_toRightOf="@+id/iv_changePswNewOldIcon"
+                android:id="@+id/et_changePswNewOld"
+                android:singleLine="true"
+                style="@style/login_editText"
+                android:hint="@string/psw_old"
+                />
+            <View
+                android:layout_below="@+id/et_changePswNewOld"
+                style="@style/login_view"/>
+        </RelativeLayout>
+
+        <RelativeLayout style="@style/login_relativeLayout">
+
+            <ImageView
+                android:id="@+id/iv_changePswNewIcon"
+                style="@style/Login_imageViewIcon"
+                android:src="@mipmap/psw" />
+
+            <EditText
+                android:id="@+id/et_changePswNew"
+                style="@style/login_editText"
+                android:layout_toRightOf="@+id/iv_changePswNewIcon"
+                android:hint="@string/psw_new"
+                android:singleLine="true" />
+            <View
+                android:id="@+id/view_getValidCode2"
+                style="@style/login_view"
+                android:layout_below="@+id/et_changePswNew" />
+        </RelativeLayout>
+        <Button
+            android:id="@+id/btn_changePswOK"
+            android:text="@string/complete"
+            style="@style/login_buttonOK"
+            />
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

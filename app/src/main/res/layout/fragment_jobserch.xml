@@ -9,6 +9,8 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent">
@@ -24,7 +26,7 @@
             <RelativeLayout
                 android:id="@+id/rl_jobSearchFragmentBack"
                 android:layout_centerVertical="true"
-                android:layout_width="@dimen/x51"
+                android:layout_width="@dimen/x88"
                 android:layout_height="@dimen/x30">
             <ImageView
                 android:layout_marginLeft="@dimen/x30"
@@ -32,17 +34,22 @@
                 android:layout_width="@dimen/x14"
                 android:layout_height="@dimen/x30" />
             </RelativeLayout>
+            <RelativeLayout
+                android:layout_marginLeft="@dimen/x88"
+                android:id="@+id/rl_jobSearchTypeFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
             <TextView
                 android:text="全部"
                 android:textSize="@dimen/x32"
                 android:id="@+id/tv_jobSearchTypeFragment"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/x88"
                 android:textColor="@color/color_333"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+            </RelativeLayout>
             <ImageView
-                android:layout_toRightOf="@+id/tv_jobSearchTypeFragment"
+                android:layout_toRightOf="@+id/rl_jobSearchTypeFragment"
                 android:layout_width="@dimen/x8"
                 android:layout_centerVertical="true"
                 android:src="@mipmap/down"
@@ -51,6 +58,7 @@
 
         </RelativeLayout>
         <View
+            android:visibility="gone"
             android:layout_toRightOf="@+id/rl_jobSearchFragmentType"
             android:background="@color/color_333"
             android:layout_marginLeft="@dimen/x25"
@@ -65,8 +73,9 @@
             android:layout_marginLeft="@dimen/x50"
             android:hint="@string/searchHint"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/tv_jobSearch"
+            android:layout_toLeftOf="@+id/tv_jobSearchFragment"
             android:background="@null"
+            android:imeOptions="actionSearch"
             android:singleLine="true"
             android:layout_marginRight="@dimen/x25"
             android:textColor="@color/color_333"

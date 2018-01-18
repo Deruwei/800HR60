@@ -78,7 +78,6 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
     private int[] imageIds = {R.mipmap.resume1, R.mipmap.resume2, R.mipmap.resume3, R.mipmap.resume4, R.mipmap.resume5};
     private ArrayList<String> titles;
     private int userId;
-
     /**
      * 入口
      *
@@ -119,6 +118,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
 
     @Override
     public void sendAutoCode(String autoCode) {
+        this.autoCode=autoCode;
         ivAutoCode.setImageBitmap(EncryptUtils.stringtoBitmap(autoCode));
     }
 
@@ -264,7 +264,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
             public void onClick(View v) {
                 String autoCodeText = etAutoCode.getText().toString();
                 if (autoCodeText != null && !"".equals(autoCodeText)) {
-                    mPresenter.getValidCode(etPhoneRegisterNumber.getText().toString(), etAutoCode.getText().toString(), 1, Constants.VALIDCODE_REGISTER_YTPE);
+                    mPresenter.getValidCode(etPhoneRegisterNumber.getText().toString(), autoCodeText, 1, Constants.VALIDCODE_REGISTER_YTPE);
                 } else {
                     ToastUitl.show("请填写图形验证码", Toast.LENGTH_SHORT);
                 }

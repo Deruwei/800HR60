@@ -497,4 +497,24 @@
         <item name="android:textColor">@color/color_333</item>
         <item name="android:textSize">@dimen/x30</item>
     </style>
+    <style name="rl_setting">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/x118</item>
+    </style>
+    <style name="tv_setting">
+        <item name="android:textColor">@color/color_666</item>
+        <item name="android:textSize">@dimen/x36</item>
+        <item name="android:layout_marginLeft">@dimen/x31</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="iv_setting">
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_width">@dimen/x11</item>
+        <item name="android:layout_height">@dimen/x18</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:src">@mipmap/right_arrow</item>
+        <item name="android:layout_marginRight">@dimen/x30</item>
+    </style>
 </resources>

@@ -23,8 +23,8 @@ import rx.schedulers.Schedulers;
 
 public class FindModel implements FindContract.Model {
     @Override
-    public Observable<FindBean> getFindData(int page) {
-        return Api.getDefault(HostType.HR).getResponseString(EncryptUtils.encrypParams(ApiParameter.getFind(page)))
+    public Observable<FindBean> getFindData(int page,String ad_type) {
+        return Api.getDefault(HostType.HR).getResponseString(EncryptUtils.encrypParams(ApiParameter.getFind(page,ad_type)))
                 .map(new Func1<ResponseBody, FindBean>() {
                     @Override
                     public FindBean call(ResponseBody responseBody) {

@@ -60,7 +60,6 @@ public class ShowMsgActivity extends BaseActivity {
         rvMsg.addItemDecoration(rvMsg.new DividerItemDecoration(dividerDrawable));
         rvMsg.setRefreshProgressStyle(ProgressStyle.LineScaleParty);
         rvMsg.setLoadingMoreProgressStyle(ProgressStyle.BallTrianglePath);
-        rvMsg.setArrowImageView(R.drawable.iconfont_downgrey);
         rvMsg.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {

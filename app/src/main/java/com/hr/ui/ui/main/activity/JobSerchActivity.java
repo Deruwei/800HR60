@@ -95,6 +95,8 @@ public class JobSerchActivity extends BaseNoConnectNetworkAcitivty {
     private List<CityBean> selectCityList = new ArrayList<>();
     private List<CityBean> selectIndustryList=new ArrayList<>();
     private List<CityBean> selectPositionList=new ArrayList<>();
+    private List<CityBean> selectFunctionList=new ArrayList<>();
+    private String functionId;
     public static final String TAG = JobSerchActivity.class.getSimpleName();
     public  static JobSerchActivity instance;
     private int jobSerchType=1;//1代表搜索全部 2代表根据职位进行搜索 3代表根据公司进行搜索
@@ -134,14 +136,11 @@ public class JobSerchActivity extends BaseNoConnectNetworkAcitivty {
                     R.layout.item_history, null, false);
             TextView tv = ll.findViewById(R.id.item_selectHistory);
             Random random = new Random();
-            int r = random.nextInt(256);
-            int g = random.nextInt(256);
-            int b = random.nextInt(256);
             GradientDrawable bgShape = (GradientDrawable) tv.getBackground();
 //                    bgShape.setColor(Color.BLACK);
-            bgShape.setStroke(1,Color.rgb(r, g, b));
+            bgShape.setStroke(1,ContextCompat.getColor(HRApplication.getAppContext(),R.color.bg_color));
             bgShape.setCornerRadius(15);
-            tv.setTextColor(Color.rgb(r, g, b));
+            tv.setTextColor(ContextCompat.getColor(HRApplication.getAppContext(),R.color.color_333));
             ll.setLayoutParams(params);
 
             tv.setText(historyBeanList.get(i).getSearchName());
@@ -203,6 +202,9 @@ public class JobSerchActivity extends BaseNoConnectNetworkAcitivty {
                 if(!"".equals(postionId)&&postionId!=null){
                     jobSearchBean.setPositionId(postionId);
                 }
+                if(!"".equals(functionId)&&functionId!=null){
+                    jobSearchBean.setFieldId(functionId);
+                }
                 if(etJobSearch.getText().toString()!=null&&!"".equals(etJobSearch.getText().toString())) {
                     jobSearchBean.setSearchName(etJobSearch.getText().toString());
                     HistoryBean historyBean=new HistoryBean();
@@ -233,7 +235,7 @@ public class JobSerchActivity extends BaseNoConnectNetworkAcitivty {
                 SelectCityActivity.startAction(this, 2, TAG, selectCityList);
                 break;
             case R.id.rl_jobSearchIndustry:
-                SelectIndustryActivity.startAction(this,selectIndustryList);
+                SelectFunctionActivity.startAction(this,industryId,selectFunctionList,TAG);
                 break;
             case R.id.rl_jobSearchFunction:
                 if(industryId!=null&&!"".equals(industryId)){
@@ -289,7 +291,7 @@ public class JobSerchActivity extends BaseNoConnectNetworkAcitivty {
         popupWindowJobType.setOutsideTouchable(true);
         popupWindowJobType.setFocusable(true);
         popupWindowJobType.setAnimationStyle(R.style.style_pop_animation);
-        popupWindowJobType.showAtLocation(tvJobSearch, Gravity.NO_GRAVITY,  wm.getDefaultDisplay().getWidth()-x-tvJobSearch.getWidth()/3,  y+tvJobSearch.getHeight());
+        popupWindowJobType.showAsDropDown(tvJobSearchType, 0,5);
     }
     public void setPlace(List<CityBean> selectCityList) {
         this.selectCityList.clear();
@@ -306,24 +308,36 @@ public class JobSerchActivity extends BaseNoConnectNetworkAcitivty {
         cityId = sb.toString();
         tvJobSearchPlace.setText(sbName);
     }
-    public void setIndustry(List<CityBean> selectIndustryList) {
-        this.selectIndustryList.clear();
-        this.selectIndustryList = selectIndustryList;
-        //Log.i("选择",selectFunctionList.toString());
-        StringBuffer sb = new StringBuffer();
-        StringBuffer sbName = new StringBuffer();
-        for (int i = 0; i < selectIndustryList.size(); i++) {
-            sb.append("," + selectIndustryList.get(i).getId());
-            sbName.append("，" + selectIndustryList.get(i).getName());
-        }
-        sb.deleteCharAt(0);
-        sbName.deleteCharAt(0);
-        if(!sb.toString().equals(industryId)) {
-            selectPositionList.clear();
+    /**
+     * 选择领域页面传递过来的参数
+     *
+     * @param industryId
+     * @param selectFunctionList
+     */
+    public void setFunctionList(String industryId, List<CityBean> selectFunctionList) {
+        this.selectFunctionList.clear();
+        if (!industryId.equals(this.industryId)) {
             tvJobSearchFunction.setText("");
+            selectPositionList.clear();
         }
-        industryId = sb.toString();
-        tvJobSearchIndustry.setText(sbName);
+        this.industryId = industryId;
+        if (selectFunctionList != null && !"".equals(selectFunctionList) && selectFunctionList.size() != 0) {
+            this.selectFunctionList = selectFunctionList;
+            //Log.i("选择",selectFunctionList.toString());
+            StringBuffer sb = new StringBuffer();
+            StringBuffer sbName = new StringBuffer();
+            for (int i = 0; i < selectFunctionList.size(); i++) {
+                sb.append("," + selectFunctionList.get(i).getId());
+                sbName.append("，" + selectFunctionList.get(i).getName());
+            }
+            sb.deleteCharAt(0);
+            sbName.deleteCharAt(0);
+            functionId = sb.toString();
+            tvJobSearchIndustry.setText("[" + ResumeInfoIDToString.getIndustry(this, industryId, true) + "]" + sbName);
+        } else {
+
+            tvJobSearchIndustry.setText("[" + ResumeInfoIDToString.getIndustry(HRApplication.getAppContext(), industryId, true) + "]");
+        }
     }
     public void setPosition(List<CityBean> selectPositionList) {
         this.selectPositionList.clear();

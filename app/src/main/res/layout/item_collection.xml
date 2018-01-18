@@ -27,6 +27,8 @@
                 android:id="@+id/tv_itemCollectionJobName"
                 android:text="@string/atWorking"
                 android:textSize="@dimen/x36"
+                android:singleLine="true"
+                android:maxEms="12"
                 android:textColor="@color/color_333"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -85,13 +87,16 @@
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content" />
           </LinearLayout>
+
             <TextView
-                android:layout_alignParentRight="true"
-                android:textColor="@color/color_999"
-                android:textSize="@dimen/x24"
-                android:text="11月15日"
+                android:id="@+id/tv_itemCollectionTime"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:text="11月15日"
+                android:textColor="@color/color_999"
+                android:textSize="@dimen/x24" />
         </RelativeLayout>
         <RelativeLayout
             android:layout_marginTop="@dimen/x45"
@@ -101,6 +106,8 @@
                 android:id="@+id/tv_itemCollectionCompanyName"
                 android:text="北京英才网联科技有限公司"
                 android:textSize="@dimen/x28"
+                android:singleLine="true"
+                android:maxEms="15"
                 android:textColor="@color/color_999"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

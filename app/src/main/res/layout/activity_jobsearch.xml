@@ -24,7 +24,8 @@
             android:src="@mipmap/back"
             android:layout_centerVertical="true"
             android:layout_height="@dimen/x30"
-            android:layout_width="@dimen/x14"
+            android:paddingRight="@dimen/x37"
+            android:layout_width="@dimen/x51"
              />
         <RelativeLayout
             android:id="@+id/rl_jobSearchType"
@@ -37,7 +38,6 @@
                 android:textSize="@dimen/x32"
                 android:id="@+id/tv_jobSearchType"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/x37"
                 android:textColor="@color/color_333"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -51,6 +51,8 @@
 
         </RelativeLayout>
         <View
+            android:visibility="gone"
+            android:id="@+id/view_middle"
             android:layout_toRightOf="@+id/rl_jobSearchType"
             android:background="@color/color_333"
             android:layout_marginLeft="@dimen/x25"
@@ -82,6 +84,16 @@
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+        <View
+            android:layout_marginTop="@dimen/x6"
+            android:layout_marginLeft="@dimen/x20"
+            android:layout_marginRight="@dimen/x20"
+            android:layout_below="@+id/et_jobSearch"
+            android:layout_toRightOf="@+id/view_middle"
+            android:layout_toLeftOf="@id/tv_jobSearch"
+            android:layout_width="match_parent"
+            android:background="@color/color_333"
+            android:layout_height="@dimen/x1"/>
     </RelativeLayout>
         <TextView
             android:layout_marginTop="@dimen/x39"

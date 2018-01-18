@@ -44,6 +44,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
     XRecyclerView rvHomeFragment;
     Unbinder unbinder;
     private int page=1;
+    public static HomeFragment instance;
     private MyRecommendJobAdapter jobAdapter;
     private List<RecommendJobBean.JobsListBean> recommendList=new ArrayList<>();
 
@@ -52,6 +53,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
         Bundle bundle = new Bundle();
         bundle.putString(Constants.ARGS, s);
         navigationFragment.setArguments(bundle);
+        instance=navigationFragment;
         return navigationFragment;
     }
 
@@ -80,9 +82,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
         Drawable dividerDrawable = ContextCompat.getDrawable(getActivity(), R.drawable.divider_sample);
         rvHomeFragment.addItemDecoration(rvHomeFragment.new DividerItemDecoration(dividerDrawable));
         rvHomeFragment.setRefreshProgressStyle(ProgressStyle.LineScaleParty);
-        rvHomeFragment.setNestedScrollingEnabled(false);
         rvHomeFragment.setLoadingMoreProgressStyle(ProgressStyle.BallTrianglePath);
-        rvHomeFragment.setArrowImageView(R.drawable.iconfont_downgrey);
 
         rvHomeFragment.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
@@ -91,7 +91,6 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
                     public void run() {
                      mPresenter.getRecommendJobInfo(1,20);
                         jobAdapter.notifyDataSetChanged();
-                        rvHomeFragment.refreshComplete();
                     }
 
                 }, 1000);            //refresh data here
@@ -103,7 +102,6 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
                     public void run() {
                         page++;
                         mPresenter.getRecommendJobInfo(page,20);
-                        rvHomeFragment.loadMoreComplete();
                         jobAdapter.notifyDataSetChanged();
                     }
                 }, 1000);
@@ -125,7 +123,10 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
         rvMsg.setAdapter(mAdapter);
         rvMsg.refresh();*/
     }
-
+    public  void refresh(){
+        page=1;
+        mPresenter.getRecommendJobInfo(page,20);
+    }
 
     @Override
     public void showLoading(String title) {
@@ -160,13 +161,15 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
     public void getRecommendJobSuccess(List<RecommendJobBean.JobsListBean> jobsBeanList) {
         if(jobsBeanList!=null&&jobsBeanList.size()!=0){
             if(page==1) {
+                jobAdapter=new MyRecommendJobAdapter();
                 recommendList.clear();
                 recommendList.addAll(jobsBeanList);
                 jobAdapter.setJobsListBeanList(recommendList);
                 rvHomeFragment.setAdapter(jobAdapter);
-                rvHomeFragment.refresh();
+                rvHomeFragment.refreshComplete();
             }else{
                 recommendList.addAll(jobsBeanList);
+                rvHomeFragment.loadMoreComplete();
                 jobAdapter.notifyDataSetChanged();
             }
         }else{

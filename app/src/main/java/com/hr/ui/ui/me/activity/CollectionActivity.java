@@ -184,7 +184,6 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter, Collec
         rvCollection.setRefreshProgressStyle(ProgressStyle.LineScaleParty);
         rvCollection.setNestedScrollingEnabled(false);
         rvCollection.setLoadingMoreProgressStyle(ProgressStyle.BallTrianglePath);
-        rvCollection.setArrowImageView(R.drawable.iconfont_downgrey);
         adapter=new MainRecyclerAdapter(this,2,mPresenter);
         rvCollection.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override

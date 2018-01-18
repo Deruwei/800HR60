@@ -97,10 +97,14 @@
                                android:layout_height="wrap_content" />
                        </LinearLayout>
                    </LinearLayout>
-                   <ImageView
+                   <com.hr.ui.view.RoundImageView
                        android:id="@+id/iv_companyPageCompanyImage"
-                       android:background="@mipmap/persondefault"
+                       android:src="@mipmap/defaultcompany"
                        android:layout_marginTop="@dimen/x70"
+                       app:type="rounded_rect"
+                       app:borderColor="@color/white"
+                       app:borderWidth="@dimen/x1"
+                       app:rectRoundRadius="@dimen/x6"
                        android:layout_gravity="center_horizontal"
                        android:layout_width="@dimen/x160"
                        android:layout_height="@dimen/x160" />
@@ -169,7 +173,7 @@
                         <TextView
                             android:id="@id/id_source_textview"
                             android:textSize="@dimen/x32"
-                            android:textColor="@color/color_666"
+                            android:textColor="@color/color_333"
                             android:text="@string/companyIntro"
                             android:lineSpacingMultiplier="1.2"
                             android:layout_marginRight="@dimen/x40"

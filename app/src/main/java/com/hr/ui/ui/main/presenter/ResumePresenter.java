@@ -72,7 +72,7 @@ public class ResumePresenter extends ResumeContract.Presenter {
     }
     @Override
     public void upLoadImage(String content) {
-        mRxManage.add(mModel.upLoadImage(content).subscribe(new RxSubscriber<PictureBean>(mContext,false) {
+        mRxManage.add(mModel.upLoadImage(content).subscribe(new RxSubscriber<PictureBean>(mContext,true) {
             @Override
             protected void _onNext(PictureBean pictureBean) throws IOException {
                 if (pictureBean.getError_code()==0){

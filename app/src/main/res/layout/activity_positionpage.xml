@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/edit_bg"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -16,12 +16,11 @@
                 <RelativeLayout
                     android:layout_marginLeft="@dimen/x38"
                     android:layout_marginRight="@dimen/x38"
-                    android:layout_marginTop="@dimen/x45"
+                    android:layout_marginTop="@dimen/x25"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <TextView
                         android:id="@+id/tv_positionPageJobName"
-                        android:text="餐品经理"
                         android:singleLine="true"
                         android:maxLength="15"
                         android:textSize="@dimen/x36"
@@ -32,17 +31,23 @@
                         android:layout_centerVertical="true"
                         android:id="@+id/iv_positionPageClose"
                         android:src="@mipmap/close"
+                        android:paddingLeft="@dimen/x18"
                         android:layout_alignParentRight="true"
-                        android:layout_width="@dimen/x32"
+                        android:layout_width="@dimen/x50"
                         android:layout_height="@dimen/x32" />
                 </RelativeLayout>
-                <LinearLayout
+                <com.hr.ui.view.MyFlowLayout
                     android:layout_marginLeft="@dimen/x38"
                     android:layout_marginRight="@dimen/x38"
-                    android:layout_marginTop="@dimen/x24"
+                    android:layout_marginTop="@dimen/x10"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/x14"
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
                     <ImageView
                         android:layout_gravity="center_vertical"
                         android:src="@mipmap/dingwei"
@@ -53,12 +58,16 @@
                         android:id="@+id/tv_positionPageAddress"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="@dimen/x10"
-                        android:text="背景"
                         android:singleLine="true"
-                        android:maxEms="5"
                         android:textSize="@dimen/x24"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/x14"
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
                     <ImageView
                         android:layout_marginLeft="@dimen/x30"
                         android:layout_gravity="center_vertical"
@@ -69,14 +78,17 @@
                         android:id="@+id/tv_positionPageExp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="@dimen/x10"
-                        android:text="背景"
                         android:singleLine="true"
-                        android:maxEms="5"
                         android:textColor="@color/color_333"
                         android:textSize="@dimen/x24"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
-
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/x14"
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
                     <ImageView
                         android:layout_width="@dimen/x28"
                         android:layout_height="@dimen/x24"
@@ -87,15 +99,19 @@
                         android:id="@+id/tv_positionPageDegree"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="@dimen/x10"
-                        android:text="背景"
                         android:singleLine="true"
-                        android:maxLength="5"
+                        android:layout_marginRight="@dimen/x30"
                         android:textColor="@color/color_333"
                         android:textSize="@dimen/x24"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/x14"
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
                     <ImageView
-                        android:layout_marginLeft="@dimen/x30"
                         android:layout_gravity="center_vertical"
                         android:src="@mipmap/me"
                         android:layout_width="@dimen/x22"
@@ -104,14 +120,13 @@
                         android:id="@+id/tv_positionPageNum"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="@dimen/x10"
-                        android:text="背景"
                         android:singleLine="true"
-                        android:maxLength="5"
                         android:textSize="@dimen/x24"
                         android:textColor="@color/color_333"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
-                </LinearLayout>
+                    </LinearLayout>
+                </com.hr.ui.view.MyFlowLayout>
                 <RelativeLayout
                     android:layout_marginLeft="@dimen/x38"
                     android:layout_marginRight="@dimen/x38"
@@ -120,14 +135,12 @@
                     android:layout_height="wrap_content">
                     <TextView
                         android:id="@+id/tv_positionPageSalary"
-                        android:text="6千-1万"
                         android:textSize="@dimen/x32"
                         android:textColor="@color/new_main"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
                         android:id="@+id/tv_positionPageReleaseTime"
-                        android:text="7-30"
                         android:textColor="@color/color_999"
                         android:textSize="@dimen/x28"
                         android:layout_alignParentRight="true"
@@ -136,7 +149,7 @@
                 </RelativeLayout>
                 <View
                     android:layout_marginTop="@dimen/x25"
-                    android:background="@color/view_color"
+                    android:background="@color/bg_color"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/x1"/>
                 <RelativeLayout
@@ -146,9 +159,14 @@
                     android:layout_marginTop="@dimen/x25"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                    <ImageView
+                    <com.hr.ui.view.RoundImageView
                         android:id="@+id/iv_positionPageCompanyIcon"
-                        android:src="@mipmap/power"
+                        android:src="@mipmap/defaultcompany"
+                        app:type="rounded_rect"
+                        app:borderColor="@color/white"
+                        app:borderWidth="@dimen/x1"
+                        app:rectRoundRadius="@dimen/x6"
+                        android:scaleType="centerCrop"
                         android:layout_width="@dimen/x82"
                         android:layout_height="@dimen/x82" />
                     <TextView
@@ -156,9 +174,9 @@
                         android:layout_marginLeft="@dimen/x20"
                         android:singleLine="true"
                         android:maxEms="16"
+                        android:textSize="@dimen/x32"
                         android:textColor="@color/color_333"
                         android:layout_toRightOf="@+id/iv_positionPageCompanyIcon"
-                        android:text="北京英才网联科技有限公司"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                     <LinearLayout
@@ -170,7 +188,6 @@
                         android:layout_height="wrap_content">
                         <TextView
                             android:id="@+id/tv_positionPageIndustry"
-                            android:text="[建筑]"
                             android:textColor="@color/color_999"
                             android:textSize="@dimen/x24"
                             android:layout_width="wrap_content"
@@ -185,7 +202,6 @@
                         <TextView
                             android:id="@+id/tv_positionPageCompanyType"
                             android:layout_marginLeft="@dimen/x6"
-                            android:text="[建筑]"
                             android:textColor="@color/color_999"
                             android:textSize="@dimen/x24"
                             android:layout_width="wrap_content"
@@ -200,7 +216,6 @@
                         <TextView
                             android:id="@+id/tv_positionPageCompanyScale"
                             android:layout_marginLeft="@dimen/x6"
-                            android:text="100-499人"
                             android:textColor="@color/color_999"
                             android:textSize="@dimen/x24"
                             android:layout_width="wrap_content"
@@ -217,19 +232,35 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/x1"
                     android:layout_marginTop="@dimen/x25"
-                    android:background="@color/color_333"/>
-                <TextView
-                    android:textColor="@color/color_333"
-                    android:layout_marginLeft="@dimen/x38"
-                    android:text="@string/JobDes"
-                    android:textSize="@dimen/x32"
-                    android:layout_marginTop="@dimen/x18"
-                    android:layout_marginBottom="@dimen/x18"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:background="@color/bg_color"/>
                 <android.support.v4.widget.NestedScrollView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_marginTop="@dimen/x18"
+                        android:layout_marginLeft="@dimen/x24"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/position_tiao"
+                        android:layout_width="@dimen/x8"
+                        android:layout_height="@dimen/x29" />
+                    <TextView
+                        android:textColor="@color/new_main"
+                        android:text="@string/JobDes"
+                        android:textSize="@dimen/x32"
+                        android:layout_centerVertical="true"
+                        android:paddingLeft="@dimen/x38"
+                        android:layout_marginTop="@dimen/x18"
+                        android:layout_marginBottom="@dimen/x18"
+                        android:layout_width="@dimen/x180"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
                 <TextView
                     android:id="@+id/tv_positionPageJobDes"
                     android:layout_marginLeft="@dimen/x38"
@@ -239,6 +270,7 @@
                     android:textSize="@dimen/x32"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
+                    </LinearLayout>
                 </android.support.v4.widget.NestedScrollView>
             </LinearLayout>
             <LinearLayout

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_marginTop="@dimen/x20"
+        android:background="@color/white"
+        android:paddingTop="@dimen/x30"
+        android:paddingBottom="@dimen/x29"
+        android:paddingLeft="@dimen/x31"
+        android:paddingRight="@dimen/x41"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_itemGuidanceTitle"
+            android:textSize="@dimen/x36"
+            android:textColor="@color/color_333"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_marginTop="@dimen/x39"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:src="@mipmap/scan_history"
+                android:layout_width="@dimen/x28"
+                android:layout_height="@dimen/x18" />
+            <TextView
+                android:id="@+id/tv_itemGuidanceScanNum"
+                android:layout_marginLeft="@dimen/x10"
+                android:textSize="@dimen/x24"
+                android:textColor="@color/color_999"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:layout_marginLeft="@dimen/x30"
+                android:src="@mipmap/time"
+                android:layout_width="@dimen/x20"
+                android:layout_height="@dimen/x20" />
+            <TextView
+                android:id="@+id/tv_itemGuidanceTime"
+                android:layout_marginLeft="@dimen/x10"
+                android:textSize="@dimen/x24"
+                android:textColor="@color/color_999"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:layout_marginLeft="@dimen/x30"
+                android:src="@mipmap/comefrom"
+                android:layout_width="@dimen/x21"
+                android:layout_height="@dimen/x19" />
+            <TextView
+                android:id="@+id/tv_itemGuidanceType"
+                android:layout_marginLeft="@dimen/x10"
+                android:textSize="@dimen/x24"
+                android:textColor="@color/color_999"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

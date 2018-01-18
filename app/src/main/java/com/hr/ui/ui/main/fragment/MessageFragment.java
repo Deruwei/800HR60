@@ -25,7 +25,9 @@ import com.hr.ui.ui.main.modle.MessageFragmentModel;
 import com.hr.ui.ui.main.presenter.MessageFragmentPresenter;
 import com.hr.ui.ui.me.adapter.MainRecyclerAdapter;
 import com.hr.ui.ui.message.activity.DeliverFeedbackActivity;
+import com.hr.ui.ui.message.activity.EmploymentGuidanceActivity;
 import com.hr.ui.ui.message.activity.FindActivity;
+import com.hr.ui.ui.message.activity.InviteActivity;
 import com.hr.ui.ui.message.activity.WhoSeeMeActivity;
 import com.hr.ui.utils.ProgressStyle;
 import com.hr.ui.view.XRecyclerView;
@@ -131,7 +133,7 @@ public class MessageFragment extends BaseFragment<MessageFragmentPresenter, Mess
     }
 
     @Override
-    public void getInviteInterViewSuceess(List<InviteBean.InvitedListBean> invitedListBeans) {
+    public void getInviteInterViewSuceess(final List<InviteBean.InvitedListBean> invitedListBeans) {
         if(invitedListBeans!=null&&invitedListBeans.size()!=0){
             if(page==1){
                 invitedListBeanList.clear();
@@ -145,6 +147,12 @@ public class MessageFragment extends BaseFragment<MessageFragmentPresenter, Mess
         }else{
             rvMessage.setNoMore(true);
         }
+        adapter.setClickCallBack(new MyMessageAdapter.ItemClickCallBack() {
+            @Override
+            public void onItemClick(int pos) {
+                InviteActivity.startAction(getActivity(),invitedListBeans.get(pos));
+            }
+        });
     }
 
 
@@ -173,7 +181,6 @@ public class MessageFragment extends BaseFragment<MessageFragmentPresenter, Mess
         rvMessage.setRefreshProgressStyle(ProgressStyle.LineScaleParty);
         rvMessage.setNestedScrollingEnabled(false);
         rvMessage.setLoadingMoreProgressStyle(ProgressStyle.BallTrianglePath);
-        rvMessage.setArrowImageView(R.drawable.iconfont_downgrey);
         adapter=new MyMessageAdapter(getActivity());
         rvMessage.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
@@ -235,6 +242,7 @@ public class MessageFragment extends BaseFragment<MessageFragmentPresenter, Mess
                 WhoSeeMeActivity.startAction(getActivity());
                 break;
             case R.id.rl_employmentGuidance:
+                EmploymentGuidanceActivity.startAction(getActivity());
                 break;
             case R.id.rl_find:
                 FindActivity.startAction(getActivity());

@@ -28,6 +28,8 @@ import com.hr.ui.base.BaseNoConnectNetworkAcitivty;
 import com.hr.ui.bean.JobSearchBean;
 import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.main.fragment.Fragment1;
+import com.hr.ui.ui.me.activity.ScanHistoryActivity;
+import com.hr.ui.ui.me.activity.SettingActivity;
 import com.hr.ui.ui.message.fragment.DeliverFeedbackFragment;
 import com.hr.ui.ui.main.fragment.HomeFragment;
 import com.hr.ui.ui.main.fragment.JobSearchFragment;
@@ -86,7 +88,7 @@ public class MainActivity extends BaseNoConnectNetworkAcitivty {
     private PopupWindow popupWindow;
     private int userId;
     private ArrayList<Fragment> fragments;
-    private  int REQUEST_CODE=0x1007;
+    public   int REQUEST_CODE=0x1007;
     public  boolean isHome=true;
     private JobSearchBean jobSearchBean;
     public static MainActivity instance;
@@ -125,11 +127,13 @@ public class MainActivity extends BaseNoConnectNetworkAcitivty {
                 CollectionActivity.startAction(this);
                 break;
             case R.id.rl_history:
+                ScanHistoryActivity.startAction(this);
                 break;
             case R.id.rl_feedback:
                 FeedBackActivity.startAction(this);
                 break;
             case R.id.rl_setting:
+                SettingActivity.startAction(this);
                 break;
         }
        /* idMenu.toggle();*/

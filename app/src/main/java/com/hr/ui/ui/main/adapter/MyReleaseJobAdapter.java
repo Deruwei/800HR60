@@ -12,6 +12,7 @@ import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.bean.RecommendJobBean;
 import com.hr.ui.constants.Constants;
+import com.hr.ui.utils.Utils;
 import com.hr.ui.view.PieChartView;
 
 import java.util.List;
@@ -54,7 +55,7 @@ public class MyReleaseJobAdapter extends RecyclerView.Adapter<MyReleaseJobAdapte
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         viewHolder.tvItemReleaseJobName.setText(jobsListBeanList.get(position).getJob_name());
-        viewHolder.tvItemReleaseJobSalary.setText(jobsListBeanList.get(position).getSalary());
+        viewHolder.tvItemReleaseJobSalary.setText(Utils.getSalary(jobsListBeanList.get(position).getSalary()));
         viewHolder.tvItemReleaseJobAddress.setText(jobsListBeanList.get(position).getWorkplace());
         viewHolder.tvItemReleaseJobDegree.setText(jobsListBeanList.get(position).getStudy());
         viewHolder.tvItemReleaseJobExp.setText(jobsListBeanList.get(position).getWorkyear());

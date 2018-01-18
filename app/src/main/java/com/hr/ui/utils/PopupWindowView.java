@@ -77,6 +77,7 @@ public class PopupWindowView {
                     if(popupWindow!=null){
                         popupWindow.dismiss();
                     }
+                    selectCityList.clear();
                 }
             });
             tvOK.setOnClickListener(new View.OnClickListener() {

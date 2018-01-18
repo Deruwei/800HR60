@@ -327,7 +327,7 @@ public class JobOrderActivity extends BaseActivity<JobOrderPresenter, JobOrderMo
                 break;
             case R.id.rl_expectedField:
                 setFocus();
-                SelectFunctionActivity.startAction(this, industryId, selectFunctionList);
+                SelectFunctionActivity.startAction(this, industryId, selectFunctionList,TAG);
                 break;
             case R.id.rl_expectedPosition:
                 setFocus();

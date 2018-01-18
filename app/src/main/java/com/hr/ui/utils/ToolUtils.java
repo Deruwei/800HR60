@@ -63,7 +63,7 @@ public class ToolUtils {
         }else{
             sharedPreferencesUtils.setStringValue(Constants.PERSONIMAGE,"");
         }
-        if(!"".equals(resumeBean.getResume_info().getTitle_info().get(0).getResume_type())||resumeBean.getResume_info().getTitle_info().get(0).getResume_type()!=null) {
+        if(!"".equals(resumeBean.getResume_info().getTitle_info().get(0).getResume_type())&&resumeBean.getResume_info().getTitle_info().get(0).getResume_type()!=null) {
             sharedPreferencesUtils.setStringValue(Constants.RESUME_TYPE, resumeBean.getResume_info().getTitle_info().get(0).getResume_type());
         }
         if(resumeBean.getResume_info().getBase_info().get(0).getName()==null||"".equals(resumeBean.getResume_info().getBase_info().get(0).getName())){
@@ -82,6 +82,10 @@ public class ToolUtils {
         }
         if(resumeBean.getResume_info().getOrder_info()==null||resumeBean.getResume_info().getOrder_info().size()==0||"[]".equals(resumeBean.getResume_info().getOrder_info())||"".equals(resumeBean.getResume_info().getOrder_info())){
             titles.add("求职意向");
+        }else{
+           if(resumeBean.getResume_info().getOrder_info().get(0).getIndustry()!=null&&!"".equals(resumeBean.getResume_info().getOrder_info().get(0).getIndustry())){
+               sharedPreferencesUtils.setStringValue(Constants.INDUSTRY_ID,resumeBean.getResume_info().getOrder_info().get(0).getIndustry());
+           }
         }
         if(titles!=null&&!"".equals(titles)&&titles.size()!=0) {
             if ("基本信息".equals(titles.get(0))){

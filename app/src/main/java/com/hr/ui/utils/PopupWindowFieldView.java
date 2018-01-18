@@ -91,6 +91,8 @@ public class PopupWindowFieldView {
             public void onClick(View v) {
                 if(popupWindow!=null) {
                     popupWindow.dismiss();
+                    selectFunctionList.clear();
+                    selectIndustryList.clear();
                 }
             }
         });

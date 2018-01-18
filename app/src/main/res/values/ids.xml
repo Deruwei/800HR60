@@ -8,6 +8,7 @@
     <item name="id_expand_textview" type="id"></item>
     <!-- 收起展开按钮imageView -->
     <item name="id_expand_imageview" type="id"></item>
+    <item name="long_click" type="id"></item>
     <!-- 下滑SrcollView中的textview -->
     <item name="id_srcoll_tv1" type="id"></item>
     <item name="id_srcoll_tv2" type="id"></item>

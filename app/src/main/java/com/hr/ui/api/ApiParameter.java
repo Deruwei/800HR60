@@ -578,9 +578,12 @@ public class ApiParameter {
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","job.jobrecom");
         SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
+        if(!"".equals(sUtils.getStringValue(Constants.INDUSTRY_ID,""))&&sUtils.getStringValue(Constants.INDUSTRY_ID,"")!=null) {
+            requestMap.put("industry", sUtils.getStringValue(Constants.INDUSTRY_ID, ""));
+        }
         requestMap.put("page",""+page);
         requestMap.put("page_nums",""+limit);
-       /* Log.i("你好",requestMap.toString());*/
+        //Log.i("你好",requestMap.toString());
         return requestMap;
     }
     public static HashMap<String,String> getJobSearchList(JobSearchBean jobSearchBean,int page){
@@ -717,20 +720,70 @@ public class ApiParameter {
        /* Log.i("你好",requestMap.toString());*/
         return requestMap;
     }
-    public static HashMap<String,String> getFind(int page){
+    public static HashMap<String,String> getFind(int page,String ad_type){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","mobilead.list");
+        requestMap.put("c_type", ad_type);
         requestMap.put("page",page+"");
         requestMap.put("page_nums","20");
        /* Log.i("你好",requestMap.toString());*/
         return requestMap;
     }
-   /* public static HashMap<String,String> deleteAllWhoSeeMe(int page){
+    public static HashMap<String,String> getGuidanceTitle(int page,String guidanceId){
         HashMap<String,String> requestMap=new HashMap<>();
-        requestMap.put("method","mobilead.list");
+        requestMap.put("method","news.gettitle");
+        requestMap.put("column_id",guidanceId);
         requestMap.put("page",page+"");
         requestMap.put("page_nums","20");
-       *//* Log.i("你好",requestMap.toString());*//*
         return requestMap;
-    }*/
+    }
+    public static HashMap<String,String> getGuidanceTitleInfo(String newId){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","news.gettitlecon");
+        requestMap.put("news_id",newId);
+        return requestMap;
+    }
+    public static HashMap<String,String> getShieldCompanyData(){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user_eliminate.list");
+        return requestMap;
+    }
+    public static HashMap<String,String> queryShieldCompanyDataByKeyWord(String content){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user_eliminate.entelist");
+        requestMap.put("eliminate_txt",content);
+        return requestMap;
+    }
+    public static HashMap<String,String> setShieldCompany(String companyName){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user_eliminate.set");
+        requestMap.put("eliminate_txt",companyName);
+        return requestMap;
+    }
+    public static HashMap<String,String> getLoginOut(){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user.logout");
+        return requestMap;
+    }
+    public static HashMap<String,String> deleteShieldCompany(String shieldId){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user_eliminate.del");
+        requestMap.put("id",shieldId);
+        return requestMap;
+    }
+    public static HashMap<String,String> changePhone(String phone,String validCode){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user.chgphone");
+        requestMap.put("user_phone",phone);
+        requestMap.put("token",validCode);
+        return requestMap;
+    }
+    public static HashMap<String,String> changePsw(String oldPsw,String newPsw){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user.updatepwd");
+        requestMap.put("old_pwd",oldPsw);
+        requestMap.put("new_pwd",newPsw);
+        Log.i("数据中",requestMap.toString());
+        return requestMap;
+    }
 }

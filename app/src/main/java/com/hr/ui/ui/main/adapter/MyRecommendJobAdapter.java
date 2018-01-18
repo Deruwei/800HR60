@@ -12,7 +12,9 @@ import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.bean.RecommendJobBean;
 import com.hr.ui.constants.Constants;
+import com.hr.ui.utils.Utils;
 import com.hr.ui.view.PieChartView;
+import com.hr.ui.view.RoundImageView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,6 +22,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.internal.Util;
 
 /**
  *
@@ -60,14 +63,13 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
         viewHolder.tvRecommendJobDegree.setText(jobsListBeanList.get(position).getStudy());
         viewHolder.tvRecommendJobIndustry.setText(jobsListBeanList.get(position).getIndustry_name());
         if (jobsListBeanList.get(position).getEnt_logo() != null && !"".equals(jobsListBeanList.get(position).getEnt_logo())) {
-            Glide.with(HRApplication.getAppContext()).load(Constants.IMAGE_BASEPATH2 + jobsListBeanList.get(position).getEnt_logo()).centerCrop().into(viewHolder.ivRecommendJobCompanyIcon);
+            Utils.setImageResource(HRApplication.getAppContext(),viewHolder.ivRecommendJobCompanyIcon,Constants.IMAGE_BASEPATH2 + jobsListBeanList.get(position).getEnt_logo());
+        }else{
+           Utils.setImageResourceDefault(HRApplication.getAppContext(),viewHolder.ivRecommendJobCompanyIcon);
         }
         viewHolder.tvRecommendJobName.setText(jobsListBeanList.get(position).getJob_name());
-        viewHolder.tvRecommendJobSalary.setText(jobsListBeanList.get(position).getSalary());
-        String s=jobsListBeanList.get(position).getIssue_date().substring(jobsListBeanList.get(position).getIssue_date().indexOf("-")+1);
-        String month=s.substring(0,s.indexOf("-"));
-        String day=s.substring(s.indexOf("-")+1);
-        viewHolder.tvRecommendJobTime.setText(month+" - "+day);
+        viewHolder.tvRecommendJobSalary.setText(Utils.getSalary(jobsListBeanList.get(position).getSalary()));
+        viewHolder.tvRecommendJobTime.setText(Utils.getDateMonthAndDay(jobsListBeanList.get(position).getIssue_date()));
         viewHolder.tvRecommendPersonNum.setText(jobsListBeanList.get(position).getStuff_munber());
         viewHolder.tvRecommendJobWorkYear.setText(jobsListBeanList.get(position).getWorkyear());
         viewHolder.tvRecommendJobCompanyType.setText(jobsListBeanList.get(position).getCompany_type());
@@ -103,7 +105,7 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
         @BindView(R.id.tv_recommendJobTime)
         TextView tvRecommendJobTime;
         @BindView(R.id.iv_recommendJobCompanyIcon)
-        ImageView ivRecommendJobCompanyIcon;
+        RoundImageView ivRecommendJobCompanyIcon;
         @BindView(R.id.tv_recommendJobCompanyName)
         TextView tvRecommendJobCompanyName;
         @BindView(R.id.tv_recommendJobIndustry)

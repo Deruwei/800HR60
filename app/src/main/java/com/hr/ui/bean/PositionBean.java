@@ -645,5 +645,81 @@ public class PositionBean {
         public void setBaidu_map_lat(String baidu_map_lat) {
             this.baidu_map_lat = baidu_map_lat;
         }
+
+        @Override
+        public String toString() {
+            return "JobInfoBean{" +
+                    "job_id='" + job_id + '\'' +
+                    ", job_name='" + job_name + '\'' +
+                    ", issue_date='" + issue_date + '\'' +
+                    ", enterprise_name='" + enterprise_name + '\'' +
+                    ", work_area='" + work_area + '\'' +
+                    ", synopsis='" + synopsis + '\'' +
+                    ", monthly_pay='" + monthly_pay + '\'' +
+                    ", monthly_pay_to='" + monthly_pay_to + '\'' +
+                    ", department='" + department + '\'' +
+                    ", number='" + number + '\'' +
+                    ", email='" + email + '\'' +
+                    ", phone='" + phone + '\'' +
+                    ", workyear='" + workyear + '\'' +
+                    ", linkman='" + linkman + '\'' +
+                    ", post_rank='" + post_rank + '\'' +
+                    ", work_type='" + work_type + '\'' +
+                    ", invite_major='" + invite_major + '\'' +
+                    ", job_number='" + job_number + '\'' +
+                    ", did='" + did + '\'' +
+                    ", is_show_pay_interview='" + is_show_pay_interview + '\'' +
+                    ", parent_job_id='" + parent_job_id + '\'' +
+                    ", poster_state='" + poster_state + '\'' +
+                    ", is_from_net='" + is_from_net + '\'' +
+                    ", topjob_type='" + topjob_type + '\'' +
+                    ", subordinate_num='" + subordinate_num + '\'' +
+                    ", superior='" + superior + '\'' +
+                    ", other_benefits='" + other_benefits + '\'' +
+                    ", recruit_students='" + recruit_students + '\'' +
+                    ", job_slogan='" + job_slogan + '\'' +
+                    ", show_language='" + show_language + '\'' +
+                    ", address='" + address + '\'' +
+                    ", zipcode='" + zipcode + '\'' +
+                    ", enterprise_id='" + enterprise_id + '\'' +
+                    ", lingyu='" + lingyu + '\'' +
+                    ", ent_logo='" + ent_logo + '\'' +
+                    ", fax='" + fax + '\'' +
+                    ", homepage='" + homepage + '\'' +
+                    ", stuff_munber='" + stuff_munber + '\'' +
+                    ", func='" + func + '\'' +
+                    ", salary='" + salary + '\'' +
+                    ", year_salary='" + year_salary + '\'' +
+                    ", workplace='" + workplace + '\'' +
+                    ", study='" + study + '\'' +
+                    ", company_type='" + company_type + '\'' +
+                    ", lingyu_name='" + lingyu_name + '\'' +
+                    ", industry='" + industry + '\'' +
+                    ", industry_name='" + industry_name + '\'' +
+                    ", release_date='" + release_date + '\'' +
+                    ", expiration_date='" + expiration_date + '\'' +
+                    ", language='" + language + '\'' +
+                    ", nautica='" + nautica + '\'' +
+                    ", applied_nums='" + applied_nums + '\'' +
+                    ", age='" + age + '\'' +
+                    ", favourite_time='" + favourite_time + '\'' +
+                    ", applied_time='" + applied_time + '\'' +
+                    ", posterimg='" + posterimg + '\'' +
+                    ", is_favourite=" + is_favourite +
+                    ", is_expire=" + is_expire +
+                    ", is_apply=" + is_apply +
+                    ", baidu_map_lon='" + baidu_map_lon + '\'' +
+                    ", baidu_map_lat='" + baidu_map_lat + '\'' +
+                    '}';
+        }
+
+    }
+
+    @Override
+    public String toString() {
+        return "PositionBean{" +
+                "error_code='" + error_code + '\'' +
+                ", job_info=" + job_info +
+                '}';
     }
 }

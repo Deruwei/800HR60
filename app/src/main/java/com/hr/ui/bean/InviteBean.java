@@ -1,12 +1,13 @@
 package com.hr.ui.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by wdr on 2018/1/15.
  */
 
-public class InviteBean {
+public class InviteBean implements Serializable {
 
     /**
      * error_code : 0
@@ -88,7 +89,7 @@ public class InviteBean {
         }
     }
 
-    public static class InvitedListBean {
+    public static class InvitedListBean implements  Serializable{
         /**
          * user_id : 5692217
          * enterprise_id : Bi92A

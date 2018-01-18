@@ -11,6 +11,7 @@ public class Constants {
     public static String TYPE_THIRDPARTLOGIN = "";
     public static final String RESUME_ID="resume_id";
     public static final String RESUME_TYPE="resume_type";
+    public static final String INDUSTRY_ID="industryId";
     public static final String RESUME_STARTTYPE="start_type";//表示快速简历页面在哪页停止，然后进入主页面
     public static final String RESUME_STOPTYPE="stop_type";
     //数据库名称

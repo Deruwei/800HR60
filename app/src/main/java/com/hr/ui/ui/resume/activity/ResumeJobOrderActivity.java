@@ -168,6 +168,7 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
         selectCityBean = FromStringToArrayList.getInstance().getSelectCityList(cityId);
         ivResumeJobOrderExpectedSalaryDelete.setVisibility(View.GONE);
         industryBeanList.clear();
+        //Log.i("funid",funId+"=------");
         initIndustryUI();
     }
 
@@ -204,6 +205,7 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
                 String[] fieldNameString = fieldName.split(",");
                 String[] positionIds = industryBeanList.get(i).getFunc().split(",");
                 String[] funcIds = industryBeanList.get(i).getLingyu().split(",");
+                //Log.i("当前的行业",sbFunc.toString());
                 industryId = industryBeanList.get(i).getIndustry();
                 iv_industryIcon.setImageDrawable(FromStringToArrayList.getInstance().getIndustryIcon(industryBeanList.get(i).getIndustry()));
                 addView(flPosition, "期望职位");
@@ -238,9 +240,11 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
                 if(selectFuncList!=null&&!"".equals(selectFuncList)&&selectFuncList.size()!=0&&selectFuncList.get(0).getId()!=null&&!"".equals(selectFuncList.get(0).getId())){
                     flField.setVisibility(View.VISIBLE);
                     view.setVisibility(View.VISIBLE);
+                   /* Log.i("当前的数据","显示");*/
                 }else{
                     flField.setVisibility(View.GONE);
                     view.setVisibility(View.GONE);
+                    /*Log.i("当前的数据","隐藏");*/
                 }
                 selectFunctionLists.add(selectFuncList);
                 final int finalI = i;
@@ -261,15 +265,16 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
                 llResumeWorkExpList.addView(plantView);*/
                 rlResumeJobOrderIndustry.addView(plantView);
             }
-            if(positionId!=null&&!"".equals(positionId)&&positionId.length()!=0) {
+            if(sbPosition!=null&&!"".equals(sbPosition)&&sbPosition.length()!=0) {
                 positionId = sbPosition.deleteCharAt(0).toString();
             }
-            if(funId!=null&&!"".equals(funId)&&funId.length()!=0) {
+            if(sbFunc!=null&&!"".equals(sbFunc)&&sbFunc.length()!=0) {
                 funId = sbFunc.deleteCharAt(0).toString();
             }
-            if(industryId!=null&&!"".equals(industryId)&&industryId.length()!=0) {
+            if(sbIndustry!=null&&!"".equals(sbIndustry)&&sbIndustry.length()!=0) {
                 industryId = sbIndustry.deleteCharAt(0).toString();
             }
+            //Log.i("funid",funId+"-------------");
         }else{
             rlResumeJobOrderIndustry.setVisibility(View.GONE);
         }
@@ -530,15 +535,18 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
         //Log.i("info数据","你好");
         ResumeOrderInfoBean.OrderInfoBean.OrderIndustryBean orderIndustryBean = new ResumeOrderInfoBean.OrderInfoBean.OrderIndustryBean();
         orderIndustryBean.setIndustry(industryId);
-        if(FromStringToArrayList.getInstance().getIndustryIsHaveField(industryId)) {
+       /* Log.i("funid",selectFuncList.toString()+"你好");*/
+        if(FromStringToArrayList.getInstance().getIndustryIsHaveField(industryId)==true) {
             StringBuffer sbFunc = new StringBuffer();
             for (int i = 0; i < selectFunclist.size(); i++) {
                 sbFunc.append("," + selectFunclist.get(i).getId());
             }
             sbFunc.deleteCharAt(0);
             orderIndustryBean.setLingyu(sbFunc.toString());
+            //Log.i("funid",sbFunc.toString()+"你好");
         }else{
             orderIndustryBean.setLingyu("");
+            //Log.i("funid","你好");
         }
         StringBuffer sbPosition = new StringBuffer();
         for (int i = 0; i < slectPositionList.size(); i++) {

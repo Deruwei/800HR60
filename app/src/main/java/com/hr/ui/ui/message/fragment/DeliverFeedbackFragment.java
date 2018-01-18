@@ -83,7 +83,6 @@ public class DeliverFeedbackFragment extends BaseFragment<DeliverFeedbackFragmen
         rvDeliverFeedback.setRefreshProgressStyle(ProgressStyle.LineScaleParty);
         rvDeliverFeedback.setNestedScrollingEnabled(false);
         rvDeliverFeedback.setLoadingMoreProgressStyle(ProgressStyle.BallTrianglePath);
-        rvDeliverFeedback.setArrowImageView(R.drawable.iconfont_downgrey);
         adapter=new MyDeliverFeedbackAdapter();
         rvDeliverFeedback.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override

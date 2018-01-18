@@ -68,16 +68,18 @@ public class SelectFunctionActivity extends BaseNoConnectNetworkAcitivty {
     private List<CityBean> selectFunctionList = new ArrayList<>();
     private int sum;
     private int currentPosition;
+    private String tag;
 
     /**
      * 入口
      *
      * @param activity
      */
-    public static void startAction(Activity activity, String industryId, List<CityBean> selectFunctionList) {
+    public static void startAction(Activity activity, String industryId, List<CityBean> selectFunctionList,String tag) {
         Intent intent = new Intent(activity, SelectFunctionActivity.class);
         intent.putExtra("selectFunction", (Serializable) selectFunctionList);
         intent.putExtra("industryId", industryId);
+        intent.putExtra("tag",tag);
         activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.fade_in,
                 R.anim.fade_out);
@@ -96,6 +98,7 @@ public class SelectFunctionActivity extends BaseNoConnectNetworkAcitivty {
         industryId = getIntent().getStringExtra("industryId");
         selectFunctionList = (List<CityBean>) getIntent().getSerializableExtra("selectFunction");
         toolBar.setTitle("");
+        tag=getIntent().getStringExtra("tag");
         toolBar.setTitleTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
         toolBar.setNavigationIcon(R.mipmap.back);
         tvToolbarTitle.setText(R.string.expectedField);
@@ -248,14 +251,22 @@ public class SelectFunctionActivity extends BaseNoConnectNetworkAcitivty {
                     }
                     if (currentPosition < 5) {
                         if (selectFunctionList != null && selectFunctionList.size() != 0) {
-                            JobOrderActivity.instance.setFunctionList(industryId, selectFunctionList);
+                            if(tag.equals(JobOrderActivity.TAG)) {
+                                JobOrderActivity.instance.setFunctionList(industryId, selectFunctionList);
+                            }else if(tag.equals(JobSerchActivity.TAG)){
+                                JobSerchActivity.instance.setFunctionList(industryId, selectFunctionList);
+                            }
                             finish();
                         } else {
                             ToastUitl.showShort("请选择领域");
                             return;
                         }
                     } else {
-                        JobOrderActivity.instance.setFunctionList(industryId, selectFunctionList);
+                        if(tag.equals(JobOrderActivity.TAG)) {
+                            JobOrderActivity.instance.setFunctionList(industryId, selectFunctionList);
+                        }else if(tag.equals(JobSerchActivity.TAG)){
+                            JobSerchActivity.instance.setFunctionList(industryId, selectFunctionList);
+                        }
                         finish();
                     }
                 } else {

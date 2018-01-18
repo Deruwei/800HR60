@@ -137,7 +137,6 @@ public class WhoSeeMeActivity extends BaseActivity<WhoSeeMePresenter, WhoSeeMeMo
         rvFind.setRefreshProgressStyle(ProgressStyle.LineScaleParty);
         rvFind.setNestedScrollingEnabled(false);
         rvFind.setLoadingMoreProgressStyle(ProgressStyle.BallTrianglePath);
-        rvFind.setArrowImageView(R.drawable.iconfont_downgrey);
         adapter=new MyWhoSeeMeAdapter(this);
         rvFind.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override

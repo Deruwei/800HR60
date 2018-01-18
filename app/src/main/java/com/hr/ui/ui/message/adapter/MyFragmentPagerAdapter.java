@@ -31,6 +31,12 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
         this.titles=titles;
 
     }
+    public MyFragmentPagerAdapter(FragmentManager fm,Context context,List<Fragment> fragments, List<String> titles){
+        super(fm);
+        this.fragments=fragments;
+        this.context=context;
+        this.titles=titles;
+    }
     @Override
     public Fragment getItem(int position) {
         return fragments.get(position);
@@ -50,7 +56,12 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
         TextView tv = (TextView) v.findViewById(R.id.tv_textDot);
         tv.setText(titles.get(position));
         ImageView iv = (ImageView) v.findViewById(R.id.iv_redDot);
-        iv.setImageResource(bgId.get(position));
+        if(bgId==null||"".equals(bgId)){
+            iv.setVisibility(View.GONE);
+        }else {
+            iv.setVisibility(View.VISIBLE);
+            iv.setImageResource(bgId.get(position));
+        }
         return v;
     }
     //防止fragment自动销毁

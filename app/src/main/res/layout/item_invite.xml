@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_marginTop="@dimen/x48"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:src="@mipmap/persondefault"
+            android:layout_marginLeft="@dimen/x30"
+            android:id="@+id/iv_itemInviteImage"
+            android:layout_width="@dimen/x80"
+            android:scaleType="centerCrop"
+            android:layout_height="@dimen/x80" />
+        <TextView
+            android:paddingTop="@dimen/x22"
+            android:paddingBottom="@dimen/x27"
+            android:paddingLeft="@dimen/x18"
+            android:paddingRight="@dimen/x16"
+            android:layout_marginLeft="@dimen/x20"
+            android:textSize="@dimen/x28"
+            android:background="@drawable/edit_bg_small"
+            android:layout_marginRight="@dimen/x140"
+            android:textColor="@color/color_333"
+            android:lineSpacingMultiplier="1.2"
+            android:autoLink="web"
+            android:textColorLink="@color/red"
+            android:id="@+id/tv_itemInviteContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</LinearLayout>

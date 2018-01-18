@@ -3,7 +3,7 @@
     android:orientation="horizontal"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:background="@color/view_color"
+    android:background="@color/white"
     android:layout_height="wrap_content">
     <LinearLayout
         android:orientation="vertical"
@@ -15,8 +15,8 @@
             android:textSize="@dimen/x32"
             android:text="全部"
             android:gravity="center"
-            android:layout_width="@dimen/x80"
-            android:layout_height="@dimen/x50" />
+            android:layout_width="@dimen/x100"
+            android:layout_height="@dimen/x56" />
         <View
             android:layout_width="match_parent"
             android:background="@color/bg_color"
@@ -27,8 +27,8 @@
             android:textSize="@dimen/x32"
             android:text="公司"
             android:gravity="center"
-            android:layout_width="@dimen/x80"
-            android:layout_height="@dimen/x50" />
+            android:layout_width="@dimen/x100"
+            android:layout_height="@dimen/x56" />
         <View
             android:layout_width="match_parent"
             android:background="@color/bg_color"
@@ -39,7 +39,7 @@
             android:textSize="@dimen/x32"
             android:text="职位"
             android:gravity="center"
-            android:layout_width="@dimen/x80"
-            android:layout_height="@dimen/x50" />
+            android:layout_width="@dimen/x100"
+            android:layout_height="@dimen/x56" />
     </LinearLayout>
 </LinearLayout>

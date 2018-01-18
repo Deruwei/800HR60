@@ -5,11 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hr.ui.R;
-import com.hr.ui.bean.CollectionBean;
 import com.hr.ui.bean.DeliverFeedbackBean;
+import com.hr.ui.utils.Utils;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ import butterknife.ButterKnife;
  *
  */
 public class MyDeliverFeedbackAdapter extends RecyclerView.Adapter<MyDeliverFeedbackAdapter.ViewHolder> {
+    LinearLayout viewListMainContent;
     private List<DeliverFeedbackBean.AppliedListBean> favouriteListBeanList;
     private OnViewClick onViewClick;
 
@@ -56,12 +58,14 @@ public class MyDeliverFeedbackAdapter extends RecyclerView.Adapter<MyDeliverFeed
     //将数据与界面进行绑定的操作
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-        viewHolder.tvItemCollectionSalary.setText(favouriteListBeanList.get(position).getSalary());
+        viewHolder.tvItemCollectionSalary.setText(Utils.getSalary(favouriteListBeanList.get(position).getSalary()));
         /*viewHolder.tvItemCollectionDegree.setText(favouriteListBeanList.get(position).getStudy());
         viewHolder.tvItemCollectionExp.setText(favouriteListBeanList.get(position).getWorkyear());*/
+        //viewHolder.tvItemCollectionDegree.setText(favouriteListBeanList.get(position).g);
         viewHolder.tvItemCollectionJobName.setText(favouriteListBeanList.get(position).getJob_name());
         viewHolder.tvItemCollectionPlace.setText(favouriteListBeanList.get(position).getWorkplace());
         viewHolder.tvItemCollectionCompanyName.setText(favouriteListBeanList.get(position).getEnterprise_name());
+        viewHolder.tvItemCollectionTime.setText(Utils.getDateMonthAndDay(favouriteListBeanList.get(position).getApplied_time().substring(0,favouriteListBeanList.get(position).getApplied_time().lastIndexOf("-")+3)));
         /*if (favouriteListBeanList.get(position).getIs_apply() == 0) {
             viewHolder.btnItemCollectionDeliver.setClickable(true);
             viewHolder.btnItemCollectionDeliver.setText(R.string.deliver);
@@ -106,12 +110,14 @@ public class MyDeliverFeedbackAdapter extends RecyclerView.Adapter<MyDeliverFeed
         TextView tvItemCollectionExp;
         @BindView(R.id.tv_itemCollectionDegree)
         TextView tvItemCollectionDegree;
+        @BindView(R.id.tv_itemCollectionTime)
+        TextView tvItemCollectionTime;
         @BindView(R.id.tv_itemCollectionCompanyName)
         TextView tvItemCollectionCompanyName;
         @BindView(R.id.btn_itemCollectionDeliver)
         Button btnItemCollectionDeliver;
+        @BindView(R.id.view_list_main_content)
         View mViewContent;
-        View mActionContainer;
 
         public ViewHolder(View view) {
             super(view);
