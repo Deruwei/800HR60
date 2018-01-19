@@ -30,7 +30,7 @@
                     <ImageView
                         android:layout_centerVertical="true"
                         android:id="@+id/iv_positionPageClose"
-                        android:src="@mipmap/close"
+                        android:src="@mipmap/close_position"
                         android:paddingLeft="@dimen/x18"
                         android:layout_alignParentRight="true"
                         android:layout_width="@dimen/x50"

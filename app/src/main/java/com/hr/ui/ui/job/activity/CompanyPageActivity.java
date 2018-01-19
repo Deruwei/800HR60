@@ -184,7 +184,17 @@ public class CompanyPageActivity extends BaseActivity<CompanyPagePresenter, Comp
                 doShare();
             }
         });
-        LinearLayoutManager manager=new LinearLayoutManager(this);
+        LinearLayoutManager manager=new LinearLayoutManager(this){
+            @Override
+            public boolean canScrollHorizontally() {
+                return false;
+            }
+
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         rvCompanyPageInfo.setLayoutManager(manager);
         adapter=new MyReleaseJobAdapter();

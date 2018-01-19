@@ -54,6 +54,7 @@ public class CollectionPresenter extends CollectionContract.Presenter {
                         // System.out.print(s);
                        /* mView.setHideSuccess();*/
                         //mView.collectionPositionSuccess();
+                        mView.deleteCollectionSuccess();
                     }else{
                         ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) error_code));
                     }
@@ -85,6 +86,7 @@ public class CollectionPresenter extends CollectionContract.Presenter {
                         // System.out.print(s);
                        /* mView.setHideSuccess();*/
                        // mView.collectionPositionSuccess();
+                        mView.deliverCollection();
                     }else{
                         ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) error_code));
                     }

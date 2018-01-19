@@ -1,7 +1,5 @@
 package com.hr.ui.bean;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 /**
@@ -10,10 +8,11 @@ import java.util.List;
 
 public class DeliverFeedbackBean {
 
+
     /**
      * error_code : 0
-     * applied_list : [{"user_id":"9505708","enterprise_id":"ZrDAK","job_id":"YP8dQ","job_name":"骨科主任及学科带头人","enterprise_name":"国创高科（北京）医疗科技有限公司","industry":"14","job_work_area":"1113","read_time":"","invite_time":"","invite_id":"0","applied_time":"2018-01-11 20:37","last_applied_time":"1515674249","expiration_date":"1521043199","applied_num":"4","salary":"10000 - 20000","topjob_type":"1","company_type":"私营/民营企业","stuff_munber":"1 - 49人","workplace":"北京-昌平区","resume_list":[{"title":"我的简历","resume_language":"zh","resume_id":"1"}],"record_id":"318411773","is_favourite":0,"is_expire":0,"is_apply":1},{"user_id":"9505708","enterprise_id":"ZrDAK","job_id":"YP8dE","job_name":"骨科主任及学科带头人","enterprise_name":"国创高科（北京）医疗科技有限公司","industry":"14","job_work_area":"1100","read_time":"","invite_time":"","invite_id":"0","applied_time":"2018-01-11 20:28","last_applied_time":"1515673706","expiration_date":"1521043199","applied_num":"10","salary":"10000 - 20000","topjob_type":"1","company_type":"私营/民营企业","stuff_munber":"1 - 49人","workplace":"北京","resume_list":[{"title":"我的简历","resume_language":"zh","resume_id":"1"}],"record_id":"318411771","is_favourite":0,"is_expire":0,"is_apply":1},{"user_id":"9505708","enterprise_id":"SeMCJ","job_id":"YPhyY","job_name":"推拿按摩技师","enterprise_name":"北京禾普诊所有限公司","industry":"14","job_work_area":"1100","read_time":"","invite_time":"","invite_id":"0","applied_time":"2018-01-11 20:26","last_applied_time":"1515673593","expiration_date":"1519833599","applied_num":"10","salary":"8000 - 20000","topjob_type":"1","company_type":"私营/民营企业","stuff_munber":"50 - 99人","workplace":"北京","resume_list":[{"title":"我的简历","resume_language":"zh","resume_id":"1"}],"record_id":"318411770","is_favourite":0,"is_expire":0,"is_apply":1},{"user_id":"9505708","enterprise_id":"SeMCJ","job_id":"YPGB1","job_name":"医生","enterprise_name":"北京禾普诊所有限公司","industry":"14","job_work_area":"1100","read_time":"","invite_time":"","invite_id":"0","applied_time":"2018-01-11 20:23","last_applied_time":"1515673387","expiration_date":"1517414399","applied_num":"11","salary":"10000 - 30000","topjob_type":"1","company_type":"私营/民营企业","stuff_munber":"50 - 99人","workplace":"北京","resume_list":[{"title":"我的简历","resume_language":"zh","resume_id":"1"}],"record_id":"318411768","is_favourite":0,"is_expire":0,"is_apply":1},{"user_id":"9505708","enterprise_id":"SeMCJ","job_id":"YPhyI","job_name":"推拿按摩技师","enterprise_name":"北京禾普诊所有限公司","industry":"14","job_work_area":"1105","read_time":"","invite_time":"","invite_id":"0","applied_time":"2018-01-11 20:21","last_applied_time":"1515673265","expiration_date":"1519833599","applied_num":"9","salary":"8000 - 20000","topjob_type":"1","company_type":"私营/民营企业","stuff_munber":"50 - 99人","workplace":"北京-朝阳区","resume_list":[{"title":"我的简历","resume_language":"zh","resume_id":"1"}],"record_id":"318411767","is_favourite":0,"is_expire":0,"is_apply":1},{"user_id":"9505708","enterprise_id":"SeZEZ","job_id":"YP0Ci","job_name":"医药销售人员","enterprise_name":"北京创盟精准医学科技有限公司","industry":"14","job_work_area":"1100","read_t 01-15 09:41:56.735 13468-13557/com.hr.ui D/OkHttp: ime":"","invite_time":"","invite_id":"0","applied_time":"2018-01-11 19:29","last_applied_time":"1515670147","expiration_date":"1523203199","applied_num":"8","salary":"3000 - 9000","topjob_type":"1","company_type":"","stuff_munber":"50 - 99人","workplace":"北京","resume_list":[{"title":"我的简历","resume_language":"zh","resume_id":"1"}],"record_id":"318411764","is_favourite":0,"is_expire":0,"is_apply":1},{"user_id":"9505708","enterprise_id":"SeMCJ","job_id":"YPGBG","job_name":"医生","enterprise_name":"北京禾普诊所有限公司","industry":"14","job_work_area":"1105","read_time":"","invite_time":"","invite_id":"0","applied_time":"2018-01-11 19:22","last_applied_time":"1515669744","expiration_date":"1517414399","applied_num":"8","salary":"10000 - 30000","topjob_type":"1","company_type":"私营/民营企业","stuff_munber":"50 - 99人","workplace":"北京-朝阳区","resume_list":[{"title":"我的简历","resume_language":"zh","resume_id":"1"}],"record_id":"318411763","is_favourite":1,"is_expire":0,"is_apply":1}]
-     * navpage_info : {"current_page":"1","total_pages":1,"record_nums":7,"page_nums":"20"}
+     * applied_list : [{"user_id":"9505721","enterprise_id":"ZiSAb","job_id":"YPcoJ","job_name":"维修技术员","enterprise_name":"湖南皇爷食品有限公司","industry":"22","job_work_area":"2809","read_time":"","invite_time":"","invite_id":"0","applied_time":"2018-01-19 13:59","last_applied_time":"1516341587","expiration_date":"1522511999","applied_num":"0","salary":"3000 - 4000","topjob_type":"1","study":"中专及以上","workyear":"三年以上","language":"","post_rank":"","company_type":"私营/民营企业","stuff_munber":"1000人以上","workplace":"湖南-益阳市","resume_list":[{"title":"我的简历","resume_language":"zh","resume_id":"1"}],"record_id":"318411877","is_favourite":0,"is_expire":0,"is_apply":1},{"user_id":"9505721","enterprise_id":"ZiSAb","job_id":"YPcoI","job_name":"维修主管","enterprise_name":"湖南皇爷食品有限公司","industry":"22","job_work_area":"2809","read_time":"","invite_time":"","invite_id":"0","applied_time":"2018-01-19 13:58","last_applied_time":"1516341502","expiration_date":"1522511999","applied_num":"0","salary":"3000 - 5000","topjob_type":"1","study":"大专及以上","workyear":"五年以上","language":"","post_rank":"","company_type":"私营/民营企业","stuff_munber":"1000人以上","workplace":"湖南-益阳市","resume_list":[{"title":"我的简历","resume_language":"zh","resume_id":"1"}],"record_id":"318411876","is_favourite":1,"is_expire":0,"is_apply":1},{"user_id":"9505721","enterprise_id":"xqMK5","job_id":"I9NZg","job_name":"化工工艺/生产管理（储备）","enterprise_name":"江苏中能硅业科技发展有限公司","industry":"29","job_work_area":"1602","read_time":"","invite_time":"","invite_id":"0","applied_time":"2018-01-19 13:26","last_applied_time":"1516339601","expiration_date":"1545926399","applied_num":"1","salary":"6500 - 9000","topjob_type":"1","study":"本科及以上","workyear":"不限","language":"","post_rank":"","company_type":"外商独资","stuff_munber":"1000人以上","workplace":"江苏-徐州市","resume_list":[{"title":"我的简历","resume_language":"zh","resume_id":"1"}],"record_id":"318411866","is_favourite":0,"is_expire":0,"is_apply":1},{"user_id":"9505721","enterprise_id":"P5xt4","job_id":"vU50h","job_name":"工艺技术员","enterprise_name":"上海立得催化剂有限公司","industry":"29","job_work_area":"1200","read_time":"","invite_time":"","invite_id":"0","applied_time":"2018-01-19 13:02","last_applied_time":"1516338156","expiration_date":"1528300799","applied_num":"98","salary":"8000 - 9000","topjob_type":"1","study":"本科及以上","workyear":"不限","language":"英语","post_rank":"","company_type":"国有企业","stuff_munber":"100 - 499人","workplace":"上海","resume_list":[{"title":"我的简历","resume_language":"zh","resume_id":"1"}],"record_id":"318411860","is_favourite":0,"is_expire":0,"is_apply":1},{"user_id":"9505721","enterprise_id":"xqMK5","job_id":"I9NZE","job_name":"电力运行管理（储备）","enterprise_name":"江苏中能硅业科技发展有限公司","industry":"29","job_work_area":"1602","read_time":"","invite_time":"","invite_id":"0","applied_time":"2018-01-19 13:00","last_applied_time":"1516338001","expiration_date":"1545926399","applied_num":"0","salary":"4800 - 7000","topjob_type":"1","study":"本科及以上","workyear":"不限","language":"","post_rank":"","company_type":"外商独资","stuff_munber":"1000人以上","workplace":"江苏-徐州市","resume_list":[{"title":"我的简历","resume_language":"zh","resume_id":"1"}],"record_id":"318411859","is_favourite":1,"is_expire":0,"is_apply":1},{"user_id":"9505721","enterprise_id":"AMCyu","job_id":"I9NZd","job_name":"收费员","enterprise_name":"北京朝阳急诊抢救中心","industry":"14","job_work_area":"1100","read_time":"","invite_time":"","invite_id":"0","applied_time":"2018-01-19 12:59","last_applied_time":"1516337994","expiration_date":"1517414399","applied_num":"1","salary":"3500 - 5000","topjob_type":"1","study":"大专及以上","workyear":"不限","language":"","post_rank":"","company_type":"私营/民营企业","stuff_munber":"1000人以上","workplace":"北京","resume_list":[{"title":"我的简历","resume_language":"zh","resume_id":"1"}],"record_id":"318411858","is_favourite":0,"is_expire":0,"is_apply":1},{"user_id":"9505721","enterprise_id":"xqMK5","job_id":"I9NQO","job_name":"化工操作","enterprise_name":"江苏中能硅业科技发展有限公司","industry":"29","job_work_area":"1602","read_time":"","invite_time":"","invite_id":"0","applied_time":"2018-01-19 12:59","last_applied_time":"1516337988","expiration_date":"1545926399","applied_num":"4","salary":"5000 - 6000","topjob_type":"1","study":"中专及以上","workyear":"不限","language":"","post_rank":"","company_type":"外商独资","stuff_munber":"1000人以上","workplace":"江苏-徐州市","resume_list":[{"title":"我的简历","resume_language":"zh","resume_id":"1"}],"record_id":"318411857","is_favourite":0,"is_expire":0,"is_apply":1},{"user_id":"9505721","enterprise_id":"xqMK5","job_id":"I9NZe","job_name":"机务检修","enterprise_name":"江苏中能硅业科技发展有限公司","industry":"29","job_work_area":"1602","read_time":"","invite_time":"","invite_id":"0","applied_time":"2018-01-19 10:25","last_applied_time":"1516328729","expiration_date":"1545926399","applied_num":"1","salary":"4000 - 5000","topjob_type":"1","study":"中专及以上","workyear":"三年以上","language":"","post_rank":"","company_type":"外商独资","stuff_munber":"1000人以上","workplace":"江苏-徐州市","resume_list":[{"title":"我的简历","resume_language":"zh","resume_id":"1"}],"record_id":"318411853","is_favourite":0,"is_expire":0,"is_apply":1},{"user_id":"9505721","enterprise_id":"Seu9Z","job_id":"I9qX9","job_name":"中医师","enterprise_name":"天津西青桂生堂医院","industry":"14","job_work_area":"1300","read_time":"","invite_time":"","invite_id":"0","applied_time":"2018-01-18 17:17","last_applied_time":"1516267078","expiration_date":"1526918399","applied_num":"3","salary":"10000 - 12000","topjob_type":"1","study":"不限","workyear":"十年以上","language":"","post_rank":"中级职称","company_type":"私营/民营企业","stuff_munber":"50 - 99人","workplace":"天津","resume_list":[{"title":"我的简历","resume_language":"zh","resume_id":"1"}],"record_id":"318411837","is_favourite":0,"is_expire":0,"is_apply":1}]
+     * navpage_info : {"current_page":"1","total_pages":1,"record_nums":9,"page_nums":"20"}
      */
 
     private String error_code;
@@ -48,7 +47,7 @@ public class DeliverFeedbackBean {
         /**
          * current_page : 1
          * total_pages : 1
-         * record_nums : 7
+         * record_nums : 9
          * page_nums : 20
          */
 
@@ -92,31 +91,34 @@ public class DeliverFeedbackBean {
 
     public static class AppliedListBean {
         /**
-         * user_id : 9505708
-         * enterprise_id : ZrDAK
-         * job_id : YP8dQ
-         * job_name : 骨科主任及学科带头人
-         * enterprise_name : 国创高科（北京）医疗科技有限公司
-         * industry : 14
-         * job_work_area : 1113
+         * user_id : 9505721
+         * enterprise_id : ZiSAb
+         * job_id : YPcoJ
+         * job_name : 维修技术员
+         * enterprise_name : 湖南皇爷食品有限公司
+         * industry : 22
+         * job_work_area : 2809
          * read_time :
          * invite_time :
          * invite_id : 0
-         * applied_time : 2018-01-11 20:37
-         * last_applied_time : 1515674249
-         * expiration_date : 1521043199
-         * applied_num : 4
-         * salary : 10000 - 20000
+         * applied_time : 2018-01-19 13:59
+         * last_applied_time : 1516341587
+         * expiration_date : 1522511999
+         * applied_num : 0
+         * salary : 3000 - 4000
          * topjob_type : 1
+         * study : 中专及以上
+         * workyear : 三年以上
+         * language :
+         * post_rank :
          * company_type : 私营/民营企业
-         * stuff_munber : 1 - 49人
-         * workplace : 北京-昌平区
+         * stuff_munber : 1000人以上
+         * workplace : 湖南-益阳市
          * resume_list : [{"title":"我的简历","resume_language":"zh","resume_id":"1"}]
-         * record_id : 318411773
+         * record_id : 318411877
          * is_favourite : 0
          * is_expire : 0
          * is_apply : 1
-         * read_t 01-15 09:41:56.735 13468-13557/com.hr.ui D/OkHttp: ime :
          */
 
         private String user_id;
@@ -135,6 +137,10 @@ public class DeliverFeedbackBean {
         private String applied_num;
         private String salary;
         private String topjob_type;
+        private String study;
+        private String workyear;
+        private String language;
+        private String post_rank;
         private String company_type;
         private String stuff_munber;
         private String workplace;
@@ -142,8 +148,6 @@ public class DeliverFeedbackBean {
         private int is_favourite;
         private int is_expire;
         private int is_apply;
-        @SerializedName("read_t 01-15 09:41:56.735 13468-13557/com.hr.ui D/OkHttp: ime")
-        private String _$Read_t01150941567351346813557ComHrUiDOkHttpIme217; // FIXME check this code
         private List<ResumeListBean> resume_list;
 
         public String getUser_id() {
@@ -274,6 +278,38 @@ public class DeliverFeedbackBean {
             this.topjob_type = topjob_type;
         }
 
+        public String getStudy() {
+            return study;
+        }
+
+        public void setStudy(String study) {
+            this.study = study;
+        }
+
+        public String getWorkyear() {
+            return workyear;
+        }
+
+        public void setWorkyear(String workyear) {
+            this.workyear = workyear;
+        }
+
+        public String getLanguage() {
+            return language;
+        }
+
+        public void setLanguage(String language) {
+            this.language = language;
+        }
+
+        public String getPost_rank() {
+            return post_rank;
+        }
+
+        public void setPost_rank(String post_rank) {
+            this.post_rank = post_rank;
+        }
+
         public String getCompany_type() {
             return company_type;
         }
@@ -328,14 +364,6 @@ public class DeliverFeedbackBean {
 
         public void setIs_apply(int is_apply) {
             this.is_apply = is_apply;
-        }
-
-        public String get_$Read_t01150941567351346813557ComHrUiDOkHttpIme217() {
-            return _$Read_t01150941567351346813557ComHrUiDOkHttpIme217;
-        }
-
-        public void set_$Read_t01150941567351346813557ComHrUiDOkHttpIme217(String _$Read_t01150941567351346813557ComHrUiDOkHttpIme217) {
-            this._$Read_t01150941567351346813557ComHrUiDOkHttpIme217 = _$Read_t01150941567351346813557ComHrUiDOkHttpIme217;
         }
 
         public List<ResumeListBean> getResume_list() {

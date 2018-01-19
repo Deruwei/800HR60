@@ -58,7 +58,6 @@
 
         </RelativeLayout>
         <View
-            android:visibility="gone"
             android:layout_toRightOf="@+id/rl_jobSearchFragmentType"
             android:background="@color/color_333"
             android:layout_marginLeft="@dimen/x25"
@@ -183,11 +182,16 @@
             android:background="@color/view_color"
             android:layout_width="match_parent"
             android:layout_height="@dimen/x1"/>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
         <com.hr.ui.view.XRecyclerView
             android:id="@+id/rv_jobSearchFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
         </com.hr.ui.view.XRecyclerView>
+            <include layout="@layout/layout_emptyview"/>
+        </FrameLayout>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

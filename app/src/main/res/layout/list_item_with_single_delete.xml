@@ -14,13 +14,15 @@
         android:orientation="horizontal">
 
         <TextView
+            android:drawableTop="@mipmap/delete_white"
+            android:drawablePadding="@dimen/x10"
             android:id="@+id/view_list_repo_action_delete"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:padding="12dp"
-            android:text="取消收藏?"
+            android:text="@string/delete"
             android:textColor="@android:color/white"/>
 
     </LinearLayout>

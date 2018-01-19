@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -359,15 +360,19 @@ public class MainActivity extends BaseNoConnectNetworkAcitivty {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==REQUEST_CODE&&resultCode==JobSerchActivity.instance.RESULT_CODE){
             JobSearchBean jobSearchBean1= (JobSearchBean) data.getSerializableExtra("jobSearch");
-            idMenu.setDrawerLockMode(MyDrawLayout2.LOCK_MODE_LOCKED_CLOSED);
-            rlFragmentTitle.setVisibility(View.GONE);
-            rlLeftPage.setBackgroundResource(R.color.view_f0f0f0);
-            isHome=false;
-            if(fragments.contains(JobSearchFragment.instance)){
-                fragments.remove(JobSearchFragment.instance);
+            //Log.i("当前的数据",jobSearchBean1.toString());
+            if(isHome==false) {
+                idMenu.setDrawerLockMode(MyDrawLayout2.LOCK_MODE_LOCKED_CLOSED);
+                rlFragmentTitle.setVisibility(View.GONE);
+                rlLeftPage.setBackgroundResource(R.color.view_f0f0f0);
+                if (fragments.contains(JobSearchFragment.instance)) {
+                    fragments.remove(JobSearchFragment.instance);
+                }
+                fragments.add(JobSearchFragment.newInstance(jobSearchBean1));
+                switchFragment(3);
+            }else{
+                switchFragment(0);
             }
-            fragments.add(JobSearchFragment.newInstance(jobSearchBean1));
-            switchFragment(3);
            // Log.i("数据",jobSearchBean.toString());
            /* fragments[3].instance.setData(jobSearchBean);*/
          /*  switchFragment(3);

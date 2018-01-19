@@ -178,6 +178,11 @@
     <string name="addSuccess">添加成功</string>
     <string name="saveSuccess">保存成功</string>
     <string name="deleteSuccess">删除成功</string>
+    <string name="delete">删除</string>
+    <string name="cancelCollection">取消收藏</string>
+    <string name="noData">这里什么都没有</string>
+    <string name="netError">网络出现错误</string>
+    <string name="toSearch">去搜搜看</string>
 
     //简历部分
     <string name="location">定位城市:</string>

@@ -22,7 +22,7 @@ public class PositionPagePresenter extends PositionPageContract.Presenter {
 
     @Override
     public void getPositionData(String jobId) {
-        mRxManage.add(mModel.getPositionData(jobId).subscribe(new RxSubscriber<PositionBean>(mContext,false) {
+        mRxManage.add(mModel.getPositionData(jobId).subscribe(new RxSubscriber<PositionBean>(mContext,true) {
             @Override
             protected void _onNext(PositionBean positionBean) throws IOException {
 

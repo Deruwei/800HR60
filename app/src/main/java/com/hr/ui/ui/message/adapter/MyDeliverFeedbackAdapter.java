@@ -59,8 +59,8 @@ public class MyDeliverFeedbackAdapter extends RecyclerView.Adapter<MyDeliverFeed
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         viewHolder.tvItemCollectionSalary.setText(Utils.getSalary(favouriteListBeanList.get(position).getSalary()));
-        /*viewHolder.tvItemCollectionDegree.setText(favouriteListBeanList.get(position).getStudy());
-        viewHolder.tvItemCollectionExp.setText(favouriteListBeanList.get(position).getWorkyear());*/
+        viewHolder.tvItemCollectionDegree.setText(favouriteListBeanList.get(position).getStudy());
+        viewHolder.tvItemCollectionExp.setText(favouriteListBeanList.get(position).getWorkyear());
         //viewHolder.tvItemCollectionDegree.setText(favouriteListBeanList.get(position).g);
         viewHolder.tvItemCollectionJobName.setText(favouriteListBeanList.get(position).getJob_name());
         viewHolder.tvItemCollectionPlace.setText(favouriteListBeanList.get(position).getWorkplace());
@@ -116,8 +116,6 @@ public class MyDeliverFeedbackAdapter extends RecyclerView.Adapter<MyDeliverFeed
         TextView tvItemCollectionCompanyName;
         @BindView(R.id.btn_itemCollectionDeliver)
         Button btnItemCollectionDeliver;
-        @BindView(R.id.view_list_main_content)
-        View mViewContent;
 
         public ViewHolder(View view) {
             super(view);

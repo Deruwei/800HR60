@@ -163,6 +163,7 @@ public class JobSerchActivity extends BaseNoConnectNetworkAcitivty {
                     jobSearchBean.setIndustryId(historyBeanList.get(finalI).getIndustryId());
                     jobSearchBean.setPlaceId(historyBeanList.get(finalI).getPlaceId());
                     jobSearchBean.setJobType(historyBeanList.get(finalI).getJobType());
+                    MainActivity.instance.isHome=false;
                     Intent intent = new Intent(JobSerchActivity.this, MainActivity.class);
                     intent.putExtra("jobSearch", (Serializable) jobSearchBean);
                     setResult(RESULT_CODE, intent);
@@ -185,12 +186,21 @@ public class JobSerchActivity extends BaseNoConnectNetworkAcitivty {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_jobSearchBack:
+                MainActivity.instance.isHome=true;
+                JobSearchBean jobSearchBean1=new JobSearchBean();
+                Intent intent1=new Intent(this,MainActivity.class);
+                intent1.putExtra("jobSearch", (Serializable)jobSearchBean1);
+                setResult(RESULT_CODE,intent1);
                 finish();
                 break;
             case R.id.rl_jobSearchType:
                 initPopSearchType();
                 break;
             case R.id.tv_jobSearch:
+                if(etJobSearch.getText().toString()==null&&"".equals(etJobSearch.getText().toString())){
+                    ToastUitl.showShort("请输入职位名或公司名");
+                    return;
+                }
                 JobSearchBean jobSearchBean=new JobSearchBean();
                 if(industryId!=null&&!"".equals(industryId)) {
                     jobSearchBean.setIndustryId(industryId);
@@ -226,6 +236,7 @@ public class JobSerchActivity extends BaseNoConnectNetworkAcitivty {
                     }
                     SearchHistoryUtils.insertJobSearchDataOrReplace(historyBean);
                 }
+                MainActivity.instance.isHome=false;
                 Intent intent=new Intent(this,MainActivity.class);
                 intent.putExtra("jobSearch", (Serializable) jobSearchBean);
                 setResult(RESULT_CODE,intent);

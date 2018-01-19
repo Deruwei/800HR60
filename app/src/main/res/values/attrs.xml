@@ -51,6 +51,17 @@
         <attr name="speed" />
         <attr name="textSize"/>
     </declare-styleable>
+    <declare-styleable name="SwipeItemLayout.Layout">
+        <attr name="layout_itemType">
+            <flag name="main" value="0x01"/>
+            <flag name="menu" value="0x02"/>
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="SwipeMenuLayout">
+        <attr name="leftMenuId" format="integer"/>
+        <attr name="rightMenuId" format="integer"/>
+        <attr name="contentId" format="integer"/>
+    </declare-styleable>
     <!-- 圆形头像边框属性-->
     <declare-styleable name="CircleImageView">
         <attr name="civ_border_width" format="dimension" />

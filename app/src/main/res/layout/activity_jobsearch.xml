@@ -51,7 +51,6 @@
 
         </RelativeLayout>
         <View
-            android:visibility="gone"
             android:id="@+id/view_middle"
             android:layout_toRightOf="@+id/rl_jobSearchType"
             android:background="@color/color_333"

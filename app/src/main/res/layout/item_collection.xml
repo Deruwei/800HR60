@@ -1,39 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.hr.ui.view.SwipeMenuLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:id="@+id/view_list_main_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/resumeContent_bg"
-    tools:showIn="@layout/list_item_main"
     android:layout_height="wrap_content">
     <LinearLayout
+        android:id="@+id/left_menu"
+        app:layout_itemType="main"
         android:orientation="vertical"
-        android:layout_marginLeft="@dimen/x30"
-        android:layout_marginRight="@dimen/x30"
-        android:layout_marginTop="@dimen/x20"
-        android:paddingTop="@dimen/x40"
-        android:paddingLeft="@dimen/x40"
-        android:paddingRight="@dimen/x40"
-        android:paddingBottom="@dimen/x40"
-        android:background="@drawable/edit_bg_small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_marginLeft="@dimen/x30"
+            android:layout_marginRight="@dimen/x30"
+            android:layout_marginTop="@dimen/x20"
+            android:paddingTop="@dimen/x40"
+            android:paddingLeft="@dimen/x40"
+            android:paddingRight="@dimen/x40"
+            android:paddingBottom="@dimen/x40"
+            android:background="@drawable/edit_bg_small"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
         <RelativeLayout
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/tv_itemCollectionJobName"
-                android:text="@string/atWorking"
                 android:textSize="@dimen/x36"
                 android:singleLine="true"
-                android:maxEms="12"
+                android:maxEms="10"
                 android:textColor="@color/color_333"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
-                android:text="@string/atWorking"
                 android:id="@+id/tv_itemCollectionSalary"
                 android:textSize="@dimen/x32"
                 android:layout_alignParentRight="true"
@@ -50,7 +51,6 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content">
               <TextView
-                  android:text="海淀区"
                   android:id="@+id/tv_itemCollectionPlace"
                   android:textSize="@dimen/x28"
                   android:textColor="@color/color_999"
@@ -64,7 +64,6 @@
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content" />
               <TextView
-                  android:text="3年"
                   android:id="@+id/tv_itemCollectionExp"
                   android:layout_marginLeft="@dimen/x6"
                   android:textSize="@dimen/x28"
@@ -81,7 +80,6 @@
               <TextView
                   android:id="@+id/tv_itemCollectionDegree"
                   android:layout_marginLeft="@dimen/x6"
-                  android:text="本科"
                   android:textSize="@dimen/x28"
                   android:textColor="@color/color_999"
                   android:layout_width="wrap_content"
@@ -94,7 +92,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
-                android:text="11月15日"
                 android:textColor="@color/color_999"
                 android:textSize="@dimen/x24" />
         </RelativeLayout>
@@ -104,7 +101,6 @@
             android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/tv_itemCollectionCompanyName"
-                android:text="北京英才网联科技有限公司"
                 android:textSize="@dimen/x28"
                 android:singleLine="true"
                 android:maxEms="15"
@@ -121,5 +117,31 @@
                 android:text="@string/deliver"
                 android:layout_height="@dimen/x52" />
         </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+    <LinearLayout
+        app:layout_itemType="menu"
+        android:id="@+id/ll_itemCollectionDelete"
+        android:layout_width="@dimen/x200"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:gravity="center"
+            android:orientation="vertical"
+            android:background="@color/red"
+            android:layout_marginTop="@dimen/x20"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <ImageView
+            android:src="@mipmap/delete_white"
+            android:layout_width="@dimen/x44"
+            android:layout_height="@dimen/x44" />
+        <TextView
+            android:textSize="@dimen/x32"
+            android:layout_marginTop="@dimen/x10"
+            android:text="@string/cancelCollection"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+</com.hr.ui.view.SwipeMenuLayout>

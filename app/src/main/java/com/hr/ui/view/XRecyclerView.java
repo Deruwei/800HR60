@@ -13,9 +13,12 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.view.animation.LinearInterpolator;
+import android.widget.Scroller;
 
 import com.hr.ui.utils.AppBarStateChangeListener;
 import com.hr.ui.utils.recyclerviewutils.ArrowRefreshHeader;
@@ -382,7 +385,6 @@ public class XRecyclerView extends RecyclerView {
         }
         return super.onTouchEvent(ev);
     }
-
     private int findMax(int[] lastPositions) {
         int max = lastPositions[0];
         for (int value : lastPositions) {

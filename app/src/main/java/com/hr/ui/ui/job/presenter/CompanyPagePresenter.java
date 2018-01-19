@@ -22,7 +22,7 @@ import okhttp3.ResponseBody;
 public class CompanyPagePresenter extends CompanyPageContract.Presenter {
     @Override
     public void getCompanyData(String companyId) {
-        mRxManage.add(mModel.getCompanyData(companyId).subscribe(new RxSubscriber<CompanyBean>(mContext,false) {
+        mRxManage.add(mModel.getCompanyData(companyId).subscribe(new RxSubscriber<CompanyBean>(mContext,true) {
             @Override
             protected void _onNext(CompanyBean companyBean) throws IOException {
                     if(companyBean.getError_code()==0) {

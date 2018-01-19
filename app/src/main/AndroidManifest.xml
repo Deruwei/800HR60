@@ -54,7 +54,17 @@
         <service android:name="com.service.MyTimeService"
             android:enabled="true"
             />
+        <!--网络监听-->
+        <receiver
+            android:name=".utils.NetBroadCastReciver"
+            >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+                <action android:name="android.net.wifi.STATE_CHANGE" />
+            </intent-filter>
 
+        </receiver>
         <!--QQ分享-->
         <activity
             android:name="cn.sharesdk.tencent.qq.ReceiveActivity"

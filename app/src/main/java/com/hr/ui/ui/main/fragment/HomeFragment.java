@@ -3,23 +3,21 @@ package com.hr.ui.ui.main.fragment;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.hr.ui.R;
 import com.hr.ui.base.BaseFragment;
-import com.hr.ui.base.MyEvent;
 import com.hr.ui.bean.RecommendJobBean;
 import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.job.activity.PositionPageActivity;
-import com.hr.ui.ui.job.activity.PositionPageActivity2;
-import com.hr.ui.ui.main.adapter.MyAdapter;
 import com.hr.ui.ui.main.adapter.MyRecommendJobAdapter;
 import com.hr.ui.ui.main.contract.HomeFragmentContract;
 import com.hr.ui.ui.main.modle.HomeFragmentModel;
@@ -42,18 +40,26 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
 
     @BindView(R.id.rv_homeFragment)
     XRecyclerView rvHomeFragment;
+    @BindView(R.id.iv_noContent)
+    ImageView ivNoContent;
+    @BindView(R.id.tv_noData)
+    TextView tvNoData;
+    @BindView(R.id.iv_noDataSearchIcon)
+    ImageView ivNoDataSearchIcon;
+    @BindView(R.id.rl_emptyView)
+    RelativeLayout rlEmptyView;
     Unbinder unbinder;
-    private int page=1;
+    private int page = 1;
     public static HomeFragment instance;
     private MyRecommendJobAdapter jobAdapter;
-    private List<RecommendJobBean.JobsListBean> recommendList=new ArrayList<>();
+    private List<RecommendJobBean.JobsListBean> recommendList = new ArrayList<>();
 
     public static HomeFragment newInstance(String s) {
         HomeFragment navigationFragment = new HomeFragment();
         Bundle bundle = new Bundle();
         bundle.putString(Constants.ARGS, s);
         navigationFragment.setArguments(bundle);
-        instance=navigationFragment;
+        instance = navigationFragment;
         return navigationFragment;
     }
 
@@ -64,14 +70,14 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
 
     @Override
     public void initPresenter() {
-        mPresenter.setVM(this,mModel);
+        mPresenter.setVM(this, mModel);
     }
 
     @Override
     protected void initView() {
-        jobAdapter=new MyRecommendJobAdapter();
-        mPresenter.getRecommendJobInfo(page,20);
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getActivity()){
+        jobAdapter = new MyRecommendJobAdapter();
+        mPresenter.getRecommendJobInfo(page, 20);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity()) {
             @Override
             public boolean canScrollHorizontally() {
                 return false;
@@ -87,9 +93,9 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
         rvHomeFragment.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
-                new Handler().postDelayed(new Runnable(){
+                new Handler().postDelayed(new Runnable() {
                     public void run() {
-                     mPresenter.getRecommendJobInfo(1,20);
+                        mPresenter.getRecommendJobInfo(1, 20);
                         jobAdapter.notifyDataSetChanged();
                     }
 
@@ -101,19 +107,12 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
                         page++;
-                        mPresenter.getRecommendJobInfo(page,20);
+                        mPresenter.getRecommendJobInfo(page, 20);
                         jobAdapter.notifyDataSetChanged();
                     }
                 }, 1000);
             }
         });
-        jobAdapter.setClickCallBack(new MyRecommendJobAdapter.ItemClickCallBack() {
-            @Override
-            public void onItemClick(int pos) {
-                PositionPageActivity.startAction(getActivity(),recommendList.get(pos).getJob_id());
-            }
-        });
-
       /*  listData = new ArrayList<String>();
         for(int i = 0; i < 15 ;i++){
             listData.add("item" + i);
@@ -123,9 +122,10 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
         rvMsg.setAdapter(mAdapter);
         rvMsg.refresh();*/
     }
-    public  void refresh(){
-        page=1;
-        mPresenter.getRecommendJobInfo(page,20);
+
+    public void refresh() {
+        page = 1;
+        mPresenter.getRecommendJobInfo(page, 20);
     }
 
     @Override
@@ -159,21 +159,37 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
 
     @Override
     public void getRecommendJobSuccess(List<RecommendJobBean.JobsListBean> jobsBeanList) {
-        if(jobsBeanList!=null&&jobsBeanList.size()!=0){
-            if(page==1) {
-                jobAdapter=new MyRecommendJobAdapter();
+        Log.i("现在的数据",jobsBeanList.toString());
+        if (jobsBeanList != null&&!"[]".equals(jobsBeanList) && jobsBeanList.size() != 0) {
+            if (page == 1) {
+                jobAdapter = new MyRecommendJobAdapter();
                 recommendList.clear();
                 recommendList.addAll(jobsBeanList);
                 jobAdapter.setJobsListBeanList(recommendList);
                 rvHomeFragment.setAdapter(jobAdapter);
                 rvHomeFragment.refreshComplete();
-            }else{
+            } else {
                 recommendList.addAll(jobsBeanList);
                 rvHomeFragment.loadMoreComplete();
                 jobAdapter.notifyDataSetChanged();
             }
-        }else{
-            rvHomeFragment.setNoMore(true);
+            rlEmptyView.setVisibility(View.GONE);
+            rvHomeFragment.setVisibility(View.VISIBLE);
+
+        } else {
+            if (page == 1) {
+               rlEmptyView.setVisibility(View.VISIBLE);
+               rvHomeFragment.setVisibility(View.GONE);
+            } else {
+                rvHomeFragment.setNoMore(true);
+            }
         }
+        jobAdapter.setClickCallBack(new MyRecommendJobAdapter.ItemClickCallBack() {
+            @Override
+            public void onItemClick(int pos) {
+                PositionPageActivity.startAction(getActivity(), recommendList.get(pos).getJob_id());
+            }
+        });
+
     }
 }

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:id="@+id/rl_emptyView"
+    android:visibility="gone"
+    android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/iv_noContent"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/x96"
+            android:src="@mipmap/nocontent"
+            android:layout_width="@dimen/x245"
+            android:layout_height="@dimen/x261" />
+        <TextView
+            android:layout_marginTop="@dimen/x10"
+            android:layout_below="@+id/iv_noContent"
+            android:layout_centerHorizontal="true"
+            android:text="@string/noData"
+            android:id="@+id/tv_noData"
+            android:textColor="@color/color_999"
+            android:textSize="@dimen/x32"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <RelativeLayout
+            android:id="@+id/iv_noDataSearch"
+            android:layout_marginTop="@dimen/x20"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/tv_noData"
+            android:gravity="center"
+            android:background="@drawable/rl_bg_333"
+            android:layout_width="@dimen/x220"
+            android:layout_height="@dimen/x60">
+            <ImageView
+                android:id="@+id/iv_noDataSearchIcon"
+                android:layout_marginLeft="@dimen/x20"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/search"
+                android:layout_width="@dimen/x29"
+                android:layout_height="@dimen/x29" />
+            <TextView
+                android:layout_toRightOf="@+id/iv_noDataSearchIcon"
+                android:text="@string/toSearch"
+                android:textColor="@color/white"
+                android:layout_marginLeft="@dimen/x10"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+    </RelativeLayout>
+</RelativeLayout>

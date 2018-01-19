@@ -34,6 +34,10 @@ import com.hr.ui.ui.me.model.CollectionModel;
 import com.hr.ui.ui.me.presenter.CollectionPresenter;
 import com.hr.ui.utils.ItemTouchHelperCallback;
 import com.hr.ui.utils.ProgressStyle;
+import com.hr.ui.utils.RecycleItemTouchHelper;
+import com.hr.ui.utils.SwipeItemLayout;
+import com.hr.ui.utils.ToastUitl;
+import com.hr.ui.view.SwipeLayoutManager;
 import com.hr.ui.view.XRecyclerView;
 import com.loopeer.itemtouchhelperextension.ItemTouchHelperExtension;
 
@@ -60,7 +64,7 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter, Collec
     XRecyclerView rvCollection;
     private Button btn;
     private int page=1;
-    private MainRecyclerAdapter adapter;
+    private MyCollectionAdapter adapter;
     private List<CollectionBean.FavouriteListBean> favouriteListBeanList=new ArrayList<>();
     public ItemTouchHelperExtension mItemTouchHelper;
     public ItemTouchHelperExtension.Callback mCallback;
@@ -96,8 +100,8 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter, Collec
             if (page == 1) {
                 favouriteListBeanList.clear();
                 favouriteListBeanList.addAll(favouriteListBeanList1);
+                adapter.setFavouriteListBeanList(favouriteListBeanList);
                 rvCollection.setAdapter(adapter);
-                adapter.updateData(favouriteListBeanList);
             } else {
                 favouriteListBeanList.addAll(favouriteListBeanList1);
                 adapter.notifyDataSetChanged();
@@ -105,11 +109,7 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter, Collec
         }else{
             rvCollection.setNoMore(true);
         }
-        mCallback = new ItemTouchHelperCallback();
-        mItemTouchHelper = new ItemTouchHelperExtension(mCallback);
-        mItemTouchHelper.attachToRecyclerView(rvCollection);
-        adapter.setItemTouchHelperExtension(mItemTouchHelper);
-      /*  adapter.setClickCallBack(new MyCollectionAdapter.ItemClickCallBack() {
+        adapter.setClickCallBack(new MyCollectionAdapter.ItemClickCallBack() {
             @Override
             public void onItemClick(int pos) {
                 PositionPageActivity.startAction(CollectionActivity.this,favouriteListBeanList.get(pos).getJob_id());
@@ -121,12 +121,20 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter, Collec
                 btn=btn1;
                 mPresenter.deliverCollection(favouriteListBeanList.get(position).getJob_id());
             }
-        });*/
+        });
+        adapter.setOnDeleteClick(new MyCollectionAdapter.OnDeleteClick() {
+            @Override
+            public void onViewClick(View view, int position) {
+                mPresenter.deleteCollection(favouriteListBeanList.get(position).getRecord_id(),favouriteListBeanList.get(position).getJob_id());
+                favouriteListBeanList.remove(position);
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
     public void deleteCollectionSuccess() {
-
+        ToastUitl.showShort("取消收藏成功");
     }
 
     @Override
@@ -134,7 +142,10 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter, Collec
         if(btn!=null){
             btn.setClickable(false);
             btn.setText(R.string.allReadyDeliver);
+            btn.setTextColor(ContextCompat.getColor(CollectionActivity.this,R.color.color_999));
+            btn.setBackgroundResource(R.drawable.edit_bg_999);
         }
+        ToastUitl.showShort("投递成功");
     }
 
     @Override
@@ -163,28 +174,20 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter, Collec
                 finish();
             }
         });
-        tvToolbarSave.setVisibility(View.VISIBLE);
-        tvToolbarSave.setText(R.string.edit);
+        /*tvToolbarSave.setVisibility(View.VISIBLE);*/
+       /* tvToolbarSave.setText(R.string.edit);
         tvToolbarSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             }
-        });
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this){
-            @Override
-            public boolean canScrollHorizontally() {
-                return false;
-            }
-        };
+        });*/
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvCollection.setLayoutManager(linearLayoutManager);
-        /*Drawable dividerDrawable = ContextCompat.getDrawable(this, R.drawable.divider_sample);
-        rvCollection.addItemDecoration(rvCollection.new DividerItemDecoration(dividerDrawable));*/
         rvCollection.setRefreshProgressStyle(ProgressStyle.LineScaleParty);
-        rvCollection.setNestedScrollingEnabled(false);
         rvCollection.setLoadingMoreProgressStyle(ProgressStyle.BallTrianglePath);
-        adapter=new MainRecyclerAdapter(this,2,mPresenter);
+        adapter=new MyCollectionAdapter();
         rvCollection.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
