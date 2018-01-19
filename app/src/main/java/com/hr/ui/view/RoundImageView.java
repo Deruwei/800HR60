@@ -41,7 +41,10 @@ public class RoundImageView extends ImageView {
      * 圆角矩形
      */
     public static final int TYPE_ROUNDED_RECT = 2;
-
+    /**
+     * 广告
+     */
+    public static final int TYPE_ROUNDED_RECT_AD = 3;
     private static final int DEFAULT_TYPE = TYPE_NONE;
     private static final int DEFAULT_BORDER_COLOR = Color.TRANSPARENT;
     private static final int DEFAULT_BORDER_WIDTH = 0;
@@ -113,6 +116,14 @@ public class RoundImageView extends ImageView {
                 canvas.drawRoundRect(mRectBorder, borderRadius, borderRadius, mPaintBorder);
                 canvas.translate(mBorderWidth, mBorderWidth);
                 canvas.drawRoundRect(mRectBitmap, bitmapRadius, bitmapRadius, mPaintBitmap);
+            }else if(mType==TYPE_ROUNDED_RECT_AD){
+                mRectBorder.set(halfBorderWidth, halfBorderWidth, dstWidth - halfBorderWidth, dstHeight - halfBorderWidth);
+                mRectBitmap.set(0.0f, 0.0f, dstWidth - doubleBorderWidth, dstHeight - doubleBorderWidth);
+                float borderRadius = mRectRoundRadius - halfBorderWidth > 0.0f ? mRectRoundRadius - halfBorderWidth : 0.0f;
+                float bitmapRadius = mRectRoundRadius - mBorderWidth > 0.0f ? mRectRoundRadius - mBorderWidth : 0.0f;
+                canvas.drawRoundRect(mRectBorder, 0, borderRadius, mPaintBorder);
+                canvas.translate(mBorderWidth, mBorderWidth);
+                canvas.drawRoundRect(mRectBitmap, 0, bitmapRadius, mPaintBitmap);
             }
         } else {
             super.onDraw(canvas);

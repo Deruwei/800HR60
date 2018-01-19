@@ -44,6 +44,7 @@ public class ExpandableTextView extends LinearLayout {
     int lastHeight=0;
     //是否正在执行动画
     boolean isAnimate=false;
+    boolean isCanShow=true;
 
     OnExpandStateChangeListener listener;
 
@@ -73,6 +74,51 @@ public class ExpandableTextView extends LinearLayout {
         id_expand_textview= (TextView) findViewById(R.id.id_expand_textview);
         id_source_textview= (TextView) findViewById(R.id.id_source_textview);
         id_expand_rl= (LinearLayout) findViewById(R.id.id_expand_rl);
+        id_source_textview.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {  
+                ExpandCollapseAnimation animation = null;
+                if (isCanShow==true) {
+                  
+                    isCollapsed=!isCollapsed;
+                    if (isCollapsed) {
+                        id_expand_textview.setText("展开全部");
+                        id_expand_imageview.setImageResource(R.mipmap.zhinengxuanze_xiala);
+                        if (listener!=null) {
+                            listener.onExpandStateChanged(true);
+                        }
+                        animation=new ExpandCollapseAnimation(getHeight(), collapsedHeight);
+                    } else {
+                        id_expand_textview.setText("收起");
+                        id_expand_imageview.setImageResource(R.mipmap.zhinengxuanze_xiangshang);
+                        if (listener!=null) {
+                            listener.onExpandStateChanged(false);
+                        }
+                        animation=new ExpandCollapseAnimation(getHeight(), realTextViewHeigt+lastHeight);
+                    }
+                    animation.setFillAfter(true);
+                    animation.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+                            isAnimate=true;
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            clearAnimation();
+                            isAnimate=false;
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+
+                        }
+                    });
+                    clearAnimation();
+                    startAnimation(animation);
+                }
+            }
+        });
         id_expand_rl.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

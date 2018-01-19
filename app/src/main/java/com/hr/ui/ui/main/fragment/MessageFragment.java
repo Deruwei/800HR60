@@ -117,7 +117,7 @@ public class MessageFragment extends BaseFragment<MessageFragmentPresenter, Mess
     @Override
     public void getWhoSeeMeSuccess(List<WhoSeeMeBean.BrowsedListBean> browsedListBeans) {
         if(browsedListBeans!=null&&browsedListBeans.size()!=0){
-            tvMessageWhoSeeMeNum.setText(browsedListBeans.size()+"");
+            tvMessageWhoSeeMeNum.setVisibility(View.VISIBLE);
         }else{
             tvMessageWhoSeeMeNum.setVisibility(View.GONE);
         }
@@ -126,7 +126,7 @@ public class MessageFragment extends BaseFragment<MessageFragmentPresenter, Mess
     @Override
     public void getDeliverFeedBackSuccess(List<DeliverFeedbackBean.AppliedListBean> appliedListBeanList) {
         if (appliedListBeanList != null && appliedListBeanList.size() != 0) {
-            tvMessageFeedBackNum.setText(appliedListBeanList.size() + "");
+            tvMessageFeedBackNum.setVisibility(View.VISIBLE);
         } else {
             tvMessageFeedBackNum.setVisibility(View.GONE);
         }

@@ -68,7 +68,8 @@ public class FindFragment extends BaseFragment<FindPresenter, FindModel> impleme
     public void getFiindDataSuccess(List<FindBean.ListBean> listBeans) {
         if(listBeans!=null&&!"".equals(listBeans)&&!"[]".equals(listBeans)&&listBeans.size()!=0){
             if(page==1){
-                adapter=new MyFindAdapter(getActivity());
+
+                adapter = new MyFindAdapter(getActivity(),position);
                 listBeanList=new ArrayList<>();
                 listBeanList.addAll(listBeans);
                 adapter.setListBeans(listBeanList);
@@ -126,7 +127,7 @@ public class FindFragment extends BaseFragment<FindPresenter, FindModel> impleme
         rvDeliverFeedback.setRefreshProgressStyle(ProgressStyle.LineScaleParty);
         rvDeliverFeedback.setNestedScrollingEnabled(false);
         rvDeliverFeedback.setLoadingMoreProgressStyle(ProgressStyle.BallTrianglePath);
-        adapter=new MyFindAdapter(getActivity());
+        adapter=new MyFindAdapter(getActivity(),position);
         rvDeliverFeedback.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {

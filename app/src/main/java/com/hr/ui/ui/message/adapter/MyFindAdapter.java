@@ -5,13 +5,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.hr.ui.R;
 import com.hr.ui.bean.FindBean;
+import com.hr.ui.utils.Utils;
+import com.hr.ui.view.RoundCornerImageView;
 
 import java.util.List;
 
@@ -24,6 +24,7 @@ import butterknife.ButterKnife;
 public class MyFindAdapter extends RecyclerView.Adapter<MyFindAdapter.ViewHolder> {
     private List<FindBean.ListBean> listBeans;
     private Context context;
+    private int type;
 
     public void setClickCallBack(ItemClickCallBack clickCallBack) {
         this.clickCallBack = clickCallBack;
@@ -39,8 +40,9 @@ public class MyFindAdapter extends RecyclerView.Adapter<MyFindAdapter.ViewHolder
 
     private ItemClickCallBack clickCallBack;
 
-    public MyFindAdapter(Context context) {
+    public MyFindAdapter(Context context, int type) {
         this.context = context;
+        this.type = type;
     }
 
     //创建新View，被LayoutManager所调用
@@ -61,7 +63,16 @@ public class MyFindAdapter extends RecyclerView.Adapter<MyFindAdapter.ViewHolder
         } else {
             viewHolder.rlFindHide.setVisibility(View.GONE);
         }
-        Glide.with(context).load(listBeans.get(position).getPic_path()).centerCrop().into(viewHolder.ivFindIcon);
+        if (type == 2) {
+            viewHolder.tvFindCompanyName.setVisibility(View.VISIBLE);
+            viewHolder.tvCompanyTitle.setText(listBeans.get(position).getTitle());
+            viewHolder.rlItemFind.setVisibility(View.GONE);
+        } else {
+            viewHolder.rlFindHide.setVisibility(View.VISIBLE);
+            viewHolder.tvFindCompanyName.setText(listBeans.get(position).getTitle());
+            viewHolder.tvCompanyTitle.setVisibility(View.GONE);
+        }
+        Utils.setImageResource(context, viewHolder.ivFindIcon, listBeans.get(position).getPic_path());
         if (clickCallBack != null) {
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -81,15 +92,19 @@ public class MyFindAdapter extends RecyclerView.Adapter<MyFindAdapter.ViewHolder
     //自定义的ViewHolder，持有每个Item的的所有界面元素
     public static class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.iv_findIcon)
-        ImageView ivFindIcon;
+        RoundCornerImageView ivFindIcon;
+        @BindView(R.id.tv_CompanyTitle)
+        TextView tvCompanyTitle;
         @BindView(R.id.tv_findCompanyName)
         TextView tvFindCompanyName;
-        @BindView(R.id.rl_findHide)
-        LinearLayout rlFindHide;
         @BindView(R.id.tv_findCompanyType)
         TextView tvFindCompanyType;
         @BindView(R.id.tv_findCompanyScale)
         TextView tvFindCompanyScale;
+        @BindView(R.id.rl_findHide)
+        LinearLayout rlFindHide;
+        @BindView(R.id.rl_itemFind)
+        LinearLayout rlItemFind;
 
         public ViewHolder(View view) {
             super(view);
