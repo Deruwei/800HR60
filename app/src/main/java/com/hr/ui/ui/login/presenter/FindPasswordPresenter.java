@@ -44,6 +44,7 @@ public class FindPasswordPresenter extends FindPasswordContract.Presenter {
         mRxManage.add(mModel.getValidCode(phoneNumber,captcha,type,way).subscribe(new RxSubscriber<ValidCodeBean>(mContext,false) {
             @Override
             protected void _onNext(ValidCodeBean validCodeBean) {
+               // Log.i("现在的数据",validCodeBean.toString());
                 if(validCodeBean.getError_code()==0){
                     ToastUitl.show("验证码发送成功", Toast.LENGTH_SHORT);
                     SharedPreferencesUtils sUtils=new SharedPreferencesUtils(mContext);
@@ -51,6 +52,8 @@ public class FindPasswordPresenter extends FindPasswordContract.Presenter {
                     mView.getValidCodeSuccess(validCodeBean.getToken_times());
                 }else if(validCodeBean.getError_code()==201){
                     ToastUitl.show("请输入正确的验证码",Toast.LENGTH_SHORT);
+                }else if(validCodeBean.getError_code()==328){
+                    mView.setNeedAotuCode();
                 } else{
                     Toast.makeText(mContext,Rc4Md5Utils.getErrorResourceId((int) validCodeBean.getError_code()),Toast.LENGTH_SHORT).show();
                 }

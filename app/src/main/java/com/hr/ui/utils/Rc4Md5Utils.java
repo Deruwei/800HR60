@@ -180,11 +180,11 @@ public class Rc4Md5Utils {
             case 202:
                 return R.string.error_202;
             case 203:
-                return R.string.error_203;
+                return R.string.error_1101;
             case 204:
-                return R.string.error_204;
+                return R.string.error_1101;
             case 205:
-                return R.string.error_205;
+                return R.string.error_1101;
             case 206:
                 return R.string.error_206;
             case 207:
@@ -277,7 +277,9 @@ public class Rc4Md5Utils {
                 return R.string.error_2013;
             case 2014:
                 return R.string.error_2014;
+            case 326:
+                return R.string.error_326;
         }
-        return R.string.error_101;
+        return R.string.error_other;
     }
 }

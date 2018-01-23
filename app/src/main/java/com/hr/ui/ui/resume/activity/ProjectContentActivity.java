@@ -98,6 +98,7 @@ public class ProjectContentActivity extends BaseNoConnectNetworkAcitivty {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         tag = getIntent().getStringExtra("tag");
         where=getIntent().getIntExtra("where",0);
+        etContent.setMaxEms(400);
         if (getIntent().getStringExtra("text") != null || !"".equals(getIntent().getStringExtra("text"))) {
             etContent.setText(getIntent().getStringExtra("text"));
             tvTextSum.setText(etContent.getText().toString().length() + " / 400");

@@ -18,7 +18,12 @@ import com.hr.ui.utils.Rc4Md5Utils;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+
+import okhttp3.ResponseBody;
 
 /**
  * Created by wdr on 2017/12/5.
@@ -37,6 +42,7 @@ public class RegisterPresenter extends RegisterContract.Presenter {
             @Override
             protected void _onNext(ValidCodeBean baseBean) {
                 mView.stopLoading();
+               // Log.i("现在的数据",baseBean.toString());
                 if(baseBean.getError_code()==0){
                     ToastUitl.show("验证码发送成功",Toast.LENGTH_SHORT);
                     SharedPreferencesUtils sUtils=new SharedPreferencesUtils(mContext);
@@ -44,6 +50,8 @@ public class RegisterPresenter extends RegisterContract.Presenter {
                     mView.sendValidCode(baseBean.getToken_times());
                 }else if(baseBean.getError_code()==201){
                     ToastUitl.show("请输入正确的验证码",Toast.LENGTH_SHORT);
+                }else if(baseBean.getError_code()==328){
+                    mView.needToGetAutoCode();
                 } else{
                     Toast.makeText(mContext,Rc4Md5Utils.getErrorResourceId((int) baseBean.getError_code()),Toast.LENGTH_SHORT).show();
                 }
@@ -181,4 +189,5 @@ public class RegisterPresenter extends RegisterContract.Presenter {
             }
         }));
     }
+
 }

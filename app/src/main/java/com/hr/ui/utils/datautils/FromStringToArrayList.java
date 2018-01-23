@@ -346,4 +346,17 @@ public class FromStringToArrayList {
         }
 
     }
+    public List<CityBean> getPositionClassList(){
+        List<CityBean> list=new ArrayList<>();
+        String[] names=HRApplication.getAppContext().getResources().getStringArray(R.array.positionClassName);
+        String[] ids=HRApplication.getAppContext().getResources().getStringArray(R.array.positionClassId);
+        for(int i=0;i<names.length;i++){
+            CityBean cityBean=new CityBean();
+            cityBean.setId(ids[i]);
+            cityBean.setName(names[i]);
+            cityBean.setCheck(false);
+            list.add(cityBean);
+        }
+        return list;
+    }
 }

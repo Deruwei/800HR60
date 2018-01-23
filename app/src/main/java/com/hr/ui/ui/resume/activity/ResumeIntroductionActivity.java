@@ -109,6 +109,7 @@ public class ResumeIntroductionActivity extends BaseActivity<ResumeIntroductionP
         sUtils=new SharedPreferencesUtils(this);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        etContent.setMaxEms(400);
         if (getIntent().getStringExtra("text") != null || !"".equals(getIntent().getStringExtra("text"))) {
             etContent.setText(getIntent().getStringExtra("text"));
             tvTextSum.setText(etContent.getText().toString().length() + " / 400");

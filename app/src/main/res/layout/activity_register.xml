@@ -33,8 +33,17 @@
                 android:id="@+id/et_phoneRegisterNumber"
                 android:inputType="number"
                 android:maxLength="11"
+                android:layout_marginRight="@dimen/x10"
+                android:layout_toLeftOf="@+id/iv_phoneRegisterPhoneDelete"
                 android:hint="@string/phoneNumber"
                 style="@style/login_editText"
+                />
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/iv_phoneRegisterPhoneDelete"
+                style="@style/Login_imageViewIcon"
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/delete"
                 />
             <View
                 android:layout_below="@+id/et_phoneRegisterNumber"
@@ -51,13 +60,22 @@
                 style="@style/Login_imageViewIcon"
                 />
             <EditText
-                android:layout_toLeftOf="@+id/tv_phoneRegisterGetValidCode"
+                android:layout_toLeftOf="@+id/iv_phoneRegisterValidCodeDelete"
                 android:layout_toRightOf="@+id/iv_phoneRegisterValidCodeIcon"
                 android:id="@+id/et_phoneRegisterValidCode"
                 android:hint="@string/ValidCode"
                 android:inputType="number"
+                android:layout_marginRight="@dimen/x10"
                 android:maxLength="6"
                 style="@style/login_editText"
+                />
+            <ImageView
+                android:layout_toLeftOf="@+id/tv_phoneRegisterGetValidCode"
+                android:id="@+id/iv_phoneRegisterValidCodeDelete"
+                style="@style/Login_imageViewIcon"
+               android:layout_marginRight="@dimen/x10"
+                android:src="@mipmap/delete"
+                android:visibility="gone"
                 />
             <TextView
                 android:paddingLeft="@dimen/x25"
@@ -94,7 +112,24 @@
                 android:layout_toRightOf="@+id/iv_phoneRegisterPswIcon"
                 android:id="@+id/et_phoneRegisterPsw"
                style="@style/login_editText"
+                android:inputType="textPassword"
+                android:layout_toLeftOf="@+id/iv_phoneRegisterPswDelete"
+                android:layout_marginRight="@dimen/x10"
                 android:hint="@string/psw"
+                />
+            <ImageView
+                android:id="@+id/iv_phoneRegisterPswDelete"
+                style="@style/Login_imageViewIcon"
+                android:src="@mipmap/delete"
+                android:layout_toLeftOf="@+id/iv_phoneRegisterHiddenPsw"
+                android:visibility="gone"
+                android:layout_marginRight="@dimen/x10"
+                />
+            <ImageView
+                android:id="@+id/iv_phoneRegisterHiddenPsw"
+                android:layout_alignParentRight="true"
+                style="@style/login_ImageViewHidden"
+                android:layout_height="@dimen/x40"
                 />
             <View
                 android:layout_below="@+id/et_phoneRegisterPsw"

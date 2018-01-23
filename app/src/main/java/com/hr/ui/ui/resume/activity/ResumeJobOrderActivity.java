@@ -329,7 +329,8 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
         toolBar.setTitleTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
         toolBar.setNavigationIcon(R.mipmap.back);
         tvToolbarTitle.setText(R.string.jobIntention);
-        toolbarAdd.setVisibility(View.VISIBLE);
+        tvToolbarSave.setVisibility(View.VISIBLE);
+        tvToolbarSave.setText(getString(R.string.add));
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -422,10 +423,10 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
         });
     }
 
-    @OnClick({R.id.rl_resumeJobOrderJobType,R.id.toolbarAdd, R.id.rl_resumeJobOrderJobStyle, R.id.iv_resumeJobOrderExpectedSalaryDelete, R.id.rl_resumeJobOrderWorkCity, R.id.btn_resumeJobOrderOK})
+    @OnClick({R.id.rl_resumeJobOrderJobType,R.id.tv_toolbarSave, R.id.rl_resumeJobOrderJobStyle, R.id.iv_resumeJobOrderExpectedSalaryDelete, R.id.rl_resumeJobOrderWorkCity, R.id.btn_resumeJobOrderOK})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.toolbarAdd:
+            case R.id.tv_toolbarSave:
                 if(industryIds.size()>=5) {
                     ToastUitl.showShort("最多只能添加五个行业");
                 }else {

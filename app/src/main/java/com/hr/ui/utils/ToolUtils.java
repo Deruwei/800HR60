@@ -51,6 +51,8 @@ public class ToolUtils {
         //System.out.println(""+multipleResumeBean.getBase_info().get(0).getYdphone()+"---"+multipleResumeBean.getBase_info().get(0).getTelephone());
         if(multipleResumeBean.getResume_list()==null||"".equals(multipleResumeBean.getResume_list())||multipleResumeBean.getResume_list().size()==0){
             RobotActivity.startAction(activity,userId);
+            sUtils.setIntValue(Constants.RESUME_STOPTYPE, 0);
+            sUtils.setIntValue(Constants.RESUME_STARTTYPE,0);
         }else{
             mPresenter.getResumeData(multipleResumeBean.getResume_list().get(0).getResume_id());
         }
@@ -75,7 +77,9 @@ public class ToolUtils {
         }
         if(resumeBean.getResume_info().getExperience_list()==null||"".equals(resumeBean.getResume_info().getExperience_list())||"[]".equals(resumeBean.getResume_info().getExperience_list())||resumeBean.getResume_info().getExperience_list().size()==0){
             if("2".equals(sharedPreferencesUtils.getStringValue(Constants.RESUME_TYPE,"1"))) {
-                titles.add("实习经历");
+                if(Integer.parseInt(resumeBean.getResume_info().getTitle_info().get(0).getFill_scale())<60) {
+                    titles.add("实习经历");
+                }
             }else {
                 titles.add("工作经验");
             }
@@ -133,12 +137,18 @@ public class ToolUtils {
     public  void judgeResumeMultipleOrOne2(Activity activity, MultipleResumeBean multipleResumeBean, int userId, int[] imageIds, RegisterPresenter mPresenter){
         if(multipleResumeBean.getResume_list()==null||"".equals(multipleResumeBean.getResume_list())||multipleResumeBean.getResume_list().size()==0){
             RobotActivity.startAction(activity,userId);
+            SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
+            sUtils.setIntValue(Constants.RESUME_STOPTYPE, 0);
+            sUtils.setIntValue(Constants.RESUME_STARTTYPE,0);
         }else{
                 mPresenter.getResumeData(multipleResumeBean.getResume_list().get(0).getResume_id());
         }
     }
     public  void judgeResumeMultipleOrOne3(Activity activity, MultipleResumeBean multipleResumeBean, int userId, int[] imageIds, SplashPresenter mPresenter){
         if(multipleResumeBean.getResume_list()==null||"".equals(multipleResumeBean.getResume_list())||multipleResumeBean.getResume_list().size()==0){
+            SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
+            sUtils.setIntValue(Constants.RESUME_STOPTYPE, 0);
+            sUtils.setIntValue(Constants.RESUME_STARTTYPE,0);
             RobotActivity.startAction(activity,userId);
         }else{
             mPresenter.getResumeData(multipleResumeBean.getResume_list().get(0).getResume_id());

@@ -35,7 +35,7 @@ public class ThirdPartLoginUtils {
             public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
                 System.out.println("qq-complete"+hashMap.toString());
                 String nickNameString = hashMap.get("nickname") + "";
-                String uidString = platform.getDb().getUserId() + "";
+                String uidString = platform.getDb().getUserId();
                 String birthdayString = hashMap.get("birthday") + "";
                 String tinyurlString = hashMap.get("figureurl_qq_2") + "";
                 String genderString = hashMap.get("gender") + "";
@@ -50,6 +50,7 @@ public class ThirdPartLoginUtils {
                 //thirdPartBeanDao.insert(thirdPartBean);
                // HRApplication.getDaoSession().getThirdLoginBeanDao().insert(thirdPartBean);
                 Constants.TYPE_THIRDPARTLOGIN="QQ";
+                System.out.println("qq-complete"+thirdPartBean.toString());
                 mPresenter.getThirdPartLogin(thirdPartBean);
                // ToastUitl.showLong(hashMap.toString());
             }

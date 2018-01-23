@@ -98,6 +98,11 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
     RelativeLayout rlPosition;
     @BindView(R.id.cl_workExp)
     ConstraintLayout clWorkExp;
+    @BindView(R.id.toolbarAdd)
+    ImageView toolbarAdd;
+    @BindView(R.id.tv_noInternshipExp)
+    TextView tvNoInternshipExp;
+    private String expId;
     private String endTimes, startTimes, cityId, responbilityDes;
     private MyStartAndEndTimeCustomDatePicker datePickerSE;
     public static final String TAG = WorkExpActivity.class.getSimpleName();
@@ -105,7 +110,7 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
     private String type;//简历类型
     private SharedPreferencesUtils sUtis;
     private MyDialog myDialog;
-    private int stopType,startType;
+    private int stopType, startType;
 
     /**
      * 入口
@@ -134,15 +139,6 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
 
     }
 
-    @Override
-    public void sendWorkExpSuccess() {
-        if (stopType == 3) {
-            MainActivity.startAction(this, 0);
-            AppManager.getAppManager().finishAllActivity();
-        } else {
-            JobOrderActivity.startAction(this);
-        }
-    }
 
     @Override
     public int getLayoutId() {
@@ -159,7 +155,7 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
         sUtis = new SharedPreferencesUtils(this);
         type = sUtis.getStringValue(Constants.RESUME_TYPE, "");
         stopType = sUtis.getIntValue(Constants.RESUME_STOPTYPE, 0);
-        startType=sUtis.getIntValue(Constants.RESUME_STARTTYPE,0);
+        startType = sUtis.getIntValue(Constants.RESUME_STARTTYPE, 0);
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -170,6 +166,7 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
             if ("1".equals(type)) {
                 tvWorkExpTitle.setText(R.string.workExperience);
                 tvWorkPlaceTag.setText(R.string.workPlace);
+                tvNoInternshipExp.setVisibility(View.GONE);
             } else if ("2".equals(type)) {
                 tvWorkExpTitle.setText(R.string.internshipExperience);
                 tvWorkPlaceTag.setText(R.string.internshipPlace);
@@ -329,10 +326,10 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
         etGrossPay.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
+                if (!hasFocus) {
                     ivGrossPayDelete.setVisibility(View.GONE);
-                }else{
-                    if(etGrossPay.getText().toString()!=null&&!"".equals(etGrossPay.getText().toString())){
+                } else {
+                    if (etGrossPay.getText().toString() != null && !"".equals(etGrossPay.getText().toString())) {
                         ivGrossPayDelete.setVisibility(View.VISIBLE);
                     }
                 }
@@ -341,10 +338,10 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
         etCompanyName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
+                if (!hasFocus) {
                     ivCompanyNameDelete.setVisibility(View.GONE);
-                }else{
-                    if(etCompanyName.getText().toString()!=null&&!"".equals(etCompanyName.getText().toString())){
+                } else {
+                    if (etCompanyName.getText().toString() != null && !"".equals(etCompanyName.getText().toString())) {
                         ivCompanyNameDelete.setVisibility(View.VISIBLE);
                     }
                 }
@@ -353,10 +350,10 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
         tvPosition.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
+                if (!hasFocus) {
                     tvPositionSelect.setVisibility(View.GONE);
-                }else{
-                    if(tvPosition.getText().toString()!=null&&!"".equals(tvPosition.getText().toString())){
+                } else {
+                    if (tvPosition.getText().toString() != null && !"".equals(tvPosition.getText().toString())) {
                         tvPositionSelect.setVisibility(View.VISIBLE);
                     }
                 }
@@ -375,9 +372,12 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
         });
     }
 
-    @OnClick({R.id.iv_companyNameDelete, R.id.rl_workPlace, R.id.tv_positionSelect, R.id.iv_grossPayDelete, R.id.rl_position, R.id.rl_workExpStartAndEndTime, R.id.btn_nextEdu})
+    @OnClick({R.id.iv_companyNameDelete,R.id.tv_noInternshipExp, R.id.rl_workPlace, R.id.tv_positionSelect, R.id.iv_grossPayDelete, R.id.rl_position, R.id.rl_workExpStartAndEndTime, R.id.btn_nextEdu})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.tv_noInternshipExp:
+                JobOrderActivity.startAction(this);
+                break;
             case R.id.iv_companyNameDelete:
                 etCompanyName.setText("");
                 break;
@@ -393,7 +393,7 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
                 datePickerSE.show(startTimes, endTimes);
                 break;
             case R.id.btn_nextEdu:
-                if(!ClickUtils.isFastClick()) {
+                if (!ClickUtils.isFastClick()) {
                     doSendWorkExp();
                 }
                 //JobOrderActivity.startAction(this);
@@ -404,12 +404,14 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
                 break;
         }
     }
+
     private void setFocus() {
         clWorkExp.setFocusableInTouchMode(true);
         clWorkExp.setFocusable(true);
         clWorkExp.requestFocus();
         clWorkExp.findFocus();
     }
+
     private void doSendWorkExp() {
         if (etCompanyName.getText().toString() == null || "".equals(etCompanyName.getText().toString())) {
             ToastUitl.showShort("请填写公司名称");
@@ -420,11 +422,19 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
             return;
         }
         if (cityId == null || "".equals(cityId)) {
-            ToastUitl.showShort("请选择工作地点");
+            if ("1".equals(type)) {
+                ToastUitl.showShort("请选择工作地点");
+            }else{
+                ToastUitl.showShort("请选择实习地点");
+            }
             return;
         }
         if (etGrossPay.getText().toString() == null || "".equals(etGrossPay.getText().toString())) {
             ToastUitl.showShort("请填写税前月薪");
+            return;
+        }
+        if("0".equals(etGrossPay.getText().toString())){
+            ToastUitl.showShort("税前月薪不能为0");
             return;
         }
         if (startTimes == null || endTimes == null || "".equals(startTimes) || "".equals(endTimes)) {
@@ -442,6 +452,11 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
         workExpData.setGrossPay(etGrossPay.getText().toString());
         workExpData.setStartTime(startTimes);
         workExpData.setEndTime(endTimes);
+        if(expId!=null&&!"".equals(expId)){
+            workExpData.setExperienceId(expId);
+        }else{
+            workExpData.setExperienceId("");
+        }
         workExpData.setResponsibilityDescription(responbilityDes);
         mPresenter.sendWorkExpToResume(workExpData);
     }
@@ -461,21 +476,21 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
     @OnClick(R.id.rl_responsibilityDes)
     public void onViewClicked() {
         if ("".equals(tvResponsibilityDes.getText().toString()) || tvResponsibilityDes.getText().toString() == null) {
-            ContentActivity.startAction(this,TAG);
+            ContentActivity.startAction(this, TAG);
         } else {
-            ContentActivity.startAction(this, tvResponsibilityDes.getText().toString(),TAG);
+            ContentActivity.startAction(this, tvResponsibilityDes.getText().toString(), TAG);
         }
     }
 
     private void exitOrFinishActivity() {
-        if (startType== 3) {
+        if (startType == 3) {
             myDialog = new MyDialog(this, 2);
             myDialog.setMessage(getString(R.string.exitWarning));
             myDialog.setYesOnclickListener("确定", new MyDialog.onYesOnclickListener() {
                 @Override
                 public void onYesClick() {
                     myDialog.dismiss();
-                    SplashActivity.startAction(WorkExpActivity.this,1);
+                    SplashActivity.startAction(WorkExpActivity.this, 1);
                     SharedPreferencesUtils sUtils = new SharedPreferencesUtils(HRApplication.getAppContext());
                     sUtils.setIntValue(Constants.ISAUTOLOGIN, 0);
                     AppManager.getAppManager().finishAllActivity();
@@ -501,5 +516,16 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void sendWorkExpSuccess(String expId) {
+        this.expId=expId;
+        if (stopType == 3) {
+            MainActivity.startAction(this, 0);
+            AppManager.getAppManager().finishAllActivity();
+        } else {
+            JobOrderActivity.startAction(this);
+        }
     }
 }

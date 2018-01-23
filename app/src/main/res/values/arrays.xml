@@ -1228,4 +1228,16 @@
         <item>18</item>
         <item>19</item>
     </string-array>
+    <string-array name="positionClassName">
+        <item>医生</item>
+        <item>药师</item>
+        <item>护士</item>
+        <item>技师</item>
+    </string-array>
+    <string-array name="positionClassId">
+        <item>10100</item>
+        <item>10200</item>
+        <item>10300</item>
+        <item>10400</item>
+    </string-array>
 </resources>

@@ -277,7 +277,7 @@ public class MyDrawLayout2 extends ViewGroup
 		// So that we can catch the back button
 		setFocusableInTouchMode(true);
 		//修改手势滑动范围（1.0f 代表全屏）
-		setDrawerLeftEdgeSize(context,mLeftDragger,1.0f);
+		setDrawerLeftEdgeSize(context,mLeftDragger,0.25f);
 		ViewCompat.setAccessibilityDelegate(this, new AccessibilityDelegate());
 		ViewGroupCompat.setMotionEventSplittingEnabled(this, false);
 	}

@@ -5,17 +5,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.Selection;
 import android.text.Spannable;
+import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hr.ui.R;
-import com.hr.ui.app.AppManager;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
 import com.hr.ui.bean.LoginBean;
@@ -28,7 +32,6 @@ import com.hr.ui.db.ThirdPartDao;
 import com.hr.ui.ui.login.contract.LoginContract;
 import com.hr.ui.ui.login.model.LoginModel;
 import com.hr.ui.ui.login.presenter.LoginPresenter;
-import com.hr.ui.ui.main.activity.MainActivity;
 import com.hr.ui.utils.RegularExpression;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.ToolUtils;
@@ -56,13 +59,34 @@ public class BindPhoneLoginActivity extends BaseActivity<LoginPresenter, LoginMo
     EditText etBindPhoneLoginPsw;
     @BindView(R.id.iv_bindPhoneLoginHiddenPsw)
     ImageView ivBindPhoneLoginHiddenPsw;
+    @BindView(R.id.toolbarAdd)
+    ImageView toolbarAdd;
+    @BindView(R.id.tv_toolbarSave)
+    TextView tvToolbarSave;
+    @BindView(R.id.iv_bindPhoneLoginNumberIcon)
+    ImageView ivBindPhoneLoginNumberIcon;
+    @BindView(R.id.iv_bindPhoneLoginNumberDelete)
+    ImageView ivBindPhoneLoginNumberDelete;
+    @BindView(R.id.iv_bindPhoneLoginPswIcon)
+    ImageView ivBindPhoneLoginPswIcon;
+    @BindView(R.id.iv_bindPhoneLoginPswDelete)
+    ImageView ivBindPhoneLoginPswDelete;
+    @BindView(R.id.rl_bindPhoneLoginHiddenPsw)
+    RelativeLayout rlBindPhoneLoginHiddenPsw;
+    @BindView(R.id.btn_bindPhoneLoginOK)
+    Button btnBindPhoneLoginOK;
+    @BindView(R.id.tv_bindPhoneToFindUser)
+    TextView tvBindPhoneToFindUser;
+    @BindView(R.id.ll_bindPhoneLogin_middle)
+    LinearLayout llBindPhoneLoginMiddle;
     private boolean isHidden = true;
     private ThirdLoginBean thirdPartBean;
-    private String phoneNum,psw,uid;
+    private String phoneNum, psw, uid;
     private SharedPreferencesUtils sUtils;
-    private int[] imageIds={R.mipmap.resume1,R.mipmap.resume2,R.mipmap.resume3,R.mipmap.resume4,R.mipmap.resume5};
+    private int[] imageIds = {R.mipmap.resume1, R.mipmap.resume2, R.mipmap.resume3, R.mipmap.resume4, R.mipmap.resume5};
     private ArrayList<String> titles;
     private int userId;
+
     /**
      * 入口
      *
@@ -74,6 +98,7 @@ public class BindPhoneLoginActivity extends BaseActivity<LoginPresenter, LoginMo
         activity.overridePendingTransition(R.anim.fade_in,
                 R.anim.fade_out);
     }
+
     @Override
     public void showLoading(String title) {
 
@@ -91,19 +116,19 @@ public class BindPhoneLoginActivity extends BaseActivity<LoginPresenter, LoginMo
 
     @Override
     public void sendLoginSuccess(int userId) {
-        thirdPartBean=new ThirdLoginBean();
-        List<ThirdLoginBean> thirdPartBeanList= ThirdPartDao.queryThirdPart(Constants.TYPE_THIRDPARTLOGIN);
-       // List<ThirdLoginBean> thirdPartBeanList= HRApplication.getDaoSession().getThirdLoginBeanDao().queryBuilder().where(ThirdPartBeanDao.Properties.Type.eq(Constants.TYPE_THIRDPARTLOGIN)).list();
-        for(int i=0;i<thirdPartBeanList.size();i++){
-            if(thirdPartBeanList.get(i).getType().equals(Constants.TYPE_THIRDPARTLOGIN)){
-                thirdPartBean=thirdPartBeanList.get(i);
-                uid=thirdPartBean.getUId();
-                thirdPartBean.setSUId(userId+"");
+        thirdPartBean = new ThirdLoginBean();
+        List<ThirdLoginBean> thirdPartBeanList = ThirdPartDao.queryThirdPart(Constants.TYPE_THIRDPARTLOGIN);
+        // List<ThirdLoginBean> thirdPartBeanList= HRApplication.getDaoSession().getThirdLoginBeanDao().queryBuilder().where(ThirdPartBeanDao.Properties.Type.eq(Constants.TYPE_THIRDPARTLOGIN)).list();
+        for (int i = 0; i < thirdPartBeanList.size(); i++) {
+            if (thirdPartBeanList.get(i).getType().equals(Constants.TYPE_THIRDPARTLOGIN)) {
+                thirdPartBean = thirdPartBeanList.get(i);
+                uid = thirdPartBean.getUId();
+                thirdPartBean.setSUId(userId + "");
                 break;
             }
         }
-        System.out.println("hello"+thirdPartBean.toString());
-        mPresenter.getThidBinding(thirdPartBean,phoneNum,psw,0);
+        System.out.println("hello" + thirdPartBean.toString());
+        mPresenter.getThidBinding(thirdPartBean, phoneNum, psw, 0);
     }
 
     @Override
@@ -118,33 +143,33 @@ public class BindPhoneLoginActivity extends BaseActivity<LoginPresenter, LoginMo
 
     @Override
     public void bindingSuccess(int userId) {
-        sUtils.setIntValue(Constants.ISAUTOLOGIN,1);
-        LoginBean loginBean=new LoginBean();
-        if("QQ".equals(Constants.TYPE_THIRDPARTLOGIN)) {
+        sUtils.setIntValue(Constants.ISAUTOLOGIN, 1);
+        LoginBean loginBean = new LoginBean();
+        if ("QQ".equals(Constants.TYPE_THIRDPARTLOGIN)) {
             loginBean.setLoginType(2);
-            sUtils.setIntValue(Constants.AUTOLOGINTYPE,2);
-        }else{
+            sUtils.setIntValue(Constants.AUTOLOGINTYPE, 2);
+        } else {
             loginBean.setLoginType(3);
-            sUtils.setIntValue(Constants.AUTOLOGINTYPE,3);
+            sUtils.setIntValue(Constants.AUTOLOGINTYPE, 3);
         }
         loginBean.setName(phoneNum);
         loginBean.setPassword(psw);
         loginBean.setThirdPartUid(uid);
         loginBean.setThirdPartLoginType(Constants.TYPE_THIRDPARTLOGIN);
-        loginBean.setThirdPartSUid(userId+"");
+        loginBean.setThirdPartSUid(userId + "");
         LoginDBUtils.insertData(loginBean);
-        this.userId=userId;
-      mPresenter.getResumeList();
+        this.userId = userId;
+        mPresenter.getResumeList();
     }
 
     @Override
     public void getResumeListSuccess(MultipleResumeBean multipleResumeBean) {
-        ToolUtils.getInstance().judgeResumeMultipleOrOne(this, multipleResumeBean,userId,imageIds,mPresenter);
+        ToolUtils.getInstance().judgeResumeMultipleOrOne(this, multipleResumeBean, userId, imageIds, mPresenter);
     }
 
     @Override
     public void getResumeDataSuccess(ResumeBean resumeBean) {
-        ToolUtils.getInstance().judgeResumeIsComplete(resumeBean,this,titles);
+        ToolUtils.getInstance().judgeResumeIsComplete(resumeBean, this, titles);
     }
 
     @Override
@@ -159,7 +184,7 @@ public class BindPhoneLoginActivity extends BaseActivity<LoginPresenter, LoginMo
 
     @Override
     public void initView() {
-        sUtils=new SharedPreferencesUtils(this);
+        sUtils = new SharedPreferencesUtils(this);
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -180,11 +205,85 @@ public class BindPhoneLoginActivity extends BaseActivity<LoginPresenter, LoginMo
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+        onEditViewTextChangeAndFocusChange();
     }
 
-    @OnClick({R.id.rl_bindPhoneLoginHiddenPsw, R.id.btn_bindPhoneLoginOK, R.id.tv_bindPhoneToFindUser})
+    private void onEditViewTextChangeAndFocusChange() {
+        etBindPhoneLoginPsw.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    ivBindPhoneLoginPswDelete.setVisibility(View.GONE);
+                } else {
+                    if (etBindPhoneLoginPsw.getText().toString() != null && !"".equals(etBindPhoneLoginPsw.getText().toString())) {
+                        ivBindPhoneLoginPswDelete.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
+        etBindPhoneLoginNumber.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    ivBindPhoneLoginNumberDelete.setVisibility(View.GONE);
+                } else {
+                    if (etBindPhoneLoginNumber.getText().toString() != null && !"".equals(etBindPhoneLoginNumber.getText().toString())) {
+                        ivBindPhoneLoginNumberDelete.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
+        etBindPhoneLoginNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() > 0) {
+                    ivBindPhoneLoginNumberDelete.setVisibility(View.VISIBLE);
+                } else {
+                    ivBindPhoneLoginNumberDelete.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        etBindPhoneLoginPsw.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() > 0) {
+                    ivBindPhoneLoginPswDelete.setVisibility(View.VISIBLE);
+                } else {
+                    ivBindPhoneLoginPswDelete.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
+    @OnClick({R.id.rl_bindPhoneLoginHiddenPsw, R.id.iv_bindPhoneLoginPswDelete, R.id.iv_bindPhoneLoginNumberDelete, R.id.btn_bindPhoneLoginOK, R.id.tv_bindPhoneToFindUser})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.iv_bindPhoneLoginNumberDelete:
+                etBindPhoneLoginNumber.setText("");
+                break;
+            case R.id.iv_bindPhoneLoginPswDelete:
+                etBindPhoneLoginPsw.setText("");
+                break;
             case R.id.rl_bindPhoneLoginHiddenPsw:
                 if (isHidden) {
                     //设置EditText文本为可见的
@@ -212,12 +311,13 @@ public class BindPhoneLoginActivity extends BaseActivity<LoginPresenter, LoginMo
                 break;
         }
     }
+
     /**
      * 登录
      */
     private void doLogin() {
-         phoneNum = etBindPhoneLoginNumber.getText().toString();
-         psw = etBindPhoneLoginPsw.getText().toString();
+        phoneNum = etBindPhoneLoginNumber.getText().toString();
+        psw = etBindPhoneLoginPsw.getText().toString();
         if ("".equals(phoneNum) || phoneNum == null) {
             ToastUitl.showShort("请输入手机号码");
             return;
@@ -230,8 +330,8 @@ public class BindPhoneLoginActivity extends BaseActivity<LoginPresenter, LoginMo
             ToastUitl.showShort("请输入密码");
             return;
         }
-        if (psw.length() < 6 || psw.length() > 16) {
-            ToastUitl.showShort("请输入6-16位长度密码");
+        if (psw.length() < 6 || psw.length() > 25) {
+            ToastUitl.showShort("请输入6-25位长度密码");
             return;
         }
         mPresenter.getLogin(phoneNum, psw, 1);

@@ -254,6 +254,8 @@ public class PreviewResumeActivity extends BaseNoConnectNetworkAcitivty {
     private void initIntroduction() {
         if(assessInfoBean!=null&&assessInfoBean.size()!=0){
             tvPreviewResumeIntroduction.setText(assessInfoBean.get(0).getIntroduction());
+        }else{
+            tvPreviewResumeIntroduction.setVisibility(View.GONE);
         }
     }
 
@@ -340,7 +342,11 @@ public class PreviewResumeActivity extends BaseNoConnectNetworkAcitivty {
         tvPreviewResumePersonSex.setText(ResumeInfoIDToString.getSexName(this,baseInfoBean.get(0).getSex()));
         tvPreviewResumePersonBirth.setText(baseInfoBean.get(0).getYear()+"-"+baseInfoBean.get(0).getMonth()+"-"+baseInfoBean.get(0).getDay());
         tvPreviewResumePersonLivePlace.setText(FromStringToArrayList.getInstance().getCityListName(baseInfoBean.get(0).getLocation()));
-        tvPreviewResumePersonStartToWork.setText(baseInfoBean.get(0).getWork_beginyear()+"年");
+        if("-1".equals(baseInfoBean.get(0).getWork_beginyear())) {
+            tvPreviewResumePersonStartToWork.setText("无工作经验");
+        }else {
+            tvPreviewResumePersonStartToWork.setText(baseInfoBean.get(0).getWork_beginyear() + "年");
+        }
         tvPreviewResumePersonFuncLevel.setText(ResumeInfoIDToString.getZhiCheng(this,baseInfoBean.get(0).getPost_rank(),true)+"职称");
         tvPreviewResumePersonPhone.setText(baseInfoBean.get(0).getYdphone());
         tvPreviewResumePersonEmail.setText(baseInfoBean.get(0).getEmailaddress());

@@ -5,41 +5,36 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.Selection;
 import android.text.Spannable;
+import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
-import android.util.MutableInt;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hr.ui.R;
-import com.hr.ui.app.AppManager;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
-import com.hr.ui.bean.LoginBean;
 import com.hr.ui.bean.MultipleResumeBean;
 import com.hr.ui.bean.ResumeBean;
-import com.hr.ui.bean.ResumeData;
 import com.hr.ui.constants.Constants;
-import com.hr.ui.db.LoginDBUtils;
-import com.hr.ui.db.ResumeDataUtils;
 import com.hr.ui.ui.login.contract.LoginContract;
 import com.hr.ui.ui.login.model.LoginModel;
 import com.hr.ui.ui.login.presenter.LoginPresenter;
-import com.hr.ui.ui.main.activity.MainActivity;
-import com.hr.ui.ui.main.activity.MultipleResumeActivity;
-import com.hr.ui.ui.main.activity.RobotActivity;
 import com.hr.ui.utils.ThirdPartLoginUtils;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.ToolUtils;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 
+import java.nio.channels.NonReadableChannelException;
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,10 +55,38 @@ public class UserLoginActivity extends BaseActivity<LoginPresenter, LoginModel> 
     EditText etUserLoginPsw;
     @BindView(R.id.iv_userLoginHiddenPsw)
     ImageView ivUserLoginHiddenPsw;
+    @BindView(R.id.toolbarAdd)
+    ImageView toolbarAdd;
+    @BindView(R.id.tv_toolbarSave)
+    TextView tvToolbarSave;
+    @BindView(R.id.iv_userLoginNumberIcon)
+    ImageView ivUserLoginNumberIcon;
+    @BindView(R.id.iv_userLoginNumberDelete)
+    ImageView ivUserLoginNumberDelete;
+    @BindView(R.id.iv_userLoginPswIcon)
+    ImageView ivUserLoginPswIcon;
+    @BindView(R.id.iv_userLoginPswDelete)
+    ImageView ivUserLoginPswDelete;
+    @BindView(R.id.rl_userLoginHiddenPsw)
+    RelativeLayout rlUserLoginHiddenPsw;
+    @BindView(R.id.btn_userLoginOK)
+    Button btnUserLoginOK;
+    @BindView(R.id.tv_userLoginFindPsw)
+    TextView tvUserLoginFindPsw;
+    @BindView(R.id.ll_userLogin_middle)
+    LinearLayout llUserLoginMiddle;
+    @BindView(R.id.tv_text2)
+    TextView tvText2;
+    @BindView(R.id.iv_userLoginQQ)
+    ImageView ivUserLoginQQ;
+    @BindView(R.id.iv_userLoginWeChat)
+    ImageView ivUserLoginWeChat;
+    @BindView(R.id.rl_userLoginThirdPart)
+    RelativeLayout rlUserLoginThirdPart;
     private boolean isHidden = true;
-    private String userNum,psw;
+    private String userNum, psw;
     private SharedPreferencesUtils sUtils;
-    private int[] imageIds={R.mipmap.resume1,R.mipmap.resume2,R.mipmap.resume3,R.mipmap.resume4,R.mipmap.resume5};
+    private int[] imageIds = {R.mipmap.resume1, R.mipmap.resume2, R.mipmap.resume3, R.mipmap.resume4, R.mipmap.resume5};
     private ArrayList<String> titles;
     private int userId;
 
@@ -96,19 +119,19 @@ public class UserLoginActivity extends BaseActivity<LoginPresenter, LoginModel> 
 
     @Override
     public void sendLoginSuccess(int userId) {
-        sUtils.setIntValue(Constants.ISAUTOLOGIN,1);
-        sUtils.setIntValue(Constants.AUTOLOGINTYPE,1);
-        this.userId=userId;
+        sUtils.setIntValue(Constants.ISAUTOLOGIN, 1);
+        sUtils.setIntValue(Constants.AUTOLOGINTYPE, 1);
+        this.userId = userId;
         mPresenter.getResumeList();
     }
 
     @Override
     public void thirdPartLoginSuccess(int userId) {
-        this.userId=userId;
-        sUtils.setIntValue(Constants.ISAUTOLOGIN,1);
-        if("QQ".equals(Constants.TYPE_THIRDPARTLOGIN)) {
+        this.userId = userId;
+        sUtils.setIntValue(Constants.ISAUTOLOGIN, 1);
+        if ("QQ".equals(Constants.TYPE_THIRDPARTLOGIN)) {
             sUtils.setIntValue(Constants.AUTOLOGINTYPE, 2);
-        }else{
+        } else {
             sUtils.setIntValue(Constants.AUTOLOGINTYPE, 3);
         }
         mPresenter.getResumeList();
@@ -126,12 +149,12 @@ public class UserLoginActivity extends BaseActivity<LoginPresenter, LoginModel> 
 
     @Override
     public void getResumeListSuccess(MultipleResumeBean multipleResumeBean) {
-        ToolUtils.getInstance().judgeResumeMultipleOrOne(this, multipleResumeBean,userId,imageIds,mPresenter);
+        ToolUtils.getInstance().judgeResumeMultipleOrOne(this, multipleResumeBean, userId, imageIds, mPresenter);
     }
 
     @Override
     public void getResumeDataSuccess(ResumeBean resumeBean) {
-       ToolUtils.getInstance().judgeResumeIsComplete(resumeBean,this,titles);
+        ToolUtils.getInstance().judgeResumeIsComplete(resumeBean, this, titles);
     }
 
 
@@ -147,7 +170,7 @@ public class UserLoginActivity extends BaseActivity<LoginPresenter, LoginModel> 
 
     @Override
     public void initView() {
-        sUtils=new SharedPreferencesUtils(this);
+        sUtils = new SharedPreferencesUtils(this);
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -168,11 +191,85 @@ public class UserLoginActivity extends BaseActivity<LoginPresenter, LoginModel> 
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+        onEditViewTextChangeAndFocusChange();
     }
 
-    @OnClick({R.id.rl_userLoginHiddenPsw, R.id.btn_userLoginOK, R.id.tv_userLoginFindPsw, R.id.iv_userLoginQQ, R.id.iv_userLoginWeChat})
+    private void onEditViewTextChangeAndFocusChange() {
+        etUserLoginPsw.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length()>0){
+                    ivUserLoginPswDelete.setVisibility(View.VISIBLE);
+                }else{
+                    ivUserLoginPswDelete.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        etUserLoginNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length()>0){
+                    ivUserLoginNumberDelete.setVisibility(View.VISIBLE);
+                }else{
+                    ivUserLoginNumberDelete.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        etUserLoginNumber.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    ivUserLoginNumberDelete.setVisibility(View.GONE);
+                }else{
+                    if(etUserLoginNumber.getText().toString()!=null&&!"".equals(etUserLoginNumber.getText().toString())){
+                        ivUserLoginNumberDelete.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
+        etUserLoginPsw.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    ivUserLoginPswDelete.setVisibility(View.GONE);
+                }else{
+                    if(etUserLoginPsw.getText().toString()!=null&&!"".equals(etUserLoginPsw.getText().toString())){
+                        ivUserLoginPswDelete.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
+    }
+
+    @OnClick({R.id.rl_userLoginHiddenPsw,R.id.iv_userLoginNumberDelete,R.id.iv_userLoginPswDelete, R.id.btn_userLoginOK, R.id.tv_userLoginFindPsw, R.id.iv_userLoginQQ, R.id.iv_userLoginWeChat})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.iv_userLoginNumberDelete:
+                etUserLoginNumber.setText("");
+                break;
+            case R.id.iv_userLoginPswDelete:
+                etUserLoginPsw.setText("");
+                break;
             case R.id.rl_userLoginHiddenPsw:
                 if (isHidden) {
                     //设置EditText文本为可见的
@@ -208,7 +305,7 @@ public class UserLoginActivity extends BaseActivity<LoginPresenter, LoginModel> 
     }
 
     private void doLogin() {
-       userNum = etUserLoginNumber.getText().toString();
+        userNum = etUserLoginNumber.getText().toString();
         psw = etUserLoginPsw.getText().toString();
         if ("".equals(userNum) || userNum == null) {
             ToastUitl.showShort("请输入手机号码");

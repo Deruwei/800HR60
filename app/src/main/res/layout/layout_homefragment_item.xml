@@ -110,16 +110,13 @@
             android:layout_marginTop="@dimen/x44"
             android:orientation="horizontal">
 
-            <com.hr.ui.view.RoundImageView
+            <ImageView
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
                 android:id="@+id/iv_recommendJobCompanyIcon"
                 android:layout_width="@dimen/x82"
-                android:scaleType="fitXY"
                 android:layout_height="@dimen/x82"
-                android:src="@mipmap/defaultcompany"
-                app:type="rounded_rect"
-                app:borderColor="@color/white"
-                app:borderWidth="@dimen/x1"
-                app:rectRoundRadius="@dimen/x6" />
+                android:src="@mipmap/defaultcompany" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"

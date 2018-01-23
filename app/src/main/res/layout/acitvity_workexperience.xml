@@ -222,6 +222,15 @@
             android:id="@+id/btn_nextEdu"
             android:text="@string/next"
             style="@style/fastResume_ButtonOK2"/>
+            <TextView
+                android:id="@+id/tv_noInternshipExp"
+                android:layout_gravity="center_horizontal"
+                android:textColorLink="@color/color_333"
+                android:textSize="@dimen/x28"
+                android:layout_marginTop="@dimen/x20"
+                android:text="@string/nowInterShipExp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </android.support.constraint.ConstraintLayout>

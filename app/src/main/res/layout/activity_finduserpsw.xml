@@ -30,10 +30,18 @@
             <EditText
                 android:layout_toRightOf="@+id/iv_findUserPswEmailIcon"
                 android:id="@+id/et_findUserPswEmailNumber"
+                android:layout_toLeftOf="@+id/iv_findUserPswEmailDelete"
                 android:singleLine="true"
                style="@style/login_editText"
+                android:layout_marginRight="@dimen/x10"
                 android:hint="@string/email"
                 />
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/iv_findUserPswEmailDelete"
+                android:src="@mipmap/delete"
+               android:layout_alignParentRight="true"
+                style="@style/Login_imageViewIcon" />
             <View
                 android:layout_below="@+id/et_findUserPswEmailNumber"
                 style="@style/login_view"/>
@@ -48,12 +56,18 @@
                 />
             <EditText
                 android:layout_toRightOf="@+id/iv_findUserPswUserNameIcon"
-                android:inputType="textPassword"
+                android:layout_toLeftOf="@+id/iv_findUserPswNameDelete"
                 android:id="@+id/et_findUserPswUserName"
                 android:singleLine="true"
                 style="@style/login_editText"
                 android:hint="@string/accountNumber"
                 />
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/iv_findUserPswNameDelete"
+                android:src="@mipmap/delete"
+                android:layout_alignParentRight="true"
+                style="@style/Login_imageViewIcon" />
             <View
                 android:layout_below="@+id/et_findUserPswUserName"
                 style="@style/login_view"/>

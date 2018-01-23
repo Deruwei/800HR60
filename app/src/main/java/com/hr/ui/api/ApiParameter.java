@@ -5,6 +5,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
+import com.hr.ui.BuildConfig;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.bean.EducationData;
 import com.hr.ui.bean.JobOrderData;
@@ -43,7 +44,7 @@ public class ApiParameter {
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method", "user.connect");
         requestMap.put("api_ver", Constants.API_VER);
-        requestMap.put("client_ver", "5.5.2");
+        requestMap.put("client_ver", BuildConfig.VERSION_NAME);
         requestMap.put("os_name", Constants.OS_NAME);
         requestMap.put("os_ver", android.os.Build.VERSION.RELEASE);
         if (sUtils.getBooleanValue(Constants.IS_GUIDE, false)) {// 第一次运行
@@ -86,7 +87,7 @@ public class ApiParameter {
         if(type==1) {
             requestMap.put("captcha", captcha);
         }
-        //Log.i(TAG,requestMap.toString());
+        Log.i("现在的数据",requestMap.toString());
         return requestMap;
     }
 
@@ -219,6 +220,17 @@ public class ApiParameter {
     public static HashMap<String,String> getResumeList(){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_resume.resumelist");
+       /* requestMap.put("is_complete","1");
+        requestMap.put("mb","");*/
+        return requestMap;
+    }
+    /**
+     * 获取简历列表
+     * @return
+     */
+    public static HashMap<String,String> validPhoneState(){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user.phonestate");
        /* requestMap.put("is_complete","1");
         requestMap.put("mb","");*/
         return requestMap;

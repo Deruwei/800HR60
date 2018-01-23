@@ -1,25 +1,16 @@
 package com.hr.ui.ui.me.activity;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Vibrator;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hr.ui.R;
@@ -27,17 +18,13 @@ import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
 import com.hr.ui.bean.CollectionBean;
 import com.hr.ui.ui.job.activity.PositionPageActivity;
-import com.hr.ui.ui.me.adapter.MainRecyclerAdapter;
 import com.hr.ui.ui.me.adapter.MyCollectionAdapter;
 import com.hr.ui.ui.me.contract.CollectionContract;
 import com.hr.ui.ui.me.model.CollectionModel;
 import com.hr.ui.ui.me.presenter.CollectionPresenter;
-import com.hr.ui.utils.ItemTouchHelperCallback;
 import com.hr.ui.utils.ProgressStyle;
-import com.hr.ui.utils.RecycleItemTouchHelper;
 import com.hr.ui.utils.SwipeItemLayout;
 import com.hr.ui.utils.ToastUitl;
-import com.hr.ui.view.SwipeLayoutManager;
 import com.hr.ui.view.XRecyclerView;
 import com.loopeer.itemtouchhelperextension.ItemTouchHelperExtension;
 
@@ -62,12 +49,23 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter, Collec
     Toolbar toolBar;
     @BindView(R.id.rv_collection)
     XRecyclerView rvCollection;
+    @BindView(R.id.iv_noContent)
+    ImageView ivNoContent;
+    @BindView(R.id.tv_noData)
+    TextView tvNoData;
+    @BindView(R.id.iv_noDataSearchIcon)
+    ImageView ivNoDataSearchIcon;
+    @BindView(R.id.iv_noDataSearch)
+    RelativeLayout ivNoDataSearch;
+    @BindView(R.id.rl_emptyView)
+    RelativeLayout rlEmptyView;
     private Button btn;
-    private int page=1;
+    private int page = 1;
     private MyCollectionAdapter adapter;
-    private List<CollectionBean.FavouriteListBean> favouriteListBeanList=new ArrayList<>();
+    private List<CollectionBean.FavouriteListBean> favouriteListBeanList = new ArrayList<>();
     public ItemTouchHelperExtension mItemTouchHelper;
     public ItemTouchHelperExtension.Callback mCallback;
+
     /**
      * 入口
      *
@@ -79,6 +77,7 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter, Collec
         activity.overridePendingTransition(R.anim.fade_in,
                 R.anim.fade_out);
     }
+
     @Override
     public void showLoading(String title) {
 
@@ -96,7 +95,7 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter, Collec
 
     @Override
     public void getCollectionSuccess(final List<CollectionBean.FavouriteListBean> favouriteListBeanList1) {
-        if(favouriteListBeanList1!=null&&favouriteListBeanList1.size()!=0) {
+        if (favouriteListBeanList1 != null && !"".equals(favouriteListBeanList1)&&favouriteListBeanList1.size() != 0) {
             if (page == 1) {
                 favouriteListBeanList.clear();
                 favouriteListBeanList.addAll(favouriteListBeanList1);
@@ -106,30 +105,40 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter, Collec
                 favouriteListBeanList.addAll(favouriteListBeanList1);
                 adapter.notifyDataSetChanged();
             }
-        }else{
-            rvCollection.setNoMore(true);
+        } else {
+            if(page==1){
+                rlEmptyView.setVisibility(View.VISIBLE);
+                ivNoDataSearch.setVisibility(View.GONE);
+            }else {
+                rvCollection.setNoMore(true);
+            }
         }
         adapter.setClickCallBack(new MyCollectionAdapter.ItemClickCallBack() {
             @Override
             public void onItemClick(int pos) {
-                PositionPageActivity.startAction(CollectionActivity.this,favouriteListBeanList.get(pos).getJob_id());
+                PositionPageActivity.startAction(CollectionActivity.this, favouriteListBeanList.get(pos).getJob_id());
             }
         });
         adapter.setOnViewClick(new MyCollectionAdapter.OnViewClick() {
             @Override
             public void onViewClick(Button btn1, int position) {
-                btn=btn1;
+                btn = btn1;
                 mPresenter.deliverCollection(favouriteListBeanList.get(position).getJob_id());
             }
         });
         adapter.setOnDeleteClick(new MyCollectionAdapter.OnDeleteClick() {
             @Override
             public void onViewClick(View view, int position) {
-                mPresenter.deleteCollection(favouriteListBeanList.get(position).getRecord_id(),favouriteListBeanList.get(position).getJob_id());
+                mPresenter.deleteCollection(favouriteListBeanList.get(position).getRecord_id(), favouriteListBeanList.get(position).getJob_id());
                 favouriteListBeanList.remove(position);
                 adapter.notifyDataSetChanged();
+                if(favouriteListBeanList.size()==0){
+                    rlEmptyView.setVisibility(View.VISIBLE);
+                    ivNoDataSearch.setVisibility(View.GONE);
+                }
             }
         });
+        rvCollection.addOnItemTouchListener(new SwipeItemLayout.OnSwipeItemTouchListener(this));
     }
 
     @Override
@@ -139,10 +148,10 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter, Collec
 
     @Override
     public void deliverCollection() {
-        if(btn!=null){
+        if (btn != null) {
             btn.setClickable(false);
             btn.setText(R.string.allReadyDeliver);
-            btn.setTextColor(ContextCompat.getColor(CollectionActivity.this,R.color.color_999));
+            btn.setTextColor(ContextCompat.getColor(CollectionActivity.this, R.color.color_999));
             btn.setBackgroundResource(R.drawable.edit_bg_999);
         }
         ToastUitl.showShort("投递成功");
@@ -155,7 +164,7 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter, Collec
 
     @Override
     public void initPresenter() {
-        mPresenter.setVM(this,mModel);
+        mPresenter.setVM(this, mModel);
     }
 
     @Override
@@ -182,16 +191,16 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter, Collec
 
             }
         });*/
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvCollection.setLayoutManager(linearLayoutManager);
         rvCollection.setRefreshProgressStyle(ProgressStyle.LineScaleParty);
         rvCollection.setLoadingMoreProgressStyle(ProgressStyle.BallTrianglePath);
-        adapter=new MyCollectionAdapter();
+        adapter = new MyCollectionAdapter();
         rvCollection.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
-                new Handler().postDelayed(new Runnable(){
+                new Handler().postDelayed(new Runnable() {
                     public void run() {
                         mPresenter.getCollectionInfo(1);
                         adapter.notifyDataSetChanged();

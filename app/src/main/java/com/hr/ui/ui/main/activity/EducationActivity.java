@@ -20,6 +20,7 @@ import com.hr.ui.R;
 import com.hr.ui.app.AppManager;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
+import com.hr.ui.bean.EducationBean;
 import com.hr.ui.bean.EducationData;
 import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.main.contract.EducationContract;
@@ -89,6 +90,7 @@ public class EducationActivity extends BaseActivity<EducationPresenter, Educatio
     private SharedPreferencesUtils sUtils;
     private int stopType,startType;
     private MyDialog myDialog;
+    private String eduId;
 
     /**
      * 入口
@@ -104,7 +106,6 @@ public class EducationActivity extends BaseActivity<EducationPresenter, Educatio
 
     @Override
     public void showLoading(String title) {
-
     }
 
     @Override
@@ -117,15 +118,6 @@ public class EducationActivity extends BaseActivity<EducationPresenter, Educatio
 
     }
 
-    @Override
-    public void sendEducationSuccess() {
-        if (stopType == 2) {
-            MainActivity.startAction(this, 0);
-            AppManager.getAppManager().finishAllActivity();
-        } else {
-            WorkExpActivity.startAction(this);
-        }
-    }
 
     @Override
     public int getLayoutId() {
@@ -358,6 +350,9 @@ public class EducationActivity extends BaseActivity<EducationPresenter, Educatio
         educationData.setProfession(tvProfession.getText().toString());
         educationData.setStartTime(startTimes);
         educationData.setEndTime(endTimes);
+        if(eduId!=null&&!"".equals(eduId)){
+            educationData.setEducationId(eduId);
+        }
         mPresenter.sendEducationToResume(educationData);
     }
 
@@ -396,5 +391,16 @@ public class EducationActivity extends BaseActivity<EducationPresenter, Educatio
         }
 
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void sendEducationSuccess(String eduId) {
+        this.eduId=eduId;
+        if (stopType == 2) {
+            MainActivity.startAction(this, 0);
+            AppManager.getAppManager().finishAllActivity();
+        } else {
+            WorkExpActivity.startAction(this);
+        }
     }
 }

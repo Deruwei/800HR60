@@ -39,12 +39,14 @@ import com.hr.ui.utils.Base64;
 import com.hr.ui.utils.ClickUtils;
 import com.hr.ui.utils.RegularExpression;
 import com.hr.ui.utils.ToastUitl;
+import com.hr.ui.utils.Utils;
 import com.hr.ui.utils.datautils.ResumeInfoIDToString;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.CustomDatePicker;
 import com.hr.ui.view.MyCustomDatePicker;
 import com.hr.ui.view.MyDialog;
 import com.hr.ui.view.MyTextView;
+import com.hr.ui.view.RoundImageView;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
@@ -70,7 +72,7 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
     @BindView(R.id.tool_bar)
     Toolbar toolBar;
     @BindView(R.id.iv_personalInformationImage)
-    ImageView ivPersonalInformationImage;
+    RoundImageView ivPersonalInformationImage;
     @BindView(R.id.tv_nameTag)
     MyTextView tvNameTag;
     @BindView(R.id.et_name)
@@ -176,7 +178,7 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
     public void uploadImageSuccess(String path) {
         sUtis.setStringValue(Constants.PERSONIMAGE,path);
         PersonalInformationData personalInformationData = new PersonalInformationData();
-        personalInformationData.setImageUrl(imagePath);
+        personalInformationData.setImageUrl(path);
         personalInformationData.setName(etName.getText().toString());
         personalInformationData.setSex(sex);
         personalInformationData.setBirth(tvBirth.getText().toString());
@@ -673,7 +675,7 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
             ToastUitl.showShort("文件不存在");
             return;// 文件不存在
         } else {
-            Glide.with(this).load(imagePath).centerCrop().into(ivPersonalInformationImage);
+            Utils.setImageResource(this,ivPersonalInformationImage,imagePath);
             // System.out.println(imagePath);
             Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
             ByteArrayOutputStream stream = new ByteArrayOutputStream();

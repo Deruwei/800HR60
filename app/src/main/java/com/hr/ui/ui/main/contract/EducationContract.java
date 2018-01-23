@@ -4,6 +4,7 @@ import com.hr.ui.base.BaseActivity;
 import com.hr.ui.base.BaseModel;
 import com.hr.ui.base.BasePresenter;
 import com.hr.ui.base.BaseView;
+import com.hr.ui.bean.EducationBase;
 import com.hr.ui.bean.EducationData;
 
 
@@ -16,10 +17,10 @@ import rx.Observable;
 
 public interface EducationContract {
     interface Model extends BaseModel{
-        Observable<ResponseBody> sendEducationToResume(EducationData educationData);
+        Observable<EducationBase> sendEducationToResume(EducationData educationData);
     }
     interface View extends BaseView{
-        void sendEducationSuccess();
+        void sendEducationSuccess(String eduId);
     }
     abstract class Presenter extends BasePresenter<View,Model>{
         public abstract void sendEducationToResume(EducationData educationData);

@@ -67,7 +67,11 @@ public class MyWhoSeeMeAdapter extends RecyclerView.Adapter<MyWhoSeeMeAdapter.Vi
             viewHolder.llWhoSeeMePosition.setVisibility(View.GONE);
         } else {
             viewHolder.llWhoSeeMePosition.setVisibility(View.VISIBLE);
-            viewHolder.tvWhoSeeMePositionNum.setText(listBeans.get(position).getRecruit_info().getTotal());
+            if(Integer.parseInt(listBeans.get(position).getRecruit_info().getTotal())>20){
+                viewHolder.tvWhoSeeMePositionNum.setText("20+");
+            }else {
+                viewHolder.tvWhoSeeMePositionNum.setText(listBeans.get(position).getRecruit_info().getTotal());
+            }
             viewHolder.tvWhoSeeMePosition.setText(listBeans.get(position).getRecruit_info().getJob_name());
         }
         if (clickCallBack != null) {

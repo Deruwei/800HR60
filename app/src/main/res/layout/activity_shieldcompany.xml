@@ -29,13 +29,17 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
              <com.hr.ui.view.XRecyclerView
                 android:id="@+id/rv_shieldCompany"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
             </com.hr.ui.view.XRecyclerView>
+                <include layout="@layout/layout_emptyview"/>
+            </FrameLayout>
             <com.hr.ui.view.XRecyclerView
                 android:visibility="gone"
                 android:id="@+id/rv_shieldCompanyQuery"

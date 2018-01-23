@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hr.ui.R;
@@ -56,15 +57,22 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
     @BindView(R.id.pcv_num)
     PieChartView pcvNum;
     private List<RecommendJobBean.JobsListBean> jobsListBeanList;
+    private OnCalCulateScoreClickListener onCalCulateScoreClickListener;
 
     public void setClickCallBack(ItemClickCallBack clickCallBack) {
         this.clickCallBack = clickCallBack;
     }
 
+    public void setOnCalCulateScoreClickListener(OnCalCulateScoreClickListener onCalCulateScoreClickListener) {
+        this.onCalCulateScoreClickListener = onCalCulateScoreClickListener;
+    }
+
     public interface ItemClickCallBack {
         void onItemClick(int pos);
     }
-
+    public interface OnCalCulateScoreClickListener{
+        void onCalulateScore(int pos);
+    }
     private ItemClickCallBack clickCallBack;
 
     public List<RecommendJobBean.JobsListBean> getJobsListBeanList() {
@@ -109,6 +117,14 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
                 }
             });
         }
+        if(onCalCulateScoreClickListener!=null){
+            viewHolder.pcvNum.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onCalCulateScoreClickListener.onCalulateScore(position);
+                }
+            });
+        }
     }
 
     //获取数据的数量
@@ -132,7 +148,7 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
         @BindView(R.id.tv_recommendJobTime)
         TextView tvRecommendJobTime;
         @BindView(R.id.iv_recommendJobCompanyIcon)
-        RoundImageView ivRecommendJobCompanyIcon;
+        ImageView ivRecommendJobCompanyIcon;
         @BindView(R.id.tv_recommendJobCompanyName)
         TextView tvRecommendJobCompanyName;
         @BindView(R.id.tv_recommendJobIndustry)

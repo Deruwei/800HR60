@@ -25,7 +25,7 @@
             android:id="@+id/iv_whoSeeMeCompanyIcon"
             android:layout_width="@dimen/x82"
             android:layout_height="@dimen/x82"
-            android:src="@mipmap/person" />
+            android:src="@mipmap/defaultcompany" />
         <RelativeLayout
             android:layout_marginLeft="@dimen/x20"
             android:layout_width="wrap_content"

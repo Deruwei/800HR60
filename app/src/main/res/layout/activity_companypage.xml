@@ -48,6 +48,7 @@
                         <TextView
                             android:id="@+id/tv_companyPageCompanyName"
                             android:textSize="@dimen/x36"
+                            android:layout_gravity="center"
                             android:layout_marginTop="@dimen/x85"
                             android:text="北京英才网联科技有限公司"
                             android:textColor="@color/color_333"

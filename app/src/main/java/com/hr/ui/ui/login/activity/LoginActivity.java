@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.Selection;
 import android.text.Spannable;
+import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,22 +20,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hr.ui.R;
-import com.hr.ui.app.AppManager;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
-import com.hr.ui.bean.LoginBean;
 import com.hr.ui.bean.MultipleResumeBean;
 import com.hr.ui.bean.ResumeBean;
-import com.hr.ui.bean.ResumeData;
 import com.hr.ui.constants.Constants;
-import com.hr.ui.db.LoginDBUtils;
-import com.hr.ui.db.ResumeDataUtils;
 import com.hr.ui.ui.login.contract.LoginContract;
 import com.hr.ui.ui.login.model.LoginModel;
 import com.hr.ui.ui.login.presenter.LoginPresenter;
-import com.hr.ui.ui.main.activity.MainActivity;
-import com.hr.ui.ui.main.activity.MultipleResumeActivity;
-import com.hr.ui.ui.main.activity.RobotActivity;
 import com.hr.ui.utils.RegularExpression;
 import com.hr.ui.utils.ThirdPartLoginUtils;
 import com.hr.ui.utils.ToastUitl;
@@ -41,7 +35,6 @@ import com.hr.ui.utils.ToolUtils;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -77,10 +70,26 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     ImageView ivPhoneLoginWeChat;
     @BindView(R.id.rl_phoneLoginThirdPart)
     RelativeLayout rlPhoneLoginThirdPart;
+    @BindView(R.id.toolbarAdd)
+    ImageView toolbarAdd;
+    @BindView(R.id.tv_toolbarSave)
+    TextView tvToolbarSave;
+    @BindView(R.id.iv_phoneLoginNumberIcon)
+    ImageView ivPhoneLoginNumberIcon;
+    @BindView(R.id.iv_phoneLoginPhoneDelete)
+    ImageView ivPhoneLoginPhoneDelete;
+    @BindView(R.id.iv_phoneLoginPswIcon)
+    ImageView ivPhoneLoginPswIcon;
+    @BindView(R.id.iv_phoneLoginPswDelete)
+    ImageView ivPhoneLoginPswDelete;
+    @BindView(R.id.btn_phoneLoginOK)
+    Button btnPhoneLoginOK;
+    @BindView(R.id.tv_phoneLoginAccountLogin)
+    TextView tvPhoneLoginAccountLogin;
     private boolean isHidden = true;
-    private String phoneNum,psw;
+    private String phoneNum, psw;
     private SharedPreferencesUtils sUtils;
-    private int[] imageIds={R.mipmap.resume1,R.mipmap.resume2,R.mipmap.resume3,R.mipmap.resume4,R.mipmap.resume5};
+    private int[] imageIds = {R.mipmap.resume1, R.mipmap.resume2, R.mipmap.resume3, R.mipmap.resume4, R.mipmap.resume5};
     private ArrayList<String> titles;
     private int userId;
 
@@ -113,20 +122,20 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
 
     @Override
     public void sendLoginSuccess(int userId) {
-        this.userId=userId;
-        sUtils.setIntValue(Constants.ISAUTOLOGIN,1);
-        sUtils.setIntValue(Constants.AUTOLOGINTYPE,0);
-        sUtils.setStringValue(Constants.USERPHONE,phoneNum);
+        this.userId = userId;
+        sUtils.setIntValue(Constants.ISAUTOLOGIN, 1);
+        sUtils.setIntValue(Constants.AUTOLOGINTYPE, 0);
+        sUtils.setStringValue(Constants.USERPHONE, phoneNum);
         mPresenter.getResumeList();
     }
 
     @Override
     public void thirdPartLoginSuccess(int userId) {
-        this.userId=userId;
-        sUtils.setIntValue(Constants.ISAUTOLOGIN,1);
-        if("QQ".equals(Constants.TYPE_THIRDPARTLOGIN)) {
+        this.userId = userId;
+        sUtils.setIntValue(Constants.ISAUTOLOGIN, 1);
+        if ("QQ".equals(Constants.TYPE_THIRDPARTLOGIN)) {
             sUtils.setIntValue(Constants.AUTOLOGINTYPE, 2);
-        }else{
+        } else {
             sUtils.setIntValue(Constants.AUTOLOGINTYPE, 3);
         }
         mPresenter.getResumeList();
@@ -145,14 +154,14 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
 
     @Override
     public void getResumeListSuccess(MultipleResumeBean multipleResumeBean) {
-        ToolUtils.getInstance().judgeResumeMultipleOrOne(this, multipleResumeBean,userId,imageIds,mPresenter);
+        ToolUtils.getInstance().judgeResumeMultipleOrOne(this, multipleResumeBean, userId, imageIds, mPresenter);
     }
 
     @Override
     public void getResumeDataSuccess(ResumeBean resumeBean) {
-       // Log.i("ok","你好");
-        ToolUtils.getInstance().judgeResumeIsComplete(resumeBean,this,titles);
-        sUtils.setIntValue(Constants.RESUME_ID,Integer.parseInt(resumeBean.getResume_info().getTitle_info().get(0).getResume_id()));
+        // Log.i("ok","你好");
+        ToolUtils.getInstance().judgeResumeIsComplete(resumeBean, this, titles);
+        sUtils.setIntValue(Constants.RESUME_ID, Integer.parseInt(resumeBean.getResume_info().getTitle_info().get(0).getResume_id()));
     }
 
     @Override
@@ -167,7 +176,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
 
     @Override
     public void initView() {
-        sUtils=new SharedPreferencesUtils(this);
+        sUtils = new SharedPreferencesUtils(this);
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -188,11 +197,77 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
-
-
+        setFocusChangeAndEditViewTextChange();
     }
 
-    @OnClick({R.id.rl_phoneLoginHiddenPsw, R.id.btn_phoneLoginOK, R.id.tv_phoneLoginAccountLogin, R.id.tv_phoneLoginFindPsw, R.id.iv_phoneLoginQQ, R.id.iv_phoneLoginWeChat})
+    private void setFocusChangeAndEditViewTextChange() {
+        etPhoneLoginPsw.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length()>0){
+                    ivPhoneLoginPswDelete.setVisibility(View.VISIBLE);
+                }else{
+                    ivPhoneLoginPswDelete.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        etPhoneLoginNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length()>0){
+                    ivPhoneLoginPhoneDelete.setVisibility(View.VISIBLE);
+                }else{
+                    ivPhoneLoginPhoneDelete.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        etPhoneLoginNumber.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    ivPhoneLoginPhoneDelete.setVisibility(View.GONE);
+                }else{
+                    if(etPhoneLoginNumber.getText().toString()!=null&&!"".equals(etPhoneLoginNumber.getText().toString())){
+                        ivPhoneLoginPhoneDelete.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
+        etPhoneLoginPsw.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    ivPhoneLoginPswDelete.setVisibility(View.GONE);
+                }else{
+                    if(etPhoneLoginPsw.getText().toString()!=null&&!"".equals(etPhoneLoginPsw.getText().toString())){
+                        ivPhoneLoginPswDelete.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
+    }
+
+    @OnClick({R.id.rl_phoneLoginHiddenPsw,R.id.iv_phoneLoginPhoneDelete,R.id.iv_phoneLoginPswDelete, R.id.btn_phoneLoginOK, R.id.tv_phoneLoginAccountLogin, R.id.tv_phoneLoginFindPsw, R.id.iv_phoneLoginQQ, R.id.iv_phoneLoginWeChat})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_phoneLoginHiddenPsw:
@@ -217,6 +292,12 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
             case R.id.btn_phoneLoginOK:
                 doLogin();
                 //MainActivity.startAction(this,0);
+                break;
+            case R.id.iv_phoneLoginPhoneDelete:
+                etPhoneLoginNumber.setText("");
+                break;
+            case R.id.iv_phoneLoginPswDelete:
+                etPhoneLoginPsw.setText("");
                 break;
             case R.id.tv_phoneLoginAccountLogin:
                 UserLoginActivity.startAction(this);
@@ -251,8 +332,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
             ToastUitl.showShort("请输入密码");
             return;
         }
-        if (psw.length() < 6 || psw.length() > 16) {
-            ToastUitl.showShort("请输入6-16位长度密码");
+        if (psw.length() < 6 || psw.length() > 25) {
+            ToastUitl.showShort("请输入6-25位长度密码");
             return;
         }
         mPresenter.getLogin(phoneNum, psw, 1);

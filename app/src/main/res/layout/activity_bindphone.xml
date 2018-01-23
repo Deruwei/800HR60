@@ -30,9 +30,16 @@
                 android:id="@+id/et_bindPhoneLoginNumber"
                 style="@style/login_editText"
                 android:singleLine="true"
+                android:layout_marginRight="@dimen/x10"
                 android:inputType="number"
                 android:hint="@string/phoneNumber"
                 />
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/iv_bindPhoneLoginNumberDelete"
+                android:src="@mipmap/delete"
+                android:layout_alignParentRight="true"
+                style="@style/Login_imageViewIcon" />
             <View
                 android:layout_below="@+id/et_bindPhoneLoginNumber"
                style="@style/login_view"/>
@@ -51,11 +58,19 @@
                 android:layout_toRightOf="@+id/iv_bindPhoneLoginPswIcon"
                 android:inputType="textPassword"
                 android:id="@+id/et_bindPhoneLoginPsw"
-                android:layout_toLeftOf="@+id/rl_bindPhoneLoginHiddenPsw"
+                android:layout_toLeftOf="@+id/iv_bindPhoneLoginPswDelete"
                 android:singleLine="true"
+                android:layout_marginRight="@dimen/x10"
                style="@style/login_editText"
                 android:hint="@string/psw"
                 />
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/iv_bindPhoneLoginPswDelete"
+                android:src="@mipmap/delete"
+                android:layout_marginRight="@dimen/x10"
+                android:layout_toLeftOf="@+id/rl_bindPhoneLoginHiddenPsw"
+                style="@style/Login_imageViewIcon" />
             <RelativeLayout
                 android:id="@+id/rl_bindPhoneLoginHiddenPsw"
                 android:layout_alignParentRight="true"

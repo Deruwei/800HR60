@@ -22,6 +22,8 @@ import android.widget.LinearLayout;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.hr.ui.R;
+import com.hr.ui.bean.CityBean;
+import com.hr.ui.bean.FindBean;
 import com.hr.ui.ui.message.activity.WebActivity;
 
 import java.lang.reflect.Field;
@@ -202,5 +204,15 @@ public class Utils {
                         iv.setImageBitmap(resource);
                     }
                 });
+    }
+    public static boolean checkMedicinePositionClass(CityBean cityBean){
+        String string=cityBean.getId();
+        if ((string.contains("263") || string.contains("264")
+                || string.contains("265") || string.contains("266")
+                || string.contains("267") || string.contains("268"))) {
+          return true;
+        } else {
+            return false;
+        }
     }
 }

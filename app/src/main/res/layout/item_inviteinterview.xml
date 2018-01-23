@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <FrameLayout
+            android:layout_marginLeft="@dimen/x30"
             android:id="@+id/rl_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-        <com.hr.ui.view.CircleImageView
-            android:src="@mipmap/persondefault"
+        <com.hr.ui.view.RoundImageView
+            app:type="rounded_rect"
+            android:src="@mipmap/defaultcompany"
             android:layout_marginTop="@dimen/x20"
             android:layout_marginBottom="@dimen/x20"
-            android:layout_marginLeft="@dimen/x30"
             android:id="@+id/iv_itemInviteInterViewPerson"
             android:layout_width="@dimen/x80"
             android:layout_height="@dimen/x80" />
@@ -23,11 +24,10 @@
                 android:layout_marginTop="@dimen/x20"
                 android:textColor="@color/white"
                 android:textSize="@dimen/x16"
-                android:text="new"
+                android:src="@mipmap/new_green"
                 android:layout_marginLeft="@dimen/x54"
                 android:padding="@dimen/x3"
                 android:gravity="center"
-                android:background="@drawable/rv_bg_red"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </FrameLayout>
@@ -51,6 +51,8 @@
                 android:text="北京英才网联科技有限公司"
                 android:layout_below="@+id/tv_invitePersonName"
                 android:textSize="@dimen/x24"
+                android:singleLine="true"
+                android:maxEms="16"
                 android:textColor="@color/color_999"
                 android:layout_marginTop="@dimen/x6"
                 android:layout_width="wrap_content"

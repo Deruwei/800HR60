@@ -80,7 +80,7 @@ public class LoadingMoreFooter extends LinearLayout {
         }
 
         LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        layoutParams.setMargins( (int)getResources().getDimension(R.dimen.textandiconmargin),0,0,0 );
+        layoutParams.setMargins( (int)getResources().getDimension(R.dimen.textandiconmargin),0,0,10 );
 
         mText.setLayoutParams(layoutParams);
         addView(mText);

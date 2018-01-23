@@ -5,17 +5,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.Selection;
 import android.text.Spannable;
+import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hr.ui.R;
-import com.hr.ui.app.AppManager;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
 import com.hr.ui.bean.LoginBean;
@@ -28,7 +32,6 @@ import com.hr.ui.db.ThirdPartDao;
 import com.hr.ui.ui.login.contract.LoginContract;
 import com.hr.ui.ui.login.model.LoginModel;
 import com.hr.ui.ui.login.presenter.LoginPresenter;
-import com.hr.ui.ui.main.activity.MainActivity;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.ToolUtils;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
@@ -55,13 +58,32 @@ public class bindUserLoginActivity extends BaseActivity<LoginPresenter, LoginMod
     EditText etBindUserLoginPsw;
     @BindView(R.id.iv_bindUserLoginHiddenPsw)
     ImageView ivBindUserLoginHiddenPsw;
+    @BindView(R.id.toolbarAdd)
+    ImageView toolbarAdd;
+    @BindView(R.id.tv_toolbarSave)
+    TextView tvToolbarSave;
+    @BindView(R.id.iv_bindUserLoginNumberIcon)
+    ImageView ivBindUserLoginNumberIcon;
+    @BindView(R.id.iv_bindUserLoginNumberDelete)
+    ImageView ivBindUserLoginNumberDelete;
+    @BindView(R.id.iv_bindUserLoginPswIcon)
+    ImageView ivBindUserLoginPswIcon;
+    @BindView(R.id.iv_bindUserLoginPswDelete)
+    ImageView ivBindUserLoginPswDelete;
+    @BindView(R.id.rl_bindUserLoginHiddenPsw)
+    RelativeLayout rlBindUserLoginHiddenPsw;
+    @BindView(R.id.btn_bindUserLoginOK)
+    Button btnBindUserLoginOK;
+    @BindView(R.id.ll_bindUser_middle)
+    LinearLayout llBindUserMiddle;
     private boolean isHidden = true;
     private ThirdLoginBean thirdPartBean;
-    private String userName,psw,uid;
+    private String userName, psw, uid;
     private SharedPreferencesUtils sUtils;
-    private int[] imageIds={R.mipmap.resume1,R.mipmap.resume2,R.mipmap.resume3,R.mipmap.resume4,R.mipmap.resume5};
+    private int[] imageIds = {R.mipmap.resume1, R.mipmap.resume2, R.mipmap.resume3, R.mipmap.resume4, R.mipmap.resume5};
     private ArrayList<String> titles;
     private int userId;
+
     /**
      * 入口
      *
@@ -73,6 +95,7 @@ public class bindUserLoginActivity extends BaseActivity<LoginPresenter, LoginMod
         activity.overridePendingTransition(R.anim.fade_in,
                 R.anim.fade_out);
     }
+
     @Override
     public void showLoading(String title) {
 
@@ -90,17 +113,17 @@ public class bindUserLoginActivity extends BaseActivity<LoginPresenter, LoginMod
 
     @Override
     public void sendLoginSuccess(int userId) {
-        thirdPartBean=new ThirdLoginBean();
-       List<ThirdLoginBean> thirdPartBeanList= ThirdPartDao.queryThirdPart(Constants.TYPE_THIRDPARTLOGIN);
-        for(int i=0;i<thirdPartBeanList.size();i++){
-            if(thirdPartBeanList.get(i).getType().equals(Constants.TYPE_THIRDPARTLOGIN)){
-                thirdPartBean=thirdPartBeanList.get(i);
-                uid=thirdPartBean.getUId();
-                thirdPartBean.setSUId(userId+"");
+        thirdPartBean = new ThirdLoginBean();
+        List<ThirdLoginBean> thirdPartBeanList = ThirdPartDao.queryThirdPart(Constants.TYPE_THIRDPARTLOGIN);
+        for (int i = 0; i < thirdPartBeanList.size(); i++) {
+            if (thirdPartBeanList.get(i).getType().equals(Constants.TYPE_THIRDPARTLOGIN)) {
+                thirdPartBean = thirdPartBeanList.get(i);
+                uid = thirdPartBean.getUId();
+                thirdPartBean.setSUId(userId + "");
                 break;
             }
         }
-       mPresenter.getThidBinding(thirdPartBean,userName,psw,1);
+        mPresenter.getThidBinding(thirdPartBean, userName, psw, 1);
     }
 
     @Override
@@ -116,33 +139,33 @@ public class bindUserLoginActivity extends BaseActivity<LoginPresenter, LoginMod
 
     @Override
     public void bindingSuccess(int userId) {
-        this.userId=userId;
-        sUtils.setIntValue(Constants.ISAUTOLOGIN,1);
-        LoginBean loginBean=new LoginBean();
-        if("QQ".equals(Constants.TYPE_THIRDPARTLOGIN)) {
+        this.userId = userId;
+        sUtils.setIntValue(Constants.ISAUTOLOGIN, 1);
+        LoginBean loginBean = new LoginBean();
+        if ("QQ".equals(Constants.TYPE_THIRDPARTLOGIN)) {
             loginBean.setLoginType(2);
-            sUtils.setIntValue(Constants.AUTOLOGINTYPE,2);
-        }else{
+            sUtils.setIntValue(Constants.AUTOLOGINTYPE, 2);
+        } else {
             loginBean.setLoginType(3);
-            sUtils.setIntValue(Constants.AUTOLOGINTYPE,3);
+            sUtils.setIntValue(Constants.AUTOLOGINTYPE, 3);
         }
         loginBean.setName(userName);
         loginBean.setPassword(psw);
         loginBean.setThirdPartUid(uid);
         loginBean.setThirdPartLoginType(Constants.TYPE_THIRDPARTLOGIN);
-        loginBean.setThirdPartSUid(userId+"");
+        loginBean.setThirdPartSUid(userId + "");
         LoginDBUtils.insertData(loginBean);
-       mPresenter.getResumeList();
+        mPresenter.getResumeList();
     }
 
     @Override
     public void getResumeListSuccess(MultipleResumeBean multipleResumeBean) {
-        ToolUtils.getInstance().judgeResumeMultipleOrOne(this, multipleResumeBean,userId,imageIds,mPresenter);
+        ToolUtils.getInstance().judgeResumeMultipleOrOne(this, multipleResumeBean, userId, imageIds, mPresenter);
     }
 
     @Override
     public void getResumeDataSuccess(ResumeBean resumeBean) {
-        ToolUtils.getInstance().judgeResumeIsComplete(resumeBean,this,titles);
+        ToolUtils.getInstance().judgeResumeIsComplete(resumeBean, this, titles);
     }
 
 
@@ -158,7 +181,8 @@ public class bindUserLoginActivity extends BaseActivity<LoginPresenter, LoginMod
 
     @Override
     public void initView() {
-        sUtils=new SharedPreferencesUtils(this);;
+        sUtils = new SharedPreferencesUtils(this);
+        ;
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -179,11 +203,85 @@ public class bindUserLoginActivity extends BaseActivity<LoginPresenter, LoginMod
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+        onEditViewTextChangeAndFocusChange();
     }
 
-    @OnClick({R.id.rl_bindUserLoginHiddenPsw, R.id.btn_bindUserLoginOK})
+    private void onEditViewTextChangeAndFocusChange() {
+        etBindUserLoginPsw.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    ivBindUserLoginPswDelete.setVisibility(View.GONE);
+                }else{
+                    if(etBindUserLoginPsw.getText().toString()!=null&&!"".equals(etBindUserLoginPsw.getText().toString())){
+                        ivBindUserLoginPswDelete.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
+        etBindUserLoginNumber.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    ivBindUserLoginNumberDelete.setVisibility(View.GONE);
+                }else{
+                    if(etBindUserLoginNumber.getText().toString()!=null&&!"".equals(etBindUserLoginNumber.getText().toString())) {
+                        ivBindUserLoginNumberDelete.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
+        etBindUserLoginNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length()>0){
+                    ivBindUserLoginNumberDelete.setVisibility(View.VISIBLE);
+                }else{
+                    ivBindUserLoginNumberDelete.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        etBindUserLoginPsw.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length()>0){
+                    ivBindUserLoginPswDelete.setVisibility(View.VISIBLE);
+                }else{
+                    ivBindUserLoginPswDelete.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
+    @OnClick({R.id.rl_bindUserLoginHiddenPsw, R.id.iv_bindUserLoginPswDelete, R.id.iv_bindUserLoginNumberDelete, R.id.btn_bindUserLoginOK})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.iv_bindUserLoginPswDelete:
+                etBindUserLoginPsw.setText("");
+                break;
+            case R.id.iv_bindUserLoginNumberDelete:
+                etBindUserLoginNumber.setText("");
+                break;
             case R.id.rl_bindUserLoginHiddenPsw:
                 if (isHidden) {
                     //设置EditText文本为可见的
@@ -195,7 +293,7 @@ public class bindUserLoginActivity extends BaseActivity<LoginPresenter, LoginMod
                     etBindUserLoginPsw.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 }
                 isHidden = !isHidden;
-               etBindUserLoginPsw.postInvalidate();
+                etBindUserLoginPsw.postInvalidate();
                 //切换后将EditText光标置于末尾
                 CharSequence charSequence = etBindUserLoginPsw.getText();
                 if (charSequence instanceof Spannable) {
@@ -208,19 +306,20 @@ public class bindUserLoginActivity extends BaseActivity<LoginPresenter, LoginMod
                 break;
         }
     }
+
     private void doLogin() {
         userName = etBindUserLoginNumber.getText().toString();
         psw = etBindUserLoginPsw.getText().toString();
         if ("".equals(userName) || userName == null) {
-            ToastUitl.showShort("请输入手机号码");
+            ToastUitl.showShort("请输入用户名");
             return;
         }
         if ("".equals(psw) || psw == null) {
             ToastUitl.showShort("请输入密码");
             return;
         }
-        if (psw.length() < 6 || psw.length() > 16) {
-            ToastUitl.showShort("请输入6-16位长度密码");
+        if (psw.length() < 6 || psw.length() > 25) {
+            ToastUitl.showShort("请输入6-25位长度密码");
             return;
         }
         mPresenter.getLogin(userName, psw, 2);

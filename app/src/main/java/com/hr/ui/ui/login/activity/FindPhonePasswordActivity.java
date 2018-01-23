@@ -8,13 +8,17 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.Selection;
 import android.text.Spannable;
+import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -60,6 +64,28 @@ public class FindPhonePasswordActivity extends BaseActivity<FindPasswordPresente
     TextView tvFindPhonePswValidCode;
     @BindView(R.id.iv_findPhonePswHiddenPsw)
     ImageView ivFindPhonePswHiddenPsw;
+    @BindView(R.id.toolbarAdd)
+    ImageView toolbarAdd;
+    @BindView(R.id.tv_toolbarSave)
+    TextView tvToolbarSave;
+    @BindView(R.id.iv_findPhonePswNumberIcon)
+    ImageView ivFindPhonePswNumberIcon;
+    @BindView(R.id.iv_findPhonePswNumberDelete)
+    ImageView ivFindPhonePswNumberDelete;
+    @BindView(R.id.iv_findPhonePswValidCodeIcon)
+    ImageView ivFindPhonePswValidCodeIcon;
+    @BindView(R.id.iv_findPhonePswValidCodeDelete)
+    ImageView ivFindPhonePswValidCodeDelete;
+    @BindView(R.id.view_getValidCode2)
+    View viewGetValidCode2;
+    @BindView(R.id.iv_findPhonePswNewIcon)
+    ImageView ivFindPhonePswNewIcon;
+    @BindView(R.id.iv_findPhonePswDelete)
+    ImageView ivFindPhonePswDelete;
+    @BindView(R.id.rl_findPhonePswHiddenPsw)
+    RelativeLayout rlFindPhonePswHiddenPsw;
+    @BindView(R.id.btn_findPhonePswOK)
+    Button btnFindPhonePswOK;
     //密码是否隐藏
     private boolean isHidden = true;
     private int code;
@@ -135,20 +161,131 @@ public class FindPhonePasswordActivity extends BaseActivity<FindPasswordPresente
         //注册接收验证码计时器信息的广播
         IntentFilter filter = new IntentFilter(CODE);
         registerReceiver(mCodeTimerReceiver, filter);
+        onEditViewTextChangeAndFocusChange();
     }
 
-    @OnClick({R.id.tv_findPhonePswValidCode, R.id.btn_findPhonePswOK, R.id.rl_findPhonePswHiddenPsw})
+    private void onEditViewTextChangeAndFocusChange() {
+        etFindPhonePswValidCode.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    ivFindPhonePswValidCodeDelete.setVisibility(View.GONE);
+                }else{
+                    if(etFindPhonePswValidCode.getText().toString()!=null&&!"".equals(etFindPhonePswValidCode.getText().toString())){
+                        ivFindPhonePswValidCodeDelete.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
+        etFindPhonePswNumber.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    ivFindPhonePswNumberDelete.setVisibility(View.GONE);
+                }else{
+                    if(etFindPhonePswNumber.getText().toString()!=null&&!"".equals(etFindPhonePswNumber.getText().toString())){
+                        ivFindPhonePswNumberDelete.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
+        etFindPhonePswNew.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    ivFindPhonePswDelete.setVisibility(View.GONE);
+                }else{
+                    if(etFindPhonePswNew.getText().toString()!=null&&!"".equals(etFindPhonePswNew.getText().toString())){
+                        ivFindPhonePswDelete.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
+        etFindPhonePswNew.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length()>0){
+                    ivFindPhonePswDelete.setVisibility(View.VISIBLE);
+                }else{
+                    ivFindPhonePswDelete.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        etFindPhonePswNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length()>0){
+                    ivFindPhonePswNumberDelete.setVisibility(View.VISIBLE);
+                }else{
+                    ivFindPhonePswNumberDelete.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        etFindPhonePswValidCode.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length()>0){
+                    ivFindPhonePswValidCodeDelete.setVisibility(View.VISIBLE);
+                }else{
+                    ivFindPhonePswValidCodeDelete.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
+    @OnClick({R.id.tv_findPhonePswValidCode, R.id.iv_findPhonePswDelete, R.id.iv_findPhonePswNumberDelete, R.id.iv_findPhonePswValidCodeDelete, R.id.btn_findPhonePswOK, R.id.rl_findPhonePswHiddenPsw})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.iv_findPhonePswDelete:
+                etFindPhonePswNew.setText("");
+                break;
+            case R.id.iv_findPhonePswNumberDelete:
+                etFindPhonePswNumber.setText("");
+                break;
+            case R.id.iv_findPhonePswValidCodeDelete:
+                etFindPhonePswValidCode.setText("");
+                break;
             case R.id.tv_findPhonePswValidCode:
+                Log.i("1", "1");
                 String phoneNumber = etFindPhonePswNumber.getText().toString();
                 if (!"".equals(phoneNumber) && phoneNumber != null) {
                     if (RegularExpression.isCellphone(phoneNumber)) {
-                        if (sUtils.getIntValue("code", 0) >= 1) {
+                        if (sUtils.getIntValue("code", 0) >= 0) {
                             mPresenter.getAutoCode();
-                            initPopWindow();
+                            Log.i("1", "2");
                         } else {
                             mPresenter.getValidCode(phoneNumber, "", 0, Constants.VALIDCODE_FINDPSW_YTPE);
+                            Log.i("1", "3");
                         }
                     } else {
                         ToastUitl.show("请输入正确的手机号码", Toast.LENGTH_SHORT);
@@ -203,8 +340,8 @@ public class FindPhonePasswordActivity extends BaseActivity<FindPasswordPresente
             ToastUitl.showShort("请输入密码");
             return;
         }
-        if (password.length() < 6 || password.length() > 16) {
-            ToastUitl.showShort("请输入长度为6-16位的密码");
+        if (password.length() < 6 || password.length() > 25) {
+            ToastUitl.showShort("请输入长度为6-25位的密码");
             return;
         }
         mPresenter.resetPhonePsw(phoneNumber, validCode, password);
@@ -228,7 +365,13 @@ public class FindPhonePasswordActivity extends BaseActivity<FindPasswordPresente
 
     @Override
     public void sendAutoCode(String autoCode) {
+        initPopWindow();
         ivAutoCode.setImageBitmap(EncryptUtils.stringtoBitmap(autoCode));
+    }
+
+    @Override
+    public void setNeedAotuCode() {
+        mPresenter.getAutoCode();
     }
 
     /**
@@ -254,7 +397,7 @@ public class FindPhonePasswordActivity extends BaseActivity<FindPasswordPresente
             public void onClick(View v) {
                 String autoCodeText = etAutoCode.getText().toString();
                 if (autoCodeText != null && !"".equals(autoCodeText)) {
-                    mPresenter.getValidCode(etFindPhonePswNumber.getText().toString(), etAutoCode.getText().toString(), 3, Constants.VALIDCODE_REGISTER_YTPE);
+                    mPresenter.getValidCode(etFindPhonePswNumber.getText().toString(), autoCodeText, 1, Constants.VALIDCODE_FINDPSW_YTPE);
                 } else {
                     ToastUitl.show("请填写图形验证码", Toast.LENGTH_SHORT);
                 }

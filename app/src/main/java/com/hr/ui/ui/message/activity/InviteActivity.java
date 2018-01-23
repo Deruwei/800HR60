@@ -19,6 +19,7 @@ import com.hr.ui.base.BaseActivity;
 import com.hr.ui.bean.InviteBean;
 import com.hr.ui.bean.PositionBean;
 import com.hr.ui.constants.Constants;
+import com.hr.ui.ui.job.activity.PositionPageActivity;
 import com.hr.ui.ui.message.adapter.MyCompanyMessageAdapter;
 import com.hr.ui.ui.message.contract.InviteContract;
 import com.hr.ui.ui.message.model.InviteModel;
@@ -109,13 +110,20 @@ public class InviteActivity extends BaseActivity<InvitePresenter,InviteModel> im
         });
         LinearLayoutManager manager=new LinearLayoutManager(this){
             @Override
-            public boolean canScrollHorizontally() {
+            public boolean canScrollVertically() {
                 return false;
             }
         };
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         rvInvite.setLayoutManager(manager);
+        rvInvite.setFocusable(false);
         initUI();
+        llInviteTop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PositionPageActivity.startAction(InviteActivity.this,invitedListBean.getJob_id());
+            }
+        });
     }
 
     private void initUI() {

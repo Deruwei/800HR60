@@ -34,6 +34,7 @@ public interface RegisterContract {
         void bindingSuccess(int userId);
         void getResumeListSuccess(MultipleResumeBean multipleResumeBean);
         void getResumeDataSuccess(ResumeBean resumeBean);
+        void needToGetAutoCode();
     }
     abstract  class Presenter extends BasePresenter<RegisterContract.View, RegisterContract.Model> {
         public abstract  void getValidCode(String phoneNumber,String captcha,int type,String way);

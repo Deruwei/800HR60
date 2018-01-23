@@ -24,6 +24,7 @@ public interface FindPasswordContract  {
         void getValidCodeSuccess(int tokenTimes);
         void resetPasswordSuccess();
         void sendAutoCode(String autoCode);
+        void setNeedAotuCode();
     }
     abstract class Presenter extends BasePresenter<View,Model>{
         public abstract void resetPhonePsw(String phoneNumber,String validCode,String newPsw);

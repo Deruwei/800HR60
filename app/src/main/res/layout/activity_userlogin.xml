@@ -27,8 +27,17 @@
             <EditText
                 android:layout_toRightOf="@+id/iv_userLoginNumberIcon"
                 android:id="@+id/et_userLoginNumber"
+                android:layout_toLeftOf="@+id/iv_userLoginNumberDelete"
                 style="@style/login_editText"
+                android:layout_marginRight="@dimen/x10"
                 android:hint="@string/accountNumber"
+                />
+            <ImageView
+                android:id="@+id/iv_userLoginNumberDelete"
+                style="@style/Login_imageViewIcon"
+                android:src="@mipmap/delete"
+                android:layout_alignParentRight="true"
+                android:visibility="gone"
                 />
             <View
                 android:layout_below="@+id/iv_userLoginNumberIcon"
@@ -49,6 +58,14 @@
                 android:layout_toLeftOf="@+id/rl_userLoginHiddenPsw"
                 style="@style/login_editText"
                 android:hint="@string/psw"
+                />
+            <ImageView
+                android:id="@+id/iv_userLoginPswDelete"
+                style="@style/Login_imageViewIcon"
+                android:src="@mipmap/delete"
+                android:layout_toLeftOf="@+id/rl_userLoginHiddenPsw"
+                android:visibility="gone"
+                android:layout_marginRight="@dimen/x10"
                 />
             <RelativeLayout
                 android:id="@+id/rl_userLoginHiddenPsw"

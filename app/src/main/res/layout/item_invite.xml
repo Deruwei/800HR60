@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_height="wrap_content">
     <LinearLayout
@@ -9,8 +9,9 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <ImageView
-            android:src="@mipmap/persondefault"
+        <com.hr.ui.view.RoundImageView
+            app:type="circle"
+            android:src="@mipmap/defaultcompany"
             android:layout_marginLeft="@dimen/x30"
             android:id="@+id/iv_itemInviteImage"
             android:layout_width="@dimen/x80"
@@ -28,7 +29,7 @@
             android:textColor="@color/color_333"
             android:lineSpacingMultiplier="1.2"
             android:autoLink="web"
-            android:textColorLink="@color/red"
+            android:textColorLink="@color/blue_color"
             android:id="@+id/tv_itemInviteContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

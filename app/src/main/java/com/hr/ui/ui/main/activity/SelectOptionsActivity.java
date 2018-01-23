@@ -38,7 +38,9 @@ import com.hr.ui.ui.main.adapter.MySelectPositionLeftAdapter;
 import com.hr.ui.ui.main.adapter.MySelectPositionRightAdapter;
 import com.hr.ui.ui.main.adapter.SelectIndustryAdapter;
 import com.hr.ui.ui.resume.activity.ResumeJobOrderActivity;
+import com.hr.ui.utils.PopupWindowPositonClassView;
 import com.hr.ui.utils.ToastUitl;
+import com.hr.ui.utils.Utils;
 import com.hr.ui.utils.datautils.FromStringToArrayList;
 import com.hr.ui.utils.datautils.ResumeInfoIDToString;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
@@ -120,6 +122,7 @@ public class SelectOptionsActivity extends BaseActivity {
     private String indutryId, industryIdFir; //选择的行业id
     private MyFlowLayout flChooseContent;
     private RelativeLayout rlChooseJobContent;
+    private LinearLayout llChooseJob;
     private TextView tvChooseJobNum;
     private ListView lvChooseJobLeft, lvChooseJobRight;
     private List<String> industryIds;
@@ -129,12 +132,16 @@ public class SelectOptionsActivity extends BaseActivity {
     private List<CityBean> positonLeftList, positionRightList;//listview左右的职位集合
     private List<CityBean> selectPositionList = new ArrayList<>();//选择的职位集合
     private List<CityBean> selectRealPositionList = new ArrayList<>();
+    private List<CityBean> selectPositionClassList=new ArrayList<>();
     private int sum,type;//职位信息选择的个数
     private MySelectPositionLeftAdapter leftAdapter;
     private MySelectPositionRightAdapter rightAdapter;
     private int updatePositionNum;
     private SharedPreferencesUtils sUtis;
     private String  canSelectOther;
+    public static SelectOptionsActivity instance;
+    private PopupWindow popupWindowPositonClass;
+    private int currentJobPosition;
     /**
      * 入口
      *
@@ -177,6 +184,7 @@ public class SelectOptionsActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        instance=this;
         sUtis=new SharedPreferencesUtils(this);
         industryIdFir = getIntent().getStringExtra("industryId");
         indutryId = industryIdFir;
@@ -235,8 +243,12 @@ public class SelectOptionsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+        instance=this;
     }
-
+    public void setPositionClassList(List<CityBean> selectPositionList){
+        this.selectPositionClassList=selectPositionList;
+        doAddJobView(currentJobPosition);
+    }
     @OnClick({R.id.rl_selectIndustry, R.id.btn_selectJobOrderSave, R.id.tv_selectJobOrderDelete, R.id.rl_selectTerritory, R.id.rl_selectJob})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -729,6 +741,7 @@ public class SelectOptionsActivity extends BaseActivity {
         flChooseContent = viewJob.findViewById(R.id.fl_chooseJobContent);
         btnCancel = viewJob.findViewById(R.id.btn_cancel);
         btnConfirm = viewJob.findViewById(R.id.btn_confirm);
+        llChooseJob=viewJob.findViewById(R.id.ll_chooseJob);
         lvChooseJobLeft = viewJob.findViewById(R.id.lv_chooseJobTitleMaxTerm);
         lvChooseJobRight = viewJob.findViewById(R.id.lv_chooseJobTitleMinTerm);
         int[] location = new int[2];
@@ -836,42 +849,12 @@ public class SelectOptionsActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 sum = selectPositionList.size();
+                currentJobPosition=position;
                 if (positionRightList.get(position).isCheck() == false) {
-                    sum = selectPositionList.size();
-                    if (sum == 0) {
-                        rlChooseJobContent.setVisibility(View.VISIBLE);
-                    }
-                    if (position==0){
-                        for(int i=0;i<positionRightList.size();i++){
-                            positionRightList.get(i).setCheck(false);
-                        }
-                        List<CityBean> ints=new ArrayList<>();
-                        for(int i=0;i<selectPositionList.size();i++){
-                            if(selectPositionList.get(i).getId().substring(0,3).equals(positionRightList.get(position).getId().substring(0,3))) {
-                                removeView(selectPositionList.get(i));
-                                ints.add(selectPositionList.get(i));
-                            }
-                        }
-                        selectPositionList.removeAll(ints);
+                    if(Utils.checkMedicinePositionClass(positionRightList.get(position))==true) {
+                        PopupWindowPositonClassView viewPositionClass=new PopupWindowPositonClassView(popupWindowPositonClass,SelectOptionsActivity.this,llChooseJob);
                     }else {
-                        if(positionRightList.get(0).isCheck()==true){
-                            removeView(positionRightList.get(0));
-                            for(int i=0;i<selectPositionList.size();i++){
-                                if(selectPositionList.get(i).getId().equals(positionRightList.get(0).getId())){
-                                    selectPositionList.remove(i);
-                                }
-                            }
-                            positionRightList.get(0).setCheck(false);
-                        }
-                    }
-                    sum=selectPositionList.size();
-                    if (sum >= 5) {
-                        ToastUitl.showShort("最多只能选择5个职位");
-                        return;
-                    } else {
-                        selectPositionList.add(positionRightList.get(position));
-                        addView(positionRightList.get(position));
-                        positionRightList.get(position).setCheck(true);
+                       doAddJobView(position);
                     }
                 } else {
 
@@ -884,10 +867,49 @@ public class SelectOptionsActivity extends BaseActivity {
                     removeView(positionRightList.get(position));
                     setNum();
                 }
-
                 rightAdapter.notifyDataSetChanged();
             }
         });
+    }
+
+    private void doAddJobView(int position) {
+        sum = selectPositionList.size();
+        if (sum == 0) {
+            rlChooseJobContent.setVisibility(View.VISIBLE);
+        }
+        if (position == 0) {
+            for (int i = 0; i < positionRightList.size(); i++) {
+                positionRightList.get(i).setCheck(false);
+            }
+            List<CityBean> ints = new ArrayList<>();
+            for (int i = 0; i < selectPositionList.size(); i++) {
+                if (selectPositionList.get(i).getId().substring(0, 3).equals(positionRightList.get(position).getId().substring(0, 3))) {
+                    removeView(selectPositionList.get(i));
+                    ints.add(selectPositionList.get(i));
+                }
+            }
+            selectPositionList.removeAll(ints);
+        } else {
+            if (positionRightList.get(0).isCheck() == true) {
+                removeView(positionRightList.get(0));
+                for (int i = 0; i < selectPositionList.size(); i++) {
+                    if (selectPositionList.get(i).getId().equals(positionRightList.get(0).getId())) {
+                        selectPositionList.remove(i);
+                    }
+                }
+                positionRightList.get(0).setCheck(false);
+            }
+        }
+        sum = selectPositionList.size();
+        if (sum >= 5) {
+            ToastUitl.showShort("最多只能选择5个职位");
+            return;
+        } else {
+            selectPositionList.add(positionRightList.get(position));
+            addView(positionRightList.get(position));
+            positionRightList.get(position).setCheck(true);
+        }
+        rightAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -987,6 +1009,7 @@ public class SelectOptionsActivity extends BaseActivity {
         if (popupWindowIndustry != null) {
             popupWindowIndustry.dismiss();
         }
+        instance=null;
         super.onDestroy();
 
     }

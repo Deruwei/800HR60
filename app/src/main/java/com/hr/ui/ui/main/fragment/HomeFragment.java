@@ -1,15 +1,22 @@
 package com.hr.ui.ui.main.fragment;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -22,7 +29,10 @@ import com.hr.ui.ui.main.adapter.MyRecommendJobAdapter;
 import com.hr.ui.ui.main.contract.HomeFragmentContract;
 import com.hr.ui.ui.main.modle.HomeFragmentModel;
 import com.hr.ui.ui.main.presenter.HomeFragmentPresenter;
+import com.hr.ui.utils.PopupWindowFieldView;
 import com.hr.ui.utils.ProgressStyle;
+import com.hr.ui.view.MyFlowLayout;
+import com.hr.ui.view.PieChartView;
 import com.hr.ui.view.XRecyclerView;
 
 import java.util.ArrayList;
@@ -53,6 +63,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
     public static HomeFragment instance;
     private MyRecommendJobAdapter jobAdapter;
     private List<RecommendJobBean.JobsListBean> recommendList = new ArrayList<>();
+    private PopupWindow popupWindowCalculateScore;
 
     public static HomeFragment newInstance(String s) {
         HomeFragment navigationFragment = new HomeFragment();
@@ -62,7 +73,6 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
         instance = navigationFragment;
         return navigationFragment;
     }
-
     @Override
     protected int getLayoutResource() {
         return R.layout.layout_homefragment;
@@ -159,7 +169,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
 
     @Override
     public void getRecommendJobSuccess(List<RecommendJobBean.JobsListBean> jobsBeanList) {
-        Log.i("现在的数据",jobsBeanList.toString());
+        //Log.i("现在的数据",jobsBeanList.toString());
         if (jobsBeanList != null&&!"[]".equals(jobsBeanList) && jobsBeanList.size() != 0) {
             if (page == 1) {
                 jobAdapter = new MyRecommendJobAdapter();
@@ -190,6 +200,40 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
                 PositionPageActivity.startAction(getActivity(), recommendList.get(pos).getJob_id());
             }
         });
+        jobAdapter.setOnCalCulateScoreClickListener(new MyRecommendJobAdapter.OnCalCulateScoreClickListener() {
+            @Override
+            public void onCalulateScore(int pos) {
+                initCalculateScore();
+            }
+        });
 
+    }
+
+    private void initCalculateScore() {
+        View viewCalculateScore = getLayoutInflater().inflate(R.layout.layout_calculatescore, null);
+        popupWindowCalculateScore = new PopupWindow(viewCalculateScore, LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        PieChartView pcv=viewCalculateScore.findViewById(R.id.pcv_calculateScore);
+        TextView tvScore = viewCalculateScore.findViewById(R.id.tv_calculateSore);
+        RelativeLayout rlOutside = viewCalculateScore.findViewById(R.id.rl_calculateScoreHide);
+        Button btnOK=viewCalculateScore.findViewById(R.id.btn_calculateScoreOK);
+        pcv.SetProgram(60);
+        rlOutside.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindowCalculateScore.dismiss();
+            }
+        });
+        tvScore.setText("60");
+        btnOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindowCalculateScore.dismiss();
+            }
+        });
+        popupWindowCalculateScore .setOutsideTouchable(true);
+        popupWindowCalculateScore .setFocusable(true);
+        popupWindowCalculateScore .setAnimationStyle(R.style.style_pop_animation);
+        popupWindowCalculateScore.showAtLocation(rvHomeFragment,Gravity.NO_GRAVITY,0,0);
     }
 }

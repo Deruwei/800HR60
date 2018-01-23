@@ -31,10 +31,18 @@
                 android:id="@+id/et_bindNewAccountNumber"
                 android:inputType="number"
                 android:maxLength="11"
+                android:layout_toLeftOf="@+id/iv_bindNewAccountNumberDelete"
                 android:singleLine="true"
+                android:layout_marginRight="@dimen/x10"
                 style="@style/login_editText"
                 android:hint="@string/phoneNumber"
                 />
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/iv_bindNewAccountNumberDelete"
+                android:src="@mipmap/delete"
+                android:layout_alignParentRight="true"
+                style="@style/Login_imageViewIcon" />
             <View
                 android:layout_below="@+id/et_bindNewAccountNumber"
                 style="@style/login_view"/>
@@ -55,10 +63,18 @@
                 android:id="@+id/et_bindPhoneAccountValidCode"
                 android:singleLine="true"
                 android:inputType="number"
-                android:layout_toLeftOf="@+id/tv_bindNewAccountGetValidCode"
+                android:layout_marginRight="@dimen/x10"
+                android:layout_toLeftOf="@+id/iv_bindNewAccountGetValidCodeDelete"
                 style="@style/login_editText"
                 android:hint="@string/ValidCode"
                 />
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/iv_bindNewAccountGetValidCodeDelete"
+                android:src="@mipmap/delete"
+                android:layout_marginRight="@dimen/x10"
+                android:layout_toLeftOf="@+id/tv_bindNewAccountGetValidCode"
+                style="@style/Login_imageViewIcon" />
             <TextView
                 android:layout_above="@+id/View_validCode3"
                 android:id="@+id/tv_bindNewAccountGetValidCode"
@@ -85,10 +101,30 @@
                 android:layout_toRightOf="@+id/iv_bindNewAccountPswIcon"
                 android:id="@+id/et_bindNewAccountPsw"
                 android:singleLine="true"
+                android:layout_marginRight="@dimen/x10"
                 android:inputType="textPassword"
+                android:layout_toLeftOf="@+id/iv_bindNewAccountPswDelete"
                 style="@style/login_editText"
                 android:hint="@string/psw"
                 />
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/iv_bindNewAccountPswDelete"
+                android:src="@mipmap/delete"
+                android:layout_marginRight="@dimen/x10"
+                android:layout_toLeftOf="@+id/rl_bindNewAccountHiddenPsw"
+                style="@style/Login_imageViewIcon" />
+            <RelativeLayout
+                android:id="@+id/rl_bindNewAccountHiddenPsw"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/iv_bindNewAccountHiddenPsw"
+                    style="@style/login_ImageViewHidden"
+                    />
+            </RelativeLayout>
             <View
                 android:layout_below="@+id/et_bindNewAccountPsw"
                 style="@style/login_view"/>

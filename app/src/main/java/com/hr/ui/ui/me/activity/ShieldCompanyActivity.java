@@ -58,11 +58,21 @@ public class ShieldCompanyActivity extends BaseActivity<ShieldCompanyPresenter, 
     XRecyclerView rvShieldCompanyQuery;
     @BindView(R.id.tv_shieldCompanyTitle)
     TextView tvShieldCompanyTitle;
+    @BindView(R.id.iv_noContent)
+    ImageView ivNoContent;
+    @BindView(R.id.tv_noData)
+    TextView tvNoData;
+    @BindView(R.id.iv_noDataSearchIcon)
+    ImageView ivNoDataSearchIcon;
+    @BindView(R.id.iv_noDataSearch)
+    RelativeLayout ivNoDataSearch;
+    @BindView(R.id.rl_emptyView)
+    RelativeLayout rlEmptyView;
     private MyShieldCompanyAdapter adapter;
     private MyShieldCompanyDataAdapter shieldCompanyDataAdapter;
     private List<QueryShieldCompanyBean.EnteListBean> enteListBeanList = new ArrayList<>();
     public List<ShieldCompanyBean.EliminateListBean> eliminateListBeanList = new ArrayList<>();
-    private int type=1;//1代表显示已屏蔽企业  2标识搜索结果
+    private int type = 1;//1代表显示已屏蔽企业  2标识搜索结果
 
     public static void startAction(Activity activity) {
         Intent intent = new Intent(activity, ShieldCompanyActivity.class);
@@ -210,9 +220,9 @@ public class ShieldCompanyActivity extends BaseActivity<ShieldCompanyPresenter, 
                 etToolbarShieldCompanySearch.setText("");
                 break;
             case R.id.tv_toolbarShieldCompanySearch:
-                if(type==1) {
+                if (type == 1) {
 
-                    if(etToolbarShieldCompanySearch.getText().toString()==null||"".equals(etToolbarShieldCompanySearch.getText().toString())){
+                    if (etToolbarShieldCompanySearch.getText().toString() == null || "".equals(etToolbarShieldCompanySearch.getText().toString())) {
                         ToastUitl.showShort("请输入公司名");
                         return;
                     }
@@ -221,13 +231,13 @@ public class ShieldCompanyActivity extends BaseActivity<ShieldCompanyPresenter, 
                     rvShieldCompany.setVisibility(View.GONE);
                     rvShieldCompanyQuery.setVisibility(View.VISIBLE);
                     mPresenter.queryShieldCompanyDataByKeyword(etToolbarShieldCompanySearch.getText().toString());
-                }else{
+                } else {
                     etToolbarShieldCompanySearch.setEnabled(true);
                     rvShieldCompany.setVisibility(View.VISIBLE);
                     rvShieldCompanyQuery.setVisibility(View.GONE);
                     tvToolbarShieldCompanySearch.setText(getString(R.string.search));
                     tvShieldCompanyTitle.setText(getString(R.string.shieldCompany));
-                    type=1;
+                    type = 1;
                     mPresenter.getShieldCompanyData();
                 }
                 break;
@@ -259,10 +269,16 @@ public class ShieldCompanyActivity extends BaseActivity<ShieldCompanyPresenter, 
     @Override
     public void getShieldCompanyDataSuccess(List<ShieldCompanyBean.EliminateListBean> eliminateListBeans) {
         eliminateListBeanList.clear();
-        eliminateListBeanList.addAll(eliminateListBeans);
-        shieldCompanyDataAdapter = new MyShieldCompanyDataAdapter();
-        shieldCompanyDataAdapter.setFavouriteListBeanList(eliminateListBeanList);
-        rvShieldCompany.setAdapter(shieldCompanyDataAdapter);
+        if(eliminateListBeans!=null&&!"".equals(eliminateListBeans)&&eliminateListBeans.size()!=0) {
+            eliminateListBeanList.addAll(eliminateListBeans);
+            shieldCompanyDataAdapter = new MyShieldCompanyDataAdapter();
+            shieldCompanyDataAdapter.setFavouriteListBeanList(eliminateListBeanList);
+            rvShieldCompany.setAdapter(shieldCompanyDataAdapter);
+            rlEmptyView.setVisibility(View.GONE);
+        }else{
+            rlEmptyView.setVisibility(View.VISIBLE);
+            ivNoDataSearch.setVisibility(View.GONE);
+        }
 
        /* shieldCompanyDataAdapter.setClickCallBack(new MyShieldCompanyDataAdapter.ItemClickCallBack() {
             @Override
@@ -283,15 +299,27 @@ public class ShieldCompanyActivity extends BaseActivity<ShieldCompanyPresenter, 
         enteListBeanList.addAll(enteListBeans);
         tvToolbarShieldCompanySearch.setText(getString(R.string.cancel));
         tvShieldCompanyTitle.setText(getString(R.string.searchResult));
-        type=2;
+        type = 2;
         if (enteListBeans != null && enteListBeans.size() != 0) {
+            rlEmptyView.setVisibility(View.GONE);
             initUI();
+        }else{
+            rlEmptyView.setVisibility(View.VISIBLE);
+            ivNoDataSearch.setVisibility(View.GONE);
         }
     }
+
     private void initUI() {
         adapter = new MyShieldCompanyAdapter();
-        adapter.setFavouriteListBeanList(enteListBeanList);
-        rvShieldCompanyQuery.setAdapter(adapter);
+        if(!"".equals(enteListBeanList)&&enteListBeanList!=null&&enteListBeanList.size()!=0) {
+            adapter.setFavouriteListBeanList(enteListBeanList);
+            rvShieldCompanyQuery.setAdapter(adapter);
+            rlEmptyView.setVisibility(View.GONE);
+        }else{
+            rlEmptyView.setVisibility(View.VISIBLE);
+            ivNoDataSearch.setVisibility(View.GONE);
+        }
+
         adapter.setClickCallBack(new MyShieldCompanyAdapter.ItemClickCallBack() {
             @Override
             public void onItemClick(int pos) {

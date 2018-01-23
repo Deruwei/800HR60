@@ -134,12 +134,6 @@ public class ScanHistoryActivity extends BaseNoConnectNetworkAcitivty {
                 }, 1000);
             }
         });
-        adapter.setClickCallBack(new MyScanHistoryAdapter.ItemClickCallBack() {
-            @Override
-            public void onItemClick(int pos) {
-                PositionPageActivity.startAction(ScanHistoryActivity.this,totalScanHistoryList.get(pos).getJobId());
-            }
-        });
         Message message=Message.obtain();
         message.what=0;
         handler.sendMessage(message);
@@ -179,6 +173,12 @@ public class ScanHistoryActivity extends BaseNoConnectNetworkAcitivty {
                     break;
 
             }
+            adapter.setClickCallBack(new MyScanHistoryAdapter.ItemClickCallBack() {
+                @Override
+                public void onItemClick(int pos) {
+                    PositionPageActivity.startAction(ScanHistoryActivity.this,totalScanHistoryList.get(pos).getJobId());
+                }
+            });
         }
     };
 

@@ -179,4 +179,12 @@ public class AppManager {
             }
         }
     }
+
+    /**
+     * 关闭Activity列表中的所有Activity*/
+    public void exitApp(){
+        finishAllActivity();
+        //杀死该应用进程
+        android.os.Process.killProcess(android.os.Process.myPid());
+    }
 }

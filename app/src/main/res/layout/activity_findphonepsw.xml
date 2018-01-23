@@ -29,11 +29,19 @@
                 android:layout_toRightOf="@+id/iv_findPhonePswNumberIcon"
                 android:id="@+id/et_findPhonePswNumber"
                 android:inputType="number"
+                android:layout_toLeftOf="@+id/iv_findPhonePswNumberDelete"
                 android:maxLength="11"
+                android:layout_marginRight="@dimen/x10"
                 android:singleLine="true"
                style="@style/login_editText"
                 android:hint="@string/phoneNumber"
                 />
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/iv_findPhonePswNumberDelete"
+                android:src="@mipmap/delete"
+                android:layout_alignParentRight="true"
+                style="@style/Login_imageViewIcon" />
             <View
                 android:layout_below="@+id/et_findPhonePswNumber"
                 style="@style/login_view"/>
@@ -51,12 +59,19 @@
             <EditText
                 android:id="@+id/et_findPhonePswValidCode"
                 style="@style/login_editText"
-                android:layout_toLeftOf="@+id/tv_findPhonePswValidCode"
+                android:layout_toLeftOf="@+id/iv_findPhonePswValidCodeDelete"
                 android:layout_toRightOf="@+id/iv_findPhonePswValidCodeIcon"
                 android:hint="@string/ValidCode"
+                android:layout_marginRight="@dimen/x10"
                 android:inputType="number"
                 android:singleLine="true" />
-
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/iv_findPhonePswValidCodeDelete"
+                android:src="@mipmap/delete"
+                android:layout_marginRight="@dimen/x10"
+                android:layout_toLeftOf="@+id/tv_findPhonePswValidCode"
+                style="@style/Login_imageViewIcon" />
             <TextView
                 android:id="@+id/tv_findPhonePswValidCode"
                 style="@style/login_textViewValidCode"
@@ -80,13 +95,21 @@
                 />
             <EditText
                 android:layout_toRightOf="@+id/iv_findPhonePswNewIcon"
-                android:layout_toLeftOf="@id/rl_findPhonePswHiddenPsw"
+                android:layout_toLeftOf="@id/iv_findPhonePswDelete"
                 android:id="@+id/et_findPhonePswNew"
                 android:singleLine="true"
+                android:layout_marginRight="@dimen/x10"
                 android:inputType="textPassword"
                 style="@style/login_editText"
                 android:hint="@string/newPsw"
                 />
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/iv_findPhonePswDelete"
+                android:src="@mipmap/delete"
+                android:layout_marginRight="@dimen/x10"
+                android:layout_toLeftOf="@+id/rl_findPhonePswHiddenPsw"
+                style="@style/Login_imageViewIcon" />
             <RelativeLayout
                 android:id="@+id/rl_findPhonePswHiddenPsw"
                 android:layout_alignParentRight="true"

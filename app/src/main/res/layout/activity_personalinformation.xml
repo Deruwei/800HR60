@@ -47,12 +47,15 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/view1" />
 
-                <ImageView
+                <com.hr.ui.view.RoundImageView
                     android:id="@+id/iv_personalInformationImage"
                     android:layout_width="@dimen/x100"
                     android:layout_height="@dimen/y100"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/y49"
+                    app:type="circle"
+                    app:borderWidth="@dimen/x1"
+                    app:borderColor="@color/color_999"
                     android:src="@mipmap/personimage"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"

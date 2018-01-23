@@ -8,6 +8,12 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.Selection;
+import android.text.Spannable;
+import android.text.TextWatcher;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -66,6 +72,26 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
     TextView tvToolbarTitle;
     @BindView(R.id.tv_phoneRegisterGetValidCode)
     TextView tvPhoneRegisterGetValidCode;
+    @BindView(R.id.toolbarAdd)
+    ImageView toolbarAdd;
+    @BindView(R.id.tv_toolbarSave)
+    TextView tvToolbarSave;
+    @BindView(R.id.iv_phoneRegisterNumberIcon)
+    ImageView ivPhoneRegisterNumberIcon;
+    @BindView(R.id.iv_phoneRegisterPhoneDelete)
+    ImageView ivPhoneRegisterPhoneDelete;
+    @BindView(R.id.iv_phoneRegisterValidCodeIcon)
+    ImageView ivPhoneRegisterValidCodeIcon;
+    @BindView(R.id.iv_phoneRegisterValidCodeDelete)
+    ImageView ivPhoneRegisterValidCodeDelete;
+    @BindView(R.id.View_lineValidCode)
+    View ViewLineValidCode;
+    @BindView(R.id.iv_phoneRegisterPswDelete)
+    ImageView ivPhoneRegisterPswDelete;
+    @BindView(R.id.tv_registerHasAccount)
+    TextView tvRegisterHasAccount;
+    @BindView(R.id.iv_phoneRegisterHiddenPsw)
+    ImageView ivPhoneRegisterHiddenPsw;
     private PopupWindow popupWindow;
     private String autoCode;
     private Intent mCodeTimerServiceIntent;
@@ -74,10 +100,12 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
     private EditText etAutoCode;
     private SharedPreferencesUtils sUtils;
     private int code;
-    private String phoneNumber, password;
+    private String phoneNumber = "", password;
     private int[] imageIds = {R.mipmap.resume1, R.mipmap.resume2, R.mipmap.resume3, R.mipmap.resume4, R.mipmap.resume5};
     private ArrayList<String> titles;
     private int userId;
+    private boolean isHidden = true;
+
     /**
      * 入口
      *
@@ -118,7 +146,8 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
 
     @Override
     public void sendAutoCode(String autoCode) {
-        this.autoCode=autoCode;
+        this.autoCode = autoCode;
+        initPopWindow();
         ivAutoCode.setImageBitmap(EncryptUtils.stringtoBitmap(autoCode));
     }
 
@@ -133,6 +162,12 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
     }
 
     @Override
+    public void needToGetAutoCode() {
+        mPresenter.getAutoCode();
+    }
+
+
+    @Override
     public void sendRegisterSuccess(int userId) {
         sUtils.setIntValue(Constants.ISAUTOLOGIN, 1);
         sUtils.setIntValue(Constants.AUTOLOGINTYPE, 0);
@@ -143,7 +178,6 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
 
     @Override
     public void bindingSuccess(int userId) {
-
     }
 
     @Override
@@ -185,18 +219,151 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
         //注册接收验证码计时器信息的广播
         IntentFilter filter = new IntentFilter(CODE);
         registerReceiver(mCodeTimerReceiver, filter);
+        onEditViewTextChangeAndFocusChange();
     }
 
-    @OnClick({R.id.tv_phoneRegisterGetValidCode, R.id.btn_phoneRegisterOK})
+    private void onEditViewTextChangeAndFocusChange() {
+        etPhoneRegisterValidCode.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() > 0) {
+                    ivPhoneRegisterValidCodeDelete.setVisibility(View.VISIBLE);
+                } else {
+                    ivPhoneRegisterValidCodeDelete.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        etPhoneRegisterNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() > 0) {
+                    ivPhoneRegisterPhoneDelete.setVisibility(View.VISIBLE);
+                } else {
+                    ivPhoneRegisterPhoneDelete.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        etPhoneRegisterPsw.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() > 0) {
+                    ivPhoneRegisterPswDelete.setVisibility(View.VISIBLE);
+                } else {
+                    ivPhoneRegisterPswDelete.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        etPhoneRegisterPsw.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    ivPhoneRegisterPswDelete.setVisibility(View.GONE);
+                } else {
+                    if (etPhoneRegisterPsw.getText().toString() != null && !"".equals(etPhoneRegisterPsw.getText().toString())) {
+                        ivPhoneRegisterPswDelete.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
+        etPhoneRegisterNumber.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    ivPhoneRegisterPhoneDelete.setVisibility(View.GONE);
+                } else {
+                    if (etPhoneRegisterNumber.getText().toString() != null && !"".equals(etPhoneRegisterNumber.getText().toString())) {
+                        ivPhoneRegisterPhoneDelete.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
+        etPhoneRegisterValidCode.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    ivPhoneRegisterValidCodeDelete.setVisibility(View.GONE);
+                } else {
+                    if (etPhoneRegisterValidCode.getText().toString() != null && !"".equals(etPhoneRegisterValidCode.getText().toString())) {
+                        ivPhoneRegisterValidCodeDelete.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
+    }
+
+    @OnClick({R.id.tv_phoneRegisterGetValidCode, R.id.btn_phoneRegisterOK,R.id.iv_phoneRegisterHiddenPsw,R.id.iv_phoneRegisterPhoneDelete,R.id.iv_phoneRegisterPswDelete,R.id.iv_phoneRegisterValidCodeDelete})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.iv_phoneRegisterHiddenPsw:
+                if (isHidden) {
+                    //设置EditText文本为可见的
+                    ivPhoneRegisterHiddenPsw.setImageResource(R.mipmap.see);
+                    etPhoneRegisterPsw.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                } else {
+                    //设置EditText文本为隐藏的
+                    ivPhoneRegisterHiddenPsw.setImageResource(R.mipmap.hidden);
+                    etPhoneRegisterPsw.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                }
+                isHidden = !isHidden;
+                etPhoneRegisterPsw.postInvalidate();
+                //切换后将EditText光标置于末尾
+                CharSequence charSequence = etPhoneRegisterPsw.getText();
+                if (charSequence instanceof Spannable) {
+                    Spannable spanText = (Spannable) charSequence;
+                    Selection.setSelection(spanText, charSequence.length());
+                }
+                break;
+            case R.id.iv_phoneRegisterPhoneDelete:
+                etPhoneRegisterNumber.setText("");
+                break;
+            case R.id.iv_phoneRegisterPswDelete:
+                etPhoneRegisterPsw.setText("");
+                break;
+            case R.id.iv_phoneRegisterValidCodeDelete:
+                etPhoneRegisterValidCode.setText("");
+                break;
             case R.id.tv_phoneRegisterGetValidCode:
-                String phoneNumber = etPhoneRegisterNumber.getText().toString();
-                if (!"".equals(phoneNumber) && phoneNumber != null) {
-                    if (RegularExpression.isCellphone(phoneNumber)) {
-                        if (sUtils.getIntValue("code", 0) >= 1) {
+
+                String phoneNumber1 = etPhoneRegisterNumber.getText().toString();
+                if (!"".equals(phoneNumber1) && phoneNumber1 != null) {
+                    if (RegularExpression.isCellphone(phoneNumber1)) {
+                        if (phoneNumber.equals(phoneNumber1)) {
+                            code = 0;
+                        }
+                        phoneNumber = phoneNumber1;
+                        //Log.i("次数",code+"");
+                        if (code >= 1) {
                             mPresenter.getAutoCode();
-                            initPopWindow();
                         } else {
                             mPresenter.getValidCode(phoneNumber, "", 0, Constants.VALIDCODE_REGISTER_YTPE);
                         }
@@ -234,8 +401,8 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
             ToastUitl.showShort("请输入密码");
             return;
         }
-        if (password.length() < 6 || password.length() > 16) {
-            ToastUitl.showShort("请输入长度为6-16位的密码");
+        if (password.length() < 6 || password.length() > 25) {
+            ToastUitl.showShort("请输入长度为6-25位的密码");
             return;
         }
         mPresenter.getRegister(phoneNumber, validCode, password);

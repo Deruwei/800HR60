@@ -9,14 +9,18 @@
     <include layout="@layout/layout_toolbar"
         android:id="@+id/in_collection"
         />
-
-    <com.hr.ui.view.XRecyclerView
-        android:id="@+id/rv_collection"
+    <FrameLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/resumeContent_bg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/in_collection"/>
+        app:layout_constraintTop_toBottomOf="@+id/in_collection">
+        <com.hr.ui.view.XRecyclerView
+            android:id="@+id/rv_collection"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/resumeContent_bg"/>
+        <include layout="@layout/layout_emptyview"/>
+    </FrameLayout>
 </android.support.constraint.ConstraintLayout>

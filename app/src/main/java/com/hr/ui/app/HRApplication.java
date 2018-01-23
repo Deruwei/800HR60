@@ -23,6 +23,7 @@ import com.hr.ui.utils.EncryptUtils;
 import com.hr.ui.utils.GlideImageLoader;
 import com.hr.ui.utils.Rc4Md5Utils;
 import com.hr.ui.utils.ToastUitl;
+import com.hr.ui.utils.UnCeHandler;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.view.CropImageView;
@@ -62,6 +63,7 @@ public class HRApplication extends MobApplication {
         super.onCreate();
         if(hrApplication == null)
             hrApplication = this;
+        init();
         initPhotoPicker();
         setupDatabase();
         mCodeTimerServiceIntent = new Intent(HRApplication.getAppContext(), MyTimeService.class);
@@ -69,6 +71,11 @@ public class HRApplication extends MobApplication {
         //注册接收验证码计时器信息的广播
         IntentFilter filter = new IntentFilter(CODE);
         registerReceiver(mCodeTimerReceiver, filter);
+    }
+    public void init(){
+        //设置该CrashHandler为程序的默认处理器
+        UnCeHandler catchExcep = new UnCeHandler(this);
+        Thread.setDefaultUncaughtExceptionHandler(catchExcep);
     }
     public void setService(){
         if(mCodeTimerServiceIntent!=null) {

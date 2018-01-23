@@ -51,7 +51,7 @@ public class MyDeliverFeedbackAdapter extends RecyclerView.Adapter<MyDeliverFeed
     //创建新View，被LayoutManager所调用
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_collection, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_deliverfeedback, viewGroup, false);
         return new ViewHolder(view);
     }
 

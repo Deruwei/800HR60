@@ -141,10 +141,15 @@ public class RoundImageView extends ImageView {
             return ((BitmapDrawable)drawable).getBitmap();
         } else if (drawable instanceof ColorDrawable){
             Rect rect = drawable.getBounds();
-            int width = rect.right - rect.left;
-            int height = rect.bottom - rect.top;
+            int width = rect.right - rect.left-10;
+            int height = rect.bottom - rect.top-10;
             int color = ((ColorDrawable)drawable).getColor();
+            Matrix matrix = new Matrix();
+            matrix.setScale(0.5f, 0.5f);
             Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+
+           /* Bitmap bm = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
+                    bitmap.getHeight(), matrix, true);*/
             Canvas canvas = new Canvas(bitmap);
             canvas.drawARGB(Color.alpha(color), Color.red(color), Color.green(color), Color.blue(color));
             return bitmap;

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.hr.ui.view.SwipeMenuLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.hr.ui.utils.SwipeItemLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
+    android:id="@+id/swipeMenu"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/resumeContent_bg"
     android:layout_height="wrap_content">
@@ -144,4 +145,4 @@
             android:layout_height="wrap_content" />
         </LinearLayout>
     </LinearLayout>
-</com.hr.ui.view.SwipeMenuLayout>
+</com.hr.ui.utils.SwipeItemLayout>

@@ -97,6 +97,7 @@ public class JobSerchActivity extends BaseNoConnectNetworkAcitivty {
     private List<CityBean> selectPositionList=new ArrayList<>();
     private List<CityBean> selectFunctionList=new ArrayList<>();
     private String functionId;
+    private boolean isSearch;//判断是否可以跳转搜索结果页
     public static final String TAG = JobSerchActivity.class.getSimpleName();
     public  static JobSerchActivity instance;
     private int jobSerchType=1;//1代表搜索全部 2代表根据职位进行搜索 3代表根据公司进行搜索
@@ -197,23 +198,29 @@ public class JobSerchActivity extends BaseNoConnectNetworkAcitivty {
                 initPopSearchType();
                 break;
             case R.id.tv_jobSearch:
-                if(etJobSearch.getText().toString()==null&&"".equals(etJobSearch.getText().toString())){
-                    ToastUitl.showShort("请输入职位名或公司名");
-                    return;
-                }
                 JobSearchBean jobSearchBean=new JobSearchBean();
                 if(industryId!=null&&!"".equals(industryId)) {
                     jobSearchBean.setIndustryId(industryId);
+                    isSearch=true;
                 }
                 jobSearchBean.setJobType(jobSerchType);
                 if(!"".equals(cityId)&&cityId!=null) {
                     jobSearchBean.setPlaceId(cityId);
+                    isSearch=true;
                 }
                 if(!"".equals(postionId)&&postionId!=null){
                     jobSearchBean.setPositionId(postionId);
+                    isSearch=true;
                 }
                 if(!"".equals(functionId)&&functionId!=null){
                     jobSearchBean.setFieldId(functionId);
+                    isSearch=true;
+                }
+                if(isSearch==false) {
+                    if (etJobSearch.getText().toString() == null || "".equals(etJobSearch.getText().toString())) {
+                        ToastUitl.showShort("请输入职位名或公司名");
+                        return;
+                    }
                 }
                 if(etJobSearch.getText().toString()!=null&&!"".equals(etJobSearch.getText().toString())) {
                     jobSearchBean.setSearchName(etJobSearch.getText().toString());

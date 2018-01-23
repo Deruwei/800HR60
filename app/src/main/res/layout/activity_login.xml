@@ -18,23 +18,33 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/in_login_toolbar">
-        <RelativeLayout
-            style="@style/login_relativeLayout">
+
+        <RelativeLayout style="@style/login_relativeLayout">
+
             <ImageView
                 android:id="@+id/iv_phoneLoginNumberIcon"
-                android:src="@mipmap/phone"
                 style="@style/Login_imageViewIcon"
-                />
+                android:src="@mipmap/phone" />
+
             <EditText
-                android:layout_toRightOf="@+id/iv_phoneLoginNumberIcon"
                 android:id="@+id/et_phoneLoginNumber"
-                android:inputType="number"
-                android:hint="@string/phoneNumber"
                 style="@style/login_editText"
-                />
+                android:layout_marginRight="@dimen/x6"
+                android:layout_toLeftOf="@+id/iv_phoneLoginPhoneDelete"
+                android:layout_toRightOf="@+id/iv_phoneLoginNumberIcon"
+                android:hint="@string/phoneNumber"
+                android:inputType="number" />
+
+            <ImageView
+                android:id="@+id/iv_phoneLoginPhoneDelete"
+                style="@style/Login_imageViewIcon"
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/delete"
+                android:visibility="gone" />
+
             <View
-                android:layout_below="@+id/et_phoneLoginNumber"
-                style="@style/login_view"/>
+                style="@style/login_view"
+                android:layout_below="@+id/et_phoneLoginNumber" />
         </RelativeLayout>
 
         
@@ -46,13 +56,21 @@
                 style="@style/Login_imageViewIcon"
                 />
              <EditText
+                 android:layout_marginRight="@dimen/x10"
                  android:layout_toRightOf="@+id/iv_phoneLoginPswIcon"
                  android:inputType="textPassword"
                  android:id="@+id/et_phoneLoginPsw"
-                 android:layout_toLeftOf="@+id/rl_phoneLoginHiddenPsw"
+                 android:layout_toLeftOf="@+id/iv_phoneLoginPswDelete"
                  android:hint="@string/psw"
                  style="@style/login_editText"
             />
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/iv_phoneLoginPswDelete"
+                android:src="@mipmap/delete"
+                android:layout_marginRight="@dimen/x10"
+                android:layout_toLeftOf="@+id/rl_phoneLoginHiddenPsw"
+                style="@style/Login_imageViewIcon" />
             <RelativeLayout
                 android:id="@+id/rl_phoneLoginHiddenPsw"
                 android:layout_alignParentRight="true"

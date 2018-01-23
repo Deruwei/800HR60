@@ -61,37 +61,42 @@ public class MyCompanyMessageAdapter extends RecyclerView.Adapter<MyCompanyMessa
     //将数据与界面进行绑定的操作
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
-        viewHolder.tvItemInviteContent.setText(listBeans.get(position).getEmail_content());
-        viewHolder.tvItemInviteContent.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                viewHolder.tvItemInviteContent.setTag(R.id.long_click,true);
-                return true;
-            }
-        });
-        Spannable spannable = (Spannable) viewHolder.tvItemInviteContent.getText();
-        URLSpan[] spans = spannable.getSpans(0, spannable.length(), URLSpan.class);
-        for (int i = 0; i < spans.length; i++) {
-            String url = spans[i].getURL();
-            int index = spannable.toString().indexOf(url);
-            int end = index + url.length();
-            if (index == -1) {
-                if (url.contains("http://")) {
-                    url = url.replace("http://", "");
-                } else if (url.contains("https://")) {
-                    url = url.replace("https://", "");
-                } else if (url.contains("rtsp://")) {
-                    url = url.replace("rtsp://", "");
+        if("1".equals(listBeans.get(position).getIs_email())) {
+            viewHolder.tvItemInviteContent.setText(listBeans.get(position).getEmail_content());
+            viewHolder.tvItemInviteContent.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    viewHolder.tvItemInviteContent.setTag(R.id.long_click,true);
+                    return true;
                 }
-                index = spannable.toString().indexOf(url);
-                end = index + url.length();
+            });
+            Spannable spannable = (Spannable)(viewHolder.tvItemInviteContent.getText());
+            URLSpan[] spans = spannable.getSpans(0, spannable.length(), URLSpan.class);
+            for (int i = 0; i < spans.length; i++) {
+                String url = spans[i].getURL();
+                int index = spannable.toString().indexOf(url);
+                int end = index + url.length();
+                if (index == -1) {
+                    if (url.contains("http://")) {
+                        url = url.replace("http://", "");
+                    } else if (url.contains("https://")) {
+                        url = url.replace("https://", "");
+                    } else if (url.contains("rtsp://")) {
+                        url = url.replace("rtsp://", "");
+                    }
+                    index = spannable.toString().indexOf(url);
+                    end = index + url.length();
+                }
+                if (index != -1) {
+                    spannable.removeSpan(spans[i]);
+                    spannable.setSpan(new AutolinkSpan(spans[i].getURL()), index
+                            , end, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                }
             }
-            if (index != -1) {
-                spannable.removeSpan(spans[i]);
-                spannable.setSpan(new AutolinkSpan(spans[i].getURL()), index
-                        , end, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-            }
+        }else{
+            viewHolder.tvItemInviteContent.setText(listBeans.get(position).getSms_content());
         }
+
 
         //Glide.with(context).load(listBeans.get(position).getPic_path()).centerCrop().into(viewHolder.ivFindIcon);
         if (clickCallBack != null) {

@@ -2,6 +2,7 @@ package com.hr.ui.utils;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.PointF;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
@@ -26,6 +27,8 @@ public class SwipeItemLayout extends ViewGroup {
         RESET, DRAG, FLING, CLICK
     }
     private Mode touchMode;
+    //上一次的xy
+    private PointF mLastP = new PointF();
 
     private View mainItemView;
 
@@ -233,11 +236,11 @@ public class SwipeItemLayout extends ViewGroup {
                 if(pointView!=null && pointView==mainItemView && touchMode== Mode.CLICK && scrollOffset !=0)
                     return true;
             }
+
         }
 
         return false;
     }
-
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         final int action = ev.getActionMasked();
@@ -300,7 +303,6 @@ public class SwipeItemLayout extends ViewGroup {
         scrollOffset = newLeft;
         return over;
     }
-
     private static final Interpolator sInterpolator = new Interpolator() {
         @Override
         public float getInterpolation(float t) {
@@ -466,7 +468,6 @@ public class SwipeItemLayout extends ViewGroup {
             parentHandled = false;
             probingParentProcess = false;
         }
-
         @Override
         public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent ev) {
             if(probingParentProcess)

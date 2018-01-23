@@ -12,7 +12,9 @@ import android.widget.TextView;
 import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.bean.CollectionBean;
+import com.hr.ui.utils.SwipeItemLayout;
 import com.hr.ui.utils.Utils;
+import com.hr.ui.view.SwipeMenuLayout;
 
 import java.util.List;
 
@@ -81,7 +83,7 @@ public class MyCollectionAdapter extends RecyclerView.Adapter<MyCollectionAdapte
             viewHolder.btnItemCollectionDeliver.setBackgroundResource(R.drawable.edit_bg_999);
         }
         if (clickCallBack != null) {
-            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            viewHolder.leftMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     clickCallBack.onItemClick(position);
@@ -134,7 +136,8 @@ public class MyCollectionAdapter extends RecyclerView.Adapter<MyCollectionAdapte
         LinearLayout leftMenu;
         @BindView(R.id.ll_itemCollectionDelete)
         LinearLayout llItemCollectionDelete;
-
+        @BindView(R.id.swipeMenu)
+        SwipeItemLayout swipeMenu;
         public ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);

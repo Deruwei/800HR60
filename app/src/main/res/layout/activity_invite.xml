@@ -40,6 +40,8 @@
             <TextView
                 android:id="@+id/tv_inviteJobName"
                 android:text="@string/atWorking"
+                android:singleLine="true"
+                android:maxEms="10"
                 android:textSize="@dimen/x36"
                 android:textColor="@color/color_333"
                 android:layout_width="wrap_content"
@@ -104,8 +106,9 @@
             android:layout_marginTop="@dimen/x40"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-            <ImageView
-                android:src="@mipmap/persondefault"
+            <com.hr.ui.view.RoundImageView
+                app:type="rounded_rect"
+                android:src="@mipmap/defaultcompany"
                 android:id="@+id/iv_inviteCompanyImage"
                 android:scaleType="centerCrop"
                 android:layout_width="@dimen/x52"
@@ -117,6 +120,8 @@
                 android:id="@+id/tv_inviteCompanyName"
                 android:text="北京英才网联科技有限公司"
                 android:textSize="@dimen/x28"
+                android:singleLine="true"
+                android:maxEms="15"
                 android:textColor="@color/color_333"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

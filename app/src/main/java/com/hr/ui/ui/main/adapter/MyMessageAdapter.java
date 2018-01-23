@@ -9,7 +9,9 @@ import android.widget.TextView;
 
 import com.hr.ui.R;
 import com.hr.ui.bean.InviteBean;
+import com.hr.ui.utils.Utils;
 import com.hr.ui.view.CircleImageView;
+import com.hr.ui.view.RoundImageView;
 
 import java.util.List;
 
@@ -52,7 +54,7 @@ public class MyMessageAdapter extends RecyclerView.Adapter<MyMessageAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         viewHolder.tvInviteCompanyName.setText(listBeans.get(position).getInvited_title());
-        viewHolder.tvInviteCompanyTime.setText(listBeans.get(position).getInvited_time());
+        viewHolder.tvInviteCompanyTime.setText(Utils.getDateMonthAndDay(listBeans.get(position).getInvited_time()));
         viewHolder.tvInvitePersonName.setText(listBeans.get(position).getEnterprise_name());
         if (clickCallBack != null) {
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -73,7 +75,7 @@ public class MyMessageAdapter extends RecyclerView.Adapter<MyMessageAdapter.View
     //自定义的ViewHolder，持有每个Item的的所有界面元素
     public static class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.iv_itemInviteInterViewPerson)
-        CircleImageView ivItemInviteInterViewPerson;
+        RoundImageView ivItemInviteInterViewPerson;
         @BindView(R.id.tv_invitePersonName)
         TextView tvInvitePersonName;
         @BindView(R.id.tv_inviteCompanyName)

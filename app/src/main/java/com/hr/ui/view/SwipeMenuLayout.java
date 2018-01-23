@@ -18,33 +18,9 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
 
 /**
- * 【Item侧滑删除菜单】
- * 继承自ViewGroup，实现滑动出现删除等选项的效果，
- * 思路：跟随手势将item向左滑动，
- * 在onMeasure时 将第一个Item设为屏幕宽度
- * 【解决屏幕上多个侧滑删除菜单】：内设一个类静态View类型变量 ViewCache，存储的是当前正处于右滑状态的CstSwipeMenuItemViewGroup，
- * 每次Touch时对比，如果两次Touch的不是一个View，那么令ViewCache恢复普通状态，并且设置新的CacheView
- * 只要有一个侧滑菜单处于打开状态， 就不给外层布局上下滑动了
- * <p/>
- * 平滑滚动使用的是Scroller,20160811，最新平滑滚动又用属性动画做了，因为这样更酷炫(设置加速器不同)
- * <p/>
- * 20160824,fix 【多指一起滑我的情况】：只接第一个客人(使用一个类静态布尔变量)
- * other:
- * 1 菜单处于侧滑时，拦截长按事件
- * 2 解决侧滑时 点击 的冲突
- * 3 通过 isIos 变量控制是否是IOS阻塞式交互，默认是打开的。
- * 4 通过 isSwipeEnable 变量控制是否开启右滑菜单，默认打开。（某些场景，复用item，没有编辑权限的用户不能右滑）
- * 5 2016 09 29 add,，通过开关 isLeftSwipe支持左滑右滑
- * 6 2016 10 21 add , 增加viewChache 的 get()方法，可以用在：当点击外部空白处时，关闭正在展开的侧滑菜单。
- * 7 2016 10 22 fix , 当父控件宽度不是全屏时的bug。
- * 2016 10 22 add , 仿QQ，侧滑菜单展开时，点击除侧滑菜单之外的区域，关闭侧滑菜单。
- * 8 2016 11 03 add,判断手指起始落点，如果距离属于滑动了，就屏蔽一切点击事件。
- * 9 2016 11 04 fix 长按事件和侧滑的冲突。
- * Created by zhangxutong .
- * Date: 16/04/24
  */
 public class SwipeMenuLayout extends ViewGroup {
-    private static final String TAG = "zxt";
+    private static final String TAG = SwipeMenuLayout.class.getSimpleName();
     private boolean isSwipeEnable = true;//右滑删除功能的开关,默认开
 
     private int mScaleTouchSlop;//为了处理单击事件的冲突
@@ -524,7 +500,6 @@ public class SwipeMenuLayout extends ViewGroup {
         //LogUtils.d(TAG, "smoothClose() called with:getScrollX() " + getScrollX());
     }
 
-
     /**
      * @param event 向VelocityTracker添加MotionEvent
      * @see VelocityTracker#obtain()
@@ -570,6 +545,13 @@ public class SwipeMenuLayout extends ViewGroup {
             return false;
         }
         return super.performLongClick();
+    }
+    @Override
+    public boolean performClick() {
+        if (Math.abs(getScrollX()) > mScaleTouchSlop) {
+            return false;
+        }
+        return super.performClick();
     }
 
     //平滑滚动 弃用 改属性动画实现

@@ -528,10 +528,21 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
     private void initEducation() {
         llResumeEduBGList.removeAllViewsInLayout();
         if (educationListBeanList != null && educationListBeanList.size() != 0) {
-            if (educationListBeanList.get(0).getSchoolname().length() > 10) {
-                tvResumeEduInfo.setText(educationListBeanList.get(0).getSchoolname().substring(0, 9) + "..." + "  " + educationListBeanList.get(0).getMoremajor() + "  " + ResumeInfoIDToString.getEducationDegree(getActivity(), educationListBeanList.get(0).getDegree(), true));
+            //学校+专业+学历的长度
+            int length=educationListBeanList.get(0).getSchoolname().length()+educationListBeanList.get(0).getMoremajor().length()+ ResumeInfoIDToString.getEducationDegree(getActivity(), educationListBeanList.get(0).getDegree(), true).length();
+            String schoolName=educationListBeanList.get(0).getSchoolname();
+            String moreMajor=educationListBeanList.get(0).getMoremajor();
+            String degree=ResumeInfoIDToString.getEducationDegree(getActivity(), educationListBeanList.get(0).getDegree(), true);
+            if (length> 18) {
+                if(schoolName.length()>8){
+                    schoolName=schoolName.substring(0,7)+"...";
+                }
+                if(moreMajor.length()>8){
+                    moreMajor=moreMajor.substring(0,7)+"...";
+                }
+                tvResumeEduInfo.setText(schoolName+"  " + moreMajor + "  " + degree);
             } else {
-                tvResumeEduInfo.setText(educationListBeanList.get(0).getSchoolname() + "  " + educationListBeanList.get(0).getMoremajor() + "  " + ResumeInfoIDToString.getEducationDegree(getActivity(), educationListBeanList.get(0).getDegree(), true));
+                tvResumeEduInfo.setText(schoolName+"  " + moreMajor + "  " + degree);
             }
             llResumeEduBGList.setVisibility(View.VISIBLE);
             for (int i = 0; i < educationListBeanList.size(); i++) {

@@ -58,6 +58,7 @@
     <string name="error_319">简历的类型不可修改</string>
     <string name="error_320">简历不可复制</string>
     <string name="error_321">缺少中文简历</string>
+    <string name="error_326">请勿频繁获取验证码</string>
     <string name="error_327">手机号码已被使用</string>
     <string name="error_401">职位已过期</string>
     <string name="error_402">职位已过期</string>
@@ -79,6 +80,8 @@
     <string name="error_2012">密码与确认密码不一至</string>
     <string name="error_2013">用户名不合法(支持字母、数字、下划线，长度4-25位)</string>
     <string name="error_2014">用户名已存在</string>
+    <string name="error_1101">网络正在连接，请重试</string>
+    <string name="error_other">出现未知错误，请重新连接</string>
     <string name="goInto">立即体验</string>
     <string name="exit">退出</string>
     //我的
@@ -120,7 +123,7 @@
     <string name="changeTel">更换手机</string>
     <string name="evaluateMine">评价我们</string>
     <string name="versionDes">版本说明</string>
-    <string name="changeAccount">更换帐号</string>
+    <string name="changeAccount">更换账号</string>
     //注册和登录
     <string name="login">登录</string>
     <string name="register">注册</string>
@@ -130,7 +133,7 @@
     <string name="psw_new">新密码（最少6位）</string>
     <string name="psw">密码（最少6位）</string>
     <string name="newPsw">新密码</string>
-    <string name="accountLogin">帐号登录</string>
+    <string name="accountLogin">账号登录</string>
     <string name="findPsw">找回密码</string>
     <string name="alreadyDeliver">已投递</string>
     <string name="Seem">被查看</string>
@@ -138,14 +141,14 @@
     <string name="bindNewAccount">绑定新账号</string>
     <string name="bindPhoneAccount">绑定手机</string>
     <string name="bindComplete">绑定完成</string>
-    <string name="bindUserAccount">绑定帐号</string>
-    <string name="hasPhoneAcccount">已有手机帐号？</string>
-    <string name="hasUserAccount">已有邮箱帐号？</string>
+    <string name="bindUserAccount">绑定账号</string>
+    <string name="hasPhoneAcccount">已有手机账号？</string>
+    <string name="hasUserAccount">已有邮箱账号？</string>
     <string name="hasAccount">已有帐号？去登录</string>
     <string name="findPswUsePhone">用手机找回密码</string>
-    <string name="userThirdPartLogin">使用下列帐号快速登录</string>
+    <string name="userThirdPartLogin">使用下列账号快速登录</string>
     <string name="accountNumber">用户名</string>
-    <string name="findAccountPsw">找回帐号密码</string>
+    <string name="findAccountPsw">找回账号密码</string>
     <string name="emailNumber">邮箱号码</string>
     <string name="getValidCode">获取验证码</string>
     <string name="ValidCode">验证码</string>
@@ -176,6 +179,7 @@
     <string name="submitSuccessMsg">密码修改链接已提交到您的邮箱，请前去邮箱验证。</string>
     <string name="alright">好的,开始填写</string>
     <string name="addSuccess">添加成功</string>
+    <string name="add">添加</string>
     <string name="saveSuccess">保存成功</string>
     <string name="deleteSuccess">删除成功</string>
     <string name="delete">删除</string>
@@ -183,6 +187,7 @@
     <string name="noData">这里什么都没有</string>
     <string name="netError">网络出现错误</string>
     <string name="toSearch">去搜搜看</string>
+    <string name="selectPositionClass">选择职系</string>
 
     //简历部分
     <string name="location">定位城市:</string>
@@ -210,6 +215,7 @@
     <string name="sex">性别</string>
     <string name="birth">出生日期</string>
     <string name="nowAddress">现居住地</string>
+    <string name="nowInterShipExp">没有实习经验，跳过</string>
     <string name="workTime">工作时间</string>
     <string name="email">电子邮箱</string>
     <string name="jobTitle">现有职称</string>
@@ -342,13 +348,20 @@
     <string name="drawer_layout_close">Close</string>
 
     <string name="listview_header_hint_normal">拉下刷新</string>
-    <string name="listview_header_hint_release">松开手即可加载</string>
+    <string name="listview_header_hint_release">松开加载</string>
     <string name="listview_loading">正在加载...</string>
-    <string name="nomore_loading">没有数据可以加载</string>
+    <string name="nomore_loading">已经到底了</string>
     <string name="refreshing">刷新中...</string>
     <string name="refresh_done">刷新完成</string>
     <string name="loading_done">加载完成</string>
     <string name="listview_header_last_time">last update：</string>
     <string name="resumeInfo">简历详情</string>
     <string name="photo">头像</string>
+
+    <string name="calculate1">经过计算，</string>
+    <string name="calculate2">您与改职位的匹配度达到</string>
+    <string name="calculate3">分！</string>
+    <string name="known">知道啦</string>
+    <string name="calculate4">好机会不容错过，</string>
+    <string name="calculate5">感觉合适的话就赶紧投递把～</string>
 </resources>

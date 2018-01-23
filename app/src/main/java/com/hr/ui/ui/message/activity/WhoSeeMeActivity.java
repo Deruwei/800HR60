@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hr.ui.R;
@@ -16,13 +17,11 @@ import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
 import com.hr.ui.bean.WhoSeeMeBean;
 import com.hr.ui.ui.job.activity.CompanyPageActivity;
-import com.hr.ui.ui.message.adapter.MyFindAdapter;
 import com.hr.ui.ui.message.adapter.MyWhoSeeMeAdapter;
 import com.hr.ui.ui.message.contract.WhoSeeMeContract;
 import com.hr.ui.ui.message.model.WhoSeeMeModel;
 import com.hr.ui.ui.message.presenter.WhoSeeMePresenter;
 import com.hr.ui.utils.ProgressStyle;
-import com.hr.ui.utils.RegularExpression;
 import com.hr.ui.view.XRecyclerView;
 
 import java.util.ArrayList;
@@ -44,11 +43,22 @@ public class WhoSeeMeActivity extends BaseActivity<WhoSeeMePresenter, WhoSeeMeMo
     TextView tvToolbarSave;
     @BindView(R.id.tool_bar)
     Toolbar toolBar;
+    @BindView(R.id.iv_noContent)
+    ImageView ivNoContent;
+    @BindView(R.id.tv_noData)
+    TextView tvNoData;
+    @BindView(R.id.iv_noDataSearchIcon)
+    ImageView ivNoDataSearchIcon;
+    @BindView(R.id.iv_noDataSearch)
+    RelativeLayout ivNoDataSearch;
+    @BindView(R.id.rl_emptyView)
+    RelativeLayout rlEmptyView;
     @BindView(R.id.rv_find)
     XRecyclerView rvFind;
     private int page = 1;
     private MyWhoSeeMeAdapter adapter;
-    private List<WhoSeeMeBean.BrowsedListBean> browsedListBeanList=new ArrayList<>();
+    private List<WhoSeeMeBean.BrowsedListBean> browsedListBeanList = new ArrayList<>();
+
     /**
      * 入口
      *
@@ -60,6 +70,7 @@ public class WhoSeeMeActivity extends BaseActivity<WhoSeeMePresenter, WhoSeeMeMo
         activity.overridePendingTransition(R.anim.fade_in,
                 R.anim.fade_out);
     }
+
     @Override
     public void showLoading(String title) {
 
@@ -77,23 +88,28 @@ public class WhoSeeMeActivity extends BaseActivity<WhoSeeMePresenter, WhoSeeMeMo
 
     @Override
     public void getWhoSeeMeSuccess(final List<WhoSeeMeBean.BrowsedListBean> browsedListBeans) {
-        if(browsedListBeans!=null&&browsedListBeans.size()!=0){
-            if(page==1){
+        if (browsedListBeans != null && !"".equals(browsedListBeans) && browsedListBeans.size() != 0) {
+            if (page == 1) {
                 browsedListBeanList.clear();
                 browsedListBeanList.addAll(browsedListBeans);
                 adapter.setListBeans(browsedListBeanList);
                 rvFind.setAdapter(adapter);
-            }else{
+            } else {
                 browsedListBeanList.addAll(browsedListBeanList);
                 adapter.notifyDataSetChanged();
             }
-        }else{
-            rvFind.setNoMore(true);
+        } else {
+            if(page==1){
+                rlEmptyView.setVisibility(View.VISIBLE);
+                ivNoDataSearch.setVisibility(View.GONE);
+            }else {
+                rvFind.setNoMore(true);
+            }
         }
         adapter.setClickCallBack(new MyWhoSeeMeAdapter.ItemClickCallBack() {
             @Override
             public void onItemClick(int pos) {
-                CompanyPageActivity.startAction(WhoSeeMeActivity.this,browsedListBeanList.get(pos).getEnterprise_id());
+                CompanyPageActivity.startAction(WhoSeeMeActivity.this, browsedListBeanList.get(pos).getEnterprise_id());
             }
         });
     }
@@ -124,7 +140,7 @@ public class WhoSeeMeActivity extends BaseActivity<WhoSeeMePresenter, WhoSeeMeMo
                 finish();
             }
         });
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this){
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this) {
             @Override
             public boolean canScrollHorizontally() {
                 return false;
@@ -137,13 +153,13 @@ public class WhoSeeMeActivity extends BaseActivity<WhoSeeMePresenter, WhoSeeMeMo
         rvFind.setRefreshProgressStyle(ProgressStyle.LineScaleParty);
         rvFind.setNestedScrollingEnabled(false);
         rvFind.setLoadingMoreProgressStyle(ProgressStyle.BallTrianglePath);
-        adapter=new MyWhoSeeMeAdapter(this);
+        adapter = new MyWhoSeeMeAdapter(this);
         rvFind.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
-                new Handler().postDelayed(new Runnable(){
+                new Handler().postDelayed(new Runnable() {
                     public void run() {
-                        page=1;
+                        page = 1;
                         mPresenter.getWhoSeeMeData(page);
                         adapter.notifyDataSetChanged();
                         rvFind.refreshComplete();
@@ -167,7 +183,7 @@ public class WhoSeeMeActivity extends BaseActivity<WhoSeeMePresenter, WhoSeeMeMo
     }
 
     @Override
-    public  void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);

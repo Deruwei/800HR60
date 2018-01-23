@@ -12,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -80,7 +81,7 @@ public class JobOrderActivity extends BaseActivity<JobOrderPresenter, JobOrderMo
     @BindView(R.id.tv_expectedAddressSelect)
     ImageView tvExpectedAddressSelect;
     @BindView(R.id.btn_nextEdu)
-    RelativeLayout btnNextEdu;
+    LinearLayout btnNextEdu;
     @BindView(R.id.cl_jobOrder)
     ConstraintLayout clJobOrder;
     private int userId;
@@ -365,8 +366,16 @@ public class JobOrderActivity extends BaseActivity<JobOrderPresenter, JobOrderMo
             ToastUitl.showShort("请选择期望职位");
             return;
         }
+        if(placeId==null||"".equals(placeId)){
+            ToastUitl.showShort("请选择工作地点");
+            return;
+        }
         if ("".equals(tvExpectSalary.getText().toString()) || tvExpectSalary.getText().toString() == null) {
             ToastUitl.showShort("请填写期望月薪");
+            return;
+        }
+        if("0".equals(tvExpectSalary.getText().toString())){
+            ToastUitl.showShort("期望月薪不能为0");
             return;
         }
         JobOrderData jobOrderData = new JobOrderData();

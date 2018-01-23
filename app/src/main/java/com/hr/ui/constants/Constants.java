@@ -38,7 +38,7 @@ public class Constants {
     //当前使用的设备
     public static final String OS_NAME = "android";
     //api版本
-    public static final String API_VER = "2.1.0";
+    public static final String API_VER = "1.0";
     //线上
     public static final String IMAGE_BASEPATH="http://file.800hr.com/";
     public static final String IMAGE_BASEPATH2="http://img.800hr.com";
