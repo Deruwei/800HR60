@@ -95,6 +95,8 @@ public class FindPhonePasswordActivity extends BaseActivity<FindPasswordPresente
     private Intent mCodeTimerServiceIntent;
     public static final String CODE = "code";
     private SharedPreferencesUtils sUtils;
+    private int type;//0 表示修改密码  1表示获取验证码
+    private String phoneNumber,password,validCode;
 
     /**
      * 入口
@@ -276,17 +278,11 @@ public class FindPhonePasswordActivity extends BaseActivity<FindPasswordPresente
                 etFindPhonePswValidCode.setText("");
                 break;
             case R.id.tv_findPhonePswValidCode:
-                Log.i("1", "1");
-                String phoneNumber = etFindPhonePswNumber.getText().toString();
+                type=1;
+               phoneNumber = etFindPhonePswNumber.getText().toString();
                 if (!"".equals(phoneNumber) && phoneNumber != null) {
                     if (RegularExpression.isCellphone(phoneNumber)) {
-                        if (sUtils.getIntValue("code", 0) >= 0) {
-                            mPresenter.getAutoCode();
-                            Log.i("1", "2");
-                        } else {
-                            mPresenter.getValidCode(phoneNumber, "", 0, Constants.VALIDCODE_FINDPSW_YTPE);
-                            Log.i("1", "3");
-                        }
+                       mPresenter.validPhoneIsExit(phoneNumber);
                     } else {
                         ToastUitl.show("请输入正确的手机号码", Toast.LENGTH_SHORT);
                     }
@@ -295,6 +291,7 @@ public class FindPhonePasswordActivity extends BaseActivity<FindPasswordPresente
                 }
                 break;
             case R.id.btn_findPhonePswOK:
+                type=0;
                 doFindPsw();
                 break;
             case R.id.rl_findPhonePswHiddenPsw:
@@ -320,9 +317,9 @@ public class FindPhonePasswordActivity extends BaseActivity<FindPasswordPresente
     }
 
     private void doFindPsw() {
-        String phoneNumber = etFindPhonePswNumber.getText().toString();
-        String validCode = etFindPhonePswValidCode.getText().toString();
-        String password = etFindPhonePswNew.getText().toString();
+         phoneNumber = etFindPhonePswNumber.getText().toString();
+         validCode = etFindPhonePswValidCode.getText().toString();
+         password = etFindPhonePswNew.getText().toString();
 
         if ("".equals(phoneNumber) || phoneNumber == null) {
             ToastUitl.showShort("请输入手机号码");
@@ -344,7 +341,7 @@ public class FindPhonePasswordActivity extends BaseActivity<FindPasswordPresente
             ToastUitl.showShort("请输入长度为6-25位的密码");
             return;
         }
-        mPresenter.resetPhonePsw(phoneNumber, validCode, password);
+        mPresenter.validPhoneIsExit(phoneNumber);
     }
 
     @Override
@@ -372,6 +369,26 @@ public class FindPhonePasswordActivity extends BaseActivity<FindPasswordPresente
     @Override
     public void setNeedAotuCode() {
         mPresenter.getAutoCode();
+    }
+
+    @Override
+    public void phoneisExit(String flag) {
+        if("0".equals(flag)){
+            ToastUitl.showShort(R.string.error_phoneNotExit);
+            return;
+        }else{
+            if(type==0){
+                mPresenter.resetPhonePsw(phoneNumber, validCode, password);
+            }else{
+                if (sUtils.getIntValue("code", 0) >= 0) {
+                    mPresenter.getAutoCode();
+                    //Log.i("1", "2");
+                } else {
+                    mPresenter.getValidCode(phoneNumber, "", 0, Constants.VALIDCODE_FINDPSW_YTPE);
+                    // Log.i("1", "3");
+                }
+            }
+        }
     }
 
     /**

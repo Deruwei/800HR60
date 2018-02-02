@@ -97,14 +97,18 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
     ImageView ivBindNewAccountHiddenPsw;
     @BindView(R.id.rl_bindNewAccountHiddenPsw)
     RelativeLayout rlBindNewAccountHiddenPsw;
+    @BindView(R.id.tv_bindNewAccountPhone)
+    TextView tvBindNewAccountPhone;
     private SharedPreferencesUtils sUtils;
     private PopupWindow popupWindow;
     private String autoCode;
     private Intent mCodeTimerServiceIntent;
-    public static final String CODE = "code";
+    public static final String CODE = "codeBind";
     private ImageView ivAutoCode;
     private EditText etAutoCode;
     private String uid;
+    private int type;
+    private String validCode;
     private boolean isHidden = true;
     private int code;
     private String phoneNumber, password;
@@ -170,7 +174,6 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
     @Override
     public void sendValidCode(int code) {
         this.code = code;
-        initPopWindow();
         sUtils.setIntValue("code", code);
         tvBindNewAccountGetValidCode.setEnabled(false);
         startService(mCodeTimerServiceIntent);//启动服务
@@ -181,7 +184,9 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
 
     @Override
     public void sendAutoCode(String autoCode) {
+        initPopWindow();
         ivAutoCode.setImageBitmap(EncryptUtils.stringtoBitmap(autoCode));
+
     }
 
     @Override
@@ -197,7 +202,7 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
                 break;
             }
         }
-        System.out.println("hello" + thirdPartBean.toString());
+       // System.out.println("hello" + thirdPartBean.toString());
         mPresenter.getThidBinding(thirdPartBean, phoneNumber, password, 0);
     }
 
@@ -236,6 +241,24 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
     public void needToGetAutoCode() {
         mPresenter.getAutoCode();
     }
+
+    @Override
+    public void phoneIsExit(String flag) {
+        if ("1".equals(flag)) {
+            ToastUitl.showShort(R.string.error_327);
+        } else {
+            if (type == 0) {
+                mPresenter.getRegister(phoneNumber, validCode, password);
+            } else {
+                if (sUtils.getIntValue("code", 0) >= 1) {
+                    mPresenter.getAutoCode();
+                } else {
+                    mPresenter.getValidCode(phoneNumber, "", 0, Constants.VALIDCODE_REGISTER_YTPE);
+                }
+            }
+        }
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -350,7 +373,7 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
         });
     }
 
-    @OnClick({R.id.tv_bindNewAccountGetValidCode,R.id.rl_bindNewAccountHiddenPsw, R.id.iv_bindNewAccountNumberDelete, R.id.iv_bindNewAccountPswDelete, R.id.iv_bindNewAccountGetValidCodeDelete, R.id.btn_bindNewAccountOK, R.id.tv_bindNewAccountFindPsw})
+    @OnClick({R.id.tv_bindNewAccountGetValidCode,R.id.tv_bindNewAccountPhone, R.id.rl_bindNewAccountHiddenPsw, R.id.iv_bindNewAccountNumberDelete, R.id.iv_bindNewAccountPswDelete, R.id.iv_bindNewAccountGetValidCodeDelete, R.id.btn_bindNewAccountOK, R.id.tv_bindNewAccountFindPsw})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_bindNewAccountHiddenPsw:
@@ -382,14 +405,12 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
                 etBindPhoneAccountValidCode.setText("");
                 break;
             case R.id.tv_bindNewAccountGetValidCode:
-                String phoneNumber = etBindNewAccountNumber.getText().toString();
-                if (!"".equals(phoneNumber) && phoneNumber != null) {
-                    if (RegularExpression.isCellphone(phoneNumber)) {
-                        if (sUtils.getIntValue("code", 0) >= 1) {
-                            mPresenter.getAutoCode();
-                        } else {
-                            mPresenter.getValidCode(phoneNumber, "", 0, Constants.VALIDCODE_REGISTER_YTPE);
-                        }
+                type = 1;
+                String phoneNumber1 = etBindNewAccountNumber.getText().toString();
+                if (!"".equals(phoneNumber1) && phoneNumber1 != null) {
+                    if (RegularExpression.isCellphone(phoneNumber1)) {
+                        phoneNumber = phoneNumber1;
+                        mPresenter.validPhoneIsExit(phoneNumber);
                     } else {
                         ToastUitl.show("请输入正确的手机号码", Toast.LENGTH_SHORT);
                     }
@@ -399,17 +420,21 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
                 break;
 
             case R.id.btn_bindNewAccountOK:
+                type = 0;
                 doRegister();
                 break;
-            case R.id.tv_bindNewAccountFindPsw:
+            case R.id.tv_bindNewAccountPhone:
                 BindPhoneLoginActivity.startAction(this);
+                break;
+            case R.id.tv_bindNewAccountFindPsw:
+                bindUserLoginActivity.startAction(this);
                 break;
         }
     }
 
     private void doRegister() {
         phoneNumber = etBindNewAccountNumber.getText().toString();
-        String validCode = etBindPhoneAccountValidCode.getText().toString();
+        validCode = etBindPhoneAccountValidCode.getText().toString();
         password = etBindNewAccountPsw.getText().toString();
 
         if ("".equals(phoneNumber) || phoneNumber == null) {
@@ -432,7 +457,7 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
             ToastUitl.showShort("请输入长度为6-25位的密码");
             return;
         }
-        mPresenter.getRegister(phoneNumber, validCode, password);
+        mPresenter.validPhoneIsExit(phoneNumber);
     }
 
     /**

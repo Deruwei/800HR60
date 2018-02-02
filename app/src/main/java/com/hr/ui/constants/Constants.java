@@ -8,6 +8,7 @@ import com.hr.ui.api.HostType;
 
 public class Constants {
     public static final String ARGS = "args";
+    public static final String USERID = "userId";
     public static String TYPE_THIRDPARTLOGIN = "";
     public static final String RESUME_ID="resume_id";
     public static final String RESUME_TYPE="resume_type";
@@ -29,6 +30,11 @@ public class Constants {
     public static final String JOB_VER="job_ver";
     public static final String LINGYU_VER="lingYu_ver";
     public static final String PERSONIMAGE="person_image";
+    public static final String CITYNAME="city_name";
+    public static final String BIRTHYEAR="birth_year";
+    public static final String ISHAVENEWS="is_have_new";
+    public static final String EDUCATION_ID="education_id";
+    public static final String WORKEXP_ID="workExp_id";
     /**
      * The constant DEBUG_TAG.
      */

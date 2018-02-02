@@ -5,12 +5,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hr.ui.R;
 import com.hr.ui.bean.InviteBean;
 import com.hr.ui.utils.Utils;
-import com.hr.ui.view.CircleImageView;
 import com.hr.ui.view.RoundImageView;
 
 import java.util.List;
@@ -22,6 +23,7 @@ import butterknife.ButterKnife;
  *
  */
 public class MyMessageAdapter extends RecyclerView.Adapter<MyMessageAdapter.ViewHolder> {
+
     private List<InviteBean.InvitedListBean> listBeans;
     private Context context;
 
@@ -56,6 +58,11 @@ public class MyMessageAdapter extends RecyclerView.Adapter<MyMessageAdapter.View
         viewHolder.tvInviteCompanyName.setText(listBeans.get(position).getInvited_title());
         viewHolder.tvInviteCompanyTime.setText(Utils.getDateMonthAndDay(listBeans.get(position).getInvited_time()));
         viewHolder.tvInvitePersonName.setText(listBeans.get(position).getEnterprise_name());
+        if("1".equals(listBeans.get(position).getIs_new())){
+            viewHolder.ivItemMessageNum.setVisibility(View.VISIBLE);
+        }else{
+            viewHolder.ivItemMessageNum.setVisibility(View.GONE);
+        }
         if (clickCallBack != null) {
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -82,6 +89,11 @@ public class MyMessageAdapter extends RecyclerView.Adapter<MyMessageAdapter.View
         TextView tvInviteCompanyName;
         @BindView(R.id.tv_inviteCompanyTime)
         TextView tvInviteCompanyTime;
+        @BindView(R.id.iv_itemMessageNum)
+        ImageView ivItemMessageNum;
+        @BindView(R.id.rl_message)
+        FrameLayout rlMessage;
+
         public ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);

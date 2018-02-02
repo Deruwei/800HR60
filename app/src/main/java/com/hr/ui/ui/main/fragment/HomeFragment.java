@@ -1,12 +1,10 @@
 package com.hr.ui.ui.main.fragment;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,23 +13,27 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.hr.ui.R;
 import com.hr.ui.base.BaseFragment;
+import com.hr.ui.bean.HomeRecommendBean;
 import com.hr.ui.bean.RecommendJobBean;
 import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.job.activity.PositionPageActivity;
+import com.hr.ui.ui.main.activity.JobSerchActivity;
+import com.hr.ui.ui.main.activity.MainActivity;
 import com.hr.ui.ui.main.adapter.MyRecommendJobAdapter;
 import com.hr.ui.ui.main.contract.HomeFragmentContract;
 import com.hr.ui.ui.main.modle.HomeFragmentModel;
 import com.hr.ui.ui.main.presenter.HomeFragmentPresenter;
-import com.hr.ui.utils.PopupWindowFieldView;
+import com.hr.ui.utils.ClickUtils;
 import com.hr.ui.utils.ProgressStyle;
-import com.hr.ui.view.MyFlowLayout;
+import com.hr.ui.utils.datautils.SharedPreferencesUtils;
+import com.hr.ui.view.CircleImageView;
 import com.hr.ui.view.PieChartView;
 import com.hr.ui.view.XRecyclerView;
 
@@ -40,6 +42,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -59,11 +62,30 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
     @BindView(R.id.rl_emptyView)
     RelativeLayout rlEmptyView;
     Unbinder unbinder;
+    @BindView(R.id.iv_ResumePersonPhoto)
+    CircleImageView ivResumePersonPhoto;
+    @BindView(R.id.iv_mainSearch)
+    ImageView ivMainSearch;
+    @BindView(R.id.rl_mainSearch)
+    RelativeLayout rlMainSearch;
+    @BindView(R.id.rl_fragmentTitle)
+    RelativeLayout rlFragmentTitle;
+    @BindView(R.id.iv_noDataSearch)
+    RelativeLayout ivNoDataSearch;
+    @BindView(R.id.cl_homeFragment)
+    RelativeLayout clHomeFragment;
+    @BindView(R.id.iv_noNetError)
+    ImageView ivNoNetError;
+    @BindView(R.id.ll_netError)
+    LinearLayout llNetError;
     private int page = 1;
     public static HomeFragment instance;
     private MyRecommendJobAdapter jobAdapter;
-    private List<RecommendJobBean.JobsListBean> recommendList = new ArrayList<>();
+    private List<HomeRecommendBean.JobsListBean> recommendList = new ArrayList<>();
     private PopupWindow popupWindowCalculateScore;
+    private SharedPreferencesUtils sUtils;
+    private String personImage;
+    private int mProgress;
 
     public static HomeFragment newInstance(String s) {
         HomeFragment navigationFragment = new HomeFragment();
@@ -73,9 +95,18 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
         instance = navigationFragment;
         return navigationFragment;
     }
+
     @Override
     protected int getLayoutResource() {
         return R.layout.layout_homefragment;
+    }
+
+    public void setImage() {
+        personImage = sUtils.getStringValue(Constants.PERSONIMAGE, "");
+        if (!"".equals(personImage) && personImage != null) {
+           /* Glide.with(this).load(Constants.IMAGE_BASEPATH + personImage).centerCrop().into(ivResumePersonPhoto);*/
+            Glide.with(this).load(Constants.IMAGE_BASEPATH + personImage).fitCenter().into(ivResumePersonPhoto);
+        }
     }
 
     @Override
@@ -85,14 +116,18 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
 
     @Override
     protected void initView() {
+        sUtils = new SharedPreferencesUtils(getActivity());
         jobAdapter = new MyRecommendJobAdapter();
-        mPresenter.getRecommendJobInfo(page, 20);
+        setImage();
+        mPresenter.getRecommendJobInfo("", 20, true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity()) {
             @Override
             public boolean canScrollHorizontally() {
                 return false;
             }
         };
+
+        tvNoData.setText("暂无合适职位推荐，点我刷新");
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvHomeFragment.setLayoutManager(linearLayoutManager);
         Drawable dividerDrawable = ContextCompat.getDrawable(getActivity(), R.drawable.divider_sample);
@@ -105,7 +140,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
             public void onRefresh() {
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
-                        mPresenter.getRecommendJobInfo(1, 20);
+                        mPresenter.getRecommendJobInfo("", 20, false);
                         jobAdapter.notifyDataSetChanged();
                     }
 
@@ -117,7 +152,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
                         page++;
-                        mPresenter.getRecommendJobInfo(page, 20);
+                        mPresenter.getRecommendJobInfo("", 20, false);
                         jobAdapter.notifyDataSetChanged();
                     }
                 }, 1000);
@@ -135,7 +170,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
 
     public void refresh() {
         page = 1;
-        mPresenter.getRecommendJobInfo(page, 20);
+        mPresenter.getRecommendJobInfo("", 20, false);
     }
 
     @Override
@@ -168,14 +203,14 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
     }
 
     @Override
-    public void getRecommendJobSuccess(List<RecommendJobBean.JobsListBean> jobsBeanList) {
+    public void getRecommendJobSuccess(List<HomeRecommendBean.JobsListBean> jobsBeanList) {
         //Log.i("现在的数据",jobsBeanList.toString());
-        if (jobsBeanList != null&&!"[]".equals(jobsBeanList) && jobsBeanList.size() != 0) {
+        if (jobsBeanList != null && !"[]".equals(jobsBeanList) && jobsBeanList.size() != 0) {
             if (page == 1) {
                 jobAdapter = new MyRecommendJobAdapter();
                 recommendList.clear();
                 recommendList.addAll(jobsBeanList);
-                jobAdapter.setJobsListBeanList(recommendList);
+                jobAdapter.setJobsListBeanList2(recommendList);
                 rvHomeFragment.setAdapter(jobAdapter);
                 rvHomeFragment.refreshComplete();
             } else {
@@ -185,11 +220,12 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
             }
             rlEmptyView.setVisibility(View.GONE);
             rvHomeFragment.setVisibility(View.VISIBLE);
-
+            llNetError.setVisibility(View.GONE);
         } else {
             if (page == 1) {
-               rlEmptyView.setVisibility(View.VISIBLE);
-               rvHomeFragment.setVisibility(View.GONE);
+                rlEmptyView.setVisibility(View.VISIBLE);
+                rvHomeFragment.setVisibility(View.GONE);
+                llNetError.setVisibility(View.GONE);
             } else {
                 rvHomeFragment.setNoMore(true);
             }
@@ -197,43 +233,108 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
         jobAdapter.setClickCallBack(new MyRecommendJobAdapter.ItemClickCallBack() {
             @Override
             public void onItemClick(int pos) {
-                PositionPageActivity.startAction(getActivity(), recommendList.get(pos).getJob_id());
+                if (!ClickUtils.isFastClick()) {
+                    PositionPageActivity.startAction(getActivity(), recommendList.get(pos).getJob_id(), 1, 60);
+                }
             }
         });
         jobAdapter.setOnCalCulateScoreClickListener(new MyRecommendJobAdapter.OnCalCulateScoreClickListener() {
             @Override
             public void onCalulateScore(int pos) {
-                initCalculateScore();
+                if (!ClickUtils.isFastClick()) {
+                    mPresenter.getResumeScore(recommendList.get(pos).getJob_id() + ":" + sUtils.getStringValue(Constants.USERID, "") + "_" + sUtils.getIntValue(Constants.RESUME_ID, 0) + "_zh");
+                }
             }
         });
 
     }
 
-    private void initCalculateScore() {
+    @Override
+    public void getResumeScoreSuccess(double score) {
+        int i = (int) (score * 100);
+        initCalculateScore(i);
+    }
+
+    @Override
+    public void getRecommendJobError() {
+        rlEmptyView.setVisibility(View.GONE);
+        rvHomeFragment.setVisibility(View.GONE);
+        llNetError.setVisibility(View.VISIBLE);
+    }
+
+    private void initCalculateScore(final int i) {
         View viewCalculateScore = getLayoutInflater().inflate(R.layout.layout_calculatescore, null);
         popupWindowCalculateScore = new PopupWindow(viewCalculateScore, LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
-        PieChartView pcv=viewCalculateScore.findViewById(R.id.pcv_calculateScore);
+        PieChartView pcv = viewCalculateScore.findViewById(R.id.pcv_calculateScore);
         TextView tvScore = viewCalculateScore.findViewById(R.id.tv_calculateSore);
-        RelativeLayout rlOutside = viewCalculateScore.findViewById(R.id.rl_calculateScoreHide);
-        Button btnOK=viewCalculateScore.findViewById(R.id.btn_calculateScoreOK);
-        pcv.SetProgram(60);
-        rlOutside.setOnClickListener(new View.OnClickListener() {
+        final TextView tv_culculateSoreNum = viewCalculateScore.findViewById(R.id.tv_calculateScoreNum);
+        Button btnOK = viewCalculateScore.findViewById(R.id.btn_calculateScoreOK);
+        pcv.SetProgram(i);
+        mProgress = 0;
+        new Thread(new Runnable() {
             @Override
-            public void onClick(View v) {
-                popupWindowCalculateScore.dismiss();
+            public void run() {
+                while (mProgress < i) {
+                    mProgress++;
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            tv_culculateSoreNum.setText(mProgress + "分");
+                        }
+                    });
+                    try {
+                        Thread.sleep(22);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
-        });
-        tvScore.setText("60");
+        }).start();
+        tvScore.setText(i + "");
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 popupWindowCalculateScore.dismiss();
             }
         });
-        popupWindowCalculateScore .setOutsideTouchable(true);
-        popupWindowCalculateScore .setFocusable(true);
-        popupWindowCalculateScore .setAnimationStyle(R.style.style_pop_animation);
-        popupWindowCalculateScore.showAtLocation(rvHomeFragment,Gravity.NO_GRAVITY,0,0);
+        // 设置背景颜色变暗
+        WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
+        lp.alpha = 0.7f;
+        getActivity().getWindow().setAttributes(lp);
+        popupWindowCalculateScore.setOnDismissListener(new PopupWindow.OnDismissListener() {
+
+            @Override
+            public void onDismiss() {
+                WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
+                lp.alpha = 1f;
+                getActivity().getWindow().setAttributes(lp);
+            }
+        });
+        popupWindowCalculateScore.setFocusable(true);
+        popupWindowCalculateScore.setOutsideTouchable(false);
+        popupWindowCalculateScore.setAnimationStyle(R.style.style_pop_animation);
+        popupWindowCalculateScore.showAtLocation(clHomeFragment, Gravity.CENTER, 0, 0);
+    }
+
+    @OnClick({R.id.iv_ResumePersonPhoto,R.id.ll_netError, R.id.iv_noContent, R.id.iv_noDataSearch, R.id.rl_mainSearch})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.ll_netError:
+                mPresenter.getRecommendJobInfo("",10,true);
+                break;
+            case R.id.iv_ResumePersonPhoto:
+                MainActivity.instance.toggle();
+                break;
+            case R.id.iv_noDataSearch:
+                JobSerchActivity.startAction(getActivity(), MainActivity.instance.REQUEST_CODE);
+                break;
+            case R.id.iv_noContent:
+                mPresenter.getRecommendJobInfo("", 10, true);
+                break;
+            case R.id.rl_mainSearch:
+                JobSerchActivity.startAction(getActivity(), MainActivity.instance.REQUEST_CODE);
+                break;
+        }
     }
 }

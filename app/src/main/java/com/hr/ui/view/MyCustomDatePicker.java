@@ -199,7 +199,7 @@ public class MyCustomDatePicker {
             @Override
             public void onSelect(String text) {
               selectMonth=Integer.valueOf(text);
-                //dayChange();
+                dayChange();
             }
         });
 
@@ -234,7 +234,7 @@ public class MyCustomDatePicker {
             month_pv.setSelected(selectMonth+"");
         }
 
-        executeAnimator(month_pv);
+       // executeAnimator(month_pv);
 
         month_pv.postDelayed(new Runnable() {
             @Override
@@ -274,8 +274,7 @@ public class MyCustomDatePicker {
         }else {
             day_pv.setSelected(selectDay+"");
         }
-
-        executeAnimator(day_pv);
+        //executeAnimator(day_pv);
     }
 
 

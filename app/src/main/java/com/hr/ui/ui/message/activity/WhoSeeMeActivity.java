@@ -126,7 +126,7 @@ public class WhoSeeMeActivity extends BaseActivity<WhoSeeMePresenter, WhoSeeMeMo
 
     @Override
     public void initView() {
-        mPresenter.getWhoSeeMeData(page);
+        mPresenter.getWhoSeeMeData(page,true);
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -160,7 +160,7 @@ public class WhoSeeMeActivity extends BaseActivity<WhoSeeMePresenter, WhoSeeMeMo
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
                         page = 1;
-                        mPresenter.getWhoSeeMeData(page);
+                        mPresenter.getWhoSeeMeData(page,false);
                         adapter.notifyDataSetChanged();
                         rvFind.refreshComplete();
                     }
@@ -173,7 +173,7 @@ public class WhoSeeMeActivity extends BaseActivity<WhoSeeMePresenter, WhoSeeMeMo
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
                         page++;
-                        mPresenter.getWhoSeeMeData(page);
+                        mPresenter.getWhoSeeMeData(page,false);
                         rvFind.loadMoreComplete();
                         adapter.notifyDataSetChanged();
                     }

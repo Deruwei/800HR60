@@ -1,9 +1,21 @@
 package com.hr.ui.utils;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
+import android.provider.MediaStore;
+import android.support.annotation.RequiresApi;
+import android.support.design.internal.BottomNavigationItemView;
+import android.support.design.internal.BottomNavigationMenuView;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.TabLayout;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
@@ -18,22 +30,37 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.hr.ui.R;
 import com.hr.ui.bean.CityBean;
 import com.hr.ui.bean.FindBean;
+import com.hr.ui.bean.ThirdLoginBean;
 import com.hr.ui.ui.message.activity.WebActivity;
+import com.hr.ui.utils.datautils.FromStringToArrayList;
 
 import java.lang.reflect.Field;
 import java.sql.Time;
+import java.util.List;
 
 /**
  * Created by wdr on 2018/1/12.
  */
 
 public class Utils {
+
+    private Uri photoUri;
+    //拍照的请求码
+    public static final int SELECT_PIC_BY_TACK_PHOTO = 1;
+    //选择图片的返回码
+    public static final int SELECT_PIC_BY_PICK_PHOTO = 2;
+    //图片的路径
+    private String picPath = "";
+    private static ProgressDialog pd;
+    private String resultStr = "";	//
+    private String imgUrl = "";
     public static int dp2px(Context context, float dp)
     {
         return (int ) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
@@ -53,11 +80,26 @@ public class Utils {
         return outMetrics .widthPixels ;
     }
     public static String getDateMonthAndDay(String time){
+            //Log.i("现在的数据", time + "");
+        time = time.substring(time.indexOf("-") + 1);
+        if(time.contains("-")) {
+            String month = time.substring(0, time.indexOf("-"));
+            int monthInt = Integer.valueOf(month);
+            String day = time.substring(time.indexOf("-") + 1);
+            int dayInt = Integer.valueOf(day);
+            return monthInt + " - " + dayInt;
+        }else{
+            return "";
+        }
+    }
+    public static String getDateMonthAndDay2(String time){
         //Log.i("现在的数据",time);
         time=time.substring(time.indexOf("-")+1);
         String month=time.substring(0,time.indexOf("-"));
+        int monthInt=Integer.valueOf(month);
         String day=time.substring(time.indexOf("-")+1);
-        return month+" - "+day;
+        int dayInt=Integer.valueOf(day);
+        return monthInt+"月"+dayInt+"日";
     }
     public static String getSalary(String date){
       /*  Log.i("时间",date+"----");*/
@@ -83,17 +125,30 @@ public class Utils {
         if(time.length()==4) {
             int salary =Integer.parseInt(time);
             int i=salary/1000;
-            return i+"千";
+            int j=salary%1000;
+            int k=j/100;
+            if(k==0) {
+                return i + "千";
+            }else {
+                return i + "." + k + "千";
+            }
         }else if(time.length()>4){
             String s="";
             int salary =Integer.parseInt(time);
-            if(salary%1000==0){
+            if(salary%10000==0){
                 int i=salary/10000;
                 s=i+"";
-            }else {
+            }else if(salary%1000==0){
                 int i = salary / 1000;
-                double j = i / 10.0;
-                s=j+"";
+                int j = i / 10;
+                int k=i%10;
+                s=j+"."+k;
+            }else{
+                int i = salary / 100;
+                int j = i / 100;
+                int k=i%100/10;
+                int m=k&10;
+                s=j+"."+k+""+m;
             }
             return s+"万";
         }
@@ -184,8 +239,7 @@ public class Utils {
     public static void setImageResource(Context context, final ImageView iv, String url){
         Glide.with(context).load(url).asBitmap()
                 .animate(R.anim.crop_image_fade_anim)
-                .placeholder(R.mipmap.defaultcompany)
-                .centerCrop()
+                .fitCenter()
                 .into(new BitmapImageViewTarget(iv) {
                     @Override
                     protected void setResource(Bitmap resource) {
@@ -196,8 +250,7 @@ public class Utils {
     public static void setImageResourceDefault(Context context, final ImageView iv){
         Glide.with(context).load(R.mipmap.defaultcompany).asBitmap()
                 .animate(R.anim.crop_image_fade_anim)
-                .placeholder(R.mipmap.defaultcompany)
-                .centerCrop()
+                .fitCenter()
                 .into(new BitmapImageViewTarget(iv) {
                     @Override
                     protected void setResource(Bitmap resource) {
@@ -214,5 +267,84 @@ public class Utils {
         } else {
             return false;
         }
+    }
+    public static String getPositionClassName(String id){
+        String name="";
+        List<CityBean> positionClassList= FromStringToArrayList.getInstance().getPositionClassList();
+        for(int i=0;i<positionClassList.size();i++){
+            if(id.equals(positionClassList.get(i).getId())){
+                name=positionClassList.get(i).getName();
+                break;
+            }
+        }
+        return name;
+    }
+    @SuppressLint("RestrictedApi")
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public static void disableShiftMode(BottomNavigationView navigationView) {
+
+        BottomNavigationMenuView menuView = (BottomNavigationMenuView) navigationView.getChildAt(0);
+        try {
+            Field shiftingMode = menuView.getClass().getDeclaredField("mShiftingMode");
+            shiftingMode.setAccessible(true);
+            shiftingMode.setBoolean(menuView, false);
+            shiftingMode.setAccessible(false);
+
+            for (int i = 0; i < menuView.getChildCount(); i++) {
+                BottomNavigationItemView itemView = (BottomNavigationItemView) menuView.getChildAt(i);
+                itemView.setShiftingMode(false);
+                itemView.setChecked(itemView.getItemData().isChecked());
+            }
+
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+    public static String getUserInfo(ThirdLoginBean thirdLoginBean){
+        if(thirdLoginBean!=null){
+            return "{\"name\":\""+thirdLoginBean.getName()+"\",\"birthday\":\""+thirdLoginBean.getBirthDay()+"\",\"nickname\":\""+thirdLoginBean.getName()+
+            "\",\"tinyurl\":\""+thirdLoginBean.getPhoto()+"\",\"sex\":\""+thirdLoginBean.getGender()+"\"}";
+        }
+        return"";
+    }
+    public static void setListCheckFalse(List<CityBean> list){
+        for(int i=0;i<list.size();i++){
+            list.get(i).setCheck(false);
+        }
+    }
+    public static boolean checkSalary(String salary){
+        if(salary.contains("-")){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    public static String getLeftSalary(String salaty){
+        if(checkSalary(salaty)==true){
+            return  salaty.substring(0,salaty.indexOf("-"));
+        }else{
+            if("不限".equals(salaty)){
+                return "0";
+            }else if("2000以下".equals(salaty)){
+                return "0";
+            }else if("50000".equals(salaty)){
+                return "50000";
+            }
+        }
+        return "";
+    }
+    public static String getRightSalary(String salary){
+        if(checkSalary(salary)==true){
+            return  salary.substring(salary.indexOf("-")+1);
+        }else{
+            if("不限".equals(salary)){
+                return "500000";
+            }else if("2000以下".equals(salary)){
+                return "2000";
+            }else if("50000".equals(salary)){
+                return "500000";
+            }
+        }
+        return "";
     }
 }

@@ -79,7 +79,6 @@ public class RoundImageView extends ImageView {
     @Override
     protected void onDraw(Canvas canvas) {
         Bitmap rawBitmap = getBitmap(getDrawable());
-
         if (rawBitmap != null && mType != TYPE_NONE){
             int viewWidth = getWidth();
             int viewHeight = getHeight();
@@ -101,6 +100,7 @@ public class RoundImageView extends ImageView {
             mPaintBitmap.setShader(mShader);
             mPaintBorder.setStyle(Paint.Style.STROKE);
             mPaintBorder.setStrokeWidth(mBorderWidth);
+           // mPaintBorder.setColor(mBorderColor);
             mPaintBorder.setColor(mBorderWidth > 0 ? mBorderColor : Color.TRANSPARENT);
 
             if (mType == TYPE_CIRCLE){

@@ -24,6 +24,6 @@ public interface JobSearchFragmentContract {
         void getSearchDataSuccess(List<RecommendJobBean.JobsListBean> jobsListBean);
     }
     abstract class Presenter extends BasePresenter<View,Model>{
-        public abstract void getSearchList(JobSearchBean jobSearchBean,int page);
+        public abstract void getSearchList(JobSearchBean jobSearchBean,int page,boolean isCanRefresh);
     }
 }

@@ -20,7 +20,7 @@ import okhttp3.ResponseBody;
 public class CollectionPresenter extends CollectionContract.Presenter {
     @Override
     public void getCollectionInfo(int page) {
-        mRxManage.add(mModel.getCollectionInfo(page).subscribe(new RxSubscriber<CollectionBean>(mContext,false) {
+        mRxManage.add(mModel.getCollectionInfo(page).subscribe(new RxSubscriber<CollectionBean>(mContext,true) {
             @Override
             protected void _onNext(CollectionBean collectionBean) throws IOException {
                     if("0".equals(collectionBean.getError_code())) {

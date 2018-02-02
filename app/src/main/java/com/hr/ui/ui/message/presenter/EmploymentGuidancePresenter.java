@@ -19,8 +19,8 @@ import okhttp3.ResponseBody;
 
 public class EmploymentGuidancePresenter extends EmploymentGuidanceContract.Presenter {
     @Override
-    public void getEmploymentGuidanceData(int page, final String guidanceId) {
-        mRxManage.add(mModel.getEmploymentGuidanceData(page,guidanceId).subscribe(new RxSubscriber<GuidanceBean>(mContext,false) {
+    public void getEmploymentGuidanceData(int page, final String guidanceId,boolean isCanRefresh) {
+        mRxManage.add(mModel.getEmploymentGuidanceData(page,guidanceId).subscribe(new RxSubscriber<GuidanceBean>(mContext,isCanRefresh) {
             @Override
             protected void _onNext(GuidanceBean guidanceBean) throws IOException {
                     if("0".equals(guidanceBean.getError_code())) {

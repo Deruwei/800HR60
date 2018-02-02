@@ -40,8 +40,8 @@ public class MessageFragmentPresenter extends MessageFragmentContract.Presenter 
     }
 
     @Override
-    public void getDeliverFeedback(int page, int isRead, int isInvite) {
-        mRxManage.add(mModel.getDeliverFeedback(page,isRead,isInvite).subscribe(new RxSubscriber<DeliverFeedbackBean>(mContext,false) {
+    public void getDeliverFeedback(int page, int isRead, int isInvite,boolean isCanRefresh) {
+        mRxManage.add(mModel.getDeliverFeedback(page,isRead,isInvite).subscribe(new RxSubscriber<DeliverFeedbackBean>(mContext,isCanRefresh) {
             @Override
             protected void _onNext(DeliverFeedbackBean deliverFeedbackBean) throws IOException {
                     if("0".equals(deliverFeedbackBean.getError_code())) {

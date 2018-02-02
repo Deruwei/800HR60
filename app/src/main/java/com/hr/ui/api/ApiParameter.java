@@ -20,6 +20,7 @@ import com.hr.ui.bean.WorkExpData;
 import com.hr.ui.constants.Constants;
 import com.hr.ui.utils.AndroidUtils;
 import com.hr.ui.utils.NetworkMng;
+import com.hr.ui.utils.Utils;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 
 import java.util.HashMap;
@@ -87,7 +88,7 @@ public class ApiParameter {
         if(type==1) {
             requestMap.put("captcha", captcha);
         }
-        Log.i("现在的数据",requestMap.toString());
+       // Log.i("现在的数据",requestMap.toString());
         return requestMap;
     }
 
@@ -102,6 +103,11 @@ public class ApiParameter {
         return requestMap;
     }
 
+    public static HashMap<String,String> getAllInfo(){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user_stow.totals");
+        return requestMap;
+    }
     /**
      * 注册参数
      * @param phoneNumber
@@ -204,7 +210,8 @@ public class ApiParameter {
         requestMap.put("third_code",thirdPartBean.getType());
         requestMap.put("third_uid",thirdPartBean.getUId());
         requestMap.put("industry","10");
-        requestMap.put("third_userinfo","");
+        //Log.i("传送的数据",Utils.getUserInfo(thirdPartBean));
+        requestMap.put("third_userinfo", Utils.getUserInfo(thirdPartBean));
         requestMap.put("binding",""+Constants.BINDING);
         if(type==1){
             requestMap.put("user_name",userName);
@@ -246,7 +253,7 @@ public class ApiParameter {
         requestMap.put("method","user_resume.get");
         requestMap.put("resume_id",resumeId);
         requestMap.put("resume_language","zh");
-        Log.i("简历信息",requestMap.toString());
+        //Log.i("简历信息",requestMap.toString());
         return requestMap;
     }
 
@@ -307,6 +314,7 @@ public class ApiParameter {
         return requestMap;
     }
     public static HashMap<String,String> sendWorkExpToResume(WorkExpData workExpData){
+        Log.i("现在的数据",workExpData.toString());
         HashMap<String,String> requestMap=new HashMap<>();
         String startTime=workExpData.getStartTime();
         String endTime=workExpData.getEndTime();
@@ -586,6 +594,14 @@ public class ApiParameter {
         requestMap.put("openstate",openstate);
         return  requestMap;
     }
+    public static HashMap<String,String> getRecommendJobScore(String resumeId,int limit){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","job.recomlist");
+        SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
+        requestMap.put("resume_id",sUtils.getIntValue(Constants.RESUME_ID,0)+"");
+        requestMap.put("limit",""+limit);
+        return requestMap;
+    }
     public static HashMap<String,String> getRecommendJobInfo(int page,int limit){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","job.jobrecom");
@@ -651,6 +667,23 @@ public class ApiParameter {
        /* Log.i("你好",requestMap.toString());*/
         return requestMap;
     }
+    public static HashMap<String,String> setInviteIsRead(String recordId){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user_stow.invitedread");
+        requestMap.put("record_id",""+recordId);
+       /* Log.i("你好",requestMap.toString());*/
+        return requestMap;
+    }
+    public static HashMap<String,String> getInviteInfo(String recordId){
+        HashMap<String,String> requestMap=new HashMap<>();
+        SharedPreferencesUtils sUtis=new SharedPreferencesUtils(HRApplication.getAppContext());
+        requestMap.put("method","user_stow.userinvited");
+        requestMap.put("id",""+recordId);
+        requestMap.put("user_id",sUtis.getStringValue(Constants.USERID,""));
+
+        Log.i("你好",requestMap.toString());
+        return requestMap;
+    }
     public static HashMap<String,String> collectionJob(String jobId){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","job.favour");
@@ -672,6 +705,12 @@ public class ApiParameter {
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","job.enterprise");
         requestMap.put("enterprise_id",companyId);
+        return requestMap;
+    }
+    public static HashMap<String,String> validPhoneIsExit(String phone){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user_check.phoneexists");
+        requestMap.put("phone",phone);
         return requestMap;
     }
     public static HashMap<String,String> getReleaseJob(String CompanyId){
@@ -738,7 +777,25 @@ public class ApiParameter {
         requestMap.put("c_type", ad_type);
         requestMap.put("page",page+"");
         requestMap.put("page_nums","20");
+        SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
+        requestMap.put("industry",sUtils.getStringValue(Constants.INDUSTRY_ID,""));
        /* Log.i("你好",requestMap.toString());*/
+        return requestMap;
+    }
+    public static HashMap<String,String> getNotice(String cid,String aId){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","mobilead.list");
+        requestMap.put("a_id", aId);
+        requestMap.put("c_id",cid);
+        requestMap.put("page_nums","2");
+        //Log.i("现在的数据",requestMap.toString());
+        return requestMap;
+    }
+    public static HashMap<String,String> getResumeScore(String id){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","job.resumematch");
+        requestMap.put("match", id);
+        Log.i("okht",requestMap.toString());
         return requestMap;
     }
     public static HashMap<String,String> getGuidanceTitle(int page,String guidanceId){
@@ -783,11 +840,18 @@ public class ApiParameter {
         requestMap.put("id",shieldId);
         return requestMap;
     }
+    public static HashMap<String,String> updateResume(String resumeId){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user_resume.upgradetype");
+        requestMap.put("resume_id",resumeId);
+        return requestMap;
+    }
     public static HashMap<String,String> changePhone(String phone,String validCode){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user.chgphone");
         requestMap.put("user_phone",phone);
         requestMap.put("token",validCode);
+        Log.i("现在的 数据",requestMap.toString());
         return requestMap;
     }
     public static HashMap<String,String> changePsw(String oldPsw,String newPsw){
@@ -795,7 +859,7 @@ public class ApiParameter {
         requestMap.put("method","user.updatepwd");
         requestMap.put("old_pwd",oldPsw);
         requestMap.put("new_pwd",newPsw);
-        Log.i("数据中",requestMap.toString());
+        //Log.i("数据中",requestMap.toString());
         return requestMap;
     }
 }

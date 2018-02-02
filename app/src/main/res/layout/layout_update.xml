@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:background="@drawable/edit_bg"
+        android:layout_marginTop="@dimen/x82"
+        android:layout_width="@dimen/x600"
+        android:layout_height="@dimen/x560">
+        <TextView
+            android:id="@+id/tv_titleUpdate"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/x158"
+            android:text="@string/versionUpdate"
+            android:textSize="@dimen/x36"
+            android:textColor="@color/new_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_updateContent"
+            android:layout_marginBottom="@dimen/x20"
+            android:layout_above="@+id/tv_updateNow"
+            android:layout_below="@+id/tv_titleUpdate"
+            android:layout_marginTop="@dimen/x27"
+            android:textSize="@dimen/x28"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/color_333"
+            android:text="@string/comment1"
+            android:layout_marginLeft="@dimen/x114"
+            android:layout_marginRight="@dimen/x114"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_updateNow"
+            android:textColor="@color/white"
+            android:background="@drawable/button_bg"
+            android:layout_alignParentBottom="true"
+            android:textSize="@dimen/x32"
+            android:gravity="center"
+            android:layout_marginBottom="@dimen/x70"
+            android:layout_centerHorizontal="true"
+            android:text="@string/updateNow"
+            android:layout_width="@dimen/x400"
+            android:layout_height="@dimen/x90" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="@dimen/x600"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_centerHorizontal="true"
+            android:src="@mipmap/update"
+            android:layout_width="@dimen/x195"
+            android:layout_height="@dimen/x191" />
+    </RelativeLayout>
+</FrameLayout>

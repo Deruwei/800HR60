@@ -72,7 +72,7 @@
                 android:visibility="gone"
                 android:id="@+id/iv_bindNewAccountGetValidCodeDelete"
                 android:src="@mipmap/delete"
-                android:layout_marginRight="@dimen/x10"
+                android:layout_marginRight="@dimen/x20"
                 android:layout_toLeftOf="@+id/tv_bindNewAccountGetValidCode"
                 style="@style/Login_imageViewIcon" />
             <TextView
@@ -111,7 +111,7 @@
                 android:visibility="gone"
                 android:id="@+id/iv_bindNewAccountPswDelete"
                 android:src="@mipmap/delete"
-                android:layout_marginRight="@dimen/x10"
+                android:layout_marginRight="@dimen/x20"
                 android:layout_toLeftOf="@+id/rl_bindNewAccountHiddenPsw"
                 style="@style/Login_imageViewIcon" />
             <RelativeLayout
@@ -137,11 +137,15 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
+            <TextView
+                android:id="@+id/tv_bindNewAccountPhone"
+                android:text="@string/hasPhoneAcccount"
+                style="@style/login_textViewFindPsw"
+                />
             <TextView
                 android:id="@+id/tv_bindNewAccountFindPsw"
                 android:layout_alignParentRight="true"
-                android:text="@string/hasPhoneAcccount"
+                android:text="@string/hasUserAccount"
                 style="@style/login_textViewFindPsw"
                 />
         </RelativeLayout>

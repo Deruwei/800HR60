@@ -16,15 +16,12 @@ import rx.Observable;
 
 public interface MainContract {
     interface Model extends BaseModel{
-        Observable<MultipleResumeBean> getResumeList();
-        Observable<ResumeBean> getResumeData(String resumeId);
+        Observable<ResponseBody> getNotice(String cid,String aid);
     }
     interface View extends BaseView{
-        void getResumeListSuccess(MultipleResumeBean multipleResumeBean);
-        void getResumeDataSuccess(ResumeBean resumeBean);
+       void getNoticeSuccess();
     }
     abstract class Presenter extends BasePresenter<View,Model>{
-       public abstract void getResumeList();
-       public abstract void getResumeData(String resumeId);
+       public abstract void getNotice(String cid,String aid);
     }
 }

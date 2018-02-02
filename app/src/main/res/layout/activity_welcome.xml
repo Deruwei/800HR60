@@ -14,33 +14,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="0dp"
         android:layout_height="0dp">
-        <android.support.v4.view.ViewPager
-            android:id="@+id/vp_welcome"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </android.support.v4.view.ViewPager>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_marginTop="15dp"
-            android:layout_gravity="top"
-            android:layout_height="wrap_content">
-        <LinearLayout
-            android:id="@+id/ll_welcome"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:gravity="center_horizontal"
-            android:layout_height="50dp">
-        </LinearLayout>
-        <Button
-            android:layout_below="@+id/ll_welcome"
-            android:layout_centerHorizontal="true"
-            android:text="@string/goInto"
-            android:visibility="gone"
-            android:background="@drawable/btn_ok"
-            android:id="@+id/btn_welcomeGoToMain"
-            android:textSize="15sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        </RelativeLayout>
+       <VideoView
+           android:id="@+id/vv_welcome"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent" />
+
     </FrameLayout>
 </android.support.constraint.ConstraintLayout>

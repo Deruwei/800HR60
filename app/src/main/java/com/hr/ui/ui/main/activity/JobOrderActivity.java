@@ -28,6 +28,7 @@ import com.hr.ui.ui.main.modle.JobOrderModel;
 import com.hr.ui.ui.main.presenter.JobOrderPresenter;
 import com.hr.ui.utils.ClickUtils;
 import com.hr.ui.utils.ToastUitl;
+import com.hr.ui.utils.Utils;
 import com.hr.ui.utils.datautils.ResumeInfoIDToString;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.CustomDatePicker;
@@ -362,7 +363,7 @@ public class JobOrderActivity extends BaseActivity<JobOrderPresenter, JobOrderMo
                 return;
             }
         }
-        if (positionId == null && "".equals(positionId)) {
+        if (positionId == null|| "".equals(positionId)) {
             ToastUitl.showShort("请选择期望职位");
             return;
         }
@@ -375,7 +376,7 @@ public class JobOrderActivity extends BaseActivity<JobOrderPresenter, JobOrderMo
             return;
         }
         if("0".equals(tvExpectSalary.getText().toString())){
-            ToastUitl.showShort("期望月薪不能为0");
+            ToastUitl.showShort("请填写正确的期望月薪");
             return;
         }
         JobOrderData jobOrderData = new JobOrderData();
@@ -400,7 +401,11 @@ public class JobOrderActivity extends BaseActivity<JobOrderPresenter, JobOrderMo
         StringBuffer sbName = new StringBuffer();
         for (int i = 0; i < positionList.size(); i++) {
             sb.append("," + positionList.get(i).getId());
-            sbName.append("，" + positionList.get(i).getName());
+            if(positionList.get(i).getId().contains("|")) {
+                sbName.append("，" + positionList.get(i).getName()+"("+ Utils.getPositionClassName(positionList.get(i).getId().substring(positionList.get(i).getId().indexOf("|")+1))+")");
+            }else{
+                sbName.append("，" + positionList.get(i).getName());
+            }
         }
         sb.deleteCharAt(0);
         positionId = sb.toString();

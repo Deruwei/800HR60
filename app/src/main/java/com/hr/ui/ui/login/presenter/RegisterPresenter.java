@@ -3,6 +3,7 @@ package com.hr.ui.ui.login.presenter;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.hr.ui.R;
 import com.hr.ui.base.RxSubscriber;
 import com.hr.ui.bean.AutoCodeBean;
 import com.hr.ui.bean.LoginBean;
@@ -111,7 +112,14 @@ public class RegisterPresenter extends RegisterContract.Presenter {
                     loginBean.setPassword(psw);
                     LoginDBUtils.insertData(loginBean);
                     mView.sendRegisterSuccess(registerBean.getUser_id());
-                }else{
+                }else if(registerBean.getError_code()==201){
+                    if("token".equals(registerBean.getError_field())) {
+                        ToastUitl.showShort(R.string.error_validCode);
+                    }else {
+                        ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) registerBean.getError_code()));
+                    }
+                }
+                else{
                     ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) registerBean.getError_code()));
                 }
             }
@@ -142,7 +150,7 @@ public class RegisterPresenter extends RegisterContract.Presenter {
                     LoginDBUtils.insertData(loginBean);
                     mView.bindingSuccess(registerBean.getUser_id());
                 }else{
-                    ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) registerBean.getError_code()));
+                        ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) registerBean.getError_code()));
                 }
             }
 
@@ -181,6 +189,36 @@ public class RegisterPresenter extends RegisterContract.Presenter {
                 }else{
                     ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) resumeBean.getError_code()));
                 }
+            }
+
+            @Override
+            protected void _onError(String message) {
+
+            }
+        }));
+    }
+
+    @Override
+    public void validPhoneIsExit(String phone) {
+        mRxManage.add(mModel.validPhoneIsExit(phone).subscribe(new RxSubscriber<ResponseBody>(mContext,false) {
+            @Override
+            protected void _onNext(ResponseBody responseBody)  {
+                try {
+                    String s=responseBody.string().toString();
+                    JSONObject jsonObject=new JSONObject(s);
+                    int errorCode=jsonObject.getInt("error_code");
+                    if(errorCode==0) {
+                        String flag = jsonObject.getString("flag_exist");
+                        mView.phoneIsExit(flag);
+                    }else{
+                        ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId(errorCode));
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             }
 
             @Override

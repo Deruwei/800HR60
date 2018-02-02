@@ -53,7 +53,10 @@ public class ToolUtils {
             RobotActivity.startAction(activity,userId);
             sUtils.setIntValue(Constants.RESUME_STOPTYPE, 0);
             sUtils.setIntValue(Constants.RESUME_STARTTYPE,0);
+            sUtils.setStringValue(Constants.EDUCATION_ID,"");
+            sUtils.setStringValue(Constants.WORKEXP_ID,"");
         }else{
+            sUtils.setIntValue(Constants.RESUME_ID,Integer.parseInt(multipleResumeBean.getResume_list().get(0).getResume_id()));
             mPresenter.getResumeData(multipleResumeBean.getResume_list().get(0).getResume_id());
         }
     }
@@ -71,9 +74,10 @@ public class ToolUtils {
         if(resumeBean.getResume_info().getBase_info().get(0).getName()==null||"".equals(resumeBean.getResume_info().getBase_info().get(0).getName())){
             titles.add("基本信息");
         }
-        System.out.println(resumeBean.toString());
+        //System.out.println(resumeBean.toString());
         if(resumeBean.getResume_info().getEducation_list()==null||"".equals(resumeBean.getResume_info().getEducation_list())||"[]".equals(resumeBean.getResume_info().getEducation_list())||resumeBean.getResume_info().getEducation_list().size()==0){
             titles.add("教育背景");
+            sharedPreferencesUtils.setStringValue(Constants.EDUCATION_ID,"");
         }
         if(resumeBean.getResume_info().getExperience_list()==null||"".equals(resumeBean.getResume_info().getExperience_list())||"[]".equals(resumeBean.getResume_info().getExperience_list())||resumeBean.getResume_info().getExperience_list().size()==0){
             if("2".equals(sharedPreferencesUtils.getStringValue(Constants.RESUME_TYPE,"1"))) {
@@ -83,6 +87,7 @@ public class ToolUtils {
             }else {
                 titles.add("工作经验");
             }
+            sharedPreferencesUtils.setStringValue(Constants.WORKEXP_ID,"");
         }
         if(resumeBean.getResume_info().getOrder_info()==null||resumeBean.getResume_info().getOrder_info().size()==0||"[]".equals(resumeBean.getResume_info().getOrder_info())||"".equals(resumeBean.getResume_info().getOrder_info())){
             titles.add("求职意向");
@@ -135,23 +140,29 @@ public class ToolUtils {
         }
     }
     public  void judgeResumeMultipleOrOne2(Activity activity, MultipleResumeBean multipleResumeBean, int userId, int[] imageIds, RegisterPresenter mPresenter){
+        SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
         if(multipleResumeBean.getResume_list()==null||"".equals(multipleResumeBean.getResume_list())||multipleResumeBean.getResume_list().size()==0){
             RobotActivity.startAction(activity,userId);
-            SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
             sUtils.setIntValue(Constants.RESUME_STOPTYPE, 0);
             sUtils.setIntValue(Constants.RESUME_STARTTYPE,0);
+            sUtils.setStringValue(Constants.EDUCATION_ID,"");
+            sUtils.setStringValue(Constants.WORKEXP_ID,"");
         }else{
+            sUtils.setIntValue(Constants.RESUME_ID,Integer.parseInt(multipleResumeBean.getResume_list().get(0).getResume_id()));
                 mPresenter.getResumeData(multipleResumeBean.getResume_list().get(0).getResume_id());
         }
     }
     public  void judgeResumeMultipleOrOne3(Activity activity, MultipleResumeBean multipleResumeBean, int userId, int[] imageIds, SplashPresenter mPresenter){
+        SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
         if(multipleResumeBean.getResume_list()==null||"".equals(multipleResumeBean.getResume_list())||multipleResumeBean.getResume_list().size()==0){
-            SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
             sUtils.setIntValue(Constants.RESUME_STOPTYPE, 0);
             sUtils.setIntValue(Constants.RESUME_STARTTYPE,0);
+            sUtils.setStringValue(Constants.EDUCATION_ID,"");
+            sUtils.setStringValue(Constants.WORKEXP_ID,"");
             RobotActivity.startAction(activity,userId);
         }else{
             mPresenter.getResumeData(multipleResumeBean.getResume_list().get(0).getResume_id());
+            sUtils.setIntValue(Constants.RESUME_ID,Integer.parseInt(multipleResumeBean.getResume_list().get(0).getResume_id()));
         }
     }
 }

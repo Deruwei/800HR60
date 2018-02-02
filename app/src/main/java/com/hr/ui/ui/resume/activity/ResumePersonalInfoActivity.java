@@ -34,10 +34,12 @@ import com.hr.ui.bean.PersonalInformationData;
 import com.hr.ui.bean.ResumePersonalInfoBean;
 import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.main.activity.SelectCityActivity;
+import com.hr.ui.ui.me.activity.ChangePhoneActivity;
 import com.hr.ui.ui.resume.contract.ResumePersonalInfoContract;
 import com.hr.ui.ui.resume.model.ResumePersonalInfoModel;
 import com.hr.ui.ui.resume.presenter.ResumePersonalInfoPresenter;
 import com.hr.ui.utils.Base64;
+import com.hr.ui.utils.RegularExpression;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.datautils.FromStringToArrayList;
 import com.hr.ui.utils.datautils.ResumeInfoIDToString;
@@ -150,7 +152,7 @@ public class ResumePersonalInfoActivity extends BaseActivity<ResumePersonalInfoP
     private PopupWindow popupWindow;
     public static final int REQUEST_CODE_SELECT = 0x10;
     public static final int IMAGE_PICKER = 0x20;
-    private String imagePath;
+    private String imagePath,birthYear;
     private String content;
     private SharedPreferencesUtils sUtils;
 
@@ -191,6 +193,7 @@ public class ResumePersonalInfoActivity extends BaseActivity<ResumePersonalInfoP
             ResumePersonalInfoBean.BaseInfoBean baseInfoBean = resumePersonalInfoBean.getBase_info().get(0);
             etResumeBirth.setText(baseInfoBean.getYear() + "-" + baseInfoBean.getMonth() + "-" + baseInfoBean.getDay());
             birth=etResumeBirth.getText().toString();
+            sUtils.setStringValue(Constants.BIRTHYEAR,baseInfoBean.getYear());
             etResumeEmail.setText(baseInfoBean.getEmailaddress());
             etResumeLivePlace.setText(FromStringToArrayList.getInstance().getCityListName(baseInfoBean.getLocation()));
             etResumeSex.setText(ResumeInfoIDToString.getSexName(this, baseInfoBean.getSex()));
@@ -210,7 +213,11 @@ public class ResumePersonalInfoActivity extends BaseActivity<ResumePersonalInfoP
                 workTime = baseInfoBean.getWork_beginyear();
             }
             imagePath=baseInfoBean.getPic_filekey();
-            Glide.with(this).load(Constants.IMAGE_BASEPATH + imagePath).centerCrop().into(ivResumePersonPhoto);
+            if(imagePath!=null&&!"".equals(imagePath)) {
+                Glide.with(this).load(Constants.IMAGE_BASEPATH + imagePath).fitCenter().into(ivResumePersonPhoto);
+            }else{
+                Glide.with(this).load(R.mipmap.persondefault).fitCenter().into(ivResumePersonPhoto);
+            }
             etResumePositionTitle.setText(ResumeInfoIDToString.getZhiCheng(this, baseInfoBean.getPost_rank(), true));
             positionTitleId = baseInfoBean.getPost_rank();
             etResumePersonName.setText(baseInfoBean.getName());
@@ -260,6 +267,7 @@ public class ResumePersonalInfoActivity extends BaseActivity<ResumePersonalInfoP
         sUtils=new SharedPreferencesUtils(this);
         mPresenter.getPersonalInfo();
         setSupportActionBar(toolBar);
+        birthYear=sUtils.getStringValue(Constants.BIRTHYEAR,"");
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolBar.setTitle("");
@@ -371,9 +379,15 @@ public class ResumePersonalInfoActivity extends BaseActivity<ResumePersonalInfoP
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy");//格式为 2013年9月3日 14:44
         Date curDate = new Date(System.currentTimeMillis());//获取当前时间
         int endYear = Integer.parseInt(formatter.format(curDate)) + 1;
-        String[] s = new String[71];
+        int workSize=0;
+        if(birthYear!=null&&!"".equals(birthYear)){
+            workSize=endYear-Integer.parseInt(birthYear)-18+1;
+        }else{
+            workSize=60;
+        }
+        String[] s = new String[workSize];
         s[0] = "无工作经验";
-        for (int i = 1; i < 71; i++) {
+        for (int i = 1; i < workSize; i++) {
             s[i] = (endYear - i) + "";
         }
         datePickerWorkTime = new CustomDatePicker(this, new CustomDatePicker.ResultHandler() {
@@ -436,10 +450,15 @@ public class ResumePersonalInfoActivity extends BaseActivity<ResumePersonalInfoP
                 break;
             case R.id.rl_resumePersonalInfoWorkTime:
                 setFocus();
-                datePickerWorkTime.show(etResumeWorkTime.getText().toString());
+                if(birth!=null&&!"".equals(birth)) {
+                    datePickerWorkTime.show(etResumeWorkTime.getText().toString());
+                }else{
+                    ToastUitl.showShort("请选择出生日期");
+                }
                 break;
             case R.id.rl_resumePersonalInfoPhone:
                 setFocus();
+                ChangePhoneActivity.startAction(this);
                 break;
             case R.id.iv_resumeEmailDelete:
                 etResumeEmail.setText("");
@@ -534,6 +553,10 @@ public class ResumePersonalInfoActivity extends BaseActivity<ResumePersonalInfoP
         }
         if ("".equals(etResumeEmail.getText().toString()) || etResumeEmail.getText().toString() == null) {
             ToastUitl.showShort("请输入电子邮箱");
+            return;
+        }
+        if(RegularExpression.isEmail(etResumeEmail.getText().toString())==false){
+            ToastUitl.showShort("请输入正确的电子邮箱");
             return;
         }
         if(content!=null&&!"".equals(content)) {

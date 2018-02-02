@@ -17,8 +17,8 @@ import rx.Observable;
 public class DeliverFeedbackFragmentPresenter extends DeliverFeedbackContract.Presenter {
 
     @Override
-    public void getDeliverFeedBack(int page, int isRead, int isInvite) {
-        mRxManage.add(mModel.getDeliverFeedBack(page,isRead,isInvite).subscribe(new RxSubscriber<DeliverFeedbackBean>(mContext,false) {
+    public void getDeliverFeedBack(int page, int isRead, int isInvite,boolean isCanRefresh) {
+        mRxManage.add(mModel.getDeliverFeedBack(page,isRead,isInvite).subscribe(new RxSubscriber<DeliverFeedbackBean>(mContext,isCanRefresh) {
             @Override
             protected void _onNext(DeliverFeedbackBean deliverFeedbackBean) throws IOException {
                 if("0".equals(deliverFeedbackBean.getError_code())) {

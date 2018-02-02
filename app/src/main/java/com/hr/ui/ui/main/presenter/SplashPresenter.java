@@ -3,9 +3,11 @@ package com.hr.ui.ui.main.presenter;
 import android.content.Context;
 import android.icu.text.Replaceable;
 import android.renderscript.ScriptGroup;
+import android.support.v7.util.AsyncListUtil;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.hr.ui.R;
 import com.hr.ui.api.Api;
 import com.hr.ui.api.HostType;
 import com.hr.ui.app.HRApplication;
@@ -56,7 +58,6 @@ public class SplashPresenter extends SplashContract.Presenter {
             protected void _onNext(BaseBean baseBean) {
                 mView.stopLoading();
                 if(baseBean.getError_code()==0){
-                    HRApplication.getAppContext().setService();
                     SharedPreferencesUtils sUtils=new SharedPreferencesUtils(mContext);
                     sUtils.setStringValue(Constants.SESSION_KEY,baseBean.getSession_key());
                     Constants.SESSION_KEY=baseBean.getSession_key();
@@ -76,7 +77,8 @@ public class SplashPresenter extends SplashContract.Presenter {
 
             @Override
             protected void _onError(String message) {
-                ToastUitl.showShort(message);
+                //ToastUitl.showShort(message);
+                mView.onConnectError();
             }
         }));
     }
@@ -88,14 +90,18 @@ public class SplashPresenter extends SplashContract.Presenter {
             protected void _onNext(RegisterBean registerBean) throws IOException {
                 if(registerBean.getError_code()==0){
                     mView.phoneLoginSuccess(registerBean.getUser_id());
+                }else if(registerBean.getError_code()==301) {
+                    ToastUitl.showShort(R.string.error_301);
+                    mView.onConnectError();
                 }else{
-                    ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) registerBean.getError_code())+"111111");
+                    ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) registerBean.getError_code()));
                 }
             }
 
             @Override
             protected void _onError(String message) {
-                ToastUitl.showShort(message);
+                //ToastUitl.showShort(message);
+                mView.onConnectError();
             }
         }));
     }
@@ -108,14 +114,19 @@ public class SplashPresenter extends SplashContract.Presenter {
             protected void _onNext(ResponseBody responseBody) {
                 try {
                     String s = responseBody.string().toString();
-                    Log.i(TAG, responseBody.string());
+                    //Log.i(TAG, responseBody.string());
                     JSONObject jsonObject = new JSONObject(s);
                     double error_code = jsonObject.getDouble("error_code");
                     if (error_code == 0) {
-                        ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) error_code));
+                        //ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) error_code));
                         int userId = jsonObject.getInt("user_id");
+                        SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
+                        sUtils.setStringValue(Constants.USERID,userId+"");
                         mView.thirdBindingLoginSuccess(userId);
-                    } else {
+                    } else if(error_code==301) {
+                        ToastUitl.showShort(R.string.error_301);
+                        mView.onConnectError();
+                    }else {
                         ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) error_code));
                     }
                 } catch (IOException e) {
@@ -127,7 +138,8 @@ public class SplashPresenter extends SplashContract.Presenter {
 
             @Override
             protected void _onError(String message) {
-                ToastUitl.showShort(message);
+                //ToastUitl.showShort(message);
+                mView.onConnectError();
             }
         }));
     }
@@ -158,6 +170,8 @@ public class SplashPresenter extends SplashContract.Presenter {
             protected void _onNext(ResumeBean resumeBean) throws IOException {
                 if(resumeBean.getError_code()==0){
                     mView.getResumeDataSuccess(resumeBean);
+                    SharedPreferencesUtils sutis=new SharedPreferencesUtils(HRApplication.getAppContext());
+                    sutis.setStringValue(Constants.USERID,resumeBean.getResume_info().getTitle_info().get(0).getUser_id());
                 }else{
                     ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) resumeBean.getError_code()));
                 }

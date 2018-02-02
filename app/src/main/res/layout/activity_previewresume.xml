@@ -31,7 +31,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/x300">
                     <com.hr.ui.view.CircleImageView
-                        android:src="@mipmap/person_preview"
+                        android:src="@mipmap/persondefault"
                         android:layout_centerInParent="true"
                         android:id="@+id/iv_previewResumePhoto"
                         android:layout_width="@dimen/x120"
@@ -269,6 +269,7 @@
                             android:id="@+id/iv_workExpIcon"
                             style="@style/previewResume_titleIcon" />
                         <TextView
+                            android:id="@+id/tv_previewResume_workExpTag"
                             android:layout_toRightOf="@+id/iv_workExpIcon"
                             style="@style/previewResume_titleName"
                             android:text="@string/workExp"

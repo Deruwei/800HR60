@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -116,7 +117,12 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter, Collec
         adapter.setClickCallBack(new MyCollectionAdapter.ItemClickCallBack() {
             @Override
             public void onItemClick(int pos) {
-                PositionPageActivity.startAction(CollectionActivity.this, favouriteListBeanList.get(pos).getJob_id());
+                if(favouriteListBeanList1.get(pos).getIs_expire()==1){
+                    ToastUitl.showShort(R.string.error_401);
+                    return;
+                }else {
+                    PositionPageActivity.startAction(CollectionActivity.this, favouriteListBeanList.get(pos).getJob_id(), 2);
+                }
             }
         });
         adapter.setOnViewClick(new MyCollectionAdapter.OnViewClick() {
@@ -129,13 +135,13 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter, Collec
         adapter.setOnDeleteClick(new MyCollectionAdapter.OnDeleteClick() {
             @Override
             public void onViewClick(View view, int position) {
-                mPresenter.deleteCollection(favouriteListBeanList.get(position).getRecord_id(), favouriteListBeanList.get(position).getJob_id());
-                favouriteListBeanList.remove(position);
-                adapter.notifyDataSetChanged();
-                if(favouriteListBeanList.size()==0){
-                    rlEmptyView.setVisibility(View.VISIBLE);
-                    ivNoDataSearch.setVisibility(View.GONE);
-                }
+                    mPresenter.deleteCollection(favouriteListBeanList.get(position).getRecord_id(), favouriteListBeanList.get(position).getJob_id());
+                    favouriteListBeanList.remove(position);
+                    adapter.notifyDataSetChanged();
+                    if (favouriteListBeanList.size() == 0) {
+                        rlEmptyView.setVisibility(View.VISIBLE);
+                        ivNoDataSearch.setVisibility(View.GONE);
+                    }
             }
         });
         rvCollection.addOnItemTouchListener(new SwipeItemLayout.OnSwipeItemTouchListener(this));
@@ -174,6 +180,7 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter, Collec
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolBar.setTitle("");
+        rvCollection.setPullRefreshEnabled(false);
         toolBar.setTitleTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
         toolBar.setNavigationIcon(R.mipmap.back);
         tvToolbarTitle.setText(R.string.collectionPosition);

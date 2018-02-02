@@ -3,11 +3,13 @@ package com.hr.ui.ui.main.presenter;
 import android.util.Log;
 
 import com.hr.ui.base.RxSubscriber;
+import com.hr.ui.bean.HomeRecommendBean;
 import com.hr.ui.bean.RecommendJobBean;
 import com.hr.ui.ui.main.contract.HomeFragmentContract;
 import com.hr.ui.utils.Rc4Md5Utils;
 import com.hr.ui.utils.ToastUitl;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -21,20 +23,50 @@ import okhttp3.ResponseBody;
 
 public class HomeFragmentPresenter extends HomeFragmentContract.Presenter {
     @Override
-    public void getRecommendJobInfo(int page,int limit) {
-        mRxManage.add(mModel.getRecommendJobInfo(page,limit).subscribe(new RxSubscriber<RecommendJobBean>(mContext,false) {
+    public void getRecommendJobInfo(String resumeId,int limit,boolean isCanRefresh) {
+        mRxManage.add(mModel.getRecommendJobInfo(resumeId,limit).subscribe(new RxSubscriber<HomeRecommendBean>(mContext,isCanRefresh) {
             @Override
-            protected void _onNext(RecommendJobBean recommendJobBean) throws IOException {
-                    if("0".equals(recommendJobBean.getError_code())) {
-                        mView.getRecommendJobSuccess(recommendJobBean.getJobs_list());
+            protected void _onNext(HomeRecommendBean homeRecommendBean) throws IOException {
+                    if(homeRecommendBean.getError_code()==0) {
+                        mView.getRecommendJobSuccess(homeRecommendBean.getJobs_list());
                     }else{
-                        ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId(Integer.parseInt(recommendJobBean.getError_code()) ));
+                        ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId(homeRecommendBean.getError_code() ));
                     }
             }
 
             @Override
             protected void _onError(String message) {
                 //Log.i("你好",message);
+                mView.getRecommendJobError();
+            }
+        }));
+    }
+
+    @Override
+    public void getResumeScore(String id) {
+        mRxManage.add(mModel.getResumeScore(id).subscribe(new RxSubscriber<ResponseBody>(mContext,false) {
+            @Override
+            protected void _onNext(ResponseBody responseBody) throws IOException {
+                String s=responseBody.string().toString();
+                try {
+                    JSONObject jsonObject=new JSONObject(s);
+                    String error=jsonObject.getString("error_code");
+                    if("0".equals(error)){
+                        JSONArray array=jsonObject.getJSONArray("list");
+                       double score=array.getJSONObject(0).getDouble("score");
+                        mView.getResumeScoreSuccess(score);
+                    }else{
+                        ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId(Integer.parseInt(error) ));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            protected void _onError(String message) {
+               // Log.i("okht",message);
             }
         }));
     }

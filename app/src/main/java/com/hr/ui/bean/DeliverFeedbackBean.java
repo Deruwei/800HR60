@@ -11,8 +11,8 @@ public class DeliverFeedbackBean {
 
     /**
      * error_code : 0
-     * applied_list : [{"user_id":"9505721","enterprise_id":"ZiSAb","job_id":"YPcoJ","job_name":"维修技术员","enterprise_name":"湖南皇爷食品有限公司","industry":"22","job_work_area":"2809","read_time":"","invite_time":"","invite_id":"0","applied_time":"2018-01-19 13:59","last_applied_time":"1516341587","expiration_date":"1522511999","applied_num":"0","salary":"3000 - 4000","topjob_type":"1","study":"中专及以上","workyear":"三年以上","language":"","post_rank":"","company_type":"私营/民营企业","stuff_munber":"1000人以上","workplace":"湖南-益阳市","resume_list":[{"title":"我的简历","resume_language":"zh","resume_id":"1"}],"record_id":"318411877","is_favourite":0,"is_expire":0,"is_apply":1},{"user_id":"9505721","enterprise_id":"ZiSAb","job_id":"YPcoI","job_name":"维修主管","enterprise_name":"湖南皇爷食品有限公司","industry":"22","job_work_area":"2809","read_time":"","invite_time":"","invite_id":"0","applied_time":"2018-01-19 13:58","last_applied_time":"1516341502","expiration_date":"1522511999","applied_num":"0","salary":"3000 - 5000","topjob_type":"1","study":"大专及以上","workyear":"五年以上","language":"","post_rank":"","company_type":"私营/民营企业","stuff_munber":"1000人以上","workplace":"湖南-益阳市","resume_list":[{"title":"我的简历","resume_language":"zh","resume_id":"1"}],"record_id":"318411876","is_favourite":1,"is_expire":0,"is_apply":1},{"user_id":"9505721","enterprise_id":"xqMK5","job_id":"I9NZg","job_name":"化工工艺/生产管理（储备）","enterprise_name":"江苏中能硅业科技发展有限公司","industry":"29","job_work_area":"1602","read_time":"","invite_time":"","invite_id":"0","applied_time":"2018-01-19 13:26","last_applied_time":"1516339601","expiration_date":"1545926399","applied_num":"1","salary":"6500 - 9000","topjob_type":"1","study":"本科及以上","workyear":"不限","language":"","post_rank":"","company_type":"外商独资","stuff_munber":"1000人以上","workplace":"江苏-徐州市","resume_list":[{"title":"我的简历","resume_language":"zh","resume_id":"1"}],"record_id":"318411866","is_favourite":0,"is_expire":0,"is_apply":1},{"user_id":"9505721","enterprise_id":"P5xt4","job_id":"vU50h","job_name":"工艺技术员","enterprise_name":"上海立得催化剂有限公司","industry":"29","job_work_area":"1200","read_time":"","invite_time":"","invite_id":"0","applied_time":"2018-01-19 13:02","last_applied_time":"1516338156","expiration_date":"1528300799","applied_num":"98","salary":"8000 - 9000","topjob_type":"1","study":"本科及以上","workyear":"不限","language":"英语","post_rank":"","company_type":"国有企业","stuff_munber":"100 - 499人","workplace":"上海","resume_list":[{"title":"我的简历","resume_language":"zh","resume_id":"1"}],"record_id":"318411860","is_favourite":0,"is_expire":0,"is_apply":1},{"user_id":"9505721","enterprise_id":"xqMK5","job_id":"I9NZE","job_name":"电力运行管理（储备）","enterprise_name":"江苏中能硅业科技发展有限公司","industry":"29","job_work_area":"1602","read_time":"","invite_time":"","invite_id":"0","applied_time":"2018-01-19 13:00","last_applied_time":"1516338001","expiration_date":"1545926399","applied_num":"0","salary":"4800 - 7000","topjob_type":"1","study":"本科及以上","workyear":"不限","language":"","post_rank":"","company_type":"外商独资","stuff_munber":"1000人以上","workplace":"江苏-徐州市","resume_list":[{"title":"我的简历","resume_language":"zh","resume_id":"1"}],"record_id":"318411859","is_favourite":1,"is_expire":0,"is_apply":1},{"user_id":"9505721","enterprise_id":"AMCyu","job_id":"I9NZd","job_name":"收费员","enterprise_name":"北京朝阳急诊抢救中心","industry":"14","job_work_area":"1100","read_time":"","invite_time":"","invite_id":"0","applied_time":"2018-01-19 12:59","last_applied_time":"1516337994","expiration_date":"1517414399","applied_num":"1","salary":"3500 - 5000","topjob_type":"1","study":"大专及以上","workyear":"不限","language":"","post_rank":"","company_type":"私营/民营企业","stuff_munber":"1000人以上","workplace":"北京","resume_list":[{"title":"我的简历","resume_language":"zh","resume_id":"1"}],"record_id":"318411858","is_favourite":0,"is_expire":0,"is_apply":1},{"user_id":"9505721","enterprise_id":"xqMK5","job_id":"I9NQO","job_name":"化工操作","enterprise_name":"江苏中能硅业科技发展有限公司","industry":"29","job_work_area":"1602","read_time":"","invite_time":"","invite_id":"0","applied_time":"2018-01-19 12:59","last_applied_time":"1516337988","expiration_date":"1545926399","applied_num":"4","salary":"5000 - 6000","topjob_type":"1","study":"中专及以上","workyear":"不限","language":"","post_rank":"","company_type":"外商独资","stuff_munber":"1000人以上","workplace":"江苏-徐州市","resume_list":[{"title":"我的简历","resume_language":"zh","resume_id":"1"}],"record_id":"318411857","is_favourite":0,"is_expire":0,"is_apply":1},{"user_id":"9505721","enterprise_id":"xqMK5","job_id":"I9NZe","job_name":"机务检修","enterprise_name":"江苏中能硅业科技发展有限公司","industry":"29","job_work_area":"1602","read_time":"","invite_time":"","invite_id":"0","applied_time":"2018-01-19 10:25","last_applied_time":"1516328729","expiration_date":"1545926399","applied_num":"1","salary":"4000 - 5000","topjob_type":"1","study":"中专及以上","workyear":"三年以上","language":"","post_rank":"","company_type":"外商独资","stuff_munber":"1000人以上","workplace":"江苏-徐州市","resume_list":[{"title":"我的简历","resume_language":"zh","resume_id":"1"}],"record_id":"318411853","is_favourite":0,"is_expire":0,"is_apply":1},{"user_id":"9505721","enterprise_id":"Seu9Z","job_id":"I9qX9","job_name":"中医师","enterprise_name":"天津西青桂生堂医院","industry":"14","job_work_area":"1300","read_time":"","invite_time":"","invite_id":"0","applied_time":"2018-01-18 17:17","last_applied_time":"1516267078","expiration_date":"1526918399","applied_num":"3","salary":"10000 - 12000","topjob_type":"1","study":"不限","workyear":"十年以上","language":"","post_rank":"中级职称","company_type":"私营/民营企业","stuff_munber":"50 - 99人","workplace":"天津","resume_list":[{"title":"我的简历","resume_language":"zh","resume_id":"1"}],"record_id":"318411837","is_favourite":0,"is_expire":0,"is_apply":1}]
-     * navpage_info : {"current_page":"1","total_pages":1,"record_nums":9,"page_nums":"20"}
+     * applied_list : [{"user_id":"9505733","enterprise_id":"Bi92A","job_id":"I9NYp","job_name":"我的职位十月","enterprise_name":"北京红根基建筑有限公司","industry":"11","isnew":"0","job_work_area":"1609","read_time":"","invite_time":"","invite_id":"0","applied_time":"2018-01-29 16:05","last_applied_time":"1517213155","expiration_date":"0","applied_num":"0","salary":"","company_type":"政府机关/非盈利机构","stuff_munber":"100 - 499人","workplace":"江苏-南通市","resume_list":[{"title":"我的简历","resume_language":"zh","resume_id":"1"}],"record_id":"318412009","is_favourite":0,"is_expire":1,"is_apply":1},{"user_id":"9505733","enterprise_id":"Bi92A","job_id":"I9NZF","job_name":"我的职位十月","enterprise_name":"北京红根基建筑有限公司","industry":"11","isnew":"0","job_work_area":"1613","read_time":"","invite_time":"","invite_id":"0","applied_time":"2018-01-29 16:04","last_applied_time":"1517213040","expiration_date":"0","applied_num":"0","salary":"","company_type":"政府机关/非盈利机构","stuff_munber":"100 - 499人","workplace":"江苏-苏州市","resume_list":[{"title":"我的简历","resume_language":"zh","resume_id":"1"}],"record_id":"318412008","is_favourite":0,"is_expire":1,"is_apply":1},{"user_id":"9505733","enterprise_id":"i3inm","job_id":"I94Xz","job_name":"临床研究员","enterprise_name":"北京欧博方医药科技有限公司","industry":"14","isnew":"0","job_work_area":"1100","read_time":"","invite_time":"","invite_id":"0","applied_time":"2018-01-24 17:16","last_applied_time":"1516785395","expiration_date":"1541779199","applied_num":"5","salary":"10000 - 15000","topjob_type":"1","release_time":"1511884800","study":"本科及以上","workyear":"五年以上","language":"英语良好","post_rank":"","company_type":"私营/民营企业","stuff_munber":"100 - 499人","workplace":"北京","resume_list":[{"title":"我的简历","resume_language":"zh","resume_id":"1"}],"record_id":"318411942","is_favourite":0,"is_expire":0,"is_apply":0}]
+     * navpage_info : {"current_page":"1","total_pages":1,"record_nums":3,"page_nums":"20"}
      */
 
     private String error_code;
@@ -47,7 +47,7 @@ public class DeliverFeedbackBean {
         /**
          * current_page : 1
          * total_pages : 1
-         * record_nums : 9
+         * record_nums : 3
          * page_nums : 20
          */
 
@@ -91,34 +91,36 @@ public class DeliverFeedbackBean {
 
     public static class AppliedListBean {
         /**
-         * user_id : 9505721
-         * enterprise_id : ZiSAb
-         * job_id : YPcoJ
-         * job_name : 维修技术员
-         * enterprise_name : 湖南皇爷食品有限公司
-         * industry : 22
-         * job_work_area : 2809
+         * user_id : 9505733
+         * enterprise_id : Bi92A
+         * job_id : I9NYp
+         * job_name : 我的职位十月
+         * enterprise_name : 北京红根基建筑有限公司
+         * industry : 11
+         * isnew : 0
+         * job_work_area : 1609
          * read_time :
          * invite_time :
          * invite_id : 0
-         * applied_time : 2018-01-19 13:59
-         * last_applied_time : 1516341587
-         * expiration_date : 1522511999
+         * applied_time : 2018-01-29 16:05
+         * last_applied_time : 1517213155
+         * expiration_date : 0
          * applied_num : 0
-         * salary : 3000 - 4000
-         * topjob_type : 1
-         * study : 中专及以上
-         * workyear : 三年以上
-         * language :
-         * post_rank :
-         * company_type : 私营/民营企业
-         * stuff_munber : 1000人以上
-         * workplace : 湖南-益阳市
+         * salary :
+         * company_type : 政府机关/非盈利机构
+         * stuff_munber : 100 - 499人
+         * workplace : 江苏-南通市
          * resume_list : [{"title":"我的简历","resume_language":"zh","resume_id":"1"}]
-         * record_id : 318411877
+         * record_id : 318412009
          * is_favourite : 0
-         * is_expire : 0
+         * is_expire : 1
          * is_apply : 1
+         * topjob_type : 1
+         * release_time : 1511884800
+         * study : 本科及以上
+         * workyear : 五年以上
+         * language : 英语良好
+         * post_rank :
          */
 
         private String user_id;
@@ -127,6 +129,7 @@ public class DeliverFeedbackBean {
         private String job_name;
         private String enterprise_name;
         private String industry;
+        private String isnew;
         private String job_work_area;
         private String read_time;
         private String invite_time;
@@ -136,11 +139,6 @@ public class DeliverFeedbackBean {
         private String expiration_date;
         private String applied_num;
         private String salary;
-        private String topjob_type;
-        private String study;
-        private String workyear;
-        private String language;
-        private String post_rank;
         private String company_type;
         private String stuff_munber;
         private String workplace;
@@ -148,6 +146,12 @@ public class DeliverFeedbackBean {
         private int is_favourite;
         private int is_expire;
         private int is_apply;
+        private String topjob_type;
+        private String release_time;
+        private String study;
+        private String workyear;
+        private String language;
+        private String post_rank;
         private List<ResumeListBean> resume_list;
 
         public String getUser_id() {
@@ -196,6 +200,14 @@ public class DeliverFeedbackBean {
 
         public void setIndustry(String industry) {
             this.industry = industry;
+        }
+
+        public String getIsnew() {
+            return isnew;
+        }
+
+        public void setIsnew(String isnew) {
+            this.isnew = isnew;
         }
 
         public String getJob_work_area() {
@@ -270,46 +282,6 @@ public class DeliverFeedbackBean {
             this.salary = salary;
         }
 
-        public String getTopjob_type() {
-            return topjob_type;
-        }
-
-        public void setTopjob_type(String topjob_type) {
-            this.topjob_type = topjob_type;
-        }
-
-        public String getStudy() {
-            return study;
-        }
-
-        public void setStudy(String study) {
-            this.study = study;
-        }
-
-        public String getWorkyear() {
-            return workyear;
-        }
-
-        public void setWorkyear(String workyear) {
-            this.workyear = workyear;
-        }
-
-        public String getLanguage() {
-            return language;
-        }
-
-        public void setLanguage(String language) {
-            this.language = language;
-        }
-
-        public String getPost_rank() {
-            return post_rank;
-        }
-
-        public void setPost_rank(String post_rank) {
-            this.post_rank = post_rank;
-        }
-
         public String getCompany_type() {
             return company_type;
         }
@@ -364,6 +336,54 @@ public class DeliverFeedbackBean {
 
         public void setIs_apply(int is_apply) {
             this.is_apply = is_apply;
+        }
+
+        public String getTopjob_type() {
+            return topjob_type;
+        }
+
+        public void setTopjob_type(String topjob_type) {
+            this.topjob_type = topjob_type;
+        }
+
+        public String getRelease_time() {
+            return release_time;
+        }
+
+        public void setRelease_time(String release_time) {
+            this.release_time = release_time;
+        }
+
+        public String getStudy() {
+            return study;
+        }
+
+        public void setStudy(String study) {
+            this.study = study;
+        }
+
+        public String getWorkyear() {
+            return workyear;
+        }
+
+        public void setWorkyear(String workyear) {
+            this.workyear = workyear;
+        }
+
+        public String getLanguage() {
+            return language;
+        }
+
+        public void setLanguage(String language) {
+            this.language = language;
+        }
+
+        public String getPost_rank() {
+            return post_rank;
+        }
+
+        public void setPost_rank(String post_rank) {
+            this.post_rank = post_rank;
         }
 
         public List<ResumeListBean> getResume_list() {

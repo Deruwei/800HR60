@@ -21,7 +21,7 @@ public interface DeliverFeedbackContract {
         void getDeliverFeedbackSuccess(List<DeliverFeedbackBean.AppliedListBean> appliedListBeanList);
     }
     abstract class Presenter extends BasePresenter<View,Model>{
-        public abstract void getDeliverFeedBack(int  page,int isRead,int isInvite);
+        public abstract void getDeliverFeedBack(int  page,int isRead,int isInvite,boolean isCanRefresh);
 
     }
 }

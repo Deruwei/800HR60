@@ -5,15 +5,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -23,7 +25,9 @@ import com.hr.ui.base.BaseNoConnectNetworkAcitivty;
 import com.hr.ui.bean.CityBean;
 import com.hr.ui.ui.main.adapter.MySelectPositionLeftAdapter;
 import com.hr.ui.ui.main.adapter.MySelectPositionRightAdapter;
+import com.hr.ui.utils.PopupWindowPositonClassView;
 import com.hr.ui.utils.ToastUitl;
+import com.hr.ui.utils.Utils;
 import com.hr.ui.utils.datautils.FromStringToArrayList;
 import com.hr.ui.view.MyFlowLayout;
 
@@ -60,24 +64,47 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
     LinearLayout llIndustryTitle;
     @BindView(R.id.view_industryBottom)
     View viewIndustryBottom;
+    @BindView(R.id.toolbarAdd)
+    ImageView toolbarAdd;
+    @BindView(R.id.tv_toolbarSave)
+    TextView tvToolbarSave;
+    @BindView(R.id.view_industry)
+    View viewIndustry;
+    @BindView(R.id.rl_noFunction)
+    RelativeLayout rlNoFunction;
+    @BindView(R.id.tv_selectPositionTag)
+    TextView tvSelectPositionTag;
+    @BindView(R.id.tv_selectPositionRightTag)
+    TextView tvSelectPositionRightTag;
+    @BindView(R.id.rl_selectedPositionTitle)
+    RelativeLayout rlSelectedPositionTitle;
+    @BindView(R.id.tv_selectPositionCancel)
+    TextView tvSelectPositionCancel;
+    @BindView(R.id.tv_selectPositionOK)
+    TextView tvSelectPositionOK;
+    @BindView(R.id.cl_selectPosition)
+    ConstraintLayout clSelectPosition;
     private List<CityBean> positonBeanList;
     private String industryId;
     private List<CityBean> positonLeftList, positionRightList;
     private MySelectPositionLeftAdapter leftAdapter;
     private MySelectPositionRightAdapter rightAdapter;
     private List<CityBean> selectPositionList = new ArrayList<>();
-    private int sum;//选择数量
+    private int sum, currentJobPosition;//选择数量
     private String tag;
+    private PopupWindow popupWindowPositonClass;
+    private List<CityBean> selectPositionClassList = new ArrayList<>();
+    public static SelectPositionActivity instance;
 
     /**
      * 入口
      *
      * @param activity
      */
-    public static void startAction(Activity activity, String industryId, List<CityBean> selectPositionList,String tag) {
+    public static void startAction(Activity activity, String industryId, List<CityBean> selectPositionList, String tag) {
         Intent intent = new Intent(activity, SelectPositionActivity.class);
-        intent.putExtra("tag",tag);
-        intent.putExtra("industryId",industryId);
+        intent.putExtra("tag", tag);
+        intent.putExtra("industryId", industryId);
         intent.putExtra("selectPosition", (Serializable) selectPositionList);
         activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.fade_in,
@@ -91,11 +118,12 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
 
     @Override
     public void initView() {
+        instance = this;
         viewIndustryBottom.setVisibility(View.GONE);
         llIndustryTitle.setVisibility(View.GONE);
         selectPositionList = (List<CityBean>) getIntent().getSerializableExtra("selectPosition");
-        industryId=getIntent().getStringExtra("industryId");
-        tag=getIntent().getStringExtra("tag");
+        industryId = getIntent().getStringExtra("industryId");
+        tag = getIntent().getStringExtra("tag");
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -121,7 +149,7 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
             for (int i = 0; i < selectPositionList.size(); i++) {
                 addView(selectPositionList.get(i));
             }
-        }else{
+        } else {
             rlSelectData.setVisibility(View.GONE);
         }
         final Message message = Message.obtain();
@@ -136,6 +164,7 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+        instance = this;
     }
 
     @OnClick({R.id.tv_selectPositionCancel, R.id.tv_selectPositionOK})
@@ -146,9 +175,9 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
                 break;
             case R.id.tv_selectPositionOK:
                 if (selectPositionList != null && selectPositionList.size() != 0) {
-                    if(JobOrderActivity.TAG.equals(tag)) {
+                    if (JobOrderActivity.TAG.equals(tag)) {
                         JobOrderActivity.instance.setPositionList(selectPositionList);
-                    }else if (JobSerchActivity.TAG.equals(tag)){
+                    } else if (JobSerchActivity.TAG.equals(tag)) {
                         JobSerchActivity.instance.setPosition(selectPositionList);
                     }
                     finish();
@@ -171,11 +200,15 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
         params.topMargin = 12;
         params.bottomMargin = 12;
         params.rightMargin = 15;
-        final LinearLayout ll= (LinearLayout) LayoutInflater.from(this).inflate(
+        final LinearLayout ll = (LinearLayout) LayoutInflater.from(this).inflate(
                 R.layout.item_textview_selected, null, false);
         ll.setLayoutParams(params);
-        TextView tv=ll.findViewById(R.id.item_select);
-        tv.setText(cityBean.getName());
+        TextView tv = ll.findViewById(R.id.item_select);
+        if (cityBean.getId().contains("|")) {
+            tv.setText(cityBean.getName() + "(" + Utils.getPositionClassName(cityBean.getId().substring(cityBean.getId().indexOf("|") + 1)) + ")");
+        } else {
+            tv.setText(cityBean.getName());
+        }
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -249,8 +282,14 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
                             if (selectPositionList != null && selectPositionList.size() != 0) {
                                 for (int i = 0; i < positionRightList.size(); i++) {
                                     for (int j = 0; j < selectPositionList.size(); j++) {
-                                        if (positionRightList.get(i).getId().equals(selectPositionList.get(j).getId())) {
-                                            positionRightList.get(i).setCheck(true);
+                                        if (selectPositionList.get(j).getId().contains("|")) {
+                                            if (positionRightList.get(i).getId().equals(selectPositionList.get(j).getId().substring(0, selectPositionList.get(j).getId().indexOf("|")))) {
+                                                positionRightList.get(i).setCheck(true);
+                                            }
+                                        } else {
+                                            if (positionRightList.get(i).getId().equals(selectPositionList.get(j).getId())) {
+                                                positionRightList.get(i).setCheck(true);
+                                            }
                                         }
                                     }
                                 }
@@ -269,52 +308,30 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             sum = selectPositionList.size();
+                            currentJobPosition = position;
                             if (positionRightList.get(position).isCheck() == false) {
-                                sum = selectPositionList.size();
-                                if (sum == 0) {
-                                    rlSelectData.setVisibility(View.VISIBLE);
-                                }
-                                    if (position==0){
-                                        for(int i=0;i<positionRightList.size();i++){
-                                            positionRightList.get(i).setCheck(false);
-                                        }
-                                        List<CityBean> ints=new ArrayList<>();
-                                        for(int i=0;i<selectPositionList.size();i++){
-                                            if(selectPositionList.get(i).getId().substring(0,3).equals(positionRightList.get(position).getId().substring(0,3))) {
-                                               removeView(selectPositionList.get(i));
-                                                ints.add(selectPositionList.get(i));
-                                            }
-                                        }
-                                    selectPositionList.removeAll(ints);
-                                    }else {
-                                        if(positionRightList.get(0).isCheck()==true){
-                                            removeView(positionRightList.get(0));
-                                            for(int i=0;i<selectPositionList.size();i++){
-                                                if(selectPositionList.get(i).getId().equals(positionRightList.get(0).getId())){
-                                                    selectPositionList.remove(i);
-                                                }
-                                            }
-                                            positionRightList.get(0).setCheck(false);
-                                        }
-                                    }
-                                    sum=selectPositionList.size();
-                                if (sum >= 5) {
-                                    ToastUitl.showShort("最多只能选择5个职位");
-                                    return;
+                                if (Utils.checkMedicinePositionClass(positionRightList.get(position)) == true) {
+                                    PopupWindowPositonClassView viewPositionClass = new PopupWindowPositonClassView(popupWindowPositonClass, SelectPositionActivity.this,clSelectPosition );
                                 } else {
-                                    selectPositionList.add(positionRightList.get(position));
-                                    addView(positionRightList.get(position));
-                                    positionRightList.get(position).setCheck(true);
+                                    doAddJobView(position, selectPositionClassList);
                                 }
                             } else {
-
                                 positionRightList.get(position).setCheck(false);
                                 for (int i = 0; i < selectPositionList.size(); i++) {
-                                    if (positionRightList.get(position).getId().equals(selectPositionList.get(i).getId())) {
-                                        selectPositionList.remove(selectPositionList.get(i));
+                                    if (selectPositionList.get(i).getId().contains("|")) {
+                                        if (positionRightList.get(position).getId().equals(selectPositionList.get(i).getId().substring(0, selectPositionList.get(i).getId().indexOf("|")))) {
+                                            removeView(selectPositionList.get(i));
+                                            selectPositionList.remove(selectPositionList.get(i));
+                                            break;
+                                        }
+                                    } else {
+                                        if (positionRightList.get(position).getId().equals(selectPositionList.get(i).getId())) {
+                                            removeView(selectPositionList.get(i));
+                                            selectPositionList.remove(selectPositionList.get(i));
+                                            break;
+                                        }
                                     }
                                 }
-                                removeView(positionRightList.get(position));
                                 setNum();
                             }
 
@@ -325,4 +342,66 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
             }
         }
     };
+
+    public void setPositionClassList(List<CityBean> selectPositionList) {
+        this.selectPositionClassList = selectPositionList;
+        doAddJobView(currentJobPosition, selectPositionClassList);
+        selectPositionClassList.clear();
+    }
+
+    private void doAddJobView(int position, List<CityBean> selectPositionClassList) {
+        sum = selectPositionList.size();
+        if (sum == 0) {
+            rlSelectData.setVisibility(View.VISIBLE);
+        }
+        if (position == 0) {
+            for (int i = 0; i < positionRightList.size(); i++) {
+                positionRightList.get(i).setCheck(false);
+            }
+            List<CityBean> ints = new ArrayList<>();
+            for (int i = 0; i < selectPositionList.size(); i++) {
+                if (selectPositionList.get(i).getId().substring(0, 3).equals(positionRightList.get(position).getId().substring(0, 3))) {
+                    removeView(selectPositionList.get(i));
+                    ints.add(selectPositionList.get(i));
+                }
+            }
+            selectPositionList.removeAll(ints);
+        } else {
+            if (positionRightList.get(0).isCheck() == true) {
+                for (int i = 0; i < selectPositionList.size(); i++) {
+                    if (selectPositionList.get(i).getId().contains("|")) {
+                        if (selectPositionList.get(i).getId().substring(0, selectPositionList.get(i).getId().indexOf("|")).equals(positionRightList.get(0).getId())) {
+                            removeView(selectPositionList.get(i));
+                            selectPositionList.remove(i);
+                        }
+                    } else {
+                        if (selectPositionList.get(i).getId().equals(positionRightList.get(0).getId())) {
+                            removeView(selectPositionList.get(i));
+                            selectPositionList.remove(i);
+                        }
+                    }
+                }
+                positionRightList.get(0).setCheck(false);
+            }
+        }
+        sum = selectPositionList.size();
+        if (sum >= 5) {
+            ToastUitl.showShort("最多只能选择5个职位");
+            return;
+        } else {
+            CityBean cityBean = new CityBean();
+            if (selectPositionClassList != null && selectPositionClassList.size() != 0) {
+                cityBean.setId(positionRightList.get(position).getId() + "|" + selectPositionClassList.get(0).getId());
+                cityBean.setName(positionRightList.get(position).getName());
+                cityBean.setCheck(true);
+                selectPositionList.add(cityBean);
+            } else {
+                cityBean = positionRightList.get(position);
+                selectPositionList.add(positionRightList.get(position));
+            }
+            addView(cityBean);
+            positionRightList.get(position).setCheck(true);
+        }
+        rightAdapter.notifyDataSetChanged();
+    }
 }

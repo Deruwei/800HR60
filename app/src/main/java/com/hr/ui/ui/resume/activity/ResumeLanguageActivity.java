@@ -24,6 +24,7 @@ import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.datautils.ResumeInfoIDToString;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.CustomDatePicker;
+import com.hr.ui.view.MyDialog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -74,6 +75,7 @@ public class ResumeLanguageActivity extends BaseActivity<ResumeLanguagePresenter
     private String languageId,speakId,writeId;
     private CustomDatePicker datePickerLanguageName,datePickerSpeak,datePickerWrite;
     private SharedPreferencesUtils sUtils;
+    private MyDialog dialog;
     /**
      * 入口
      *
@@ -221,7 +223,7 @@ public class ResumeLanguageActivity extends BaseActivity<ResumeLanguagePresenter
                 break;
             case R.id.tv_resumeLanguageSkillDelete:
                 if(!"".equals(languageId)&&languageId!=null) {
-                    mPresenter.deleteLanguage(languageId);
+                    doDelete();
                 }else{
                     ToastUitl.showShort("请选择语言");
                     return;
@@ -229,7 +231,32 @@ public class ResumeLanguageActivity extends BaseActivity<ResumeLanguagePresenter
                 break;
         }
     }
+    private void doDelete() {
+        dialog=new MyDialog(this,2);
+        dialog.setMessage(getString(R.string.sureDeleteLanguage));
+        dialog.setYesOnclickListener(getString(R.string.sure), new MyDialog.onYesOnclickListener() {
+            @Override
+            public void onYesClick() {
+                mPresenter.deleteLanguage(languageId);
+                dialog.dismiss();
+            }
+        });
+        dialog.setNoOnclickListener(getString(R.string.cancel), new MyDialog.onNoOnclickListener() {
+            @Override
+            public void onNoClick() {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(dialog!=null){
+            dialog.dismiss();
+        }
+    }
     private void doAddOrReplaceLanguage() {
         if(languageId==null||"".equals(languageId)){
             ToastUitl.showShort("请选择语言");

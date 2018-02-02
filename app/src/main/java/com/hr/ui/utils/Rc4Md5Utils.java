@@ -196,7 +196,7 @@ public class Rc4Md5Utils {
             case 210:
                 return R.string.error_210;
             case 301:
-                return R.string.error_301;
+                return R.string.error_311;
             case 302:
                 return R.string.error_302;
             case 303:
@@ -261,6 +261,10 @@ public class Rc4Md5Utils {
                 return R.string.error_413;
             case 417:
                 return R.string.error_417;
+            case 415:
+                return R.string.error_415;
+            case 416:
+                return R.string.error_415;
             case 501:
                 return R.string.error_501;
             case 502:

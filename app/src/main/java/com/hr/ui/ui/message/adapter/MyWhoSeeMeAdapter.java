@@ -13,6 +13,8 @@ import com.bumptech.glide.Glide;
 import com.hr.ui.R;
 import com.hr.ui.bean.WhoSeeMeBean;
 import com.hr.ui.constants.Constants;
+import com.hr.ui.utils.ClickUtils;
+import com.hr.ui.utils.Utils;
 
 import java.util.List;
 
@@ -78,7 +80,9 @@ public class MyWhoSeeMeAdapter extends RecyclerView.Adapter<MyWhoSeeMeAdapter.Vi
             viewHolder.llWhoSeeMeCompany.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    clickCallBack.onItemClick(position);
+                    if(!ClickUtils.isFastClick()) {
+                        clickCallBack.onItemClick(position);
+                    }
                 }
             });
         }

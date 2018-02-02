@@ -82,4 +82,18 @@ public class WorkExpData {
     public void setExperienceId(String experienceId) {
         this.experienceId = experienceId;
     }
+
+    @Override
+    public String toString() {
+        return "WorkExpData{" +
+                "company='" + company + '\'' +
+                ", experienceId='" + experienceId + '\'' +
+                ", position='" + position + '\'' +
+                ", workPlace='" + workPlace + '\'' +
+                ", grossPay='" + grossPay + '\'' +
+                ", startTime='" + startTime + '\'' +
+                ", endTime='" + endTime + '\'' +
+                ", responsibilityDescription='" + responsibilityDescription + '\'' +
+                '}';
+    }
 }

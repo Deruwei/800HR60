@@ -1,6 +1,7 @@
 package com.hr.ui.ui.main.presenter;
 
 import android.util.Log;
+import android.widget.Adapter;
 
 import com.hr.ui.base.RxSubscriber;
 import com.hr.ui.bean.MultipleResumeBean;
@@ -22,35 +23,14 @@ import okhttp3.ResponseBody;
 
 public class MainPresenter extends MainContract.Presenter {
     public static final String TAG=MainPresenter.class.getSimpleName();
-    @Override
-    public void getResumeList() {
-        mRxManage.add(mModel.getResumeList().subscribe(new RxSubscriber<MultipleResumeBean>(mContext,false) {
-            @Override
-            protected void _onNext(MultipleResumeBean multipleResumeBean)  {
-                if("0".equals(multipleResumeBean.getError_code())){
-                    mView.getResumeListSuccess(multipleResumeBean);
-                }else{
-                    ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId(Integer.parseInt(multipleResumeBean.getError_code())));
-                }
-            }
-
-            @Override
-            protected void _onError(String message) {
-
-            }
-        }));
-    }
 
     @Override
-    public void getResumeData(String resumeId) {
-        mRxManage.add(mModel.getResumeData(resumeId).subscribe(new RxSubscriber<ResumeBean>(mContext,false) {
+    public void getNotice(String cid,String aid) {
+        mRxManage.add(mModel.getNotice(cid,aid).subscribe(new RxSubscriber<ResponseBody>(mContext,false) {
             @Override
-            protected void _onNext(ResumeBean resumeBean) throws IOException {
-                if(resumeBean.getError_code()==0){
-                    mView.getResumeDataSuccess(resumeBean);
-                }else{
-                    ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) resumeBean.getError_code()));
-                }
+            protected void _onNext(ResponseBody responseBody) throws IOException {
+                String s=responseBody.string().toString();
+                Log.i("现在的参数","_------"+s);
             }
 
             @Override

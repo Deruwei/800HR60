@@ -8,6 +8,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -41,6 +42,7 @@ import com.hr.ui.ui.main.presenter.JobSearchFragmentPresenter;
 import com.hr.ui.utils.PopupWindowFieldView;
 import com.hr.ui.utils.PopupWindowView;
 import com.hr.ui.utils.ProgressStyle;
+import com.hr.ui.utils.Utils;
 import com.hr.ui.utils.datautils.FromStringToArrayList;
 import com.hr.ui.utils.datautils.ResumeInfoIDToString;
 import com.hr.ui.utils.recyclerviewutils.OnItemClickListener;
@@ -158,7 +160,7 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
     public void getSearchDataSuccess(List<RecommendJobBean.JobsListBean> jobsListBeanList) {
         if (jobsListBeanList != null && !"[]".equals(jobsListBeanList.toString()) && jobsListBeanList.size() != 0) {
             if (page == 1) {
-                SearchAdapter = new MyRecommendJobAdapter();
+                SearchAdapter = new MyRecommendJobAdapter(1);
                 searchList.clear();
                 searchList.addAll(jobsListBeanList);
                 SearchAdapter.setJobsListBeanList(searchList);
@@ -184,7 +186,7 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
         SearchAdapter.setClickCallBack(new MyRecommendJobAdapter.ItemClickCallBack() {
             @Override
             public void onItemClick(int pos) {
-                PositionPageActivity.startAction(getActivity(), searchList.get(pos).getJob_id());
+                PositionPageActivity.startAction(getActivity(), searchList.get(pos).getJob_id(),2);
             }
         });
         rvJobSearchFragment.refreshComplete();
@@ -204,9 +206,9 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
     @Override
     protected void initView() {
         jobSearchBean = (JobSearchBean) getArguments().getSerializable("jobSearch");
+        //Log.i("数据的结果",jobSearchBean.toString());
         initDialog();
         tvJobSearchFragment.setText("关闭");
-        initData(jobSearchBean);
         etJobSearch.setText(jobSearchBean.getSearchName());
         jobSerchType = jobSearchBean.getJobType();
         if ("1".equals(jobSerchType)) {
@@ -216,7 +218,8 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
         } else if ("3".equals(jobSerchType)) {
             tvJobSearchFragment.setText("公司");
         }
-        SearchAdapter = new MyRecommendJobAdapter();
+        SearchAdapter = new MyRecommendJobAdapter(1);
+        initData(jobSearchBean);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity()) {
             @Override
             public boolean canScrollHorizontally() {
@@ -247,7 +250,7 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
                         page++;
-                        mPresenter.getSearchList(jobSearchBean, page);
+                        mPresenter.getSearchList(jobSearchBean, page,false);
                     }
                 }, 1000);
             }
@@ -284,7 +287,7 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
     }
 
     public void initData(JobSearchBean jobSearchBean) {
-        mPresenter.getSearchList(jobSearchBean, page);
+        mPresenter.getSearchList(jobSearchBean, page,true);
         rvJobSearchFragment.refresh();
     }
 
@@ -294,8 +297,8 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
             public void handle(String time) {
                 tvSalaryAround.setText(time);
                 salaryAroundName = time;
-                salaty_left = time.substring(0, time.indexOf("-"));
-                salary_right = time.substring(time.indexOf("-") + 1);
+                salaty_left = Utils.getLeftSalary(time);
+                salary_right = Utils.getRightSalary(time);
                 salaryAroundId = ResumeInfoIDToString.getSalaryAroundId(getActivity(), time);
             }
         }, getActivity().getResources().getStringArray(R.array.salaryAround));
@@ -306,7 +309,9 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_jobSearchFragmentBack:
-                JobSerchActivity.startAction(getActivity(), MainActivity.instance.REQUEST_CODE);
+                MainActivity.instance.goToSearch2();
+                MainActivity.instance.isHome = true;
+                MainActivity.instance.setIndexSelected(0);
                 break;
             case R.id.tv_jobSearchTypeFragment:
                 setFocus();
@@ -315,7 +320,7 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
             case R.id.tv_jobSearchFragment:
                 if (type == 1) {
                     MainActivity.instance.isHome = true;
-                    MainActivity.instance.switchFragment(0);
+                    MainActivity.instance.setIndexSelected(0);
                 } else if (type == 2) {
                     doSearch();
                 }
@@ -417,7 +422,7 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
         historyBean.setPlaceId(jobSearchBean.getPlaceId());
         historyBean.setJobType(jobSearchBean.getJobType());
         SearchHistoryUtils.insertJobSearchDataOrReplace(historyBean);
-        mPresenter.getSearchList(jobSearchBean, page);
+        mPresenter.getSearchList(jobSearchBean, page,true);
         rvJobSearchFragment.refresh();
     }
 
@@ -449,28 +454,78 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
             }
         });
         final List<CityBean> workExopList = ResumeInfoIDToString.getWorkExp(getActivity());
-        GridLayoutManager manager = new GridLayoutManager(getActivity(), 4);
+        GridLayoutManager manager = new GridLayoutManager(getActivity(), 4){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+
+            @Override
+            public boolean canScrollHorizontally() {
+                return false;
+            }
+        };
         manager.setOrientation(GridLayoutManager.VERTICAL);
         rvWorkExp.setLayoutManager(manager);
 
-        GridLayoutManager manager2 = new GridLayoutManager(getActivity(), 4);
+        GridLayoutManager manager2 = new GridLayoutManager(getActivity(), 4){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+
+            @Override
+            public boolean canScrollHorizontally() {
+                return false;
+            }
+        };
         manager2.setOrientation(GridLayoutManager.VERTICAL);
         rvDegreeNeed.setLayoutManager(manager2);
 
-        GridLayoutManager manager3 = new GridLayoutManager(getActivity(), 4);
+        GridLayoutManager manager3 = new GridLayoutManager(getActivity(), 4){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+
+            @Override
+            public boolean canScrollHorizontally() {
+                return false;
+            }
+        };
         manager3.setOrientation(GridLayoutManager.VERTICAL);
         rvReleaseTime.setLayoutManager(manager3);
 
-        GridLayoutManager manager4 = new GridLayoutManager(getActivity(), 4);
+        GridLayoutManager manager4 = new GridLayoutManager(getActivity(), 4){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+
+            @Override
+            public boolean canScrollHorizontally() {
+                return false;
+            }
+        };
         manager4.setOrientation(GridLayoutManager.VERTICAL);
         rvWorkType.setLayoutManager(manager4);
 
-        GridLayoutManager manager5 = new GridLayoutManager(getActivity(), 4);
+        GridLayoutManager manager5 = new GridLayoutManager(getActivity(), 4){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+
+            @Override
+            public boolean canScrollHorizontally() {
+                return false;
+            }
+        };
         manager5.setOrientation(GridLayoutManager.VERTICAL);
         rvCompanyType.setLayoutManager(manager5);
 
         final List<CityBean> releaseTimeList = ResumeInfoIDToString.getReleaseTime(getActivity());
-        if (selectReleaseTimeList != null) {
+        if (selectReleaseTimeList != null&&selectReleaseTimeList.size()!=0) {
             for (int i = 0; i < selectReleaseTimeList.size(); i++) {
                 for (int j = 0; j < releaseTimeList.size(); j++) {
                     if (selectReleaseTimeList.get(i).getId().equals(releaseTimeList.get(j).getId())) {
@@ -479,6 +534,9 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
                     }
                 }
             }
+        }else{
+            selectReleaseTimeList.add(releaseTimeList.get(0));
+            releaseTimeList.get(0).setCheck(true);
         }
         final MySelectOtherAdapter releaseTimeAdapter = new MySelectOtherAdapter(getActivity(), releaseTimeList);
         rvReleaseTime.setAdapter(releaseTimeAdapter);
@@ -486,15 +544,13 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
             @Override
             public void OnItemCLick(View view, int position) {
                 if (releaseTimeList.get(position).isCheck() == true) {
-                    for (int i = 0; i < selectReleaseTimeList.size(); i++) {
-                        if (selectReleaseTimeList.get(i).getId().equals(releaseTimeList.get(position).getId())) {
-                            selectReleaseTimeList.remove(i);
-                            break;
-                        }
-                    }
-                    releaseTimeList.get(position).setCheck(false);
+                   Utils.setListCheckFalse(releaseTimeList);
+                    releaseTimeList.get(0).setCheck(true);
+                    selectReleaseTimeList.add(releaseTimeList.get(0));
                 } else {
+                    Utils.setListCheckFalse(releaseTimeList);
                     releaseTimeList.get(position).setCheck(true);
+                    selectReleaseTimeList.clear();
                     selectReleaseTimeList.add(releaseTimeList.get(position));
                 }
                 releaseTimeAdapter.notifyDataSetChanged();
@@ -502,7 +558,7 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
         });
 
         final List<CityBean> degreeNeedList = ResumeInfoIDToString.getDegreeNeed(getActivity());
-        if (selectDegreeNeedList != null) {
+        if (selectDegreeNeedList != null&&selectDegreeNeedList.size()!=0) {
             for (int i = 0; i < selectDegreeNeedList.size(); i++) {
                 for (int j = 0; j < degreeNeedList.size(); j++) {
                     if (selectDegreeNeedList.get(i).getId().equals(degreeNeedList.get(j).getId())) {
@@ -511,6 +567,9 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
                     }
                 }
             }
+        }else{
+            selectDegreeNeedList.add(degreeNeedList.get(0));
+            degreeNeedList.get(0).setCheck(true);
         }
         final MySelectOtherAdapter degreeNeedAdapter = new MySelectOtherAdapter(getActivity(), degreeNeedList);
         rvDegreeNeed.setAdapter(degreeNeedAdapter);
@@ -518,21 +577,19 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
             @Override
             public void OnItemCLick(View view, int position) {
                 if (degreeNeedList.get(position).isCheck() == true) {
-                    for (int i = 0; i < selectDegreeNeedList.size(); i++) {
-                        if (selectDegreeNeedList.get(i).getId().equals(degreeNeedList.get(position).getId())) {
-                            selectDegreeNeedList.remove(i);
-                            break;
-                        }
-                    }
-                    degreeNeedList.get(position).setCheck(false);
+                   Utils.setListCheckFalse(degreeNeedList);
+                    degreeNeedList.get(0).setCheck(true);
+                    selectDegreeNeedList.add(degreeNeedList.get(0));
                 } else {
+                    Utils.setListCheckFalse(degreeNeedList);
                     degreeNeedList.get(position).setCheck(true);
+                    selectDegreeNeedList.clear();
                     selectDegreeNeedList.add(degreeNeedList.get(position));
                 }
                 degreeNeedAdapter.notifyDataSetChanged();
             }
         });
-        if (selectWorkExpList != null) {
+        if (selectWorkExpList != null&&!"".equals(selectWorkExpList)&&selectWorkExpList.size()!=0) {
             for (int i = 0; i < selectWorkExpList.size(); i++) {
                 for (int j = 0; j < workExopList.size(); j++) {
                     if (selectWorkExpList.get(i).getId().equals(workExopList.get(j).getId())) {
@@ -541,30 +598,30 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
                     }
                 }
             }
+        }else{
+            selectWorkExpList.add(workExopList.get(0));
+            workExopList.get(0).setCheck(true);
         }
-        //Log.i("当前的数据",selectWorkExpList.toString());
         final MySelectOtherAdapter workExpAdapter = new MySelectOtherAdapter(getActivity(), workExopList);
         rvWorkExp.setAdapter(workExpAdapter);
         workExpAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void OnItemCLick(View view, int position) {
                 if (workExopList.get(position).isCheck() == true) {
-                    for (int i = 0; i < selectWorkExpList.size(); i++) {
-                        if (selectWorkExpList.get(i).getId().equals(workExopList.get(position).getId())) {
-                            selectWorkExpList.remove(i);
-                            break;
-                        }
-                    }
-                    workExopList.get(position).setCheck(false);
+                   Utils.setListCheckFalse(workExopList);
+                    workExopList.get(0).setCheck(true);
+                    selectWorkExpList.add(workExopList.get(0));
                 } else {
+                    Utils.setListCheckFalse(workExopList);
                     workExopList.get(position).setCheck(true);
+                    selectWorkExpList.clear();
                     selectWorkExpList.add(workExopList.get(position));
                 }
                 workExpAdapter.notifyDataSetChanged();
             }
         });
         final List<CityBean> workTypeList = ResumeInfoIDToString.getWorkType(getActivity());
-        if (selectWorkTypeList != null) {
+        if (selectWorkTypeList != null&&selectWorkTypeList.size()!=0) {
             for (int i = 0; i < selectWorkTypeList.size(); i++) {
                 for (int j = 0; j < workTypeList.size(); j++) {
                     if (selectWorkTypeList.get(i).getId().equals(workTypeList.get(j).getId())) {
@@ -573,6 +630,9 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
                     }
                 }
             }
+        } else{
+            selectWorkTypeList.add(workTypeList.get(0));
+            workTypeList.get(0).setCheck(true);
         }
         final MySelectOtherAdapter workTypeAdapter = new MySelectOtherAdapter(getActivity(), workTypeList);
         rvWorkType.setAdapter(workTypeAdapter);
@@ -580,24 +640,21 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
             @Override
             public void OnItemCLick(View view, int position) {
                 if (workTypeList.get(position).isCheck() == true) {
-                    for (int i = 0; i < selectWorkTypeList.size(); i++) {
-                        if (selectWorkTypeList.get(i).getId().equals(workTypeList.get(position).getId())) {
-                            selectWorkTypeList.remove(i);
-                            break;
-                        }
-                    }
-                    workTypeList.get(position).setCheck(false);
+                    Utils.setListCheckFalse(workTypeList);
+                    workTypeList.get(0).setCheck(true);
+                    selectWorkTypeList.add(workTypeList.get(0));
                 } else {
+                    Utils.setListCheckFalse(workTypeList);
                     workTypeList.get(position).setCheck(true);
+                    selectWorkTypeList.clear();
                     selectWorkTypeList.add(workTypeList.get(position));
-
                 }
                 workTypeAdapter.notifyDataSetChanged();
             }
         });
 
         final List<CityBean> companyTypeList = ResumeInfoIDToString.getCompanyType(getActivity());
-        if (selectCompanyTypeList != null) {
+        if (selectCompanyTypeList != null&&selectCompanyTypeList.size()!=0) {
             for (int i = 0; i < selectCompanyTypeList.size(); i++) {
                 for (int j = 0; j < companyTypeList.size(); j++) {
                     if (selectCompanyTypeList.get(i).getId().equals(companyTypeList.get(j).getId())) {
@@ -606,6 +663,9 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
                     }
                 }
             }
+        }else{
+            selectCompanyTypeList.add(companyTypeList.get(0));
+            companyTypeList.get(0).setCheck(true);
         }
         final MySelectOtherAdapter companyTypeAdapter = new MySelectOtherAdapter(getActivity(), companyTypeList);
         rvCompanyType.setAdapter(companyTypeAdapter);
@@ -613,15 +673,13 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
             @Override
             public void OnItemCLick(View view, int position) {
                 if (companyTypeList.get(position).isCheck() == true) {
-                    for (int i = 0; i < selectCompanyTypeList.size(); i++) {
-                        if (selectCompanyTypeList.get(i).getId().equals(companyTypeList.get(position).getId())) {
-                            selectCompanyTypeList.remove(i);
-                            break;
-                        }
-                    }
-                    companyTypeList.get(position).setCheck(false);
+                    Utils.setListCheckFalse(companyTypeList);
+                    companyTypeList.get(0).setCheck(true);
+                    selectCompanyTypeList.add(companyTypeList.get(0));
                 } else {
+                    Utils.setListCheckFalse(companyTypeList);
                     companyTypeList.get(position).setCheck(true);
+                    selectCompanyTypeList.clear();
                     selectCompanyTypeList.add(companyTypeList.get(position));
                 }
                 companyTypeAdapter.notifyDataSetChanged();
@@ -631,7 +689,11 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
         viewJobSearchFragment.getLocationOnScreen(location);
         int x = location[0];
         int y = location[1];
-        tvSalaryAround.setText(salaryAroundName);
+        if(salaryAroundName!=null&&!"".equals(salaryAroundName)) {
+            tvSalaryAround.setText(salaryAroundName);
+        }else{
+            tvSalaryAround.setText("不限");
+        }
         rlSalaryAround.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

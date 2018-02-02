@@ -38,6 +38,7 @@ import com.hr.ui.ui.resume.contract.ResumeJobOrderContract;
 import com.hr.ui.ui.resume.model.ResumeJobOrderModel;
 import com.hr.ui.ui.resume.presenter.ResumeJobOrderPresenter;
 import com.hr.ui.utils.ToastUitl;
+import com.hr.ui.utils.Utils;
 import com.hr.ui.utils.datautils.FromStringToArrayList;
 import com.hr.ui.utils.datautils.ResumeInfoIDToString;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
@@ -214,18 +215,12 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
                 //Log.i("当前=",positionIds+"---------------"+fieldNameString[0].toString());
                 for (int j = 0; j < positionIds.length; j++) {
                     CityBean cityBean = new CityBean();
-                    if("14".equals(industryId)) {
-                        if(positionIds[j].indexOf("|")!=-1) {
-                            cityBean.setId(positionIds[j].substring(0, positionIds[j].indexOf("|")));
-                        }else{
-                            cityBean.setId(positionIds[j]);
-                        }
-                    }else{
-                        cityBean.setId(positionIds[j]);
-                    }
+                    cityBean.setId(positionIds[j]);
                     cityBean.setName(positionNameString[j]);
+                    String s="";
+                    s=positionNameString[j];
                     selectPositionList.add(cityBean);
-                    addView(flPosition, positionNameString[j]);
+                    addView(flPosition, s);
                 }
                 selectPositionLists.add(selectPositionList);
                 //Log.i("当前=",positionIds+"---------------"+selectPositionLists.toString());
@@ -428,7 +423,7 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
         switch (view.getId()) {
             case R.id.tv_toolbarSave:
                 if(industryIds.size()>=5) {
-                    ToastUitl.showShort("最多只能添加五个行业");
+                    ToastUitl.showShort("最多只能添加5个行业");
                 }else {
                     SelectOptionsActivity.startAction(ResumeJobOrderActivity.this, industryIds, 100,1);
                 }

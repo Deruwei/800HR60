@@ -136,7 +136,7 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
     public static final int REQUEST_CODE_SELECT = 0x10;
     public static final int IMAGE_PICKER = 0x20;
     private String imagePath;
-    private String content;
+    private String content,workYear;
     /**
      * 入口
      *
@@ -435,14 +435,26 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
             public void handle(String time) {
                 tvBirth.setText(time);
                 bitrh = time;
+                sUtis.setStringValue(Constants.BIRTHYEAR,bitrh.substring(0,bitrh.indexOf("-")));
+                workYear=bitrh.substring(0,bitrh.indexOf("-"));
+                initWorkDialog();
             }
         });
+    }
+
+    private void initWorkDialog() {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy");//格式为 2013年9月3日 14:44
         Date curDate = new Date(System.currentTimeMillis());//获取当前时间
         int endYear = Integer.parseInt(formatter.format(curDate))+1;
-        String[] s = new String[71];
+        int workSize=0;
+        if(workYear!=null&&!"".equals(workYear)) {
+             workSize =endYear- Integer.parseInt(workYear)-18+1;
+        }else {
+            workSize=60;
+        }
+        String[] s = new String[workSize];
         s[0]="无工作经验";
-        for (int i = 1; i < 71; i++) {
+        for (int i = 1; i < workSize; i++) {
             s[i] = (endYear - i) + "";
         }
         datePickerStartJobTime = new CustomDatePicker(this, new CustomDatePicker.ResultHandler() {
@@ -479,7 +491,11 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
                 break;
             case R.id.rl_workTime:
                 setFocus();
-                datePickerStartJobTime.show(tvWorkTime.getText().toString());
+                if(workYear!=null&&!"".equals(workYear)) {
+                    datePickerStartJobTime.show(tvWorkTime.getText().toString());
+                }else{
+                    ToastUitl.showShort("请选择出生日期");
+                }
                 break;
             case R.id.rl_email:
                 break;
@@ -542,6 +558,7 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
             personalInformationData.setName(etName.getText().toString());
             personalInformationData.setSex(sex);
             personalInformationData.setBirth(bitrh);
+            sUtis.setStringValue(Constants.BIRTHYEAR,bitrh.substring(0,bitrh.indexOf("-")));
             personalInformationData.setLivePlace(cityId);
             personalInformationData.setEmail(etEmail.getText().toString());
             if ("1".equals(type)) {

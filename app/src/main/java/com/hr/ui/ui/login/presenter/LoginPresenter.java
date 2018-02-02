@@ -2,6 +2,7 @@ package com.hr.ui.ui.login.presenter;
 
 import android.util.Log;
 
+import com.hr.ui.R;
 import com.hr.ui.base.RxSubscriber;
 import com.hr.ui.bean.LoginBean;
 import com.hr.ui.bean.MultipleResumeBean;
@@ -44,6 +45,12 @@ public class LoginPresenter extends LoginContract.Presenter {
                     loginBean.setPassword(psw);
                     LoginDBUtils.insertData(loginBean);
                     mView.sendLoginSuccess(registerBean.getUser_id());
+                }else if(registerBean.getError_code()==311){
+                    if(type==1){
+                        ToastUitl.showShort(R.string.error_phoneOrPsw);
+                    }else{
+                        ToastUitl.showShort(R.string.error_311);
+                    }
                 }else{
                     ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) registerBean.getError_code()));
                 }

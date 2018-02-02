@@ -27,6 +27,7 @@ import com.hr.ui.ui.resume.model.ResumeProjectExpModel;
 import com.hr.ui.ui.resume.presenter.ResumeProjectExpPresenter;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
+import com.hr.ui.view.MyDialog;
 import com.hr.ui.view.MyStartAndEndTimeCustomDatePicker;
 
 import butterknife.BindView;
@@ -94,6 +95,7 @@ public class ResumeProjectExpActivity extends BaseActivity<ResumeProjectExpPrese
     public static ResumeProjectExpActivity instance;
     public static String TAG=ResumeProjectExpActivity.class.getSimpleName();
     private SharedPreferencesUtils sUtils;
+    private MyDialog dialog;
     /**
      * 入口
      *
@@ -215,7 +217,7 @@ public class ResumeProjectExpActivity extends BaseActivity<ResumeProjectExpPrese
                 endTimes = endTime;
                 tvResumeProjectExpTime.setText(startTimes + "  至  " + endTimes);
             }
-        });
+        },1);
     }
 
     private void textChanged() {
@@ -318,13 +320,38 @@ public class ResumeProjectExpActivity extends BaseActivity<ResumeProjectExpPrese
                 doAddOrReplaceProjectExp();
                 break;
             case R.id.tv_resumeProjectExpDelete:
-                mPresenter.deleteProjectInfo(projectId);
+                doDelete();
                 break;
         }
     }
+    private void doDelete() {
+        dialog=new MyDialog(this,2);
+        dialog.setMessage(getString(R.string.sureDeleteProject));
+        dialog.setYesOnclickListener(getString(R.string.sure), new MyDialog.onYesOnclickListener() {
+            @Override
+            public void onYesClick() {
+                mPresenter.deleteProjectInfo(projectId);
+                dialog.dismiss();
+            }
+        });
+        dialog.setNoOnclickListener(getString(R.string.cancel), new MyDialog.onNoOnclickListener() {
+            @Override
+            public void onNoClick() {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(dialog!=null){
+            dialog.dismiss();
+        }
+    }
     private void doAddOrReplaceProjectExp() {
-        if("".equals(etResumeProjectExpName.getText().toString())&&etResumeProjectExpName.getText().toString()==null){
+        if("".equals(etResumeProjectExpName.getText().toString())||etResumeProjectExpName.getText().toString()==null){
             ToastUitl.showShort("请填写项目名称");
             return;
         }

@@ -51,6 +51,7 @@
                 android:layout_toLeftOf="@+id/iv_resumeProfessionSkillUseTimeSelect"
                 android:layout_toRightOf="@+id/tv_resumeProfessionSkillUseTimeTag"
                 style="@style/resume_editView"
+                android:inputType="number"
                 android:id="@+id/et_resumeProjectExpUseTime"/>
             <ImageView
                 style="@style/resume_ImageViewRight"

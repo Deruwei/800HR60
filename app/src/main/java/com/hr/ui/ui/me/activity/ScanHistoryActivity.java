@@ -21,6 +21,7 @@ import com.hr.ui.ui.job.activity.PositionPageActivity;
 import com.hr.ui.ui.me.adapter.MyScanHistoryAdapter;
 import com.hr.ui.ui.message.adapter.MyWhoSeeMeAdapter;
 import com.hr.ui.utils.ProgressStyle;
+import com.hr.ui.view.MyDialog;
 import com.hr.ui.view.XRecyclerView;
 
 import java.util.ArrayList;
@@ -49,6 +50,7 @@ public class ScanHistoryActivity extends BaseNoConnectNetworkAcitivty {
     private List<ScanHistoryBean> scanHistoryBeanList=new ArrayList<>();
     private int page=1;
     private List<ScanHistoryBean> totalScanHistoryList=new ArrayList<>();
+    private MyDialog dialog;
     @Override
     public int getLayoutId() {
         return R.layout.activity_find;
@@ -80,9 +82,25 @@ public class ScanHistoryActivity extends BaseNoConnectNetworkAcitivty {
         tvToolbarSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ScanHistoryUtils.getInstance().deleteAll();
-                totalScanHistoryList.clear();
-                adapter.notifyDataSetChanged();
+                dialog=new MyDialog(ScanHistoryActivity.this,2);
+                dialog.setMessage(getString(R.string.sureDeleteHistory));
+                dialog.setNoOnclickListener(getString(R.string.cancel), new MyDialog.onNoOnclickListener() {
+                    @Override
+                    public void onNoClick() {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.setYesOnclickListener(getString(R.string.sure), new MyDialog.onYesOnclickListener() {
+                    @Override
+                    public void onYesClick() {
+                        ScanHistoryUtils.getInstance().deleteAll();
+                        totalScanHistoryList.clear();
+                        adapter.notifyDataSetChanged();
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+
             }
         });
         initRv();
@@ -176,10 +194,17 @@ public class ScanHistoryActivity extends BaseNoConnectNetworkAcitivty {
             adapter.setClickCallBack(new MyScanHistoryAdapter.ItemClickCallBack() {
                 @Override
                 public void onItemClick(int pos) {
-                    PositionPageActivity.startAction(ScanHistoryActivity.this,totalScanHistoryList.get(pos).getJobId());
+                    PositionPageActivity.startAction(ScanHistoryActivity.this,totalScanHistoryList.get(pos).getJobId(),2);
                 }
             });
         }
     };
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(dialog!=null){
+            dialog.dismiss();
+        }
+    }
 }

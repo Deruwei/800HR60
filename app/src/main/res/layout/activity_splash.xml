@@ -17,9 +17,14 @@
             android:orientation="vertical"
             android:id="@+id/rl_loginOrRegister"
             android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/x50"
             android:layout_height="match_parent">
             <RelativeLayout
-                android:layout_marginTop="@dimen/y50"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/x50">
+            <RelativeLayout
+                android:visibility="gone"
+                android:id="@+id/rl_companySplash"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
             <TextView
@@ -40,6 +45,7 @@
                     android:src="@mipmap/right_arrow"
                     android:layout_width="@dimen/x9"
                     android:layout_height="@dimen/y18" />
+            </RelativeLayout>
             </RelativeLayout>
             <RelativeLayout
                 android:layout_marginTop="@dimen/y144"

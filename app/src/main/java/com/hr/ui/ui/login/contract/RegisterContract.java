@@ -10,6 +10,7 @@ import com.hr.ui.bean.ResumeBean;
 import com.hr.ui.bean.ThirdLoginBean;
 import com.hr.ui.bean.ValidCodeBean;
 
+import okhttp3.Response;
 import okhttp3.ResponseBody;
 import rx.Observable;
 
@@ -26,6 +27,7 @@ public interface RegisterContract {
         Observable<RegisterBean> getThirdBinding(ThirdLoginBean thirdPartBean, String userName, String psw, int type);
         Observable<MultipleResumeBean> getResumeList();
         Observable<ResumeBean> getResumeData(String resumeId);
+        Observable<ResponseBody> validPhoneIsExit(String phone);
     }
     interface  View extends BaseView{
         void sendValidCode(int code);
@@ -35,6 +37,7 @@ public interface RegisterContract {
         void getResumeListSuccess(MultipleResumeBean multipleResumeBean);
         void getResumeDataSuccess(ResumeBean resumeBean);
         void needToGetAutoCode();
+        void phoneIsExit(String flag);
     }
     abstract  class Presenter extends BasePresenter<RegisterContract.View, RegisterContract.Model> {
         public abstract  void getValidCode(String phoneNumber,String captcha,int type,String way);
@@ -43,5 +46,6 @@ public interface RegisterContract {
         public abstract void getThidBinding(ThirdLoginBean thirdPartBean,String userName,String psw,int type);
         public abstract void getResumeList();
         public abstract void getResumeData(String resumeId);
+        public abstract void validPhoneIsExit(String phone);
     }
 }

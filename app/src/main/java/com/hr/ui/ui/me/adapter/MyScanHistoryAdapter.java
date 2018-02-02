@@ -13,8 +13,11 @@ import com.bumptech.glide.Glide;
 import com.hr.ui.R;
 import com.hr.ui.bean.ScanHistoryBean;
 import com.hr.ui.utils.Utils;
+import com.hr.ui.view.MyStartAndEndTimeCustomDatePicker;
 
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -59,7 +62,14 @@ public class MyScanHistoryAdapter extends RecyclerView.Adapter<MyScanHistoryAdap
             viewHolder.tvItemScanHistoryTime.setVisibility(View.GONE);
         }else{
             viewHolder.tvItemScanHistoryTime.setVisibility(View.VISIBLE);
-            viewHolder.tvItemScanHistoryTime.setText(listBeans.get(position).getTime());
+            SimpleDateFormat formatter = new SimpleDateFormat("M - d");//格式为 2013年9月3日 14:44
+            Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+            String currentDate = formatter.format(curDate);
+            if(listBeans.get(position).getTime().equals(currentDate)){
+                viewHolder.tvItemScanHistoryTime.setText("今天");
+            }else {
+                viewHolder.tvItemScanHistoryTime.setText(listBeans.get(position).getTime());
+            }
         }
         viewHolder.tvItemScanHistoryJobName.setText(listBeans.get(position).getJobName());
         viewHolder.tvItemScanHistoryCompanyName.setText(listBeans.get(position).getCompanyName());

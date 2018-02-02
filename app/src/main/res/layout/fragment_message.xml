@@ -3,12 +3,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/rl_fragmentTitle"
+        android:layout_height="@dimen/x87">
+        <com.hr.ui.view.CircleImageView
+            android:layout_marginTop="@dimen/x15"
+            android:layout_marginLeft="@dimen/x37"
+            android:layout_marginBottom="@dimen/x15"
+            android:layout_marginRight="@dimen/x30"
+            app:civ_border_color="@color/black"
+            android:id="@+id/iv_ResumePersonPhoto"
+            android:layout_width="@dimen/x58"
+            android:layout_height="@dimen/x58"
+            android:scaleType="centerCrop"
+            android:onClick="toggleMenu"
+            android:src="@mipmap/persondefault"/>
+        <TextView
+            android:id="@+id/tv_fragmentMessage"
+           android:layout_centerInParent="true"
+            android:textColor="@color/color_333"
+            android:textSize="@dimen/x32"
+            android:text="@string/message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_width="0dp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rl_fragmentTitle"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_height="0dp">
     <android.support.v4.widget.NestedScrollView
@@ -33,12 +61,49 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 >
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
                 <ImageView
+                    android:id="@+id/iv_message1"
                     android:layout_marginTop="@dimen/x20"
                     android:layout_marginBottom="@dimen/x20"
                     android:src="@mipmap/deliveryfeedback"
                     android:layout_width="@dimen/x80"
                     android:layout_height="@dimen/x80" />
+                <RelativeLayout
+                    android:layout_marginLeft="@dimen/x20"
+                    android:layout_toRightOf="@+id/iv_message1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:id="@+id/tv_message1"
+                        android:textSize="@dimen/x32"
+                        android:text="@string/deliverFeedBack"
+                        android:textColor="@color/color_333"
+                        android:layout_marginTop="@dimen/x26"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:singleLine="true"
+                        android:id="@+id/tv_feedbackCompanyName"
+                        android:layout_below="@+id/tv_message1"
+                        android:textSize="@dimen/x24"
+                        android:textColor="@color/color_999"
+                        android:layout_marginTop="@dimen/x6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/tv_feedbackTime"
+                        android:layout_alignParentRight="true"
+                        android:textSize="@dimen/x24"
+                        android:singleLine="true"
+                        android:textColor="@color/color_999"
+                        android:layout_marginTop="@dimen/x26"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+                </RelativeLayout>
                 <ImageView
                     android:visibility="gone"
                     android:id="@+id/iv_messageFeedBackNum"
@@ -46,44 +111,11 @@
                     android:textColor="@color/white"
                     android:src="@mipmap/new_orange"
                     android:layout_marginLeft="@dimen/x54"
-                    android:padding="@dimen/x3"
                     android:gravity="center"
                     android:background="@drawable/rv_bg_red"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="@dimen/x49"
+                    android:layout_height="@dimen/x24" />
             </FrameLayout>
-            <RelativeLayout
-                android:layout_marginLeft="@dimen/x20"
-                android:layout_toRightOf="@+id/fl_message1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <TextView
-                    android:id="@+id/tv_message1"
-                    android:textSize="@dimen/x32"
-                    android:text="@string/deliverFeedBack"
-                    android:textColor="@color/color_333"
-                    android:layout_marginTop="@dimen/x26"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:singleLine="true"
-                    android:id="@+id/tv_feedbackCompanyName"
-                    android:layout_below="@+id/tv_message1"
-                    android:textSize="@dimen/x24"
-                    android:textColor="@color/color_999"
-                    android:layout_marginTop="@dimen/x6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:id="@+id/tv_feedbackTime"
-                    android:layout_alignParentRight="true"
-                    android:textSize="@dimen/x24"
-                    android:singleLine="true"
-                    android:textColor="@color/color_999"
-                    android:layout_marginTop="@dimen/x26"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </RelativeLayout>
         </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/rl_whoSeeMe"
@@ -96,12 +128,49 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     >
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
                     <ImageView
+                        android:id="@+id/iv_message2"
                         android:layout_marginTop="@dimen/x20"
                         android:layout_marginBottom="@dimen/x20"
                         android:src="@mipmap/whoseeme"
                         android:layout_width="@dimen/x80"
                         android:layout_height="@dimen/x80" />
+                    <RelativeLayout
+                        android:layout_marginLeft="@dimen/x20"
+                        android:layout_toRightOf="@+id/iv_message2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:text="@string/whoSeeMe"
+                            android:id="@+id/tv_message2"
+                            android:textSize="@dimen/x32"
+                            android:textColor="@color/color_333"
+                            android:layout_marginTop="@dimen/x26"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:id="@+id/tv_whoSeeMeCompanyName"
+                            android:layout_below="@+id/tv_message2"
+                            android:textSize="@dimen/x24"
+                            android:singleLine="true"
+                            android:textColor="@color/color_999"
+                            android:layout_marginTop="@dimen/x6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:id="@+id/tv_whoSeeMeCompanyTime"
+                            android:singleLine="true"
+                            android:layout_alignParentRight="true"
+                            android:textSize="@dimen/x24"
+                            android:textColor="@color/color_999"
+                            android:layout_marginTop="@dimen/x26"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </RelativeLayout>
+                    </RelativeLayout>
                     <ImageView
                         android:id="@+id/iv_messageWhoSeeMeNum"
                         android:layout_marginTop="@dimen/x20"
@@ -110,44 +179,11 @@
                         android:src="@mipmap/new_orange"
                         android:visibility="gone"
                         android:layout_marginLeft="@dimen/x54"
-                        android:padding="@dimen/x3"
                         android:gravity="center"
                         android:background="@drawable/rv_bg_red"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_width="@dimen/x49"
+                        android:layout_height="@dimen/x24"/>
                 </FrameLayout>
-                <RelativeLayout
-                    android:layout_marginLeft="@dimen/x20"
-                    android:layout_toRightOf="@+id/fl_message2"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <TextView
-                        android:text="@string/whoSeeMe"
-                        android:id="@+id/tv_message2"
-                        android:textSize="@dimen/x32"
-                        android:textColor="@color/color_333"
-                        android:layout_marginTop="@dimen/x26"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                    <TextView
-                        android:id="@+id/tv_whoSeeMeCompanyName"
-                        android:layout_below="@+id/tv_message2"
-                        android:textSize="@dimen/x24"
-                        android:singleLine="true"
-                        android:textColor="@color/color_999"
-                        android:layout_marginTop="@dimen/x6"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                    <TextView
-                        android:id="@+id/tv_whoSeeMeCompanyTime"
-                        android:singleLine="true"
-                        android:layout_alignParentRight="true"
-                        android:textSize="@dimen/x24"
-                        android:textColor="@color/color_999"
-                        android:layout_marginTop="@dimen/x26"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </RelativeLayout>
             </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/rl_employmentGuidance"
@@ -160,6 +196,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     >
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
                     <ImageView
                         android:id="@+id/iv_message3"
                         android:layout_marginTop="@dimen/x20"
@@ -167,24 +206,11 @@
                         android:src="@mipmap/employmentguidance"
                         android:layout_width="@dimen/x80"
                         android:layout_height="@dimen/x80" />
-                    <ImageView
-                        android:id="@+id/iv_messageEmploymentGuidanceNum"
-                        android:layout_marginTop="@dimen/x20"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/x16"
-                        android:layout_marginLeft="@dimen/x54"
-                        android:padding="@dimen/x3"
-                        android:gravity="center"
-                        android:src="@mipmap/new_orange"
-                        android:background="@drawable/rv_bg_red"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </FrameLayout>
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="@dimen/x20"
-                        android:layout_toRightOf="@+id/fl_message3">
+                        android:layout_toRightOf="@+id/iv_message3">
 
                         <TextView
                             android:id="@+id/tv_message3"
@@ -195,6 +221,19 @@
                             android:textColor="@color/color_333"
                             android:textSize="@dimen/x32" />
                     </RelativeLayout>
+                    </RelativeLayout>
+                    <ImageView
+                        android:id="@+id/iv_messageEmploymentGuidanceNum"
+                        android:layout_marginTop="@dimen/x20"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/x16"
+                        android:layout_marginLeft="@dimen/x54"
+                        android:gravity="center"
+                        android:src="@mipmap/new_orange"
+                        android:background="@drawable/rv_bg_red"
+                        android:layout_width="@dimen/x49"
+                        android:layout_height="@dimen/x24" />
+                </FrameLayout>
             </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/rl_find"
@@ -207,6 +246,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     >
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
                     <ImageView
                         android:id="@+id/iv_message4"
                         android:layout_marginTop="@dimen/x20"
@@ -214,6 +256,22 @@
                         android:src="@mipmap/find"
                         android:layout_width="@dimen/x80"
                         android:layout_height="@dimen/x80" />
+                    <RelativeLayout
+                        android:layout_marginLeft="@dimen/x20"
+                        android:layout_toRightOf="@+id/iv_message4"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/relativeLayout">
+                        <TextView
+                            android:text="@string/find"
+                            android:id="@+id/tv_message4"
+                            android:textSize="@dimen/x32"
+                            android:textColor="@color/color_333"
+                            android:layout_marginTop="@dimen/x40"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </RelativeLayout>
+                    </RelativeLayout>
                     <TextView
                         android:visibility="gone"
                         android:id="@+id/tv_messageFindNum"
@@ -226,21 +284,6 @@
                         android:layout_width="@dimen/x20"
                         android:layout_height="@dimen/x20" />
                 </FrameLayout>
-                <RelativeLayout
-                    android:layout_marginLeft="@dimen/x20"
-                    android:layout_toRightOf="@+id/fl_message4"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/relativeLayout">
-                    <TextView
-                        android:text="@string/find"
-                        android:id="@+id/tv_message4"
-                        android:textSize="@dimen/x32"
-                        android:textColor="@color/color_333"
-                        android:layout_marginTop="@dimen/x40"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </RelativeLayout>
             </RelativeLayout>
             <View
                 android:background="@color/resumeContent_bg"

@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.SumPathEffect;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.util.TypedValue;
@@ -25,7 +27,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.hr.ui.R;
 import com.hr.ui.base.BaseFragment;
-import com.hr.ui.base.MyEvent;
 import com.hr.ui.bean.ResumeBean;
 import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.main.activity.MainActivity;
@@ -47,6 +48,7 @@ import com.hr.ui.utils.datautils.FromStringToArrayList;
 import com.hr.ui.utils.datautils.ResumeInfoIDToString;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.CircleImageView;
+import com.hr.ui.view.MyDialog;
 import com.hr.ui.view.MyResumeScoreProgressBar;
 import com.hr.ui.view.SnailBar;
 import com.lzy.imagepicker.ImagePicker;
@@ -143,6 +145,11 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
     SwipeRefreshLayout srlResume;
     @BindView(R.id.iv_hideResume)
     Switch ivHideResume;
+    @BindView(R.id.tv_resumeWorkExpName)
+    TextView tvResumeWorkExpName;
+    @BindView(R.id.tv_hideResumeTag)
+    TextView tvHideResumeTag;
+    private boolean isCheck;
     private List<ResumeBean.ResumeInfoBean.AssessInfoBean> assessInfoBean;
     private List<ResumeBean.ResumeInfoBean.OrderInfoBean> orderInfoBean;
     private List<ResumeBean.ResumeInfoBean.TitleInfoBean> titleInfoBean;
@@ -158,12 +165,12 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
     private PopupWindow popupWindow;
     public static final int REQUEST_CODE_SELECT = 0x10;
     public static final int IMAGE_PICKER = 0x20;
-    private String imagePath;
-    private boolean open;
+    private String imagePath, resumeType;
     private ResumeBean.ResumeInfoBean resumeInfoBean;
     private boolean isFlesh, isCanFresh;
     private SharedPreferencesUtils sUtils;
     private int resumeId;
+    private MyDialog dialog;
 
     public static ResumeFragment newInstance(String s) {
         ResumeFragment navigationFragment = new ResumeFragment();
@@ -190,8 +197,7 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
         sUtils = new SharedPreferencesUtils(getActivity());
       /*  mPresenter.getResumeList();*/
         // 设置进度条的颜色变化，最多可以设置4种颜色
-        resumeId=sUtils.getIntValue(Constants.RESUME_ID,0);
-        mPresenter.getResume(resumeId+"");
+        resumeId = sUtils.getIntValue(Constants.RESUME_ID, 0);
         srlResume.setColorSchemeResources(R.color.new_main);
         // 设置下拉监听，当用户下拉的时候会去执行回调
         srlResume.setOnRefreshListener(this);
@@ -201,13 +207,16 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
         ivHideResume.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
+                    if(isCheck==false) {
                         mPresenter.setHide("2");
-                }else{
+                    }
+                } else {
                     mPresenter.setHide("0");
                 }
             }
         });
+        mPresenter.getResume(resumeId + "",true);
     }
 
 
@@ -231,7 +240,7 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
         isCanFresh = sUtils.getBooleanValue(Constants.IS_FERSH, false);
         if (isCanFresh == true) {
          /*   mPresenter.getResumeList();*/
-            mPresenter.getResume(resumeId+"");
+            mPresenter.getResume(resumeId + "",false);
         }
     }
 
@@ -252,10 +261,20 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
 
     @Override
     public void getResumeSuccess(ResumeBean resumeBean) {
+        /*srlResume.setRefreshing(false);*/
         if (isFlesh == true) {
             ToastUitl.showShort("刷新成功");
             isFlesh = false;
         }
+        resumeType = resumeBean.getResume_info().getTitle_info().get(0).getResume_type();
+        if("1".equals(resumeType)){
+            tvResumeWorkExpName.setText(R.string.workExp);
+            tvResumeAddWorkExp.setText(R.string.addWorkExp);
+        }else{
+            tvResumeWorkExpName.setText(R.string.internshipExperience);
+            tvResumeAddWorkExp.setText(R.string.addInternshipExp);
+        }
+        sUtils.setStringValue(Constants.RESUME_TYPE, resumeType);
         resumeInfoBean = resumeBean.getResume_info();
         orderInfoBean = resumeBean.getResume_info().getOrder_info();
         titleInfoBean = resumeBean.getResume_info().getTitle_info();
@@ -310,7 +329,7 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
 
     private void initIntroduction() {
         llResumeIntroductionList.removeAllViewsInLayout();
-        if (assessInfoBean != null && assessInfoBean.size() !=0) {
+        if (assessInfoBean != null && assessInfoBean.size() != 0) {
             tvAddResumeIntroduction.setVisibility(View.GONE);
             for (int i = 0; i < assessInfoBean.size(); i++) {
                 View plantView = LayoutInflater.from(getActivity()).inflate(
@@ -350,7 +369,11 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
                 TextView tvResumeName = plantView.findViewById(R.id.tv_resumeItemName);
                 TextView tvResumeName2 = plantView.findViewById(R.id.tv_resumeItemName2);
                 tvResumeName.setText(plantListBeanList.get(i).getInstitution());
-                tvResumeName2.setText(plantListBeanList.get(i).getFromyear() + "." + plantListBeanList.get(i).getFrommonth() + "-" + plantListBeanList.get(i).getToyear() + "." + plantListBeanList.get(i).getTomonth());
+                String endTimes=plantListBeanList.get(i).getToyear() + "." + plantListBeanList.get(i).getTomonth();
+                if("0.0".equals(endTimes)){
+                    endTimes="至今";
+                }
+                tvResumeName2.setText(plantListBeanList.get(i).getFromyear() + "." + plantListBeanList.get(i).getFrommonth() + "-" +endTimes );
                 final int finalI = i;
                 rlResumeItem.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -378,7 +401,7 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
                 TextView tvResumeName = plantView.findViewById(R.id.tv_resumeItemName);
                 TextView tvResumeName2 = plantView.findViewById(R.id.tv_resumeItemName2);
                 tvResumeName.setText(ResumeInfoIDToString.getLanguageTpye(getActivity(), languageListBeanList.get(i).getLangname(), true));
-                tvResumeName2.setText("读写：" + ResumeInfoIDToString.getLanguageReadLevel(getActivity(), languageListBeanList.get(i).getRead_level(), true) + "  听说：" + ResumeInfoIDToString.getLanguageReadLevel(getActivity(), languageListBeanList.get(i).getSpeak_level(), true));
+                tvResumeName2.setText("听说：" + ResumeInfoIDToString.getLanguageReadLevel(getActivity(), languageListBeanList.get(i).getSpeak_level(), true) + "  读写：" + ResumeInfoIDToString.getLanguageReadLevel(getActivity(), languageListBeanList.get(i).getRead_level(), true));
                 final int finalI = i;
                 rlResumeItem.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -453,25 +476,38 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
 
     @Override
     public void getResumeList(String resumeId) {
-        mPresenter.getResume(resumeId);
+       // mPresenter.getResume(resumeId);
     }
 
     @Override
-    public void uploadImageSuccess(String path) {
-        sUtils.setStringValue(Constants.PERSONIMAGE,path);
+    public void uploadImageSuccess(final String path) {
+        sUtils.setStringValue(Constants.PERSONIMAGE, path);
+        Glide.with(this).load(Constants.IMAGE_BASEPATH + path).fitCenter().into(ivResumePersonImage);
         MainActivity.instance.setImage();
-        Glide.with(this).load(Constants.IMAGE_BASEPATH + path).centerCrop().into(ivResumePersonImage);
-        resumeInfoBean.getBase_info().get(0).setPic_filekey(path);
+        HomeFragment.instance.setImage();
+        MessageFragment.instance.setImage();
+       // Log.i("okht","你好啊 "+Constants.IMAGE_BASEPATH + path);
     }
 
     @Override
     public void setHideSuccess() {
+        if(ivHideResume.isChecked()){
+            ToastUitl.showShort("隐藏简历成功");
+        }else{
+            ToastUitl.showShort("取消隐藏简历成功");
+        }
        /* open = !open;
         if (open == false) {
             ivHideResume.setChecked(false);
         } else {
             ivHideResume.setChecked(true);
         }*/
+    }
+
+    @Override
+    public void updateSuccess() {
+        ToastUitl.showShort("简历升级成功");
+        mPresenter.getResume(resumeId+"",true);
     }
 
     /**
@@ -483,6 +519,7 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
             calendar = Calendar.getInstance();
             // 年龄
             String yearString = baseInfoBean.get(0).getYear();
+            sUtils.setStringValue(Constants.BIRTHYEAR, yearString);
             String monthString = baseInfoBean.get(0).getMonth();
             String dayString = baseInfoBean.get(0).getDay();
             int curYear = calendar.get(Calendar.YEAR);
@@ -495,11 +532,10 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
             tvResumePersonEmail.setText(baseInfoBean.get(0).getEmailaddress());
             tvResumePersonTel.setText(baseInfoBean.get(0).getYdphone());
             if (!"".equals(baseInfoBean.get(0).getPic_filekey()) && baseInfoBean.get(0).getPic_filekey() != null) {
-                Glide.with(this).load(Constants.IMAGE_BASEPATH + baseInfoBean.get(0).getPic_filekey()).centerCrop().into(ivResumePersonImage);
+                Glide.with(this).load(Constants.IMAGE_BASEPATH + baseInfoBean.get(0).getPic_filekey()).fitCenter().into(ivResumePersonImage);
             }
         }
     }
-
     /**
      * 简历信息
      */
@@ -508,6 +544,7 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
             pbResume.setProgram(Integer.parseInt(titleInfoBean.get(0).getFill_scale()));
             sbResume.setMaxCount(100);
             if ("2".equals(titleInfoBean.get(0).getOpen())) {
+                isCheck=true;
                 ivHideResume.setChecked(true);
             } else {
                 ivHideResume.setChecked(false);
@@ -520,8 +557,11 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
         if (orderInfoBean != null) {
             tvResumeJobState.setText(ResumeInfoIDToString.getCurrentState(getActivity(), orderInfoBean.get(0).getCurrent_workstate(), true));
             tvResumeJobOrder.setText("[" + ResumeInfoIDToString.getIndustry(getActivity(), orderInfoBean.get(0).getOrder_industry().get(0).getIndustry(), true) + "]" + FromStringToArrayList.getInstance().getExpectPositionString(orderInfoBean.get(0).getOrder_industry().get(0).getIndustry(), orderInfoBean.get(0).getOrder_industry().get(0).getFunc()));
-            sUtils.setStringValue(Constants.INDUSTRY_ID,orderInfoBean.get(0).getIndustry());
-            HomeFragment.instance.refresh();
+            sUtils.setStringValue(Constants.INDUSTRY_ID, orderInfoBean.get(0).getIndustry());
+            if(isCanFresh==true) {
+                sUtils.setBooleanValue(Constants.IS_FERSH, false);
+                HomeFragment.instance.refresh();
+            }
         }
     }
 
@@ -529,20 +569,20 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
         llResumeEduBGList.removeAllViewsInLayout();
         if (educationListBeanList != null && educationListBeanList.size() != 0) {
             //学校+专业+学历的长度
-            int length=educationListBeanList.get(0).getSchoolname().length()+educationListBeanList.get(0).getMoremajor().length()+ ResumeInfoIDToString.getEducationDegree(getActivity(), educationListBeanList.get(0).getDegree(), true).length();
-            String schoolName=educationListBeanList.get(0).getSchoolname();
-            String moreMajor=educationListBeanList.get(0).getMoremajor();
-            String degree=ResumeInfoIDToString.getEducationDegree(getActivity(), educationListBeanList.get(0).getDegree(), true);
-            if (length> 18) {
-                if(schoolName.length()>8){
-                    schoolName=schoolName.substring(0,7)+"...";
+            int length = educationListBeanList.get(0).getSchoolname().length() + educationListBeanList.get(0).getMoremajor().length() + ResumeInfoIDToString.getEducationDegree(getActivity(), educationListBeanList.get(0).getDegree(), true).length();
+            String schoolName = educationListBeanList.get(0).getSchoolname();
+            String moreMajor = educationListBeanList.get(0).getMoremajor();
+            String degree = ResumeInfoIDToString.getEducationDegree(getActivity(), educationListBeanList.get(0).getDegree(), true);
+            if (length > 18) {
+                if (schoolName.length() > 8) {
+                    schoolName = schoolName.substring(0, 7) + "...";
                 }
-                if(moreMajor.length()>8){
-                    moreMajor=moreMajor.substring(0,7)+"...";
+                if (moreMajor.length() > 8) {
+                    moreMajor = moreMajor.substring(0, 7) + "...";
                 }
-                tvResumeEduInfo.setText(schoolName+"  " + moreMajor + "  " + degree);
+                tvResumeEduInfo.setText(schoolName + "  " + moreMajor + "  " + degree);
             } else {
-                tvResumeEduInfo.setText(schoolName+"  " + moreMajor + "  " + degree);
+                tvResumeEduInfo.setText(schoolName + "  " + moreMajor + "  " + degree);
             }
             llResumeEduBGList.setVisibility(View.VISIBLE);
             for (int i = 0; i < educationListBeanList.size(); i++) {
@@ -558,7 +598,7 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
                 rlResumeItem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ResumeEducationActivity.startAction(getActivity(), educationListBeanList.get(finalI).getEducation_id());
+                        ResumeEducationActivity.startAction(getActivity(), educationListBeanList.get(finalI).getEducation_id(),educationListBeanList.size());
                     }
                 });
                 llResumeEduBGList.addView(plantView);
@@ -570,7 +610,7 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
 
     private void initWorkExp() {
         llResumeWorkExpList.removeAllViewsInLayout();
-        if (experienceListBeanList != null&& experienceListBeanList.size() != 0) {
+        if (experienceListBeanList != null && experienceListBeanList.size() != 0) {
             llResumeWorkExpList.setVisibility(View.VISIBLE);
             for (int i = 0; i < experienceListBeanList.size(); i++) {
                 View plantView = LayoutInflater.from(getActivity()).inflate(
@@ -580,12 +620,17 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
                 TextView tvResumeName = plantView.findViewById(R.id.tv_resumeItemName);
                 TextView tvResumeName2 = plantView.findViewById(R.id.tv_resumeItemName2);
                 tvResumeName.setText(experienceListBeanList.get(i).getCompany());
-                tvResumeName2.setText(experienceListBeanList.get(i).getFromyear() + "." + experienceListBeanList.get(i).getFrommonth() + "-" + experienceListBeanList.get(i).getToyear() + "." + experienceListBeanList.get(i).getTomonth());
+                String startTime = experienceListBeanList.get(i).getFromyear() + "." + experienceListBeanList.get(i).getFrommonth();
+                String endTime = experienceListBeanList.get(i).getToyear() + "." + experienceListBeanList.get(i).getTomonth();
+                if ("0.0".equals(endTime)) {
+                    endTime = "至今";
+                }
+                tvResumeName2.setText(startTime + "-" + endTime);
                 final int finalI = i;
                 rlResumeItem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ResumeWorkExpActivity.startAction(getActivity(), experienceListBeanList.get(finalI).getExperience_id());
+                        ResumeWorkExpActivity.startAction(getActivity(), experienceListBeanList.get(finalI).getExperience_id(),experienceListBeanList.size());
                     }
                 });
                 llResumeWorkExpList.addView(plantView);
@@ -684,9 +729,12 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
         }
     }
 
-    @OnClick({R.id.tv_addResumeEduBG, R.id.tv_resumeAddWorkExp, R.id.tv_resumePreview, R.id.tv_addResumeProjectExp, R.id.tv_addResumeProfessionSkill, R.id.tv_addResumeLanguageSkill, R.id.tv_addResumeTrainExp, R.id.tv_addResumeIntroduction, R.id.tv_addResumeAttachment, R.id.iv_resumePersonImage, R.id.rl_resumeJobOrder, R.id.iv_editResumePersonal, R.id.ll_resumeEduBGList, R.id.ll_resumeWorkExpList, R.id.ll_resumeProjectExpLIst, R.id.ll_resumeProfessionSkillList, R.id.ll_resumeLanguageSkillList, R.id.ll_resumeTrainExpList, R.id.ll_resumeIntroductionList, R.id.ll_resumeAttachmentList})
+    @OnClick({R.id.tv_addResumeEduBG,R.id.iv_resumeMenu, R.id.tv_resumeAddWorkExp, R.id.tv_resumePreview, R.id.tv_addResumeProjectExp, R.id.tv_addResumeProfessionSkill, R.id.tv_addResumeLanguageSkill, R.id.tv_addResumeTrainExp, R.id.tv_addResumeIntroduction, R.id.tv_addResumeAttachment, R.id.iv_resumePersonImage, R.id.rl_resumeJobOrder, R.id.iv_editResumePersonal, R.id.ll_resumeEduBGList, R.id.ll_resumeWorkExpList, R.id.ll_resumeProjectExpLIst, R.id.ll_resumeProfessionSkillList, R.id.ll_resumeLanguageSkillList, R.id.ll_resumeTrainExpList, R.id.ll_resumeIntroductionList, R.id.ll_resumeAttachmentList})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.iv_resumeMenu:
+                doUpdateResume();
+                break;
             case R.id.iv_resumePersonImage:
                 takePhoto();
                 break;
@@ -743,6 +791,31 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
         }
     }
 
+    private void doUpdateResume() {
+        dialog=new MyDialog(getActivity(),2);
+        dialog.setMessage(getString(R.string.updateMessage));
+        dialog.setYesOnclickListener(getString(R.string.sure), new MyDialog.onYesOnclickListener() {
+            @Override
+            public void onYesClick() {
+                mPresenter.updateResume(resumeId+"");
+                dialog.dismiss();
+            }
+        });
+        dialog.setNoOnclickListener(getString(R.string.cancel), new MyDialog.onNoOnclickListener() {
+            @Override
+            public void onNoClick() {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(dialog!=null){
+            dialog.dismiss();
+        }
+    }
 
     @Override
     public void onRefresh() {
@@ -751,7 +824,7 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
             public void run() {
                 isFlesh = true;
                 // 设置SwipeRefreshLayout当前是否处于刷新状态，一般是在请求数据的时候设置为true，在数据被加载到View中后，设置为false。
-                mPresenter.getResume(resumeId+"");
+                mPresenter.getResume(resumeId + "",false);
                 if (srlResume != null) {
                     srlResume.setRefreshing(false);
                 }

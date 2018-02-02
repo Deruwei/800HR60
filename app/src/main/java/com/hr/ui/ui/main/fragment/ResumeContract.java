@@ -20,17 +20,20 @@ public interface ResumeContract {
         void getResumeList(String resumeId);
         void uploadImageSuccess(String path);
         void setHideSuccess();
+        void updateSuccess();
     }
     interface Model extends BaseModel{
         Observable<ResumeBean> getResume(String resumeId);
         Observable<MultipleResumeBean> getResumeList();
          Observable<PictureBean> upLoadImage(String content);
          Observable<ResponseBody> setHide(String openstate);
+         Observable<ResponseBody> updateResume(String resumeId);
     }
     abstract class Presenter extends BasePresenter<View,Model>{
-        public abstract void getResume(String resumeId);
+        public abstract void getResume(String resumeId,boolean isCanFresh);
         public abstract void getResumeList();
         public abstract void upLoadImage(String content);
         public abstract void setHide(String openstate);
+        public abstract void updateResume(String resumeId);
     }
 }

@@ -109,15 +109,23 @@ public class ResumeIntroductionActivity extends BaseActivity<ResumeIntroductionP
         sUtils=new SharedPreferencesUtils(this);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        etContent.setMaxEms(400);
+        etContent.setMaxEms(600);
         if (getIntent().getStringExtra("text") != null || !"".equals(getIntent().getStringExtra("text"))) {
             etContent.setText(getIntent().getStringExtra("text"));
-            tvTextSum.setText(etContent.getText().toString().length() + " / 400");
+            tvTextSum.setText(etContent.getText().toString().length() + " / 600");
         } else {
             etContent.setText("");
-            tvTextSum.setText("0 / 400");
+            tvTextSum.setText("0 / 600");
         }
         toolBar.setTitle("");
+        tvToolbarSave.setVisibility(View.VISIBLE);
+        tvToolbarSave.setText(R.string.save);
+        tvToolbarSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                doAddIntroduction();
+            }
+        });
         toolBar.setTitleTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
         toolBar.setNavigationIcon(R.mipmap.back);
         tvToolbarTitle.setText(R.string.introduction);
@@ -145,7 +153,7 @@ public class ResumeIntroductionActivity extends BaseActivity<ResumeIntroductionP
                 }
             }
         });
-        etContent.setFilters(new InputFilter[]{new InputFilter.LengthFilter(400)});
+        etContent.setFilters(new InputFilter[]{new InputFilter.LengthFilter(600)});
         etContent.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -154,7 +162,7 @@ public class ResumeIntroductionActivity extends BaseActivity<ResumeIntroductionP
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                tvTextSum.setText(s.length() + " / 400");
+                tvTextSum.setText(s.length() + " / 600");
             }
 
             @Override
@@ -173,10 +181,13 @@ public class ResumeIntroductionActivity extends BaseActivity<ResumeIntroductionP
 
     @OnClick(R.id.btn_contentOK)
     public void onViewClicked() {
+       doAddIntroduction();
+    }
+    private void doAddIntroduction(){
         if (etContent.getText().toString() == null || "".equals(etContent.getText().toString())) {
-            ToastUitl.showShort("请填写职位描述");
+            ToastUitl.showShort("请填写自我评价");
             return;
         }
-       mPresenter.addOrReplaceIntroduction(etContent.getText().toString());
+        mPresenter.addOrReplaceIntroduction(etContent.getText().toString());
     }
 }

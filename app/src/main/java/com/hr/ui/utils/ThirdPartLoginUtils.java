@@ -93,16 +93,17 @@ public class ThirdPartLoginUtils {
                 String nicknameString = arg2.get("nickname") + "";
                 String uidString = arg2.get("unionid") + "";
                 String birthdayString = arg2.get("birthday") + "";
-                String tinyurlString = arg2.get("avatar_hd") + "";
-                String genderString = arg2.get("gender") + "";
+                String tinyurlString = arg2.get("headimgurl") + "";
+                String genderString = arg2.get("sex") + "";
                 thirdPartBean.setType("weixin");
-                thirdPartBean.setName(nameString);
+                thirdPartBean.setName(nicknameString);
                 thirdPartBean.setNikeName(nicknameString);
                 thirdPartBean.setUId(uidString);
                 thirdPartBean.setBirthDay(birthdayString);
                 thirdPartBean.setPhoto(tinyurlString);
                 thirdPartBean.setGender(genderString);
                 Constants.TYPE_THIRDPARTLOGIN="weixin";
+                System.out.println("wechat-complete"+thirdPartBean.toString());
                 mPresenter.getThirdPartLogin(thirdPartBean);
             }
 

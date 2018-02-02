@@ -29,7 +29,7 @@ public interface MessageFragmentContract {
     }
     abstract class Presenter extends BasePresenter<View,Model>{
         public abstract void getWHoSeeMe(int page);
-        public abstract void getDeliverFeedback(int page,int isRead,int isInvite);
+        public abstract void getDeliverFeedback(int page,int isRead,int isInvite,boolean isCanRefresh);
         public abstract void getInviteInterview(int page);
     }
 }

@@ -48,7 +48,7 @@
             android:id="@+id/rl_settingShieldCompany"
             style="@style/rl_setting">
             <TextView
-                android:text="@string/shieldCompany"
+                android:text="@string/shieldCompany1"
                 style="@style/tv_setting" />
             <ImageView
                 style="@style/iv_setting" />

@@ -48,11 +48,14 @@
                         <TextView
                             android:id="@+id/tv_companyPageCompanyName"
                             android:textSize="@dimen/x36"
-                            android:layout_gravity="center"
+                            android:layout_marginLeft="@dimen/x30"
+                            android:layout_marginRight="@dimen/x30"
+                            android:gravity="center"
+                            android:lineSpacingMultiplier="1.2"
                             android:layout_marginTop="@dimen/x85"
                             android:text="北京英才网联科技有限公司"
                             android:textColor="@color/color_333"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                        <LinearLayout
                            android:layout_marginTop="@dimen/x15"
@@ -111,6 +114,7 @@
                        android:layout_height="@dimen/x160" />
                </FrameLayout>
                 <LinearLayout
+                    android:id="@+id/ll_companyLocation"
                     android:orientation="vertical"
                     android:background="@drawable/edit_bg_small"
                     android:layout_marginTop="@dimen/x20"
@@ -214,15 +218,30 @@
                     android:text="@string/atWorking"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-                <android.support.v7.widget.RecyclerView
-                    android:layout_marginLeft="@dimen/x25"
-                    android:layout_marginRight="@dimen/x25"
-                    android:id="@+id/rv_companyPageInfo"
-                    android:layout_marginBottom="@dimen/x20"
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/tv_noDataPosition"
+                        android:layout_marginTop="@dimen/x20"
+                        android:textSize="@dimen/x28"
+                        android:visibility="gone"
+                        android:gravity="center_horizontal"
+                        android:text="@string/noDataPosition"
+                        android:layout_marginLeft="@dimen/x25"
+                        android:layout_marginRight="@dimen/x25"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <android.support.v7.widget.RecyclerView
+                        android:layout_marginLeft="@dimen/x25"
+                        android:layout_marginRight="@dimen/x25"
+                        android:id="@+id/rv_companyPageInfo"
+                        android:layout_marginBottom="@dimen/x20"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-                </android.support.v7.widget.RecyclerView>
+                    </android.support.v7.widget.RecyclerView>
+                </FrameLayout>
             </LinearLayout>
         </FrameLayout>
     </android.support.v4.widget.NestedScrollView>

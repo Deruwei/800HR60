@@ -5,14 +5,14 @@ package com.hr.ui.bean;
  */
 
 public class PictureBean {
-    private double error_code;
+    private String error_code;
     private String pic_filekey;
 
-    public double getError_code() {
+    public String getError_code() {
         return error_code;
     }
 
-    public void setError_code(double error_code) {
+    public void setError_code(String error_code) {
         this.error_code = error_code;
     }
 

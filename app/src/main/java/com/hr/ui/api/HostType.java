@@ -33,5 +33,6 @@ public class HostType {
      *
      */
     public static final int HR=5;
+    public static final int BAIDU=6;
 
 }

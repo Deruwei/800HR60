@@ -5,6 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.Selection;
+import android.text.Spannable;
+import android.text.TextWatcher;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -48,12 +54,23 @@ public class ChangePswActivity extends BaseActivity<ChangePswPresenter, ChangePs
     View viewGetValidCode2;
     @BindView(R.id.btn_changePswOK)
     Button btnChangePswOK;
+    @BindView(R.id.iv_changePswOldDelete)
+    ImageView ivChangePswOldDelete;
+    @BindView(R.id.iv_changePswOldHiddenPsw)
+    ImageView ivChangePswOldHiddenPsw;
+    @BindView(R.id.iv_changePswNewDelete)
+    ImageView ivChangePswNewDelete;
+    @BindView(R.id.iv_changePswNewHiddenPsw)
+    ImageView ivChangePswNewHiddenPsw;
+    private boolean isHiddenOld,isHiddenNew;
+
     public static void startAction(Activity activity) {
         Intent intent = new Intent(activity, ChangePswActivity.class);
         activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.fade_in,
                 R.anim.fade_out);
     }
+
     @Override
     public void showLoading(String title) {
 
@@ -82,7 +99,7 @@ public class ChangePswActivity extends BaseActivity<ChangePswPresenter, ChangePs
 
     @Override
     public void initPresenter() {
-        mPresenter.setVM(this,mModel);
+        mPresenter.setVM(this, mModel);
     }
 
     @Override
@@ -107,22 +124,142 @@ public class ChangePswActivity extends BaseActivity<ChangePswPresenter, ChangePs
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+        textChangeAndFocusChange();
     }
 
-    @OnClick(R.id.btn_changePswOK)
-    public void onViewClicked() {
-        if(etChangePswNewOld.getText().toString()==null||"".equals(etChangePswNewOld.getText().toString())){
-            ToastUitl.showShort("请填写旧密码");
-            return;
+    private void textChangeAndFocusChange() {
+        etChangePswNew.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length()>0){
+                    ivChangePswNewDelete.setVisibility(View.VISIBLE);
+                }else{
+                    ivChangePswNewDelete.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        etChangePswNew.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    ivChangePswNewDelete.setVisibility(View.GONE);
+                }else{
+                    if(etChangePswNew.getText().toString()!=null&&!"".equals(etChangePswNew.getText().toString())){
+                        ivChangePswNewDelete.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
+        etChangePswNewOld.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length()>0){
+                    ivChangePswOldDelete.setVisibility(View.VISIBLE);
+                }else{
+                    ivChangePswOldDelete.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        etChangePswNewOld.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    ivChangePswOldDelete.setVisibility(View.GONE);
+                }else{
+                    if(etChangePswNewOld.getText().toString()!=null&&!"".equals(etChangePswNewOld.getText().toString())){
+                        ivChangePswOldDelete.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
+    }
+
+    @OnClick({R.id.btn_changePswOK,R.id.iv_changePswNewDelete,R.id.iv_changePswOldDelete,R.id.iv_changePswNewHiddenPsw,R.id.iv_changePswOldHiddenPsw})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.btn_changePswOK:
+                if (etChangePswNewOld.getText().toString() == null || "".equals(etChangePswNewOld.getText().toString())) {
+                    ToastUitl.showShort("请填写旧密码");
+                    return;
+                }
+                if (etChangePswNew.getText().toString() == null || "".equals(etChangePswNew.getText().toString())) {
+                    ToastUitl.showShort("请填写新密码");
+                    return;
+                }
+                if (etChangePswNew.getText().toString().length() < 6 || etChangePswNew.getText().toString().length() > 25) {
+                    ToastUitl.showShort("请输入6-25位新密码");
+                    return;
+                }
+                if (etChangePswNewOld.getText().toString().equals(etChangePswNew.getText().toString())) {
+                    ToastUitl.showShort("新旧密码不能相同");
+                    return;
+                }
+                mPresenter.getChangePsw(etChangePswNewOld.getText().toString(), etChangePswNew.getText().toString());
+                break;
+            case R.id.iv_changePswNewDelete:
+                etChangePswNew.setText("");
+                break;
+            case R.id.iv_changePswOldDelete:
+                etChangePswNewOld.setText("");
+                break;
+            case R.id.iv_changePswNewHiddenPsw:
+                if (isHiddenNew) {
+                    //设置EditText文本为可见的
+                    ivChangePswNewHiddenPsw.setImageResource(R.mipmap.see);
+                    etChangePswNew.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                } else {
+                    //设置EditText文本为隐藏的
+                    ivChangePswNewHiddenPsw.setImageResource(R.mipmap.hidden);
+                    etChangePswNew.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                }
+                isHiddenNew = !isHiddenNew;
+                etChangePswNew.postInvalidate();
+                //切换后将EditText光标置于末尾
+                CharSequence charSequence = etChangePswNew.getText();
+                if (charSequence instanceof Spannable) {
+                    Spannable spanText = (Spannable) charSequence;
+                    Selection.setSelection(spanText, charSequence.length());
+                }
+                break;
+            case R.id.iv_changePswOldHiddenPsw:
+                if (isHiddenOld) {
+                    //设置EditText文本为可见的
+                    ivChangePswOldHiddenPsw.setImageResource(R.mipmap.see);
+                    etChangePswNewOld.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                } else {
+                    //设置EditText文本为隐藏的
+                    ivChangePswOldHiddenPsw.setImageResource(R.mipmap.hidden);
+                    etChangePswNewOld.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                }
+                isHiddenOld = !isHiddenOld;
+                etChangePswNewOld.postInvalidate();
+                //切换后将EditText光标置于末尾
+                CharSequence charSequence2 = etChangePswNewOld.getText();
+                if (charSequence2 instanceof Spannable) {
+                    Spannable spanText = (Spannable) charSequence2;
+                    Selection.setSelection(spanText, charSequence2.length());
+                }
+                break;
         }
-        if(etChangePswNew.getText().toString()==null||"".equals(etChangePswNew.getText().toString())){
-            ToastUitl.showShort("请填写新密码");
-            return;
-        }
-        if(etChangePswNewOld.getText().toString().equals(etChangePswNew.getText().toString())){
-            ToastUitl.showShort("新旧密码不能相同");
-            return;
-        }
-        mPresenter.getChangePsw(etChangePswNewOld.getText().toString(),etChangePswNew.getText().toString());
     }
 }

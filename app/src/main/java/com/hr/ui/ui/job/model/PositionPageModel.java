@@ -5,9 +5,16 @@ import com.hr.ui.api.Api;
 import com.hr.ui.api.ApiParameter;
 import com.hr.ui.api.HostType;
 import com.hr.ui.base.RxSchedulers;
+import com.hr.ui.base.RxSubscriber;
 import com.hr.ui.bean.PositionBean;
 import com.hr.ui.ui.job.contract.PositionPageContract;
 import com.hr.ui.utils.EncryptUtils;
+import com.hr.ui.utils.Rc4Md5Utils;
+import com.hr.ui.utils.ToastUitl;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -62,6 +69,19 @@ public class PositionPageModel implements PositionPageContract.Model {
     @Override
     public Observable<ResponseBody> deliverPosition(String jobId) {
         return Api.getDefault(HostType.HR).getResponseString(EncryptUtils.encrypParams(ApiParameter.deliverJob(jobId)))
+                .map(new Func1<ResponseBody, ResponseBody>() {
+                    @Override
+                    public ResponseBody call(ResponseBody responseBody) {
+                        return responseBody;
+                    }
+                })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxSchedulers.<ResponseBody>io_main());
+    }
+    @Override
+    public Observable<ResponseBody> getResumeScore(String id) {
+        return Api.getDefault(HostType.HR).getResponseString(EncryptUtils.encrypParams(ApiParameter.getResumeScore(id)))
                 .map(new Func1<ResponseBody, ResponseBody>() {
                     @Override
                     public ResponseBody call(ResponseBody responseBody) {

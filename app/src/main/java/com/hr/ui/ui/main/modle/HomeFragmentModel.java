@@ -5,6 +5,7 @@ import com.hr.ui.api.Api;
 import com.hr.ui.api.ApiParameter;
 import com.hr.ui.api.HostType;
 import com.hr.ui.base.RxSchedulers;
+import com.hr.ui.bean.HomeRecommendBean;
 import com.hr.ui.bean.RecommendJobBean;
 import com.hr.ui.bean.ResumeIdBean;
 import com.hr.ui.ui.main.contract.HomeFragmentContract;
@@ -24,15 +25,15 @@ import rx.schedulers.Schedulers;
 
 public class HomeFragmentModel implements HomeFragmentContract.Model {
     @Override
-    public Observable<RecommendJobBean> getRecommendJobInfo(int page,int limit) {
-        return Api.getDefault(HostType.HR).getResponseString(EncryptUtils.encrypParams(ApiParameter.getRecommendJobInfo(page,limit)))
-                .map(new Func1<ResponseBody, RecommendJobBean>() {
+    public Observable<HomeRecommendBean> getRecommendJobInfo(String resumeId,int limit) {
+        return Api.getDefault(HostType.HR).getResponseString(EncryptUtils.encrypParams(ApiParameter.getRecommendJobScore(resumeId,limit)))
+                .map(new Func1<ResponseBody, HomeRecommendBean>() {
                     @Override
-                    public RecommendJobBean call(ResponseBody responseBody) {
-                        RecommendJobBean recommendJobBean=null;
+                    public HomeRecommendBean call(ResponseBody responseBody) {
+                        HomeRecommendBean recommendJobBean=null;
                         try {
                             String s=responseBody.string().toString();
-                            recommendJobBean=new Gson().fromJson(s,RecommendJobBean.class);
+                            recommendJobBean=new Gson().fromJson(s,HomeRecommendBean.class);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -41,6 +42,25 @@ public class HomeFragmentModel implements HomeFragmentContract.Model {
                 })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxSchedulers.<RecommendJobBean>io_main());
+                .compose(RxSchedulers.<HomeRecommendBean>io_main());
+    }
+
+    @Override
+    public Observable<ResponseBody> getResumeScore(String id) {
+        return Api.getDefault(HostType.HR).getResponseString(EncryptUtils.encrypParams(ApiParameter.getResumeScore(id)))
+                .map(new Func1<ResponseBody, ResponseBody>() {
+                    @Override
+                    public ResponseBody call(ResponseBody responseBody) {
+                        return responseBody;
+                    }
+                })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxSchedulers.<ResponseBody>io_main());
+    }
+
+    @Override
+    public Observable<RecommendJobBean> getRecommendJob(String num) {
+        return null;
     }
 }

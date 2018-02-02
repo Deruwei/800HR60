@@ -25,8 +25,8 @@ import okhttp3.ResponseBody;
 
 public class ResumePresenter extends ResumeContract.Presenter {
     @Override
-    public void getResume(String resumeId) {
-        mRxManage.add(mModel.getResume(resumeId).subscribe(new RxSubscriber<ResumeBean>(mContext,false) {
+    public void getResume(String resumeId,boolean isCanRefresh) {
+        mRxManage.add(mModel.getResume(resumeId).subscribe(new RxSubscriber<ResumeBean>(mContext,isCanRefresh) {
             @Override
             protected void _onNext(ResumeBean resumeBean) throws IOException {
                 if(resumeBean.getError_code()==0){
@@ -75,10 +75,10 @@ public class ResumePresenter extends ResumeContract.Presenter {
         mRxManage.add(mModel.upLoadImage(content).subscribe(new RxSubscriber<PictureBean>(mContext,true) {
             @Override
             protected void _onNext(PictureBean pictureBean) throws IOException {
-                if (pictureBean.getError_code()==0){
+                if ("0".equals(pictureBean.getError_code())){
                     mView.uploadImageSuccess(pictureBean.getPic_filekey());
                 }else{
-                    ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) pictureBean.getError_code()));
+                    ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId( Integer.parseInt(pictureBean.getError_code())));
                 }
             }
 
@@ -117,5 +117,35 @@ public class ResumePresenter extends ResumeContract.Presenter {
 
            }
        }));
+    }
+
+    @Override
+    public void updateResume(String resumeId) {
+        mRxManage.add(mModel.updateResume(resumeId).subscribe(new RxSubscriber<ResponseBody>(mContext,false) {
+            @Override
+            protected void _onNext(ResponseBody responseBody) throws IOException {
+                String s= null;
+                try {
+                    s = responseBody.string().toString();
+                    JSONObject jsonObject=new JSONObject(s);
+                    double error_code=jsonObject.getDouble("error_code");
+                    if(error_code==0) {
+                        //System.out.print(s);
+                        mView.updateSuccess();
+                    }else{
+                        ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) error_code));
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            protected void _onError(String message) {
+
+            }
+        }));
     }
 }

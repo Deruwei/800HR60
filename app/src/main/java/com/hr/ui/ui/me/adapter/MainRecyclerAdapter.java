@@ -84,7 +84,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         baseViewHolder.viewListMainContent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PositionPageActivity.startAction((Activity) mContext,mDatas.get(position).getJob_id());
+                PositionPageActivity.startAction((Activity) mContext,mDatas.get(position).getJob_id(),2);
             }
         });
         baseViewHolder.btnItemCollectionDeliver.setOnClickListener(new View.OnClickListener() {

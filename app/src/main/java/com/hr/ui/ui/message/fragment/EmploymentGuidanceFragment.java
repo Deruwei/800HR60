@@ -40,6 +40,7 @@ public class EmploymentGuidanceFragment extends BaseFragment<EmploymentGuidanceP
     private int page=1;
     private int position;
     private String guidanceId;
+    private boolean can;
     private MyGuidanceAdapter adapter;
     private List<GuidanceBean.TitleListBean> titleListBeans=new ArrayList<>();
     public static EmploymentGuidanceFragment newInstance(int i) {
@@ -76,11 +77,18 @@ public class EmploymentGuidanceFragment extends BaseFragment<EmploymentGuidanceP
 
     @Override
     protected void initView() {
-        position=getArguments().getInt("position");
-        checkEmploymentId(position);
-        mPresenter.getEmploymentGuidanceData(page,guidanceId);
         initRv();
     }
+
+    @Override
+    protected void lazyLoad() {
+        super.lazyLoad();
+        position=getArguments().getInt("position");
+        checkEmploymentId(position);
+        mPresenter.getEmploymentGuidanceData(page, guidanceId, true);
+
+    }
+
     private void checkEmploymentId(int position){
         if(position==0){
             guidanceId="83";
@@ -123,7 +131,7 @@ public class EmploymentGuidanceFragment extends BaseFragment<EmploymentGuidanceP
                 new Handler().postDelayed(new Runnable(){
                     public void run() {
                         page=1;
-                        mPresenter.getEmploymentGuidanceData(page,guidanceId);
+                        mPresenter.getEmploymentGuidanceData(page,guidanceId,false);
                         adapter.notifyDataSetChanged();
                         rvDeliverFeedback.refreshComplete();
                     }
@@ -136,7 +144,7 @@ public class EmploymentGuidanceFragment extends BaseFragment<EmploymentGuidanceP
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
                         page++;
-                        mPresenter.getEmploymentGuidanceData(page,guidanceId);
+                        mPresenter.getEmploymentGuidanceData(page,guidanceId,false);
                         rvDeliverFeedback.loadMoreComplete();
                         adapter.notifyDataSetChanged();
                     }
@@ -186,5 +194,13 @@ public class EmploymentGuidanceFragment extends BaseFragment<EmploymentGuidanceP
                 *//*PositionPageActivity.startAction(getActivity(),titleListBeans.get(pos).getCatid());*//*
             }
         });*/
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser==true){
+            can=true;
+        }
     }
 }

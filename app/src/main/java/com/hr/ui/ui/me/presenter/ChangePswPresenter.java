@@ -31,7 +31,11 @@ public class ChangePswPresenter  extends ChangePswContract.Presenter{
                     if(error_code==0) {
                         mView.getChangePswSuccess();
                     }else{
-                        ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) error_code));
+                        if (error_code==311){
+                            ToastUitl.showShort("旧密码错误");
+                        }else {
+                            ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) error_code));
+                        }
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

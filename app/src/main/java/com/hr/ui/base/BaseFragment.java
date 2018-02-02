@@ -57,6 +57,7 @@ public abstract  class BaseFragment<T extends BasePresenter, E extends BaseModel
     public T mPresenter;
     public E mModel;
     public RxManager mRxManager;
+    private boolean isShow;
 
     @Nullable
     @Override
@@ -195,8 +196,18 @@ public abstract  class BaseFragment<T extends BasePresenter, E extends BaseModel
         // TODO Auto-generated method stub
         super.setUserVisibleHint(isVisibleToUser);
         if(getUserVisibleHint()) {
-            isVisible = true;
-            onVisible();
+            if(isShow==false) {
+                mRxManager = new RxManager();
+                mPresenter = TUtil.getT(this, 0);
+                mModel = TUtil.getT(this, 1);
+                if (mPresenter != null) {
+                    mPresenter.mContext = this.getActivity();
+                }
+                initPresenter();
+                isVisible = true;
+                onVisible();
+                isShow=true;
+            }
         } else {
             isVisible = false;
             onInvisible();

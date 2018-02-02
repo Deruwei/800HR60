@@ -7,6 +7,7 @@
     android:elevation="@dimen/x3"
     android:layout_height="@dimen/x286">
     <TextView
+        android:layout_marginLeft="@dimen/x36"
         android:text="@string/selectPositionClass"
         android:textSize="@dimen/x28"
         android:layout_marginTop="@dimen/x30"

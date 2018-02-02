@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.hr.ui.R;
 import com.hr.ui.bean.CityBean;
 import com.hr.ui.ui.main.activity.SelectOptionsActivity;
+import com.hr.ui.ui.main.activity.SelectPositionActivity;
 import com.hr.ui.ui.main.adapter.MyCityAdapter;
 import com.hr.ui.ui.main.adapter.MyPositionClassAdapter;
 import com.hr.ui.ui.main.adapter.MyProvinceAdapter;
@@ -58,7 +59,12 @@ public class PopupWindowPositonClassView {
         popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         rv=view.findViewById(R.id.rv_positionClass);
-        GridLayoutManager manager=new GridLayoutManager(activity,2);
+        GridLayoutManager manager=new GridLayoutManager(activity,2){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
         manager.setOrientation(GridLayoutManager.VERTICAL);
         rv.setLayoutManager(manager);
         int[] location = new int[2];
@@ -71,8 +77,8 @@ public class PopupWindowPositonClassView {
         popupWindow.setOutsideTouchable(true);
         popupWindow.setFocusable(true);
         popupWindow.setAnimationStyle(R.style.style_pop_animation);
-        View parent=activity.getLayoutInflater().inflate(R.layout.activity_selectjoborder,null);
-        popupWindow.showAtLocation(parent, Gravity.NO_GRAVITY, parent.getWidth(), location[1]);
+        popupWindow.showAtLocation(viewBase,
+                Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
         initUI();
     }
 
@@ -90,7 +96,11 @@ public class PopupWindowPositonClassView {
                     positionClassList.get(position).setCheck(true);
                     selectPositionClassList.add(positionClassList.get(position));
                     adapter.notifyDataSetChanged();
-                    SelectOptionsActivity.instance.setPositionClassList(selectPositionClassList);
+                    if(activity instanceof SelectOptionsActivity) {
+                        SelectOptionsActivity.instance.setPositionClassList(selectPositionClassList);
+                    }else if(activity instanceof SelectPositionActivity){
+                        SelectPositionActivity.instance.setPositionClassList(selectPositionClassList);
+                    }
                     popupWindow.dismiss();
             }
         });

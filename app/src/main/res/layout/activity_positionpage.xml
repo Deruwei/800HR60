@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/edit_bg"
+    android:id="@+id/cl_positionPage"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
         <RelativeLayout
@@ -163,10 +164,9 @@
                         android:id="@+id/iv_positionPageCompanyIcon"
                         android:src="@mipmap/defaultcompany"
                         app:type="rounded_rect"
-                        app:borderColor="@color/white"
+                        app:borderColor="@color/color_999"
                         app:borderWidth="@dimen/x1"
                         app:rectRoundRadius="@dimen/x6"
-                        android:scaleType="centerCrop"
                         android:layout_width="@dimen/x82"
                         android:layout_height="@dimen/x82" />
                     <TextView
@@ -260,6 +260,15 @@
                         android:layout_marginBottom="@dimen/x18"
                         android:layout_width="@dimen/x180"
                         android:layout_height="wrap_content" />
+                    <ImageView
+                        android:visibility="gone"
+                        android:id="@+id/iv_positionPageShare"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/share_pos"
+                        android:layout_marginRight="@dimen/x30"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="@dimen/x28"
+                        android:layout_height="@dimen/x30" />
                 </RelativeLayout>
                 <TextView
                     android:id="@+id/tv_positionPageJobDes"
@@ -283,7 +292,7 @@
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="0dp"
-                    android:layout_weight="2"
+                    android:layout_weight="1"
                     android:background="@drawable/tv_bg_left"
                     android:layout_height="match_parent">
                 <LinearLayout
@@ -293,10 +302,29 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:layout_height="match_parent" >
-                    <ImageView
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                    <com.hr.ui.view.PieChartView
+                        android:visibility="gone"
+                        android:id="@+id/pcv_culScore"
                         android:src="@mipmap/robot_cul"
-                        android:layout_width="@dimen/x40"
-                        android:layout_height="@dimen/x48" />
+                        app:borderColorPie="@color/white"
+                        app:borderWidthPie="@dimen/x1"
+                        android:layout_width="@dimen/x50"
+                        android:layout_height="@dimen/x50" />
+                        <ImageView
+                            android:visibility="gone"
+                            android:id="@+id/iv_loadCul"
+                            android:layout_width="@dimen/x50"
+                            android:src="@drawable/loading_refresh"
+                            android:layout_height="@dimen/x50" />
+                        <ImageView
+                            android:id="@+id/iv_culScore"
+                            android:src="@mipmap/robot_cul"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+                    </FrameLayout>
                     <LinearLayout
                         android:layout_marginLeft="@dimen/x10"
                         android:orientation="vertical"
@@ -319,12 +347,14 @@
                     </LinearLayout>
                 </LinearLayout>
                 <View
+                    android:id="@+id/view_lin1"
                     android:layout_gravity="center"
                     android:layout_width="@dimen/x1"
                     android:layout_height="@dimen/x60"
                     android:background="#e6e6e6"
                     />
                 <View
+                    android:id="@+id/view_lin2"
                     android:layout_gravity="center"
                     android:layout_width="@dimen/x1"
                     android:layout_height="@dimen/x60"
@@ -339,7 +369,7 @@
                     android:layout_height="match_parent" >
                     <ImageView
                         android:id="@+id/iv_positionPageCollection"
-                        android:src="@mipmap/collection_white"
+                        android:src="@mipmap/collection_already"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
@@ -358,7 +388,7 @@
                     android:layout_width="0dp"
                     android:background="@drawable/tv_bg_right"
                     android:gravity="center"
-                    android:layout_weight="2"
+                    android:layout_weight="1"
                     android:layout_height="match_parent" >
                     <TextView
                         android:id="@+id/tv_positionPageDeliverResume"

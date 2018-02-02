@@ -4,23 +4,24 @@
     android:layout_height="wrap_content"
     android:background="@drawable/shape_loading_dialog"
     android:gravity="center"
-    android:minHeight="60dp"
-    android:minWidth="180dp"
+    android:minHeight="@dimen/x166"
+    android:minWidth="@dimen/x179"
     android:orientation="vertical"
-    android:padding="10dp" >
+    android:padding="@dimen/x20" >
 
     <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/x50"
+        android:layout_height="@dimen/x50"
         android:indeterminateDrawable="@drawable/loading_dialog_progressbar" />
 
     <TextView
         android:id="@+id/id_tv_loading_dialog_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="@dimen/x10"
         android:text="@string/loading"
+        android:visibility="gone"
         android:textColor="?attr/dayNightOneTextColor"
-        android:textSize="14sp" />
+        android:textSize="@dimen/x28" />
 
 </LinearLayout>

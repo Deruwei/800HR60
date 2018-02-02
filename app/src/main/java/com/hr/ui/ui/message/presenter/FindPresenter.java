@@ -19,8 +19,8 @@ import okhttp3.ResponseBody;
 
 public class FindPresenter extends FindContract.Presenter {
     @Override
-    public void getFindData(int page,String ad_type) {
-        mRxManage.add(mModel.getFindData(page,ad_type).subscribe(new RxSubscriber<FindBean>(mContext,false) {
+    public void getFindData(int page,String ad_type,boolean isCanRefresh) {
+        mRxManage.add(mModel.getFindData(page,ad_type).subscribe(new RxSubscriber<FindBean>(mContext,isCanRefresh) {
             @Override
             protected void _onNext(FindBean findBean) throws IOException {
                     if("0".equals(findBean.getError_code())) {

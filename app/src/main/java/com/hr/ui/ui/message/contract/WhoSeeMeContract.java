@@ -23,6 +23,6 @@ public interface WhoSeeMeContract {
         void getWhoSeeMeSuccess(List<WhoSeeMeBean.BrowsedListBean> browsedListBeans);
     }
     abstract class Presenter extends BasePresenter<View,Model>{
-        public abstract void getWhoSeeMeData(int page);
+        public abstract void getWhoSeeMeData(int page,boolean isCanRefresh);
     }
 }

@@ -8,9 +8,16 @@
     <color name="black">#000000</color>
     <color name="smallYellow">#FFFAF0</color>
     <color name="white">#ffffff</color>
+
+    <color name="itemActiveColorWithoutColoredBackground">#2196F3</color>
+    <color name="colorActive">#FFFFFF</color>
+    <color name="colorInactive">#e7e6e7</color>
+    <color name="withoutColoredBackground">#757575</color>
+
     <color name="red">#ff0000</color><!--红色 -->
     <color name="gray">#FFF0F0F0</color>
     <color name="new_main">#FB8900</color>
+    <color name="color_c4">#c4c4c4</color>
     <color name="new_main2">#FBC042</color>
     <color name="translucent">#80000000</color>
     <color name="ww">#aaf4df</color>

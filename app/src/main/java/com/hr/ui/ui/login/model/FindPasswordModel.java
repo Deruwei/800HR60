@@ -12,6 +12,7 @@ import com.hr.ui.bean.ValidCodeBean;
 import com.hr.ui.ui.login.contract.FindPasswordContract;
 import com.hr.ui.utils.EncryptUtils;
 
+import okhttp3.ResponseBody;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
@@ -61,5 +62,18 @@ public class FindPasswordModel implements FindPasswordContract.Model {
                 .subscribeOn(Schedulers.newThread())        //在新线程里面处理网络请求
                 .observeOn(AndroidSchedulers.mainThread())  //在主线程里面接受返回的数据
                 .compose(RxSchedulers.<AutoCodeBean>io_main());
+    }
+    @Override
+    public Observable<ResponseBody> validPhoneIsExit(String phone) {
+        return Api.getDefault(HostType.HR).getResponseString(EncryptUtils.encrypParams(ApiParameter.validPhoneIsExit(phone)))
+                .map(new Func1<ResponseBody, ResponseBody>() {
+                    @Override
+                    public ResponseBody call(ResponseBody responseBody) {
+                        return responseBody;
+                    }
+                })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxSchedulers.<ResponseBody>io_main());
     }
 }

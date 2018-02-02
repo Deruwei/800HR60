@@ -2,13 +2,12 @@ package com.hr.ui.ui.main.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,8 +27,10 @@ import com.hr.ui.ui.main.adapter.MyProvinceAdapter;
 import com.hr.ui.ui.resume.activity.ResumeJobOrderActivity;
 import com.hr.ui.ui.resume.activity.ResumePersonalInfoActivity;
 import com.hr.ui.ui.resume.activity.ResumeWorkExpActivity;
+import com.hr.ui.utils.BaiDuLocationUtils;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.datautils.FromStringToArrayList;
+import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.MyFlowLayout;
 
 import java.io.Serializable;
@@ -84,6 +85,12 @@ public class SelectCityActivity extends BaseNoConnectNetworkAcitivty {
     TextView tvSelectCityOK;
     @BindView(R.id.ll_selectCityBottom)
     LinearLayout llSelectCityBottom;
+    @BindView(R.id.toolbarAdd)
+    ImageView toolbarAdd;
+    @BindView(R.id.tv_toolbarSave)
+    TextView tvToolbarSave;
+    @BindView(R.id.iv_freshIcon)
+    ImageView ivFreshIcon;
     private List<CityBean> provinceCityList, cityList;
     private MyProvinceAdapter myProvinceAdapter;
     private MyCityAdapter myCityAdapter;
@@ -92,6 +99,10 @@ public class SelectCityActivity extends BaseNoConnectNetworkAcitivty {
     private String tag;//来自于那个Activity
     private int sum;//选择城市的个数
     private int currentPosition;//当前点击了左边的哪个位置
+    private SharedPreferencesUtils sUtils;
+    private AnimationDrawable AniDraw;
+    private String cityName;
+    public static SelectCityActivity instance;
 
     @Override
     public int getLayoutId() {
@@ -111,7 +122,8 @@ public class SelectCityActivity extends BaseNoConnectNetworkAcitivty {
         activity.overridePendingTransition(R.anim.fade_in,
                 R.anim.fade_out);
     }
-    public static void startAction(Activity activity, int type, String tag,List<CityBean> selectCityList) {
+
+    public static void startAction(Activity activity, int type, String tag, List<CityBean> selectCityList) {
         Intent intent = new Intent(activity, SelectCityActivity.class);
         intent.putExtra("type", type);
         intent.putExtra("tag", tag);
@@ -121,22 +133,34 @@ public class SelectCityActivity extends BaseNoConnectNetworkAcitivty {
                 R.anim.fade_out);
     }
 
+    public void setCityName(String city) {
+        this.cityName = city;
+        Message message = Message.obtain();
+        message.what = 3;
+        handler.sendMessage(message);
+    }
+
     @Override
     public void initView() {
+        instance = SelectCityActivity.this;
+        sUtils = new SharedPreferencesUtils(this);
         type = getIntent().getIntExtra("type", 1);
         tag = getIntent().getStringExtra("tag");
-        selectCityList= (List<CityBean>) getIntent().getSerializableExtra("selectCityList");
+        selectCityList = (List<CityBean>) getIntent().getSerializableExtra("selectCityList");
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        AniDraw = (AnimationDrawable) ivFresh.getDrawable();
         if (type == 2) {
             llLocation.setVisibility(View.GONE);
             rlSelectCityShow.setVisibility(View.GONE);
             llSelectCityBottom.setVisibility(View.VISIBLE);
         } else if (type == 1) {
+            BaiDuLocationUtils.getInstance().initData();
             llLocation.setVisibility(View.VISIBLE);
             rlSelectCityShow.setVisibility(View.GONE);
             llSelectCityBottom.setVisibility(View.GONE);
+
         }
         toolBar.setTitle("");
         toolBar.setTitleTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
@@ -159,9 +183,9 @@ public class SelectCityActivity extends BaseNoConnectNetworkAcitivty {
                 provinceCityList.add(cityBeanList.get(i));
             }
         }
-        if(selectCityList!=null&&selectCityList.size()!=0) {
+        if (selectCityList != null && selectCityList.size() != 0) {
             for (int i = 0; i < selectCityList.size(); i++) {
-                if(type==2) {
+                if (type == 2) {
                     addView(selectCityList.get(i));
                 }
                 for (int j = 0; j < 4; j++) {
@@ -169,8 +193,8 @@ public class SelectCityActivity extends BaseNoConnectNetworkAcitivty {
                         provinceCityList.get(j).setCheck(true);
                     }
                 }
-                for(int j=4;j<provinceCityList.size();j++){
-                    if(selectCityList.get(i).getId().substring(0,2).equals(provinceCityList.get(j).getId().substring(0,2))){
+                for (int j = 4; j < provinceCityList.size(); j++) {
+                    if (selectCityList.get(i).getId().substring(0, 2).equals(provinceCityList.get(j).getId().substring(0, 2))) {
                         provinceCityList.get(j).setCheck(true);
                     }
                 }
@@ -187,6 +211,7 @@ public class SelectCityActivity extends BaseNoConnectNetworkAcitivty {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+        instance = SelectCityActivity.this;
     }
 
     @OnClick(R.id.iv_fresh)
@@ -201,19 +226,19 @@ public class SelectCityActivity extends BaseNoConnectNetworkAcitivty {
                     //Log.i("职位信息",provinceCityList.toString());
                     myProvinceAdapter = new MyProvinceAdapter(provinceCityList, type);
                     lvSelectProvince.setAdapter(myProvinceAdapter);
-                    if(selectCityList!=null&&selectCityList.size()!=0){
-                        cityList=new ArrayList<>();
-                        for(int i=4;i<provinceCityList.size();i++){
-                            if(provinceCityList.get(i).isCheck()==true){
+                    if (selectCityList != null && selectCityList.size() != 0) {
+                        cityList = new ArrayList<>();
+                        for (int i = 4; i < provinceCityList.size(); i++) {
+                            if (provinceCityList.get(i).isCheck() == true) {
                                 provinceCityList.get(i).setCheck(false);
-                                currentPosition=i;
+                                currentPosition = i;
                             }
                         }
-                        if(currentPosition>=4) {
+                        if (currentPosition >= 4) {
                             provinceCityList.get(currentPosition).setCheck(true);
                         }
                         for (int i = 0; i < cityBeanList2.size(); i++) {
-                            if (provinceCityList.get(currentPosition).getId().substring(0, 2).equals(cityBeanList2.get(i).getId().substring(0, 2))&&currentPosition>=4) {
+                            if (provinceCityList.get(currentPosition).getId().substring(0, 2).equals(cityBeanList2.get(i).getId().substring(0, 2)) && currentPosition >= 4) {
                                 cityList.add(cityBeanList2.get(i));
                             }
                         }
@@ -262,8 +287,8 @@ public class SelectCityActivity extends BaseNoConnectNetworkAcitivty {
                                         for (int i = 4; i < provinceCityList.size(); i++) {
                                             provinceCityList.get(i).setCheck(false);
                                         }
-                                        for(int i=0;i<selectCityList.size();i++){
-                                            if(selectCityList.get(i).getId().equals(provinceCityList.get(position).getId())){
+                                        for (int i = 0; i < selectCityList.size(); i++) {
+                                            if (selectCityList.get(i).getId().equals(provinceCityList.get(position).getId())) {
                                                 selectCityList.remove(i);
                                                 break;
                                             }
@@ -278,9 +303,9 @@ public class SelectCityActivity extends BaseNoConnectNetworkAcitivty {
                                         PersonalInformationActivity.instance.setSelectCity(provinceCityList.get(position));
                                     } else if (WorkExpActivity.TAG.equals(tag)) {
                                         WorkExpActivity.instance.setSelectCity(provinceCityList.get(position));
-                                    }else if(ResumePersonalInfoActivity.TAG.equals(tag)){
+                                    } else if (ResumePersonalInfoActivity.TAG.equals(tag)) {
                                         ResumePersonalInfoActivity.instance.setSelectCity(provinceCityList.get(position));
-                                    }else if(ResumeWorkExpActivity.TAG.equals(tag)){
+                                    } else if (ResumeWorkExpActivity.TAG.equals(tag)) {
                                         ResumeWorkExpActivity.instance.setSelectCity(provinceCityList.get(position));
                                     }
                                     finish();
@@ -315,35 +340,34 @@ public class SelectCityActivity extends BaseNoConnectNetworkAcitivty {
                                     PersonalInformationActivity.instance.setSelectCity(cityList.get(position));
                                 } else if (WorkExpActivity.TAG.equals(tag)) {
                                     WorkExpActivity.instance.setSelectCity(cityList.get(position));
-                                }else if(ResumePersonalInfoActivity.TAG.equals(tag)){
+                                } else if (ResumePersonalInfoActivity.TAG.equals(tag)) {
                                     ResumePersonalInfoActivity.instance.setSelectCity(cityList.get(position));
-                                }
-                                else if(ResumeWorkExpActivity.TAG.equals(tag)){
+                                } else if (ResumeWorkExpActivity.TAG.equals(tag)) {
                                     ResumeWorkExpActivity.instance.setSelectCity(cityList.get(position));
                                 }
                                 finish();
                             } else if (type == 2) {
                                 if (cityList.get(position).isCheck() == false) {
-                                    List<CityBean> removeList=new ArrayList<>();
-                                    if(cityList.get(position).getId().endsWith("00")){
-                                        for(int i=0;i<selectCityList.size();i++){
-                                            if(selectCityList.get(i).getId().substring(0,2).equals(cityList.get(position).getId().substring(0,2))){
+                                    List<CityBean> removeList = new ArrayList<>();
+                                    if (cityList.get(position).getId().endsWith("00")) {
+                                        for (int i = 0; i < selectCityList.size(); i++) {
+                                            if (selectCityList.get(i).getId().substring(0, 2).equals(cityList.get(position).getId().substring(0, 2))) {
                                                 removeList.add(selectCityList.get(i));
                                                 removeView(selectCityList.get(i));
                                             }
                                         }
-                                    }else{
+                                    } else {
                                         cityList.get(0).setCheck(false);
-                                        for(int i=0;i<selectCityList.size();i++){
-                                            if(selectCityList.get(i).getId().equals(cityList.get(0).getId())){
+                                        for (int i = 0; i < selectCityList.size(); i++) {
+                                            if (selectCityList.get(i).getId().equals(cityList.get(0).getId())) {
                                                 removeList.add(selectCityList.get(i));
                                                 removeView(selectCityList.get(i));
                                             }
                                         }
                                     }
-                                    for(int i=0;i<removeList.size();i++){
-                                        for(int j=0;j<cityList.size();j++){
-                                            if(removeList.get(i).getId().equals(cityList.get(j).getId())){
+                                    for (int i = 0; i < removeList.size(); i++) {
+                                        for (int j = 0; j < cityList.size(); j++) {
+                                            if (removeList.get(i).getId().equals(cityList.get(j).getId())) {
                                                 cityList.get(j).setCheck(false);
                                             }
                                         }
@@ -357,8 +381,8 @@ public class SelectCityActivity extends BaseNoConnectNetworkAcitivty {
                                     selectCityList.add(cityList.get(position));
                                     addView(cityList.get(position));
                                 } else {
-                                    for(int i=0;i<selectCityList.size();i++){
-                                        if(cityList.get(position).getId().equals(selectCityList.get(i).getId())){
+                                    for (int i = 0; i < selectCityList.size(); i++) {
+                                        if (cityList.get(position).getId().equals(selectCityList.get(i).getId())) {
                                             selectCityList.remove(selectCityList.get(i));
                                             break;
                                         }
@@ -372,6 +396,15 @@ public class SelectCityActivity extends BaseNoConnectNetworkAcitivty {
                         }
                     });
                     break;
+                case 3:
+                    ivFreshIcon.setVisibility(View.VISIBLE);
+                    ivFresh.setVisibility(View.GONE);
+                    AniDraw.stop();
+                    if ("".equals(cityName)) {
+                        tvLocationCity.setText("定位失败");
+                    } else {
+                        tvLocationCity.setText(cityName);
+                    }
             }
         }
     };
@@ -391,7 +424,7 @@ public class SelectCityActivity extends BaseNoConnectNetworkAcitivty {
         final LinearLayout ll = (LinearLayout) LayoutInflater.from(this).inflate(
                 R.layout.item_textview_selected, null, false);
         ll.setLayoutParams(params);
-        TextView tv=ll.findViewById(R.id.item_select);
+        TextView tv = ll.findViewById(R.id.item_select);
         tv.setText(cityBean.getName());
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -428,8 +461,8 @@ public class SelectCityActivity extends BaseNoConnectNetworkAcitivty {
     }
 
     private void getRightDataFresh() {
-        if (cityList!=null&&!"".equals(cityList)) {
-            for(int i=0;i<cityList.size();i++){
+        if (cityList != null && !"".equals(cityList)) {
+            for (int i = 0; i < cityList.size(); i++) {
                 cityList.get(i).setCheck(false);
             }
             for (int i = 0; i < cityList.size(); i++) {
@@ -456,32 +489,66 @@ public class SelectCityActivity extends BaseNoConnectNetworkAcitivty {
         sum = selectCityList.size();
         if (sum > 0) {
             rlSelectCityShow.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             rlSelectCityShow.setVisibility(View.GONE);
         }
         tvSelectCityNum.setText(sum + "");
     }
 
-    @OnClick({R.id.tv_selectCityCancel, R.id.tv_selectCityOK})
+    @OnClick({R.id.tv_selectCityCancel, R.id.tv_selectCityOK, R.id.iv_freshIcon, R.id.tv_location_city})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.tv_location_city:
+                if (!"定位失败".equals(cityName) && !"".equals(cityName)) {
+                    CityBean cityBean = FromStringToArrayList.getInstance().getLocationCityBean(cityName);
+                    if (PersonalInformationActivity.TAG.equals(tag)) {
+                        PersonalInformationActivity.instance.setSelectCity(cityBean);
+                    } else if (WorkExpActivity.TAG.equals(tag)) {
+                        WorkExpActivity.instance.setSelectCity(cityBean);
+                    } else if (ResumePersonalInfoActivity.TAG.equals(tag)) {
+                        ResumePersonalInfoActivity.instance.setSelectCity(cityBean);
+                    } else if (ResumeWorkExpActivity.TAG.equals(tag)) {
+                        ResumeWorkExpActivity.instance.setSelectCity(cityBean);
+                    }
+                    finish();
+                }
+                break;
+            case R.id.iv_freshIcon:
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        BaiDuLocationUtils.getInstance().stopLocation();
+                        BaiDuLocationUtils.getInstance().initData();
+                    }
+                }, 1000);
+                ivFreshIcon.setVisibility(View.GONE);
+                ivFresh.setVisibility(View.VISIBLE);
+                AniDraw.start();
+                break;
             case R.id.tv_selectCityCancel:
                 finish();
                 break;
             case R.id.tv_selectCityOK:
-                if(selectCityList!=null&&!"".equals(selectCityList)&&selectCityList.size()!=0) {
-                    if(ResumeJobOrderActivity.TAG.equals(tag)){
+                if (selectCityList != null && !"".equals(selectCityList) && selectCityList.size() != 0) {
+                    if (ResumeJobOrderActivity.TAG.equals(tag)) {
                         ResumeJobOrderActivity.instance.setSelectCityList(selectCityList);
-                    }else if(JobOrderActivity.TAG.equals(tag)){
-                            JobOrderActivity.instance.setAddress(selectCityList);
-                    }else if(JobSerchActivity.TAG.equals(tag)){
+                    } else if (JobOrderActivity.TAG.equals(tag)) {
+                        JobOrderActivity.instance.setAddress(selectCityList);
+                    } else if (JobSerchActivity.TAG.equals(tag)) {
                         JobSerchActivity.instance.setPlace(selectCityList);
                     }
                     finish();
-                }else{
+                } else {
                     ToastUitl.showShort("请选择城市");
                 }
                 break;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(type!=2) {
+            BaiDuLocationUtils.getInstance().stopLocation();
         }
     }
 }

@@ -21,6 +21,12 @@ android {
         daoPackage'com.afa.tourism.greendao.gen'
         targetGenDir'src/main/java'
     }
+    sourceSets{
+        main{
+            jniLibs.srcDirs 'libs'
+            jni.srcDirs = []
+        }
+    }
 }
 
 dependencies {
@@ -59,4 +65,6 @@ dependencies {
     implementation files('libs/ShareSDK-Wechat-Core-3.1.2.jar')
     implementation files('libs/ShareSDK-Wechat-Favorite-3.1.2.jar')
     implementation files('libs/ShareSDK-Wechat-Moments-3.1.2.jar')
+    implementation files('libs/BaiduLBS_Android.jar')
+    implementation files('libs/httpmime-4.1.2.jar')
 }

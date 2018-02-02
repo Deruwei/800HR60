@@ -94,10 +94,10 @@ public class SnailBar extends View {
             colors[2] = 0xffaa8059;
             positions[2] = 0.125f;
             colors[3] = 0xffaa8059;
-            positions[3] = 0.375f;
+            positions[3] = 0.45f;
             // 第6点
             colors[4] = 0xff956030;
-            positions[4] = 0.375f;
+            positions[4] = 0.45f;
             colors[5] = 0xff956030;
             positions[5] =1f;
             LinearGradient shader = new LinearGradient(0, myWidth, 0, mHeight - myWidth, colors, positions, Shader.TileMode.MIRROR);
@@ -159,7 +159,7 @@ public class SnailBar extends View {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                while (program<=currentCount) {
+                while (program<currentCount) {
                     try {
                         Thread.sleep(12);
                     } catch (InterruptedException e) {

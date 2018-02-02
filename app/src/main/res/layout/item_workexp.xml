@@ -81,6 +81,7 @@
             android:layout_height="wrap_content"
             >
             <TextView
+                android:id="@+id/tv_previewResumeWorkExpWorkPlaceTag"
                 android:text="@string/workPlace"
                 style="@style/previewResume_itemNameLL" />
             <TextView

@@ -6,7 +6,16 @@ package com.hr.ui.bean;
 
 public class ValidCodeBean {
     public double error_code;
+    private String error_field;
     public int token_times;
+
+    public String getError_field() {
+        return error_field;
+    }
+
+    public void setError_field(String error_field) {
+        this.error_field = error_field;
+    }
 
     public double getError_code() {
         return error_code;

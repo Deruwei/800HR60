@@ -23,6 +23,6 @@ public interface EmploymentGuidanceContract {
         void getEmploymentGuidanceSuccess(List<GuidanceBean.TitleListBean> titleListBeanList);
     }
     abstract class Presenter extends BasePresenter<View,Model>{
-        public abstract void getEmploymentGuidanceData(int page,String guidanceId);
+        public abstract void getEmploymentGuidanceData(int page,String guidanceId,boolean isCanRefresh);
     }
 }

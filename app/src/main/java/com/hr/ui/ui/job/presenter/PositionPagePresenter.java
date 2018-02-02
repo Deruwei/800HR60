@@ -1,5 +1,7 @@
 package com.hr.ui.ui.job.presenter;
 
+import android.content.Context;
+
 import com.hr.ui.base.BasePresenter;
 import com.hr.ui.base.RxSubscriber;
 import com.hr.ui.bean.PositionBean;
@@ -7,6 +9,7 @@ import com.hr.ui.ui.job.contract.PositionPageContract;
 import com.hr.ui.utils.Rc4Md5Utils;
 import com.hr.ui.utils.ToastUitl;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -21,8 +24,8 @@ import okhttp3.ResponseBody;
 public class PositionPagePresenter extends PositionPageContract.Presenter {
 
     @Override
-    public void getPositionData(String jobId) {
-        mRxManage.add(mModel.getPositionData(jobId).subscribe(new RxSubscriber<PositionBean>(mContext,true) {
+    public void getPositionData(String jobId, Context context) {
+        mRxManage.add(mModel.getPositionData(jobId).subscribe(new RxSubscriber<PositionBean>(context,true) {
             @Override
             protected void _onNext(PositionBean positionBean) throws IOException {
 
@@ -100,5 +103,34 @@ public class PositionPagePresenter extends PositionPageContract.Presenter {
 
             }
         }));
+    }
+
+    @Override
+    public void getResumeScore(String id) {
+            mRxManage.add(mModel.getResumeScore(id).subscribe(new RxSubscriber<ResponseBody>(mContext,false) {
+                @Override
+                protected void _onNext(ResponseBody responseBody) throws IOException {
+                    String s=responseBody.string().toString();
+                    try {
+                        JSONObject jsonObject=new JSONObject(s);
+                        String error=jsonObject.getString("error_code");
+                        if("0".equals(error)){
+                            JSONArray array=jsonObject.getJSONArray("list");
+                            double score=array.getJSONObject(0).getDouble("score");
+                            mView.getResumeScoreSuccess(score);
+                        }else{
+                            ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId(Integer.parseInt(error) ));
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+                @Override
+                protected void _onError(String message) {
+                    // Log.i("okht",message);
+                }
+            }));
     }
 }

@@ -57,10 +57,10 @@ public class ContentActivity extends BaseNoConnectNetworkAcitivty {
         type=getIntent().getIntExtra("type",0);
         if(getIntent().getStringExtra("text")!=null||!"".equals(getIntent().getStringExtra("text"))){
             etContent.setText(getIntent().getStringExtra("text"));
-            tvTextSum.setText(etContent.getText().toString().length()+" / 600");
+            tvTextSum.setText(etContent.getText().toString().length()+" / 400");
         }else{
             etContent.setText("");
-            tvTextSum.setText("0 / 600");
+            tvTextSum.setText("0 / 400");
         }
         toolBar.setTitle("");
         toolBar.setTitleTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
@@ -90,7 +90,7 @@ public class ContentActivity extends BaseNoConnectNetworkAcitivty {
                 }
             }
         });
-        etContent.setFilters(new InputFilter[]{new InputFilter.LengthFilter(600)});
+        etContent.setFilters(new InputFilter[]{new InputFilter.LengthFilter(400)});
         etContent.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -99,7 +99,7 @@ public class ContentActivity extends BaseNoConnectNetworkAcitivty {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                tvTextSum.setText(s.length()+" / 600");
+                tvTextSum.setText(s.length()+" / 400");
             }
 
             @Override

@@ -332,10 +332,10 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
             ToastUitl.showShort("请输入密码");
             return;
         }
-        if (psw.length() < 6 || psw.length() > 25) {
+      /*  if (psw.length() < 6 || psw.length() > 25) {
             ToastUitl.showShort("请输入6-25位长度密码");
             return;
-        }
+        }*/
         mPresenter.getLogin(phoneNum, psw, 1);
     }
 }

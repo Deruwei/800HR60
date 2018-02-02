@@ -21,6 +21,7 @@ import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseNoConnectNetworkAcitivty;
 import com.hr.ui.bean.CityBean;
 import com.hr.ui.ui.main.adapter.MySelectFunctionLeftAdapter;
+import com.hr.ui.ui.main.adapter.MySelectFunctionRightAdapter;
 import com.hr.ui.ui.main.adapter.MySelectPositionRightAdapter;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.datautils.FromStringToArrayList;
@@ -63,7 +64,7 @@ public class SelectFunctionActivity extends BaseNoConnectNetworkAcitivty {
     private List<CityBean> industryList;
     private List<CityBean> functionList;
     private MySelectFunctionLeftAdapter leftAdapter;
-    private MySelectPositionRightAdapter rightAdapter;
+    private MySelectFunctionRightAdapter rightAdapter;
     private String industryId;
     private List<CityBean> selectFunctionList = new ArrayList<>();
     private int sum;
@@ -286,7 +287,7 @@ public class SelectFunctionActivity extends BaseNoConnectNetworkAcitivty {
                     lvLeft.setAdapter(leftAdapter);
                     break;
                 case 2:
-                    rightAdapter = new MySelectPositionRightAdapter(functionList);
+                    rightAdapter = new MySelectFunctionRightAdapter(functionList);
                     lvRight.setAdapter(rightAdapter);
                     break;
             }

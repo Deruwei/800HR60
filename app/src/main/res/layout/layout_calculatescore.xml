@@ -1,36 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    android:orientation="vertical"
+<FrameLayout android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <RelativeLayout
-        android:id="@+id/rl_calculateScoreHide"
-        android:background="@color/translucent"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </RelativeLayout>
-    <RelativeLayout
+        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
             android:orientation="vertical"
-            android:layout_marginLeft="@dimen/x75"
-            android:layout_marginRight="@dimen/x75"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/x332"
             android:background="@drawable/edit_bg"
             android:layout_width="@dimen/x600"
             android:layout_height="@dimen/x620">
             <com.hr.ui.view.PieChartView
                 android:id="@+id/pcv_calculateScore"
                 android:layout_gravity="center"
+                app:borderColorPie="@color/new_main"
+                app:borderWidthPie="@dimen/x2"
                 android:layout_marginTop="@dimen/x47"
                 android:layout_width="@dimen/x142"
                 android:layout_height="@dimen/x144" />
+
+            <TextView
+                android:id="@+id/tv_calculateScoreNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/new_main"
+                android:textSize="@dimen/x36" />
             <TextView
                 android:layout_marginLeft="@dimen/x100"
-                android:layout_marginTop="@dimen/x54"
+                android:layout_marginTop="@dimen/x19"
                 android:textColor="@color/color_333"
                 android:textSize="@dimen/x28"
                 android:text="@string/calculate1"

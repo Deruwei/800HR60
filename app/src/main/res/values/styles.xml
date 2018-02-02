@@ -34,6 +34,17 @@
         <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
         <item name="android:backgroundDimEnabled">true</item>
     </style>
+    <style name="RadioButtonStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:layout_marginTop">@dimen/x11</item>
+        <item name="android:layout_marginBottom">@dimen/x8</item>
+        <item name="android:textColor">@color/color_radiobutton</item>
+        <item name="android:textSize">@dimen/x20</item>
+    </style>
 
     <!-- 主页引导页显示 -->
     <style name="transcutestyle" parent="@android:style/Theme.Dialog">
@@ -190,7 +201,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/x32</item>
         <item name="android:layout_centerHorizontal">true</item>
-        <item name="android:textColor">@color/color_333</item>
+        <item name="android:textColor">@color/color_c4</item>
         <item name="android:text">@string/deleteThis</item>
         <item name="android:layout_marginTop">@dimen/x50</item>
     </style>
@@ -215,6 +226,10 @@
     <style name="style_pop_animation">
         <item name="android:windowEnterAnimation">@anim/anim_pop_in</item>
         <item name="android:windowExitAnimation">@anim/anim_pop_out</item>
+    </style>
+    <style name="style_pop_animation2">
+        <item name="android:windowEnterAnimation">@anim/zoom_in</item>
+        <item name="android:windowExitAnimation">@anim/fade_out</item>
     </style>
     <style name="resume_industryTextView">
         <item name="android:layout_width">wrap_content</item>

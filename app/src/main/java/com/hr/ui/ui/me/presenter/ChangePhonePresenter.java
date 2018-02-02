@@ -12,6 +12,14 @@ import com.hr.ui.utils.Rc4Md5Utils;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import okhttp3.ResponseBody;
+
 /**
  * Created by wdr on 2018/1/18.
  */
@@ -19,7 +27,28 @@ import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 public class ChangePhonePresenter extends ChangePhoneContract.Presenter {
     @Override
     public void changePhone(String phoneNumber, String validCode) {
+        mRxManage.add(mModel.changePhone(phoneNumber,validCode).subscribe(new RxSubscriber<ResponseBody>(mContext,false) {
+            @Override
+            protected void _onNext(ResponseBody responseBody) throws IOException {
+                String s=responseBody.string().toString();
+                try {
+                    JSONObject jsonObject=new JSONObject(s);
+                    String error=jsonObject.getString("error_code");
+                    if("0".equals(error)){
+                       mView.changePhoneSuccess();
+                    }else{
+                        ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId(Integer.parseInt(error) ));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
 
+            @Override
+            protected void _onError(String message) {
+
+            }
+        }));
     }
 
     @Override

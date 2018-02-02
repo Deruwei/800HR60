@@ -199,7 +199,7 @@ public abstract class Base2Activity<T extends BasePresenter, E extends BaseModel
      */
     private void doBeforeSetcontentView() {
         //设置昼夜主题
-       /* initTheme();*/
+       initTheme();
         // 把actvity放到application栈中管理
         AppManager.getAppManager().addActivity(this);
         // 无标题
@@ -223,7 +223,7 @@ public abstract class Base2Activity<T extends BasePresenter, E extends BaseModel
      * 设置主题
      */
     private void initTheme() {
-        ChangeModeController.setTheme(this, R.style.DayTheme, R.style.NightTheme);
+        ChangeModeController.setTheme(this, R.style.DialogTransparent, R.style.DialogTransparent);
     }
     /**
      * 着色状态栏（4.4以上系统有效）

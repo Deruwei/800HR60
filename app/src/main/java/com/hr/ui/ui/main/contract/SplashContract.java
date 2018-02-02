@@ -38,6 +38,7 @@ public interface SplashContract {
         void thirdBindingLoginSuccess(int userId);
         void getResumeListSuccess(MultipleResumeBean multipleResumeBean);
         void getResumeDataSuccess(ResumeBean resumeBean);
+        void onConnectError();
     }
     abstract static class Presenter extends BasePresenter<View, Model> {
         public abstract  void getConnect(Context context);

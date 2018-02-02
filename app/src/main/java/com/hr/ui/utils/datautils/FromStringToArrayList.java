@@ -7,6 +7,7 @@ import android.util.Log;
 import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.bean.CityBean;
+import com.hr.ui.utils.Utils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,6 +52,37 @@ public class FromStringToArrayList {
             e.printStackTrace();
         }
         return cityBeanList;
+
+
+    }
+    public CityBean getLocationCityBean(String name){
+        List<CityBean> cityBeanList=new ArrayList<>();
+        String s=SaveFile.getDataFromInternalStorage(HRApplication.getAppContext(),"city.txt");
+        try {
+            JSONArray cityJSONArray=new JSONArray(s);
+            for (int i = 0; i < cityJSONArray.length(); i++) {
+                CityBean cityBean=new CityBean();
+                JSONObject object = cityJSONArray.getJSONObject(i);
+                Iterator it=object.keys();
+                while(it.hasNext()){
+                    String key=(String) it.next();
+                    cityBean.setId(key);
+                    cityBean.setName(object.getString(key));
+                    cityBean.setCheck(false);
+                }
+                cityBeanList.add(cityBean);
+            }
+            //System.out.println("cityBean"+cityBeanList.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        CityBean cityBean=null;
+        for(int i=0;i<cityBeanList.size();i++){
+            if(cityBeanList.get(i).getName().contains(name)){
+                cityBean=cityBeanList.get(i);
+            }
+        }
+        return cityBean;
 
 
     }
@@ -226,19 +258,26 @@ public class FromStringToArrayList {
             e.printStackTrace();
         }
         String[] ids=text.split(",");
-        for(int i=0;i<ids.length;i++){
+      /*  for(int i=0;i<ids.length;i++){
             if("14".equals(industryId)) {
                 if(ids[i].indexOf("|")!=-1) {
                    ids[i]=ids[i].substring(0,ids[i].indexOf("|"));
                 }
             }
-        }
+        }*/
         StringBuffer sb=new StringBuffer();
         for(int j=0;j<ids.length;j++) {
             for (int i = 0; i < expectPositionList.size(); i++) {
-                if(ids[j].equals(expectPositionList.get(i).getId())) {
-                    sb.append(","+expectPositionList.get(i).getName());
-                    continue;
+                if(ids[j].contains("|")) {
+                    if (ids[j].substring(0,ids[j].indexOf("|")).equals(expectPositionList.get(i).getId())) {
+                        sb.append("," + expectPositionList.get(i).getName()+"("+ Utils.getPositionClassName(ids[j].substring(ids[j].indexOf("|")+1))+")");
+                        continue;
+                    }
+                }else{
+                    if (ids[j].equals(expectPositionList.get(i).getId())) {
+                        sb.append("," + expectPositionList.get(i).getName());
+                        continue;
+                    }
                 }
             }
 

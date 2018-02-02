@@ -14,7 +14,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hr.ui.R;
+import com.hr.ui.app.HRApplication;
+import com.hr.ui.constants.Constants;
 import com.hr.ui.utils.ToastUitl;
+import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 
 import java.text.DecimalFormat;
 import java.text.Format;
@@ -47,16 +50,28 @@ public class MyStartAndEndTimeCustomDatePicker {
     private int startYear=1960, startMonth=1,endYear, endMonth=12;
     private int  selectStartYear,selectStartMonth,selectEndYear,selectEndMonth;
     private TextView tv_cancle, tv_select;
+    private SharedPreferencesUtils sUtils;
+    private String birthYear;
+    private String startTime,endTime,selectEndYears;
+    private int NONOWTYPE=1;
+    private int type;
 
-    public MyStartAndEndTimeCustomDatePicker(Context context, ResultHandler resultHandler) {
+    public MyStartAndEndTimeCustomDatePicker(Context context, ResultHandler resultHandler,int type) {
             canAccess = true;
             this.context = context;
             this.handler = resultHandler;
+            this.type=type;
+            sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
+            birthYear = sUtils.getStringValue(Constants.BIRTHYEAR, "2018");
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy");//格式为 2013年9月3日 14:44
             Date curDate = new Date(System.currentTimeMillis());//获取当前时间
-            String  currentDate = formatter.format(curDate);
-            endYear=Integer.valueOf(currentDate)+60;
-            startYear=Integer.valueOf(currentDate)-70;
+            String currentDate = formatter.format(curDate);
+            endYear = Integer.valueOf(currentDate);
+            if(type==NONOWTYPE){
+                startYear = Integer.valueOf(birthYear) + 1;
+            }else {
+                startYear = Integer.valueOf(birthYear) + 18;
+            }
             initDialog();
             initView();
     }
@@ -98,11 +113,18 @@ public class MyStartAndEndTimeCustomDatePicker {
             public void onClick(View view) {
                 if("".equals(textValue)||textValue==null){
                         Format f = new DecimalFormat("00");
-                        if(selectEndYear<selectStartYear||(selectEndYear==selectStartYear&&selectStartMonth>selectEndMonth)){
-                            ToastUitl.showShort("结束日期不能小于开始日期");
-                            return;
+                        if("至今".equals(selectEndYears)){
+                            startTime=f.format(selectStartYear) +"-"+ f.format(selectStartMonth);
+                            endTime=selectEndYears;
+                        }else {
+                            if (selectEndYear < selectStartYear || (selectEndYear == selectStartYear && selectStartMonth > selectEndMonth)) {
+                                ToastUitl.showShort("结束日期应大于开始日期");
+                                return;
+                            }
+                            startTime=f.format(selectStartYear) +"-"+ f.format(selectStartMonth);
+                            endTime=f.format(selectEndYear)+"-"+f.format(selectEndMonth);
                         }
-                        handler.handle(f.format(selectStartYear) +"-"+ f.format(selectStartMonth),f.format(selectEndYear)+"-"+f.format(selectEndMonth));
+                        handler.handle(startTime,endTime);
                 }else {
                     handler.handle("","");
 
@@ -114,9 +136,19 @@ public class MyStartAndEndTimeCustomDatePicker {
 
     private void initTimer() {
         initArrayList();
-        for (int i = startYear; i <= endYear; i++) {
-            year.add(String.valueOf(i));
-            eYear.add(String.valueOf(i));
+        if(type!=NONOWTYPE) {
+            for (int i = startYear; i <= endYear; i++) {
+                year.add(String.valueOf(i));
+                eYear.add(String.valueOf(i));
+            }
+            eYear.add("至今");
+        }else{
+            for (int i = startYear; i <= endYear; i++) {
+                year.add(String.valueOf(i));
+            }
+            for (int i = startYear; i <= 2037; i++) {
+                eYear.add(String.valueOf(i));
+            }
         }
         for (int i = startMonth; i <= endMonth; i++) {
             month.add(String.valueOf(i));
@@ -173,12 +205,20 @@ public class MyStartAndEndTimeCustomDatePicker {
         endYear_pv.setOnSelectListener(new DatePickerView.onSelectListener() {
             @Override
             public void onSelect(String text) {
-                selectEndYear=Integer.valueOf(text);
+                if(!"至今".equals(text)) {
+                    selectEndYears="";
+                    endMonth_pv.setVisibility(View.VISIBLE);
+                    selectEndYear = Integer.valueOf(text);
+                }else{
+                    selectEndYears="至今";
+                    endMonth_pv.setVisibility(View.GONE);
+                }
             }
         });
         endMonth_pv.setOnSelectListener(new DatePickerView.onSelectListener() {
             @Override
             public void onSelect(String text) {
+
                 selectEndMonth=Integer.valueOf(text);
             }
         });
@@ -229,8 +269,20 @@ public class MyStartAndEndTimeCustomDatePicker {
             if (!"".equals(startTime)&&!"".equals(endTime)&&startTime!=null&&endTime!=null) {
                 selectStartYear=Integer.valueOf(startTime.substring(0,startTime.indexOf("-")));
                 selectStartMonth=Integer.valueOf(startTime.substring(startTime.indexOf("-")+1));
-                selectEndYear=Integer.valueOf(endTime.substring(0,endTime.indexOf("-")));
-                selectEndMonth=Integer.valueOf(endTime.substring(endTime.lastIndexOf("-")+1));
+                if(!"至今".equals(endTime)) {
+                    selectEndYear = Integer.valueOf(endTime.substring(0, endTime.indexOf("-")));
+                    selectEndMonth = Integer.valueOf(endTime.substring(endTime.lastIndexOf("-") + 1));
+                }else{
+                    if(type==1){
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM");//格式为 2013年9月3日 14:44
+                        Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+                        endTime= formatter.format(curDate);
+                        selectEndYear = Integer.valueOf(endTime.substring(0, endTime.indexOf("-")));
+                        selectEndMonth = Integer.valueOf(endTime.substring(endTime.lastIndexOf("-") + 1));
+                    }else {
+                        selectEndYears = endTime;
+                    }
+                }
             } else {
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM");//格式为 2013年9月3日 14:44
                 Date curDate = new Date(System.currentTimeMillis());//获取当前时间
@@ -271,9 +323,14 @@ public class MyStartAndEndTimeCustomDatePicker {
         if (canAccess) {
                 startYear_pv.setSelected(selectStartYear + "");
                 startMonth_pv.setSelected(selectStartMonth + "");
-                endYear_pv.setSelected(selectEndYear+"");
-                endMonth_pv.setSelected(selectEndMonth+"");
-                Log.i("当前选择的2",selectStartYear+"---"+selectStartMonth+"---"+selectEndYear+"----"+selectEndMonth);
+                if("至今".equals(selectEndYears)){
+                    endYear_pv.setSelected(selectEndYears);
+                    endMonth_pv.setVisibility(View.GONE);
+                }else {
+                    endYear_pv.setSelected(selectEndYear + "");
+                    endMonth_pv.setSelected(selectEndMonth + "");
+                }
+                //Log.i("当前选择的2",selectStartYear+"---"+selectStartMonth+"---"+selectEndYear+"----"+selectEndMonth);
                 executeAnimator(startMonth_pv);
                 executeAnimator(endMonth_pv);
                 executeScroll();

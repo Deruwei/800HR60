@@ -74,10 +74,10 @@ public class ResumePersonalInfoPresenter extends ResumePersonalInfoContract.Pres
         mRxManage.add(mModel.upLoadImage(content).subscribe(new RxSubscriber<PictureBean>(mContext,false) {
             @Override
             protected void _onNext(PictureBean pictureBean) throws IOException {
-                if (pictureBean.getError_code()==0){
+                if ("0".equals(pictureBean.getError_code())){
                     mView.uploadImageSuccess(pictureBean.getPic_filekey());
                 }else{
-                    ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) pictureBean.getError_code()));
+                    ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId(Integer.parseInt(pictureBean.getError_code())));
                 }
             }
 

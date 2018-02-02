@@ -2,7 +2,6 @@ package com.hr.ui.ui.job.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,8 +12,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
@@ -24,21 +21,19 @@ import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.job.contract.CompanyPageContract;
 import com.hr.ui.ui.job.model.CompanyPageModel;
 import com.hr.ui.ui.job.presenter.CompanyPagePresenter;
-import com.hr.ui.ui.main.adapter.MyRecommendJobAdapter;
 import com.hr.ui.ui.main.adapter.MyReleaseJobAdapter;
 import com.hr.ui.utils.EncryptUtils;
+import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.Utils;
-import com.hr.ui.view.CircleImageView;
 import com.hr.ui.view.ExpandableTextView;
 import com.hr.ui.view.RoundImageView;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.sharesdk.framework.ShareSDK;
+import butterknife.OnClick;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
 /**
@@ -84,11 +79,16 @@ public class CompanyPageActivity extends BaseActivity<CompanyPagePresenter, Comp
     RecyclerView rvCompanyPageInfo;
     @BindView(R.id.etv_companyPage)
     ExpandableTextView etvCompanyPage;
+    @BindView(R.id.ll_companyLocation)
+    LinearLayout llCompanyLocation;
+    @BindView(R.id.tv_noDataPosition)
+    TextView tvNoDataPosition;
     private String companyId;
     private MyReleaseJobAdapter adapter;
     private List<RecommendJobBean.JobsListBean> jobsListBeanList;
     private CompanyBean.EnterpriseInfoBean enterpriseInfoBean;
     private long currTime = 0;// 分享的点击时间
+
     /**
      * 入口
      *
@@ -98,8 +98,8 @@ public class CompanyPageActivity extends BaseActivity<CompanyPagePresenter, Comp
         Intent intent = new Intent(activity, CompanyPageActivity.class);
         intent.putExtra("companyId", companyId);
         activity.startActivity(intent);
-        activity.overridePendingTransition(R.anim.zoom_in,
-                R.anim.zoom_out);
+        activity.overridePendingTransition(R.anim.fade_in,
+                R.anim.fade_out);
     }
 
     @Override
@@ -119,7 +119,7 @@ public class CompanyPageActivity extends BaseActivity<CompanyPagePresenter, Comp
 
     @Override
     public void getCompanyDataSuccess(CompanyBean.EnterpriseInfoBean enterpriseInfoBean1) {
-        if(enterpriseInfoBean1!=null&&!"".equals(enterpriseInfoBean1)) {
+        if (enterpriseInfoBean1 != null && !"".equals(enterpriseInfoBean1)) {
 
             enterpriseInfoBean = enterpriseInfoBean1;
             tvCompanyPageAddress.setText(enterpriseInfoBean.getAddress());
@@ -130,20 +130,25 @@ public class CompanyPageActivity extends BaseActivity<CompanyPagePresenter, Comp
             tvCompanyPageCompanyScale.setText(enterpriseInfoBean.getStuff_munber());
             etvCompanyPage.setText(enterpriseInfoBean.getSynopsis(), true);
             if (enterpriseInfoBean.getEnt_logo() != null && !"".equals(enterpriseInfoBean.getEnt_logo())) {
-                Utils.setImageResource(this,ivCompanyPageCompanyImage,Constants.IMAGE_BASEPATH2+enterpriseInfoBean.getEnt_logo());
+                Utils.setImageResource(this, ivCompanyPageCompanyImage, Constants.IMAGE_BASEPATH2 + enterpriseInfoBean.getEnt_logo());
             } else {
-               Utils.setImageResourceDefault(this,ivCompanyPageCompanyImage);
+                Utils.setImageResourceDefault(this, ivCompanyPageCompanyImage);
             }
         }
     }
 
     @Override
     public void getReleaseJobSuccess(List<RecommendJobBean.JobsListBean> jobInfoBeanList) {
-        if(jobInfoBeanList!=null){
-            jobsListBeanList=new ArrayList<>();
+        if (jobInfoBeanList != null&&jobInfoBeanList.size()!=0) {
+            jobsListBeanList = new ArrayList<>();
             jobsListBeanList.addAll(jobInfoBeanList);
             adapter.setJobsListBeanList(jobInfoBeanList);
             rvCompanyPageInfo.setAdapter(adapter);
+            tvNoDataPosition.setVisibility(View.GONE);
+            rvCompanyPageInfo.setVisibility(View.VISIBLE);
+        }else{
+            rvCompanyPageInfo.setVisibility(View.GONE);
+            tvNoDataPosition.setVisibility(View.VISIBLE);
         }
     }
 
@@ -164,7 +169,7 @@ public class CompanyPageActivity extends BaseActivity<CompanyPagePresenter, Comp
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolBar.setTitle("");
-        toolBar.setBackgroundColor(ContextCompat.getColor(HRApplication.getAppContext(),R.color.bg_color));
+        toolBar.setBackgroundColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.bg_color));
         toolBar.setTitleTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
         toolBar.setNavigationIcon(R.mipmap.back);
         tvToolbarTitle.setText(R.string.companyHome);
@@ -184,7 +189,7 @@ public class CompanyPageActivity extends BaseActivity<CompanyPagePresenter, Comp
                 doShare();
             }
         });
-        LinearLayoutManager manager=new LinearLayoutManager(this){
+        LinearLayoutManager manager = new LinearLayoutManager(this) {
             @Override
             public boolean canScrollHorizontally() {
                 return false;
@@ -197,11 +202,16 @@ public class CompanyPageActivity extends BaseActivity<CompanyPagePresenter, Comp
         };
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         rvCompanyPageInfo.setLayoutManager(manager);
-        adapter=new MyReleaseJobAdapter();
+        adapter = new MyReleaseJobAdapter();
         adapter.setClickCallBack(new MyReleaseJobAdapter.ItemClickCallBack() {
             @Override
             public void onItemClick(int pos) {
-                PositionPageActivity.startAction(CompanyPageActivity.this,jobsListBeanList.get(pos).getJob_id());
+                if(jobsListBeanList.get(pos).getIs_expire()==1) {
+                    ToastUitl.showShort(R.string.error_401);
+                    return;
+                }else{
+                    PositionPageActivity.startAction(CompanyPageActivity.this, jobsListBeanList.get(pos).getJob_id(), 2);
+                }
             }
         });
     }
@@ -213,20 +223,20 @@ public class CompanyPageActivity extends BaseActivity<CompanyPagePresenter, Comp
 //                oks.addHiddenPlatform(QQ.NAME);
         String text = "";
         String mobilUrl = "";
-        String enterprise_name="";
-        String jobnameString="";
-        String enterpriseId="";
-        String jobId="";
-        if(!"".equals( enterpriseInfoBean.getEnterprise_name())&& enterpriseInfoBean.getEnterprise_name()!=null) {
-            enterprise_name =enterpriseInfoBean.getEnterprise_name();
+        String enterprise_name = "";
+        String jobnameString = "";
+        String enterpriseId = "";
+        String jobId = "";
+        if (!"".equals(enterpriseInfoBean.getEnterprise_name()) && enterpriseInfoBean.getEnterprise_name() != null) {
+            enterprise_name = enterpriseInfoBean.getEnterprise_name();
         }
 
-        if(!"".endsWith(enterpriseInfoBean.getEnterprise_id())&&enterpriseInfoBean.getEnterprise_id()!=null){
-            enterpriseId=enterpriseInfoBean.getEnterprise_id();
+        if (!"".endsWith(enterpriseInfoBean.getEnterprise_id()) && enterpriseInfoBean.getEnterprise_id() != null) {
+            enterpriseId = enterpriseInfoBean.getEnterprise_id();
         }
-        if(enterpriseId!=null&&!"".equals(enterpriseId)&&enterprise_name!=null){
+        if (enterpriseId != null && !"".equals(enterpriseId) && enterprise_name != null) {
             text = "我在行业找工作上看到了" + enterprise_name + "发布了招聘职位。";
-            mobilUrl = EncryptUtils.getCompanyUrl(enterpriseId,enterpriseInfoBean.getIndustry());
+            mobilUrl = EncryptUtils.getCompanyUrl(enterpriseId, enterpriseInfoBean.getIndustry());
         }
         //System.out.println("mobilUrl==" + mobilUrl);
         text = text + " " + mobilUrl;
@@ -257,5 +267,10 @@ public class CompanyPageActivity extends BaseActivity<CompanyPagePresenter, Comp
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+
+    @OnClick(R.id.ll_companyLocation)
+    public void onViewClicked() {
+        BaiDuMapActivity.startAction(this, enterpriseInfoBean.getBaidu_map_lon(), enterpriseInfoBean.getBaidu_map_lat());
     }
 }

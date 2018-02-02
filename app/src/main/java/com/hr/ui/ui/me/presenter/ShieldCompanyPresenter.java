@@ -21,7 +21,7 @@ import okhttp3.ResponseBody;
 public class ShieldCompanyPresenter extends ShieldCompanyContract.Presenter {
     @Override
     public void getShieldCompanyData() {
-        mRxManage.add(mModel.getShieldCompanyData().subscribe(new RxSubscriber<ShieldCompanyBean>(mContext,false) {
+        mRxManage.add(mModel.getShieldCompanyData().subscribe(new RxSubscriber<ShieldCompanyBean>(mContext,true) {
             @Override
             protected void _onNext(ShieldCompanyBean shieldCompanyBean) throws IOException {
                     if(shieldCompanyBean.getError_code()==0) {
@@ -40,11 +40,11 @@ public class ShieldCompanyPresenter extends ShieldCompanyContract.Presenter {
 
     @Override
     public void queryShieldCompanyDataByKeyword(String content) {
-        mRxManage.add(mModel.queryShieldCompanyDataByKeyword(content).subscribe(new RxSubscriber<QueryShieldCompanyBean>(mContext,false) {
+        mRxManage.add(mModel.queryShieldCompanyDataByKeyword(content).subscribe(new RxSubscriber<QueryShieldCompanyBean>(mContext,true) {
             @Override
             protected void _onNext(QueryShieldCompanyBean queryShieldCompanyBean) throws IOException {
                     if(queryShieldCompanyBean.getError_code()==0) {
-                        mView.queryShieldCompanyDataByKeyWordSuccess(queryShieldCompanyBean.getEnte_list());
+                        mView.queryShieldCompanyDataByKeyWordSuccess(queryShieldCompanyBean.getEnte_list(),queryShieldCompanyBean.getTotals());
                     }else{
                         ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId(queryShieldCompanyBean.getError_code()));
                     }

@@ -11,6 +11,9 @@
             android:id="@+id/rl_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
         <com.hr.ui.view.RoundImageView
             app:type="rounded_rect"
             android:src="@mipmap/defaultcompany"
@@ -19,21 +22,9 @@
             android:id="@+id/iv_itemInviteInterViewPerson"
             android:layout_width="@dimen/x80"
             android:layout_height="@dimen/x80" />
-            <ImageView
-                android:id="@+id/iv_itemMessageNum"
-                android:layout_marginTop="@dimen/x20"
-                android:textColor="@color/white"
-                android:textSize="@dimen/x16"
-                android:src="@mipmap/new_green"
-                android:layout_marginLeft="@dimen/x54"
-                android:padding="@dimen/x3"
-                android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </FrameLayout>
         <RelativeLayout
             android:layout_marginLeft="@dimen/x20"
-            android:layout_toRightOf="@+id/rl_message"
+            android:layout_toRightOf="@+id/iv_itemInviteInterViewPerson"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
@@ -43,7 +34,7 @@
                 android:singleLine="true"
                 android:maxEms="10"
                 android:textColor="@color/color_333"
-                android:layout_marginTop="@dimen/x26"
+                android:layout_marginTop="@dimen/x22"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
@@ -54,7 +45,7 @@
                 android:singleLine="true"
                 android:maxEms="16"
                 android:textColor="@color/color_999"
-                android:layout_marginTop="@dimen/x6"
+                android:layout_marginTop="@dimen/x2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
@@ -68,5 +59,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </RelativeLayout>
+            </RelativeLayout>
+            <ImageView
+                android:id="@+id/iv_itemMessageNum"
+                android:layout_marginTop="@dimen/x20"
+                android:textColor="@color/white"
+                android:textSize="@dimen/x16"
+                android:src="@mipmap/new_green"
+                android:layout_marginLeft="@dimen/x54"
+                android:gravity="center"
+                android:layout_width="@dimen/x49"
+                android:layout_height="@dimen/x24"/>
+        </FrameLayout>
     </RelativeLayout>
 </RelativeLayout>

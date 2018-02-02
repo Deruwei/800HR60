@@ -21,6 +21,7 @@
                 android:scaleType="centerCrop"
                 app:type="rounded_rect_ad"
                 android:id="@+id/iv_findIcon"
+                android:src="@mipmap/finddefault"
                 android:layout_width="match_parent"
                 app:borderColor="@color/white"
                 app:borderWidth="@dimen/x1"

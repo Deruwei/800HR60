@@ -23,7 +23,7 @@ public class GlideImageLoader implements ImageLoader {
                 .placeholder(R.mipmap.default_image)//
                 .error(R.mipmap.default_image)//
                 .override(width, height)
-                .centerCrop()
+                .fitCenter()
                 .skipMemoryCache(true)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .into(imageView);

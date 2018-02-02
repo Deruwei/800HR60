@@ -100,6 +100,8 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
     private EditText etAutoCode;
     private SharedPreferencesUtils sUtils;
     private int code;
+    private String validCode;
+    private int type; //0代表的是注册  1，代表的是获取验证码
     private String phoneNumber = "", password;
     private int[] imageIds = {R.mipmap.resume1, R.mipmap.resume2, R.mipmap.resume3, R.mipmap.resume4, R.mipmap.resume5};
     private ArrayList<String> titles;
@@ -164,6 +166,25 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
     @Override
     public void needToGetAutoCode() {
         mPresenter.getAutoCode();
+    }
+
+    @Override
+    public void phoneIsExit(String flag) {
+        if("1".equals(flag)){
+            ToastUitl.showShort(R.string.error_327);
+            return;
+        }else{
+            if(type==0) {
+                mPresenter.getRegister(phoneNumber, validCode, password);
+            }else{
+                //Log.i("次数",code+"");
+                if (code >= 1) {
+                    mPresenter.getAutoCode();
+                } else {
+                    mPresenter.getValidCode(phoneNumber, "", 0, Constants.VALIDCODE_REGISTER_YTPE);
+                }
+            }
+        }
     }
 
 
@@ -353,7 +374,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
                 etPhoneRegisterValidCode.setText("");
                 break;
             case R.id.tv_phoneRegisterGetValidCode:
-
+                type=1;
                 String phoneNumber1 = etPhoneRegisterNumber.getText().toString();
                 if (!"".equals(phoneNumber1) && phoneNumber1 != null) {
                     if (RegularExpression.isCellphone(phoneNumber1)) {
@@ -361,12 +382,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
                             code = 0;
                         }
                         phoneNumber = phoneNumber1;
-                        //Log.i("次数",code+"");
-                        if (code >= 1) {
-                            mPresenter.getAutoCode();
-                        } else {
-                            mPresenter.getValidCode(phoneNumber, "", 0, Constants.VALIDCODE_REGISTER_YTPE);
-                        }
+                        mPresenter.validPhoneIsExit(phoneNumber);
                     } else {
                         ToastUitl.show("请输入正确的手机号码", Toast.LENGTH_SHORT);
                     }
@@ -375,6 +391,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
                 }
                 break;
             case R.id.btn_phoneRegisterOK:
+                type=0;
                 doRegister();
                 break;
         }
@@ -382,7 +399,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
 
     private void doRegister() {
         phoneNumber = etPhoneRegisterNumber.getText().toString();
-        String validCode = etPhoneRegisterValidCode.getText().toString();
+        validCode = etPhoneRegisterValidCode.getText().toString();
         password = etPhoneRegisterPsw.getText().toString();
 
         if ("".equals(phoneNumber) || phoneNumber == null) {
@@ -405,7 +422,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
             ToastUitl.showShort("请输入长度为6-25位的密码");
             return;
         }
-        mPresenter.getRegister(phoneNumber, validCode, password);
+        mPresenter.validPhoneIsExit(phoneNumber);
     }
 
     /**

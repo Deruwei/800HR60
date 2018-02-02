@@ -6,8 +6,17 @@ package com.hr.ui.bean;
 
 public class RegisterBean {
     private double error_code;
+    private String error_field;
     private  int user_id;
     private int industry;
+
+    public String getError_field() {
+        return error_field;
+    }
+
+    public void setError_field(String error_field) {
+        this.error_field = error_field;
+    }
 
     public double getError_code() {
         return error_code;
@@ -37,6 +46,7 @@ public class RegisterBean {
     public String toString() {
         return "RegisterBean{" +
                 "error_code=" + error_code +
+                ", error_field='" + error_field + '\'' +
                 ", user_id=" + user_id +
                 ", industry=" + industry +
                 '}';

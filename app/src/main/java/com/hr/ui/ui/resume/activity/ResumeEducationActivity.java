@@ -28,6 +28,7 @@ import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.datautils.ResumeInfoIDToString;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.CustomDatePicker;
+import com.hr.ui.view.MyDialog;
 import com.hr.ui.view.MyStartAndEndTimeCustomDatePicker;
 
 import butterknife.BindView;
@@ -84,8 +85,10 @@ public class ResumeEducationActivity extends BaseActivity<ResumeEducationPresent
     RelativeLayout rlResumeEduBDEducation;
     private MyStartAndEndTimeCustomDatePicker datePickerTime;
     private CustomDatePicker datePickerDegree;
+    private int num;
     private String startTimes,endTimes,degreeId,educationId;
     private SharedPreferencesUtils sUtils;
+    private MyDialog dialog;
     /**
      * 入口
      *
@@ -101,9 +104,10 @@ public class ResumeEducationActivity extends BaseActivity<ResumeEducationPresent
      *
      * @param activity
      */
-    public static void startAction(Activity activity,String educationId) {
+    public static void startAction(Activity activity,String educationId,int num) {
         Intent intent = new Intent(activity,ResumeEducationActivity.class);
         intent.putExtra("educationId",educationId);
+        intent.putExtra("num",num);
         activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
@@ -172,6 +176,7 @@ public class ResumeEducationActivity extends BaseActivity<ResumeEducationPresent
     public void initView() {
         instance = this;
         sUtils=new SharedPreferencesUtils(this);
+        num=getIntent().getIntExtra("num",0);
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -189,7 +194,12 @@ public class ResumeEducationActivity extends BaseActivity<ResumeEducationPresent
             }
         });
         if(educationId!=null&&!"".equals(educationId)) {
-            mPresenter.getEducationInfo(educationId);
+            if(num>1) {
+                mPresenter.getEducationInfo(educationId);
+            }else{
+                mPresenter.getEducationInfo(educationId);
+                tvResumeEduBGDelete.setVisibility(View.GONE);
+            }
         }else{
             tvResumeEduBGDelete.setVisibility(View.GONE);
         }
@@ -219,7 +229,7 @@ public class ResumeEducationActivity extends BaseActivity<ResumeEducationPresent
                 startTimes=startTime;
                 endTimes=endTime;
             }
-        });
+        },1);
         datePickerDegree=new CustomDatePicker(this, new CustomDatePicker.ResultHandler() {
             @Override
             public void handle(String time) {
@@ -317,17 +327,42 @@ public class ResumeEducationActivity extends BaseActivity<ResumeEducationPresent
                 doSaveOrUpdateEducation();
                 break;
             case R.id.tv_resumeEduBGDelete:
-                mPresenter.deleteEducation(educationId);
+               doDelete();
                 break;
         }
     }
+    private void doDelete() {
+        dialog=new MyDialog(this,2);
+        dialog.setMessage(getString(R.string.sureDeleteEdu));
+        dialog.setYesOnclickListener(getString(R.string.sure), new MyDialog.onYesOnclickListener() {
+            @Override
+            public void onYesClick() {
+                mPresenter.deleteEducation(educationId);
+                dialog.dismiss();
+            }
+        });
+        dialog.setNoOnclickListener(getString(R.string.cancel), new MyDialog.onNoOnclickListener() {
+            @Override
+            public void onNoClick() {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(dialog!=null){
+            dialog.dismiss();
+        }
+    }
     private void doSaveOrUpdateEducation() {
         if(etResumeEduBDSchool.getText().toString()==null||"".equals(etResumeEduBDSchool.getText().toString())){
             ToastUitl.showShort("请填写学校");
             return;
         }
-        if(etResumeEduBDProfession.getText().toString()==null&&"".equals(etResumeEduBDProfession.getText().toString())){
+        if(etResumeEduBDProfession.getText().toString()==null||"".equals(etResumeEduBDProfession.getText().toString())){
             ToastUitl.showShort("请填写专业");
             return;
         }
@@ -344,6 +379,9 @@ public class ResumeEducationActivity extends BaseActivity<ResumeEducationPresent
             educationData.setEducationId(educationId);
         }
         educationData.setStartTime(startTimes);
+        if("至今".equals(endTimes)){
+            endTimes="0-0";
+        }
         educationData.setEndTime(endTimes);
         educationData.setProfession(etResumeEduBDProfession.getText().toString());
         educationData.setSchoolName(etResumeEduBDSchool.getText().toString());

@@ -8,8 +8,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:background="@color/white"
         android:orientation="vertical"
         android:paddingLeft="@dimen/x31"
@@ -110,11 +108,15 @@
             android:layout_marginTop="@dimen/x44"
             android:orientation="horizontal">
 
-            <ImageView
+            <com.hr.ui.view.RoundImageView
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
                 android:id="@+id/iv_recommendJobCompanyIcon"
                 android:layout_width="@dimen/x82"
+                app:type="rounded_rect"
+                app:borderWidth="@dimen/x1"
+                app:borderColor="@color/color_999"
+                app:rectRoundRadius="@dimen/x6"
                 android:layout_height="@dimen/x82"
                 android:src="@mipmap/defaultcompany" />
 
@@ -191,6 +193,8 @@
                 <com.hr.ui.view.PieChartView
                     android:id="@+id/pcv_num"
                     android:layout_width="@dimen/x50"
+                    app:borderColorPie="@color/new_main"
+                    app:borderWidthPie="@dimen/x1"
                     android:layout_height="@dimen/x50"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true" />

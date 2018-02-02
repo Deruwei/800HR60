@@ -315,10 +315,6 @@ public class UserLoginActivity extends BaseActivity<LoginPresenter, LoginModel> 
             ToastUitl.showShort("请输入密码");
             return;
         }
-        if (psw.length() < 6 || psw.length() > 16) {
-            ToastUitl.showShort("请输入6-16位长度密码");
-            return;
-        }
         mPresenter.getLogin(userNum, psw, 2);
     }
 }

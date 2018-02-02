@@ -23,6 +23,6 @@ public interface FindContract {
         void getFiindDataSuccess(List<FindBean.ListBean> listBeans);
     }
     abstract class Presenter extends BasePresenter<View,Model>{
-        public  abstract void getFindData(int page,String ad_type);
+        public  abstract void getFindData(int page,String ad_type,boolean isCanRefresh);
     }
 }

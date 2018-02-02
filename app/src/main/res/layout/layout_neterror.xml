@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="match_parent"
+    android:id="@+id/ll_netError"
+    android:visibility="gone"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/iv_noNetError"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/x100"
+        android:src="@mipmap/neterror"
+        android:layout_width="@dimen/x295"
+        android:layout_height="@dimen/x275" />
+    <TextView
+        android:layout_marginTop="@dimen/x10"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/noNetError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</LinearLayout>

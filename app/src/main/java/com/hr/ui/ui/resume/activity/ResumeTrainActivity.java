@@ -26,6 +26,7 @@ import com.hr.ui.ui.resume.model.ResumeTrainModel;
 import com.hr.ui.ui.resume.presenter.ResumeTrainExpPresenter;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
+import com.hr.ui.view.MyDialog;
 import com.hr.ui.view.MyStartAndEndTimeCustomDatePicker;
 
 import butterknife.BindView;
@@ -84,6 +85,7 @@ public class ResumeTrainActivity extends BaseActivity<ResumeTrainExpPresenter, R
     private String trainId;
     public static ResumeTrainActivity instance;
     private SharedPreferencesUtils sUtils;
+    private MyDialog dialog;
 
     /**
      * 入口
@@ -133,6 +135,9 @@ public class ResumeTrainActivity extends BaseActivity<ResumeTrainExpPresenter, R
         etResumeTrainExpTrainClass.setText(trainBean.getCourse());
         startTimes = trainBean.getFromyear() + "-" + trainBean.getFrommonth();
         endTimes = trainBean.getToyear() + "-" + trainBean.getTomonth();
+        if("0-0".equals(endTimes)){
+            endTimes="至今";
+        }
         etResumeTrainExpStartEndTime.setText(startTimes + "  至  " + endTimes);
         etResumeTrainExpTrainDes.setText(trainBean.getTraindetail());
         ivResumeTrainExpTrainOrgDelete.setVisibility(View.GONE);
@@ -212,7 +217,7 @@ public class ResumeTrainActivity extends BaseActivity<ResumeTrainExpPresenter, R
                 startTimes = startTime;
                 etResumeTrainExpStartEndTime.setText(startTime + "  至  " + endTimes);
             }
-        });
+        },1);
     }
 
     private void textChanged() {
@@ -307,17 +312,42 @@ public class ResumeTrainActivity extends BaseActivity<ResumeTrainExpPresenter, R
                 doAddOrReplaceTrainData();
                 break;
             case R.id.tv_resumeTrainExpDelete:
-                mPresenter.deleteExpDate(trainId);
+                doDelete();
                 break;
         }
     }
+    private void doDelete() {
+        dialog=new MyDialog(this,2);
+        dialog.setMessage(getString(R.string.sureDeletePlant));
+        dialog.setYesOnclickListener(getString(R.string.sure), new MyDialog.onYesOnclickListener() {
+            @Override
+            public void onYesClick() {
+                mPresenter.deleteExpDate(trainId);
+                dialog.dismiss();
+            }
+        });
+        dialog.setNoOnclickListener(getString(R.string.cancel), new MyDialog.onNoOnclickListener() {
+            @Override
+            public void onNoClick() {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(dialog!=null){
+            dialog.dismiss();
+        }
+    }
     public void setTrainDes(String content) {
         etResumeTrainExpTrainDes.setText(content);
     }
 
     private void doAddOrReplaceTrainData() {
-        if (etResumeTrainExpTrainOrg.getText().toString() == null && "".equals(etResumeTrainExpTrainOrg.getText().toString())) {
+        if (etResumeTrainExpTrainOrg.getText().toString() == null || "".equals(etResumeTrainExpTrainOrg.getText().toString())) {
             ToastUitl.showShort("请填写培训机构");
             return;
         }

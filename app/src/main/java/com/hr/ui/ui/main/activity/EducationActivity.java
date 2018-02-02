@@ -292,7 +292,7 @@ public class EducationActivity extends BaseActivity<EducationPresenter, Educatio
                 startTimes = startTime;
                 endTimes = endTime;
             }
-        });
+        },1);
     }
 
     private void setFocus() {
@@ -343,6 +343,7 @@ public class EducationActivity extends BaseActivity<EducationPresenter, Educatio
         }
         if ("".equals(startTimes) || "".equals(endTimes) || endTimes == null || startTimes == null) {
             ToastUitl.showShort("请选择起止时间");
+            return;
         }
         EducationData educationData = new EducationData();
         educationData.setSchoolName(etSchool.getText().toString());
@@ -350,6 +351,7 @@ public class EducationActivity extends BaseActivity<EducationPresenter, Educatio
         educationData.setProfession(tvProfession.getText().toString());
         educationData.setStartTime(startTimes);
         educationData.setEndTime(endTimes);
+        eduId=sUtils.getStringValue(Constants.EDUCATION_ID,"");
         if(eduId!=null&&!"".equals(eduId)){
             educationData.setEducationId(eduId);
         }
@@ -396,6 +398,7 @@ public class EducationActivity extends BaseActivity<EducationPresenter, Educatio
     @Override
     public void sendEducationSuccess(String eduId) {
         this.eduId=eduId;
+        sUtils.setStringValue(Constants.EDUCATION_ID,eduId);
         if (stopType == 2) {
             MainActivity.startAction(this, 0);
             AppManager.getAppManager().finishAllActivity();

@@ -11,84 +11,66 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white" >
-            <RelativeLayout
-                android:background="@color/bg_homeTitle"
-                android:id="@+id/rl_fragmentTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            <com.hr.ui.view.CircleImageView
-                android:layout_marginTop="@dimen/x15"
-                android:layout_marginLeft="@dimen/x37"
-                android:layout_marginBottom="@dimen/x15"
-                android:layout_marginRight="@dimen/x30"
-                app:civ_border_color="@color/black"
-                android:id="@+id/iv_ResumePersonPhoto"
-                android:layout_width="@dimen/x58"
-                android:layout_height="@dimen/x58"
-                android:scaleType="centerCrop"
-                android:onClick="toggleMenu"
-                android:src="@mipmap/persondefault"/>
-              <FrameLayout
-                  android:layout_centerVertical="true"
-                  android:layout_toRightOf="@+id/iv_ResumePersonPhoto"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content">
-                    <RelativeLayout
-                        android:id="@+id/rl_mainSearch"
-                        android:layout_marginRight="@dimen/x52"
-                        android:background="@drawable/fragmentlayout_bg"
-                        android:layout_width="match_parent"
-                        android:gravity="center"
-                        android:layout_height="@dimen/x58">
-                        <ImageView
-                            android:layout_centerVertical="true"
-                            android:id="@+id/iv_mainSearch"
-                            android:src="@mipmap/search"
-                            android:layout_width="@dimen/x24"
-                            android:layout_height="@dimen/x24" />
-                        <TextView
-                            android:layout_marginLeft="@dimen/x15"
-                            android:textColor="@color/view_color"
-                            android:layout_centerVertical="true"
-                            android:textSize="@dimen/x24"
-                            android:layout_toRightOf="@+id/iv_mainSearch"
-                            android:text="@string/positionOrCompanyName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                    </RelativeLayout>
-                  <TextView
-                      android:visibility="gone"
-                      android:id="@+id/tv_fragmentMessage"
-                      android:layout_gravity="center_vertical"
-                      android:gravity="right"
-                      android:layout_marginRight="@dimen/x345"
-                      android:textColor="@color/color_333"
-                      android:textSize="@dimen/x32"
-                      android:text="@string/message"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content" />
-              </FrameLayout>
-            </RelativeLayout>
-            <LinearLayout
-                android:layout_below="@+id/rl_fragmentTitle"
-                android:layout_above="@+id/bnv_main"
-                android:id="@+id/ll_main"
-                android:orientation="vertical"
+            <FrameLayout
+                android:layout_above="@+id/view_main"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+                <LinearLayout
+                    android:id="@+id/ll_main"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-            </LinearLayout>
-            <android.support.design.widget.BottomNavigationView
-                android:paddingTop="@dimen/x10"
-                android:paddingBottom="@dimen/x10"
-                android:layout_alignParentBottom="true"
-                android:id="@+id/bnv_main"
+                </LinearLayout>
+               <!-- <com.hr.ui.view.CircleImageView
+                    android:layout_marginTop="@dimen/x15"
+                    android:layout_marginLeft="@dimen/x37"
+                    android:layout_marginBottom="@dimen/x15"
+                    android:layout_marginRight="@dimen/x30"
+                    app:civ_border_color="@color/black"
+                    android:id="@+id/iv_ResumePersonPhoto"
+                    android:layout_width="@dimen/x58"
+                    android:layout_height="@dimen/x58"
+                    android:scaleType="centerCrop"
+                    android:onClick="toggleMenu"
+                    android:src="@mipmap/defaultcompany"/>-->
+            </FrameLayout>
+            <View
+                android:id="@+id/view_main"
+                android:layout_above="@+id/radioGroup"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/x115"
+                android:layout_height="@dimen/x2"
+                android:background="@color/resumeContent_bg"/>
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x95"
+                android:layout_alignParentBottom="true"
+                android:clickable="true"
                 android:background="@color/white"
-                app:menu="@menu/bottom_view"
-                app:itemTextColor="@color/color_333">
-            </android.support.design.widget.BottomNavigationView>
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rb_home"
+                    style="@style/RadioButtonStyle"
+                    android:checked="true"
+                    android:drawableTop="@drawable/bg_drawer_navigation_home"
+                    android:text="@string/home" />
+
+                <RadioButton
+                    android:id="@+id/rb_message"
+                    style="@style/RadioButtonStyle"
+                    android:drawableTop="@drawable/bg_drawer_navigation_message"
+                    android:text="@string/message" />
+
+                <RadioButton
+                    android:id="@+id/rb_resume"
+                    style="@style/RadioButtonStyle"
+                    android:drawableTop="@drawable/bg_drawer_navigation_resume"
+                    android:text="@string/resume" />
+
+            </RadioGroup>
         </RelativeLayout>
         <include layout="@layout/layout_menu"
         />

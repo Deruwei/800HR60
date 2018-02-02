@@ -62,13 +62,14 @@ public class MyCollectionAdapter extends RecyclerView.Adapter<MyCollectionAdapte
         return new ViewHolder(view);
     }
 
-    //将数据与界面进行绑定的操作
+        //将数据与界面进行绑定的操作
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
         viewHolder.tvItemCollectionSalary.setText(Utils.getSalary(favouriteListBeanList.get(position).getSalary()));
         viewHolder.tvItemCollectionDegree.setText(favouriteListBeanList.get(position).getStudy());
         viewHolder.tvItemCollectionExp.setText(favouriteListBeanList.get(position).getWorkyear());
         viewHolder.tvItemCollectionJobName.setText(favouriteListBeanList.get(position).getJob_name());
+        viewHolder.tvItemCollectionTime.setText(Utils.getDateMonthAndDay2(favouriteListBeanList.get(position).getFavourite_time()));
         viewHolder.tvItemCollectionPlace.setText(favouriteListBeanList.get(position).getWorkplace());
         viewHolder.tvItemCollectionCompanyName.setText(favouriteListBeanList.get(position).getEnterprise_name());
         if (favouriteListBeanList.get(position).getIs_apply() == 0) {

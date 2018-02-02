@@ -369,7 +369,7 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
                 startTimes = startTime;
                 endTimes = endTime;
             }
-        });
+        },2);
     }
 
     @OnClick({R.id.iv_companyNameDelete,R.id.tv_noInternshipExp, R.id.rl_workPlace, R.id.tv_positionSelect, R.id.iv_grossPayDelete, R.id.rl_position, R.id.rl_workExpStartAndEndTime, R.id.btn_nextEdu})
@@ -434,7 +434,7 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
             return;
         }
         if("0".equals(etGrossPay.getText().toString())){
-            ToastUitl.showShort("税前月薪不能为0");
+            ToastUitl.showShort("请填写正确的税前月薪");
             return;
         }
         if (startTimes == null || endTimes == null || "".equals(startTimes) || "".equals(endTimes)) {
@@ -450,8 +450,14 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
         workExpData.setPosition(tvPosition.getText().toString());
         workExpData.setWorkPlace(cityId);
         workExpData.setGrossPay(etGrossPay.getText().toString());
+
+        if(!"至今".equals(endTimes)) {
+            workExpData.setEndTime(endTimes);
+        }else{
+            workExpData.setEndTime("0-0");
+        }
         workExpData.setStartTime(startTimes);
-        workExpData.setEndTime(endTimes);
+        expId=sUtis.getStringValue(Constants.WORKEXP_ID,"");
         if(expId!=null&&!"".equals(expId)){
             workExpData.setExperienceId(expId);
         }else{
@@ -521,6 +527,7 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
     @Override
     public void sendWorkExpSuccess(String expId) {
         this.expId=expId;
+        sUtis.setStringValue(Constants.WORKEXP_ID,expId);
         if (stopType == 3) {
             MainActivity.startAction(this, 0);
             AppManager.getAppManager().finishAllActivity();

@@ -101,6 +101,11 @@ public class FindFragment extends BaseFragment<FindPresenter, FindModel> impleme
 
     @Override
     protected void initView() {
+        initRv();
+    }
+
+    @Override
+    protected void lazyLoad() {
         position=getArguments().getInt("position");
         if(position==0) {
             ad_type="4";
@@ -109,8 +114,7 @@ public class FindFragment extends BaseFragment<FindPresenter, FindModel> impleme
         }else if(position==2){
             ad_type="5";
         }
-        mPresenter.getFindData(page,ad_type);
-        initRv();
+        mPresenter.getFindData(page,ad_type,true);
     }
 
     private void initRv() {
@@ -134,7 +138,7 @@ public class FindFragment extends BaseFragment<FindPresenter, FindModel> impleme
                 new Handler().postDelayed(new Runnable(){
                     public void run() {
                         page=1;
-                        mPresenter.getFindData(page,ad_type);
+                        mPresenter.getFindData(page,ad_type,false);
                         adapter.notifyDataSetChanged();
                         rvDeliverFeedback.refreshComplete();
                     }
@@ -147,7 +151,7 @@ public class FindFragment extends BaseFragment<FindPresenter, FindModel> impleme
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
                         page++;
-                        mPresenter.getFindData(page,ad_type);
+                        mPresenter.getFindData(page,ad_type,false);
                         rvDeliverFeedback.loadMoreComplete();
                         adapter.notifyDataSetChanged();
                     }

@@ -31,6 +31,7 @@ import com.hr.ui.ui.resume.presenter.ResumeWorkExpPresenter;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.datautils.FromStringToArrayList;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
+import com.hr.ui.view.MyDialog;
 import com.hr.ui.view.MyStartAndEndTimeCustomDatePicker;
 
 import butterknife.BindView;
@@ -100,11 +101,14 @@ public class ResumeWorkExpActivity extends BaseActivity<ResumeWorkExpPresenter, 
     RelativeLayout rlResumeWorkExpWorkPlace;
     @BindView(R.id.rl_resumeWorkExpGrossPay)
     RelativeLayout rlResumeWorkExpGrossPay;
+    private String resumeType;
     public static String TAG=ResumeWorkExpActivity.class.getSimpleName();
     private String experienceId,startTimes,endTimes,cityid;
     private MyStartAndEndTimeCustomDatePicker datePickerTime;
     public static ResumeWorkExpActivity instance;
     private SharedPreferencesUtils sUtils;
+    private int num=0;
+    private MyDialog dialog;
     /**
      * 入口
      *
@@ -120,9 +124,10 @@ public class ResumeWorkExpActivity extends BaseActivity<ResumeWorkExpPresenter, 
      *
      * @param activity
      */
-    public static void startAction(Activity activity,String experienceId) {
+    public static void startAction(Activity activity,String experienceId,int num) {
         Intent intent = new Intent(activity,ResumeWorkExpActivity.class);
         intent.putExtra("experienceId",experienceId);
+        intent.putExtra("num",num);
         activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
@@ -149,9 +154,12 @@ public class ResumeWorkExpActivity extends BaseActivity<ResumeWorkExpPresenter, 
     private void setUI(WorkExpBean.ExperienceListBean workExpBean) {
         etResumeWorkExpPosition.setText(workExpBean.getPosition());
         etResumeWorkExpCompany.setText(workExpBean.getCompany());
-        tvResumeWorkExpStartAndTime.setText(workExpBean.getFromyear()+"-"+workExpBean.getFrommonth()+"  至  "+workExpBean.getToyear()+"-"+workExpBean.getTomonth() );
         startTimes=workExpBean.getFromyear()+"-"+workExpBean.getFrommonth();
         endTimes=workExpBean.getToyear()+"-"+workExpBean.getTomonth();
+        if("0-0".equals(endTimes)){
+            endTimes="至今";
+        }
+        tvResumeWorkExpStartAndTime.setText(startTimes+"  至  "+endTimes );
         tvResumeWorkExpGrossPay.setText(workExpBean.getSalary());
         tvResumeWorkExpJobDescription.setText(workExpBean.getResponsiblity());
         tvResumeWorkExpWorkPlace.setText(FromStringToArrayList.getInstance().getCityListName(workExpBean.getCompanyaddress()));
@@ -190,13 +198,21 @@ public class ResumeWorkExpActivity extends BaseActivity<ResumeWorkExpPresenter, 
         instance=this;
         setSupportActionBar(toolBar);
         sUtils=new SharedPreferencesUtils(this);
+        num=getIntent().getIntExtra("num",0);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolBar.setTitle("");
         experienceId = getIntent().getStringExtra("experienceId");
         toolBar.setTitleTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
         toolBar.setNavigationIcon(R.mipmap.back);
-        tvToolbarTitle.setText(R.string.workExp);
+        resumeType=sUtils.getStringValue(Constants.RESUME_TYPE,"");
+        if("1".equals(resumeType)) {
+            tvToolbarTitle.setText(R.string.workExp);
+            tvResumeWorkExpWorkPlaceTag.setText(R.string.workPlace);
+        }else{
+            tvToolbarTitle.setText(R.string.internshipExperience);
+            tvResumeWorkExpWorkPlaceTag.setText(R.string.internshipPlace);
+        }
         ivResumeWorkExpCompanyDelete.setVisibility(View.GONE);
         ivResumeWorkExpPositionDelete.setVisibility(View.GONE);
         ivResumeWorkExpGrossPaySelect.setVisibility(View.GONE);
@@ -207,7 +223,12 @@ public class ResumeWorkExpActivity extends BaseActivity<ResumeWorkExpPresenter, 
             }
         });
         if(experienceId!=null&&!"".equals(experienceId)){
-            mPresenter.getWorkExpInfo(experienceId);
+            if(num>1) {
+                mPresenter.getWorkExpInfo(experienceId);
+            }else{
+                mPresenter.getWorkExpInfo(experienceId);
+                tvResumeWorkExpDelete.setVisibility(View.GONE);
+            }
         }
         else{
             tvResumeWorkExpDelete.setVisibility(View.GONE);
@@ -330,7 +351,7 @@ public class ResumeWorkExpActivity extends BaseActivity<ResumeWorkExpPresenter, 
                 endTimes=endTime;
                 tvResumeWorkExpStartAndTime.setText(startTime+"  至  "+endTime);
             }
-        });
+        },2);
     }
 
     @OnClick({R.id.iv_resumeWorkExpCompanyDelete,R.id.iv_resumeWorkExpGrossPaySelect, R.id.iv_resumeWorkExpPositionDelete, R.id.rl_resumeWorkExpStartAndTime, R.id.rl_resumeWorkExpJobDescription, R.id.rl_resumeWorkExpWorkPlace, R.id.rl_resumeWorkExpGrossPay, R.id.btn_resumeWorkExpOK, R.id.tv_resumeWorkExpDelete})
@@ -365,10 +386,42 @@ public class ResumeWorkExpActivity extends BaseActivity<ResumeWorkExpPresenter, 
                 doAddOrPlaceWorkExp();
                 break;
             case R.id.tv_resumeWorkExpDelete:
-                mPresenter.deleteWorkExp(experienceId);
+                doDelete();
                 break;
         }
     }
+
+    private void doDelete() {
+        dialog=new MyDialog(this,2);
+        if("1".equals(resumeType)) {
+            dialog.setMessage(getString(R.string.sureDeleteWorkExp));
+        }else{
+            dialog.setMessage(getString(R.string.sureDeleteInternShipExp));
+        }
+        dialog.setYesOnclickListener(getString(R.string.sure), new MyDialog.onYesOnclickListener() {
+            @Override
+            public void onYesClick() {
+                mPresenter.deleteWorkExp(experienceId);
+                dialog.dismiss();
+            }
+        });
+        dialog.setNoOnclickListener(getString(R.string.cancel), new MyDialog.onNoOnclickListener() {
+            @Override
+            public void onNoClick() {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(dialog!=null){
+            dialog.dismiss();
+        }
+    }
+
     public void setTvResponsibilityDes(String content) {
         tvResumeWorkExpJobDescription.setText(content);
     }
@@ -402,7 +455,11 @@ public class ResumeWorkExpActivity extends BaseActivity<ResumeWorkExpPresenter, 
             workExpData.setExperienceId(experienceId);
         }
         workExpData.setResponsibilityDescription(tvResumeWorkExpJobDescription.getText().toString());
-        workExpData.setEndTime(endTimes);
+        if("至今".equals(endTimes)){
+            workExpData.setEndTime("0-0");
+        }else {
+            workExpData.setEndTime(endTimes);
+        }
         workExpData.setStartTime(startTimes);
         workExpData.setGrossPay(tvResumeWorkExpGrossPay.getText().toString());
         workExpData.setWorkPlace(cityid);

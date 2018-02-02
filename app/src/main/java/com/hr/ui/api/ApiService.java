@@ -88,6 +88,8 @@ public interface ApiService {
 
     @GET
     Observable<ResponseBody> getLingYuArray(@Url String url);
+    @GET()
+    Observable<ResponseBody> getCompanyAddress(@Url String url);
 
     @POST(Constants.API_MIDDLE_TEST)
     @FormUrlEncoded

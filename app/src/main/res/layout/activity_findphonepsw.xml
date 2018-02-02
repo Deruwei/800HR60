@@ -62,7 +62,7 @@
                 android:layout_toLeftOf="@+id/iv_findPhonePswValidCodeDelete"
                 android:layout_toRightOf="@+id/iv_findPhonePswValidCodeIcon"
                 android:hint="@string/ValidCode"
-                android:layout_marginRight="@dimen/x10"
+                android:layout_marginRight="@dimen/x20"
                 android:inputType="number"
                 android:singleLine="true" />
             <ImageView
@@ -107,7 +107,7 @@
                 android:visibility="gone"
                 android:id="@+id/iv_findPhonePswDelete"
                 android:src="@mipmap/delete"
-                android:layout_marginRight="@dimen/x10"
+                android:layout_marginRight="@dimen/x20"
                 android:layout_toLeftOf="@+id/rl_findPhonePswHiddenPsw"
                 style="@style/Login_imageViewIcon" />
             <RelativeLayout

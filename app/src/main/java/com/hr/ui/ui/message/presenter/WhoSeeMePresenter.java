@@ -14,8 +14,8 @@ import java.io.IOException;
 
 public class WhoSeeMePresenter extends WhoSeeMeContract.Presenter {
     @Override
-    public void getWhoSeeMeData(int page) {
-        mRxManage.add(mModel.getWhoSeeMeData(page).subscribe(new RxSubscriber<WhoSeeMeBean>(mContext,false) {
+    public void getWhoSeeMeData(int page,boolean isCanRefresh) {
+        mRxManage.add(mModel.getWhoSeeMeData(page).subscribe(new RxSubscriber<WhoSeeMeBean>(mContext,isCanRefresh) {
             @Override
             protected void _onNext(WhoSeeMeBean whoSeeMeBean) throws IOException {
                 if(whoSeeMeBean.getError_code()==0) {

@@ -24,7 +24,7 @@ public interface ShieldCompanyContract {
     }
     interface View extends BaseView{
         void getShieldCompanyDataSuccess(List<ShieldCompanyBean.EliminateListBean> eliminateListBeans);
-        void queryShieldCompanyDataByKeyWordSuccess(List<QueryShieldCompanyBean.EnteListBean> enteListBeans);
+        void queryShieldCompanyDataByKeyWordSuccess(List<QueryShieldCompanyBean.EnteListBean> enteListBeans,String total);
         void setShieldCompanySuccess();
         void deleteShieldCompany();
     }

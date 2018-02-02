@@ -15,12 +15,14 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- SD卡读取权限，用户写入离线定位数据-->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"></uses-permission>
     <application
         android:name=".app.HRApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/app"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/app"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.main.activity.SplashActivity">
@@ -46,6 +48,16 @@
         <!-- 填写您从Mob开发者后台中得到的Appkey和AppSecret -->
         <meta-data android:name="Mob-AppKey" android:value="f5b88fa661ff"/>
         <meta-data android:name="Mob-AppSecret" android:value="250503555782bda4dd4da382ea632d86"/>
+        <!--百度定位-->
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="jMfg95xhZFMHsDjfxVitMjyg" >
+        </meta-data>
+        //过18分钟触发一次
+        <service android:name=".utils.LongRunningService" android:enabled="true" ></service>
+        <receiver android:name=".utils.AlarmReceiver" >
+        </receiver>
+        <service android:name="com.baidu.location.f" android:enabled="true" android:process=":remote"> </service>
 
         <!--验证码计时器服务-->
         <service
@@ -65,6 +77,7 @@
             </intent-filter>
 
         </receiver>
+        <receiver android:name=".utils.AlamrReceiver" android:process=":remote"></receiver>
         <!--QQ分享-->
         <activity
             android:name="cn.sharesdk.tencent.qq.ReceiveActivity"
@@ -218,6 +231,10 @@
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.resume.activity.ResumeProfessionSkillActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.job.activity.BaiDuMapActivity"
             android:windowSoftInputMode="stateHidden|adjustResize"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait"/>

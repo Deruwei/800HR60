@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/x600"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+    <com.hr.ui.view.RoundImageView
+        app:type="rounded_rect"
+        android:id="@+id/iv_adPhoto"
+        android:src="@color/red"
+        android:layout_width="@dimen/x600"
+        android:layout_height="@dimen/x750" />
+    <ImageView
+        android:id="@+id/iv_closeAd"
+        android:layout_gravity="center_horizontal"
+        android:src="@mipmap/close"
+        android:layout_marginTop="@dimen/x50"
+        android:layout_width="@dimen/x38"
+        android:layout_height="@dimen/x38" />
+</LinearLayout>

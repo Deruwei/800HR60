@@ -3,6 +3,7 @@ package com.hr.ui.ui.login.presenter;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.hr.ui.R;
 import com.hr.ui.base.RxSubscriber;
 import com.hr.ui.bean.AutoCodeBean;
 import com.hr.ui.bean.NoDataBean;
@@ -13,6 +14,13 @@ import com.hr.ui.ui.login.contract.FindPasswordContract;
 import com.hr.ui.utils.Rc4Md5Utils;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import okhttp3.ResponseBody;
 
 /**
  * Created by wdr on 2017/12/6.
@@ -28,7 +36,13 @@ public class FindPasswordPresenter extends FindPasswordContract.Presenter {
                 if(noDataBean.getError_code()==0){
                     ToastUitl.showShort("修改密码成功");
                     mView.resetPasswordSuccess();
-                }else{
+                }else if(noDataBean.getError_code()==201) {
+                    if ("token".equals(noDataBean.getError_field())){
+                        ToastUitl.showShort(R.string.error_validCode);
+                    }else{
+                        ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) noDataBean.getError_code()));
+                    }
+                } else{
                     ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) noDataBean.getError_code()));
                 }
             }
@@ -88,6 +102,35 @@ public class FindPasswordPresenter extends FindPasswordContract.Presenter {
             protected void _onError(String message) {
                 mView.showErrorTip(message);
                 Log.i(TAG,message);
+            }
+        }));
+    }
+    @Override
+    public void validPhoneIsExit(String phone) {
+        mRxManage.add(mModel.validPhoneIsExit(phone).subscribe(new RxSubscriber<ResponseBody>(mContext,false) {
+            @Override
+            protected void _onNext(ResponseBody responseBody)  {
+                try {
+                    String s=responseBody.string().toString();
+                    JSONObject jsonObject=new JSONObject(s);
+                    int errorCode=jsonObject.getInt("error_code");
+                    if(errorCode==0) {
+                        String flag = jsonObject.getString("flag_exist");
+                        mView.phoneisExit(flag);
+                    }else{
+                        ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId(errorCode));
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            protected void _onError(String message) {
+
             }
         }));
     }

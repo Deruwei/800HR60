@@ -15,8 +15,8 @@ import okhttp3.ResponseBody;
 
 public class JobSearchFragmentPresenter extends JobSearchFragmentContract.Presenter {
     @Override
-    public void getSearchList(JobSearchBean jobSearchBean, int page) {
-        mRxManage.add(mModel.getSearchList(jobSearchBean,page).subscribe(new RxSubscriber<RecommendJobBean>(mContext,false) {
+    public void getSearchList(JobSearchBean jobSearchBean, int page,boolean isCanRefresh) {
+        mRxManage.add(mModel.getSearchList(jobSearchBean,page).subscribe(new RxSubscriber<RecommendJobBean>(mContext,isCanRefresh) {
             @Override
             protected void _onNext(RecommendJobBean recommendJobBean) throws IOException {
                 if(recommendJobBean.getError_code().equals("0")) {

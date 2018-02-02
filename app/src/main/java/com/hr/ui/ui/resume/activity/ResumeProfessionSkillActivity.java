@@ -25,9 +25,11 @@ import com.hr.ui.ui.resume.contract.ResumeProfessionSkillContract;
 import com.hr.ui.ui.resume.model.ResumeProfessionSkillModel;
 import com.hr.ui.ui.resume.presenter.ResumeProfessionSkillPresenter;
 import com.hr.ui.utils.ToastUitl;
+import com.hr.ui.utils.Utils;
 import com.hr.ui.utils.datautils.ResumeInfoIDToString;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.CustomDatePicker;
+import com.hr.ui.view.MyDialog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -76,6 +78,7 @@ public class ResumeProfessionSkillActivity extends BaseActivity<ResumeProfession
     private String skillLevelId;
     private String skillId;
     private SharedPreferencesUtils sUtils;
+    private MyDialog dialog;
 
     /**
      * 入口
@@ -287,11 +290,36 @@ public class ResumeProfessionSkillActivity extends BaseActivity<ResumeProfession
                 doAddOrReplaceProfessionSkill();
                 break;
             case R.id.tv_resumeProfessionSkillDelete:
-                mPresenter.deleteSkill(skillId);
+                doDelete();
                 break;
         }
     }
+    private void doDelete() {
+        dialog=new MyDialog(this,2);
+        dialog.setMessage(getString(R.string.sureDeleteSkill));
+        dialog.setYesOnclickListener(getString(R.string.sure), new MyDialog.onYesOnclickListener() {
+            @Override
+            public void onYesClick() {
+                mPresenter.deleteSkill(skillId);
+                dialog.dismiss();
+            }
+        });
+        dialog.setNoOnclickListener(getString(R.string.cancel), new MyDialog.onNoOnclickListener() {
+            @Override
+            public void onNoClick() {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(dialog!=null){
+            dialog.dismiss();
+        }
+    }
     private void doAddOrReplaceProfessionSkill() {
         if (etResumeProjectExpName.getText().toString() == null || "".equals(etResumeProjectExpName.getText().toString())) {
             ToastUitl.showShort("请填写技能名称");
@@ -299,6 +327,10 @@ public class ResumeProfessionSkillActivity extends BaseActivity<ResumeProfession
         }
         if (etResumeProjectExpUseTime.getText().toString() == null || "".equals(etResumeProjectExpUseTime.getText().toString())) {
             ToastUitl.showShort("请填写使用时间");
+            return;
+        }
+        if("0".equals(etResumeProjectExpUseTime.getText().toString())){
+            ToastUitl.showShort("请填写正确的使用时间");
             return;
         }
         if (skillLevelId == null || "".equals(skillLevelId)) {

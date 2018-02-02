@@ -19,6 +19,7 @@ import com.hr.ui.ui.message.contract.DeliverFeedbackContract;
 import com.hr.ui.ui.message.model.DeliverFeedBackFragmentModel;
 import com.hr.ui.ui.message.presenter.DeliverFeedbackFragmentPresenter;
 import com.hr.ui.utils.ProgressStyle;
+import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.view.XRecyclerView;
 
 import java.util.ArrayList;
@@ -49,6 +50,7 @@ public class DeliverFeedbackFragment extends BaseFragment<DeliverFeedbackFragmen
     private int position;
     private MyDeliverFeedbackAdapter adapter;
     private int page = 1;
+    private boolean can;
     private List<DeliverFeedbackBean.AppliedListBean> appliedListBeanList = new ArrayList<>();
 
     @Override
@@ -69,14 +71,9 @@ public class DeliverFeedbackFragment extends BaseFragment<DeliverFeedbackFragmen
         return navigationFragment;
     }
 
+
     @Override
     protected void initView() {
-        position = getArguments().getInt("position");
-        if (position == 0) {
-            mPresenter.getDeliverFeedBack(page, 0, 0);
-        } else if (position == 1) {
-            mPresenter.getDeliverFeedBack(page, 1, 0);
-        }
         initRv();
     }
 
@@ -102,9 +99,9 @@ public class DeliverFeedbackFragment extends BaseFragment<DeliverFeedbackFragmen
                     public void run() {
                         page = 1;
                         if (position == 0) {
-                            mPresenter.getDeliverFeedBack(page, 0, 0);
+                            mPresenter.getDeliverFeedBack(page, 0, 0,false);
                         } else if (position == 1) {
-                            mPresenter.getDeliverFeedBack(page, 1, 0);
+                            mPresenter.getDeliverFeedBack(page, 1, 0,false);
                         }
                         adapter.notifyDataSetChanged();
                         rvDeliverFeedback.refreshComplete();
@@ -119,9 +116,9 @@ public class DeliverFeedbackFragment extends BaseFragment<DeliverFeedbackFragmen
                     public void run() {
                         page++;
                         if (position == 0) {
-                            mPresenter.getDeliverFeedBack(page, 0, 0);
+                            mPresenter.getDeliverFeedBack(page, 0, 0,false);
                         } else if (position == 1) {
-                            mPresenter.getDeliverFeedBack(page, 1, 0);
+                            mPresenter.getDeliverFeedBack(page, 1, 0,false);
                         }
 
                         adapter.notifyDataSetChanged();
@@ -130,6 +127,17 @@ public class DeliverFeedbackFragment extends BaseFragment<DeliverFeedbackFragmen
                 }, 1000);
             }
         });
+    }
+
+    @Override
+    protected void lazyLoad() {
+        super.lazyLoad();
+        position = getArguments().getInt("position");
+        if (position == 0) {
+            mPresenter.getDeliverFeedBack(page, 0, 0,true);
+        } else if (position == 1) {
+            mPresenter.getDeliverFeedBack(page, 1, 0,true);
+        }
     }
 
     @Override
@@ -185,7 +193,12 @@ public class DeliverFeedbackFragment extends BaseFragment<DeliverFeedbackFragmen
         adapter.setClickCallBack(new MyDeliverFeedbackAdapter.ItemClickCallBack() {
             @Override
             public void onItemClick(int pos) {
-                PositionPageActivity.startAction(getActivity(), appliedListBeanList.get(pos).getJob_id());
+                if(appliedListBeanList1.get(pos).getIs_expire()==1){
+                    ToastUitl.showShort(R.string.error_401);
+                    return;
+                }else {
+                    PositionPageActivity.startAction(getActivity(), appliedListBeanList.get(pos).getJob_id(), 2);
+                }
             }
         });
     }

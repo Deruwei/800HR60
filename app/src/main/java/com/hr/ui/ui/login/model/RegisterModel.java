@@ -121,4 +121,18 @@ public class RegisterModel implements RegisterContract.Model {
                 .compose(RxSchedulers.<ResumeBean>io_main());
     }
 
+    @Override
+    public Observable<ResponseBody> validPhoneIsExit(String phone) {
+        return Api.getDefault(HostType.HR).getResponseString(EncryptUtils.encrypParams(ApiParameter.validPhoneIsExit(phone)))
+                .map(new Func1<ResponseBody, ResponseBody>() {
+                    @Override
+                    public ResponseBody call(ResponseBody responseBody) {
+                        return responseBody;
+                    }
+                })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxSchedulers.<ResponseBody>io_main());
+    }
+
 }

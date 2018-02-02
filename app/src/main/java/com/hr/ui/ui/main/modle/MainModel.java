@@ -35,37 +35,16 @@ import rx.schedulers.Schedulers;
 
 public class MainModel implements MainContract.Model {
     @Override
-    public Observable<MultipleResumeBean> getResumeList() {
-        return Api.getDefault(HostType.HR).getResumeList(EncryptUtils.encrypParams(ApiParameter.getResumeList()))
-                .map(new Func1<MultipleResumeBean, MultipleResumeBean>() {
+    public Observable<ResponseBody> getNotice(String cid,String aid) {
+        return Api.getDefault(HostType.HR).getResponseString(EncryptUtils.encrypParams(ApiParameter.getNotice(cid,aid)))
+                .map(new Func1<ResponseBody, ResponseBody>() {
                     @Override
-                    public MultipleResumeBean call(MultipleResumeBean multipleResumeBean) {
-                       return multipleResumeBean;
-                    }
-                })
-                .subscribeOn(Schedulers.newThread())        //在新线程里面处理网络请求
-                .observeOn(AndroidSchedulers.mainThread())  //在主线程里面接受返回的数据
-                .compose(RxSchedulers.<MultipleResumeBean>io_main());
-    }
-
-    @Override
-    public Observable<ResumeBean> getResumeData(final String resumeId) {
-        return Api.getDefault(HostType.HR).getResponseString(EncryptUtils.encrypParams(ApiParameter.getResumeDate(resumeId)))
-                .map(new Func1<ResponseBody, ResumeBean>() {
-                    @Override
-                    public ResumeBean call(ResponseBody responseBody) {
-                        ResumeBean resumeBean=new ResumeBean();
-                        try {
-                            String s=responseBody.string().toString();
-                            resumeBean=JsonUtils.getInstance().fixJson(s);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        return resumeBean;
+                    public ResponseBody call(ResponseBody responseBody) {
+                        return responseBody;
                     }
                 })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxSchedulers.<ResumeBean>io_main());
+                .compose(RxSchedulers.<ResponseBody>io_main());
     }
 }

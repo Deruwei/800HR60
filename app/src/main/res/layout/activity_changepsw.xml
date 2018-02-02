@@ -29,9 +29,25 @@
             <EditText
                 android:layout_toRightOf="@+id/iv_changePswNewOldIcon"
                 android:id="@+id/et_changePswNewOld"
+                android:layout_toLeftOf="@+id/iv_changePswOldDelete"
                 android:singleLine="true"
+                android:inputType="textPassword"
                 style="@style/login_editText"
                 android:hint="@string/psw_old"
+                />
+            <ImageView
+                android:layout_marginLeft="@dimen/x10"
+                android:visibility="gone"
+                android:id="@+id/iv_changePswOldDelete"
+                android:src="@mipmap/delete"
+                android:layout_marginRight="@dimen/x20"
+                android:layout_toLeftOf="@+id/iv_changePswOldHiddenPsw"
+                style="@style/Login_imageViewIcon" />
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:id="@+id/iv_changePswOldHiddenPsw"
+                style="@style/login_ImageViewHidden"
+                android:layout_height="match_parent"
                 />
             <View
                 android:layout_below="@+id/et_changePswNewOld"
@@ -48,9 +64,25 @@
             <EditText
                 android:id="@+id/et_changePswNew"
                 style="@style/login_editText"
+                android:inputType="textPassword"
+                android:layout_toLeftOf="@+id/iv_changePswNewDelete"
                 android:layout_toRightOf="@+id/iv_changePswNewIcon"
                 android:hint="@string/psw_new"
                 android:singleLine="true" />
+            <ImageView
+                android:layout_marginLeft="@dimen/x10"
+                android:visibility="gone"
+                android:id="@+id/iv_changePswNewDelete"
+                android:src="@mipmap/delete"
+                android:layout_marginRight="@dimen/x20"
+                android:layout_toLeftOf="@+id/iv_changePswNewHiddenPsw"
+                style="@style/Login_imageViewIcon" />
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:id="@+id/iv_changePswNewHiddenPsw"
+                style="@style/login_ImageViewHidden"
+                android:layout_height="match_parent"
+                />
             <View
                 android:id="@+id/view_getValidCode2"
                 style="@style/login_view"

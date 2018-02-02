@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:background="@drawable/edit_bg"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/x74"
+        android:layout_width="@dimen/x600"
+        android:layout_height="@dimen/x560">
+        <TextView
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/x187"
+            android:text="@string/goodComment"
+            android:textSize="@dimen/x36"
+            android:textColor="@color/new_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginTop="@dimen/x38"
+            android:textSize="@dimen/x28"
+            android:textColor="@color/color_333"
+            android:text="@string/comment1"
+            android:layout_marginLeft="@dimen/x134"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="@string/comment2"
+            android:textSize="@dimen/x28"
+            android:textColor="@color/color_333"
+            android:layout_marginTop="@dimen/x6"
+            android:layout_marginLeft="@dimen/x134"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/tv_commentNo"
+                android:textColor="@color/white"
+                android:background="@drawable/button_bg"
+                android:gravity="center"
+                android:textSize="@dimen/x32"
+                android:text="@string/noComment"
+                android:layout_width="@dimen/x230"
+                android:layout_height="@dimen/x90" />
+            <TextView
+                android:id="@+id/tv_commentYes"
+                android:layout_marginLeft="@dimen/x20"
+                android:textColor="@color/white"
+                android:background="@drawable/button_bg"
+                android:gravity="center"
+                android:textSize="@dimen/x32"
+                android:text="@string/giveComment"
+                android:layout_width="@dimen/x230"
+                android:layout_height="@dimen/x90" />
+        </LinearLayout>
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="@dimen/x600"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_centerHorizontal="true"
+            android:src="@mipmap/haoping"
+            android:layout_width="@dimen/x274"
+            android:layout_height="@dimen/x201" />
+    </RelativeLayout>
+</FrameLayout>

@@ -1,5 +1,6 @@
 package com.hr.ui.ui.job.contract;
 
+import android.content.Context;
 import android.view.Display;
 
 import com.hr.ui.base.BaseModel;
@@ -20,15 +21,18 @@ public interface PositionPageContract {
        void getPositionSuccess(PositionBean.JobInfoBean jobInfoBean);
        void collectionPositionSuccess();
        void deliverPositionSuccess();
+        void getResumeScoreSuccess(double s);
     }
     interface Model extends BaseModel{
         Observable<PositionBean> getPositionData(String jobId);
         Observable<ResponseBody> collectionPosition(String jobId);
         Observable<ResponseBody> deliverPosition(String jobId);
+        Observable<ResponseBody> getResumeScore(String id);
     }
     abstract class Presenter extends BasePresenter<View,Model>{
-        public abstract void  getPositionData(String jobId);
+        public abstract void  getPositionData(String jobId, Context context);
         public abstract void  collectionPosition(String jobId);
         public abstract void  deliverPosition(String jobId);
+        public abstract void getResumeScore(String id);
     }
 }

@@ -159,7 +159,7 @@
             <com.hr.ui.view.MyTextView
                 android:id="@+id/tv_expectSalaryTag"
                 style="@style/fastResume_MyTextView"
-                android:text="@string/expectSalary"
+                android:text="@string/expectMonthSalary"
               />
 
             <RelativeLayout

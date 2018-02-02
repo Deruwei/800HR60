@@ -11,8 +11,8 @@ public class InviteBean implements Serializable {
 
     /**
      * error_code : 0
-     * invited_list : [{"user_id":"5692217","enterprise_id":"Bi92A","is_new":"0","enterprise_name":"北京红根基建筑有限公司","job_name":"运营经理","job_id":"YPWEB","is_email":"1","is_sms":"0","industry":"11","email_content":"测试请忽略：\n    您好！恭喜您通过我们的面试环节！根据我们在面试时的协定，现在我们正式聘请您为我公司的【运营经理】，以下是聘用须知：\n\n录用职位：运营经理\n入职时间：2017-12-26 10:00\n联 系 人：安先生\n联系电话：010-85296341-1234,0433-8456123-1234\n乘车路线：\n\n欢迎您加入我公司，成为我们的一员。\n\n\n                                                北京红根基建筑有限公司\n                                                2017年12月25日\n职位链接：http://www.buildhr.com/job/YPWEB\n公司介绍：http://www.buildhr.com/company/Bi92A","sms_content":"","industry_name":"建筑","job_refresh_time":"2017-10-23","topjob_type":"1","company_type":"政府机关/非盈利机构","stuff_munber":"100 - 499人","record_id":"1163037","invited_title":"北京红根基建筑有限公司【运营经理】职位聘用通知书","invited_time":"2017-12-25"}]
-     * navpage_info : {"current_page":"1","total_pages":1,"record_nums":1,"page_nums":"20"}
+     * invited_list : [{"user_id":"5692217","enterprise_id":"5bwS5","is_new":"1","enterprise_name":"金坛区尧塘绿源环境艺术设计中心","job_name":"施工图设计师施工图设计师施工图设计师施工图设计师施工图设计师","job_id":"QYAnV","is_email":"1","is_sms":"0","industry":"11","email_content":"安易耀久：\n    您好！您的简历已收到，并通过了我们的初次筛选，很荣幸通知您来参加面试。具体事宜如下：\n\n面试职位：施工图设计师施工图设计师施工图设计师施工图设计师施工图设计师\n面试时间：2018-02-20 10:00\n面试地点：8687972@address\n联 系 人：张先生\n联系电话：8687972@phone\n乘车路线：\n\n                                                金坛区尧塘绿源环境艺术设计中心\n                                                2018年02月02日\n职位链接：http://www.buildhr.com/job/QYAnV\n公司介绍：http://www.buildhr.com/company/5bwS5","sms_content":"","industry_name":"建筑","job_refresh_time":"2018-01-17","topjob_type":"1","company_type":"私营/民营企业","stuff_munber":"1 - 49人","record_id":"1164166","invited_title":"金坛区尧塘绿源环境艺术设计中心邀请您面试【施工图设计师施工图设计师施工图设计师施工图设计师施工图设计师】一职","invited_time":"2018-02-02"}]
+     * navpage_info : {"current_page":"1","total_pages":1,"record_nums":10,"page_nums":"20"}
      */
 
     private String error_code;
@@ -47,7 +47,7 @@ public class InviteBean implements Serializable {
         /**
          * current_page : 1
          * total_pages : 1
-         * record_nums : 1
+         * record_nums : 10
          * page_nums : 20
          */
 
@@ -89,42 +89,40 @@ public class InviteBean implements Serializable {
         }
     }
 
-    public static class InvitedListBean implements  Serializable{
+    public static class InvitedListBean implements Serializable{
         /**
          * user_id : 5692217
-         * enterprise_id : Bi92A
-         * is_new : 0
-         * enterprise_name : 北京红根基建筑有限公司
-         * job_name : 运营经理
-         * job_id : YPWEB
+         * enterprise_id : 5bwS5
+         * is_new : 1
+         * enterprise_name : 金坛区尧塘绿源环境艺术设计中心
+         * job_name : 施工图设计师施工图设计师施工图设计师施工图设计师施工图设计师
+         * job_id : QYAnV
          * is_email : 1
          * is_sms : 0
          * industry : 11
-         * email_content : 测试请忽略：
-         您好！恭喜您通过我们的面试环节！根据我们在面试时的协定，现在我们正式聘请您为我公司的【运营经理】，以下是聘用须知：
+         * email_content : 安易耀久：
+         您好！您的简历已收到，并通过了我们的初次筛选，很荣幸通知您来参加面试。具体事宜如下：
 
-         录用职位：运营经理
-         入职时间：2017-12-26 10:00
-         联 系 人：安先生
-         联系电话：010-85296341-1234,0433-8456123-1234
+         面试职位：施工图设计师施工图设计师施工图设计师施工图设计师施工图设计师
+         面试时间：2018-02-20 10:00
+         面试地点：8687972@address
+         联 系 人：张先生
+         联系电话：8687972@phone
          乘车路线：
 
-         欢迎您加入我公司，成为我们的一员。
-
-
-         北京红根基建筑有限公司
-         2017年12月25日
-         职位链接：http://www.buildhr.com/job/YPWEB
-         公司介绍：http://www.buildhr.com/company/Bi92A
+         金坛区尧塘绿源环境艺术设计中心
+         2018年02月02日
+         职位链接：http://www.buildhr.com/job/QYAnV
+         公司介绍：http://www.buildhr.com/company/5bwS5
          * sms_content :
          * industry_name : 建筑
-         * job_refresh_time : 2017-10-23
+         * job_refresh_time : 2018-01-17
          * topjob_type : 1
-         * company_type : 政府机关/非盈利机构
-         * stuff_munber : 100 - 499人
-         * record_id : 1163037
-         * invited_title : 北京红根基建筑有限公司【运营经理】职位聘用通知书
-         * invited_time : 2017-12-25
+         * company_type : 私营/民营企业
+         * stuff_munber : 1 - 49人
+         * record_id : 1164166
+         * invited_title : 金坛区尧塘绿源环境艺术设计中心邀请您面试【施工图设计师施工图设计师施工图设计师施工图设计师施工图设计师】一职
+         * invited_time : 2018-02-02
          */
 
         private String user_id;
@@ -295,8 +293,33 @@ public class InviteBean implements Serializable {
             return invited_time;
         }
 
-        public void setInvited_time(String invited_time) {
-            this.invited_time = invited_time;
+        public void setInvited_time(String invited_time){
+            this.invited_time=invited_time;
+        }
+
+        @Override
+        public String toString() {
+            return "InvitedListBean{" +
+                    "user_id='" + user_id + '\'' +
+                    ", enterprise_id='" + enterprise_id + '\'' +
+                    ", is_new='" + is_new + '\'' +
+                    ", enterprise_name='" + enterprise_name + '\'' +
+                    ", job_name='" + job_name + '\'' +
+                    ", job_id='" + job_id + '\'' +
+                    ", is_email='" + is_email + '\'' +
+                    ", is_sms='" + is_sms + '\'' +
+                    ", industry='" + industry + '\'' +
+                    ", email_content='" + email_content + '\'' +
+                    ", sms_content='" + sms_content + '\'' +
+                    ", industry_name='" + industry_name + '\'' +
+                    ", job_refresh_time='" + job_refresh_time + '\'' +
+                    ", topjob_type='" + topjob_type + '\'' +
+                    ", company_type='" + company_type + '\'' +
+                    ", stuff_munber='" + stuff_munber + '\'' +
+                    ", record_id='" + record_id + '\'' +
+                    ", invited_title='" + invited_title + '\'' +
+                    ", invited_time='" + invited_time + '\'' +
+                    '}';
         }
     }
 }

@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">800HR6.0</string>
+    <string name="app_name">行业找工作</string>
     <string name="net_error">网络访问错误，请稍后再试</string>
     <string name="empty">还没有数据哦</string>
-    <string name="loading">请稍后...</string>
+    <string name="loading">加载中...</string>
     <string name="reload">重新尝试</string>
     <string name="no_net">网络不可用,请检查你的网络</string>
     <!-- 错误对应消息 -->
@@ -49,6 +49,7 @@
     <string name="error_309">简历/简历类型数超过最大分数</string>
     <string name="error_310">用户名与邮箱不匹配</string>
     <string name="error_311">用户名或密码错误</string>
+    <string name="error_phoneOrPsw">手机号码或密码错误</string>
     <string name="error_312">用户被禁止</string>
     <string name="error_313">第三方账号已被本站账号绑定过</string>
     <string name="error_314">此账号类型无需激活</string>
@@ -60,6 +61,7 @@
     <string name="error_321">缺少中文简历</string>
     <string name="error_326">请勿频繁获取验证码</string>
     <string name="error_327">手机号码已被使用</string>
+    <string name="error_phoneNotExit">手机号码未注册</string>
     <string name="error_401">职位已过期</string>
     <string name="error_402">职位已过期</string>
     <string name="error_403">职位近期已经投递过了</string>
@@ -71,6 +73,7 @@
     <string name="error_411">企业不存在</string>
     <string name="error_412">企业已经关闭</string>
     <string name="error_413">请完善您的简历</string>
+    <string name="error_415">屏蔽的关键词对应的企业超过50个，请重新输入更准确的关键词</string>
     <string name="error_417">简历类型与职位类型不匹配</string>
     <string name="error_501">新闻不存在</string>
     <string name="error_502">新闻栏目不存在</string>
@@ -80,6 +83,7 @@
     <string name="error_2012">密码与确认密码不一至</string>
     <string name="error_2013">用户名不合法(支持字母、数字、下划线，长度4-25位)</string>
     <string name="error_2014">用户名已存在</string>
+    <string name="error_validCode">验证码错误</string>
     <string name="error_1101">网络正在连接，请重试</string>
     <string name="error_other">出现未知错误，请重新连接</string>
     <string name="goInto">立即体验</string>
@@ -105,6 +109,7 @@
     <string name="company">企业入口</string>
     <string name="home">主页</string>
     <string name="message">消息</string>
+    <string name="updateMessage"> 升级简历后，您的简历将会从“[学生简历]”升级到[工作简历]，“实习经历”将会变为“工作经历”。</string>
     <string name="hideTips">Tips: 隐藏后企业将无法搜到您的简历</string>
     <string name="searchHint">输入职位名/公司名</string>
     <string name="search">搜索</string>
@@ -113,9 +118,19 @@
     <string name="historySearch">历史搜索</string>
     <string name="searchCondition">设置搜索条件</string>
     <string name="resume">简历</string>
+    <string name="goodComment">给个好评吧？</string>
+    <string name="comment1">求职路漫漫，且行且珍惜，</string>
+    <string name="comment2">英才网联一路伴你。</string>
+    <string name="noComment">暂不评论</string>
+    <string name="giveComment">给个评价</string>
+    <string name="versionUpdate">版本更新</string>
+    <string name="updateNow">立即更新</string>
+    <string name="warmNotice">温馨提示</string>
     //设置
     <string name="messageNotification">消息通知</string>
+    <string name="shieldCompany1">屏蔽企业</string>
     <string name="shieldCompany">已屏蔽公司</string>
+    <string name="shieldCompanyAll">一键屏蔽</string>
     <string name="searchResult">搜索结果</string>
     <string name="shield">屏蔽</string>
     <string name="shieldCancel">取消屏蔽</string>
@@ -142,8 +157,8 @@
     <string name="bindPhoneAccount">绑定手机</string>
     <string name="bindComplete">绑定完成</string>
     <string name="bindUserAccount">绑定账号</string>
-    <string name="hasPhoneAcccount">已有手机账号？</string>
-    <string name="hasUserAccount">已有邮箱账号？</string>
+    <string name="hasPhoneAcccount">已有手机账号</string>
+    <string name="hasUserAccount">已有英才网联账号</string>
     <string name="hasAccount">已有帐号？去登录</string>
     <string name="findPswUsePhone">用手机找回密码</string>
     <string name="userThirdPartLogin">使用下列账号快速登录</string>
@@ -173,8 +188,16 @@
     <string name="startTime">开始时间</string>
     <string name="endTime">结束时间</string>
     <string name="sure">确定</string>
+    <string name="sureDeleteHistory">确认清空浏览记录吗？</string>
+    <string name="sureDeleteEdu">确认要删除该教育背景？</string>
+    <string name="sureDeleteLanguage">确认要删除该语言能力？</string>
+    <string name="sureDeleteProject">确认要删除该项目经验？</string>
+    <string name="sureDeletePlant">确认删除该培训经历？</string>
+    <string name="sureDeleteSkill">确认删除该专业技能？</string>
+    <string name="sureDeleteWorkExp">确认删除该工作经历？</string>
+    <string name="sureDeleteInternShipExp">确认删除该实习经历？</string>
     <string name="selectedPosition">已选职位</string>
-    <string name="selectedExpectPosition">选择期望职位</string>
+    <string name="selectedExpectPosition">设置求职意向</string>
     <string name="selectedCity">已选城市</string>
     <string name="submitSuccessMsg">密码修改链接已提交到您的邮箱，请前去邮箱验证。</string>
     <string name="alright">好的,开始填写</string>
@@ -186,7 +209,7 @@
     <string name="cancelCollection">取消收藏</string>
     <string name="noData">这里什么都没有</string>
     <string name="netError">网络出现错误</string>
-    <string name="toSearch">去搜搜看</string>
+    <string name="toSearch">去搜搜看？</string>
     <string name="selectPositionClass">选择职系</string>
 
     //简历部分
@@ -215,11 +238,11 @@
     <string name="sex">性别</string>
     <string name="birth">出生日期</string>
     <string name="nowAddress">现居住地</string>
-    <string name="nowInterShipExp">没有实习经验，跳过</string>
+    <string name="nowInterShipExp">没有实习经历，跳过</string>
     <string name="workTime">工作时间</string>
     <string name="email">电子邮箱</string>
     <string name="jobTitle">现有职称</string>
-    <string name="noFunction">该行业的领域要等会才上线,现在直接选择行业即可！</string>
+    <string name="noFunction">该行业暂无领域，直接选择行业即可！</string>
     <string name="phone">手机</string>
 
     <string name="takePhoto">拍照</string>
@@ -244,6 +267,7 @@
     <string name="workExperienceHelper">有助于hr了解你过去的工作情况</string>
     <string name="companyName">公司名称</string>
     <string name="companyAddress">公司地址</string>
+    <string name="otherMap">其他地图</string>
     <string name="companyIntro">公司简介</string>
     <string name="companyHome">公司主页</string>
     <string name="atWorking">正在招聘</string>
@@ -312,7 +336,7 @@
     <string name="projectResponsibility">项目职责</string>
     <string name="professionSkill">专业技能</string>
     <string name="professionName">技能名称</string>
-    <string name="professionUseTime">使用时间</string>
+    <string name="professionUseTime">使用时间（月）</string>
     <string name="professionLevel">专业水平</string>
     <string name="addEducationBackground">+增加教育背景</string>
     <string name="uploadResume">上传附件简历</string>
@@ -323,8 +347,8 @@
     <string name="addProfessionSkill">+增加专业技能</string>
     <string name="addLanguageSkill">+增加语言能力</string>
     <string name="addTrainExp">+增加培训经历</string>
-    <string name="addIntroduction">+增加自我介绍</string>
-    <string name="introduction">自我介绍</string>
+    <string name="addIntroduction">+增加自我评价</string>
+    <string name="introduction">自我评价</string>
     <string name="resumeAttachment">附件简历</string>
     <string name="hideResume">隐藏简历</string>
     <string name="addResumeAttachment">+增加附件简历</string>
@@ -357,11 +381,12 @@
     <string name="listview_header_last_time">last update：</string>
     <string name="resumeInfo">简历详情</string>
     <string name="photo">头像</string>
-
+    <string name="noDataPosition">企业暂无招聘职位</string>
+    <string name="noNetError">网络错误，点我重试</string>
     <string name="calculate1">经过计算，</string>
-    <string name="calculate2">您与改职位的匹配度达到</string>
+    <string name="calculate2">您与该职位的匹配度达到</string>
     <string name="calculate3">分！</string>
     <string name="known">知道啦</string>
     <string name="calculate4">好机会不容错过，</string>
-    <string name="calculate5">感觉合适的话就赶紧投递把～</string>
+    <string name="calculate5">感觉合适的话就赶紧投递吧～</string>
 </resources>
