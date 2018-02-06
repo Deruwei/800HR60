@@ -602,7 +602,7 @@ public class ApiParameter {
         requestMap.put("limit",""+limit);
         return requestMap;
     }
-    public static HashMap<String,String> getRecommendJobInfo(int page,int limit){
+    public static HashMap<String,String> getRecommendJobInfo(int page,int pageNum){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","job.jobrecom");
         SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
@@ -610,7 +610,7 @@ public class ApiParameter {
             requestMap.put("industry", sUtils.getStringValue(Constants.INDUSTRY_ID, ""));
         }
         requestMap.put("page",""+page);
-        requestMap.put("page_nums",""+limit);
+        requestMap.put("page_nums",""+pageNum);
         //Log.i("你好",requestMap.toString());
         return requestMap;
     }
@@ -746,6 +746,13 @@ public class ApiParameter {
        /* Log.i("你好",requestMap.toString());*/
         return requestMap;
     }
+    public static HashMap<String,String> setDeliverFeedBack(String id){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user_stow.appliedread");
+        requestMap.put("record_id",id);
+       /* Log.i("你好",requestMap.toString());*/
+        return requestMap;
+    }
     public static HashMap<String,String> getWhoSeeMe(int page){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_stow.browsed");
@@ -795,7 +802,6 @@ public class ApiParameter {
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","job.resumematch");
         requestMap.put("match", id);
-        Log.i("okht",requestMap.toString());
         return requestMap;
     }
     public static HashMap<String,String> getGuidanceTitle(int page,String guidanceId){
@@ -843,6 +849,12 @@ public class ApiParameter {
     public static HashMap<String,String> updateResume(String resumeId){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_resume.upgradetype");
+        requestMap.put("resume_id",resumeId);
+        return requestMap;
+    }
+    public static HashMap<String,String> refreshResume(String resumeId){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user_resume.updatetime");
         requestMap.put("resume_id",resumeId);
         return requestMap;
     }

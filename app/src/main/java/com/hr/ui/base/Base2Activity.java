@@ -24,6 +24,7 @@ import com.hr.ui.utils.TUtil;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.recyclerviewutils.ChangeModeController;
 import com.hr.ui.view.StatusBarCompat;
+import com.umeng.analytics.MobclickAgent;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -364,10 +365,8 @@ public abstract class Base2Activity<T extends BasePresenter, E extends BaseModel
     protected void onResume() {
         super.onResume();
         //debug版本不统计crash
-    /*    if(!BuildConfig.LOG_DEBUG) {
-            //友盟统计
-            //MobclickAgent.onResume(this);
-        }*/
+        //友盟统计
+        MobclickAgent.onResume(this);
     }
 
     @Override
@@ -378,6 +377,7 @@ public abstract class Base2Activity<T extends BasePresenter, E extends BaseModel
             //友盟统计
             //MobclickAgent.onPause(this);
         }*/
+        MobclickAgent.onPause(this);
     }
 
     @Override

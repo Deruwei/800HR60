@@ -23,14 +23,18 @@ import android.widget.Toast;
 import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
+import com.hr.ui.bean.LoginBean;
 import com.hr.ui.constants.Constants;
+import com.hr.ui.db.LoginDBUtils;
 import com.hr.ui.ui.me.contract.ChangePhoneContract;
 import com.hr.ui.ui.me.model.ChangePhoneModel;
 import com.hr.ui.ui.me.presenter.ChangePhonePresenter;
+import com.hr.ui.ui.resume.activity.ResumePersonalInfoActivity;
 import com.hr.ui.utils.CodeTimer;
 import com.hr.ui.utils.EncryptUtils;
 import com.hr.ui.utils.RegularExpression;
 import com.hr.ui.utils.ToastUitl;
+import com.hr.ui.utils.Utils;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.service.CodeTimerService;
 
@@ -65,6 +69,18 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
     View viewGetValidCode2;
     @BindView(R.id.btn_changePhoneOK)
     Button btnChangePhoneOK;
+    @BindView(R.id.iv_changePhoneNumberDelete)
+    ImageView ivChangePhoneNumberDelete;
+    @BindView(R.id.iv_changePhoneValidCodeDelete)
+    ImageView ivChangePhoneValidCodeDelete;
+    @BindView(R.id.iv_changePhonePswIcon)
+    ImageView ivChangePhonePswIcon;
+    @BindView(R.id.et_changePhonePsw)
+    EditText etChangePhonePsw;
+    @BindView(R.id.iv_changePhonePswDelete)
+    ImageView ivChangePhonePswDelete;
+    @BindView(R.id.view_getValidCode3)
+    View viewGetValidCode3;
     private String chaptcha;
     private String autoCode;
     private Intent mCodeTimerServiceIntent;
@@ -74,12 +90,14 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
     private SharedPreferencesUtils sUtils;
     private int code;
     private PopupWindow popupWindow;
+
     public static void startAction(Activity activity) {
         Intent intent = new Intent(activity, ChangePhoneActivity.class);
         activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.fade_in,
                 R.anim.fade_out);
     }
+
     @Override
     public void showLoading(String title) {
 
@@ -98,6 +116,7 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
     @Override
     public void changePhoneSuccess() {
         ToastUitl.showShort("更改手机成功");
+        ResumePersonalInfoActivity.instance.setValid(etChangePhoneNumber.getText().toString());
         finish();
     }
 
@@ -114,8 +133,23 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
 
     @Override
     public void getCaptchaSuccess(String autoCode) {
-        this.autoCode=autoCode;
+        this.autoCode = autoCode;
         ivAutoCode.setImageBitmap(EncryptUtils.stringtoBitmap(autoCode));
+    }
+
+    @Override
+    public void phoneIsExit(String flag) {
+        if ("1".equals(flag)) {
+            ToastUitl.showShort(R.string.error_327);
+            return;
+        } else {
+            if (sUtils.getIntValue("code", 0) >= 1) {
+                mPresenter.getCaptcha();
+                initPopWindow();
+            } else {
+                mPresenter.getValidCode(etChangePhoneNumber.getText().toString(), Constants.VALIDCODE_RESETPHONEORPSW_YTPE, 1, "");
+            }
+        }
     }
 
     @Override
@@ -125,7 +159,7 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
 
     @Override
     public void initPresenter() {
-        mPresenter.setVM(this,mModel);
+        mPresenter.setVM(this, mModel);
     }
 
     @Override
@@ -156,21 +190,23 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
         //注册接收验证码计时器信息的广播
         IntentFilter filter = new IntentFilter(CODE);
         registerReceiver(mCodeTimerReceiver, filter);
+        editViewTextChangeAndFocos();
     }
 
-    @OnClick({R.id.tv_changePhoneValidCode, R.id.btn_changePhoneOK})
+    private void editViewTextChangeAndFocos() {
+        Utils.setEditViewTextChangeAndFocus(etChangePhoneNumber,ivChangePhoneNumberDelete);
+        Utils.setEditViewTextChangeAndFocus(etChangePhonePsw,ivChangePhonePswDelete);
+        Utils.setEditViewTextChangeAndFocus(etChangePhoneValidCode,ivChangePhoneValidCodeDelete);
+    }
+
+    @OnClick({R.id.tv_changePhoneValidCode, R.id.btn_changePhoneOK,R.id.iv_changePhoneNumberDelete,R.id.iv_changePhonePswDelete,R.id.iv_changePhoneValidCodeDelete})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_changePhoneValidCode:
                 String phoneNumber = etChangePhoneNumber.getText().toString();
                 if (!"".equals(phoneNumber) && phoneNumber != null) {
                     if (RegularExpression.isCellphone(phoneNumber)) {
-                        if (sUtils.getIntValue("code", 0) >= 1) {
-                            mPresenter.getCaptcha();
-                            initPopWindow();
-                        } else {
-                            mPresenter.getValidCode(etChangePhoneNumber.getText().toString(), Constants.VALIDCODE_RESETPHONEORPSW_YTPE, 1,"");
-                        }
+                        mPresenter.validPhoneIsExit(phoneNumber);
                     } else {
                         ToastUitl.show("请输入正确的手机号码", Toast.LENGTH_SHORT);
                     }
@@ -181,8 +217,18 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
             case R.id.btn_changePhoneOK:
                 doChangePhone();
                 break;
+            case R.id.iv_changePhoneNumberDelete:
+                etChangePhoneNumber.setText("");
+                break;
+            case R.id.iv_changePhonePswDelete:
+                etChangePhonePsw.setText("");
+                break;
+            case R.id.iv_changePhoneValidCodeDelete:
+                etChangePhoneValidCode.setText("");
+                break;
         }
     }
+
     /**
      * 图形验证码界面   String phoneNumber, String type,int way, String captcha
      */
@@ -206,7 +252,7 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
             public void onClick(View v) {
                 String autoCodeText = etAutoCode.getText().toString();
                 if (autoCodeText != null && !"".equals(autoCodeText)) {
-                    mPresenter.getValidCode(etChangePhoneNumber.getText().toString(), Constants.VALIDCODE_RESETORVALIDPHONE_YTPE, 1,autoCodeText);
+                    mPresenter.getValidCode(etChangePhoneNumber.getText().toString(), Constants.VALIDCODE_RESETORVALIDPHONE_YTPE, 1, autoCodeText);
                 } else {
                     ToastUitl.show("请填写图形验证码", Toast.LENGTH_SHORT);
                 }
@@ -221,21 +267,33 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
         View rootview = LayoutInflater.from(this).inflate(R.layout.activity_register, null);
         popupWindow.showAtLocation(rootview, Gravity.CENTER, 0, 0);
     }
+
     private void doChangePhone() {
-        if(etChangePhoneNumber.getText().toString()==null||"".equals(etChangePhoneNumber.getText().toString())){
+        int autoLoginType = sUtils.getIntValue(Constants.AUTOLOGINTYPE, 5);
+        LoginBean loginBean = LoginDBUtils.queryDataById(autoLoginType + "");
+        if (etChangePhoneNumber.getText().toString() == null || "".equals(etChangePhoneNumber.getText().toString())) {
             ToastUitl.showShort("请填写手机号码");
             return;
         }
-        if(RegularExpression.isCellphone(etChangePhoneNumber.getText().toString())==false){
+        if (RegularExpression.isCellphone(etChangePhoneNumber.getText().toString()) == false) {
             ToastUitl.showShort("请填写正确的手机号码");
             return;
         }
-        if(etChangePhoneValidCode.getText().toString()==null||"".equals(etChangePhoneValidCode.getText().toString())){
+        if (etChangePhoneValidCode.getText().toString() == null || "".equals(etChangePhoneValidCode.getText().toString())) {
             ToastUitl.showShort("请填写手机验证码");
             return;
         }
-        mPresenter.changePhone(etChangePhoneNumber.getText().toString(),etChangePhoneValidCode.getText().toString());
+        if(etChangePhonePsw.getText().toString()==null||"".equals(etChangePhonePsw.getText().toString())){
+            ToastUitl.showShort("请填写密码");
+            return;
+        }
+        if(!loginBean.getPassword().equals(etChangePhonePsw.getText().toString())){
+            ToastUitl.showShort("密码错误，请重新输入");
+            return;
+        }
+        mPresenter.changePhone(etChangePhoneNumber.getText().toString(), etChangePhoneValidCode.getText().toString());
     }
+
     /**
      * 验证码倒计时的广播
      */

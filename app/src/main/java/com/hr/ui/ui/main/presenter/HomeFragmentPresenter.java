@@ -70,4 +70,23 @@ public class HomeFragmentPresenter extends HomeFragmentContract.Presenter {
             }
         }));
     }
+
+    @Override
+    public void getRecommendJob(int page,int pageNum) {
+        mRxManage.add(mModel.getRecommendJob(page,pageNum).subscribe(new RxSubscriber<RecommendJobBean>(mContext,false) {
+            @Override
+            protected void _onNext(RecommendJobBean recommendJobBean) throws IOException {
+                if("0".equals(recommendJobBean.getError_code())) {
+                    mView.getRecommendJobSuccess2(recommendJobBean.getJobs_list());
+                }else{
+                    ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId(Integer.parseInt(recommendJobBean.getError_code())));
+                }
+            }
+
+            @Override
+            protected void _onError(String message) {
+
+            }
+        }));
+    }
 }

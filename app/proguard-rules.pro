@@ -42,3 +42,5 @@
 -keep class com.baidu.** {*;}
 -keep class vi.com.** {*;}
 -dontwarn com.baidu.**
+#友盟
+-keep class com.umeng.commonsdk.** {*;}

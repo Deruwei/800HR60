@@ -5,399 +5,472 @@
     android:id="@+id/cl_positionPage"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <FrameLayout
+        android:background="@drawable/edit_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <include layout="@layout/layout_neterror"
+            android:background="@drawable/edit_bg_top"/>
+
         <RelativeLayout
+            android:id="@+id/rl_positionContent"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@drawable/edit_bg"
+            android:visibility="gone">
+
             <LinearLayout
-                android:background="@drawable/edit_bg_top"
-                android:orientation="vertical"
-                android:layout_above="@+id/ll_positionPageBottom"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_above="@+id/ll_positionPageBottom"
+                android:background="@drawable/edit_bg_top"
+                android:orientation="vertical">
+
                 <RelativeLayout
-                    android:layout_marginLeft="@dimen/x38"
-                    android:layout_marginRight="@dimen/x38"
-                    android:layout_marginTop="@dimen/x25"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x38"
+                    android:layout_marginTop="@dimen/x25">
+
                     <TextView
                         android:id="@+id/tv_positionPageJobName"
-                        android:singleLine="true"
-                        android:maxLength="15"
-                        android:textSize="@dimen/x36"
-                        android:textColor="@color/color_333"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:maxLength="15"
+                        android:singleLine="true"
+                        android:textColor="@color/color_333"
+                        android:textSize="@dimen/x36" />
+
                     <ImageView
-                        android:layout_centerVertical="true"
                         android:id="@+id/iv_positionPageClose"
-                        android:src="@mipmap/close_position"
-                        android:paddingLeft="@dimen/x18"
+                        android:layout_width="@dimen/x88"
+                        android:layout_height="@dimen/x32"
+                        android:paddingRight="@dimen/x38"
                         android:layout_alignParentRight="true"
-                        android:layout_width="@dimen/x50"
-                        android:layout_height="@dimen/x32" />
+                        android:layout_centerVertical="true"
+                        android:paddingLeft="@dimen/x18"
+                        android:src="@mipmap/close_position" />
                 </RelativeLayout>
+
                 <com.hr.ui.view.MyFlowLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/x38"
                     android:layout_marginRight="@dimen/x38"
                     android:layout_marginTop="@dimen/x10"
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:orientation="horizontal">
+
                     <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/x14"
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-                    <ImageView
-                        android:layout_gravity="center_vertical"
-                        android:src="@mipmap/dingwei"
-                        android:layout_width="@dimen/x20"
-                        android:layout_height="@dimen/x24" />
-                    <TextView
-                        android:textColor="@color/color_333"
-                        android:id="@+id/tv_positionPageAddress"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="@dimen/x10"
-                        android:singleLine="true"
-                        android:textSize="@dimen/x24"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="@dimen/x20"
+                            android:layout_height="@dimen/x24"
+                            android:layout_gravity="center_vertical"
+                            android:src="@mipmap/dingwei" />
+
+                        <TextView
+                            android:id="@+id/tv_positionPageAddress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="@dimen/x10"
+                            android:singleLine="true"
+                            android:textColor="@color/color_333"
+                            android:textSize="@dimen/x24" />
                     </LinearLayout>
+
                     <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/x14"
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-                    <ImageView
-                        android:layout_marginLeft="@dimen/x30"
-                        android:layout_gravity="center_vertical"
-                        android:src="@mipmap/exp"
-                        android:layout_width="@dimen/x25"
-                        android:layout_height="@dimen/x24" />
-                    <TextView
-                        android:id="@+id/tv_positionPageExp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="@dimen/x10"
-                        android:singleLine="true"
-                        android:textColor="@color/color_333"
-                        android:textSize="@dimen/x24"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="@dimen/x25"
+                            android:layout_height="@dimen/x24"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="@dimen/x30"
+                            android:src="@mipmap/exp" />
+
+                        <TextView
+                            android:id="@+id/tv_positionPageExp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="@dimen/x10"
+                            android:singleLine="true"
+                            android:textColor="@color/color_333"
+                            android:textSize="@dimen/x24" />
                     </LinearLayout>
+
                     <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/x14"
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-                    <ImageView
-                        android:layout_width="@dimen/x28"
-                        android:layout_height="@dimen/x24"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="@dimen/x30"
-                        android:src="@mipmap/degree_white" />
-                    <TextView
-                        android:id="@+id/tv_positionPageDegree"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="@dimen/x10"
-                        android:singleLine="true"
-                        android:layout_marginRight="@dimen/x30"
-                        android:textColor="@color/color_333"
-                        android:textSize="@dimen/x24"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="@dimen/x28"
+                            android:layout_height="@dimen/x24"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="@dimen/x30"
+                            android:src="@mipmap/degree_white" />
+
+                        <TextView
+                            android:id="@+id/tv_positionPageDegree"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="@dimen/x10"
+                            android:layout_marginRight="@dimen/x30"
+                            android:singleLine="true"
+                            android:textColor="@color/color_333"
+                            android:textSize="@dimen/x24" />
                     </LinearLayout>
+
                     <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/x14"
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-                    <ImageView
-                        android:layout_gravity="center_vertical"
-                        android:src="@mipmap/me"
-                        android:layout_width="@dimen/x22"
-                        android:layout_height="@dimen/x24" />
-                    <TextView
-                        android:id="@+id/tv_positionPageNum"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="@dimen/x10"
-                        android:singleLine="true"
-                        android:textSize="@dimen/x24"
-                        android:textColor="@color/color_333"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="@dimen/x22"
+                            android:layout_height="@dimen/x24"
+                            android:layout_gravity="center_vertical"
+                            android:src="@mipmap/me" />
+
+                        <TextView
+                            android:id="@+id/tv_positionPageNum"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="@dimen/x10"
+                            android:singleLine="true"
+                            android:textColor="@color/color_333"
+                            android:textSize="@dimen/x24" />
                     </LinearLayout>
                 </com.hr.ui.view.MyFlowLayout>
+
                 <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/x38"
                     android:layout_marginRight="@dimen/x38"
-                    android:layout_marginTop="@dimen/x30"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_marginTop="@dimen/x30">
+
                     <TextView
                         android:id="@+id/tv_positionPageSalary"
-                        android:textSize="@dimen/x32"
-                        android:textColor="@color/new_main"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/new_main"
+                        android:textSize="@dimen/x32" />
+
                     <TextView
                         android:id="@+id/tv_positionPageReleaseTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
                         android:textColor="@color/color_999"
-                        android:textSize="@dimen/x28"
-                        android:layout_alignParentRight="true"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:textSize="@dimen/x28" />
                 </RelativeLayout>
-                <View
-                    android:layout_marginTop="@dimen/x25"
-                    android:background="@color/bg_color"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/x1"/>
-                <RelativeLayout
-                    android:id="@+id/rl_positionPageCompanyInfo"
-                    android:layout_marginLeft="@dimen/x38"
-                    android:layout_marginRight="@dimen/x38"
-                    android:layout_marginTop="@dimen/x25"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <com.hr.ui.view.RoundImageView
-                        android:id="@+id/iv_positionPageCompanyIcon"
-                        android:src="@mipmap/defaultcompany"
-                        app:type="rounded_rect"
-                        app:borderColor="@color/color_999"
-                        app:borderWidth="@dimen/x1"
-                        app:rectRoundRadius="@dimen/x6"
-                        android:layout_width="@dimen/x82"
-                        android:layout_height="@dimen/x82" />
-                    <TextView
-                        android:id="@+id/tv_positionPageCompanyName"
-                        android:layout_marginLeft="@dimen/x20"
-                        android:singleLine="true"
-                        android:maxEms="16"
-                        android:textSize="@dimen/x32"
-                        android:textColor="@color/color_333"
-                        android:layout_toRightOf="@+id/iv_positionPageCompanyIcon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                    <LinearLayout
-                        android:layout_marginTop="@dimen/x6"
-                        android:layout_marginLeft="@dimen/x20"
-                        android:layout_below="@+id/tv_positionPageCompanyName"
-                        android:layout_toRightOf="@id/iv_positionPageCompanyIcon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-                        <TextView
-                            android:id="@+id/tv_positionPageIndustry"
-                            android:textColor="@color/color_999"
-                            android:textSize="@dimen/x24"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                        <TextView
-                            android:layout_marginLeft="@dimen/x6"
-                            android:text="·"
-                            android:textColor="@color/color_999"
-                            android:textSize="@dimen/x24"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                        <TextView
-                            android:id="@+id/tv_positionPageCompanyType"
-                            android:layout_marginLeft="@dimen/x6"
-                            android:textColor="@color/color_999"
-                            android:textSize="@dimen/x24"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                        <TextView
-                            android:layout_marginLeft="@dimen/x6"
-                            android:text="/"
-                            android:textColor="@color/color_999"
-                            android:textSize="@dimen/x24"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                        <TextView
-                            android:id="@+id/tv_positionPageCompanyScale"
-                            android:layout_marginLeft="@dimen/x6"
-                            android:textColor="@color/color_999"
-                            android:textSize="@dimen/x24"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                    </LinearLayout>
-                    <ImageView
-                        android:src="@mipmap/arrowright"
-                        android:layout_width="@dimen/x9"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_height="@dimen/x18" />
-                </RelativeLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/x1"
                     android:layout_marginTop="@dimen/x25"
-                    android:background="@color/bg_color"/>
+                    android:background="@color/bg_color" />
+
+                <RelativeLayout
+                    android:id="@+id/rl_positionPageCompanyInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x38"
+                    android:layout_marginRight="@dimen/x38"
+                    android:layout_marginTop="@dimen/x25">
+
+                    <com.hr.ui.view.RoundImageView
+                        android:id="@+id/iv_positionPageCompanyIcon"
+                        android:layout_width="@dimen/x82"
+                        android:layout_height="@dimen/x82"
+                        android:src="@mipmap/defaultcompany"
+                        app:borderColor="@color/color_999"
+                        app:borderWidth="@dimen/x1"
+                        app:rectRoundRadius="@dimen/x6"
+                        app:type="rounded_rect" />
+
+                    <TextView
+                        android:id="@+id/tv_positionPageCompanyName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/x20"
+                        android:layout_toRightOf="@+id/iv_positionPageCompanyIcon"
+                        android:maxEms="16"
+                        android:singleLine="true"
+                        android:textColor="@color/color_333"
+                        android:textSize="@dimen/x32" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_positionPageCompanyName"
+                        android:layout_marginLeft="@dimen/x20"
+                        android:layout_marginTop="@dimen/x6"
+                        android:layout_toRightOf="@id/iv_positionPageCompanyIcon">
+
+                        <TextView
+                            android:id="@+id/tv_positionPageIndustry"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/color_999"
+                            android:textSize="@dimen/x24" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/x6"
+                            android:text="·"
+                            android:textColor="@color/color_999"
+                            android:textSize="@dimen/x24" />
+
+                        <TextView
+                            android:id="@+id/tv_positionPageCompanyType"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/x6"
+                            android:textColor="@color/color_999"
+                            android:textSize="@dimen/x24" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/x6"
+                            android:text="/"
+                            android:textColor="@color/color_999"
+                            android:textSize="@dimen/x24" />
+
+                        <TextView
+                            android:id="@+id/tv_positionPageCompanyScale"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/x6"
+                            android:textColor="@color/color_999"
+                            android:textSize="@dimen/x24" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="@dimen/x9"
+                        android:layout_height="@dimen/x18"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/arrowright" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x1"
+                    android:layout_marginTop="@dimen/x25"
+                    android:background="@color/bg_color" />
+
                 <android.support.v4.widget.NestedScrollView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
+
                     <LinearLayout
-                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <ImageView
-                        android:layout_marginTop="@dimen/x18"
-                        android:layout_marginLeft="@dimen/x24"
-                        android:layout_centerVertical="true"
-                        android:src="@mipmap/position_tiao"
-                        android:layout_width="@dimen/x8"
-                        android:layout_height="@dimen/x29" />
-                    <TextView
-                        android:textColor="@color/new_main"
-                        android:text="@string/JobDes"
-                        android:textSize="@dimen/x32"
-                        android:layout_centerVertical="true"
-                        android:paddingLeft="@dimen/x38"
-                        android:layout_marginTop="@dimen/x18"
-                        android:layout_marginBottom="@dimen/x18"
-                        android:layout_width="@dimen/x180"
-                        android:layout_height="wrap_content" />
-                    <ImageView
-                        android:visibility="gone"
-                        android:id="@+id/iv_positionPageShare"
-                        android:layout_centerVertical="true"
-                        android:src="@mipmap/share_pos"
-                        android:layout_marginRight="@dimen/x30"
-                        android:layout_alignParentRight="true"
-                        android:layout_width="@dimen/x28"
-                        android:layout_height="@dimen/x30" />
-                </RelativeLayout>
-                <TextView
-                    android:id="@+id/tv_positionPageJobDes"
-                    android:layout_marginLeft="@dimen/x38"
-                    android:layout_marginRight="@dimen/x38"
-                    android:textColor="@color/color_333"
-                    android:lineSpacingMultiplier="1.2"
-                    android:textSize="@dimen/x32"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:layout_width="@dimen/x8"
+                                android:layout_height="@dimen/x29"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/x24"
+                                android:layout_marginTop="@dimen/x18"
+                                android:src="@mipmap/position_tiao" />
+
+                            <TextView
+                                android:layout_width="@dimen/x180"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginBottom="@dimen/x18"
+                                android:layout_marginTop="@dimen/x18"
+                                android:paddingLeft="@dimen/x38"
+                                android:text="@string/JobDes"
+                                android:textColor="@color/new_main"
+                                android:textSize="@dimen/x32" />
+
+                            <ImageView
+                                android:id="@+id/iv_positionPageShare"
+                                android:layout_width="@dimen/x28"
+                                android:layout_height="@dimen/x30"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="@dimen/x30"
+                                android:src="@mipmap/share_pos"
+                                android:visibility="gone" />
+                        </RelativeLayout>
+
+                        <TextView
+                            android:id="@+id/tv_positionPageJobDes"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/x38"
+                            android:layout_marginRight="@dimen/x38"
+                            android:lineSpacingMultiplier="1.2"
+                            android:textColor="@color/color_333"
+                            android:textSize="@dimen/x32" />
                     </LinearLayout>
                 </android.support.v4.widget.NestedScrollView>
             </LinearLayout>
+
             <LinearLayout
-                android:background="@drawable/edit_bg_bottom"
                 android:id="@+id/ll_positionPageBottom"
-                android:orientation="horizontal"
-                android:layout_alignParentBottom="true"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/x120">
+                android:layout_height="@dimen/x120"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/edit_bg_bottom"
+                android:orientation="horizontal">
+
                 <LinearLayout
-                    android:orientation="horizontal"
                     android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/tv_bg_left"
-                    android:layout_height="match_parent">
-                <LinearLayout
-                    android:id="@+id/ll_positionPageCulScore"
-                    android:orientation="horizontal"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:layout_height="match_parent" >
-                    <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-                    <com.hr.ui.view.PieChartView
-                        android:visibility="gone"
-                        android:id="@+id/pcv_culScore"
-                        android:src="@mipmap/robot_cul"
-                        app:borderColorPie="@color/white"
-                        app:borderWidthPie="@dimen/x1"
-                        android:layout_width="@dimen/x50"
-                        android:layout_height="@dimen/x50" />
-                        <ImageView
-                            android:visibility="gone"
-                            android:id="@+id/iv_loadCul"
-                            android:layout_width="@dimen/x50"
-                            android:src="@drawable/loading_refresh"
-                            android:layout_height="@dimen/x50" />
-                        <ImageView
-                            android:id="@+id/iv_culScore"
-                            android:src="@mipmap/robot_cul"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
-                    </FrameLayout>
+                    android:orientation="horizontal">
+
                     <LinearLayout
-                        android:layout_marginLeft="@dimen/x10"
-                        android:orientation="vertical"
+                        android:id="@+id/ll_positionPageCulScore"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:gravity="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-                        <TextView
-                            android:id="@+id/tv_positionPageCulScore"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/x28"
-                            android:text="@string/culculate"
+                        android:orientation="horizontal">
+
+                        <FrameLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                        <TextView
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/x20"
-                            android:text="@string/Score"
+                            android:layout_height="wrap_content">
+
+                            <com.hr.ui.view.PieChartView
+                                android:id="@+id/pcv_culScore"
+                                android:layout_width="@dimen/x50"
+                                android:layout_height="@dimen/x50"
+                                android:src="@mipmap/robot_cul"
+                                android:visibility="gone"
+                                app:borderColorPie="@color/white"
+                                app:borderWidthPie="@dimen/x1" />
+
+                            <ImageView
+                                android:id="@+id/iv_loadCul"
+                                android:layout_width="@dimen/x50"
+                                android:layout_height="@dimen/x50"
+                                android:src="@drawable/loading_refresh"
+                                android:visibility="gone" />
+
+                            <ImageView
+                                android:id="@+id/iv_culScore"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@mipmap/robot_cul" />
+                        </FrameLayout>
+
+                        <LinearLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/x10"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tv_positionPageCulScore"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/culculate"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/x28" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/Score"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/x20" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/view_lin1"
+                        android:layout_width="@dimen/x1"
+                        android:layout_height="@dimen/x60"
+                        android:layout_gravity="center"
+                        android:background="#e6e6e6" />
+
+                    <View
+                        android:id="@+id/view_lin2"
+                        android:layout_width="@dimen/x1"
+                        android:layout_height="@dimen/x60"
+                        android:layout_gravity="center"
+                        android:background="@color/black" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_positionPageCollection"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/iv_positionPageCollection"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/collection_already" />
+
+                        <TextView
+                            android:id="@+id/tv_positionPageCollection"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/x10"
+                            android:text="@string/collection"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/x28" />
                     </LinearLayout>
                 </LinearLayout>
-                <View
-                    android:id="@+id/view_lin1"
-                    android:layout_gravity="center"
-                    android:layout_width="@dimen/x1"
-                    android:layout_height="@dimen/x60"
-                    android:background="#e6e6e6"
-                    />
-                <View
-                    android:id="@+id/view_lin2"
-                    android:layout_gravity="center"
-                    android:layout_width="@dimen/x1"
-                    android:layout_height="@dimen/x60"
-                    android:background="@color/black"
-                    />
-                <LinearLayout
-                    android:id="@+id/ll_positionPageCollection"
-                    android:orientation="horizontal"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:layout_height="match_parent" >
-                    <ImageView
-                        android:id="@+id/iv_positionPageCollection"
-                        android:src="@mipmap/collection_already"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                    <TextView
-                        android:id="@+id/tv_positionPageCollection"
-                        android:layout_marginLeft="@dimen/x10"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/x28"
-                        android:text="@string/collection"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-                </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/ll_positionPageDeliverResume"
-                    android:orientation="horizontal"
                     android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:background="@drawable/tv_bg_right"
                     android:gravity="center"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent" >
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/iv_positionPageSmile"
+                        android:layout_width="@dimen/x48"
+                        android:layout_height="@dimen/x48"
+                        android:layout_marginRight="@dimen/x6"
+                        android:src="@mipmap/deliver"
+                        android:visibility="gone" />
+
                     <TextView
                         android:id="@+id/tv_positionPageDeliverResume"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/x40"
-                        android:text="@string/deliverResume"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:text="@string/deliverResume"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/x40" />
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
+    </FrameLayout>
 </LinearLayout>

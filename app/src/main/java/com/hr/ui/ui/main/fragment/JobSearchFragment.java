@@ -186,7 +186,7 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
         SearchAdapter.setClickCallBack(new MyRecommendJobAdapter.ItemClickCallBack() {
             @Override
             public void onItemClick(int pos) {
-                PositionPageActivity.startAction(getActivity(), searchList.get(pos).getJob_id(),2);
+                PositionPageActivity.startAction(getActivity(), searchList.get(pos).getJob_id());
             }
         });
         rvJobSearchFragment.refreshComplete();
@@ -212,7 +212,7 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
         etJobSearch.setText(jobSearchBean.getSearchName());
         jobSerchType = jobSearchBean.getJobType();
         if ("1".equals(jobSerchType)) {
-            tvJobSearchFragment.setText("全部");
+            tvJobSearchFragment.setText("全文");
         } else if ("2".equals(jobSerchType)) {
             tvJobSearchFragment.setText("职位");
         } else if ("3".equals(jobSerchType)) {
@@ -789,7 +789,7 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
         tvAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tvJobSearchTypeFragment.setText("全部");
+                tvJobSearchTypeFragment.setText("全文");
                 jobSerchType = 1;
                 popupWindowJobType.dismiss();
             }
@@ -848,8 +848,6 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
         this.selectIndustryList = selectIndustryList1;
         //Log.i("选择","-------"+selectIndustryList1.toString());
         if (selectFunctionList1 != null && !"".equals(selectFunctionList1) && selectFunctionList1.size() != 0) {
-
-
             StringBuffer sb = new StringBuffer();
             StringBuffer sbIndustryId = new StringBuffer();
             for (int i = 0; i < selectFunctionList.size(); i++) {

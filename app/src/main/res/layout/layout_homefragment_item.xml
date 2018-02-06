@@ -4,8 +4,30 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <LinearLayout
+        android:id="@+id/ll_homeItemTop"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x40">
+        <View
+            android:background="@color/color_e4"
+            android:layout_width="@dimen/x191"
+            android:layout_height="@dimen/x1"/>
+        <TextView
+            android:id="@+id/tv_itemTitle"
+            android:layout_marginLeft="@dimen/x20"
+            android:layout_marginRight="@dimen/x20"
+            android:textSize="@dimen/x20"
+            android:textColor="@color/color_999"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <View
+            android:background="@color/color_e4"
+            android:layout_width="@dimen/x191"
+            android:layout_height="@dimen/x1"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_below="@+id/ll_homeItemTop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -191,6 +213,7 @@
                 </LinearLayout>
 
                 <com.hr.ui.view.PieChartView
+                    android:visibility="gone"
                     android:id="@+id/pcv_num"
                     android:layout_width="@dimen/x50"
                     app:borderColorPie="@color/new_main"

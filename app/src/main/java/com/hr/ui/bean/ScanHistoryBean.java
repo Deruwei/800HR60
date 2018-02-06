@@ -18,9 +18,11 @@ public class ScanHistoryBean {
     private String companyName;
     private String salary;
     private String time;
-    @Generated(hash = 1580747938)
+    private String is_expect;
+    @Generated(hash = 1449960708)
     public ScanHistoryBean(String jobId, String jobName, String place, String exp,
-            String degree, String companyName, String salary, String time) {
+            String degree, String companyName, String salary, String time,
+            String is_expect) {
         this.jobId = jobId;
         this.jobName = jobName;
         this.place = place;
@@ -29,6 +31,7 @@ public class ScanHistoryBean {
         this.companyName = companyName;
         this.salary = salary;
         this.time = time;
+        this.is_expect = is_expect;
     }
     @Generated(hash = 1339095601)
     public ScanHistoryBean() {
@@ -80,5 +83,11 @@ public class ScanHistoryBean {
     }
     public void setTime(String time) {
         this.time = time;
+    }
+    public String getIs_expect() {
+        return this.is_expect;
+    }
+    public void setIs_expect(String is_expect) {
+        this.is_expect = is_expect;
     }
 }

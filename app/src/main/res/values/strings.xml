@@ -135,7 +135,9 @@
     <string name="shield">屏蔽</string>
     <string name="shieldCancel">取消屏蔽</string>
     <string name="resetPsw">修改密码</string>
+    <string name="validPhone">验证手机</string>
     <string name="changeTel">更换手机</string>
+    <string name="changeTelephoneNumber">更换手机号码</string>
     <string name="evaluateMine">评价我们</string>
     <string name="versionDes">版本说明</string>
     <string name="changeAccount">更换账号</string>
@@ -194,6 +196,7 @@
     <string name="sureDeleteProject">确认要删除该项目经验？</string>
     <string name="sureDeletePlant">确认删除该培训经历？</string>
     <string name="sureDeleteSkill">确认删除该专业技能？</string>
+    <string name="sureDeleteJobOrder">确认删除该求职意向？</string>
     <string name="sureDeleteWorkExp">确认删除该工作经历？</string>
     <string name="sureDeleteInternShipExp">确认删除该实习经历？</string>
     <string name="selectedPosition">已选职位</string>
@@ -276,6 +279,8 @@
     <string name="Appointment">所任职位</string>
     <string name="appointment_hint">请选择所任职位</string>
     <string name="workPlace">工作地点</string>
+    <string name="recommendJob1">推荐职位</string>
+    <string name="recommendJob2">看看符合求职意向的职位</string>
     <string name="deliverResume">投递简历</string>
     <string name="deliver">投递</string>
     <string name="collection2">收藏</string>
@@ -318,6 +323,7 @@
     <string name="internshipPlace">实习地点</string>
     <string name="noIntership">没有实习经历，跳过</string>
     <string name="complete">完成</string>
+    <string name="valid">验证</string>
     <string name="trainExp">培训经历</string>
     <string name="trainORG">培训机构</string>
     <string name="trainPlace">培训地点</string>
@@ -351,6 +357,8 @@
     <string name="introduction">自我评价</string>
     <string name="resumeAttachment">附件简历</string>
     <string name="hideResume">隐藏简历</string>
+    <string name="updateResume">升级简历</string>
+    <string name="updateResumeTips">Tips: 升级简历后将从“学生简历”变为“工作简历”</string>
     <string name="addResumeAttachment">+增加附件简历</string>
     //编辑页面
     <string name="save">保存</string>
@@ -376,6 +384,7 @@
     <string name="listview_loading">正在加载...</string>
     <string name="nomore_loading">已经到底了</string>
     <string name="refreshing">刷新中...</string>
+    <string name="refresh">刷新</string>
     <string name="refresh_done">刷新完成</string>
     <string name="loading_done">加载完成</string>
     <string name="listview_header_last_time">last update：</string>

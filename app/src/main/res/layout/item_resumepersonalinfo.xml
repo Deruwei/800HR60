@@ -36,7 +36,8 @@
             android:id="@+id/tv_resumePersonName"
             android:textColor="@color/white"
             android:textSize="@dimen/x36"
-            android:text="@string/previewResume"
+            android:singleLine="true"
+            android:maxEms="14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
@@ -45,7 +46,6 @@
             android:layout_marginTop="@dimen/x19"
             android:textColor="@color/white"
             android:textSize="@dimen/x24"
-            android:text="@string/previewResume"
             android:singleLine="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -69,7 +69,6 @@
                     android:layout_marginLeft="@dimen/x21"
                     android:textColor="@color/white"
                     android:textSize="@dimen/x24"
-                    android:text="@string/previewResume"
                     android:singleLine="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -90,7 +89,6 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/x24"
                     android:singleLine="true"
-                    android:text="@string/previewResume"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -111,9 +109,14 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/x24"
                     android:singleLine="true"
-                    android:text="@string/previewResume"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
+                <ImageView
+                    android:id="@+id/iv_resumeValid"
+                    android:src="@mipmap/valid"
+                    android:layout_marginLeft="@dimen/x10"
+                    android:layout_width="@dimen/x16"
+                    android:layout_height="@dimen/x18" />
             </LinearLayout>
             <LinearLayout
                 android:gravity="center"
@@ -129,7 +132,6 @@
                     android:layout_marginLeft="@dimen/x21"
                     android:textColor="@color/white"
                     android:textSize="@dimen/x24"
-                    android:text="@string/previewResume"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>

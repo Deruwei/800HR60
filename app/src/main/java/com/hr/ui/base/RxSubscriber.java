@@ -15,8 +15,10 @@ import com.hr.ui.app.HRApplication;
 import com.hr.ui.bean.ArrayInfoBean;
 import com.hr.ui.bean.BaseBean;
 import com.hr.ui.constants.Constants;
+import com.hr.ui.ui.job.activity.PositionPageActivity;
 import com.hr.ui.utils.EncryptUtils;
 import com.hr.ui.utils.LoadingDialog;
+import com.hr.ui.utils.LoadingDialog2;
 import com.hr.ui.utils.NetWorkUtils;
 import com.hr.ui.utils.Rc4Md5Utils;
 import com.hr.ui.utils.ToastUitl;
@@ -95,7 +97,11 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
         if (showDialog) {
             try {
                 //Log.i("到这里","shide");
-                LoadingDialog.showDialogForLoading((Activity) mContext,msg,true);
+                if(mContext instanceof PositionPageActivity) {
+                    LoadingDialog2.showDialogForLoading((Activity) mContext);
+                }else{
+                    LoadingDialog.showDialogForLoading(mContext, msg, true);
+                }
                // Log.i("到这里","shide4");
                 isShow=true;
             } catch (Exception e) {
@@ -110,7 +116,11 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
         try {
             if(isShow==true) {
                 isShow=false;
-                LoadingDialog.cancelDialogForLoading();
+                if(mContext instanceof PositionPageActivity) {
+                    LoadingDialog2.cancelDialogForLoading();
+                }else {
+                    LoadingDialog.cancelDialogForLoading();
+                }
             }
             _onNext(t);
             String s=t.toString();
@@ -119,7 +129,7 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
             JSONObject jsonObject=new JSONObject(s);
             String errorCode=jsonObject.getString("error_code");
             //Log.i("当前",""+errorCode);
-           if("204".equals(errorCode)||"203".equals(errorCode)||"205.2".equals(errorCode)||"303".equals(errorCode)) {
+           if("204".equals(errorCode)||"203".equals(errorCode)||"205.1".equals(errorCode)||"205.2".equals(errorCode)||"303".equals(errorCode)) {
                 //Rc4Md5Utils.secret_key = Constants.INIT_SECRET_KRY;
                 //Log.i("当前","3");
                 Constants.SESSION_KEY=null;
@@ -132,7 +142,7 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
         }
     }
     @Override
-    public void onError(Throwable e) {
+    public void onError(final Throwable e) {
        // Log.i("网络错误码",e.getMessage());
         /*if (showDialog) {
            *//* LoadingDialog.cancelDialogForLoading();
@@ -141,21 +151,41 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
         //e.printStackTrace();
         //网络
         if (!NetWorkUtils.isNetConnected(HRApplication.getAppContext())) {
+            if (isShow == true) {
+                if (mContext instanceof PositionPageActivity) {
+                    LoadingDialog2.cancelDialogForLoading();
+                } else {
+                    LoadingDialog.cancelDialogForLoading();
+                }
+            }
             _onError(HRApplication.getAppContext().getString(R.string.no_net));
         }
         //服务器
         else if (e instanceof ServerException) {
-            _onError(e.getMessage());
-        }
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (isShow==true) {
+            if (isShow == true) {
+                if (mContext instanceof PositionPageActivity) {
+                    LoadingDialog2.cancelDialogForLoading();
+                } else {
                     LoadingDialog.cancelDialogForLoading();
-                    ToastUitl.showShort(HRApplication.getAppContext().getString(R.string.net_error));
                 }
             }
-        },10000);
+            _onError(e.getMessage());
+        }else {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (isShow == true) {
+                        if (mContext instanceof PositionPageActivity) {
+                            LoadingDialog2.cancelDialogForLoading();
+                        } else {
+                            LoadingDialog.cancelDialogForLoading();
+                        }
+                        ToastUitl.showShort(HRApplication.getAppContext().getString(R.string.net_error));
+                        _onError(e.getMessage());
+                    }
+                }
+            }, 10000);
+        }
       /*  else{
             ToastUitl.showShort(HRApplication.getAppContext().getString(R.string.net_error));
         }*/
@@ -256,5 +286,4 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
         };
         Object.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(mSubscriber);
     }
-
 }

@@ -32,6 +32,7 @@ public class ScanHistoryBeanDao extends AbstractDao<ScanHistoryBean, String> {
         public final static Property CompanyName = new Property(5, String.class, "companyName", false, "COMPANY_NAME");
         public final static Property Salary = new Property(6, String.class, "salary", false, "SALARY");
         public final static Property Time = new Property(7, String.class, "time", false, "TIME");
+        public final static Property Is_expect = new Property(8, String.class, "is_expect", false, "IS_EXPECT");
     }
 
 
@@ -54,7 +55,8 @@ public class ScanHistoryBeanDao extends AbstractDao<ScanHistoryBean, String> {
                 "\"DEGREE\" TEXT," + // 4: degree
                 "\"COMPANY_NAME\" TEXT," + // 5: companyName
                 "\"SALARY\" TEXT," + // 6: salary
-                "\"TIME\" TEXT);"); // 7: time
+                "\"TIME\" TEXT," + // 7: time
+                "\"IS_EXPECT\" TEXT);"); // 8: is_expect
     }
 
     /** Drops the underlying database table. */
@@ -106,6 +108,11 @@ public class ScanHistoryBeanDao extends AbstractDao<ScanHistoryBean, String> {
         if (time != null) {
             stmt.bindString(8, time);
         }
+ 
+        String is_expect = entity.getIs_expect();
+        if (is_expect != null) {
+            stmt.bindString(9, is_expect);
+        }
     }
 
     @Override
@@ -151,6 +158,11 @@ public class ScanHistoryBeanDao extends AbstractDao<ScanHistoryBean, String> {
         if (time != null) {
             stmt.bindString(8, time);
         }
+ 
+        String is_expect = entity.getIs_expect();
+        if (is_expect != null) {
+            stmt.bindString(9, is_expect);
+        }
     }
 
     @Override
@@ -168,7 +180,8 @@ public class ScanHistoryBeanDao extends AbstractDao<ScanHistoryBean, String> {
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // degree
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // companyName
             cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // salary
-            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7) // time
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // time
+            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8) // is_expect
         );
         return entity;
     }
@@ -183,6 +196,7 @@ public class ScanHistoryBeanDao extends AbstractDao<ScanHistoryBean, String> {
         entity.setCompanyName(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setSalary(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
         entity.setTime(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setIs_expect(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
      }
     
     @Override

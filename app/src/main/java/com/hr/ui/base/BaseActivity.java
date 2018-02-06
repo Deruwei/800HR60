@@ -19,6 +19,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import com.hr.ui.BuildConfig;
 import com.hr.ui.R;
 import com.hr.ui.app.AppManager;
 import com.hr.ui.utils.recyclerviewutils.ChangeModeController;
@@ -26,6 +27,7 @@ import com.hr.ui.utils.LoadingDialog;
 import com.hr.ui.utils.TUtil;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.view.StatusBarCompat;
+import com.umeng.analytics.MobclickAgent;
 
 
 import java.lang.reflect.Field;
@@ -366,10 +368,8 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
     protected void onResume() {
         super.onResume();
         //debug版本不统计crash
-    /*    if(!BuildConfig.LOG_DEBUG) {
             //友盟统计
-            //MobclickAgent.onResume(this);
-        }*/
+        MobclickAgent.onResume(this);
     }
 
     @Override
@@ -380,6 +380,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
             //友盟统计
             //MobclickAgent.onPause(this);
         }*/
+        MobclickAgent.onPause(this);
     }
 
     @Override

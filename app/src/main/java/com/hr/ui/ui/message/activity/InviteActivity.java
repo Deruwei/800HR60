@@ -138,7 +138,7 @@ public class InviteActivity extends BaseActivity<InvitePresenter, InviteModel> i
         llInviteTop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PositionPageActivity.startAction(InviteActivity.this, invitedListBean.getJob_id(), 2);
+                PositionPageActivity.startAction(InviteActivity.this, invitedListBean.getJob_id());
             }
         });
     }

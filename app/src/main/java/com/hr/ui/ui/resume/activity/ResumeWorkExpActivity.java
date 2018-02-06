@@ -29,6 +29,7 @@ import com.hr.ui.ui.resume.contract.ResumeWorkExpContract;
 import com.hr.ui.ui.resume.model.ResumeWorkExpModel;
 import com.hr.ui.ui.resume.presenter.ResumeWorkExpPresenter;
 import com.hr.ui.utils.ToastUitl;
+import com.hr.ui.utils.ToolUtils;
 import com.hr.ui.utils.datautils.FromStringToArrayList;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.MyDialog;
@@ -439,11 +440,15 @@ public class ResumeWorkExpActivity extends BaseActivity<ResumeWorkExpPresenter, 
             return;
         }
         if("".equals(tvResumeWorkExpJobDescription.getText().toString())||tvResumeWorkExpJobDescription.getText().toString()==null){
-            ToastUitl.showShort("请填写职位描述");
+            ToastUitl.showShort("请填写职责描述");
             return;
         }
         if(cityid==null||"".equals(cityid)){
-            ToastUitl.showShort("请选择工作地点");
+            if("1".equals(resumeType)) {
+                ToastUitl.showShort("请选择工作地点");
+            }else{
+                ToastUitl.showShort("请选择实习地点");
+            }
             return;
         }
         if("".equals(tvResumeWorkExpGrossPay.getText().toString())||tvResumeWorkExpGrossPay.getText().toString()==null){

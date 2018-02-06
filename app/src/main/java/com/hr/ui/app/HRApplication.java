@@ -37,6 +37,7 @@ import com.lzy.imagepicker.view.CropImageView;
 import com.mob.MobApplication;
 import com.service.CodeTimerService;
 import com.service.MyTimeService;
+import com.umeng.commonsdk.UMConfigure;
 
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
@@ -76,6 +77,11 @@ public class HRApplication extends MobApplication {
         SDKInitializer.initialize(getApplicationContext());
         initPhotoPicker();
         setupDatabase();
+        //友盟初始化
+        UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, null);
+        UMConfigure.setLogEnabled(true);//设置log日志
+        UMConfigure.setEncryptEnabled(true); //设置是否加密传输log
+
         Constants.SESSION_KEY=null;
         mCodeTimerServiceIntent = new Intent(HRApplication.getAppContext(), MyTimeService.class);
         mCodeTimerServiceIntent.setAction(CODE);

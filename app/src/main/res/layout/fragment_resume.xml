@@ -22,14 +22,16 @@
             android:layout_height="@dimen/x80"
             android:background="@color/color_resume1">
 
-            <ImageView
-                android:id="@+id/iv_resumeMenu"
-                android:layout_width="@dimen/x35"
-                android:layout_height="@dimen/x35"
+            <TextView
+                android:id="@+id/tv_refreshResume"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/x43"
                 android:layout_marginTop="@dimen/x43"
-                android:src="@mipmap/setting" />
+                android:text="@string/refresh"
+                android:textColor="@color/white"
+                android:textSize="@dimen/x32" />
 
             <TextView
                 android:id="@+id/tv_resumePreview"
@@ -218,7 +220,6 @@
                             android:background="@color/resumeContent_bg" />
 
                         <RelativeLayout
-                            android:visibility="gone"
                             android:id="@+id/rl_hideResume"
                             style="@style/resume_RelativeItem"
                             android:layout_height="@dimen/x100">
@@ -227,7 +228,7 @@
                                 android:id="@+id/tv_hideResumeTag"
                                 android:layout_centerVertical="true"
                                 style="@style/resume_TextViewItemTitleHideResume"
-                                android:text="@string/hideResume" />
+                                android:text="@string/updateResume" />
                             <TextView
 
                                 android:id="@+id/tv_resumeTips"
@@ -235,11 +236,12 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
                                 android:layout_toRightOf="@+id/tv_hideResumeTag"
-                                android:text="@string/hideTips"
+                                android:text="@string/updateResumeTips"
                                 android:layout_marginLeft="@dimen/x19"
                                 android:textColor="@color/color_999"
                                 android:textSize="@dimen/x20" />
                             <Switch
+                                android:visibility="gone"
                                 android:layout_toRightOf="@+id/tv_resumeTips"
                                 android:id="@+id/iv_hideResume"
                                 android:layout_width="wrap_content"

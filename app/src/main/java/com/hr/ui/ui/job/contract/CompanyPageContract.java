@@ -25,6 +25,7 @@ public interface CompanyPageContract {
     interface View extends BaseView{
         void getCompanyDataSuccess(CompanyBean.EnterpriseInfoBean enterpriseInfoBean);
         void getReleaseJobSuccess(List<RecommendJobBean.JobsListBean> jobInfoList);
+        void getCompanyJobFaild();
     }
     abstract class Presenter extends BasePresenter<View,Model>{
         public abstract void getCompanyData(String companyId);

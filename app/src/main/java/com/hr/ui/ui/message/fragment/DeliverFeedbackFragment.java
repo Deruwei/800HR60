@@ -14,6 +14,7 @@ import com.hr.ui.R;
 import com.hr.ui.base.BaseFragment;
 import com.hr.ui.bean.DeliverFeedbackBean;
 import com.hr.ui.ui.job.activity.PositionPageActivity;
+import com.hr.ui.ui.main.fragment.MessageFragment;
 import com.hr.ui.ui.message.adapter.MyDeliverFeedbackAdapter;
 import com.hr.ui.ui.message.contract.DeliverFeedbackContract;
 import com.hr.ui.ui.message.model.DeliverFeedBackFragmentModel;
@@ -193,13 +194,30 @@ public class DeliverFeedbackFragment extends BaseFragment<DeliverFeedbackFragmen
         adapter.setClickCallBack(new MyDeliverFeedbackAdapter.ItemClickCallBack() {
             @Override
             public void onItemClick(int pos) {
-                if(appliedListBeanList1.get(pos).getIs_expire()==1){
+                if(appliedListBeanList.get(pos).getIs_expire()==1){
                     ToastUitl.showShort(R.string.error_401);
                     return;
                 }else {
-                    PositionPageActivity.startAction(getActivity(), appliedListBeanList.get(pos).getJob_id(), 2);
+                    PositionPageActivity.startAction(getActivity(), appliedListBeanList.get(pos).getJob_id());
                 }
             }
         });
+        StringBuffer sb=new StringBuffer();
+        for(int i=0;i<appliedListBeanList.size();i++){
+            if("1".equals(appliedListBeanList.get(i).getIsnew())) {
+                sb.append("," + appliedListBeanList.get(i).getRecord_id());
+            }else{
+                continue;
+            }
+        }
+        if(sb!=null&&!"".equals(sb)){
+            sb.deleteCharAt(0);
+            mPresenter.setDeliverFeedBackIsRead(sb.toString());
+        }
+    }
+
+    @Override
+    public void setDeliverFeedBackIsReadSuccess() {
+        MessageFragment.instance.setDeliverBackHide();
     }
 }

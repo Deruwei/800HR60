@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -103,14 +102,20 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
     ImageView ivCulScore;
     @BindView(R.id.iv_loadCul)
     ImageView ivLoadCul;
+    @BindView(R.id.iv_noNetError)
+    ImageView ivNoNetError;
+    @BindView(R.id.ll_netError)
+    LinearLayout llNetError;
+    @BindView(R.id.rl_positionContent)
+    RelativeLayout rlPositionContent;
+    @BindView(R.id.iv_positionPageSmile)
+    ImageView ivPositionPageSmile;
     private AnimationDrawable drawable;
     private String jobId, companyId;
     private int collection, apply;
     private int mWidth, mHeight;
-    private int score;
     private SharedPreferencesUtils sUtils;
     private PositionBean.JobInfoBean jobInfoBean;
-    private int type;//1代表的是从主页过来的  2。代表从其他页面过来的  主页过来带有算分
     private long currTime = 0;// 分享的点击时间
 
     /**
@@ -118,24 +123,14 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
      *
      * @param activity
      */
-    public static void startAction(Activity activity, String jobId, int type, int score) {
+    public static void startAction(Activity activity, String jobId) {
         Intent intent = new Intent(activity, PositionPageActivity.class);
-        intent.putExtra("type", type);
         intent.putExtra("jobId", jobId);
-        intent.putExtra("score", score);
         activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.zoom_in,
                 R.anim.zoom_out);
     }
 
-    public static void startAction(Activity activity, String jobId, int type) {
-        Intent intent = new Intent(activity, PositionPageActivity.class);
-        intent.putExtra("type", type);
-        intent.putExtra("jobId", jobId);
-        activity.startActivity(intent);
-        activity.overridePendingTransition(R.anim.zoom_in,
-                R.anim.zoom_out);
-    }
 
     @Override
     public void showLoading(String title) {
@@ -159,16 +154,16 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
         WindowManager.LayoutParams lp = (WindowManager.LayoutParams) view.getLayoutParams();
         lp.gravity = Gravity.CENTER;
         lp.width = mWidth - mWidth / 10;
-        lp.height = mHeight - mHeight / 10 * 2;
+        lp.height = mHeight - mHeight / 20 * 3;
         getWindowManager().updateViewLayout(view, lp);
         jobId = getIntent().getStringExtra("jobId");
-        type = getIntent().getIntExtra("type", 0);
-        score = getIntent().getIntExtra("score", 0);
         mPresenter.getPositionData(jobId, this);
     }
 
     @Override
     public void getPositionSuccess(PositionBean.JobInfoBean jobInfoBean) {
+        rlPositionContent.setVisibility(View.VISIBLE);
+        llNetError.setVisibility(View.GONE);
         initUI(jobInfoBean);
     }
 
@@ -183,6 +178,7 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
             scanHistoryBean.setJobName(jobInfoBean.getJob_name());
             scanHistoryBean.setExp(jobInfoBean.getWorkyear());
             scanHistoryBean.setSalary(jobInfoBean.getSalary());
+            scanHistoryBean.setIs_expect(jobInfoBean.getIs_expire()+"");
             SimpleDateFormat formatter = new SimpleDateFormat("M - d");
             Date curDate = new Date(System.currentTimeMillis());
             String str = formatter.format(curDate);
@@ -222,7 +218,9 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
 
             apply = jobInfoBean.getIs_apply();
             if (apply == 1) {
+                ivPositionPageSmile.setVisibility(View.VISIBLE);
                 tvPositionPageDeliverResume.setText(R.string.allReadyDeliver);
+                llPositionPageDeliverResume.setBackgroundResource(R.drawable.tv_bg_right_gray);
             } else if (apply == 0) {
                 tvPositionPageDeliverResume.setText(R.string.deliverResume);
             }
@@ -245,6 +243,8 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
         if (apply == 1) {
             tvPositionPageDeliverResume.setText(R.string.deliverResume);
         } else if (apply == 0) {
+            ivPositionPageSmile.setVisibility(View.VISIBLE);
+            llPositionPageDeliverResume.setBackgroundResource(R.drawable.tv_bg_right_gray);
             tvPositionPageDeliverResume.setText(R.string.allReadyDeliver);
         }
     }
@@ -255,9 +255,15 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
         pcvCulScore.setVisibility(View.VISIBLE);
         ivLoadCul.setVisibility(View.GONE);
         int number = (int) (s * 100.0);
-        Log.i("当前的数字",number+"----");
-        tvPositionPageCulScore.setText(number+"分");
+        //Log.i("当前的数字",number+"----");
+        tvPositionPageCulScore.setText(number + "分");
         pcvCulScore.SetProgram(number);
+    }
+
+    @Override
+    public void getPositionFaile() {
+        rlPositionContent.setVisibility(View.GONE);
+        llNetError.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -273,7 +279,7 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
     @Override
     public void initView() {
         sUtils = new SharedPreferencesUtils(this);
-        drawable= (AnimationDrawable) ivLoadCul.getDrawable();
+        drawable = (AnimationDrawable) ivLoadCul.getDrawable();
     }
 
     @Override
@@ -288,9 +294,12 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.rl_positionPageCompanyInfo, R.id.ll_positionPageCulScore, R.id.iv_positionPageShare, R.id.iv_positionPageClose, R.id.ll_positionPageCollection, R.id.ll_positionPageDeliverResume})
+    @OnClick({R.id.rl_positionPageCompanyInfo, R.id.iv_noNetError, R.id.ll_positionPageCulScore, R.id.iv_positionPageShare, R.id.iv_positionPageClose, R.id.ll_positionPageCollection, R.id.ll_positionPageDeliverResume})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.iv_noNetError:
+                mPresenter.getPositionData(jobId, this);
+                break;
             case R.id.ll_positionPageCulScore:
                 llPositionPageCulScore.setEnabled(false);
                 if (!ClickUtils.isFastClick()) {

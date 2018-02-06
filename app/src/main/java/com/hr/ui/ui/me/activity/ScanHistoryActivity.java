@@ -21,6 +21,7 @@ import com.hr.ui.ui.job.activity.PositionPageActivity;
 import com.hr.ui.ui.me.adapter.MyScanHistoryAdapter;
 import com.hr.ui.ui.message.adapter.MyWhoSeeMeAdapter;
 import com.hr.ui.utils.ProgressStyle;
+import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.view.MyDialog;
 import com.hr.ui.view.XRecyclerView;
 
@@ -194,7 +195,11 @@ public class ScanHistoryActivity extends BaseNoConnectNetworkAcitivty {
             adapter.setClickCallBack(new MyScanHistoryAdapter.ItemClickCallBack() {
                 @Override
                 public void onItemClick(int pos) {
-                    PositionPageActivity.startAction(ScanHistoryActivity.this,totalScanHistoryList.get(pos).getJobId(),2);
+                    if ("1".equals(totalScanHistoryList.get(pos).getIs_expect())) {
+                        ToastUitl.showShort(R.string.error_401);
+                    }else{
+                        PositionPageActivity.startAction(ScanHistoryActivity.this, totalScanHistoryList.get(pos).getJobId());
+                    }
                 }
             });
         }

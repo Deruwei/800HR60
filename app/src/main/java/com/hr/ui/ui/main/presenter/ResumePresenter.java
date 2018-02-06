@@ -11,6 +11,7 @@ import com.hr.ui.ui.main.activity.MultipleResumeActivity;
 import com.hr.ui.ui.main.fragment.ResumeContract;
 import com.hr.ui.utils.Rc4Md5Utils;
 import com.hr.ui.utils.ToastUitl;
+import com.hr.ui.utils.Utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -132,6 +133,37 @@ public class ResumePresenter extends ResumeContract.Presenter {
                     if(error_code==0) {
                         //System.out.print(s);
                         mView.updateSuccess();
+                    }else{
+                        ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) error_code));
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            protected void _onError(String message) {
+
+            }
+        }));
+    }
+
+    @Override
+    public void refreshResume(String resumeId) {
+        mRxManage.add(mModel.refreshResume(resumeId).subscribe(new RxSubscriber<ResponseBody>(mContext,false) {
+            @Override
+            protected void _onNext(ResponseBody responseBody) throws IOException {
+                String s= null;
+                try {
+                    s = responseBody.string().toString();
+                    JSONObject jsonObject=new JSONObject(s);
+                    double error_code=jsonObject.getDouble("error_code");
+                    if(error_code==0) {
+                        //System.out.print(s);
+                        String time=jsonObject.getString("uptime");
+                        ToastUitl.showShort("刷新时间："+time);
                     }else{
                         ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) error_code));
                     }

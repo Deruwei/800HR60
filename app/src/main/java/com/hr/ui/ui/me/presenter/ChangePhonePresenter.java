@@ -3,6 +3,7 @@ package com.hr.ui.ui.me.presenter;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.hr.ui.R;
 import com.hr.ui.base.RxSubscriber;
 import com.hr.ui.bean.AutoCodeBean;
 import com.hr.ui.bean.ValidCodeBean;
@@ -37,7 +38,16 @@ public class ChangePhonePresenter extends ChangePhoneContract.Presenter {
                     if("0".equals(error)){
                        mView.changePhoneSuccess();
                     }else{
-                        ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId(Integer.parseInt(error) ));
+                        if("201".equals(error)){
+                            String token=jsonObject.getString("error_field");
+                            if("token".equals(token)){
+                                ToastUitl.showShort(R.string.error_validCode);
+                            }else{
+                                ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId(Integer.parseInt(error)));
+                            }
+                        }else {
+                            ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId(Integer.parseInt(error)));
+                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -93,6 +103,36 @@ public class ChangePhonePresenter extends ChangePhoneContract.Presenter {
             protected void _onError(String message) {
                 mView.showErrorTip(message);
                 // Log.i(TAG,message);
+            }
+        }));
+    }
+
+    @Override
+    public void validPhoneIsExit(String phone) {
+        mRxManage.add(mModel.validPhoneIsExit(phone).subscribe(new RxSubscriber<ResponseBody>(mContext,false) {
+            @Override
+            protected void _onNext(ResponseBody responseBody)  {
+                try {
+                    String s=responseBody.string().toString();
+                    JSONObject jsonObject=new JSONObject(s);
+                    int errorCode=jsonObject.getInt("error_code");
+                    if(errorCode==0) {
+                        String flag = jsonObject.getString("flag_exist");
+                        mView.phoneIsExit(flag);
+                    }else{
+                        ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId(errorCode));
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            protected void _onError(String message) {
+
             }
         }));
     }

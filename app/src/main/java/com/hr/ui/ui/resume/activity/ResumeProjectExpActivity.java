@@ -141,9 +141,12 @@ public class ResumeProjectExpActivity extends BaseActivity<ResumeProjectExpPrese
         etResumeProjectExpPosition.setText(projectBean.getPosition());
         etResumeProjectExpName.setText(projectBean.getProjectname());
         tvResumeProjectExpDes.setText(projectBean.getProjectdesc());
-        tvResumeProjectExpTime.setText(projectBean.getFromyear()+"-"+projectBean.getFrommonth()+"  至  "+projectBean.getToyear()+"-"+projectBean.getTomonth());
         startTimes=projectBean.getFromyear()+"-"+projectBean.getFrommonth();
         endTimes=projectBean.getToyear()+"-"+projectBean.getTomonth();
+        if("0-0".equals(endTimes)){
+            endTimes="至今";
+        }
+        tvResumeProjectExpTime.setText(startTimes+"  至  "+endTimes);
         tvResumeProjectExpResponsibility.setText(projectBean.getResponsibility());
         ivResumeProjectExpNameDelete.setVisibility(View.GONE);
         ivResumeProjectExpPositionDelete.setVisibility(View.GONE);

@@ -42,4 +42,18 @@ public class DeliverFeedBackFragmentModel implements DeliverFeedbackContract.Mod
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(RxSchedulers.<DeliverFeedbackBean>io_main());
     }
+
+    @Override
+    public Observable<ResponseBody> setDeliverFeedBackIsRead(String id) {
+        return Api.getDefault(HostType.HR).getResponseString(EncryptUtils.encrypParams(ApiParameter.setDeliverFeedBack(id)))
+                .map(new Func1<ResponseBody, ResponseBody>() {
+                    @Override
+                    public ResponseBody call(ResponseBody responseBody) {
+                        return responseBody;
+                    }
+                })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxSchedulers.<ResponseBody>io_main());
+    }
 }

@@ -260,7 +260,12 @@ public class PreviewResumeActivity extends BaseNoConnectNetworkAcitivty {
                 TextView tvProjectPosition = view.findViewById(R.id.tv_previewResumeProjectExpPosition);
                 TextView tvProjectDes = view.findViewById(R.id.tv_previewResumeProjectExpDes);
                 TextView tvPositionResponsibility = view.findViewById(R.id.tv_previewResumeProjectExpResponsibility);
-                tvTime.setText(projectListBeanList.get(i).getFromyear() + "年" + projectListBeanList.get(i).getFrommonth() + "月" + "—" + projectListBeanList.get(i).getToyear() + "年" + projectListBeanList.get(i).getTomonth() + "月");
+                String startTime=projectListBeanList.get(i).getFromyear() + "年" + projectListBeanList.get(i).getFrommonth() + "月";
+                String endTime=projectListBeanList.get(i).getToyear() + "年" + projectListBeanList.get(i).getTomonth() + "月";
+                if("0年0月".equals(endTime)){
+                    endTime="至今";
+                }
+                tvTime.setText(startTime + "—" +endTime );
                 tvProjectName.setText(projectListBeanList.get(i).getProjectname());
                 tvProjectPosition.setText(projectListBeanList.get(i).getPosition());
                 tvProjectDes.setText(projectListBeanList.get(i).getProjectdesc());

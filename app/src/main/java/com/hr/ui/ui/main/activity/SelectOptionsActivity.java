@@ -43,6 +43,7 @@ import com.hr.ui.utils.datautils.FromStringToArrayList;
 import com.hr.ui.utils.datautils.ResumeInfoIDToString;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.utils.recyclerviewutils.OnItemClickListener;
+import com.hr.ui.view.MyDialog;
 import com.hr.ui.view.MyFlowLayout;
 
 import java.io.Serializable;
@@ -142,6 +143,7 @@ public class SelectOptionsActivity extends BaseActivity {
     public static SelectOptionsActivity instance;
     private PopupWindow popupWindowPositonClass;
     private int currentJobPosition;
+    private MyDialog dialog;
 
     /**
      * 入口
@@ -255,7 +257,25 @@ public class SelectOptionsActivity extends BaseActivity {
         doAddJobView(currentJobPosition, selectPositionClassList);
         selectPositionClassList.clear();
     }
-
+    private void doDelete() {
+        dialog=new MyDialog(this,2);
+        dialog.setMessage(getString(R.string.sureDeleteJobOrder));
+        dialog.setYesOnclickListener(getString(R.string.sure), new MyDialog.onYesOnclickListener() {
+            @Override
+            public void onYesClick() {
+                ResumeJobOrderActivity.instance.deleteJobOrderInfo(updatePositionNum);
+                dialog.dismiss();
+                finish();
+            }
+        });
+        dialog.setNoOnclickListener(getString(R.string.cancel), new MyDialog.onNoOnclickListener() {
+            @Override
+            public void onNoClick() {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
     @OnClick({R.id.rl_selectIndustry, R.id.btn_selectJobOrderSave, R.id.tv_selectJobOrderDelete, R.id.rl_selectTerritory, R.id.rl_selectJob})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -316,8 +336,7 @@ public class SelectOptionsActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_selectJobOrderDelete:
-                ResumeJobOrderActivity.instance.deleteJobOrderInfo(updatePositionNum);
-                finish();
+                doDelete();
                 break;
             case R.id.rl_selectIndustry:
                 if (isShowIndustry == false) {

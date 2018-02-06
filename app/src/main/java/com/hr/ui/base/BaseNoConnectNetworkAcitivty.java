@@ -14,6 +14,7 @@ import android.view.WindowManager;
 import com.hr.ui.R;
 import com.hr.ui.app.AppManager;
 import com.hr.ui.utils.recyclerviewutils.ChangeModeController;
+import com.umeng.analytics.MobclickAgent;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -136,10 +137,8 @@ public abstract class BaseNoConnectNetworkAcitivty extends AppCompatActivity{
     protected void onResume() {
         super.onResume();
         //debug版本不统计crash
-    /*    if(!BuildConfig.LOG_DEBUG) {
-            //友盟统计
-            //MobclickAgent.onResume(this);
-        }*/
+        //友盟统计
+        MobclickAgent.onResume(this);
     }
 
     @Override
@@ -150,8 +149,8 @@ public abstract class BaseNoConnectNetworkAcitivty extends AppCompatActivity{
             //友盟统计
             //MobclickAgent.onPause(this);
         }*/
+        MobclickAgent.onPause(this);
     }
-
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);

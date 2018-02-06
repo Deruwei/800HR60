@@ -200,8 +200,16 @@
                 <TextView
                     android:id="@+id/et_resumePhone"
                     android:layout_toRightOf="@+id/tv_resumePhone"
-                    android:layout_toLeftOf="@+id/iv_resumePhoneSelect"
-                    style="@style/resume_editView"/>
+                    style="@style/resume_editView"
+                    android:layout_width="wrap_content"/>
+                <ImageView
+                    android:id="@+id/iv_resumePhoneValid"
+                    android:src="@mipmap/novalid"
+                    android:layout_toRightOf="@+id/et_resumePhone"
+                    android:layout_width="@dimen/x20"
+                    android:layout_marginLeft="@dimen/x10"
+                    android:layout_centerVertical="true"
+                    android:layout_height="@dimen/x22" />
                 <ImageView
                     style="@style/resume_ImageViewRight"
                     android:id="@+id/iv_resumePhoneSelect"

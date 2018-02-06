@@ -1,6 +1,7 @@
 package com.hr.ui.ui.job.presenter;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.hr.ui.base.BasePresenter;
 import com.hr.ui.base.RxSubscriber;
@@ -28,7 +29,7 @@ public class PositionPagePresenter extends PositionPageContract.Presenter {
         mRxManage.add(mModel.getPositionData(jobId).subscribe(new RxSubscriber<PositionBean>(context,true) {
             @Override
             protected void _onNext(PositionBean positionBean) throws IOException {
-
+                //Log.i("你好","2");
                     if("0".equals(positionBean.getError_code())) {
                         mView.getPositionSuccess(positionBean.getJob_info());
                     }else{
@@ -38,7 +39,8 @@ public class PositionPagePresenter extends PositionPageContract.Presenter {
 
             @Override
             protected void _onError(String message) {
-
+               // Log.i("你好","我到这里了");
+                mView.getPositionFaile();
             }
         }));
     }

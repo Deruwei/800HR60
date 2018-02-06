@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.hr.ui"
     android:versionCode="68"
     android:versionName="6.0.0">
@@ -44,6 +45,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <!--友盟-->
+        <meta-data android:value="50762338527015512a000084" android:name="UMENG_APPKEY"/>
+        <meta-data android:value="${UMENG_CHANNEL_VALUE}" android:name="UMENG_CHANNEL"/>
 
         <!-- 填写您从Mob开发者后台中得到的Appkey和AppSecret -->
         <meta-data android:name="Mob-AppKey" android:value="f5b88fa661ff"/>
@@ -324,6 +328,24 @@
             android:windowSoftInputMode="adjustPan|stateHidden"
             android:theme="@style/DialogTransparent"
             android:screenOrientation="portrait" />
+        <activity android:name=".ui.me.activity.ValidPhoneActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"/>
+        <!--imagePick  拍照7.0系统-->
+        <provider
+            android:name=".utils.MyProvider"
+            android:authorities="com.lzy.imagepicker.ImagePickerProvider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            tools:replace="name,authorities,exported,grantUriPermissions"
+            >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"
+                tools:replace="name,resource"
+                />
+        </provider>
     </application>
 
 </manifest>

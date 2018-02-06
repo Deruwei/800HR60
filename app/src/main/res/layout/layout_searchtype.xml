@@ -13,7 +13,7 @@
             android:id="@+id/tv_jobTypeAll"
             android:textColor="@color/color_333"
             android:textSize="@dimen/x32"
-            android:text="全部"
+            android:text="全文"
             android:gravity="center"
             android:layout_width="@dimen/x100"
             android:layout_height="@dimen/x56" />

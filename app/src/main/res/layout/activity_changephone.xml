@@ -31,9 +31,18 @@
                 android:id="@+id/et_changePhoneNumber"
                 android:inputType="number"
                 android:maxLength="11"
+                android:layout_toLeftOf="@+id/iv_changePhoneNumberDelete"
                 android:singleLine="true"
                 style="@style/login_editText"
                 android:hint="@string/phoneNumber"
+                />
+            <ImageView
+                android:visibility="gone"
+                android:layout_marginLeft="@dimen/x10"
+                android:id="@+id/iv_changePhoneNumberDelete"
+                style="@style/Login_imageViewIcon"
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/delete"
                 />
             <View
                 android:layout_below="@+id/et_changePhoneNumber"
@@ -52,13 +61,21 @@
             <EditText
                 android:id="@+id/et_changePhoneValidCode"
                 style="@style/login_editText"
-                android:layout_toLeftOf="@+id/tv_changePhoneValidCode"
+                android:layout_toLeftOf="@+id/iv_changePhoneValidCodeDelete"
                 android:layout_toRightOf="@+id/iv_changePhoneValidCodeIcon"
                 android:hint="@string/ValidCode"
                 android:inputType="number"
                 android:singleLine="true" />
-
+            <ImageView
+                android:visibility="gone"
+                android:layout_marginLeft="@dimen/x10"
+                android:id="@+id/iv_changePhoneValidCodeDelete"
+                android:layout_toLeftOf="@+id/tv_changePhoneValidCode"
+                style="@style/Login_imageViewIcon"
+                android:src="@mipmap/delete"
+                />
             <TextView
+                android:layout_marginLeft="@dimen/x20"
                 android:id="@+id/tv_changePhoneValidCode"
                 style="@style/login_textViewValidCode"
                 android:layout_above="@+id/view_getValidCode2" />
@@ -67,6 +84,37 @@
                 android:id="@+id/view_getValidCode2"
                 style="@style/login_view"
                 android:layout_below="@+id/et_changePhoneValidCode" />
+        </RelativeLayout>
+        <RelativeLayout style="@style/login_relativeLayout">
+
+            <ImageView
+                android:id="@+id/iv_changePhonePswIcon"
+                style="@style/Login_imageViewIcon"
+                android:layout_width="@dimen/x30"
+                android:layout_marginRight="@dimen/x5"
+                android:layout_height="@dimen/x40"
+                android:src="@mipmap/psw" />
+
+            <EditText
+                android:id="@+id/et_changePhonePsw"
+                style="@style/login_editText"
+                android:layout_toRightOf="@+id/iv_changePhonePswIcon"
+                android:hint="@string/psw"
+                android:layout_toLeftOf="@+id/iv_changePhonePswDelete"
+                android:inputType="textPassword"
+                android:singleLine="true" />
+            <ImageView
+                android:visibility="gone"
+                android:layout_marginLeft="@dimen/x10"
+                android:id="@+id/iv_changePhonePswDelete"
+                style="@style/Login_imageViewIcon"
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/delete"
+                />
+            <View
+                android:id="@+id/view_getValidCode3"
+                style="@style/login_view"
+                android:layout_below="@+id/et_changePhonePsw" />
         </RelativeLayout>
         <Button
             android:id="@+id/btn_changePhoneOK"

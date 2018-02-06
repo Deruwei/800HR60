@@ -9,11 +9,32 @@ android {
         versionCode 68
         versionName "6.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true    //突破65535
+        manifestPlaceholders = [UMENG_CHANNEL_CALUE:"umeng"]       //默认为uMeng
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //输出的为渠道包的名字，例如 xiaomi.apk
+        }
+    }
+    flavorDimensions "umeng"
+    productFlavors {
+        taobao {dimension "umeng"}
+        tencent {dimension "umeng"}
+        baidu {dimension "umeng"}
+        "360" {dimension "umeng"}
+        anzhi {dimension "umeng"}
+        wandoujia {dimension "umeng"}
+        xiaomi {dimension "umeng"}
+        "800hr" {dimension "umeng"}
+        huawei {dimension "umeng"}
+        vivo {dimension "umeng"}
+        oppo {dimension "umeng"}
+        meizu {dimension "umeng"}
+        productFlavors.all {
+            flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
         }
     }
     greendao{
@@ -21,14 +42,20 @@ android {
         daoPackage'com.afa.tourism.greendao.gen'
         targetGenDir'src/main/java'
     }
+
     sourceSets{
         main{
             jniLibs.srcDirs 'libs'
             jni.srcDirs = []
         }
     }
-}
 
+}
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+}
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
@@ -45,10 +72,14 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:3.1.2'
     compile 'com.orhanobut:logger:1.13'
     compile 'com.loopeer.library:itemtouchhelperextension:1.0.6'
+    //友盟
+    compile 'com.umeng.sdk:common:latest.integration'
+    compile 'com.umeng.sdk:analytics:latest.integration'
+
     //打印日志
     compile 'io.reactivex:rxjava:1.0.1'
     compile 'io.reactivex:rxandroid:1.0.1'
-    compile 'com.lzy.widget:imagepicker:0.5.0'
+    implementation 'com.lzy.widget:imagepicker:0.5.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta4'

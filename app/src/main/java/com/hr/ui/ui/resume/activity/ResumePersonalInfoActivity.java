@@ -11,7 +11,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +34,7 @@ import com.hr.ui.bean.ResumePersonalInfoBean;
 import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.main.activity.SelectCityActivity;
 import com.hr.ui.ui.me.activity.ChangePhoneActivity;
+import com.hr.ui.ui.me.activity.ValidPhoneActivity;
 import com.hr.ui.ui.resume.contract.ResumePersonalInfoContract;
 import com.hr.ui.ui.resume.model.ResumePersonalInfoModel;
 import com.hr.ui.ui.resume.presenter.ResumePersonalInfoPresenter;
@@ -143,6 +143,10 @@ public class ResumePersonalInfoActivity extends BaseActivity<ResumePersonalInfoP
     RelativeLayout rlResumePersonalInfoPositionTitle;
     @BindView(R.id.rl_resumePersonalInfoPhone)
     RelativeLayout rlResumePersonalInfoPhone;
+    @BindView(R.id.toolbarAdd)
+    ImageView toolbarAdd;
+    @BindView(R.id.iv_resumePhoneValid)
+    ImageView ivResumePhoneValid;
     private String imageUrl, name, sexid, birth, liveplaceId, workTime, phoneNumber, email, positionTitleId;
     private CustomDatePicker datePickerSex, datePickerWorkTime, datePickerPositionTitle;
     private MyCustomDatePicker datePickerBirth;
@@ -152,9 +156,10 @@ public class ResumePersonalInfoActivity extends BaseActivity<ResumePersonalInfoP
     private PopupWindow popupWindow;
     public static final int REQUEST_CODE_SELECT = 0x10;
     public static final int IMAGE_PICKER = 0x20;
-    private String imagePath,birthYear;
+    private String imagePath, birthYear;
     private String content;
     private SharedPreferencesUtils sUtils;
+    private ResumePersonalInfoBean resumePersonalInfoBean;
 
     /**
      * 入口
@@ -184,7 +189,8 @@ public class ResumePersonalInfoActivity extends BaseActivity<ResumePersonalInfoP
     }
 
     @Override
-    public void getPersonalInfoSuccess(ResumePersonalInfoBean resumePersonalInfoBean) {
+    public void getPersonalInfoSuccess(ResumePersonalInfoBean resumePersonalInfoBean1) {
+        this.resumePersonalInfoBean=resumePersonalInfoBean1;
         refreshPersonalInfoUI(resumePersonalInfoBean);
     }
 
@@ -192,8 +198,8 @@ public class ResumePersonalInfoActivity extends BaseActivity<ResumePersonalInfoP
         if (resumePersonalInfoBean.getBase_info() != null && resumePersonalInfoBean.getBase_info().size() != 0) {
             ResumePersonalInfoBean.BaseInfoBean baseInfoBean = resumePersonalInfoBean.getBase_info().get(0);
             etResumeBirth.setText(baseInfoBean.getYear() + "-" + baseInfoBean.getMonth() + "-" + baseInfoBean.getDay());
-            birth=etResumeBirth.getText().toString();
-            sUtils.setStringValue(Constants.BIRTHYEAR,baseInfoBean.getYear());
+            birth = etResumeBirth.getText().toString();
+            sUtils.setStringValue(Constants.BIRTHYEAR, baseInfoBean.getYear());
             etResumeEmail.setText(baseInfoBean.getEmailaddress());
             etResumeLivePlace.setText(FromStringToArrayList.getInstance().getCityListName(baseInfoBean.getLocation()));
             etResumeSex.setText(ResumeInfoIDToString.getSexName(this, baseInfoBean.getSex()));
@@ -212,17 +218,22 @@ public class ResumePersonalInfoActivity extends BaseActivity<ResumePersonalInfoP
                 etResumeWorkTime.setText(baseInfoBean.getWork_beginyear());
                 workTime = baseInfoBean.getWork_beginyear();
             }
-            imagePath=baseInfoBean.getPic_filekey();
-            if(imagePath!=null&&!"".equals(imagePath)) {
-                Glide.with(this).load(Constants.IMAGE_BASEPATH + imagePath).fitCenter().into(ivResumePersonPhoto);
+            if("2".equals(baseInfoBean.getYdphone_verify_status())){
+                ivResumePhoneValid.setImageResource(R.mipmap.valid);
             }else{
+                ivResumePhoneValid.setImageResource(R.mipmap.novalid);
+            }
+            imagePath = baseInfoBean.getPic_filekey();
+            if (imagePath != null && !"".equals(imagePath)) {
+                Glide.with(this).load(Constants.IMAGE_BASEPATH + imagePath).fitCenter().into(ivResumePersonPhoto);
+            } else {
                 Glide.with(this).load(R.mipmap.persondefault).fitCenter().into(ivResumePersonPhoto);
             }
             etResumePositionTitle.setText(ResumeInfoIDToString.getZhiCheng(this, baseInfoBean.getPost_rank(), true));
             positionTitleId = baseInfoBean.getPost_rank();
             etResumePersonName.setText(baseInfoBean.getName());
             etResumePhone.setText(baseInfoBean.getYdphone());
-            phoneNumber=baseInfoBean.getYdphone();
+            phoneNumber = baseInfoBean.getYdphone();
         }
         ivPersonNameDelete.setVisibility(View.GONE);
         ivResumeEmailDelete.setVisibility(View.GONE);
@@ -231,13 +242,13 @@ public class ResumePersonalInfoActivity extends BaseActivity<ResumePersonalInfoP
     @Override
     public void updatePersonalInfoSuccess() {
         ToastUitl.showShort("修改成功");
-        sUtils.setBooleanValue(Constants.IS_FERSH,true);
+        sUtils.setBooleanValue(Constants.IS_FERSH, true);
         finish();
     }
 
     @Override
     public void uploadImageSuccess(String imagePath) {
-        sUtils.setStringValue(Constants.PERSONIMAGE,imagePath);
+        sUtils.setStringValue(Constants.PERSONIMAGE, imagePath);
         PersonalInformationData personalInformationData = new PersonalInformationData();
         personalInformationData.setImageUrl(imagePath);
         personalInformationData.setName(etResumePersonName.getText().toString());
@@ -264,10 +275,10 @@ public class ResumePersonalInfoActivity extends BaseActivity<ResumePersonalInfoP
     @Override
     public void initView() {
         instance = this;
-        sUtils=new SharedPreferencesUtils(this);
+        sUtils = new SharedPreferencesUtils(this);
         mPresenter.getPersonalInfo();
         setSupportActionBar(toolBar);
-        birthYear=sUtils.getStringValue(Constants.BIRTHYEAR,"");
+        birthYear = sUtils.getStringValue(Constants.BIRTHYEAR, "");
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolBar.setTitle("");
@@ -379,11 +390,11 @@ public class ResumePersonalInfoActivity extends BaseActivity<ResumePersonalInfoP
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy");//格式为 2013年9月3日 14:44
         Date curDate = new Date(System.currentTimeMillis());//获取当前时间
         int endYear = Integer.parseInt(formatter.format(curDate)) + 1;
-        int workSize=0;
-        if(birthYear!=null&&!"".equals(birthYear)){
-            workSize=endYear-Integer.parseInt(birthYear)-18+1;
-        }else{
-            workSize=60;
+        int workSize = 0;
+        if (birthYear != null && !"".equals(birthYear)) {
+            workSize = endYear - Integer.parseInt(birthYear) - 18 + 1;
+        } else {
+            workSize = 60;
         }
         String[] s = new String[workSize];
         s[0] = "无工作经验";
@@ -450,15 +461,25 @@ public class ResumePersonalInfoActivity extends BaseActivity<ResumePersonalInfoP
                 break;
             case R.id.rl_resumePersonalInfoWorkTime:
                 setFocus();
-                if(birth!=null&&!"".equals(birth)) {
+                if (birth != null && !"".equals(birth)) {
                     datePickerWorkTime.show(etResumeWorkTime.getText().toString());
-                }else{
+                } else {
                     ToastUitl.showShort("请选择出生日期");
                 }
                 break;
             case R.id.rl_resumePersonalInfoPhone:
                 setFocus();
-                ChangePhoneActivity.startAction(this);
+                if("2".equals(resumePersonalInfoBean.getBase_info().get(0).getYdphone_verify_status())) {
+                    ChangePhoneActivity.startAction(this);
+                }else{
+                    String phone=resumePersonalInfoBean.getBase_info().get(0).getYdphone();
+                    if(phone!=null&&RegularExpression.isCellphone(phone)==true) {
+                        ValidPhoneActivity.startAction(this,phone );
+                    }else{
+                        ToastUitl.showShort("号码错误，请重新进行号码的绑定");
+                        ChangePhoneActivity.startAction(this);
+                    }
+                }
                 break;
             case R.id.iv_resumeEmailDelete:
                 etResumeEmail.setText("");
@@ -475,7 +496,7 @@ public class ResumePersonalInfoActivity extends BaseActivity<ResumePersonalInfoP
         TextView tvTakePhoto = popView.findViewById(R.id.tv_takePhoto);
         TextView tvSelectPicture = popView.findViewById(R.id.tv_selectPicture);
         TextView tvCancel = popView.findViewById(R.id.tv_cancelSelect);
-        FrameLayout rl_takePhoto=popView.findViewById(R.id.rl_popTakePhoto);
+        FrameLayout rl_takePhoto = popView.findViewById(R.id.rl_popTakePhoto);
         rl_takePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -546,7 +567,7 @@ public class ResumePersonalInfoActivity extends BaseActivity<ResumePersonalInfoP
             ToastUitl.showShort("请选择工作时间");
             return;
         }
-        phoneNumber=etResumePhone.getText().toString();
+        phoneNumber = etResumePhone.getText().toString();
         if ("".equals(phoneNumber) || phoneNumber == null) {
             ToastUitl.showShort("请输入手机号码");
             return;
@@ -555,13 +576,13 @@ public class ResumePersonalInfoActivity extends BaseActivity<ResumePersonalInfoP
             ToastUitl.showShort("请输入电子邮箱");
             return;
         }
-        if(RegularExpression.isEmail(etResumeEmail.getText().toString())==false){
+        if (RegularExpression.isEmail(etResumeEmail.getText().toString()) == false) {
             ToastUitl.showShort("请输入正确的电子邮箱");
             return;
         }
-        if(content!=null&&!"".equals(content)) {
+        if (content != null && !"".equals(content)) {
             mPresenter.upLoadImage(content);
-        }else{
+        } else {
             PersonalInformationData personalInformationData = new PersonalInformationData();
             personalInformationData.setName(etResumePersonName.getText().toString());
             personalInformationData.setSex(sexid);
@@ -581,7 +602,11 @@ public class ResumePersonalInfoActivity extends BaseActivity<ResumePersonalInfoP
         cityBeanList.clear();
         cityBeanList.add(cityBean);
     }
-
+    public void setValid(String phoneNumber){
+        resumePersonalInfoBean.getBase_info().get(0).setYdphone_verify_status("2");
+        resumePersonalInfoBean.getBase_info().get(0).setYdphone(phoneNumber);
+        refreshPersonalInfoUI(resumePersonalInfoBean);
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -602,19 +627,20 @@ public class ResumePersonalInfoActivity extends BaseActivity<ResumePersonalInfoP
             popupWindow.dismiss();
         }
     }
-    private void uploadImage(){
+
+    private void uploadImage() {
         File file = new File(imagePath);
         if (file == null || !file.exists()) {
             Toast.makeText(this, "文件不存在", Toast.LENGTH_SHORT).show();
             return;// 文件不存在
         } else {
             Glide.with(this).load(imagePath).centerCrop().into(ivResumePersonPhoto);
-           // System.out.println(imagePath);
+            // System.out.println(imagePath);
             Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);
             byte[] bt = stream.toByteArray();
-            String bt1 = Base64.encodeToString(bt,Base64.DEFAULT);
+            String bt1 = Base64.encodeToString(bt, Base64.DEFAULT);
             content = URLEncoder.encode(bt1);
             //Log.i("数据",en);
         }

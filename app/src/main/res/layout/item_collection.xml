@@ -31,7 +31,7 @@
                 android:id="@+id/tv_itemCollectionJobName"
                 android:textSize="@dimen/x36"
                 android:singleLine="true"
-                android:maxEms="10"
+                android:maxEms="9"
                 android:textColor="@color/color_333"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

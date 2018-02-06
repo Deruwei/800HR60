@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hr.ui.R;
@@ -83,6 +84,12 @@ public class CompanyPageActivity extends BaseActivity<CompanyPagePresenter, Comp
     LinearLayout llCompanyLocation;
     @BindView(R.id.tv_noDataPosition)
     TextView tvNoDataPosition;
+    @BindView(R.id.iv_noNetError)
+    ImageView ivNoNetError;
+    @BindView(R.id.ll_netError)
+    LinearLayout llNetError;
+    @BindView(R.id.ll_companyContent)
+    RelativeLayout llCompanyContent;
     private String companyId;
     private MyReleaseJobAdapter adapter;
     private List<RecommendJobBean.JobsListBean> jobsListBeanList;
@@ -120,7 +127,6 @@ public class CompanyPageActivity extends BaseActivity<CompanyPagePresenter, Comp
     @Override
     public void getCompanyDataSuccess(CompanyBean.EnterpriseInfoBean enterpriseInfoBean1) {
         if (enterpriseInfoBean1 != null && !"".equals(enterpriseInfoBean1)) {
-
             enterpriseInfoBean = enterpriseInfoBean1;
             tvCompanyPageAddress.setText(enterpriseInfoBean.getAddress());
             tvCompanyPageCompanyName.setText(enterpriseInfoBean.getEnterprise_name());
@@ -139,17 +145,25 @@ public class CompanyPageActivity extends BaseActivity<CompanyPagePresenter, Comp
 
     @Override
     public void getReleaseJobSuccess(List<RecommendJobBean.JobsListBean> jobInfoBeanList) {
-        if (jobInfoBeanList != null&&jobInfoBeanList.size()!=0) {
+        llCompanyContent.setVisibility(View.VISIBLE);
+        llNetError.setVisibility(View.GONE);
+        if (jobInfoBeanList != null && jobInfoBeanList.size() != 0) {
             jobsListBeanList = new ArrayList<>();
             jobsListBeanList.addAll(jobInfoBeanList);
             adapter.setJobsListBeanList(jobInfoBeanList);
             rvCompanyPageInfo.setAdapter(adapter);
             tvNoDataPosition.setVisibility(View.GONE);
             rvCompanyPageInfo.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             rvCompanyPageInfo.setVisibility(View.GONE);
             tvNoDataPosition.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void getCompanyJobFaild() {
+        llCompanyContent.setVisibility(View.GONE);
+        llNetError.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -206,11 +220,11 @@ public class CompanyPageActivity extends BaseActivity<CompanyPagePresenter, Comp
         adapter.setClickCallBack(new MyReleaseJobAdapter.ItemClickCallBack() {
             @Override
             public void onItemClick(int pos) {
-                if(jobsListBeanList.get(pos).getIs_expire()==1) {
+                if (jobsListBeanList.get(pos).getIs_expire() == 1) {
                     ToastUitl.showShort(R.string.error_401);
                     return;
-                }else{
-                    PositionPageActivity.startAction(CompanyPageActivity.this, jobsListBeanList.get(pos).getJob_id(), 2);
+                } else {
+                    PositionPageActivity.startAction(CompanyPageActivity.this, jobsListBeanList.get(pos).getJob_id());
                 }
             }
         });
@@ -269,8 +283,16 @@ public class CompanyPageActivity extends BaseActivity<CompanyPagePresenter, Comp
         ButterKnife.bind(this);
     }
 
-    @OnClick(R.id.ll_companyLocation)
-    public void onViewClicked() {
-        BaiDuMapActivity.startAction(this, enterpriseInfoBean.getBaidu_map_lon(), enterpriseInfoBean.getBaidu_map_lat());
+    @OnClick({R.id.ll_companyLocation,R.id.iv_noNetError})
+    public void onViewClicked(View v) {
+        switch (v.getId()) {
+            case R.id.ll_companyLocation:
+                BaiDuMapActivity.startAction(this, enterpriseInfoBean.getBaidu_map_lon(), enterpriseInfoBean.getBaidu_map_lat());
+                break;
+            case R.id.iv_noNetError:
+                mPresenter.getCompanyData(companyId);
+                mPresenter.getReleaseJob(companyId);
+                break;
+        }
     }
 }

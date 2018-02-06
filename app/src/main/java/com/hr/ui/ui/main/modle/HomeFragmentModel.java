@@ -60,7 +60,24 @@ public class HomeFragmentModel implements HomeFragmentContract.Model {
     }
 
     @Override
-    public Observable<RecommendJobBean> getRecommendJob(String num) {
-        return null;
+    public Observable<RecommendJobBean> getRecommendJob(int page,int pageNum) {
+        return Api.getDefault(HostType.HR).getResponseString(EncryptUtils.encrypParams(ApiParameter.getRecommendJobInfo(page,pageNum)))
+                .map(new Func1<ResponseBody, RecommendJobBean>() {
+                    @Override
+                    public RecommendJobBean call(ResponseBody responseBody) {
+                        RecommendJobBean recommendJobBean=null;
+                        try {
+                            String s=responseBody.string().toString();
+                            recommendJobBean=new Gson().fromJson(s,RecommendJobBean.class);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        return recommendJobBean;
+                    }
+                })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxSchedulers.<RecommendJobBean>io_main());
     }
+
 }

@@ -316,7 +316,7 @@ public class JobSerchActivity extends BaseActivity<JobSearchPresenter, JobSearch
         tvAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tvJobSearchType.setText("全部");
+                tvJobSearchType.setText("全文");
                 jobSerchType = 1;
                 popupWindowJobType.dismiss();
             }

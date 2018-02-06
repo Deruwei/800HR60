@@ -36,7 +36,7 @@ public class CompanyPagePresenter extends CompanyPageContract.Presenter {
 
             @Override
             protected void _onError(String message) {
-
+                mView.getCompanyJobFaild();
             }
         }));
     }

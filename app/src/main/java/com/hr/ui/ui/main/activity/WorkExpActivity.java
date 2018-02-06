@@ -442,7 +442,7 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
             return;
         }
         if (tvResponsibilityDes.getText().toString() == null || "".equals(tvResponsibilityDes.getText().toString())) {
-            ToastUitl.showShort("请填写职位描述");
+            ToastUitl.showShort("请填写职责描述");
             return;
         }
         WorkExpData workExpData = new WorkExpData();

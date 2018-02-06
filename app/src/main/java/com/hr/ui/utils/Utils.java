@@ -17,10 +17,12 @@ import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.TabLayout;
+import android.text.Editable;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
 import android.util.DisplayMetrics;
@@ -28,6 +30,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -42,7 +45,11 @@ import com.hr.ui.ui.message.activity.WebActivity;
 import com.hr.ui.utils.datautils.FromStringToArrayList;
 
 import java.lang.reflect.Field;
+import java.math.RoundingMode;
 import java.sql.Time;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -92,6 +99,32 @@ public class Utils {
             return "";
         }
     }
+
+    /**
+     * 四舍五入
+     * @param d  数字
+     * @param num 保存多少位小数点
+     * @return
+     */
+    public static String formatDouble(double d,int num) {
+        NumberFormat nf = NumberFormat.getNumberInstance();
+        // 保留两位小数
+        nf.setMaximumFractionDigits(2);
+        // 如果不需要四舍五入，可以使用RoundingMode.DOWN
+        nf.setRoundingMode(RoundingMode.UP);
+        return nf.format(d);
+    }
+    public static String timeStamp2Date(String seconds,String format) {
+        if(seconds == null || seconds.isEmpty() || seconds.equals("null")){
+            return "";
+        }
+        if(format == null || format.isEmpty()){
+            format = "yyyy-MM-dd HH:mm:ss";
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        return sdf.format(new Date(Long.valueOf(seconds+"000")));
+    }
+
     public static String getDateMonthAndDay2(String time){
         //Log.i("现在的数据",time);
         time=time.substring(time.indexOf("-")+1);
@@ -102,7 +135,7 @@ public class Utils {
         return monthInt+"月"+dayInt+"日";
     }
     public static String getSalary(String date){
-      /*  Log.i("时间",date+"----");*/
+        //Log.i("时间",date+"----");
         if(date!=null&&!"".equals(date) ){
             if ("面议".equals(date)) {
                 return date;
@@ -123,32 +156,20 @@ public class Utils {
     public  static String salaryFromat(String time){
 
         if(time.length()==4) {
-            int salary =Integer.parseInt(time);
-            int i=salary/1000;
-            int j=salary%1000;
-            int k=j/100;
-            if(k==0) {
-                return i + "千";
+           double i=Double.parseDouble(time)/1000;
+            String str=formatDouble(i,1);
+            if(str.contains(".0")) {
+                return str.substring(0,str.indexOf(".")) + "千";
             }else {
-                return i + "." + k + "千";
+                return str+ "千";
             }
         }else if(time.length()>4){
-            String s="";
-            int salary =Integer.parseInt(time);
-            if(salary%10000==0){
-                int i=salary/10000;
-                s=i+"";
-            }else if(salary%1000==0){
-                int i = salary / 1000;
-                int j = i / 10;
-                int k=i%10;
-                s=j+"."+k;
-            }else{
-                int i = salary / 100;
-                int j = i / 100;
-                int k=i%100/10;
-                int m=k&10;
-                s=j+"."+k+""+m;
+            double k=Double.parseDouble(time)/10000;
+            String s=formatDouble(k,2);
+            if(s.contains(".00")){
+                s=s.substring(0,s.indexOf("."));
+            }else if(s.endsWith("0")){
+               s=s.substring(0,s.lastIndexOf("0"));
             }
             return s+"万";
         }
@@ -346,5 +367,39 @@ public class Utils {
             }
         }
         return "";
+    }
+    public static void setEditViewTextChangeAndFocus(final EditText et, final ImageView iv){
+        et.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    iv.setVisibility(View.GONE);
+                }else{
+                    if(et.getText().toString()!=null&&!"".equals(et.getText().toString())){
+                        iv.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
+        et.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length()>0){
+                    iv.setVisibility(View.VISIBLE);
+                }else{
+                    iv.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 }

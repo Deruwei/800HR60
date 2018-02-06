@@ -21,6 +21,7 @@ public interface ResumeContract {
         void uploadImageSuccess(String path);
         void setHideSuccess();
         void updateSuccess();
+        void refreshResumeSuccess();
     }
     interface Model extends BaseModel{
         Observable<ResumeBean> getResume(String resumeId);
@@ -28,6 +29,7 @@ public interface ResumeContract {
          Observable<PictureBean> upLoadImage(String content);
          Observable<ResponseBody> setHide(String openstate);
          Observable<ResponseBody> updateResume(String resumeId);
+         Observable<ResponseBody> refreshResume(String resumeId);
     }
     abstract class Presenter extends BasePresenter<View,Model>{
         public abstract void getResume(String resumeId,boolean isCanFresh);
@@ -35,5 +37,6 @@ public interface ResumeContract {
         public abstract void upLoadImage(String content);
         public abstract void setHide(String openstate);
         public abstract void updateResume(String resumeId);
+        public abstract void refreshResume(String resumeId);
     }
 }

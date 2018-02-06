@@ -119,7 +119,7 @@ public class ContentActivity extends BaseNoConnectNetworkAcitivty {
     @OnClick(R.id.btn_contentOK)
     public void onViewClicked() {
         if (etContent.getText().toString() == null || "".equals(etContent.getText().toString())) {
-            ToastUitl.showShort("请填写职位描述");
+            ToastUitl.showShort("请填写职责描述");
             return;
         }
         if(tag.equals(WorkExpActivity.TAG)) {

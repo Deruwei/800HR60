@@ -92,11 +92,6 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
     RelativeLayout rlRightPage;
     @BindView(R.id.id_menu)
     MyDrawLayout2 idMenu;
-    private HomeFragment mHomeFragment;
-    private Fragment1 fragment1;
-    private DeliverFeedbackFragment fragment2;
-    private ResumeFragment fragment3, fragment4;
-    private MenuItem menuItem;
     private PopupWindow popupWindow;
     private int userId;
     private ArrayList<Fragment> fragments;
@@ -104,11 +99,9 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
     public boolean isHome = true;
     private int mIndex;
     JobSearchFragment jobSearchFragment;
-    private JobSearchBean jobSearchBean;
     public static MainActivity instance;
     private SharedPreferencesUtils sUtis;
     private String personImage;
-    private Fragment[] mFragments;
     private PopupWindow popupWindowGiveComment;
 
     @Override
@@ -195,10 +188,6 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
         if (mIndex == index) {
             return;
         }
-        if(index==0){
-            idMenu.setDrawerLockMode(MyDrawLayout2.LOCK_MODE_UNLOCKED);
-            rlLeftPage.setBackgroundResource(R.color.bg_homeTitle);
-        }
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction ft = fragmentManager.beginTransaction();
         //隐藏
@@ -208,6 +197,9 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
             ft.add(R.id.ll_main, fragments.get(index)).show(fragments.get(index));
         } else {
             ft.show(fragments.get(index));
+            if(index==1){
+                MessageFragment.instance.getDate(false);
+            }
         }
         ft.commit();
         //再次赋值
@@ -223,17 +215,11 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
                         if (isHome == true) {
                             idMenu.setDrawerLockMode(MyDrawLayout2.LOCK_MODE_UNLOCKED);
                             rlLeftPage.setBackgroundResource(R.color.bg_homeTitle);
-                          /*  rlFragmentTitle.setVisibility(View.VISIBLE);
-                            rlFragmentTitle.setBackgroundResource(R.color.resumeContent_bg);
-                            rlMainSearch.setVisibility(View.VISIBLE);
-                            tvFragmentMessage.setVisibility(View.GONE);*/
                             isHome = true;
                             setIndexSelected(0);
                         } else {
                             idMenu.setDrawerLockMode(MyDrawLayout2.LOCK_MODE_LOCKED_CLOSED);
-                            /*rlFragmentTitle.setVisibility(View.GONE);*/
                             rlLeftPage.setBackgroundResource(R.color.view_f0f0f0);
-
                             isHome = false;
                             setIndexSelected(3);
                         }
@@ -298,6 +284,7 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
             if ((System.currentTimeMillis() - exitTime) > 2000) {
                 //弹出提示，可以有多种方式
                 //PopupWindowComment popupWindowComment=new PopupWindowComment(popupWindowGiveComment,this,idMenu);
+                ToastUitl.showShort("再点一次退出程序");
                 exitTime = System.currentTimeMillis();
             } else {
                 finish();
@@ -319,17 +306,6 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
         } else if (drawerLockMode != DrawerLayout.LOCK_MODE_LOCKED_CLOSED) {
             idMenu.openDrawer(GravityCompat.START);
         }
-    }
-/*
-
-    @OnClick(R.id.rl_mainSearch)
-    public void onViewClicked() {
-        goToSearch();
-    }
-*/
-
-    public void goToSearch() {
-        JobSerchActivity.startAction(this, REQUEST_CODE);
     }
 
     public void goToSearch2() {
@@ -360,11 +336,6 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
                 }
                 setIndexSelected(0);
             }
-            // Log.i("数据",jobSearchBean.toString());
-           /* fragments[3].instance.setData(jobSearchBean);*/
-         /*  switchFragment(3);
-            Log.i("数据",jobSearchBean.toString());
-           JobSearchFragment.instance.initData(jobSearchBean);*/
         }
     }
 

@@ -153,14 +153,16 @@ public class MessageFragment extends BaseFragment<MessageFragmentPresenter, Mess
             adapter.notifyDataSetChanged();
         }
     }
-
+    public  void setDeliverBackHide(){
+      ivMessageFeedBackNum.setVisibility(View.GONE);
+    }
     @Override
     public void getWhoSeeMeSuccess(List<WhoSeeMeBean.BrowsedListBean> browsedListBeans) {
         if (isFlesh == true) {
             ToastUitl.showShort("刷新成功");
         }
         if (browsedListBeans != null && browsedListBeans.size() != 0) {
-            ivMessageWhoSeeMeNum.setVisibility(View.VISIBLE);
+            ivMessageWhoSeeMeNum.setVisibility(View.GONE);
             tvWhoSeeMeCompanyName.setText(browsedListBeans.get(0).getEnterprise_name());
             tvWhoSeeMeCompanyTime.setText(Utils.getDateMonthAndDay(browsedListBeans.get(0).getBrowsed_time()));
         } else {
@@ -291,7 +293,7 @@ public class MessageFragment extends BaseFragment<MessageFragmentPresenter, Mess
 
     }
 
-    private void getDate(boolean b) {
+    public void getDate(boolean b) {
         mPresenter.getDeliverFeedback(page, 0, 0,b);
         mPresenter.getInviteInterview(page);
         mPresenter.getWHoSeeMe(page);

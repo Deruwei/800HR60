@@ -171,7 +171,14 @@ public class ProjectContentActivity extends BaseNoConnectNetworkAcitivty {
     @OnClick(R.id.btn_contentOK)
     public void onViewClicked() {
         if (etContent.getText().toString() == null || "".equals(etContent.getText().toString())) {
-            ToastUitl.showShort("请填写职位描述");
+            if("1".equals(tag)){
+                ToastUitl.showShort("请填写项目描述");
+            }else if("2".equals(tag)) {
+                ToastUitl.showShort("请填写项目职责");
+            }
+            if(where==1){
+                ToastUitl.showShort("请填写培训描述");
+            }
             return;
         }
         if(where==1){

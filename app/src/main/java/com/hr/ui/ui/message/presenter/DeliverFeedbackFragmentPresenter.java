@@ -6,8 +6,13 @@ import com.hr.ui.ui.message.contract.DeliverFeedbackContract;
 import com.hr.ui.utils.Rc4Md5Utils;
 import com.hr.ui.utils.ToastUitl;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 import rx.Observable;
 
 /**
@@ -26,6 +31,33 @@ public class DeliverFeedbackFragmentPresenter extends DeliverFeedbackContract.Pr
                 }else{
                     ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId(Integer.parseInt(deliverFeedbackBean.getError_code())));
                 }
+            }
+
+            @Override
+            protected void _onError(String message) {
+
+            }
+        }));
+    }
+
+    @Override
+    public void setDeliverFeedBackIsRead(String id) {
+        mRxManage.add(mModel.setDeliverFeedBackIsRead(id).subscribe(new RxSubscriber<ResponseBody>(mContext,false) {
+            @Override
+            protected void _onNext(ResponseBody responseBody) throws IOException {
+                String s=responseBody.string().toString();
+                try {
+                    JSONObject json=new JSONObject(s);
+                    String error=json.getString("error_code");
+                    if("0".equals(error)) {
+                      mView.setDeliverFeedBackIsReadSuccess();
+                    }else{
+                        ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId(Integer.parseInt(error)));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             }
 
             @Override

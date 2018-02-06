@@ -117,11 +117,11 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter, Collec
         adapter.setClickCallBack(new MyCollectionAdapter.ItemClickCallBack() {
             @Override
             public void onItemClick(int pos) {
-                if(favouriteListBeanList1.get(pos).getIs_expire()==1){
+                if(favouriteListBeanList.get(pos).getIs_expire()==1){
                     ToastUitl.showShort(R.string.error_401);
                     return;
                 }else {
-                    PositionPageActivity.startAction(CollectionActivity.this, favouriteListBeanList.get(pos).getJob_id(), 2);
+                    PositionPageActivity.startAction(CollectionActivity.this, favouriteListBeanList.get(pos).getJob_id());
                 }
             }
         });

@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -82,6 +83,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
     public static HomeFragment instance;
     private MyRecommendJobAdapter jobAdapter;
     private List<HomeRecommendBean.JobsListBean> recommendList = new ArrayList<>();
+    private List<RecommendJobBean.JobsListBean> recommendJobList=new ArrayList<>();
     private PopupWindow popupWindowCalculateScore;
     private SharedPreferencesUtils sUtils;
     private String personImage;
@@ -140,7 +142,12 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
             public void onRefresh() {
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
-                        mPresenter.getRecommendJobInfo("", 20, false);
+                        page=1;
+                        if(recommendList!=null&&recommendList.size()>=20) {
+                            mPresenter.getRecommendJobInfo("", 20, false);
+                        }else{
+                            mPresenter.getRecommendJobInfo("",20,false);
+                        }
                         jobAdapter.notifyDataSetChanged();
                     }
 
@@ -152,7 +159,11 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
                         page++;
-                        mPresenter.getRecommendJobInfo("", 20, false);
+                        if(recommendList!=null&&recommendList.size()>=20) {
+                            rvHomeFragment.setLoadingMoreEnabled(false);
+                        }else{
+                            mPresenter.getRecommendJob(page,20);
+                        }
                         jobAdapter.notifyDataSetChanged();
                     }
                 }, 1000);
@@ -207,12 +218,19 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
         //Log.i("现在的数据",jobsBeanList.toString());
         if (jobsBeanList != null && !"[]".equals(jobsBeanList) && jobsBeanList.size() != 0) {
             if (page == 1) {
-                jobAdapter = new MyRecommendJobAdapter();
-                recommendList.clear();
-                recommendList.addAll(jobsBeanList);
-                jobAdapter.setJobsListBeanList2(recommendList);
-                rvHomeFragment.setAdapter(jobAdapter);
-                rvHomeFragment.refreshComplete();
+                if(jobsBeanList.size()>=20) {
+                    jobAdapter = new MyRecommendJobAdapter();
+                    recommendList.clear();
+                    recommendList.addAll(jobsBeanList);
+                    jobAdapter.setJobsListBeanList2(recommendList);
+                    rvHomeFragment.setAdapter(jobAdapter);
+                    rvHomeFragment.refreshComplete();
+                }else{
+                   recommendList.clear();
+                    recommendList.addAll(jobsBeanList);
+                    rvHomeFragment.refreshComplete();
+                    mPresenter.getRecommendJob(page,20-recommendList.size());
+                }
             } else {
                 recommendList.addAll(jobsBeanList);
                 rvHomeFragment.loadMoreComplete();
@@ -223,9 +241,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
             llNetError.setVisibility(View.GONE);
         } else {
             if (page == 1) {
-                rlEmptyView.setVisibility(View.VISIBLE);
-                rvHomeFragment.setVisibility(View.GONE);
-                llNetError.setVisibility(View.GONE);
+               mPresenter.getRecommendJob(page,20);
             } else {
                 rvHomeFragment.setNoMore(true);
             }
@@ -234,7 +250,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
             @Override
             public void onItemClick(int pos) {
                 if (!ClickUtils.isFastClick()) {
-                    PositionPageActivity.startAction(getActivity(), recommendList.get(pos).getJob_id(), 1, 60);
+                    PositionPageActivity.startAction(getActivity(), recommendList.get(pos).getJob_id());
                 }
             }
         });
@@ -260,6 +276,43 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
         rlEmptyView.setVisibility(View.GONE);
         rvHomeFragment.setVisibility(View.GONE);
         llNetError.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void getRecommendJobSuccess2(List<RecommendJobBean.JobsListBean> jobsListBeanList) {
+        if(jobsListBeanList!=null&&jobsListBeanList.size()!=0) {
+            if (page == 1) {
+                recommendJobList.clear();
+                jobAdapter = new MyRecommendJobAdapter(3);
+                recommendJobList.addAll(jobsListBeanList);
+                jobAdapter.setJobsListBeanList(recommendJobList);
+                jobAdapter.setJobsListBeanList2(recommendList);
+                rvHomeFragment.setAdapter(jobAdapter);
+                rvHomeFragment.refreshComplete();
+            } else {
+                recommendJobList.addAll(jobsListBeanList);
+                rvHomeFragment.loadMoreComplete();
+                jobAdapter.notifyDataSetChanged();
+            }
+        }else{
+            if(page==1) {
+                rlEmptyView.setVisibility(View.VISIBLE);
+                rvHomeFragment.setVisibility(View.GONE);
+                llNetError.setVisibility(View.GONE);
+            }else {
+                rvHomeFragment.setNoMore(true);
+            }
+        }
+        jobAdapter.setClickCallBack(new MyRecommendJobAdapter.ItemClickCallBack() {
+            @Override
+            public void onItemClick(int pos) {
+                if(pos<recommendList.size()){
+                    PositionPageActivity.startAction(getActivity(), recommendList.get(pos).getJob_id());
+                }else{
+                    PositionPageActivity.startAction(getActivity(), recommendJobList.get(pos-recommendList.size()).getJob_id());
+                }
+            }
+        });
     }
 
     private void initCalculateScore(final int i) {
