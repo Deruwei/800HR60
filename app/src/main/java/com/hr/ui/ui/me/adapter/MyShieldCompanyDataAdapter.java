@@ -1,6 +1,7 @@
 package com.hr.ui.ui.me.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.bean.QueryShieldCompanyBean;
 import com.hr.ui.bean.ShieldCompanyBean;
+import com.hr.ui.utils.Utils;
 import com.hr.ui.utils.datautils.FromStringToArrayList;
 
 import java.util.List;
@@ -59,6 +61,7 @@ public class MyShieldCompanyDataAdapter extends RecyclerView.Adapter<MyShieldCom
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
        viewHolder.tvItemShieldCompanyName.setText(favouriteListBeanList.get(position).getEliminate_txt());
+       viewHolder.tvItemShieldCompanyIndustry.setText(Utils.timeStamp2Date(favouriteListBeanList.get(position).getUpdate_time(),"yyyy-MM-dd HH:mm"));
        viewHolder.tvItemShieldCompanySetShield.setText(HRApplication.getAppContext().getString(R.string.shieldCancel));
        /*viewHolder.tvItemShieldCompanyIndustry.setText(FromStringToArrayList.getInstance().getIndustryName(favouriteListBeanList.get(position).getIndustry()));*/
         if (clickCallBack != null) {
@@ -73,19 +76,13 @@ public class MyShieldCompanyDataAdapter extends RecyclerView.Adapter<MyShieldCom
             viewHolder.tvItemShieldCompanySetShield.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onViewClick.onViewClick((TextView) v, position);
-                    doDelete(viewHolder.getAdapterPosition());
+                    onViewClick.onViewClick((TextView) v, viewHolder.getAdapterPosition()-1);
                 }
             });
         }
     }
-    private void doDelete(int adapterPosition) {
-        if (adapterPosition == favouriteListBeanList.size()) {
-            favouriteListBeanList.remove(adapterPosition - 1);
-        } else {
-            favouriteListBeanList.remove(adapterPosition);
-        }
-
+    public void doDelete(int adapterPosition) {
+        favouriteListBeanList.remove(adapterPosition-1);
         notifyItemRemoved(adapterPosition);
     }
     //获取数据的数量

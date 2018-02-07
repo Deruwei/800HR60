@@ -107,6 +107,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter,SettingModel>
                 doElaluateMine();
                 break;
             case R.id.rl_settingVersionDes:
+                VersionActivity.startAction(this);
                 break;
             case R.id.rl_settingChangeAccount:
                 mPresenter.getLoginOut();

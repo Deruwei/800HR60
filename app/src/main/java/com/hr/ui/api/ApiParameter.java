@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.hr.ui.BuildConfig;
 import com.hr.ui.app.HRApplication;
+import com.hr.ui.bean.CompanyRegisterBean;
 import com.hr.ui.bean.EducationData;
 import com.hr.ui.bean.JobOrderData;
 import com.hr.ui.bean.JobSearchBean;
@@ -242,7 +243,23 @@ public class ApiParameter {
         requestMap.put("mb","");*/
         return requestMap;
     }
+    public static HashMap<String,String> companyRegister(CompanyRegisterBean companyRegisterBean){
+        HashMap<String, String> requestParams = new HashMap<String, String>();
+        requestParams.put("method", "enterprise.register");
+        requestParams.put("site_code", companyRegisterBean.getSiteCode());
+        requestParams.put("user_name", companyRegisterBean.getUserName());
+        requestParams.put("password", companyRegisterBean.getPassword());
+        requestParams.put("passwordre",companyRegisterBean.getPasswordRe());
+        requestParams.put("enterprise_name", companyRegisterBean.getEnterpriseName());
+        requestParams.put("linkman", companyRegisterBean.getLinkMan());
+        requestParams.put("how_to_know", companyRegisterBean.getHowToknow());
+        requestParams.put("phone", companyRegisterBean.getPhone());
+        requestParams.put("email", companyRegisterBean.getEmail());
+        requestParams.put("is_login", "0");
+        Log.i("传送的数据",requestParams.toString());
+      return requestParams;
 
+    }
     /**
      * 获取具体简历的信息
      * @param resumeId

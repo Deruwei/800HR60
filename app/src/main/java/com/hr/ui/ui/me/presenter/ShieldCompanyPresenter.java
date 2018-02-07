@@ -20,8 +20,8 @@ import okhttp3.ResponseBody;
 
 public class ShieldCompanyPresenter extends ShieldCompanyContract.Presenter {
     @Override
-    public void getShieldCompanyData() {
-        mRxManage.add(mModel.getShieldCompanyData().subscribe(new RxSubscriber<ShieldCompanyBean>(mContext,true) {
+    public void getShieldCompanyData(boolean isCanFresh) {
+        mRxManage.add(mModel.getShieldCompanyData().subscribe(new RxSubscriber<ShieldCompanyBean>(mContext,isCanFresh) {
             @Override
             protected void _onNext(ShieldCompanyBean shieldCompanyBean) throws IOException {
                     if(shieldCompanyBean.getError_code()==0) {

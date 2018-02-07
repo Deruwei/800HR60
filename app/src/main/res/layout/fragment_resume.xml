@@ -45,12 +45,16 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/x32" />
         </RelativeLayout>
-
+        <FrameLayout
+            android:layout_below="@+id/ll_resumeTitleTop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <include layout="@layout/layout_neterror"/>
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/srl_resume"
+            android:visibility="gone"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/ll_resumeTitleTop">
+            android:layout_height="match_parent">
 
             <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
@@ -223,10 +227,18 @@
                             android:id="@+id/rl_hideResume"
                             style="@style/resume_RelativeItem"
                             android:layout_height="@dimen/x100">
-
+                            <ImageView
+                                android:src="@mipmap/updateresume"
+                                android:id="@+id/iv_updateResume"
+                                android:layout_width="@dimen/x34"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/x31"
+                                android:layout_height="@dimen/x34" />
                             <TextView
                                 android:id="@+id/tv_hideResumeTag"
+                                android:layout_toRightOf="@+id/iv_updateResume"
                                 android:layout_centerVertical="true"
+                                android:paddingLeft="@dimen/x10"
                                 style="@style/resume_TextViewItemTitleHideResume"
                                 android:text="@string/updateResume" />
                             <TextView
@@ -280,5 +292,6 @@
                 </RelativeLayout>
             </android.support.v4.widget.NestedScrollView>
         </android.support.v4.widget.SwipeRefreshLayout>
+        </FrameLayout>
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

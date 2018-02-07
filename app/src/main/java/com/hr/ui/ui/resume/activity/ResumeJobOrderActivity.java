@@ -198,9 +198,12 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
                 MyFlowLayout flField = plantView.findViewById(R.id.fl_expectedField);
                 tvIndustryName.setText(ResumeInfoIDToString.getIndustry(this, industryBeanList.get(i).getIndustry(), true));
                 String positionNames = FromStringToArrayList.getInstance().getExpectPositionString(industryBeanList.get(i).getIndustry(), industryBeanList.get(i).getFunc());
-                String fieldName = FromStringToArrayList.getInstance().getExpectFieldName(industryBeanList.get(i).getIndustry(), industryBeanList.get(i).getLingyu());
+                String fieldName="";
+                if(FromStringToArrayList.getInstance().getIndustryIsHaveField(industryBeanList.get(i).getIndustry())==true) {
+                    fieldName = FromStringToArrayList.getInstance().getExpectFieldName(industryBeanList.get(i).getIndustry(), industryBeanList.get(i).getLingyu());
+                    sbFunc.append(","+industryBeanList.get(i).getLingyu());
+                }
                 sbPosition.append(","+industryBeanList.get(i).getFunc());
-                sbFunc.append(","+industryBeanList.get(i).getLingyu());
                 sbIndustry.append(","+industryBeanList.get(i).getIndustry());
                 String[] positionNameString = positionNames.split(",");
                 String[] fieldNameString = fieldName.split(",");

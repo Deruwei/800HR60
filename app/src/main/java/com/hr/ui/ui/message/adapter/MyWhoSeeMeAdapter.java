@@ -14,7 +14,6 @@ import com.hr.ui.R;
 import com.hr.ui.bean.WhoSeeMeBean;
 import com.hr.ui.constants.Constants;
 import com.hr.ui.utils.ClickUtils;
-import com.hr.ui.utils.Utils;
 
 import java.util.List;
 
@@ -57,22 +56,24 @@ public class MyWhoSeeMeAdapter extends RecyclerView.Adapter<MyWhoSeeMeAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
       /* Glide.with(context).load(Constants.IMAGE_BASEPATH+listBeans.get(position).)*/
-        viewHolder.tvWhoSeeMeCompanyType.setText(listBeans.get(position).getCompany_type());
+        viewHolder.tvWhoSeeMeContent.setText("[" + listBeans.get(position).getIndustry_name() + "] · " + listBeans.get(position).getCompany_type() + " / " + listBeans.get(position).getStuffmunber());
         if (listBeans.get(position).getEnt_logo() != null && !"".equals(listBeans.get(position).getEnt_logo())) {
             Glide.with(context).load(Constants.IMAGE_BASEPATH2 + listBeans.get(position).getEnt_logo()).centerCrop().into(viewHolder.ivWhoSeeMeCompanyIcon);
         }
-        viewHolder.tvWhoSeeMeIndustry.setText(listBeans.get(position).getIndustry_name());
         viewHolder.tvRecommendJobCompanyName.setText(listBeans.get(position).getEnterprise_name());
-        viewHolder.tvWhoSeeMePersonNum.setText(listBeans.get(position).getStuffmunber());
         viewHolder.tvWhoSeeMeTime.setText(listBeans.get(position).getBrowsed_time());
-        if ("".equals(listBeans.get(position).getRecruit_info().getJob_name()) && "".equals(listBeans.get(position).getRecruit_info().getTotal())&&"0".equals(listBeans.get(position).getRecruit_info().getTotal())) {
-            viewHolder.llWhoSeeMePosition.setVisibility(View.GONE);
+        if ("".equals(listBeans.get(position).getRecruit_info().getJob_name()) || "".equals(listBeans.get(position).getRecruit_info().getTotal()) || "0".equals(listBeans.get(position).getRecruit_info().getTotal())) {
+            viewHolder.llWhoSeeMeText2.setVisibility(View.GONE);
+            viewHolder.llWhoSeeMeText1.setText(R.string.noDataPosition);
+            viewHolder.tvWhoSeeMePositionNum.setVisibility(View.GONE);
         } else {
             viewHolder.llWhoSeeMePosition.setVisibility(View.VISIBLE);
-            if(Integer.parseInt(listBeans.get(position).getRecruit_info().getTotal())>20){
+            viewHolder.llWhoSeeMeText2.setVisibility(View.VISIBLE);
+            viewHolder.tvWhoSeeMePositionNum.setVisibility(View.VISIBLE);
+            if (Integer.parseInt(listBeans.get(position).getRecruit_info().getTotal()) > 20) {
                 viewHolder.tvWhoSeeMePositionNum.setText("20+");
-            }else {
-                viewHolder.tvWhoSeeMePositionNum.setText(listBeans.get(position).getRecruit_info().getTotal());
+            } else {
+                    viewHolder.tvWhoSeeMePositionNum.setText(listBeans.get(position).getRecruit_info().getTotal());
             }
             viewHolder.tvWhoSeeMePosition.setText(listBeans.get(position).getRecruit_info().getJob_name());
         }
@@ -80,7 +81,7 @@ public class MyWhoSeeMeAdapter extends RecyclerView.Adapter<MyWhoSeeMeAdapter.Vi
             viewHolder.llWhoSeeMeCompany.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(!ClickUtils.isFastClick()) {
+                    if (!ClickUtils.isFastClick()) {
                         clickCallBack.onItemClick(position);
                     }
                 }
@@ -100,24 +101,20 @@ public class MyWhoSeeMeAdapter extends RecyclerView.Adapter<MyWhoSeeMeAdapter.Vi
         ImageView ivWhoSeeMeCompanyIcon;
         @BindView(R.id.tv_recommendJobCompanyName)
         TextView tvRecommendJobCompanyName;
-        @BindView(R.id.tv_whoSeeMeIndustry)
-        TextView tvWhoSeeMeIndustry;
-        @BindView(R.id.tv_recommendJobView3)
-        TextView tvRecommendJobView3;
-        @BindView(R.id.tv_whoSeeMeCompanyType)
-        TextView tvWhoSeeMeCompanyType;
-        @BindView(R.id.tv_recommendJobView4)
-        TextView tvRecommendJobView4;
-        @BindView(R.id.tv_whoSeeMePersonNum)
-        TextView tvWhoSeeMePersonNum;
+        @BindView(R.id.tv_whoSeeMeContent)
+        TextView tvWhoSeeMeContent;
         @BindView(R.id.tv_whoSeeMeTime)
         TextView tvWhoSeeMeTime;
         @BindView(R.id.ll_whoSeeMeCompany)
         LinearLayout llWhoSeeMeCompany;
         @BindView(R.id.tv_whoSeeMePosition)
         TextView tvWhoSeeMePosition;
+        @BindView(R.id.ll_whoSeeMeText1)
+        TextView llWhoSeeMeText1;
         @BindView(R.id.tv_whoSeeMePositionNum)
         TextView tvWhoSeeMePositionNum;
+        @BindView(R.id.ll_whoSeeMeText2)
+        TextView llWhoSeeMeText2;
         @BindView(R.id.ll_whoSeeMePosition)
         LinearLayout llWhoSeeMePosition;
 

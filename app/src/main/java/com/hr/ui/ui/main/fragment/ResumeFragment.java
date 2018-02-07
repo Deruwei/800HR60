@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ import com.hr.ui.base.BaseFragment;
 import com.hr.ui.bean.ResumeBean;
 import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.main.activity.MainActivity;
+import com.hr.ui.ui.main.adapter.MyRecommendJobAdapter;
 import com.hr.ui.ui.main.modle.ResumeModel;
 import com.hr.ui.ui.main.presenter.ResumePresenter;
 import com.hr.ui.ui.resume.activity.PreviewResumeActivity;
@@ -150,6 +152,12 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
     ImageView ivResumeValid;
     @BindView(R.id.tv_resumeTips)
     TextView tvResumeTips;
+    @BindView(R.id.iv_noNetError)
+    ImageView ivNoNetError;
+    @BindView(R.id.ll_netError)
+    LinearLayout llNetError;
+    @BindView(R.id.iv_updateResume)
+    ImageView ivUpdateResume;
     private boolean isCheck;
     private List<ResumeBean.ResumeInfoBean.AssessInfoBean> assessInfoBean;
     private List<ResumeBean.ResumeInfoBean.OrderInfoBean> orderInfoBean;
@@ -262,6 +270,8 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
 
     @Override
     public void getResumeSuccess(ResumeBean resumeBean) {
+        srlResume.setVisibility(View.VISIBLE);
+        llNetError.setVisibility(View.GONE);
         /*srlResume.setRefreshing(false);*/
         if (isFlesh == true) {
             ToastUitl.showShort("刷新成功");
@@ -271,9 +281,11 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
         if ("1".equals(resumeType)) {
             tvResumeWorkExpName.setText(R.string.workExp);
             tvResumeAddWorkExp.setText(R.string.addWorkExp);
+            rlHideResume.setVisibility(View.GONE);
         } else {
             tvResumeWorkExpName.setText(R.string.internshipExperience);
             tvResumeAddWorkExp.setText(R.string.addInternshipExp);
+            rlHideResume.setVisibility(View.VISIBLE);
         }
         sUtils.setStringValue(Constants.RESUME_TYPE, resumeType);
         resumeInfoBean = resumeBean.getResume_info();
@@ -522,6 +534,12 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
 
     }
 
+    @Override
+    public void netError() {
+        srlResume.setVisibility(View.GONE);
+        llNetError.setVisibility(View.VISIBLE);
+    }
+
     /**
      * 个人信息
      */
@@ -530,9 +548,9 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
             tvResumePersonName.setText(baseInfoBean.get(0).getName());
             calendar = Calendar.getInstance();
             // 年龄
-            if("2".equals(baseInfoBean.get(0).getYdphone_verify_status())) {
-               ivResumeValid.setImageResource(R.mipmap.valid);
-            }else{
+            if ("2".equals(baseInfoBean.get(0).getYdphone_verify_status())) {
+                ivResumeValid.setImageResource(R.mipmap.valid);
+            } else {
                 ivResumeValid.setImageResource(R.mipmap.novalid);
             }
             String yearString = baseInfoBean.get(0).getYear();
@@ -559,6 +577,7 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
      */
     private void initTitleInfo() {
         if (titleInfoBean != null) {
+            Log.i("当前的数据", titleInfoBean.get(0).getFill_scale());
             pbResume.setProgram(Integer.parseInt(titleInfoBean.get(0).getFill_scale()));
             sbResume.setMaxCount(100);
             if ("2".equals(titleInfoBean.get(0).getOpen())) {
@@ -747,9 +766,12 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
         }
     }
 
-    @OnClick({R.id.tv_addResumeEduBG, R.id.tv_refreshResume, R.id.rl_hideResume, R.id.tv_resumeAddWorkExp, R.id.tv_resumePreview, R.id.tv_addResumeProjectExp, R.id.tv_addResumeProfessionSkill, R.id.tv_addResumeLanguageSkill, R.id.tv_addResumeTrainExp, R.id.tv_addResumeIntroduction, R.id.tv_addResumeAttachment, R.id.iv_resumePersonImage, R.id.rl_resumeJobOrder, R.id.iv_editResumePersonal, R.id.ll_resumeEduBGList, R.id.ll_resumeWorkExpList, R.id.ll_resumeProjectExpLIst, R.id.ll_resumeProfessionSkillList, R.id.ll_resumeLanguageSkillList, R.id.ll_resumeTrainExpList, R.id.ll_resumeIntroductionList, R.id.ll_resumeAttachmentList})
+    @OnClick({R.id.tv_addResumeEduBG,R.id.iv_noNetError, R.id.tv_refreshResume, R.id.rl_hideResume, R.id.tv_resumeAddWorkExp, R.id.tv_resumePreview, R.id.tv_addResumeProjectExp, R.id.tv_addResumeProfessionSkill, R.id.tv_addResumeLanguageSkill, R.id.tv_addResumeTrainExp, R.id.tv_addResumeIntroduction, R.id.tv_addResumeAttachment, R.id.iv_resumePersonImage, R.id.rl_resumeJobOrder, R.id.iv_editResumePersonal, R.id.ll_resumeEduBGList, R.id.ll_resumeWorkExpList, R.id.ll_resumeProjectExpLIst, R.id.ll_resumeProfessionSkillList, R.id.ll_resumeLanguageSkillList, R.id.ll_resumeTrainExpList, R.id.ll_resumeIntroductionList, R.id.ll_resumeAttachmentList})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.iv_noNetError:
+                mPresenter.getResume(resumeId+"",true);
+                break;
             case R.id.tv_refreshResume:
                 mPresenter.refreshResume(resumeId + "");
                 break;

@@ -47,12 +47,7 @@ public class SplashPresenter extends SplashContract.Presenter {
     private static final String TAG=SplashPresenter.class.getSimpleName();
     @Override
     public void getConnect(final Context context) {
-        mRxManage.add(mModel.getConnect().subscribe(new RxSubscriber<BaseBean>(mContext,false) {
-            @Override
-            public void onStart() {
-                super.onStart();
-                mView.showLoading("请稍等");
-            }
+        mRxManage.add(mModel.getConnect().subscribe(new RxSubscriber<BaseBean>(mContext,true) {
 
             @Override
             protected void _onNext(BaseBean baseBean) {

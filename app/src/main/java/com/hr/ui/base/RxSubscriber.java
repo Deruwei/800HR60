@@ -181,10 +181,11 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
                             LoadingDialog.cancelDialogForLoading();
                         }
                         ToastUitl.showShort(HRApplication.getAppContext().getString(R.string.net_error));
-                        _onError(e.getMessage());
+                        _onError(HRApplication.getAppContext().getString(R.string.net_error));
                     }
                 }
             }, 10000);
+
         }
       /*  else{
             ToastUitl.showShort(HRApplication.getAppContext().getString(R.string.net_error));

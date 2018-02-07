@@ -1,6 +1,7 @@
 package com.hr.ui.ui.me.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,6 +62,7 @@ public class MyShieldCompanyAdapter extends RecyclerView.Adapter<MyShieldCompany
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
        viewHolder.tvItemShieldCompanyName.setText(favouriteListBeanList.get(position).getEnterprise_name());
        viewHolder.tvItemShieldCompanyIndustry.setText(FromStringToArrayList.getInstance().getIndustryName(favouriteListBeanList.get(position).getIndustry()));
+       viewHolder.tvItemShieldCompanySetShield.setVisibility(View.GONE);
         if (clickCallBack != null) {
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -73,20 +75,14 @@ public class MyShieldCompanyAdapter extends RecyclerView.Adapter<MyShieldCompany
             viewHolder.tvItemShieldCompanySetShield.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onViewClick.onViewClick((TextView) v, position);
-                    doDelete(viewHolder.getAdapterPosition());
-
+                    onViewClick.onViewClick((TextView) v, viewHolder.getAdapterPosition()-1);
                 }
             });
         }
     }
-    private void doDelete(int adapterPosition) {
-        if (adapterPosition == favouriteListBeanList.size()) {
-            favouriteListBeanList.remove(adapterPosition - 1);
-        } else {
-            favouriteListBeanList.remove(adapterPosition);
-        }
-
+    public void doDelete(int adapterPosition) {
+        //Log.i("当前的位置",adapterPosition+"---");
+        favouriteListBeanList.remove(adapterPosition - 1);
         notifyItemRemoved(adapterPosition);
     }
     //获取数据的数量

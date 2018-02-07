@@ -4,6 +4,7 @@ import android.util.Log;
 import android.widget.Adapter;
 
 import com.hr.ui.base.RxSubscriber;
+import com.hr.ui.bean.FindBean;
 import com.hr.ui.bean.MultipleResumeBean;
 import com.hr.ui.bean.ResumeBean;
 import com.hr.ui.ui.main.contract.MainContract;
@@ -26,11 +27,12 @@ public class MainPresenter extends MainContract.Presenter {
 
     @Override
     public void getNotice(String cid,String aid) {
-        mRxManage.add(mModel.getNotice(cid,aid).subscribe(new RxSubscriber<ResponseBody>(mContext,false) {
+        mRxManage.add(mModel.getNotice(cid,aid).subscribe(new RxSubscriber<FindBean>(mContext,false) {
             @Override
-            protected void _onNext(ResponseBody responseBody) throws IOException {
-                String s=responseBody.string().toString();
-                Log.i("现在的参数","_------"+s);
+            protected void _onNext(FindBean findBean) throws IOException {
+               if("0".equals(findBean.getError_code())){
+                   mView.getNoticeSuccess(findBean.getList());
+               }
             }
 
             @Override

@@ -82,7 +82,7 @@ public class MyResumeScoreProgressBar extends View{
         mPaint = new Paint();
     }
     public  void setProgram(final int program){
-
+        mProgress=0;
         new Thread(new Runnable() {
             @Override
             public void run() {

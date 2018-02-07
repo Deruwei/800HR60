@@ -27,7 +27,7 @@ public class MyLocationListener extends BDAbstractLocationListener {
             if(city.contains("北京")||city.contains("上海")||city.contains("天津")||city.contains("重庆")){
                city= city.substring(0,city.indexOf("市"));
             }
-            ToastUitl.showShort("当前定位到的城市：" + city);
+           /* ToastUitl.showShort("当前定位到的城市：" + city);*/
         }
         if(SelectCityActivity.instance!=null) {
             SelectCityActivity.instance.setCityName(city);

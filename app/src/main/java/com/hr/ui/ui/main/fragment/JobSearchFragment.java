@@ -193,6 +193,7 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
     }
 
 
+
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_jobserch;

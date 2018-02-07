@@ -77,6 +77,8 @@ public class ShieldCompanyActivity extends BaseActivity<ShieldCompanyPresenter, 
     private List<QueryShieldCompanyBean.EnteListBean> enteListBeanList = new ArrayList<>();
     public List<ShieldCompanyBean.EliminateListBean> eliminateListBeanList = new ArrayList<>();
     private int type = 1;//1代表显示已屏蔽企业  2标识搜索结果
+    private int sheldNum;
+    private int position;
 
     public static void startAction(Activity activity) {
         Intent intent = new Intent(activity, ShieldCompanyActivity.class);
@@ -97,7 +99,7 @@ public class ShieldCompanyActivity extends BaseActivity<ShieldCompanyPresenter, 
 
     @Override
     public void initView() {
-        mPresenter.getShieldCompanyData();
+        mPresenter.getShieldCompanyData(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this) {
             @Override
             public boolean canScrollHorizontally() {
@@ -113,12 +115,13 @@ public class ShieldCompanyActivity extends BaseActivity<ShieldCompanyPresenter, 
         rvShieldCompany.setLoadingMoreProgressStyle(ProgressStyle.BallTrianglePath);
         adapter = new MyShieldCompanyAdapter();
         shieldCompanyDataAdapter = new MyShieldCompanyDataAdapter();
+        tvNoData.setVisibility(View.GONE);
         rvShieldCompany.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
-                        mPresenter.getShieldCompanyData();
+                        mPresenter.getShieldCompanyData(false);
                         shieldCompanyDataAdapter.notifyDataSetChanged();
                         rvShieldCompany.refreshComplete();
                     }
@@ -205,6 +208,17 @@ public class ShieldCompanyActivity extends BaseActivity<ShieldCompanyPresenter, 
 
             }
         });
+        etToolbarShieldCompanySearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    if(type!=1){
+                        tvToolbarShieldCompanySearch.setText(getString(R.string.search));
+                        type=1;
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -222,20 +236,35 @@ public class ShieldCompanyActivity extends BaseActivity<ShieldCompanyPresenter, 
                 mPresenter.setShiledCompany(etToolbarShieldCompanySearch.getText().toString());
                 break;
             case R.id.iv_toolbarShieldCompanySearchBack:
-                finish();
+                if(type!=1){
+                    etToolbarShieldCompanySearch.setEnabled(true);
+                    rvShieldCompany.setVisibility(View.VISIBLE);
+                    tvShieldCompanyAll.setVisibility(View.GONE);
+                    rvShieldCompanyQuery.setVisibility(View.GONE);
+                    tvToolbarShieldCompanySearch.setText(getString(R.string.search));
+                    tvShieldCompanyAllShieldNum.setVisibility(View.GONE);
+                    tvShieldCompanyTitle.setText(getString(R.string.shieldCompany));
+                    type = 1;
+                    mPresenter.getShieldCompanyData(false);
+                }else {
+                    finish();
+                }
                 break;
             case R.id.iv_toolbarShieldCompanySearchDelete:
                 etToolbarShieldCompanySearch.setText("");
                 break;
             case R.id.tv_toolbarShieldCompanySearch:
                 if (type == 1) {
-
                     if (etToolbarShieldCompanySearch.getText().toString() == null || "".equals(etToolbarShieldCompanySearch.getText().toString())) {
-                        ToastUitl.showShort("请输入公司名");
+                        ToastUitl.showShort("请输入关键词");
+                        return;
+                    }
+                    if(sheldNum>=20){
+                        ToastUitl.showShort("最多添加20个关键词，请删除一部分关键词重新添加");
                         return;
                     }
                     setFocus();
-                    etToolbarShieldCompanySearch.setEnabled(false);
+                    etToolbarShieldCompanySearch.setEnabled(true);
                     rvShieldCompany.setVisibility(View.GONE);
                     rvShieldCompanyQuery.setVisibility(View.VISIBLE);
                     tvShieldCompanyAllShieldNum.setVisibility(View.VISIBLE);
@@ -249,7 +278,7 @@ public class ShieldCompanyActivity extends BaseActivity<ShieldCompanyPresenter, 
                     tvShieldCompanyAllShieldNum.setVisibility(View.GONE);
                     tvShieldCompanyTitle.setText(getString(R.string.shieldCompany));
                     type = 1;
-                    mPresenter.getShieldCompanyData();
+                    mPresenter.getShieldCompanyData(false);
                 }
                 break;
         }
@@ -281,14 +310,17 @@ public class ShieldCompanyActivity extends BaseActivity<ShieldCompanyPresenter, 
     public void getShieldCompanyDataSuccess(List<ShieldCompanyBean.EliminateListBean> eliminateListBeans) {
         eliminateListBeanList.clear();
         if (eliminateListBeans != null && !"".equals(eliminateListBeans) && eliminateListBeans.size() != 0) {
+            rvShieldCompany.setVisibility(View.VISIBLE);
+            sheldNum=eliminateListBeans.size();
             eliminateListBeanList.addAll(eliminateListBeans);
             shieldCompanyDataAdapter = new MyShieldCompanyDataAdapter();
             shieldCompanyDataAdapter.setFavouriteListBeanList(eliminateListBeanList);
             rvShieldCompany.setAdapter(shieldCompanyDataAdapter);
             rlEmptyView.setVisibility(View.GONE);
         } else {
+            sheldNum=0;
             rlEmptyView.setVisibility(View.VISIBLE);
-            ivNoDataSearch.setVisibility(View.GONE);
+            rvShieldCompany.setVisibility(View.GONE);
         }
 
        /* shieldCompanyDataAdapter.setClickCallBack(new MyShieldCompanyDataAdapter.ItemClickCallBack() {
@@ -299,14 +331,16 @@ public class ShieldCompanyActivity extends BaseActivity<ShieldCompanyPresenter, 
         });*//**/
         shieldCompanyDataAdapter.setOnViewClick(new MyShieldCompanyDataAdapter.OnViewClick() {
             @Override
-            public void onViewClick(TextView btn, int position) {
-                mPresenter.deleteShieldCompany(eliminateListBeanList.get(position).getId());
+            public void onViewClick(TextView btn, int position1) {
+                mPresenter.deleteShieldCompany(eliminateListBeanList.get(position1).getId());
+                position=position1;
             }
         });
     }
 
     @Override
     public void queryShieldCompanyDataByKeyWordSuccess(List<QueryShieldCompanyBean.EnteListBean> enteListBeans,String total) {
+        enteListBeanList.clear();
         enteListBeanList.addAll(enteListBeans);
         tvToolbarShieldCompanySearch.setText(getString(R.string.cancel));
         tvShieldCompanyAll.setVisibility(View.VISIBLE);
@@ -315,10 +349,11 @@ public class ShieldCompanyActivity extends BaseActivity<ShieldCompanyPresenter, 
         type = 2;
         if (enteListBeans != null && enteListBeans.size() != 0) {
             rlEmptyView.setVisibility(View.GONE);
+            rvShieldCompanyQuery.setVisibility(View.VISIBLE);
             initUI();
         } else {
             rlEmptyView.setVisibility(View.VISIBLE);
-            ivNoDataSearch.setVisibility(View.GONE);
+            rvShieldCompanyQuery.setVisibility(View.GONE);
         }
     }
 
@@ -341,8 +376,14 @@ public class ShieldCompanyActivity extends BaseActivity<ShieldCompanyPresenter, 
         });
         adapter.setOnViewClick(new MyShieldCompanyAdapter.OnViewClick() {
             @Override
-            public void onViewClick(TextView btn, int position) {
-                mPresenter.setShiledCompany(enteListBeanList.get(position).getEnterprise_name());
+            public void onViewClick(TextView btn, int position1) {
+                if(sheldNum>=20){
+                    ToastUitl.showShort("最多添加20个关键词，请删除一部分关键词重新添加");
+                    return;
+                }else {
+                    mPresenter.setShiledCompany(enteListBeanList.get(position1).getEnterprise_name());
+                    position = position1;
+                }
             }
         });
     }
@@ -350,10 +391,21 @@ public class ShieldCompanyActivity extends BaseActivity<ShieldCompanyPresenter, 
     @Override
     public void setShieldCompanySuccess() {
         ToastUitl.showShort("屏蔽成功");
+        etToolbarShieldCompanySearch.setEnabled(true);
+        rvShieldCompany.setVisibility(View.VISIBLE);
+        tvShieldCompanyAll.setVisibility(View.GONE);
+        rvShieldCompanyQuery.setVisibility(View.GONE);
+        tvToolbarShieldCompanySearch.setText(getString(R.string.search));
+        tvShieldCompanyAllShieldNum.setVisibility(View.GONE);
+        tvShieldCompanyTitle.setText(getString(R.string.shieldCompany));
+        type = 1;
+        mPresenter.getShieldCompanyData(false);
     }
 
     @Override
     public void deleteShieldCompany() {
         ToastUitl.showShort("取消屏蔽成功");
+        sheldNum--;
+        shieldCompanyDataAdapter.doDelete(position+1);
     }
 }

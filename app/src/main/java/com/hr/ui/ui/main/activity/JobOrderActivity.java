@@ -402,7 +402,11 @@ public class JobOrderActivity extends BaseActivity<JobOrderPresenter, JobOrderMo
         for (int i = 0; i < positionList.size(); i++) {
             sb.append("," + positionList.get(i).getId());
             if(positionList.get(i).getId().contains("|")) {
-                sbName.append("，" + positionList.get(i).getName()+"("+ Utils.getPositionClassName(positionList.get(i).getId().substring(positionList.get(i).getId().indexOf("|")+1))+")");
+                if(Utils.checkMedicinePositionClass2(positionList.get(i))==true) {
+                    sbName.append("，" + positionList.get(i).getName() + "(" + "行政后勤" + ")");
+                }else{
+                    sbName.append("，" + positionList.get(i).getName() + "(" + Utils.getPositionClassName(positionList.get(i).getId().substring(positionList.get(i).getId().indexOf("|") + 1)) + ")");
+                }
             }else{
                 sbName.append("，" + positionList.get(i).getName());
             }

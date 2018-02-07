@@ -13,11 +13,11 @@
             android:layout_height="@dimen/x100">
         <ImageView
             android:id="@+id/iv_toolbarShieldCompanySearchBack"
-            android:layout_marginLeft="@dimen/x37"
-            android:layout_marginRight="@dimen/x33"
+            android:paddingLeft="@dimen/x37"
+            android:paddingRight="@dimen/x33"
             android:src="@mipmap/back"
             android:layout_centerVertical="true"
-            android:layout_width="@dimen/x14"
+            android:layout_width="@dimen/x87"
             android:layout_height="@dimen/x30" />
         <RelativeLayout
             android:layout_toRightOf="@+id/iv_toolbarShieldCompanySearchBack"

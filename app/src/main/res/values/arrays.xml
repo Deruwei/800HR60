@@ -955,6 +955,22 @@
         <item>20</item>
         <item>30</item>
     </string-array>
+    <string-array name="array_industry_ids2">
+        <item>11</item>
+        <item>14</item>
+        <item>29</item>
+        <item>12</item>
+        <item>22</item>
+        <item>26</item>
+    </string-array>
+    <string-array name="array_industry_zh2">
+        <item>建筑</item>
+        <item>医药</item>
+        <item>化工</item>
+        <item>金融</item>
+        <item>制造</item>
+        <item>服装</item>
+    </string-array>
     <!-- 职系 -->
     <string-array name="array_zhixi_medicine">
         <item>医生</item>

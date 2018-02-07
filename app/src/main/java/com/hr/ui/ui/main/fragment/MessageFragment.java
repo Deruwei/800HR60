@@ -4,19 +4,18 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.hr.ui.R;
-import com.hr.ui.api.ApiParameter;
 import com.hr.ui.base.BaseFragment;
 import com.hr.ui.bean.DeliverFeedbackBean;
 import com.hr.ui.bean.InviteBean;
@@ -38,7 +37,6 @@ import com.hr.ui.utils.Utils;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.CircleImageView;
 import com.hr.ui.view.XRecyclerView;
-import com.mob.tools.utils.LocationHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -114,6 +112,10 @@ public class MessageFragment extends BaseFragment<MessageFragmentPresenter, Mess
     ImageView ivMessage1;
     @BindView(R.id.iv_message2)
     ImageView ivMessage2;
+    @BindView(R.id.iv_noNetError)
+    ImageView ivNoNetError;
+    @BindView(R.id.ll_netError)
+    LinearLayout llNetError;
     private int page = 1;
     private MyMessageAdapter adapter;
     private boolean isFlesh;
@@ -125,7 +127,7 @@ public class MessageFragment extends BaseFragment<MessageFragmentPresenter, Mess
     public static MessageFragment newInstance(String s) {
         MessageFragment navigationFragment = new MessageFragment();
         Bundle bundle = new Bundle();
-        instance=navigationFragment;
+        instance = navigationFragment;
         bundle.putString(Constants.ARGS, s);
         navigationFragment.setArguments(bundle);
         return navigationFragment;
@@ -145,17 +147,20 @@ public class MessageFragment extends BaseFragment<MessageFragmentPresenter, Mess
     public void showErrorTip(String msg) {
 
     }
-    public  void setInviteHide(int position){
-        if(invitedListBeanList!=null) {
+
+    public void setInviteHide(int position) {
+        if (invitedListBeanList != null) {
 
             invitedListBeanList.get(position).setIs_new("0");
             //Log.i("现在的",invitedListBeanList.get(position).toString());
             adapter.notifyDataSetChanged();
         }
     }
-    public  void setDeliverBackHide(){
-      ivMessageFeedBackNum.setVisibility(View.GONE);
+
+    public void setDeliverBackHide() {
+        ivMessageFeedBackNum.setVisibility(View.GONE);
     }
+
     @Override
     public void getWhoSeeMeSuccess(List<WhoSeeMeBean.BrowsedListBean> browsedListBeans) {
         if (isFlesh == true) {
@@ -172,14 +177,17 @@ public class MessageFragment extends BaseFragment<MessageFragmentPresenter, Mess
 
     @Override
     public void getDeliverFeedBackSuccess(List<DeliverFeedbackBean.AppliedListBean> appliedListBeanList) {
-        for(int i=0;i<appliedListBeanList.size();i++){
-            if("1".equals(appliedListBeanList.get(i).getIsnew())){
+        llNetError.setVisibility(View.GONE);
+        swipeRefresh.setVisibility(View.VISIBLE);
+        for (int i = 0; i < appliedListBeanList.size(); i++) {
+            if ("1".equals(appliedListBeanList.get(i).getIsnew())) {
                 ivMessageFeedBackNum.setVisibility(View.VISIBLE);
                 break;
             }
         }
         if (appliedListBeanList != null && appliedListBeanList.size() != 0) {
             tvFeedbackCompanyName.setText(appliedListBeanList.get(0).getEnterprise_name());
+            //Log.i("现在的时间",appliedListBeanList.get(0).getApplied_time());
             tvFeedbackTime.setText(Utils.getDateMonthAndDay(appliedListBeanList.get(0).getApplied_time()));
         } else {
             ivMessageFeedBackNum.setVisibility(View.GONE);
@@ -204,9 +212,15 @@ public class MessageFragment extends BaseFragment<MessageFragmentPresenter, Mess
         adapter.setClickCallBack(new MyMessageAdapter.ItemClickCallBack() {
             @Override
             public void onItemClick(int pos) {
-                InviteActivity.startAction(getActivity(), invitedListBeans.get(pos),pos);
+                InviteActivity.startAction(getActivity(), invitedListBeans.get(pos), pos);
             }
         });
+    }
+
+    @Override
+    public void netError() {
+        llNetError.setVisibility(View.VISIBLE);
+        swipeRefresh.setVisibility(View.GONE);
     }
 
     public void setImage() {
@@ -216,6 +230,7 @@ public class MessageFragment extends BaseFragment<MessageFragmentPresenter, Mess
             Glide.with(this).load(Constants.IMAGE_BASEPATH + personImage).fitCenter().into(ivResumePersonPhoto);
         }
     }
+
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_message;
@@ -228,7 +243,7 @@ public class MessageFragment extends BaseFragment<MessageFragmentPresenter, Mess
 
     @Override
     protected void initView() {
-        sUtils=new SharedPreferencesUtils(getActivity());
+        sUtils = new SharedPreferencesUtils(getActivity());
         ivResumePersonPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -241,10 +256,10 @@ public class MessageFragment extends BaseFragment<MessageFragmentPresenter, Mess
                 return false;
             }
         };
-        boolean isHaveNews=sUtils.getBooleanValue(Constants.ISHAVENEWS,true);
-        if(isHaveNews==true){
+        boolean isHaveNews = sUtils.getBooleanValue(Constants.ISHAVENEWS, true);
+        if (isHaveNews == true) {
             ivMessageEmploymentGuidanceNum.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             ivMessageEmploymentGuidanceNum.setVisibility(View.GONE);
         }
         setImage();
@@ -294,7 +309,7 @@ public class MessageFragment extends BaseFragment<MessageFragmentPresenter, Mess
     }
 
     public void getDate(boolean b) {
-        mPresenter.getDeliverFeedback(page, 0, 0,b);
+        mPresenter.getDeliverFeedback(page, 0, 0, b);
         mPresenter.getInviteInterview(page);
         mPresenter.getWHoSeeMe(page);
     }
@@ -321,9 +336,12 @@ public class MessageFragment extends BaseFragment<MessageFragmentPresenter, Mess
         unbinder.unbind();
     }
 
-    @OnClick({R.id.rl_deliverFeedback, R.id.rl_whoSeeMe, R.id.rl_employmentGuidance, R.id.rl_find})
+    @OnClick({R.id.rl_deliverFeedback,R.id.iv_noNetError, R.id.rl_whoSeeMe, R.id.rl_employmentGuidance, R.id.rl_find})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.iv_noNetError:
+                getDate(true);
+                break;
             case R.id.rl_deliverFeedback:
                 DeliverFeedbackActivity.startAction(getActivity());
                 break;
@@ -331,7 +349,7 @@ public class MessageFragment extends BaseFragment<MessageFragmentPresenter, Mess
                 WhoSeeMeActivity.startAction(getActivity());
                 break;
             case R.id.rl_employmentGuidance:
-                sUtils.setBooleanValue(Constants.ISHAVENEWS,false);
+                sUtils.setBooleanValue(Constants.ISHAVENEWS, false);
                 ivMessageEmploymentGuidanceNum.setVisibility(View.GONE);
                 EmploymentGuidanceActivity.startAction(getActivity());
                 break;

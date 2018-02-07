@@ -109,7 +109,7 @@
     <string name="company">企业入口</string>
     <string name="home">主页</string>
     <string name="message">消息</string>
-    <string name="updateMessage"> 升级简历后，您的简历将会从“[学生简历]”升级到[工作简历]，“实习经历”将会变为“工作经历”。</string>
+    <string name="updateMessage"> 升级简历后，您的简历将会从[学生简历]升级到[工作简历]，“实习经历”将会变为“工作经历”。</string>
     <string name="hideTips">Tips: 隐藏后企业将无法搜到您的简历</string>
     <string name="searchHint">输入职位名/公司名</string>
     <string name="search">搜索</string>
@@ -129,7 +129,7 @@
     //设置
     <string name="messageNotification">消息通知</string>
     <string name="shieldCompany1">屏蔽企业</string>
-    <string name="shieldCompany">已屏蔽公司</string>
+    <string name="shieldCompany">已屏蔽关键词</string>
     <string name="shieldCompanyAll">一键屏蔽</string>
     <string name="searchResult">搜索结果</string>
     <string name="shield">屏蔽</string>
@@ -142,10 +142,12 @@
     <string name="versionDes">版本说明</string>
     <string name="changeAccount">更换账号</string>
     //注册和登录
+    <string name="howToGet">如何得到：</string>
     <string name="login">登录</string>
     <string name="register">注册</string>
     <string name="phoneLogin">手机登录</string>
     <string name="phoneNumber">手机号码</string>
+    <string name="phoneNumberNew">新手机号码</string>
     <string name="psw_old">旧密码（最少6位）</string>
     <string name="psw_new">新密码（最少6位）</string>
     <string name="psw">密码（最少6位）</string>
@@ -221,6 +223,7 @@
     <string name="month">月</string>
     <string name="day">日</string>
     <string name="selectIndustry">选择行业</string>
+    <string name="selectIndustryHint">请选择行业</string>
     <string name="selectCity">选择城市</string>
     <string name="selectField">选择领域</string>
     <string name="choosePosition">选择职位</string>
@@ -243,6 +246,7 @@
     <string name="nowAddress">现居住地</string>
     <string name="nowInterShipExp">没有实习经历，跳过</string>
     <string name="workTime">工作时间</string>
+    <string name="workYear">工作年份</string>
     <string name="email">电子邮箱</string>
     <string name="jobTitle">现有职称</string>
     <string name="noFunction">该行业暂无领域，直接选择行业即可！</string>
@@ -254,7 +258,7 @@
     <string name="educationBackground">教育背景</string>
     <string name="educationBackgroundHelper">有助于展现你过去的学习情况</string>
     <string name="school">学校</string>
-    <string name="schoolName">院校名称</string>
+    <string name="schoolName">学校名称</string>
     <string name="school_hint">请填写学校</string>
     <string name="majorDes">专业描述</string>
     <string name="major">专业</string>
@@ -270,11 +274,13 @@
     <string name="workExperienceHelper">有助于hr了解你过去的工作情况</string>
     <string name="companyName">公司名称</string>
     <string name="companyAddress">公司地址</string>
+    <string name="companyRegister">企业会员注册</string>
     <string name="otherMap">其他地图</string>
     <string name="companyIntro">公司简介</string>
     <string name="companyHome">公司主页</string>
     <string name="atWorking">正在招聘</string>
     <string name="workPosition">担任职位</string>
+    <string name="belongPosition">所任职位</string>
     <string name="companyName_hint">请填写公司名称</string>
     <string name="Appointment">所任职位</string>
     <string name="appointment_hint">请选择所任职位</string>
@@ -316,7 +322,7 @@
     <string name="expectSalary">期望薪资</string>
     <string name="expectMonthSalary">期望月薪</string>
     <string name="positionOrCompanyName">输入公司名/职位名</string>
-    <string name="inputCompanyName">输入公司名</string>
+    <string name="inputCompanyName">输入关键词</string>
     <string name="expectSalary_hint">请填写期望月薪</string>
     <string name="internshipExperience">实习经历</string>
     <string name="internshipExperienceHelper">有助于hr了解你过去的实习情况</string>
@@ -378,6 +384,11 @@
     <string name="navigation_tab_host">TabHost</string>
     <string name="drawer_layout_open">Open</string>
     <string name="drawer_layout_close">Close</string>
+    <string name="select">请选择</string>
+    <string name="sellerintro">销售顾问推荐</string>
+    <string name="friendInto">同事朋友推荐</string>
+    <string name="InternetInfo">网络渠道</string>
+    <string name="otherInfo">其他渠道</string>
 
     <string name="listview_header_hint_normal">拉下刷新</string>
     <string name="listview_header_hint_release">松开加载</string>

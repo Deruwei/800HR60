@@ -45,20 +45,20 @@
                 android:id="@+id/tv_shieldCompanyAllShield"
                 android:layout_marginTop="@dimen/x40"
                 android:layout_marginRight="@dimen/x31"
-                android:textSize="@dimen/x28"
+                android:gravity="center"
+                android:textSize="@dimen/x24"
+                android:textColor="@color/color_333"
+                android:layout_centerVertical="true"
+                android:background="@drawable/tv_bg_left_color333"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/edit_bg_999"
-                android:textColor="@color/color_666"
+                android:layout_width="@dimen/x120"
+                android:layout_height="@dimen/x52"
                 android:text="@string/shieldCompanyAll"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                />
         </RelativeLayout>
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
              <com.hr.ui.view.XRecyclerView
                 android:id="@+id/rv_shieldCompany"
                 android:layout_width="match_parent"
@@ -66,7 +66,6 @@
 
             </com.hr.ui.view.XRecyclerView>
                 <include layout="@layout/layout_emptyview"/>
-            </FrameLayout>
             <com.hr.ui.view.XRecyclerView
                 android:visibility="gone"
                 android:id="@+id/rv_shieldCompanyQuery"

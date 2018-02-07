@@ -18,7 +18,11 @@ public class RegularExpression {
         Matcher matcher = pattern.matcher(str);
         return matcher.matches();
     }
-
+    public static boolean isNumber(String str){
+        Pattern pattern=Pattern.compile("^\\d{3,4}-\\d{7,8}$");
+        Matcher matcher=pattern.matcher(str);
+        return matcher.matches();
+    }
     /**
      * 验证是否邮箱格式正确
      * @param str
@@ -32,14 +36,25 @@ public class RegularExpression {
     }
 
     /**
-     * 验证密码是否是6-16位的a-zA-Z0-9类型的密码
+     * 验证密码是否是6-25位的a-zA-Z0-9类型的字母数字组合的密码
      * @param psw
      * @return
      */
     //"^[a-zA-Z0-9]{6,16}$"
     public static boolean isPsw(String psw){
-        Pattern pattern = Pattern.compile("^[a-zA-Z0-9]{6,16}$");
+        Pattern pattern = Pattern.compile("^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,25}$");
         Matcher matcher = pattern.matcher(psw);
+        return matcher.matches();
+    }
+
+    /**
+     * 验证用户名 是否是4-25位字母、数字、下划线
+     * @param str
+     * @return
+     */
+    public  static boolean isUseName(String str){
+        Pattern pattern=Pattern.compile("^[0-9a-zA-Z_]{4,25}$");
+        Matcher matcher=pattern.matcher(str);
         return matcher.matches();
     }
 }

@@ -23,6 +23,7 @@ import com.hr.ui.bean.MultipleResumeBean;
 import com.hr.ui.bean.ResumeBean;
 import com.hr.ui.constants.Constants;
 import com.hr.ui.db.LoginDBUtils;
+import com.hr.ui.ui.login.activity.CompanyRegisterActivity;
 import com.hr.ui.ui.login.activity.LoginActivity;
 import com.hr.ui.ui.login.activity.RegisterActivity;
 import com.hr.ui.ui.main.contract.SplashContract;
@@ -85,11 +86,6 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (sUtils.getBooleanValue(Constants.IS_GUIDE, false) == false) {
-            WelcomeActivity.startAction(SplashActivity.this, requestCode);
-        }else{
-
-        }
     }
 
     @Override
@@ -109,7 +105,12 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
         /*sUtils.setIntValue("code",0);*/
         isAutoLogin = sUtils.getIntValue(Constants.ISAUTOLOGIN, 0);
         autoLoginType = sUtils.getIntValue(Constants.AUTOLOGINTYPE, 5);
-        mPresenter.getConnect(this);
+        if (sUtils.getBooleanValue(Constants.IS_GUIDE, false) == false) {
+            WelcomeActivity.startAction(SplashActivity.this, requestCode);
+        }else{
+            mPresenter.getConnect(this);
+        }
+
        /* int screenWidth = getWindowManager().getDefaultDisplay().getWidth();//真实分辨率 宽
          int screenHeight = getWindowManager().getDefaultDisplay().getHeight();//真实分辨率 高*/
            /* setViewVisible();*/
@@ -251,11 +252,14 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
         setViewVisible();
     }
 
-    @OnClick({R.id.rl_login, R.id.rl_register})
+    @OnClick({R.id.rl_login, R.id.rl_register,R.id.rl_companySplash})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_login:
                 LoginActivity.startAction(this);
+                break;
+            case R.id.rl_companySplash:
+                CompanyRegisterActivity.startAction(this);
                 break;
             case R.id.rl_register:
                 RegisterActivity.startAction(this);
@@ -269,7 +273,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
         switch (requestCode) {
             case 1000:
                 if (resultCode == WelcomeActivity.ResultCode) {
-                    setViewVisible();
+                    mPresenter.getConnect(this);
                 }
                 break;
         }

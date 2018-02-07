@@ -88,18 +88,43 @@ public class Utils {
     }
     public static String getDateMonthAndDay(String time){
             //Log.i("现在的数据", time + "");
-        time = time.substring(time.indexOf("-") + 1);
-        if(time.contains("-")) {
-            String month = time.substring(0, time.indexOf("-"));
-            int monthInt = Integer.valueOf(month);
-            String day = time.substring(time.indexOf("-") + 1);
-            int dayInt = Integer.valueOf(day);
-            return monthInt + " - " + dayInt;
-        }else{
-            return "";
+        if(time.contains(":")){
+            return time.substring(time.indexOf(":")-2,time.indexOf(":"))+" : "+time.substring(time.indexOf(":")+1);
+        }else {
+            time = time.substring(time.indexOf("-") + 1);
+            if (time.contains("-")) {
+                String month = time.substring(0, time.indexOf("-"));
+                int monthInt = Integer.valueOf(month);
+                String day = time.substring(time.indexOf("-") + 1);
+                int dayInt = Integer.valueOf(day);
+                return monthInt + " - " + dayInt;
+            } else {
+                return "";
+            }
         }
     }
+    public static String getIndustryNUumber(int industryID){
+        switch (industryID) {
+            case 11:   //建筑
+                return "010-82197168";
 
+            case 12:   //金融
+                return "010-82197466";
+
+            case 14:   //医药
+                return "010-82197575";
+
+            case 26:   //服装
+                return "010-82197265";
+
+            case 29:   //化工
+                return "010-82197555";
+            case 22:   //制造业
+                return "010-82197466";
+            default:
+                return "010-62123388";
+        }
+    }
     /**
      * 四舍五入
      * @param d  数字
@@ -168,7 +193,7 @@ public class Utils {
             String s=formatDouble(k,2);
             if(s.contains(".00")){
                 s=s.substring(0,s.indexOf("."));
-            }else if(s.endsWith("0")){
+            }else if(s.contains(".")&&s.endsWith("0")){
                s=s.substring(0,s.lastIndexOf("0"));
             }
             return s+"万";
@@ -285,6 +310,19 @@ public class Utils {
                 || string.contains("265") || string.contains("266")
                 || string.contains("267") || string.contains("268"))) {
           return true;
+        } else {
+            return false;
+        }
+    }
+    public static  boolean checkMedicinePositionClass2(CityBean cityBean){
+        String string=cityBean.getId();
+        //Log.i("当前的Id",string+"-----");
+        if (string.contains("278") || string.contains("279")){
+            if(string.equals("279106")||string.equals("279107")||string.equals("279108")){
+                return false;
+            }else {
+                return true;
+            }
         } else {
             return false;
         }

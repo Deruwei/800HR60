@@ -45,6 +45,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+
+        <service android:name=".utils.DownloadSignatureServic" />
         <!--友盟-->
         <meta-data android:value="50762338527015512a000084" android:name="UMENG_APPKEY"/>
         <meta-data android:value="${UMENG_CHANNEL_VALUE}" android:name="UMENG_CHANNEL"/>
@@ -332,20 +335,14 @@
             android:windowSoftInputMode="adjustPan|stateHidden"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait"/>
-        <!--imagePick  拍照7.0系统-->
-        <provider
-            android:name=".utils.MyProvider"
-            android:authorities="com.lzy.imagepicker.ImagePickerProvider"
-            android:exported="false"
-            android:grantUriPermissions="true"
-            tools:replace="name,authorities,exported,grantUriPermissions"
-            >
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"
-                tools:replace="name,resource"
-                />
-        </provider>
+        <activity android:name=".ui.me.activity.VersionActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.login.activity.CompanyRegisterActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

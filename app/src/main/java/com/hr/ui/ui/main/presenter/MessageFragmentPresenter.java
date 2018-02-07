@@ -40,7 +40,7 @@ public class MessageFragmentPresenter extends MessageFragmentContract.Presenter 
     }
 
     @Override
-    public void getDeliverFeedback(int page, int isRead, int isInvite,boolean isCanRefresh) {
+    public void getDeliverFeedback(int page, int isRead, int isInvite, final boolean isCanRefresh) {
         mRxManage.add(mModel.getDeliverFeedback(page,isRead,isInvite).subscribe(new RxSubscriber<DeliverFeedbackBean>(mContext,isCanRefresh) {
             @Override
             protected void _onNext(DeliverFeedbackBean deliverFeedbackBean) throws IOException {
@@ -53,7 +53,9 @@ public class MessageFragmentPresenter extends MessageFragmentContract.Presenter 
 
             @Override
             protected void _onError(String message) {
-
+                if(isCanRefresh==true){
+                    mView.netError();
+                }
             }
         }));
     }

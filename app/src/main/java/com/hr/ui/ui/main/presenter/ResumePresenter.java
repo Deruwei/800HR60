@@ -39,7 +39,7 @@ public class ResumePresenter extends ResumeContract.Presenter {
 
             @Override
             protected void _onError(String message) {
-
+                mView.netError();
             }
         }));
     }
@@ -151,7 +151,7 @@ public class ResumePresenter extends ResumeContract.Presenter {
     }
 
     @Override
-    public void refreshResume(String resumeId) {
+    public void refreshResume(final String resumeId) {
         mRxManage.add(mModel.refreshResume(resumeId).subscribe(new RxSubscriber<ResponseBody>(mContext,false) {
             @Override
             protected void _onNext(ResponseBody responseBody) throws IOException {
@@ -164,6 +164,7 @@ public class ResumePresenter extends ResumeContract.Presenter {
                         //System.out.print(s);
                         String time=jsonObject.getString("uptime");
                         ToastUitl.showShort("刷新时间："+time);
+                        getResume(resumeId,false);
                     }else{
                         ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) error_code));
                     }

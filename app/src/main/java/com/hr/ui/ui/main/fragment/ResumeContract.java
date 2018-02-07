@@ -22,6 +22,7 @@ public interface ResumeContract {
         void setHideSuccess();
         void updateSuccess();
         void refreshResumeSuccess();
+        void netError();
     }
     interface Model extends BaseModel{
         Observable<ResumeBean> getResume(String resumeId);

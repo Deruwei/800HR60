@@ -26,6 +26,7 @@ import com.bumptech.glide.Glide;
 import com.hr.ui.R;
 import com.hr.ui.base.BaseActivity;
 import com.hr.ui.base.BaseNoConnectNetworkAcitivty;
+import com.hr.ui.bean.FindBean;
 import com.hr.ui.bean.JobSearchBean;
 import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.main.contract.MainContract;
@@ -41,6 +42,7 @@ import com.hr.ui.ui.me.activity.FeedBackActivity;
 import com.hr.ui.ui.me.activity.ScanHistoryActivity;
 import com.hr.ui.ui.me.activity.SettingActivity;
 import com.hr.ui.ui.message.fragment.DeliverFeedbackFragment;
+import com.hr.ui.utils.DownloadSignatureServic;
 import com.hr.ui.utils.NetWorkUtilsDNs;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
@@ -50,6 +52,7 @@ import com.hr.ui.view.OnBottomNavigationItemClickListener;
 import com.hr.ui.view.PopupWindowComment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -206,6 +209,12 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
         mIndex = index;
 
     }
+    private void downLoadApp(){
+        Bundle bundle = new Bundle();
+        bundle.putString("signatureurl", "");/*电子签名下载地址*/
+        Intent it = new Intent().setClass(this, DownloadSignatureServic.class).putExtras(bundle);
+        startService(it);
+    }
     private void setRadioGroupListener() {
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -242,7 +251,7 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
     @Override
     public void initView() {
         instance = this;
-        mPresenter.getNotice("96","794,796,797");
+        mPresenter.getNotice("96","794,796,797,798");
         userId = getIntent().getIntExtra("userId", 0);
         initFragment();
         setRadioGroupListener();
@@ -353,9 +362,8 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
     public void showErrorTip(String msg) {
 
     }
-
     @Override
-    public void getNoticeSuccess() {
+    public void getNoticeSuccess(List<FindBean.ListBean> listBean) {
 
     }
 }

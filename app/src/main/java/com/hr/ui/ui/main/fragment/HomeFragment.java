@@ -217,6 +217,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
     public void getRecommendJobSuccess(List<HomeRecommendBean.JobsListBean> jobsBeanList) {
         //Log.i("现在的数据",jobsBeanList.toString());
         if (jobsBeanList != null && !"[]".equals(jobsBeanList) && jobsBeanList.size() != 0) {
+            llNetError.setVisibility(View.GONE);
             if (page == 1) {
                 if(jobsBeanList.size()>=20) {
                     jobAdapter = new MyRecommendJobAdapter();

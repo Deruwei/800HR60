@@ -51,6 +51,8 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static com.hr.ui.base.handleexception.ExceptionFunc.TAG;
+
 /**
  * Created by wdr on 2017/11/20.
  */
@@ -87,7 +89,6 @@ public class HRApplication extends MobApplication {
         mCodeTimerServiceIntent.setAction(CODE);
         initIsHaveNew();
     }
-
     private void initIsHaveNew() {
         c=Calendar.getInstance();
         c.setTimeInMillis(System.currentTimeMillis());

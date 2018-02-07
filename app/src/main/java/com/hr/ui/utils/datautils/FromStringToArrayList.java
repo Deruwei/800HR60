@@ -193,6 +193,18 @@ public class FromStringToArrayList {
         }
         return industryList;
     }
+    public List<CityBean> getIndustryList2(){
+        List<CityBean> industryList=new ArrayList<>();
+        String[] sName=HRApplication.getAppContext().getResources().getStringArray(R.array.array_industry_zh2);
+        String[] sId=HRApplication.getAppContext().getResources().getStringArray(R.array.array_industry_ids2);
+        for(int i=0;i<sName.length;i++){
+            CityBean cityBean=new CityBean();
+            cityBean.setId(sId[i]);
+            cityBean.setName(sName[i]);
+            industryList.add(cityBean);
+        }
+        return industryList;
+    }
     public String getIndustryName(String industryId){
         List<CityBean> industryList=new ArrayList<>();
         String industryName="";
@@ -270,7 +282,11 @@ public class FromStringToArrayList {
             for (int i = 0; i < expectPositionList.size(); i++) {
                 if(ids[j].contains("|")) {
                     if (ids[j].substring(0,ids[j].indexOf("|")).equals(expectPositionList.get(i).getId())) {
-                        sb.append("," + expectPositionList.get(i).getName()+"("+ Utils.getPositionClassName(ids[j].substring(ids[j].indexOf("|")+1))+")");
+                        if(Utils.checkMedicinePositionClass2(expectPositionList.get(i))==true){
+                            sb.append("," + expectPositionList.get(i).getName() + "(" + "行政后勤" + ")");
+                        }else {
+                            sb.append("," + expectPositionList.get(i).getName() + "(" + Utils.getPositionClassName(ids[j].substring(ids[j].indexOf("|") + 1)) + ")");
+                        }
                         continue;
                     }
                 }else{
@@ -338,6 +354,7 @@ public class FromStringToArrayList {
     public  String getExpectFieldName(String industryId,String text){
         List<CityBean> expectFieldList=new ArrayList<>();
         String s=SaveFile.getDataFromInternalStorage(HRApplication.getAppContext(),"lingyu.txt");
+        Log.i("现在的数据",s);
         try {
             JSONObject jsonObject=new JSONObject(s);
             JSONArray jsonArray=jsonObject.getJSONArray(industryId);

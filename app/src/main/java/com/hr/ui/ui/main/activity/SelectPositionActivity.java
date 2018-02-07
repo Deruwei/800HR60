@@ -8,6 +8,7 @@ import android.os.Message;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -155,8 +156,6 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
         final Message message = Message.obtain();
         message.what = 1;
         handler.sendMessage(message);
-
-
     }
 
     @Override
@@ -205,7 +204,11 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
         ll.setLayoutParams(params);
         TextView tv = ll.findViewById(R.id.item_select);
         if (cityBean.getId().contains("|")) {
-            tv.setText(cityBean.getName() + "(" + Utils.getPositionClassName(cityBean.getId().substring(cityBean.getId().indexOf("|") + 1)) + ")");
+            if(Utils.checkMedicinePositionClass2(cityBean)==true) {
+                tv.setText(cityBean.getName() + "(" + "行政后勤" + ")");
+            }else{
+                tv.setText(cityBean.getName() + "(" + Utils.getPositionClassName(cityBean.getId().substring(cityBean.getId().indexOf("|") + 1)) + ")");
+            }
         } else {
             tv.setText(cityBean.getName());
         }
@@ -310,10 +313,14 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
                             sum = selectPositionList.size();
                             currentJobPosition = position;
                             if (positionRightList.get(position).isCheck() == false) {
-                                if (Utils.checkMedicinePositionClass(positionRightList.get(position)) == true) {
-                                    PopupWindowPositonClassView viewPositionClass = new PopupWindowPositonClassView(popupWindowPositonClass, SelectPositionActivity.this,clSelectPosition );
-                                } else {
+                                if(tag.equals(JobSerchActivity.TAG)){
                                     doAddJobView(position, selectPositionClassList);
+                                }else {
+                                    if (Utils.checkMedicinePositionClass(positionRightList.get(position)) == true) {
+                                        PopupWindowPositonClassView viewPositionClass = new PopupWindowPositonClassView(popupWindowPositonClass, SelectPositionActivity.this, clSelectPosition);
+                                    } else {
+                                        doAddJobView(position, selectPositionClassList);
+                                    }
                                 }
                             } else {
                                 positionRightList.get(position).setCheck(false);
@@ -396,9 +403,22 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
                 cityBean.setCheck(true);
                 selectPositionList.add(cityBean);
             } else {
-                cityBean = positionRightList.get(position);
-                selectPositionList.add(positionRightList.get(position));
+                if(Utils.checkMedicinePositionClass2(positionRightList.get(position))==true){
+                    if(tag.equals(JobOrderActivity.TAG)) {
+                        cityBean.setId(positionRightList.get(position).getId() + "|" + "10500");
+                        cityBean.setName(positionRightList.get(position).getName());
+                        cityBean.setCheck(true);
+                        selectPositionList.add(cityBean);
+                    }else{
+                        cityBean = positionRightList.get(position);
+                        selectPositionList.add(positionRightList.get(position));
+                    }
+                }else {
+                    cityBean = positionRightList.get(position);
+                    selectPositionList.add(positionRightList.get(position));
+                }
             }
+            //Log.i("到这里了",cityBean.toString());
             addView(cityBean);
             positionRightList.get(position).setCheck(true);
         }

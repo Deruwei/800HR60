@@ -13,6 +13,7 @@
         android:orientation="horizontal"
         android:layout_height="wrap_content">
         <ImageView
+            android:visibility="gone"
             android:id="@+id/iv_itemShieldCompanyIcon"
             android:layout_marginLeft="@dimen/x31"
             android:layout_marginTop="@dimen/x31"
@@ -21,15 +22,15 @@
             android:layout_width="@dimen/x82"
             android:layout_height="@dimen/x82" />
         <RelativeLayout
-            android:layout_marginTop="@dimen/x35"
+            android:layout_marginTop="@dimen/x20"
             android:layout_marginLeft="@dimen/x20"
+            android:layout_marginBottom="@dimen/x20"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
                 android:singleLine="true"
                 android:maxEms="12"
                 android:id="@+id/tv_itemShieldCompanyName"
-                android:text="北京英才网联科技有限公司"
                 android:textSize="@dimen/x28"
                 android:textColor="@color/color_333"
                 android:layout_width="wrap_content"
@@ -43,11 +44,11 @@
                 <TextView
                     android:id="@+id/tv_itemShieldCompanyIndustry"
                     android:textSize="@dimen/x24"
-                    android:text="[化工]"
                     android:textColorHint="@color/color_999"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:visibility="gone"
                     android:layout_marginLeft="@dimen/x6"
                     android:textSize="@dimen/x24"
                     android:text="·"
@@ -58,11 +59,11 @@
                     android:id="@+id/tv_itemShieldCompanyType"
                     android:layout_marginLeft="@dimen/x6"
                     android:textSize="@dimen/x24"
-                    android:text="股份制"
                     android:textColorHint="@color/color_999"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:visibility="gone"
                     android:layout_marginLeft="@dimen/x6"
                     android:textSize="@dimen/x24"
                     android:text="/"
@@ -73,7 +74,6 @@
                     android:id="@+id/tv_itemShieldCompanyScale"
                     android:layout_marginLeft="@dimen/x6"
                     android:textSize="@dimen/x24"
-                    android:text="100-499人"
                     android:textColorHint="@color/color_999"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />

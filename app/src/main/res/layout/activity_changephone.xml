@@ -34,7 +34,7 @@
                 android:layout_toLeftOf="@+id/iv_changePhoneNumberDelete"
                 android:singleLine="true"
                 style="@style/login_editText"
-                android:hint="@string/phoneNumber"
+                android:hint="@string/phoneNumberNew"
                 />
             <ImageView
                 android:visibility="gone"

@@ -29,7 +29,7 @@ public interface ShieldCompanyContract {
         void deleteShieldCompany();
     }
     abstract class Presenter extends BasePresenter<View,Model>{
-        public abstract void getShieldCompanyData();
+        public abstract void getShieldCompanyData(boolean isCanFresh);
         public abstract void queryShieldCompanyDataByKeyword(String content);
         public abstract void setShiledCompany(String companyName);
         public abstract void deleteShieldCompany(String shieldId);

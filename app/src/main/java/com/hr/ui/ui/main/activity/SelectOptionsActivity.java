@@ -499,7 +499,11 @@ public class SelectOptionsActivity extends BaseActivity {
                 if(selectPositionList.get(i).getName().contains("(")){
                     tv.setText(selectPositionList.get(i).getName());
                 }else {
-                    tv.setText(selectPositionList.get(i).getName() + "(" + Utils.getPositionClassName(selectPositionList.get(i).getId().substring(selectPositionList.get(i).getId().indexOf("|") + 1)) + ")");
+                    if(Utils.checkMedicinePositionClass2(selectPositionList.get(i))){
+                        tv.setText(selectPositionList.get(i).getName() + "(" + "行政后勤" + ")");
+                    }else {
+                        tv.setText(selectPositionList.get(i).getName() + "(" + Utils.getPositionClassName(selectPositionList.get(i).getId().substring(selectPositionList.get(i).getId().indexOf("|") + 1)) + ")");
+                    }
                 }
             } else {
                 tv.setText(selectPositionList.get(i).getName());
@@ -765,10 +769,17 @@ public class SelectOptionsActivity extends BaseActivity {
                             continue;
                         }
                     } else {
-                        if (positionList2.get(j).getId().equals(selectRealPositionList.get(i).getId())) {
-                            positionList2.get(j).setCheck(true);
-                            selectPositionList.add(positionList2.get(j));
-                            continue;
+                        if ("14".equals(indutryId) && Utils.checkMedicinePositionClass2(selectRealPositionList.get(i)) == true && selectRealPositionList.get(i).getId().contains("|")) {
+                            if (positionList2.get(j).getId().equals(selectRealPositionList.get(i).getId().substring(0, selectRealPositionList.get(i).getId().indexOf("|")))) {
+                                selectPositionList.add(selectRealPositionList.get(i));
+                                continue;
+                            }
+                        }else {
+                            if (positionList2.get(j).getId().equals(selectRealPositionList.get(i).getId())) {
+                                positionList2.get(j).setCheck(true);
+                                selectPositionList.add(positionList2.get(j));
+                                continue;
+                            }
                         }
                     }
                     //Log.i("现在的数据2", selectPositionList.toString());
@@ -980,8 +991,15 @@ public class SelectOptionsActivity extends BaseActivity {
                 cityBean.setCheck(true);
                 selectPositionList.add(cityBean);
             } else {
-                cityBean = positionRightList.get(position);
-                selectPositionList.add(positionRightList.get(position));
+                if(Utils.checkMedicinePositionClass2(positionRightList.get(position))==true){
+                        cityBean.setId(positionRightList.get(position).getId() + "|" + "10500");
+                        cityBean.setName(positionRightList.get(position).getName());
+                        cityBean.setCheck(true);
+                        selectPositionList.add(cityBean);
+                }else {
+                    cityBean = positionRightList.get(position);
+                    selectPositionList.add(positionRightList.get(position));
+                }
             }
             addView(cityBean);
             positionRightList.get(position).setCheck(true);
@@ -1021,7 +1039,12 @@ public class SelectOptionsActivity extends BaseActivity {
             if(cityBean.getName().contains("(")){
                 tv.setText(cityBean.getName());
             }else {
-                tv.setText(cityBean.getName() + "(" + Utils.getPositionClassName(cityBean.getId().substring(cityBean.getId().indexOf("|") + 1)) + ")");
+                if (Utils.checkMedicinePositionClass2(cityBean) == true) {
+                    tv.setText(cityBean.getName() + "(" + "行政后勤" + ")");
+                } else {
+                    tv.setText(cityBean.getName() + "(" + Utils.getPositionClassName(cityBean.getId().substring(cityBean.getId().indexOf("|") + 1)) + ")");
+
+                }
             }
         } else {
             tv.setText(cityBean.getName());

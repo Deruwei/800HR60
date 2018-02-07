@@ -156,6 +156,7 @@ public class SnailBar extends View {
      * @param currentCount
      */
     public void setCurrentCount(final float currentCount) {
+        program=0;
         new Thread(new Runnable() {
             @Override
             public void run() {

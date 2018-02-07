@@ -183,6 +183,11 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
         personalInformationData.setSex(sex);
         personalInformationData.setBirth(tvBirth.getText().toString());
         personalInformationData.setLivePlace(cityId);
+        if ("1".equals(type)) {
+            workTime=workTime;
+        } else {
+            workTime="-1";
+        }
         personalInformationData.setWorkTime(workTime);
         personalInformationData.setPositionTitle(jobTitleId);
         personalInformationData.setPhoneNumber(phoneNumber);
@@ -564,6 +569,7 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
             if ("1".equals(type)) {
                 personalInformationData.setWorkTime(workTime);
             } else {
+                workTime="-1";
                 personalInformationData.setWorkTime("-1");
             }
             personalInformationData.setPhoneNumber(phoneNumber);

@@ -26,6 +26,7 @@ public interface MessageFragmentContract {
         void getWhoSeeMeSuccess(List<WhoSeeMeBean.BrowsedListBean> browsedListBeans);
         void getDeliverFeedBackSuccess(List<DeliverFeedbackBean.AppliedListBean> appliedListBeanList );
         void getInviteInterViewSuceess(List<InviteBean.InvitedListBean> invitedListBeans);
+        void netError();
     }
     abstract class Presenter extends BasePresenter<View,Model>{
         public abstract void getWHoSeeMe(int page);
