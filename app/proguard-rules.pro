@@ -44,3 +44,10 @@
 -dontwarn com.baidu.**
 #友盟
 -keep class com.umeng.commonsdk.** {*;}
+
+# ProGuard configurations for NetworkBench Lens
+-keep class com.networkbench.** { *; }
+-dontwarn com.networkbench.**
+-keepattributes Exceptions, Signature, InnerClasses
+-keepattributes SourceFile,LineNumberTable
+# End NetworkBench Lens

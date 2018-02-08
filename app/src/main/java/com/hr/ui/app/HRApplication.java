@@ -35,6 +35,7 @@ import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.view.CropImageView;
 import com.mob.MobApplication;
+import com.networkbench.agent.impl.NBSAppAgent;
 import com.service.CodeTimerService;
 import com.service.MyTimeService;
 import com.umeng.commonsdk.UMConfigure;
@@ -64,6 +65,7 @@ public class HRApplication extends MobApplication {
     private Intent mCodeTimerServiceIntent;
     private Calendar c;
     public static final String CODE = "connectCode";
+    private String nbsAppKey="8a97e06a76944ee3886dafe60f20a809";
 
     public static HRApplication getAppContext() {
         return hrApplication;
@@ -83,7 +85,7 @@ public class HRApplication extends MobApplication {
         UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, null);
         UMConfigure.setLogEnabled(true);//设置log日志
         UMConfigure.setEncryptEnabled(true); //设置是否加密传输log
-
+        NBSAppAgent.setLicenseKey(nbsAppKey).withLocationServiceEnabled(true).startInApplication(this.getApplicationContext());//Appkey 请从官网获取
         Constants.SESSION_KEY=null;
         mCodeTimerServiceIntent = new Intent(HRApplication.getAppContext(), MyTimeService.class);
         mCodeTimerServiceIntent.setAction(CODE);
