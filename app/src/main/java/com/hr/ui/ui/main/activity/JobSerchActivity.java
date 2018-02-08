@@ -10,6 +10,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -194,7 +195,7 @@ public class JobSerchActivity extends BaseActivity<JobSearchPresenter, JobSearch
                     jobSearchBean.setIndustryId(historyBeanList.get(finalI).getIndustryId());
                     jobSearchBean.setPlaceId(historyBeanList.get(finalI).getPlaceId());
                     jobSearchBean.setJobType(historyBeanList.get(finalI).getJobType());
-                    //Log.i("当前的数据",jobSearchBean.toString());
+                    Log.i("当前的数据",jobSearchBean.toString());
                     MainActivity.instance.isHome = false;
                     Intent intent = new Intent(JobSerchActivity.this, MainActivity.class);
                     intent.putExtra("jobSearch", (Serializable) jobSearchBean);
@@ -230,50 +231,43 @@ public class JobSerchActivity extends BaseActivity<JobSearchPresenter, JobSearch
                 break;
             case R.id.tv_jobSearch:
                 JobSearchBean jobSearchBean = new JobSearchBean();
+                HistoryBean historyBean = new HistoryBean();
                 if (industryId != null && !"".equals(industryId)) {
                     jobSearchBean.setIndustryId(industryId);
+                    historyBean.setIndustryId(industryId);
                     isSearch = true;
                 }
                 jobSearchBean.setJobType(jobSerchType);
+                historyBean.setJobType(jobSerchType);
                 if (!"".equals(cityId) && cityId != null) {
                     jobSearchBean.setPlaceId(cityId);
+                    historyBean.setPlaceId(cityId);
                     isSearch = true;
                 }
                 if (!"".equals(postionId) && postionId != null) {
                     jobSearchBean.setPositionId(postionId);
+                    historyBean.setPositionId(postionId);
                     isSearch = true;
                 }
                 if (!"".equals(functionId) && functionId != null) {
                     jobSearchBean.setFieldId(functionId);
+                    historyBean.setFieldId(functionId);
                     isSearch = true;
                 }
                 if (isSearch == false) {
                     if (etJobSearch.getText().toString() == null || "".equals(etJobSearch.getText().toString())) {
-                        ToastUitl.showShort("请输入职位名或公司名");
-                        return;
+                        if("".equals(selectPositionList)||selectPositionList==null||selectPositionList.size()==0) {
+                            ToastUitl.showShort("职位与关键词至少选择一个");
+                            return;
+                        }
+
                     }
                 }
                 if (etJobSearch.getText().toString() != null && !"".equals(etJobSearch.getText().toString())) {
                     jobSearchBean.setSearchName(etJobSearch.getText().toString());
-                    HistoryBean historyBean = new HistoryBean();
                     historyBean.setSearchName(etJobSearch.getText().toString());
-                    if (industryId != null && !"".equals(industryId)) {
-                        historyBean.setIndustryId(industryId);
-                    } else {
-                        historyBean.setIndustryId("");
-                    }
-                    if (cityId != null && !"".equals(cityId)) {
-                        historyBean.setPlaceId(cityId);
-                    } else {
-                        historyBean.setPlaceId("");
-                    }
-                    if (postionId != null && !"".equals(postionId)) {
-                        historyBean.setPositionId(postionId);
-                    } else {
-                        historyBean.setPositionId("");
-                    }
-                    SearchHistoryUtils.insertJobSearchDataOrReplace(historyBean);
                 }
+                SearchHistoryUtils.insertJobSearchDataOrReplace(historyBean);
                 MainActivity.instance.isHome = false;
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.putExtra("jobSearch", (Serializable) jobSearchBean);

@@ -61,7 +61,7 @@ public class MyShieldCompanyDataAdapter extends RecyclerView.Adapter<MyShieldCom
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
        viewHolder.tvItemShieldCompanyName.setText(favouriteListBeanList.get(position).getEliminate_txt());
-       viewHolder.tvItemShieldCompanyIndustry.setText(Utils.timeStamp2Date(favouriteListBeanList.get(position).getUpdate_time(),"yyyy-MM-dd HH:mm"));
+       viewHolder.tvItemShieldCompanyIndustry.setVisibility(View.GONE);
        viewHolder.tvItemShieldCompanySetShield.setText(HRApplication.getAppContext().getString(R.string.shieldCancel));
        /*viewHolder.tvItemShieldCompanyIndustry.setText(FromStringToArrayList.getInstance().getIndustryName(favouriteListBeanList.get(position).getIndustry()));*/
         if (clickCallBack != null) {

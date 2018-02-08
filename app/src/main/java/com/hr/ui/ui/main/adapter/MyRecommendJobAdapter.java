@@ -93,7 +93,8 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
             }
             viewHolder.tvRecommendJobName.setText(jobsListBeanList.get(position).getJob_name());
             viewHolder.tvRecommendJobSalary.setText(Utils.getSalary(jobsListBeanList.get(position).getSalary()));
-            viewHolder.tvRecommendJobTime.setText(Utils.getDateMonthAndDay(jobsListBeanList.get(position).getIssue_date()));
+            String day=Utils.getDateMonthAndDay(jobsListBeanList.get(position).getIssue_date());
+            viewHolder.tvRecommendJobTime.setText(day);
             viewHolder.tvRecommendPersonNum.setText(jobsListBeanList.get(position).getStuff_munber());
             viewHolder.tvRecommendJobWorkYear.setText(jobsListBeanList.get(position).getWorkyear());
             viewHolder.tvRecommendJobCompanyType.setText(jobsListBeanList.get(position).getCompany_type());
@@ -118,7 +119,11 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
                 }
                 viewHolder.tvRecommendJobName.setText(jobsListBeanList2.get(position).getJob_name());
                 viewHolder.tvRecommendJobSalary.setText(Utils.getSalary(jobsListBeanList2.get(position).getSalary()));
-                viewHolder.tvRecommendJobTime.setText(Utils.getDateMonthAndDay(jobsListBeanList2.get(position).getIssue_date()));
+                String day=Utils.getDateMonthAndDay(jobsListBeanList.get(position).getIssue_date());
+                if("".equals(day)||day==null){
+                    day=Utils.getDateMonthAndDay(Utils.timeStamp2Date(jobsListBeanList.get(position).getIssue_date(),"yyyy-MM-dd"));
+                }
+                viewHolder.tvRecommendJobTime.setText(day);
                 viewHolder.tvRecommendPersonNum.setText(jobsListBeanList2.get(position).getNumber());
                 viewHolder.tvRecommendJobWorkYear.setText(jobsListBeanList2.get(position).getWorkyear());
                 //viewHolder.tvRecommendJobCompanyType.setText(jobsListBeanList2.get(position).getCompany_type());

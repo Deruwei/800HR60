@@ -321,7 +321,11 @@ public class ResumeEducationActivity extends BaseActivity<ResumeEducationPresent
                 break;
             case R.id.rl_resumeEduBDEducation:
                 setFocus();
-                datePickerDegree.show(tvResumeEduBDEducation.getText().toString());
+                if("".equals(tvResumeEduBDEducation.getText().toString())||tvResumeEduBDEducation.getText().toString()==null) {
+                    datePickerDegree.show("本科");
+                }else{
+                    datePickerDegree.show(tvResumeEduBDEducation.getText().toString());
+                }
                 break;
             case R.id.btn_resumeSave:
                 doSaveOrUpdateEducation();

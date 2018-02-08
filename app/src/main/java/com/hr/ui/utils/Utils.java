@@ -17,6 +17,7 @@ import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.TabLayout;
+import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
@@ -72,7 +73,9 @@ public class Utils {
     {
         return (int ) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
     }
-
+    public static String getIMSI(Context context){
+       return "";
+    }
     /**
      * 获得屏幕宽度
      *
@@ -85,6 +88,37 @@ public class Utils {
         DisplayMetrics outMetrics = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics( outMetrics);
         return outMetrics .widthPixels ;
+    }
+    public static boolean checkVersion(String version,String version1)
+    {
+        Log.i("现在的时候",version+"----"+version1);
+        int  first= Integer.parseInt(version.substring(0,version.indexOf(".")));
+        int second= Integer.parseInt(version.substring(version.indexOf(".")+1,version.lastIndexOf(".")));
+        int third= Integer.parseInt(version.substring(version.lastIndexOf(".")+1));
+        int first1= Integer.parseInt(version1.substring(0,version1.indexOf(".")));
+       int second1= Integer.parseInt(version1.substring(version1.indexOf(".")+1,version1.lastIndexOf(".")));
+        int third1= Integer.parseInt(version1.substring(version1.lastIndexOf(".")+1));
+        if(first==first1&&second==second1&&third==third1){
+            return false;
+        }else{
+            if(first>first1) {
+                return true;
+            }else if(first==first1){
+                if (second > second1) {
+                        return true;
+                }else if(second==second1){
+                    if(third>third1) {
+                        return true;
+                    }else{
+                        return false;
+                    }
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }
     }
     public static String getDateMonthAndDay(String time){
             //Log.i("现在的数据", time + "");

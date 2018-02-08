@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hr.ui.R;
@@ -19,14 +20,12 @@ import com.hr.ui.bean.ScanHistoryBean;
 import com.hr.ui.db.ScanHistoryUtils;
 import com.hr.ui.ui.job.activity.PositionPageActivity;
 import com.hr.ui.ui.me.adapter.MyScanHistoryAdapter;
-import com.hr.ui.ui.message.adapter.MyWhoSeeMeAdapter;
 import com.hr.ui.utils.ProgressStyle;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.view.MyDialog;
 import com.hr.ui.view.XRecyclerView;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -47,28 +46,42 @@ public class ScanHistoryActivity extends BaseNoConnectNetworkAcitivty {
     Toolbar toolBar;
     @BindView(R.id.rv_find)
     XRecyclerView rvFind;
+    @BindView(R.id.iv_noContent)
+    ImageView ivNoContent;
+    @BindView(R.id.tv_noData)
+    TextView tvNoData;
+    @BindView(R.id.iv_noDataSearchIcon)
+    ImageView ivNoDataSearchIcon;
+    @BindView(R.id.iv_noDataSearch)
+    RelativeLayout ivNoDataSearch;
+    @BindView(R.id.rl_emptyView)
+    RelativeLayout rlEmptyView;
     private MyScanHistoryAdapter adapter;
-    private List<ScanHistoryBean> scanHistoryBeanList=new ArrayList<>();
-    private int page=1;
-    private List<ScanHistoryBean> totalScanHistoryList=new ArrayList<>();
+    private List<ScanHistoryBean> scanHistoryBeanList = new ArrayList<>();
+    private int page = 1;
+    private List<ScanHistoryBean> totalScanHistoryList = new ArrayList<>();
     private MyDialog dialog;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_find;
     }
+
     public static void startAction(Activity activity) {
         Intent intent = new Intent(activity, ScanHistoryActivity.class);
         activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.fade_in,
                 R.anim.fade_out);
     }
+
     @Override
     public void initView() {
-        scanHistoryBeanList=ScanHistoryUtils.getInstance().query(page);
+        scanHistoryBeanList = ScanHistoryUtils.getInstance().query(page);
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolBar.setTitle("");
+        ivNoDataSearch.setVisibility(View.GONE);
         toolBar.setTitleTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
         toolBar.setNavigationIcon(R.mipmap.back);
         tvToolbarTitle.setText(R.string.scan_history);
@@ -83,7 +96,7 @@ public class ScanHistoryActivity extends BaseNoConnectNetworkAcitivty {
         tvToolbarSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog=new MyDialog(ScanHistoryActivity.this,2);
+                dialog = new MyDialog(ScanHistoryActivity.this, 2);
                 dialog.setMessage(getString(R.string.sureDeleteHistory));
                 dialog.setNoOnclickListener(getString(R.string.cancel), new MyDialog.onNoOnclickListener() {
                     @Override
@@ -97,6 +110,9 @@ public class ScanHistoryActivity extends BaseNoConnectNetworkAcitivty {
                         ScanHistoryUtils.getInstance().deleteAll();
                         totalScanHistoryList.clear();
                         adapter.notifyDataSetChanged();
+                        rvFind.setVisibility(View.GONE);
+                        rlEmptyView.setVisibility(View.VISIBLE);
+                        tvToolbarSave.setVisibility(View.GONE);
                         dialog.dismiss();
                     }
                 });
@@ -109,7 +125,7 @@ public class ScanHistoryActivity extends BaseNoConnectNetworkAcitivty {
     }
 
     private void initRv() {
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this){
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this) {
             @Override
             public boolean canScrollHorizontally() {
                 return false;
@@ -122,17 +138,17 @@ public class ScanHistoryActivity extends BaseNoConnectNetworkAcitivty {
         rvFind.setRefreshProgressStyle(ProgressStyle.LineScaleParty);
         rvFind.setNestedScrollingEnabled(false);
         rvFind.setLoadingMoreProgressStyle(ProgressStyle.BallTrianglePath);
-        adapter=new MyScanHistoryAdapter(this);
+        adapter = new MyScanHistoryAdapter(this);
         rvFind.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
-                new Handler().postDelayed(new Runnable(){
+                new Handler().postDelayed(new Runnable() {
                     public void run() {
-                            page = 1;
-                            scanHistoryBeanList = ScanHistoryUtils.getInstance().query(page);
-                            Message message = Message.obtain();
-                            message.what = 0;
-                            handler.sendMessage(message);
+                        page = 1;
+                        scanHistoryBeanList = ScanHistoryUtils.getInstance().query(page);
+                        Message message = Message.obtain();
+                        message.what = 0;
+                        handler.sendMessage(message);
                         rvFind.refreshComplete();
                     }
 
@@ -144,17 +160,17 @@ public class ScanHistoryActivity extends BaseNoConnectNetworkAcitivty {
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
                         page++;
-                        scanHistoryBeanList=ScanHistoryUtils.getInstance().query(page);
+                        scanHistoryBeanList = ScanHistoryUtils.getInstance().query(page);
                         rvFind.loadMoreComplete();
-                        Message message=Message.obtain();
-                        message.what=1;
+                        Message message = Message.obtain();
+                        message.what = 1;
                         handler.sendMessage(message);
                     }
                 }, 1000);
             }
         });
-        Message message=Message.obtain();
-        message.what=0;
+        Message message = Message.obtain();
+        message.what = 0;
         handler.sendMessage(message);
     }
 
@@ -164,29 +180,34 @@ public class ScanHistoryActivity extends BaseNoConnectNetworkAcitivty {
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
-    private Handler handler=new Handler(){
+
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch(msg.what){
+            switch (msg.what) {
                 case 0:
-                    if(scanHistoryBeanList!=null&&scanHistoryBeanList.size()!=0&&!"[]".equals(scanHistoryBeanList)) {
+                    if (scanHistoryBeanList != null && scanHistoryBeanList.size() != 0 && !"[]".equals(scanHistoryBeanList)) {
                         tvToolbarSave.setVisibility(View.VISIBLE);
+                        rvFind.setVisibility(View.VISIBLE);
+                        rlEmptyView.setVisibility(View.GONE);
                         adapter = new MyScanHistoryAdapter(ScanHistoryActivity.this);
                         totalScanHistoryList.clear();
                         totalScanHistoryList.addAll(scanHistoryBeanList);
                         adapter.setListBeans(totalScanHistoryList);
                         rvFind.setAdapter(adapter);
                         rvFind.setPullRefreshEnabled(true);
-                    }else{
+                    } else {
+                        rvFind.setVisibility(View.GONE);
+                        rlEmptyView.setVisibility(View.VISIBLE);
                         rvFind.setPullRefreshEnabled(false);
                         tvToolbarSave.setVisibility(View.GONE);
                     }
                     break;
                 case 1:
-                    if(scanHistoryBeanList!=null&&scanHistoryBeanList.size()!=0) {
+                    if (scanHistoryBeanList != null && scanHistoryBeanList.size() != 0) {
                         totalScanHistoryList.addAll(scanHistoryBeanList);
                         adapter.notifyDataSetChanged();
-                    }else{
+                    } else {
                         rvFind.setNoMore(true);
                     }
                     break;
@@ -197,7 +218,7 @@ public class ScanHistoryActivity extends BaseNoConnectNetworkAcitivty {
                 public void onItemClick(int pos) {
                     if ("1".equals(totalScanHistoryList.get(pos).getIs_expect())) {
                         ToastUitl.showShort(R.string.error_401);
-                    }else{
+                    } else {
                         PositionPageActivity.startAction(ScanHistoryActivity.this, totalScanHistoryList.get(pos).getJobId());
                     }
                 }
@@ -208,7 +229,7 @@ public class ScanHistoryActivity extends BaseNoConnectNetworkAcitivty {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(dialog!=null){
+        if (dialog != null) {
             dialog.dismiss();
         }
     }

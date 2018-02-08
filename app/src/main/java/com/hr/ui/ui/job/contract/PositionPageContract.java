@@ -23,6 +23,7 @@ public interface PositionPageContract {
        void deliverPositionSuccess();
         void getResumeScoreSuccess(double s);
         void getPositionFaile();
+        void goToCompleteResume(int errorCode);
     }
     interface Model extends BaseModel{
         Observable<PositionBean> getPositionData(String jobId);

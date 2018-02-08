@@ -19,13 +19,18 @@ import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
 import com.hr.ui.bean.CollectionBean;
 import com.hr.ui.ui.job.activity.PositionPageActivity;
+import com.hr.ui.ui.main.activity.MainActivity;
+import com.hr.ui.ui.main.fragment.ResumeFragment;
 import com.hr.ui.ui.me.adapter.MyCollectionAdapter;
 import com.hr.ui.ui.me.contract.CollectionContract;
 import com.hr.ui.ui.me.model.CollectionModel;
 import com.hr.ui.ui.me.presenter.CollectionPresenter;
+import com.hr.ui.ui.resume.activity.ResumeJobOrderActivity;
 import com.hr.ui.utils.ProgressStyle;
 import com.hr.ui.utils.SwipeItemLayout;
 import com.hr.ui.utils.ToastUitl;
+import com.hr.ui.utils.datautils.FromStringToArrayList;
+import com.hr.ui.view.MyRecommendDialog;
 import com.hr.ui.view.XRecyclerView;
 import com.loopeer.itemtouchhelperextension.ItemTouchHelperExtension;
 
@@ -66,7 +71,8 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter, Collec
     private List<CollectionBean.FavouriteListBean> favouriteListBeanList = new ArrayList<>();
     public ItemTouchHelperExtension mItemTouchHelper;
     public ItemTouchHelperExtension.Callback mCallback;
-
+    private MyRecommendDialog dialog;
+    private int position;
     /**
      * 入口
      *
@@ -134,7 +140,8 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter, Collec
         });
         adapter.setOnDeleteClick(new MyCollectionAdapter.OnDeleteClick() {
             @Override
-            public void onViewClick(View view, int position) {
+            public void onViewClick(View view, int position1) {
+                    position=position1;
                     mPresenter.deleteCollection(favouriteListBeanList.get(position).getRecord_id(), favouriteListBeanList.get(position).getJob_id());
                     favouriteListBeanList.remove(position);
                     adapter.notifyDataSetChanged();
@@ -163,6 +170,55 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter, Collec
         ToastUitl.showShort("投递成功");
     }
 
+    @Override
+    public void goToCompleteResume(int error) {
+        if(error==413||error==417){
+            //ToastUitl.showShort(errorCode+"");
+            setPopupwindow(2);
+        }else{
+            //ToastUitl.showShort(errorCode+"");
+            setPopupwindow(1);
+        }
+    }
+    private void setPopupwindow(int type){
+        dialog=new MyRecommendDialog(this);
+        if(type==1) {
+            dialog.setTitle(getString(R.string.resumeNoComplete));
+            dialog.setMessage(getString(R.string.resumeNoCompleteContent));
+            dialog.setNoOnclickListener(getString(R.string.known), new MyRecommendDialog.onNoOnclickListener() {
+                @Override
+                public void onNoClick() {
+                    dialog.dismiss();
+                }
+            });
+            dialog.setYesOnclickListener(getString(R.string.goNow), new MyRecommendDialog.onYesOnclickListener() {
+                @Override
+                public void onYesClick() {
+                    dialog.dismiss();
+                    finish();
+                    MainActivity.instance.rbResume1.setChecked(true);
+                    ResumeFragment.instance.refresh();
+                }
+            });
+        }else{
+            dialog.setTitle(getString(R.string.noIndustry1)+ FromStringToArrayList.getInstance().getIndustryName(favouriteListBeanList.get(position).getIndustry())+"行业"+getString(R.string.noIndustry2));
+            dialog.setMessage(getString(R.string.noJobOrderContent1)+FromStringToArrayList.getInstance().getIndustryName(favouriteListBeanList.get(position).getIndustry())+"行业"+getString(R.string.noJobOrderContent2));
+            dialog.setNoOnclickListener(getString(R.string.known), new MyRecommendDialog.onNoOnclickListener() {
+                @Override
+                public void onNoClick() {
+                    dialog.dismiss();
+                }
+            });
+            dialog.setYesOnclickListener(getString(R.string.goNow), new MyRecommendDialog.onYesOnclickListener() {
+                @Override
+                public void onYesClick() {
+                    dialog.dismiss();
+                    ResumeJobOrderActivity.startAction(CollectionActivity.this);
+                }
+            });
+        }
+        dialog.show();
+    }
     @Override
     public int getLayoutId() {
         return R.layout.activity_collection;
@@ -236,5 +292,13 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter, Collec
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if(dialog!=null){
+            dialog.dismiss();
+        }
+        super.onDestroy();
     }
 }

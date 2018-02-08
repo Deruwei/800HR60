@@ -3,6 +3,7 @@ package com.hr.ui.ui.me.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -11,13 +12,20 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.hr.ui.BuildConfig;
 import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
-import com.hr.ui.base.BaseNoConnectNetworkAcitivty;
-import com.hr.ui.ui.message.activity.WebActivity;
+import com.hr.ui.base.BaseActivity;
+import com.hr.ui.bean.VersionBean;
+import com.hr.ui.ui.me.contract.VersionContract;
+import com.hr.ui.ui.me.model.VersionModel;
+import com.hr.ui.ui.me.presenter.VersionPresenter;
+import com.hr.ui.utils.ToastUitl;
+import com.hr.ui.utils.Utils;
+import com.hr.ui.view.PopWindowUpdate;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,7 +34,7 @@ import butterknife.ButterKnife;
  * Created by wdr on 2018/2/6.
  */
 
-public class VersionActivity extends BaseNoConnectNetworkAcitivty {
+public class VersionActivity extends BaseActivity<VersionPresenter, VersionModel> implements VersionContract.View {
     @BindView(R.id.tv_toolbarTitle)
     TextView tvToolbarTitle;
     @BindView(R.id.toolbarAdd)
@@ -37,8 +45,12 @@ public class VersionActivity extends BaseNoConnectNetworkAcitivty {
     Toolbar toolBar;
     @BindView(R.id.wv_content)
     WebView wvContent;
+    @BindView(R.id.cl_version)
+    ConstraintLayout clVersion;
     private WebSettings webSettings;
-    private String url="http://m.800hr.com/app/upgrade/6.0/";
+    private String url = "http://m.800hr.com/app/upgrade/6.0/";
+    private PopWindowUpdate popWindowUpdate;
+
     /**
      * 入口
      *
@@ -50,9 +62,15 @@ public class VersionActivity extends BaseNoConnectNetworkAcitivty {
         activity.overridePendingTransition(R.anim.fade_in,
                 R.anim.fade_out);
     }
+
     @Override
     public int getLayoutId() {
         return R.layout.layout_web;
+    }
+
+    @Override
+    public void initPresenter() {
+        mPresenter.setVM(this, mModel);
     }
 
     @Override
@@ -66,16 +84,22 @@ public class VersionActivity extends BaseNoConnectNetworkAcitivty {
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if( wvContent.canGoBack()){
+                if (wvContent.canGoBack()) {
                     wvContent.goBack();
-                }else {
+                } else {
                     finish();
                 }
             }
         });
         tvToolbarSave.setText(R.string.updateNow);
         tvToolbarSave.setVisibility(View.VISIBLE);
-        webSettings=wvContent.getSettings();
+        webSettings = wvContent.getSettings();
+        tvToolbarSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.getVersion(BuildConfig.VERSION_NAME);
+            }
+        });
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
         webSettings.setUseWideViewPort(true);//设置webview推荐使用的窗口
         webSettings.setLoadWithOverviewMode(true);//设置webview加载的页面的模式
@@ -121,9 +145,33 @@ public class VersionActivity extends BaseNoConnectNetworkAcitivty {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+
+    @Override
+    public void showLoading(String title) {
+
+    }
+
+    @Override
+    public void stopLoading() {
+
+    }
+
+    @Override
+    public void showErrorTip(String msg) {
+
+    }
+
+    @Override
+    public void getVersionSuccess(VersionBean.AndroidBean androidBean) {
+        if(Utils.checkVersion(androidBean.getVer(),BuildConfig.VERSION_NAME)==false){
+            ToastUitl.showShort("已经是最新版本了");
+        }else {
+            popWindowUpdate = new PopWindowUpdate(this, new PopupWindow(this), androidBean, clVersion);
+        }
     }
 }

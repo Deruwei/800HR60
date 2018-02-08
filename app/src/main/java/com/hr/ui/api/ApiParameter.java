@@ -12,6 +12,7 @@ import com.hr.ui.bean.EducationData;
 import com.hr.ui.bean.JobOrderData;
 import com.hr.ui.bean.JobSearchBean;
 import com.hr.ui.bean.LanguageLevelData;
+import com.hr.ui.bean.NoticeData;
 import com.hr.ui.bean.PersonalInformationData;
 import com.hr.ui.bean.ProfessionSkillData;
 import com.hr.ui.bean.ProjectExpData;
@@ -107,6 +108,26 @@ public class ApiParameter {
     public static HashMap<String,String> getAllInfo(){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_stow.totals");
+        return requestMap;
+    }
+    public static HashMap<String,String> getNotice(String ims){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","job.getnotice");
+        requestMap.put("phonecode",ims);
+        return requestMap;
+    }
+    public static HashMap<String,String> setNotice(NoticeData noticeData){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","job.setnotice");
+        requestMap.put("rushjob_state",noticeData.getRushjob_state());
+        requestMap.put("invite_state",noticeData.getInvite_state());
+        requestMap.put("sound_state",noticeData.getSound_state());
+        requestMap.put("notice_bgntime",noticeData.getNotice_bgntime());
+        requestMap.put("notice_endtime",noticeData.getNotice_endtime());
+        requestMap.put("phonecode",noticeData.getPhonecode());
+        requestMap.put("baidu_user_id",noticeData.getBaidu_user_id());
+        requestMap.put("baidu_channel_id",noticeData.getBaidu_channel_id());
+        requestMap.put("push_way",noticeData.getPush_way());
         return requestMap;
     }
     /**
@@ -844,6 +865,7 @@ public class ApiParameter {
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_eliminate.entelist");
         requestMap.put("eliminate_txt",content);
+        requestMap.put("nums",50+"");
         return requestMap;
     }
     public static HashMap<String,String> setShieldCompany(String companyName){

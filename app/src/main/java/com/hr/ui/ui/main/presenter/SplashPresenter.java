@@ -18,6 +18,7 @@ import com.hr.ui.bean.LoginBean;
 import com.hr.ui.bean.MultipleResumeBean;
 import com.hr.ui.bean.RegisterBean;
 import com.hr.ui.bean.ResumeBean;
+import com.hr.ui.bean.VersionBean;
 import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.main.activity.SplashActivity;
 import com.hr.ui.ui.main.contract.SplashContract;
@@ -222,6 +223,21 @@ public class SplashPresenter extends SplashContract.Presenter {
             @Override
             protected void _onError(String message) {
                 ToastUitl.showShort(message);
+            }
+        }));
+    }
+
+    @Override
+    public void getVersion(String version) {
+        mRxManage.add(mModel.getVersion(version).subscribe(new RxSubscriber<VersionBean>(mContext,false) {
+            @Override
+            protected void _onNext(VersionBean versionBean) throws IOException {
+                mView.getVersion(versionBean.getAndroid());
+            }
+
+            @Override
+            protected void _onError(String message) {
+
             }
         }));
     }

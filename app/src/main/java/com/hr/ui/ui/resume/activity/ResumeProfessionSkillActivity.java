@@ -329,8 +329,8 @@ public class ResumeProfessionSkillActivity extends BaseActivity<ResumeProfession
             ToastUitl.showShort("请填写使用时间");
             return;
         }
-        if("0".equals(etResumeProjectExpUseTime.getText().toString())){
-            ToastUitl.showShort("请填写正确的使用时间");
+        if(Integer.parseInt(etResumeProjectExpUseTime.getText().toString())==0){
+            ToastUitl.showShort("使用时间必须大于0");
             return;
         }
         if (skillLevelId == null || "".equals(skillLevelId)) {

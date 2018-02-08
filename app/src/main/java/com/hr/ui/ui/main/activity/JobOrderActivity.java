@@ -375,8 +375,8 @@ public class JobOrderActivity extends BaseActivity<JobOrderPresenter, JobOrderMo
             ToastUitl.showShort("请填写期望月薪");
             return;
         }
-        if("0".equals(tvExpectSalary.getText().toString())){
-            ToastUitl.showShort("请填写正确的期望月薪");
+        if(Integer.parseInt(tvExpectSalary.getText().toString())==0){
+            ToastUitl.showShort("期望月薪必须大于0");
             return;
         }
         JobOrderData jobOrderData = new JobOrderData();

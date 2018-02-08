@@ -61,7 +61,7 @@ public class MyShieldCompanyAdapter extends RecyclerView.Adapter<MyShieldCompany
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
        viewHolder.tvItemShieldCompanyName.setText(favouriteListBeanList.get(position).getEnterprise_name());
-       viewHolder.tvItemShieldCompanyIndustry.setText(FromStringToArrayList.getInstance().getIndustryName(favouriteListBeanList.get(position).getIndustry()));
+       viewHolder.tvItemShieldCompanyIndustry.setVisibility(View.GONE);
        viewHolder.tvItemShieldCompanySetShield.setVisibility(View.GONE);
         if (clickCallBack != null) {
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {

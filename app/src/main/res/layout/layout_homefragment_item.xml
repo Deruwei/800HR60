@@ -112,15 +112,6 @@
                 android:text="本科"
                 android:textColor="@color/color_999"
                 android:textSize="@dimen/x28" />
-
-            <TextView
-                android:id="@+id/tv_recommendJobTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="11-15"
-                android:textColor="@color/color_999"
-                android:textSize="@dimen/x28" />
         </RelativeLayout>
 
         <LinearLayout
@@ -221,6 +212,14 @@
                     android:layout_height="@dimen/x50"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true" />
+                <TextView
+                    android:id="@+id/tv_recommendJobTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="11-15"
+                    android:textColor="@color/color_999"
+                    android:textSize="@dimen/x28" />
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>

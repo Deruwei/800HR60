@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -22,10 +23,15 @@ import com.hr.ui.db.ScanHistoryUtils;
 import com.hr.ui.ui.job.contract.PositionPageContract;
 import com.hr.ui.ui.job.model.PositionPageModel;
 import com.hr.ui.ui.job.presenter.PositionPagePresenter;
+import com.hr.ui.ui.main.activity.MainActivity;
+import com.hr.ui.ui.main.fragment.ResumeFragment;
+import com.hr.ui.ui.resume.activity.ResumeJobOrderActivity;
 import com.hr.ui.utils.ClickUtils;
 import com.hr.ui.utils.EncryptUtils;
+import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.Utils;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
+import com.hr.ui.view.MyRecommendDialog;
 import com.hr.ui.view.PieChartView;
 import com.hr.ui.view.RoundImageView;
 
@@ -115,6 +121,7 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
     private int collection, apply;
     private int mWidth, mHeight;
     private SharedPreferencesUtils sUtils;
+    private MyRecommendDialog dialog;
     private PositionBean.JobInfoBean jobInfoBean;
     private long currTime = 0;// 分享的点击时间
 
@@ -159,7 +166,45 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
         jobId = getIntent().getStringExtra("jobId");
         mPresenter.getPositionData(jobId, this);
     }
-
+    private void setPopupwindow(int type){
+        dialog=new MyRecommendDialog(this);
+        if(type==1) {
+            dialog.setTitle(getString(R.string.resumeNoComplete));
+            dialog.setMessage(getString(R.string.resumeNoCompleteContent));
+            dialog.setNoOnclickListener(getString(R.string.known), new MyRecommendDialog.onNoOnclickListener() {
+                @Override
+                public void onNoClick() {
+                    dialog.dismiss();
+                }
+            });
+            dialog.setYesOnclickListener(getString(R.string.goNow), new MyRecommendDialog.onYesOnclickListener() {
+                @Override
+                public void onYesClick() {
+                    dialog.dismiss();
+                    finish();
+                    MainActivity.instance.rbResume1.setChecked(true);
+                    ResumeFragment.instance.refresh();
+                }
+            });
+        }else{
+            dialog.setTitle(getString(R.string.noIndustry1)+jobInfoBean.getIndustry_name()+"行业"+getString(R.string.noIndustry2));
+            dialog.setMessage(getString(R.string.noJobOrderContent1)+jobInfoBean.getIndustry_name()+"行业"+getString(R.string.noJobOrderContent2));
+            dialog.setNoOnclickListener(getString(R.string.known), new MyRecommendDialog.onNoOnclickListener() {
+                @Override
+                public void onNoClick() {
+                    dialog.dismiss();
+                }
+            });
+            dialog.setYesOnclickListener(getString(R.string.goNow), new MyRecommendDialog.onYesOnclickListener() {
+                @Override
+                public void onYesClick() {
+                    dialog.dismiss();
+                    ResumeJobOrderActivity.startAction(PositionPageActivity.this);
+                }
+            });
+        }
+        dialog.show();
+    }
     @Override
     public void getPositionSuccess(PositionBean.JobInfoBean jobInfoBean) {
         rlPositionContent.setVisibility(View.VISIBLE);
@@ -264,6 +309,18 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
     public void getPositionFaile() {
         rlPositionContent.setVisibility(View.GONE);
         llNetError.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void goToCompleteResume(int errorCode) {
+        //Log.i("现在的参数",errorCode+"");
+        if(errorCode==413||errorCode==417){
+            //ToastUitl.showShort(errorCode+"");
+           setPopupwindow(2);
+        }else{
+            //ToastUitl.showShort(errorCode+"");
+            setPopupwindow(1);
+        }
     }
 
     @Override
@@ -376,5 +433,13 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
             oks.show(this);
         }
         currTime = System.currentTimeMillis();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if(dialog!=null){
+            dialog.dismiss();
+        }
+        super.onDestroy();
     }
 }

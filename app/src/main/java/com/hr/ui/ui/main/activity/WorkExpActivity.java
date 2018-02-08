@@ -433,8 +433,8 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
             ToastUitl.showShort("请填写税前月薪");
             return;
         }
-        if("0".equals(etGrossPay.getText().toString())){
-            ToastUitl.showShort("请填写正确的税前月薪");
+        if(Integer.parseInt(etGrossPay.getText().toString())==0){
+            ToastUitl.showShort("税前月薪必须大于0");
             return;
         }
         if (startTimes == null || endTimes == null || "".equals(startTimes) || "".equals(endTimes)) {

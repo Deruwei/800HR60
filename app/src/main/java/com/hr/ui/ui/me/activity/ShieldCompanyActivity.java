@@ -106,6 +106,7 @@ public class ShieldCompanyActivity extends BaseActivity<ShieldCompanyPresenter, 
                 return false;
             }
         };
+        ivNoDataSearch.setVisibility(View.GONE);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvShieldCompany.setLayoutManager(linearLayoutManager);
         /*Drawable dividerDrawable = ContextCompat.getDrawable(this, R.drawable.divider_sample);
@@ -116,6 +117,10 @@ public class ShieldCompanyActivity extends BaseActivity<ShieldCompanyPresenter, 
         adapter = new MyShieldCompanyAdapter();
         shieldCompanyDataAdapter = new MyShieldCompanyDataAdapter();
         tvNoData.setVisibility(View.GONE);
+        rvShieldCompany.setLoadingMoreEnabled(false);
+        rvShieldCompany.setPullRefreshEnabled(false);
+        rvShieldCompanyQuery.setPullRefreshEnabled(false);
+        rvShieldCompanyQuery.setLoadingMoreEnabled(false);
         rvShieldCompany.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
@@ -152,6 +157,7 @@ public class ShieldCompanyActivity extends BaseActivity<ShieldCompanyPresenter, 
         rvShieldCompanyQuery.setNestedScrollingEnabled(false);
         rvShieldCompanyQuery.setLoadingMoreProgressStyle(ProgressStyle.BallTrianglePath);
         adapter = new MyShieldCompanyAdapter();
+        rvShieldCompanyQuery.setVisibility(View.GONE);
         shieldCompanyDataAdapter = new MyShieldCompanyDataAdapter();
         rvShieldCompanyQuery.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override

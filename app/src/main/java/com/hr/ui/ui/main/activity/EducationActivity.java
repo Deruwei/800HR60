@@ -84,7 +84,7 @@ public class EducationActivity extends BaseActivity<EducationPresenter, Educatio
     RelativeLayout rlStartAndEndTime;
     @BindView(R.id.cl_education)
     ConstraintLayout clEducation;
-    private String degreeId, startTimes = "", endTimes = "";
+    private String degreeId, startTimes, endTimes;
     private CustomDatePicker datePickerDegree;
     private MyStartAndEndTimeCustomDatePicker datePickerSE;
     private SharedPreferencesUtils sUtils;
@@ -313,7 +313,11 @@ public class EducationActivity extends BaseActivity<EducationPresenter, Educatio
                 break;
             case R.id.rl_education:
                 setFocus();
-                datePickerDegree.show(tvEducation.getText().toString());
+                if(tvEducation.getText().toString()==null||"".equals(tvEducation.getText().toString())){
+                    datePickerDegree.show("本科");
+                }else {
+                    datePickerDegree.show(tvEducation.getText().toString());
+                }
                 break;
             case R.id.rl_startAndEndTime:
                 setFocus();

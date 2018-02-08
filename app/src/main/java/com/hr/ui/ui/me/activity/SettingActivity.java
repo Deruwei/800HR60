@@ -1,12 +1,16 @@
 package com.hr.ui.ui.me.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -16,12 +20,16 @@ import com.hr.ui.app.AppManager;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
 import com.hr.ui.base.BaseNoConnectNetworkAcitivty;
+import com.hr.ui.bean.NoticeBean;
+import com.hr.ui.bean.NoticeData;
 import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.main.activity.SplashActivity;
 import com.hr.ui.ui.me.contract.SettingContract;
 import com.hr.ui.ui.me.model.SettingModel;
 import com.hr.ui.ui.me.presenter.SettingPresenter;
+import com.hr.ui.utils.PushAliasString;
 import com.hr.ui.utils.ToastUitl;
+import com.hr.ui.utils.Utils;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 
 import butterknife.BindView;
@@ -43,6 +51,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter,SettingModel>
     Toolbar toolBar;
     @BindView(R.id.iv_hideResume)
     Switch ivHideResume;
+    private boolean isCheck;
     /**
      * 入口
      *
@@ -73,10 +82,35 @@ public class SettingActivity extends BaseActivity<SettingPresenter,SettingModel>
         toolBar.setTitleTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
         toolBar.setNavigationIcon(R.mipmap.back);
         tvToolbarTitle.setText(R.string.setting);
+        mPresenter.getNotice(PushAliasString.getDeviceId(this));
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+        ivHideResume.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                NoticeData noticeData=new NoticeData();
+                noticeData.setBaidu_channel_id(null);
+                noticeData.setBaidu_user_id(null);
+                noticeData.setNotice_bgntime("9:00");
+                noticeData.setNotice_endtime("21:00");
+                noticeData.setSound_state("1");
+                noticeData.setPhonecode(PushAliasString.getDeviceId(SettingActivity.this));
+                noticeData.setPush_way("2");
+                if(isChecked){
+                    noticeData.setRushjob_state("1");
+                    noticeData.setInvite_state("1");
+                    if(isCheck==true) {
+                        mPresenter.setNotice(noticeData);
+                    }
+                }else{
+                    noticeData.setRushjob_state("0");
+                    noticeData.setInvite_state("0");
+                    mPresenter.setNotice(noticeData);
+                }
             }
         });
     }
@@ -152,4 +186,25 @@ public class SettingActivity extends BaseActivity<SettingPresenter,SettingModel>
         SplashActivity.startAction(this,1);
 
     }
+
+    @Override
+    public void getImsSuccess(NoticeBean.NoticeInfoBean noticeInfoBean) {
+
+        if("1".equals(noticeInfoBean.getInvite_state())||"1".equals(noticeInfoBean.getRushjob_state())){
+            ivHideResume.setChecked(true);
+        }else{
+            ivHideResume.setChecked(false);
+        }
+    }
+
+    @Override
+    public void setNoticeSuccess() {
+        isCheck=true;
+        if(ivHideResume.isChecked()) {
+            ToastUitl.showShort("设置成功");
+        }else{
+            ToastUitl.showShort("取消成功");
+        }
+    }
+
 }

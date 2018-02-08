@@ -27,6 +27,7 @@ public interface CollectionContract {
         void getCollectionSuccess(List<CollectionBean.FavouriteListBean> favouriteListBeanList);
         void deleteCollectionSuccess();
         void deliverCollection();
+        void goToCompleteResume(int error);
     }
     abstract class Presenter extends BasePresenter<View,Model>{
         public abstract void getCollectionInfo(int page);

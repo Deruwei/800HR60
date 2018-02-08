@@ -358,7 +358,7 @@ public class SelectOptionsActivity extends BaseActivity {
                 isShowIndustry = !isShowIndustry;
                 break;
             case R.id.rl_selectTerritory:
-                if (indutryId != null) {
+                if (indutryId != null&&!"".equals(indutryId)) {
                     if (FromStringToArrayList.getInstance().getIndustryIsHaveField(indutryId)) {
                         if (isShowTerritory == false) {
                             initTerritoryPopupWindow(indutryId);
@@ -384,7 +384,7 @@ public class SelectOptionsActivity extends BaseActivity {
                 }
                 break;
             case R.id.rl_selectJob:
-                if (indutryId != null) {
+                if (indutryId != null&&!"".equals(indutryId)) {
                     if (isShowJob == false) {
                         initJobPopupWindow();
                         if (popupWindowIndustry != null && popupWindowIndustry.isShowing() == true) {

@@ -114,7 +114,7 @@
     <string name="searchHint">输入职位名/公司名</string>
     <string name="search">搜索</string>
     <string name="area">地区</string>
-    <string name="Function">职能</string>
+    <string name="Function">职位</string>
     <string name="historySearch">历史搜索</string>
     <string name="searchCondition">设置搜索条件</string>
     <string name="resume">简历</string>
@@ -252,6 +252,13 @@
     <string name="noFunction">该行业暂无领域，直接选择行业即可！</string>
     <string name="phone">手机</string>
 
+
+    <string name="resumeNoComplete">建立完整度未到60%</string>
+    <string name="resumeNoCompleteContent">改公司只收取完整度达到60%的简历，请检查补充简历后再来投递</string>
+    <string name="noJobOrderContent1">您的简历目前没有[</string>
+    <string name="noIndustry1">没有[</string>
+    <string name="noIndustry2">]求职意向</string>
+    <string name="noJobOrderContent2">]的求职意向，请添加后再来投递</string>
     <string name="takePhoto">拍照</string>
     <string name="selectPicture">图片</string>
     <string name="next">下一步</string>
@@ -407,6 +414,7 @@
     <string name="calculate2">您与该职位的匹配度达到</string>
     <string name="calculate3">分！</string>
     <string name="known">知道啦</string>
+    <string name="goNow">现在去</string>
     <string name="calculate4">好机会不容错过，</string>
     <string name="calculate5">感觉合适的话就赶紧投递吧～</string>
 </resources>

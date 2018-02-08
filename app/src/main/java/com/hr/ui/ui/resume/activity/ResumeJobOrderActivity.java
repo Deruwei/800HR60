@@ -465,6 +465,10 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
             ToastUitl.showShort("请填写期望薪资");
             return;
        }
+       if(Integer.parseInt(tvResumeJobOrderExpectedSalary.getText().toString())==0){
+           ToastUitl.showShort("期望月薪必须大于0");
+           return;
+       }
        if("".equals(cityId)||cityId==null){
            ToastUitl.showShort("请选择工作城市");
            return;

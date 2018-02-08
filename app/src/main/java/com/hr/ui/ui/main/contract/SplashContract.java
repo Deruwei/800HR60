@@ -8,10 +8,12 @@ import com.hr.ui.base.BasePresenter;
 import com.hr.ui.base.BaseView;
 import com.hr.ui.bean.ArrayInfoBean;
 import com.hr.ui.bean.BaseBean;
+import com.hr.ui.bean.FindBean;
 import com.hr.ui.bean.LoginBean;
 import com.hr.ui.bean.MultipleResumeBean;
 import com.hr.ui.bean.RegisterBean;
 import com.hr.ui.bean.ResumeBean;
+import com.hr.ui.bean.VersionBean;
 
 import java.io.ObjectStreamException;
 
@@ -31,6 +33,7 @@ public interface SplashContract {
         Observable<ResumeBean> getResumeData(String resumeId);
         Observable<ArrayInfoBean> getArrayInfo();
         Observable<ResponseBody> getArrayData(String path,String fileName);
+        Observable<VersionBean> getVersion(String curVesion);
     }
     interface View extends BaseView{
         void SendConnectSuccess();
@@ -39,6 +42,7 @@ public interface SplashContract {
         void getResumeListSuccess(MultipleResumeBean multipleResumeBean);
         void getResumeDataSuccess(ResumeBean resumeBean);
         void onConnectError();
+        void getVersion(VersionBean.AndroidBean androidBean);
     }
     abstract static class Presenter extends BasePresenter<View, Model> {
         public abstract  void getConnect(Context context);
@@ -48,5 +52,6 @@ public interface SplashContract {
         public abstract void getResumeData(String resumeId);
         public abstract  void getArrayInfo();
         public abstract void getArrayData(String path,String fileName);
+        public abstract void getVersion(String version);
     }
 }

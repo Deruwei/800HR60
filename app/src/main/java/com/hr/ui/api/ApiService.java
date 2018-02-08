@@ -20,6 +20,7 @@ import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 import retrofit2.http.Url;
 import rx.Observable;
 
@@ -85,7 +86,8 @@ public interface ApiService {
 
     @GET("client/file/array/job.php")
     Observable<RequestBody> getJobArray();
-
+    @GET("client/getclientver.php")
+    Observable<ResponseBody> getVersionCode(@Query("cur_ver") String curVersion);
     @GET
     Observable<ResponseBody> getLingYuArray(@Url String url);
     @GET()

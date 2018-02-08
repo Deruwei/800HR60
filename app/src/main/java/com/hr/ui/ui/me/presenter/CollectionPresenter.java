@@ -81,14 +81,18 @@ public class CollectionPresenter extends CollectionContract.Presenter {
                 try {
                     s = responseBody.string().toString();
                     JSONObject jsonObject=new JSONObject(s);
-                    double error_code=jsonObject.getDouble("error_code");
+                    int error_code=jsonObject.getInt("error_code");
                     if(error_code==0) {
                         // System.out.print(s);
                        /* mView.setHideSuccess();*/
                        // mView.collectionPositionSuccess();
                         mView.deliverCollection();
                     }else{
-                        ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) error_code));
+                        if(error_code==413||error_code==404||error_code==417){
+                            mView.goToCompleteResume(error_code);
+                        }else {
+                            ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) error_code));
+                        }
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

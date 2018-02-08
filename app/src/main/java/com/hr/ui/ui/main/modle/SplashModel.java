@@ -13,6 +13,7 @@ import com.hr.ui.bean.MultipleResumeBean;
 import com.hr.ui.bean.RegisterBean;
 import com.hr.ui.bean.ResumeBean;
 import com.hr.ui.bean.ThirdLoginBean;
+import com.hr.ui.bean.VersionBean;
 import com.hr.ui.db.ThirdPartDao;
 import com.hr.ui.ui.login.contract.RegisterContract;
 import com.hr.ui.ui.main.contract.SplashContract;
@@ -140,5 +141,26 @@ public class SplashModel implements SplashContract.Model {
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .compose(RxSchedulers.<ResponseBody>io_main());
+    }
+
+    @Override
+    public Observable<VersionBean> getVersion(String curVesion) {
+        return Api.getDefault(HostType.HR).getVersionCode(curVesion)
+                .map(new Func1<ResponseBody, VersionBean>() {
+                    @Override
+                    public VersionBean call(ResponseBody responseBody) {
+                        VersionBean versionBean=null;
+                        try {
+                            String s=responseBody.string().toString();
+                            versionBean=new Gson().fromJson(s,VersionBean.class);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        return versionBean;
+                    }
+                })
+                .subscribeOn(Schedulers.newThread())        //在新线程里面处理网络请求
+                .observeOn(AndroidSchedulers.mainThread())  //在主线程里面接受返回的数据
+                .compose(RxSchedulers.<VersionBean>io_main());
     }
 }

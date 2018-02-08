@@ -180,11 +180,13 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
     private SharedPreferencesUtils sUtils;
     private int resumeId;
     private MyDialog dialog;
+    public  static ResumeFragment instance;
 
     public static ResumeFragment newInstance(String s) {
         ResumeFragment navigationFragment = new ResumeFragment();
         Bundle bundle = new Bundle();
         bundle.putString(Constants.ARGS, s);
+        instance=navigationFragment;
         navigationFragment.setArguments(bundle);
         return navigationFragment;
     }
@@ -577,7 +579,7 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
      */
     private void initTitleInfo() {
         if (titleInfoBean != null) {
-            Log.i("当前的数据", titleInfoBean.get(0).getFill_scale());
+            //Log.i("当前的数据", titleInfoBean.get(0).getFill_scale());
             pbResume.setProgram(Integer.parseInt(titleInfoBean.get(0).getFill_scale()));
             sbResume.setMaxCount(100);
             if ("2".equals(titleInfoBean.get(0).getOpen())) {
@@ -852,7 +854,9 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
         });
         dialog.show();
     }
-
+    public void refresh(){
+        mPresenter.getResume(resumeId+"",false);
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();

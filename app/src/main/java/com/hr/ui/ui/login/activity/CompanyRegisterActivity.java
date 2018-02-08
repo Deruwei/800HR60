@@ -393,7 +393,7 @@ public class CompanyRegisterActivity extends BaseActivity<CompanyRegisterPresent
             ToastUitl.showShort("请填写验证码");
             return;
         }
-        if (!etComregisterAotoPSW.getText().toString().equals(getCode)) {
+        if (!etComregisterAotoPSW.getText().toString().equalsIgnoreCase(getCode)) {
             ToastUitl.showShort("请填写正确的验证码");
             return;
         }

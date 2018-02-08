@@ -212,12 +212,12 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
         tvJobSearchFragment.setText("关闭");
         etJobSearch.setText(jobSearchBean.getSearchName());
         jobSerchType = jobSearchBean.getJobType();
-        if ("1".equals(jobSerchType)) {
-            tvJobSearchFragment.setText("全文");
-        } else if ("2".equals(jobSerchType)) {
-            tvJobSearchFragment.setText("职位");
-        } else if ("3".equals(jobSerchType)) {
-            tvJobSearchFragment.setText("公司");
+        if (jobSerchType==1) {
+            tvJobSearchTypeFragment.setText("全文");
+        } else if (jobSerchType==2) {
+            tvJobSearchTypeFragment.setText("职位");
+        } else if (jobSerchType==3) {
+            tvJobSearchTypeFragment.setText("公司");
         }
         SearchAdapter = new MyRecommendJobAdapter(1);
         initData(jobSearchBean);

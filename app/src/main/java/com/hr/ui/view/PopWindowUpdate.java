@@ -1,6 +1,9 @@
 package com.hr.ui.view;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -9,6 +12,8 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.hr.ui.R;
+import com.hr.ui.bean.VersionBean;
+import com.hr.ui.utils.DownloadSignatureServic;
 
 /**
  * Created by wdr on 2018/1/31.
@@ -17,12 +22,12 @@ import com.hr.ui.R;
 public class PopWindowUpdate {
     private Activity activity;
     private PopupWindow popupWindow;
-    private String content;
+    private VersionBean.AndroidBean androidBean;
     private View viewMain;
-    public PopWindowUpdate(Activity activity,PopupWindow popupWindow, String content, View view){
+    public PopWindowUpdate(Activity activity,PopupWindow popupWindow, VersionBean.AndroidBean androidBean, View view){
         this.activity=activity;
         this.popupWindow=popupWindow;
-        this.content=content;
+        this.androidBean=androidBean;
         this.viewMain=view;
         initView();
     }
@@ -33,7 +38,7 @@ public class PopWindowUpdate {
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         TextView tvUpdateContent=view.findViewById(R.id.tv_updateContent);
         TextView tvUpdateNow=view.findViewById(R.id.tv_updateNow);
-        tvUpdateContent.setText(content);
+        tvUpdateContent.setText(androidBean.getText());
         tvUpdateNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,8 +58,23 @@ public class PopWindowUpdate {
                 activity.getWindow().setAttributes(lp);
             }
         });
+        tvUpdateNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+                public void onClick(View v) {
+                    downLoadApp();
+                    popupWindow.dismiss();
+                }
+        });
         popupWindow.setFocusable(true);
         popupWindow.setAnimationStyle(R.style.style_pop_animation2);
         popupWindow.showAtLocation(viewMain, Gravity.CENTER, 0, 0);
+    }
+    private void downLoadApp(){
+        Bundle bundle = new Bundle();
+        bundle.putString("signatureurl", androidBean.getUrl()+"android/800hr.apk");/*电子签名下载地址*/
+        bundle.putString("versionName",androidBean.getVer());
+       /* bundle.putString("version",);*/
+        Intent it = new Intent().setClass(activity, DownloadSignatureServic.class).putExtras(bundle);
+        activity.startService(it);
     }
 }

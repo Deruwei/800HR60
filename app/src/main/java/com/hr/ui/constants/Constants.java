@@ -9,6 +9,7 @@ import com.hr.ui.api.HostType;
 public class Constants {
     public static final String ARGS = "args";
     public static final String USERID = "userId";
+    public static  String  ALIAS;
     public static String TYPE_THIRDPARTLOGIN = "";
     public static final String RESUME_ID="resume_id";
     public static final String RESUME_TYPE="resume_type";

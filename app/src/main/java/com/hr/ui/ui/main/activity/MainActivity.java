@@ -95,6 +95,7 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
     RelativeLayout rlRightPage;
     @BindView(R.id.id_menu)
     MyDrawLayout2 idMenu;
+    private String apkUrl="http://www.800hr.com/app/android/800hr.apk";
     private PopupWindow popupWindow;
     private int userId;
     private ArrayList<Fragment> fragments;
@@ -106,6 +107,7 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
     private SharedPreferencesUtils sUtis;
     private String personImage;
     private PopupWindow popupWindowGiveComment;
+    public  RadioButton rbResume1;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -198,22 +200,28 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
         //判断是否添加
         if (!fragments.get(index).isAdded()) {
             ft.add(R.id.ll_main, fragments.get(index)).show(fragments.get(index));
+            if(index==2){
+                idMenu.setDrawerLockMode(MyDrawLayout2.LOCK_MODE_LOCKED_CLOSED);
+                rlLeftPage.setBackgroundResource(R.drawable.resume_title_bg);
+            }
         } else {
             ft.show(fragments.get(index));
+            if(index==0){
+                idMenu.setDrawerLockMode(MyDrawLayout2.LOCK_MODE_UNLOCKED);
+                rlLeftPage.setBackgroundResource(R.color.bg_homeTitle);
+            }
             if(index==1){
                 MessageFragment.instance.getDate(false);
+            }
+            if(index==2){
+                idMenu.setDrawerLockMode(MyDrawLayout2.LOCK_MODE_LOCKED_CLOSED);
+                rlLeftPage.setBackgroundResource(R.drawable.resume_title_bg);
             }
         }
         ft.commit();
         //再次赋值
         mIndex = index;
 
-    }
-    private void downLoadApp(){
-        Bundle bundle = new Bundle();
-        bundle.putString("signatureurl", "");/*电子签名下载地址*/
-        Intent it = new Intent().setClass(this, DownloadSignatureServic.class).putExtras(bundle);
-        startService(it);
     }
     private void setRadioGroupListener() {
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -253,6 +261,7 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
         instance = this;
         mPresenter.getNotice("96","794,796,797,798");
         userId = getIntent().getIntExtra("userId", 0);
+        rbResume1=rbResume;
         initFragment();
         setRadioGroupListener();
         idMenu.setDrawerListener(new MyDrawLayout2.DrawerListener() {
@@ -324,7 +333,7 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE && resultCode == JobSerchActivity.instance.RESULT_CODE) {
+        if (requestCode!=0&&resultCode!=0&&requestCode == REQUEST_CODE && resultCode == JobSerchActivity.instance.RESULT_CODE) {
             JobSearchBean jobSearchBean1 = (JobSearchBean) data.getSerializableExtra("jobSearch");
             //Log.i("当前的数据",jobSearchBean1.toString());
             if (isHome == false) {

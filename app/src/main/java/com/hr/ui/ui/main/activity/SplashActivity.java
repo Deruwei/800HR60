@@ -7,20 +7,24 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.hr.ui.BuildConfig;
 import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
 import com.hr.ui.bean.LoginBean;
 import com.hr.ui.bean.MultipleResumeBean;
 import com.hr.ui.bean.ResumeBean;
+import com.hr.ui.bean.VersionBean;
 import com.hr.ui.constants.Constants;
 import com.hr.ui.db.LoginDBUtils;
 import com.hr.ui.ui.login.activity.CompanyRegisterActivity;
@@ -31,10 +35,10 @@ import com.hr.ui.ui.main.modle.SplashModel;
 import com.hr.ui.ui.main.presenter.SplashPresenter;
 import com.hr.ui.utils.AnimationUtil;
 import com.hr.ui.utils.LongRunningService;
-import com.hr.ui.utils.NetWorkUtilsDNs;
-import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.ToolUtils;
+import com.hr.ui.utils.Utils;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
+import com.hr.ui.view.PopWindowUpdate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +46,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -65,6 +68,8 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
     LinearLayout rlLoginOrRegister;
     @BindView(R.id.rl_companySplash)
     RelativeLayout rlCompanySplash;
+    @BindView(R.id.cl_splash)
+    ConstraintLayout clSplash;
     private SharedPreferencesUtils sUtils;
     private int isAutoLogin, autoLoginType;
     private LoginBean loginBean;
@@ -74,6 +79,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
     private ArrayList<String> titles;
     private int userId;
     private int type;
+    private PopupWindow popupWindow;
 
     public static void startAction(Activity activity, int type) {
         Intent intent = new Intent(activity, SplashActivity.class);
@@ -107,7 +113,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
         autoLoginType = sUtils.getIntValue(Constants.AUTOLOGINTYPE, 5);
         if (sUtils.getBooleanValue(Constants.IS_GUIDE, false) == false) {
             WelcomeActivity.startAction(SplashActivity.this, requestCode);
-        }else{
+        } else {
             mPresenter.getConnect(this);
         }
 
@@ -204,6 +210,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
     public void SendConnectSuccess() {
         Intent intent = new Intent(HRApplication.getAppContext(), LongRunningService.class);
         startService(intent);
+        mPresenter.getVersion(BuildConfig.VERSION_NAME);
         if (autoLoginType != 5) {
             loginBean = LoginDBUtils.queryDataById(autoLoginType + "");
             // System.out.println("auto"+loginBean.toString());
@@ -218,7 +225,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
                     mPresenter.getThirdBindingLogin(loginBean);
                 }
             }
-        }else{
+        } else {
             setViewVisible();
         }
     }
@@ -252,7 +259,17 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
         setViewVisible();
     }
 
-    @OnClick({R.id.rl_login, R.id.rl_register,R.id.rl_companySplash})
+    @Override
+    public void getVersion(VersionBean.AndroidBean androidBean) {
+        String version = androidBean.getVer();
+        String version1 = BuildConfig.VERSION_NAME;
+        if (Utils.checkVersion(version, version1) == true) {
+            popupWindow=new PopupWindow(this);
+            PopWindowUpdate popWindowUpdate = new PopWindowUpdate(this, popupWindow, androidBean,clSplash );
+        }
+    }
+
+    @OnClick({R.id.rl_login, R.id.rl_register, R.id.rl_companySplash})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_login:
@@ -292,5 +309,13 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
     @Override
     public void showErrorTip(String msg) {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (popupWindow != null) {
+            popupWindow.dismiss();
+        }
+        super.onDestroy();
     }
 }

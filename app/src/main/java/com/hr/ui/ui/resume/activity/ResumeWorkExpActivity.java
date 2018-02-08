@@ -455,6 +455,10 @@ public class ResumeWorkExpActivity extends BaseActivity<ResumeWorkExpPresenter, 
             ToastUitl.showShort("请填写税前月薪");
             return;
         }
+        if(Integer.parseInt(tvResumeWorkExpGrossPay.getText().toString())==0){
+            ToastUitl.showShort("税前月薪必须大于0");
+            return;
+        }
         WorkExpData workExpData=new WorkExpData();
         if(!"".equals(experienceId)&&experienceId!=null) {
             workExpData.setExperienceId(experienceId);
