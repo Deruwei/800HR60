@@ -163,7 +163,7 @@ public class ResumePresenter extends ResumeContract.Presenter {
                     if(error_code==0) {
                         //System.out.print(s);
                         String time=jsonObject.getString("uptime");
-                        ToastUitl.showShort("刷新时间："+time);
+                        ToastUitl.showShort("刷新成功："+time);
                         getResume(resumeId,false);
                     }else{
                         ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) error_code));

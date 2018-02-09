@@ -46,8 +46,8 @@ public interface SplashContract {
     }
     abstract static class Presenter extends BasePresenter<View, Model> {
         public abstract  void getConnect(Context context);
-        public abstract void getAutoPhoneLogin(String phoneNumber,String psw,int type);
-        public abstract void getThirdBindingLogin(LoginBean loginBean);
+        public abstract void getAutoPhoneLogin(String phoneNumber,String psw,int type,boolean isCanRefresh);
+        public abstract void getThirdBindingLogin(LoginBean loginBean,boolean isCanRefresh);
         public abstract void getResumeList();
         public abstract void getResumeData(String resumeId);
         public abstract  void getArrayInfo();

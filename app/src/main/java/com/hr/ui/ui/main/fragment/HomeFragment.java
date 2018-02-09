@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -132,8 +133,6 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
         tvNoData.setText("暂无合适职位推荐，点我刷新");
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvHomeFragment.setLayoutManager(linearLayoutManager);
-        Drawable dividerDrawable = ContextCompat.getDrawable(getActivity(), R.drawable.divider_sample);
-        rvHomeFragment.addItemDecoration(rvHomeFragment.new DividerItemDecoration(dividerDrawable));
         rvHomeFragment.setRefreshProgressStyle(ProgressStyle.LineScaleParty);
         rvHomeFragment.setLoadingMoreProgressStyle(ProgressStyle.BallTrianglePath);
 
@@ -216,7 +215,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
     @Override
     public void getRecommendJobSuccess(List<HomeRecommendBean.JobsListBean> jobsBeanList) {
         //Log.i("现在的数据",jobsBeanList.toString());
-        if (jobsBeanList != null && !"[]".equals(jobsBeanList) && jobsBeanList.size() != 0) {
+        if (jobsBeanList != null && !"".equals(jobsBeanList) && jobsBeanList.size() != 0) {
             llNetError.setVisibility(View.GONE);
             if (page == 1) {
                 if(jobsBeanList.size()>=20) {
@@ -226,6 +225,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
                     jobAdapter.setJobsListBeanList2(recommendList);
                     rvHomeFragment.setAdapter(jobAdapter);
                     rvHomeFragment.refreshComplete();
+                    rvHomeFragment.setLoadingMoreEnabled(false);
                 }else{
                    recommendList.clear();
                     recommendList.addAll(jobsBeanList);
@@ -282,6 +282,9 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
     @Override
     public void getRecommendJobSuccess2(List<RecommendJobBean.JobsListBean> jobsListBeanList) {
         if(jobsListBeanList!=null&&jobsListBeanList.size()!=0) {
+            rlEmptyView.setVisibility(View.GONE);
+            rvHomeFragment.setVisibility(View.VISIBLE);
+            llNetError.setVisibility(View.GONE);
             if (page == 1) {
                 recommendJobList.clear();
                 jobAdapter = new MyRecommendJobAdapter(3);

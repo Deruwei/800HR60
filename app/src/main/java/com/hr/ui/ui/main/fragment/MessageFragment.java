@@ -171,6 +171,7 @@ public class MessageFragment extends BaseFragment<MessageFragmentPresenter, Mess
             tvWhoSeeMeCompanyName.setText(browsedListBeans.get(0).getEnterprise_name());
             tvWhoSeeMeCompanyTime.setText(Utils.getDateMonthAndDay(browsedListBeans.get(0).getBrowsed_time()));
         } else {
+            tvFeedbackCompanyName.setText("暂无记录");
             ivMessageWhoSeeMeNum.setVisibility(View.GONE);
         }
     }
@@ -190,6 +191,7 @@ public class MessageFragment extends BaseFragment<MessageFragmentPresenter, Mess
             //Log.i("现在的时间",appliedListBeanList.get(0).getApplied_time());
             tvFeedbackTime.setText(Utils.getDateMonthAndDay(appliedListBeanList.get(0).getApplied_time()));
         } else {
+            tvFeedbackCompanyName.setText("暂无记录");
             ivMessageFeedBackNum.setVisibility(View.GONE);
         }
     }
@@ -271,32 +273,8 @@ public class MessageFragment extends BaseFragment<MessageFragmentPresenter, Mess
         rvMessage.setNestedScrollingEnabled(false);
         rvMessage.setLoadingMoreProgressStyle(ProgressStyle.BallTrianglePath);
         adapter = new MyMessageAdapter(getActivity());
-        rvMessage.setLoadingListener(new XRecyclerView.LoadingListener() {
-            @Override
-            public void onRefresh() {
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-                        page = 1;
-                        mPresenter.getInviteInterview(page);
-                        adapter.notifyDataSetChanged();
-                        rvMessage.refreshComplete();
-                    }
-
-                }, 1000);            //refresh data here
-            }
-
-            @Override
-            public void onLoadMore() {
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-                        page++;
-                        mPresenter.getInviteInterview(page);
-                        rvMessage.loadMoreComplete();
-                        adapter.notifyDataSetChanged();
-                    }
-                }, 1000);
-            }
-        });
+        rvMessage.setLoadingMoreEnabled(false);
+        rvMessage.setPullRefreshEnabled(false);
         swipeRefresh.setColorSchemeResources(R.color.new_main);
         // 设置下拉监听，当用户下拉的时候会去执行回调
         swipeRefresh.setOnRefreshListener(this);

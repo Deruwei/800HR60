@@ -32,6 +32,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical"
+        android:id="@+id/ll_content"
         android:paddingLeft="@dimen/x31"
         android:paddingRight="@dimen/x31"
         android:paddingTop="@dimen/x40">
@@ -115,7 +116,7 @@
         </RelativeLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/x40"
             android:layout_marginTop="@dimen/x44"
@@ -212,15 +213,24 @@
                     android:layout_height="@dimen/x50"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true" />
-                <TextView
-                    android:id="@+id/tv_recommendJobTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:text="11-15"
-                    android:textColor="@color/color_999"
-                    android:textSize="@dimen/x28" />
+
             </RelativeLayout>
+            <TextView
+                android:id="@+id/tv_recommendJobTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="11-15"
+                android:gravity="right"
+                android:layout_gravity="bottom"
+                android:textColor="@color/color_999"
+                android:textSize="@dimen/x28" />
         </LinearLayout>
     </LinearLayout>
+    <View
+        android:id="@+id/view_lineJob"
+        android:layout_below="@+id/ll_content"
+        android:background="@color/resumeContent_bg"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x20"/>
 </RelativeLayout>

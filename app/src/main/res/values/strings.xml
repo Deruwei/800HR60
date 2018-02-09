@@ -140,6 +140,7 @@
     <string name="changeTelephoneNumber">更换手机号码</string>
     <string name="evaluateMine">评价我们</string>
     <string name="versionDes">版本说明</string>
+    <string name="companyInto">企业入口</string>
     <string name="changeAccount">更换账号</string>
     //注册和登录
     <string name="howToGet">如何得到：</string>
@@ -163,7 +164,7 @@
     <string name="bindUserAccount">绑定账号</string>
     <string name="hasPhoneAcccount">已有手机账号</string>
     <string name="hasUserAccount">已有英才网联账号</string>
-    <string name="hasAccount">已有帐号？去登录</string>
+    <string name="hasAccount">已有账号？去登录</string>
     <string name="findPswUsePhone">用手机找回密码</string>
     <string name="userThirdPartLogin">使用下列账号快速登录</string>
     <string name="accountNumber">用户名</string>
@@ -253,8 +254,8 @@
     <string name="phone">手机</string>
 
 
-    <string name="resumeNoComplete">建立完整度未到60%</string>
-    <string name="resumeNoCompleteContent">改公司只收取完整度达到60%的简历，请检查补充简历后再来投递</string>
+    <string name="resumeNoComplete">简历完整度未达到60%</string>
+    <string name="resumeNoCompleteContent">该公司只收取完整度达到60%的简历，请检查补充简历后再来投递</string>
     <string name="noJobOrderContent1">您的简历目前没有[</string>
     <string name="noIndustry1">没有[</string>
     <string name="noIndustry2">]求职意向</string>

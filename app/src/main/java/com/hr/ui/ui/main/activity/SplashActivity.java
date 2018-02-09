@@ -218,11 +218,11 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
                 setViewVisible();
             } else {
                 if (autoLoginType == 0) {
-                    mPresenter.getAutoPhoneLogin(loginBean.getName(), loginBean.getPassword(), 1);
+                    mPresenter.getAutoPhoneLogin(loginBean.getName(), loginBean.getPassword(), 1,false);
                 } else if (autoLoginType == 1) {
-                    mPresenter.getAutoPhoneLogin(loginBean.getName(), loginBean.getPassword(), 2);
+                    mPresenter.getAutoPhoneLogin(loginBean.getName(), loginBean.getPassword(), 2,false);
                 } else {
-                    mPresenter.getThirdBindingLogin(loginBean);
+                    mPresenter.getThirdBindingLogin(loginBean,false);
                 }
             }
         } else {

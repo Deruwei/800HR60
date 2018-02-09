@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -332,30 +333,30 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(sUtils.getBooleanValue(Constants.IS_NEEDSAVEWARNNING,false)==true) {
-                    myDialog=new MyDialog(ResumeJobOrderActivity.this,2);
-                    myDialog.setMessage(getString(R.string.exitWarning));
-                    myDialog.setYesOnclickListener("确定", new MyDialog.onYesOnclickListener() {
-                        @Override
-                        public void onYesClick() {
-                            finish();
-                         myDialog.dismiss();
-                        }
-                    });
-                    myDialog.setNoOnclickListener("取消", new MyDialog.onNoOnclickListener() {
-                        @Override
-                        public void onNoClick() {
-                            myDialog.dismiss();
-                        }
-                    });
-                    myDialog.show();
-                }else{
-                    finish();
-                }
+                   showDialogWay();
             }
         });
         setTextChangedListener();
         mPresenter.getJobOrderInfo();
+    }
+
+    private void showDialogWay() {
+        myDialog=new MyDialog(ResumeJobOrderActivity.this,2);
+        myDialog.setMessage(getString(R.string.exitWarning));
+        myDialog.setYesOnclickListener("确定", new MyDialog.onYesOnclickListener() {
+            @Override
+            public void onYesClick() {
+                finish();
+                myDialog.dismiss();
+            }
+        });
+        myDialog.setNoOnclickListener("取消", new MyDialog.onNoOnclickListener() {
+            @Override
+            public void onNoClick() {
+                myDialog.dismiss();
+            }
+        });
+        myDialog.show();
     }
 
     private void setTextChangedListener() {
@@ -575,5 +576,15 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
         if(myDialog!=null){
             myDialog.dismiss();
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK
+                && event.getAction() == KeyEvent.ACTION_DOWN) {
+            showDialogWay();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

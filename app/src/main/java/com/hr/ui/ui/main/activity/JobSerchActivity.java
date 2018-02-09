@@ -266,8 +266,9 @@ public class JobSerchActivity extends BaseActivity<JobSearchPresenter, JobSearch
                 if (etJobSearch.getText().toString() != null && !"".equals(etJobSearch.getText().toString())) {
                     jobSearchBean.setSearchName(etJobSearch.getText().toString());
                     historyBean.setSearchName(etJobSearch.getText().toString());
+                    SearchHistoryUtils.insertJobSearchDataOrReplace(historyBean);
                 }
-                SearchHistoryUtils.insertJobSearchDataOrReplace(historyBean);
+
                 MainActivity.instance.isHome = false;
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.putExtra("jobSearch", (Serializable) jobSearchBean);

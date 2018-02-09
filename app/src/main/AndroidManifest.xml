@@ -257,7 +257,6 @@
         <activity android:name=".ui.main.activity.JobSerchActivity"
             android:windowSoftInputMode="adjustPan|stateHidden"
             android:theme="@style/AppTheme"
-            android:launchMode="singleInstance"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.main.activity.SelectIndustryActivity"
             android:windowSoftInputMode="adjustPan|stateHidden"

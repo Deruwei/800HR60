@@ -277,7 +277,7 @@ public class ApiParameter {
         requestParams.put("phone", companyRegisterBean.getPhone());
         requestParams.put("email", companyRegisterBean.getEmail());
         requestParams.put("is_login", "0");
-        Log.i("传送的数据",requestParams.toString());
+        //Log.i("传送的数据",requestParams.toString());
       return requestParams;
 
     }
@@ -352,7 +352,7 @@ public class ApiParameter {
         return requestMap;
     }
     public static HashMap<String,String> sendWorkExpToResume(WorkExpData workExpData){
-        Log.i("现在的数据",workExpData.toString());
+        //Log.i("现在的数据",workExpData.toString());
         HashMap<String,String> requestMap=new HashMap<>();
         String startTime=workExpData.getStartTime();
         String endTime=workExpData.getEndTime();
@@ -902,7 +902,7 @@ public class ApiParameter {
         requestMap.put("method","user.chgphone");
         requestMap.put("user_phone",phone);
         requestMap.put("token",validCode);
-        Log.i("现在的 数据",requestMap.toString());
+        //Log.i("现在的 数据",requestMap.toString());
         return requestMap;
     }
     public static HashMap<String,String> changePsw(String oldPsw,String newPsw){

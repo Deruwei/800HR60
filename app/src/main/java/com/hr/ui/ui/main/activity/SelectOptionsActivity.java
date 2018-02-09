@@ -143,7 +143,7 @@ public class SelectOptionsActivity extends BaseActivity {
     public static SelectOptionsActivity instance;
     private PopupWindow popupWindowPositonClass;
     private int currentJobPosition;
-    private MyDialog dialog;
+    private MyDialog dialog,dialogIndustry;
 
     /**
      * 入口
@@ -423,18 +423,33 @@ public class SelectOptionsActivity extends BaseActivity {
         ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                llIndustryItems.removeView(llIndustryItems.findViewWithTag(indutryId));
-                industryIds.remove(indutryId);
-                indutryId = "";
-                selectRealFuncList.clear();
-                selectRealPositionList.clear();
-                glJobItems.removeAllViewsInLayout();
-                glTerritoryItems.removeAllViewsInLayout();
-                if (llIndustryItems.getChildCount() == 0) {
-                    rlIndustry.setVisibility(View.GONE);
-                }
-                rlJob.setVisibility(View.GONE);
-                rlTerritory.setVisibility(View.GONE);
+                dialogIndustry=new MyDialog(SelectOptionsActivity.this,2);
+                dialogIndustry.setMessage("确定要删除["+FromStringToArrayList.getInstance().getIndustryName(indutryId)+"]行业吗？");
+                dialogIndustry.setNoOnclickListener("取消", new MyDialog.onNoOnclickListener() {
+                    @Override
+                    public void onNoClick() {
+                        dialogIndustry.dismiss();
+                    }
+                });
+                dialogIndustry.setYesOnclickListener("确定", new MyDialog.onYesOnclickListener() {
+                    @Override
+                    public void onYesClick() {
+                        llIndustryItems.removeView(llIndustryItems.findViewWithTag(indutryId));
+                        industryIds.remove(indutryId);
+                        indutryId = "";
+                        selectRealFuncList.clear();
+                        selectRealPositionList.clear();
+                        glJobItems.removeAllViewsInLayout();
+                        glTerritoryItems.removeAllViewsInLayout();
+                        if (llIndustryItems.getChildCount() == 0) {
+                            rlIndustry.setVisibility(View.GONE);
+                        }
+                        rlJob.setVisibility(View.GONE);
+                        rlTerritory.setVisibility(View.GONE);
+                        dialogIndustry.dismiss();
+                    }
+                });
+                dialogIndustry.show();
             }
         });
         ll.setTag(indutryId);

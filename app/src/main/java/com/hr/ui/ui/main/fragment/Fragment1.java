@@ -92,7 +92,7 @@ public class Fragment1 extends Fragment {
                     sbFragment.setMaxCount(100);
                     sbFragment.setCurrentCount(60);
                     pcv.SetProgram(80);
-                    ToastUitl.showShort("你好");
+                    //ToastUitl.showShort("你好");
                     break;
             }
         }
@@ -101,7 +101,7 @@ public class Fragment1 extends Fragment {
     public void onHiddenChanged(boolean hidden) {
         // TODO Auto-generated method stub
         super.onHiddenChanged(hidden);
-        Log.i("当前的数据",hidden+"");
+        //Log.i("当前的数据",hidden+"");
         if (hidden==false) {
          Message message=Message.obtain();
          message.what=1;

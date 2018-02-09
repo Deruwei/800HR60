@@ -25,6 +25,7 @@
             android:layout_height="@dimen/x20"
             android:background="@color/resumeContent_bg"/>
         <RelativeLayout
+            android:visibility="gone"
             android:id="@+id/rl_settingMessageNotification"
             style="@style/rl_setting">
             <TextView
@@ -101,6 +102,19 @@
             style="@style/rl_setting">
             <TextView
                 android:text="@string/versionDes"
+                style="@style/tv_setting" />
+            <ImageView
+                style="@style/iv_setting" />
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x20"
+            android:background="@color/resumeContent_bg"/>
+        <RelativeLayout
+            android:id="@+id/rl_settingCompanyDes"
+            style="@style/rl_setting">
+            <TextView
+                android:text="@string/companyInto"
                 style="@style/tv_setting" />
             <ImageView
                 style="@style/iv_setting" />

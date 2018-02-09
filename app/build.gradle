@@ -9,6 +9,7 @@ android {
         targetSdkVersion 26
         versionCode 68
         versionName "6.0.0"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [UMENG_CHANNEL_CALUE:"umeng"]       //默认为uMeng
     }
@@ -88,6 +89,7 @@ dependencies {
     implementation files('libs/MobCommons-2017.1201.1507.jar')
     implementation files('libs/MobTools-2017.1201.1507.jar')
     implementation files('libs/ShareSDK-Core-3.1.2.jar')
+    compile 'com.android.support:multidex:1.0.0'
     implementation files('libs/ShareSDK-QQ-3.1.2.jar')
     implementation files('libs/ShareSDK-QZone-3.1.2.jar')
     implementation files('libs/ShareSDK-SinaWeibo-3.1.2.jar')

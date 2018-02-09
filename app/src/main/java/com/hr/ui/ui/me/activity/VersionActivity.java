@@ -50,6 +50,7 @@ public class VersionActivity extends BaseActivity<VersionPresenter, VersionModel
     private WebSettings webSettings;
     private String url = "http://m.800hr.com/app/upgrade/6.0/";
     private PopWindowUpdate popWindowUpdate;
+    private String agreementUrl;
 
     /**
      * 入口
@@ -62,7 +63,13 @@ public class VersionActivity extends BaseActivity<VersionPresenter, VersionModel
         activity.overridePendingTransition(R.anim.fade_in,
                 R.anim.fade_out);
     }
-
+    public static void startAction(Activity activity,String url) {
+        Intent intent = new Intent(activity, VersionActivity.class);
+        intent.putExtra("url",url);
+        activity.startActivity(intent);
+        activity.overridePendingTransition(R.anim.fade_in,
+                R.anim.fade_out);
+    }
     @Override
     public int getLayoutId() {
         return R.layout.layout_web;
@@ -79,6 +86,7 @@ public class VersionActivity extends BaseActivity<VersionPresenter, VersionModel
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolBar.setTitle("");
+        agreementUrl=getIntent().getStringExtra("url");
         toolBar.setTitleTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
         toolBar.setNavigationIcon(R.mipmap.back);
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -108,7 +116,14 @@ public class VersionActivity extends BaseActivity<VersionPresenter, VersionModel
         webSettings.setAllowFileAccess(true); // 允许访问文件
         webSettings.setBuiltInZoomControls(true); // 设置显示缩放按钮
         webSettings.setSupportZoom(true); // 支持缩放
-        wvContent.loadUrl(url);
+        if(agreementUrl==null||"".equals(agreementUrl)) {
+            wvContent.loadUrl(url);
+        }else{
+            wvContent.loadUrl(agreementUrl);
+            tvToolbarSave.setVisibility(View.GONE);
+        }
+        wvContent.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
         //设置不用系统浏览器打开,直接显示在当前Webview
         wvContent.setWebViewClient(new WebViewClient() {
             @Override

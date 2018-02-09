@@ -30,6 +30,7 @@ import com.hr.ui.bean.CompanyRegisterBean;
 import com.hr.ui.ui.login.contract.CompanyRegisterContract;
 import com.hr.ui.ui.login.model.CompanyRegisterModel;
 import com.hr.ui.ui.login.presenter.CompanyRegisterPresenter;
+import com.hr.ui.ui.me.activity.VersionActivity;
 import com.hr.ui.utils.CodeUtils;
 import com.hr.ui.utils.RegularExpression;
 import com.hr.ui.utils.ToastUitl;
@@ -252,6 +253,7 @@ public class CompanyRegisterActivity extends BaseActivity<CompanyRegisterPresent
                 isCheck = !isCheck;
                 break;
             case R.id.tv_registcom_agreement:
+                VersionActivity.startAction(this,"http://m.800hr.com/ent/register/agreement.php");
                 break;
             case R.id.rl_comregistr_save:
                 doRegister();

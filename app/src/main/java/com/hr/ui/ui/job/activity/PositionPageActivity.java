@@ -224,7 +224,7 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
             scanHistoryBean.setExp(jobInfoBean.getWorkyear());
             scanHistoryBean.setSalary(jobInfoBean.getSalary());
             scanHistoryBean.setIs_expect(jobInfoBean.getIs_expire()+"");
-            SimpleDateFormat formatter = new SimpleDateFormat("M - d");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-M-d HH:mm:ss");
             Date curDate = new Date(System.currentTimeMillis());
             String str = formatter.format(curDate);
             scanHistoryBean.setTime(str);
@@ -274,6 +274,7 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
 
     @Override
     public void collectionPositionSuccess() {
+        ToastUitl.showShort("收藏成功");
         if (collection == 0) {
             ivPositionPageCollection.setImageResource(R.mipmap.collection_white);
             tvPositionPageCollection.setText(R.string.allReadyCollection);
@@ -285,6 +286,7 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
 
     @Override
     public void deliverPositionSuccess() {
+        ToastUitl.showShort("投递成功");
         if (apply == 1) {
             tvPositionPageDeliverResume.setText(R.string.deliverResume);
         } else if (apply == 0) {

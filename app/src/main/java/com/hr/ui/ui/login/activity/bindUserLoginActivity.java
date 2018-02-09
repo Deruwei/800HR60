@@ -35,6 +35,7 @@ import com.hr.ui.ui.login.presenter.LoginPresenter;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.ToolUtils;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,6 +114,7 @@ public class bindUserLoginActivity extends BaseActivity<LoginPresenter, LoginMod
 
     @Override
     public void sendLoginSuccess(int userId) {
+        MobclickAgent.onProfileSignIn(userId+"");
         thirdPartBean = new ThirdLoginBean();
         List<ThirdLoginBean> thirdPartBeanList = ThirdPartDao.queryThirdPart(Constants.TYPE_THIRDPARTLOGIN);
         for (int i = 0; i < thirdPartBeanList.size(); i++) {
@@ -139,6 +141,7 @@ public class bindUserLoginActivity extends BaseActivity<LoginPresenter, LoginMod
 
     @Override
     public void bindingSuccess(int userId) {
+        MobclickAgent.onProfileSignIn("WB",userId+"");
         this.userId = userId;
         sUtils.setIntValue(Constants.ISAUTOLOGIN, 1);
         LoginBean loginBean = new LoginBean();

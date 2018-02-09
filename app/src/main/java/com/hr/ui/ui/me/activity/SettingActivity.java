@@ -23,6 +23,7 @@ import com.hr.ui.base.BaseNoConnectNetworkAcitivty;
 import com.hr.ui.bean.NoticeBean;
 import com.hr.ui.bean.NoticeData;
 import com.hr.ui.constants.Constants;
+import com.hr.ui.ui.login.activity.CompanyRegisterActivity;
 import com.hr.ui.ui.main.activity.SplashActivity;
 import com.hr.ui.ui.me.contract.SettingContract;
 import com.hr.ui.ui.me.model.SettingModel;
@@ -122,7 +123,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter,SettingModel>
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.rl_settingMessageNotification, R.id.rl_settingShieldCompany, R.id.rl_settingResetPsw, R.id.rl_settingChangeTel, R.id.rl_settingEvaluateMine, R.id.rl_settingVersionDes, R.id.rl_settingChangeAccount})
+    @OnClick({R.id.rl_settingMessageNotification,R.id.rl_settingCompanyDes, R.id.rl_settingShieldCompany, R.id.rl_settingResetPsw, R.id.rl_settingChangeTel, R.id.rl_settingEvaluateMine, R.id.rl_settingVersionDes, R.id.rl_settingChangeAccount})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_settingMessageNotification:
@@ -146,6 +147,8 @@ public class SettingActivity extends BaseActivity<SettingPresenter,SettingModel>
             case R.id.rl_settingChangeAccount:
                 mPresenter.getLoginOut();
                 break;
+            case R.id.rl_settingCompanyDes:
+                CompanyRegisterActivity.startAction(this);
         }
     }
 
@@ -189,10 +192,10 @@ public class SettingActivity extends BaseActivity<SettingPresenter,SettingModel>
 
     @Override
     public void getImsSuccess(NoticeBean.NoticeInfoBean noticeInfoBean) {
-
         if("1".equals(noticeInfoBean.getInvite_state())||"1".equals(noticeInfoBean.getRushjob_state())){
             ivHideResume.setChecked(true);
         }else{
+            isCheck=true;
             ivHideResume.setChecked(false);
         }
     }

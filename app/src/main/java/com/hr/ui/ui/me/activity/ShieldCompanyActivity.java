@@ -248,7 +248,6 @@ public class ShieldCompanyActivity extends BaseActivity<ShieldCompanyPresenter, 
                     tvShieldCompanyAll.setVisibility(View.GONE);
                     rvShieldCompanyQuery.setVisibility(View.GONE);
                     tvToolbarShieldCompanySearch.setText(getString(R.string.search));
-                    tvShieldCompanyAllShieldNum.setVisibility(View.GONE);
                     tvShieldCompanyTitle.setText(getString(R.string.shieldCompany));
                     type = 1;
                     mPresenter.getShieldCompanyData(false);
@@ -281,7 +280,6 @@ public class ShieldCompanyActivity extends BaseActivity<ShieldCompanyPresenter, 
                     tvShieldCompanyAll.setVisibility(View.GONE);
                     rvShieldCompanyQuery.setVisibility(View.GONE);
                     tvToolbarShieldCompanySearch.setText(getString(R.string.search));
-                    tvShieldCompanyAllShieldNum.setVisibility(View.GONE);
                     tvShieldCompanyTitle.setText(getString(R.string.shieldCompany));
                     type = 1;
                     mPresenter.getShieldCompanyData(false);
@@ -318,6 +316,7 @@ public class ShieldCompanyActivity extends BaseActivity<ShieldCompanyPresenter, 
         if (eliminateListBeans != null && !"".equals(eliminateListBeans) && eliminateListBeans.size() != 0) {
             rvShieldCompany.setVisibility(View.VISIBLE);
             sheldNum=eliminateListBeans.size();
+            setNum();
             eliminateListBeanList.addAll(eliminateListBeans);
             shieldCompanyDataAdapter = new MyShieldCompanyDataAdapter();
             shieldCompanyDataAdapter.setFavouriteListBeanList(eliminateListBeanList);
@@ -325,6 +324,7 @@ public class ShieldCompanyActivity extends BaseActivity<ShieldCompanyPresenter, 
             rlEmptyView.setVisibility(View.GONE);
         } else {
             sheldNum=0;
+            setNum();
             rlEmptyView.setVisibility(View.VISIBLE);
             rvShieldCompany.setVisibility(View.GONE);
         }
@@ -343,7 +343,9 @@ public class ShieldCompanyActivity extends BaseActivity<ShieldCompanyPresenter, 
             }
         });
     }
-
+    private void setNum(){
+        tvShieldCompanyAllShieldNum.setText("("+sheldNum+"/20)");
+    }
     @Override
     public void queryShieldCompanyDataByKeyWordSuccess(List<QueryShieldCompanyBean.EnteListBean> enteListBeans,String total) {
         enteListBeanList.clear();
@@ -402,7 +404,6 @@ public class ShieldCompanyActivity extends BaseActivity<ShieldCompanyPresenter, 
         tvShieldCompanyAll.setVisibility(View.GONE);
         rvShieldCompanyQuery.setVisibility(View.GONE);
         tvToolbarShieldCompanySearch.setText(getString(R.string.search));
-        tvShieldCompanyAllShieldNum.setVisibility(View.GONE);
         tvShieldCompanyTitle.setText(getString(R.string.shieldCompany));
         type = 1;
         mPresenter.getShieldCompanyData(false);
@@ -412,6 +413,7 @@ public class ShieldCompanyActivity extends BaseActivity<ShieldCompanyPresenter, 
     public void deleteShieldCompany() {
         ToastUitl.showShort("取消屏蔽成功");
         sheldNum--;
+        setNum();
         shieldCompanyDataAdapter.doDelete(position+1);
     }
 }

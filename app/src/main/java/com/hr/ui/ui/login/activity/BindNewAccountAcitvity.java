@@ -46,6 +46,7 @@ import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.ToolUtils;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.service.CodeTimerService;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -208,6 +209,7 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
 
     @Override
     public void bindingSuccess(int userId) {
+        MobclickAgent.onProfileSignIn("WB",userId+"");
         sUtils.setIntValue(Constants.ISAUTOLOGIN, 1);
         LoginBean loginBean = new LoginBean();
         if ("QQ".equals(Constants.TYPE_THIRDPARTLOGIN)) {

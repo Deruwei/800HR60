@@ -425,7 +425,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="010-62123388"
+                android:autoLink="phone"
+                android:layout_marginBottom="@dimen/x40"
                 android:textColor="#007AFF"
+                android:textColorLink="#fb8900"
                 android:textSize="@dimen/x28" />
         </LinearLayout>
     </ScrollView>

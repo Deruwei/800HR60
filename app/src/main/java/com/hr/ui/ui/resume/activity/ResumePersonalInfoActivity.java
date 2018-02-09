@@ -391,6 +391,10 @@ public class ResumePersonalInfoActivity extends BaseActivity<ResumePersonalInfoP
         Date curDate = new Date(System.currentTimeMillis());//获取当前时间
         int endYear = Integer.parseInt(formatter.format(curDate)) + 1;
         int workSize = 0;
+        if(endYear-Integer.parseInt(birthYear)<18){
+            birthYear="";
+            ToastUitl.showShort("请重新选择出生日期");
+        }
         if (birthYear != null && !"".equals(birthYear)) {
             workSize = endYear - Integer.parseInt(birthYear) - 18 + 1;
         } else {

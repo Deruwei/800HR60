@@ -45,7 +45,7 @@ public class Constants {
     //当前使用的设备
     public static final String OS_NAME = "android";
     //api版本
-    public static final String API_VER = "1.0";
+    public static final String API_VER = "3.0";
     //线上
     public static final String IMAGE_BASEPATH="http://file.800hr.com/";
     public static final String IMAGE_BASEPATH2="http://img.800hr.com";
@@ -53,7 +53,7 @@ public class Constants {
     public static final String API_MIDDLE="svrdo.php";
     //测试
      public static final String API_URL_Text = "https://api.800hr.com/svrdo_v0.php";
-     public static final String  API_MIDDLE_TEST="svrdo_v0.php";
+     public static final String  API_MIDDLE_TEST="svrdo.php";
     // SharedPreference中标识设备ID的字符
     public static final String DEVICE_USER_ID = "device_user_id";
     //标识是否是第一次进入app

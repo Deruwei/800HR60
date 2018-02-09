@@ -28,7 +28,7 @@
             android:layout_height="match_parent">
             <ImageView
                 android:layout_alignParentBottom="true"
-                android:src="@mipmap/location"
+                android:src="@mipmap/location_blue"
                 android:id="@+id/iv_location"
                 android:background="@color/white"
                 android:scaleType="centerInside"

@@ -36,6 +36,7 @@ import com.hr.ui.utils.RegularExpression;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.ToolUtils;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -127,7 +128,7 @@ public class BindPhoneLoginActivity extends BaseActivity<LoginPresenter, LoginMo
                 break;
             }
         }
-        System.out.println("hello" + thirdPartBean.toString());
+        //System.out.println("hello" + thirdPartBean.toString());
         mPresenter.getThidBinding(thirdPartBean, phoneNum, psw, 0);
     }
 
@@ -143,6 +144,7 @@ public class BindPhoneLoginActivity extends BaseActivity<LoginPresenter, LoginMo
 
     @Override
     public void bindingSuccess(int userId) {
+        MobclickAgent.onProfileSignIn("WB",userId+"");
         sUtils.setIntValue(Constants.ISAUTOLOGIN, 1);
         LoginBean loginBean = new LoginBean();
         if ("QQ".equals(Constants.TYPE_THIRDPARTLOGIN)) {

@@ -33,6 +33,7 @@ import com.hr.ui.utils.ThirdPartLoginUtils;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.ToolUtils;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 
@@ -122,6 +123,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
 
     @Override
     public void sendLoginSuccess(int userId) {
+        MobclickAgent.onEvent(mContext,"v6_login_user");
+        MobclickAgent.onProfileSignIn(userId+"");
         this.userId = userId;
         sUtils.setIntValue(Constants.ISAUTOLOGIN, 1);
         sUtils.setIntValue(Constants.AUTOLOGINTYPE, 0);
@@ -132,6 +135,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     @Override
     public void thirdPartLoginSuccess(int userId) {
         this.userId = userId;
+        MobclickAgent.onProfileSignIn("WB",userId+"");
         sUtils.setIntValue(Constants.ISAUTOLOGIN, 1);
         if ("QQ".equals(Constants.TYPE_THIRDPARTLOGIN)) {
             sUtils.setIntValue(Constants.AUTOLOGINTYPE, 2);

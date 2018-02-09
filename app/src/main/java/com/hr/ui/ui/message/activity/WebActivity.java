@@ -78,6 +78,7 @@ public class WebActivity extends BaseNoConnectNetworkAcitivty {
         });
         url=getIntent().getStringExtra("url");
         webSettings=wvContent.getSettings();
+        wvContent.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
         webSettings.setUseWideViewPort(true);//设置webview推荐使用的窗口
         webSettings.setLoadWithOverviewMode(true);//设置webview加载的页面的模式

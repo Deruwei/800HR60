@@ -81,27 +81,25 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         if (type != 3) {
-            viewHolder.llHomeItemTop.setVisibility(View.GONE);
-            viewHolder.tvRecommendJobAddress.setText(jobsListBeanList.get(position).getWorkplace());
-            viewHolder.tvRecommendJobCompanyName.setText(jobsListBeanList.get(position).getEnterprise_name());
-            viewHolder.tvRecommendJobDegree.setText(jobsListBeanList.get(position).getStudy());
-            viewHolder.tvRecommendJobIndustry.setText(jobsListBeanList.get(position).getIndustry_name());
-            if (jobsListBeanList.get(position).getEnt_logo() != null && !"".equals(jobsListBeanList.get(position).getEnt_logo())) {
-                Utils.setImageResource(HRApplication.getAppContext(), viewHolder.ivRecommendJobCompanyIcon, Constants.IMAGE_BASEPATH2 + jobsListBeanList.get(position).getEnt_logo());
-            } else {
-                Utils.setImageResourceDefault(HRApplication.getAppContext(), viewHolder.ivRecommendJobCompanyIcon);
-            }
-            viewHolder.tvRecommendJobName.setText(jobsListBeanList.get(position).getJob_name());
-            viewHolder.tvRecommendJobSalary.setText(Utils.getSalary(jobsListBeanList.get(position).getSalary()));
-            String day=Utils.getDateMonthAndDay(jobsListBeanList.get(position).getIssue_date());
-            viewHolder.tvRecommendJobTime.setText(day);
-            viewHolder.tvRecommendPersonNum.setText(jobsListBeanList.get(position).getStuff_munber());
-            viewHolder.tvRecommendJobWorkYear.setText(jobsListBeanList.get(position).getWorkyear());
-            viewHolder.tvRecommendJobCompanyType.setText(jobsListBeanList.get(position).getCompany_type());
-        } else {
-            //Log.i("经过这里",jobsListBeanList2.toString());
-            if (position < jobsListBeanList2.size()) {
-
+            if(type==1) {
+                viewHolder.llHomeItemTop.setVisibility(View.GONE);
+                viewHolder.tvRecommendJobAddress.setText(jobsListBeanList.get(position).getWorkplace());
+                viewHolder.tvRecommendJobCompanyName.setText(jobsListBeanList.get(position).getEnterprise_name());
+                viewHolder.tvRecommendJobDegree.setText(jobsListBeanList.get(position).getStudy());
+                viewHolder.tvRecommendJobIndustry.setText(jobsListBeanList.get(position).getIndustry_name());
+                if (jobsListBeanList.get(position).getEnt_logo() != null && !"".equals(jobsListBeanList.get(position).getEnt_logo())) {
+                    Utils.setImageResource(HRApplication.getAppContext(), viewHolder.ivRecommendJobCompanyIcon, Constants.IMAGE_BASEPATH2 + jobsListBeanList.get(position).getEnt_logo());
+                } else {
+                    Utils.setImageResourceDefault(HRApplication.getAppContext(), viewHolder.ivRecommendJobCompanyIcon);
+                }
+                viewHolder.tvRecommendJobName.setText(jobsListBeanList.get(position).getJob_name());
+                viewHolder.tvRecommendJobSalary.setText(Utils.getSalary(jobsListBeanList.get(position).getSalary()));
+                String day = Utils.getDateMonthAndDay(jobsListBeanList.get(position).getIssue_date());
+                viewHolder.tvRecommendJobTime.setText(day);
+                viewHolder.tvRecommendPersonNum.setText(jobsListBeanList.get(position).getStuff_munber());
+                viewHolder.tvRecommendJobWorkYear.setText(jobsListBeanList.get(position).getWorkyear());
+                viewHolder.tvRecommendJobCompanyType.setText(jobsListBeanList.get(position).getCompany_type());
+            }else{
                 if(position==0){
                     viewHolder.llHomeItemTop.setVisibility(View.VISIBLE);
                     viewHolder.tvItemTitle.setText(R.string.recommendJob1);
@@ -119,9 +117,40 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
                 }
                 viewHolder.tvRecommendJobName.setText(jobsListBeanList2.get(position).getJob_name());
                 viewHolder.tvRecommendJobSalary.setText(Utils.getSalary(jobsListBeanList2.get(position).getSalary()));
-                String day=Utils.getDateMonthAndDay(jobsListBeanList.get(position).getIssue_date());
+                String day=Utils.getDateMonthAndDay(jobsListBeanList2.get(position).getIssue_date());
                 if("".equals(day)||day==null){
-                    day=Utils.getDateMonthAndDay(Utils.timeStamp2Date(jobsListBeanList.get(position).getIssue_date(),"yyyy-MM-dd"));
+                    day=Utils.getDateMonthAndDay(Utils.timeStamp2Date(jobsListBeanList2.get(position).getIssue_date(),"yyyy-MM-dd"));
+                }
+                viewHolder.tvRecommendJobTime.setText(day);
+                viewHolder.tvRecommendPersonNum.setText(jobsListBeanList2.get(position).getNumber());
+                viewHolder.tvRecommendJobWorkYear.setText(jobsListBeanList2.get(position).getWorkyear());
+            }
+        } else {
+            //Log.i("经过这里",jobsListBeanList2.toString());
+            if (position < jobsListBeanList2.size()) {
+                if(position==0){
+                    viewHolder.llHomeItemTop.setVisibility(View.VISIBLE);
+                    viewHolder.tvItemTitle.setText(R.string.recommendJob1);
+                }else{
+                    viewHolder.llHomeItemTop.setVisibility(View.GONE);
+                }
+                if(position==jobsListBeanList2.size()-1){
+                    viewHolder.viewLineJob.setVisibility(View.GONE);
+                }
+                viewHolder.tvRecommendJobAddress.setText(jobsListBeanList2.get(position).getWorkplace());
+                viewHolder.tvRecommendJobCompanyName.setText(jobsListBeanList2.get(position).getEnterprise_name());
+                viewHolder.tvRecommendJobDegree.setText(jobsListBeanList2.get(position).getStudy());
+                viewHolder.tvRecommendJobIndustry.setText(jobsListBeanList2.get(position).getIndustry_name());
+                if (jobsListBeanList2.get(position).getEnt_logo() != null && !"".equals(jobsListBeanList2.get(position).getEnt_logo())) {
+                    Utils.setImageResource(HRApplication.getAppContext(), viewHolder.ivRecommendJobCompanyIcon, Constants.IMAGE_BASEPATH2 + jobsListBeanList2.get(position).getEnt_logo());
+                } else {
+                    Utils.setImageResourceDefault(HRApplication.getAppContext(), viewHolder.ivRecommendJobCompanyIcon);
+                }
+                viewHolder.tvRecommendJobName.setText(jobsListBeanList2.get(position).getJob_name());
+                viewHolder.tvRecommendJobSalary.setText(Utils.getSalary(jobsListBeanList2.get(position).getSalary()));
+                String day=Utils.getDateMonthAndDay(jobsListBeanList2.get(position).getIssue_date());
+                if("".equals(day)||day==null){
+                    day=Utils.getDateMonthAndDay(Utils.timeStamp2Date(jobsListBeanList2.get(position).getIssue_date(),"yyyy-MM-dd"));
                 }
                 viewHolder.tvRecommendJobTime.setText(day);
                 viewHolder.tvRecommendPersonNum.setText(jobsListBeanList2.get(position).getNumber());
@@ -177,7 +206,11 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
     @Override
     public int getItemCount() {
         if (type != 3) {
-            return jobsListBeanList == null ? 0 : jobsListBeanList.size();
+            if(type==1) {
+                return jobsListBeanList == null ? 0 : jobsListBeanList.size();
+            }else{
+                return jobsListBeanList2 == null ? 0 : jobsListBeanList2.size();
+            }
         } else {
             if (jobsListBeanList != null && jobsListBeanList2 != null) {
                 return jobsListBeanList.size() + jobsListBeanList2.size();
@@ -227,6 +260,8 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
         PieChartView pcvNum;
         @BindView(R.id.tv_itemTitle)
         TextView tvItemTitle;
+        @BindView(R.id.view_lineJob)
+        View viewLineJob;
         @BindView(R.id.ll_homeItemTop)
         LinearLayout llHomeItemTop;
         public ViewHolder(View view) {

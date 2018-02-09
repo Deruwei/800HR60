@@ -27,6 +27,7 @@ import com.hr.ui.utils.Rc4Md5Utils;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.datautils.SaveFile;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -80,11 +81,12 @@ public class SplashPresenter extends SplashContract.Presenter {
     }
 
     @Override
-    public void getAutoPhoneLogin(String phoneNumber, String psw,int type) {
-        mRxManage.add(mModel.getAutoPhoneLogin(phoneNumber,psw,type).subscribe(new RxSubscriber<RegisterBean>(mContext,true) {
+    public void getAutoPhoneLogin(String phoneNumber, String psw,int type,boolean isCanRefresh) {
+        mRxManage.add(mModel.getAutoPhoneLogin(phoneNumber,psw,type).subscribe(new RxSubscriber<RegisterBean>(mContext,isCanRefresh) {
             @Override
             protected void _onNext(RegisterBean registerBean) throws IOException {
                 if(registerBean.getError_code()==0){
+                    MobclickAgent.onProfileSignIn(registerBean.getUser_id()+"");
                     mView.phoneLoginSuccess(registerBean.getUser_id());
                 }else if(registerBean.getError_code()==301) {
                     ToastUitl.showShort(R.string.error_301);
@@ -104,8 +106,8 @@ public class SplashPresenter extends SplashContract.Presenter {
 
 
     @Override
-    public void getThirdBindingLogin(LoginBean loginBean) {
-        mRxManage.add(mModel.getAutoThirdBindingLogin(loginBean).subscribe(new RxSubscriber<ResponseBody>(mContext,false) {
+    public void getThirdBindingLogin(LoginBean loginBean,boolean isCanRefresh) {
+        mRxManage.add(mModel.getAutoThirdBindingLogin(loginBean).subscribe(new RxSubscriber<ResponseBody>(mContext,isCanRefresh) {
             @Override
             protected void _onNext(ResponseBody responseBody) {
                 try {
@@ -118,6 +120,10 @@ public class SplashPresenter extends SplashContract.Presenter {
                         int userId = jsonObject.getInt("user_id");
                         SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
                         sUtils.setStringValue(Constants.USERID,userId+"");
+                        //当用户使用自有账号登录时，可以这样统计：
+                        //当用户使用第三方账号（如新浪微博）登录时，可以这样统计：
+                        MobclickAgent.onProfileSignIn("WB",userId+"");
+
                         mView.thirdBindingLoginSuccess(userId);
                     } else if(error_code==301) {
                         ToastUitl.showShort(R.string.error_301);

@@ -117,6 +117,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <RelativeLayout
+            android:id="@+id/rl_nothing"
+            android:minHeight="@dimen/x600"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <RelativeLayout
             android:layout_marginTop="@dimen/x27"
             android:layout_marginBottom="@dimen/x27"
             android:id="@+id/rl_industry"
@@ -185,9 +190,10 @@
 
             </com.hr.ui.view.MyFlowLayout>
         </RelativeLayout>
+        </RelativeLayout>
         <LinearLayout
             android:id="@+id/ll_selectBottom"
-            android:layout_below="@+id/rl_job"
+            android:layout_below="@+id/rl_nothing"
             android:orientation="vertical"
             android:layout_marginTop="@dimen/x40"
             android:layout_width="match_parent"

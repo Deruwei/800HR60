@@ -313,7 +313,7 @@ public class EducationActivity extends BaseActivity<EducationPresenter, Educatio
                 break;
             case R.id.rl_education:
                 setFocus();
-                if(tvEducation.getText().toString()==null||"".equals(tvEducation.getText().toString())){
+                if(degreeId==null||"".equals(degreeId)){
                     datePickerDegree.show("本科");
                 }else {
                     datePickerDegree.show(tvEducation.getText().toString());

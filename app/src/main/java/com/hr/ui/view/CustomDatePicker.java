@@ -87,7 +87,7 @@ public class CustomDatePicker {
         tv_select.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if("".equals(selectText)){
+                if("".equals(selectText)||selectText==null){
                     selectText=date[0];
                 }
                 handler.handle(selectText);

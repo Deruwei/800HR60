@@ -25,6 +25,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.hr.ui.R;
 import com.hr.ui.app.AppManager;
 import com.hr.ui.app.HRApplication;
@@ -42,6 +43,7 @@ import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.Utils;
 import com.hr.ui.utils.datautils.ResumeInfoIDToString;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
+import com.hr.ui.view.CircleImageView;
 import com.hr.ui.view.CustomDatePicker;
 import com.hr.ui.view.MyCustomDatePicker;
 import com.hr.ui.view.MyDialog;
@@ -72,7 +74,7 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
     @BindView(R.id.tool_bar)
     Toolbar toolBar;
     @BindView(R.id.iv_personalInformationImage)
-    RoundImageView ivPersonalInformationImage;
+    CircleImageView ivPersonalInformationImage;
     @BindView(R.id.tv_nameTag)
     MyTextView tvNameTag;
     @BindView(R.id.et_name)
@@ -698,7 +700,7 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
             ToastUitl.showShort("文件不存在");
             return;// 文件不存在
         } else {
-            Utils.setImageResource(this,ivPersonalInformationImage,imagePath);
+            Glide.with(this).load(imagePath).fitCenter().into(ivPersonalInformationImage);
             // System.out.println(imagePath);
             Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
             ByteArrayOutputStream stream = new ByteArrayOutputStream();

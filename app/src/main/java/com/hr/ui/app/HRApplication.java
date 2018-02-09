@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.multidex.MultiDex;
 import android.util.Log;
 
 import com.afa.tourism.greendao.gen.DaoMaster;
@@ -104,7 +105,11 @@ public class HRApplication extends MobApplication {
         am.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pi);//设置闹钟
         am.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), (24*60*60*1000), pi);//
     }
-
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
     public void init(){
         //设置该CrashHandler为程序的默认处理器
         UnCeHandler catchExcep = new UnCeHandler(this);

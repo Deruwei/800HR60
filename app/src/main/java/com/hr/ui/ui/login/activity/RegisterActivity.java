@@ -43,6 +43,7 @@ import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.ToolUtils;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.service.CodeTimerService;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 
@@ -190,6 +191,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
 
     @Override
     public void sendRegisterSuccess(int userId) {
+        MobclickAgent.onEvent(mContext,"v6_register_phone");
         sUtils.setIntValue(Constants.ISAUTOLOGIN, 1);
         sUtils.setIntValue(Constants.AUTOLOGINTYPE, 0);
         sUtils.setStringValue(Constants.USERPHONE, phoneNumber);
