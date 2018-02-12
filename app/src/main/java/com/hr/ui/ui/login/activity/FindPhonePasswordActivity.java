@@ -5,7 +5,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -14,10 +17,10 @@ import android.text.Spannable;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -86,6 +89,8 @@ public class FindPhonePasswordActivity extends BaseActivity<FindPasswordPresente
     RelativeLayout rlFindPhonePswHiddenPsw;
     @BindView(R.id.btn_findPhonePswOK)
     Button btnFindPhonePswOK;
+    @BindView(R.id.cl_findPhonePsw)
+    ConstraintLayout clFindPhonePsw;
     //密码是否隐藏
     private boolean isHidden = true;
     private int code;
@@ -96,7 +101,7 @@ public class FindPhonePasswordActivity extends BaseActivity<FindPasswordPresente
     public static final String CODE = "code";
     private SharedPreferencesUtils sUtils;
     private int type;//0 表示修改密码  1表示获取验证码
-    private String phoneNumber,password,validCode;
+    private String phoneNumber, password, validCode;
 
     /**
      * 入口
@@ -172,8 +177,8 @@ public class FindPhonePasswordActivity extends BaseActivity<FindPasswordPresente
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     ivFindPhonePswValidCodeDelete.setVisibility(View.GONE);
-                }else{
-                    if(etFindPhonePswValidCode.getText().toString()!=null&&!"".equals(etFindPhonePswValidCode.getText().toString())){
+                } else {
+                    if (etFindPhonePswValidCode.getText().toString() != null && !"".equals(etFindPhonePswValidCode.getText().toString())) {
                         ivFindPhonePswValidCodeDelete.setVisibility(View.VISIBLE);
                     }
                 }
@@ -182,10 +187,10 @@ public class FindPhonePasswordActivity extends BaseActivity<FindPasswordPresente
         etFindPhonePswNumber.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
+                if (!hasFocus) {
                     ivFindPhonePswNumberDelete.setVisibility(View.GONE);
-                }else{
-                    if(etFindPhonePswNumber.getText().toString()!=null&&!"".equals(etFindPhonePswNumber.getText().toString())){
+                } else {
+                    if (etFindPhonePswNumber.getText().toString() != null && !"".equals(etFindPhonePswNumber.getText().toString())) {
                         ivFindPhonePswNumberDelete.setVisibility(View.VISIBLE);
                     }
                 }
@@ -194,10 +199,10 @@ public class FindPhonePasswordActivity extends BaseActivity<FindPasswordPresente
         etFindPhonePswNew.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
+                if (!hasFocus) {
                     ivFindPhonePswDelete.setVisibility(View.GONE);
-                }else{
-                    if(etFindPhonePswNew.getText().toString()!=null&&!"".equals(etFindPhonePswNew.getText().toString())){
+                } else {
+                    if (etFindPhonePswNew.getText().toString() != null && !"".equals(etFindPhonePswNew.getText().toString())) {
                         ivFindPhonePswDelete.setVisibility(View.VISIBLE);
                     }
                 }
@@ -211,9 +216,9 @@ public class FindPhonePasswordActivity extends BaseActivity<FindPasswordPresente
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()>0){
+                if (s.length() > 0) {
                     ivFindPhonePswDelete.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     ivFindPhonePswDelete.setVisibility(View.GONE);
                 }
             }
@@ -231,9 +236,9 @@ public class FindPhonePasswordActivity extends BaseActivity<FindPasswordPresente
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()>0){
+                if (s.length() > 0) {
                     ivFindPhonePswNumberDelete.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     ivFindPhonePswNumberDelete.setVisibility(View.GONE);
                 }
             }
@@ -251,9 +256,9 @@ public class FindPhonePasswordActivity extends BaseActivity<FindPasswordPresente
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()>0){
+                if (s.length() > 0) {
                     ivFindPhonePswValidCodeDelete.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     ivFindPhonePswValidCodeDelete.setVisibility(View.GONE);
                 }
             }
@@ -278,11 +283,11 @@ public class FindPhonePasswordActivity extends BaseActivity<FindPasswordPresente
                 etFindPhonePswValidCode.setText("");
                 break;
             case R.id.tv_findPhonePswValidCode:
-                type=1;
-               phoneNumber = etFindPhonePswNumber.getText().toString();
+                type = 1;
+                phoneNumber = etFindPhonePswNumber.getText().toString();
                 if (!"".equals(phoneNumber) && phoneNumber != null) {
                     if (RegularExpression.isCellphone(phoneNumber)) {
-                       mPresenter.validPhoneIsExit(phoneNumber);
+                        mPresenter.validPhoneIsExit(phoneNumber);
                     } else {
                         ToastUitl.show("请输入正确的手机号码", Toast.LENGTH_SHORT);
                     }
@@ -291,7 +296,7 @@ public class FindPhonePasswordActivity extends BaseActivity<FindPasswordPresente
                 }
                 break;
             case R.id.btn_findPhonePswOK:
-                type=0;
+                type = 0;
                 doFindPsw();
                 break;
             case R.id.rl_findPhonePswHiddenPsw:
@@ -317,9 +322,9 @@ public class FindPhonePasswordActivity extends BaseActivity<FindPasswordPresente
     }
 
     private void doFindPsw() {
-         phoneNumber = etFindPhonePswNumber.getText().toString();
-         validCode = etFindPhonePswValidCode.getText().toString();
-         password = etFindPhonePswNew.getText().toString();
+        phoneNumber = etFindPhonePswNumber.getText().toString();
+        validCode = etFindPhonePswValidCode.getText().toString();
+        password = etFindPhonePswNew.getText().toString();
 
         if ("".equals(phoneNumber) || phoneNumber == null) {
             ToastUitl.showShort("请输入手机号码");
@@ -368,18 +373,20 @@ public class FindPhonePasswordActivity extends BaseActivity<FindPasswordPresente
 
     @Override
     public void setNeedAotuCode() {
+        ToastUitl.showShort("图形验证码错误");
+        etAutoCode.setText("");
         mPresenter.getAutoCode();
     }
 
     @Override
     public void phoneisExit(String flag) {
-        if("0".equals(flag)){
+        if ("0".equals(flag)) {
             ToastUitl.showShort(R.string.error_phoneNotExit);
             return;
-        }else{
-            if(type==0){
+        } else {
+            if (type == 0) {
                 mPresenter.resetPhonePsw(phoneNumber, validCode, password);
-            }else{
+            } else {
                 if (sUtils.getIntValue("code", 0) >= 0) {
                     mPresenter.getAutoCode();
                     //Log.i("1", "2");
@@ -396,19 +403,12 @@ public class FindPhonePasswordActivity extends BaseActivity<FindPasswordPresente
      */
     public void initPopWindow() {
         final View popView = LayoutInflater.from(this).inflate(R.layout.layout_autocode, null);
-        popupWindow = new PopupWindow(popView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, true);
+        popupWindow = new PopupWindow(popView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
         popupWindow.setOutsideTouchable(true);
         ivAutoCode = popView.findViewById(R.id.vc_image);
         TextView tvReflesh = popView.findViewById(R.id.vc_refresh);
         etAutoCode = popView.findViewById(R.id.vc_code);
         RelativeLayout rlConfirm = popView.findViewById(R.id.rl__item_autocode_confirm);
-        LinearLayout llClose = popView.findViewById(R.id.ll_autoCodeClose);
-        llClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-            }
-        });
         rlConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -427,8 +427,29 @@ public class FindPhonePasswordActivity extends BaseActivity<FindPasswordPresente
                 mPresenter.getAutoCode();
             }
         });
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = 0.7f;
+        getWindow().setAttributes(lp);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+
+            @Override
+            public void onDismiss() {
+                WindowManager.LayoutParams lp = getWindow().getAttributes();
+                lp.alpha = 1f;
+                getWindow().setAttributes(lp);
+            }
+        });
+        if (Build.VERSION.SDK_INT >Build.VERSION_CODES.KITKAT) {
+            //  大于等于19即为4.4及以上执行内容
+            // 设置背景颜色变暗
+        } else {
+            //  低于19即为4.4以下执行内容
+            popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        }
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
         View rootview = LayoutInflater.from(this).inflate(R.layout.activity_register, null);
-        popupWindow.showAtLocation(rootview, Gravity.CENTER, 0, 0);
+        popupWindow.showAtLocation(clFindPhonePsw, Gravity.CENTER, 0, 0);
     }
 
     /**

@@ -48,6 +48,7 @@ public class PopupWindowComment {
             @Override
             public void onClick(View v) {
                 popupWindow.dismiss();
+                activity.finish();
             }
         });
             // 设置背景颜色变暗
@@ -64,6 +65,7 @@ public class PopupWindowComment {
                 }
             });
         popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(false);
         popupWindow.setAnimationStyle(R.style.style_pop_animation2);
         popupWindow.showAtLocation(viewMain, Gravity.CENTER, 0, 0);
     }

@@ -5,7 +5,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -18,6 +21,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -93,6 +97,8 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
     TextView tvRegisterHasAccount;
     @BindView(R.id.iv_phoneRegisterHiddenPsw)
     ImageView ivPhoneRegisterHiddenPsw;
+    @BindView(R.id.cl_register)
+    ConstraintLayout clRegister;
     private PopupWindow popupWindow;
     private String autoCode;
     private Intent mCodeTimerServiceIntent;
@@ -150,7 +156,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
     @Override
     public void sendAutoCode(String autoCode) {
         this.autoCode = autoCode;
-        initPopWindow();
+
         ivAutoCode.setImageBitmap(EncryptUtils.stringtoBitmap(autoCode));
     }
 
@@ -166,21 +172,24 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
 
     @Override
     public void needToGetAutoCode() {
+        ToastUitl.showShort("图形验证码错误");
+        etAutoCode.setText("");
         mPresenter.getAutoCode();
     }
 
     @Override
     public void phoneIsExit(String flag) {
-        if("1".equals(flag)){
+        if ("1".equals(flag)) {
             ToastUitl.showShort(R.string.error_327);
             return;
-        }else{
-            if(type==0) {
+        } else {
+            if (type == 0) {
                 mPresenter.getRegister(phoneNumber, validCode, password);
-            }else{
-                //Log.i("次数",code+"");
-                if (code >= 1) {
+            } else {
+                if (sUtils.getIntValue("code", 0) >= 1) {
+                    initPopWindow();
                     mPresenter.getAutoCode();
+
                 } else {
                     mPresenter.getValidCode(phoneNumber, "", 0, Constants.VALIDCODE_REGISTER_YTPE);
                 }
@@ -191,7 +200,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
 
     @Override
     public void sendRegisterSuccess(int userId) {
-        MobclickAgent.onEvent(mContext,"v6_register_phone");
+        MobclickAgent.onEvent(mContext, "v6_register_phone");
         sUtils.setIntValue(Constants.ISAUTOLOGIN, 1);
         sUtils.setIntValue(Constants.AUTOLOGINTYPE, 0);
         sUtils.setStringValue(Constants.USERPHONE, phoneNumber);
@@ -344,7 +353,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
         });
     }
 
-    @OnClick({R.id.tv_phoneRegisterGetValidCode, R.id.btn_phoneRegisterOK,R.id.iv_phoneRegisterHiddenPsw,R.id.iv_phoneRegisterPhoneDelete,R.id.iv_phoneRegisterPswDelete,R.id.iv_phoneRegisterValidCodeDelete})
+    @OnClick({R.id.tv_phoneRegisterGetValidCode, R.id.btn_phoneRegisterOK, R.id.iv_phoneRegisterHiddenPsw, R.id.iv_phoneRegisterPhoneDelete, R.id.iv_phoneRegisterPswDelete, R.id.iv_phoneRegisterValidCodeDelete})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_phoneRegisterHiddenPsw:
@@ -376,7 +385,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
                 etPhoneRegisterValidCode.setText("");
                 break;
             case R.id.tv_phoneRegisterGetValidCode:
-                type=1;
+                type = 1;
                 String phoneNumber1 = etPhoneRegisterNumber.getText().toString();
                 if (!"".equals(phoneNumber1) && phoneNumber1 != null) {
                     if (RegularExpression.isCellphone(phoneNumber1)) {
@@ -393,7 +402,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
                 }
                 break;
             case R.id.btn_phoneRegisterOK:
-                type=0;
+                type = 0;
                 doRegister();
                 break;
         }
@@ -424,7 +433,9 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
             ToastUitl.showShort("请输入长度为6-25位的密码");
             return;
         }
+        type=0;
         mPresenter.validPhoneIsExit(phoneNumber);
+
     }
 
     /**
@@ -432,19 +443,11 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
      */
     public void initPopWindow() {
         final View popView = LayoutInflater.from(this).inflate(R.layout.layout_autocode, null);
-        popupWindow = new PopupWindow(popView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, true);
-        popupWindow.setOutsideTouchable(true);
+        popupWindow = new PopupWindow(popView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
         ivAutoCode = popView.findViewById(R.id.vc_image);
         TextView tvReflesh = popView.findViewById(R.id.vc_refresh);
         etAutoCode = popView.findViewById(R.id.vc_code);
         RelativeLayout rlConfirm = popView.findViewById(R.id.rl__item_autocode_confirm);
-        LinearLayout llClose = popView.findViewById(R.id.ll_autoCodeClose);
-        llClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-            }
-        });
         rlConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -456,6 +459,29 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
                 }
             }
         });
+
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = 0.7f;
+        getWindow().setAttributes(lp);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+
+            @Override
+            public void onDismiss() {
+                WindowManager.LayoutParams lp = getWindow().getAttributes();
+                lp.alpha = 1f;
+                getWindow().setAttributes(lp);
+            }
+        });
+        if (Build.VERSION.SDK_INT >Build.VERSION_CODES.KITKAT) {
+            //  大于等于19即为4.4及以上执行内容
+            // 设置背景颜色变暗
+        } else {
+            //  低于19即为4.4以下执行内容
+            popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        }
+
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
         tvReflesh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -463,7 +489,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
             }
         });
         View rootview = LayoutInflater.from(this).inflate(R.layout.activity_register, null);
-        popupWindow.showAtLocation(rootview, Gravity.CENTER, 0, 0);
+        popupWindow.showAtLocation(clRegister, Gravity.CENTER, 0, 0);
     }
 
     /**

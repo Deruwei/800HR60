@@ -21,6 +21,7 @@ import com.hr.ui.utils.datautils.FromStringToArrayList;
 import com.hr.ui.utils.datautils.ResumeInfoIDToString;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.CircleImageView;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.Serializable;
 import java.util.List;
@@ -172,6 +173,7 @@ public class PreviewResumeActivity extends BaseNoConnectNetworkAcitivty {
         }else{
             tvPreviewResumeWorkExpTag.setText(getString(R.string.internshipExperience));
         }
+        MobclickAgent.onEvent(this,"v6_scan_previewResume");
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

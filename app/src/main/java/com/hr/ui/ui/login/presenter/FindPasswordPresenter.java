@@ -37,11 +37,11 @@ public class FindPasswordPresenter extends FindPasswordContract.Presenter {
                     ToastUitl.showShort("修改密码成功");
                     mView.resetPasswordSuccess();
                 }else if(noDataBean.getError_code()==201) {
-                    if ("token".equals(noDataBean.getError_field())){
+                  /*  if ("token".equals(noDataBean.getError_field())){*/
                         ToastUitl.showShort(R.string.error_validCode);
-                    }else{
+                  /*  }else{
                         ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) noDataBean.getError_code()));
-                    }
+                    }*/
                 } else{
                     ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) noDataBean.getError_code()));
                 }
@@ -65,7 +65,7 @@ public class FindPasswordPresenter extends FindPasswordContract.Presenter {
                     sUtils.setIntValue(Constants.IS_FIRSTGETVALIDCODE,validCodeBean.getToken_times());
                     mView.getValidCodeSuccess(validCodeBean.getToken_times());
                 }else if(validCodeBean.getError_code()==201){
-                    ToastUitl.show("请输入正确的验证码",Toast.LENGTH_SHORT);
+                    ToastUitl.show("验证码错误",Toast.LENGTH_SHORT);
                 }else if(validCodeBean.getError_code()==328){
                     mView.setNeedAotuCode();
                 } else{
@@ -101,7 +101,7 @@ public class FindPasswordPresenter extends FindPasswordContract.Presenter {
             @Override
             protected void _onError(String message) {
                 mView.showErrorTip(message);
-                Log.i(TAG,message);
+                //Log.i(TAG,message);
             }
         }));
     }

@@ -15,10 +15,11 @@
             android:layout_marginLeft="@dimen/x37"
             android:layout_marginBottom="@dimen/x15"
             android:layout_marginRight="@dimen/x30"
-            app:civ_border_color="@color/black"
             android:id="@+id/iv_ResumePersonPhoto"
             android:layout_width="@dimen/x58"
             android:layout_height="@dimen/x58"
+            app:civ_border_color="@color/bg_color"
+            app:civ_border_width="@dimen/x1"
             android:scaleType="centerCrop"
             android:onClick="toggleMenu"
             android:src="@mipmap/persondefault"/>

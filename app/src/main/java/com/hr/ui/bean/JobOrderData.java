@@ -82,4 +82,18 @@ public class JobOrderData {
     public void setMode(String mode) {
         this.mode = mode;
     }
+
+    @Override
+    public String toString() {
+        return "JobOrderData{" +
+                "workType='" + workType + '\'' +
+                ", industry='" + industry + '\'' +
+                ", expectArea='" + expectArea + '\'' +
+                ", expectPosition='" + expectPosition + '\'' +
+                ", jobStyle='" + jobStyle + '\'' +
+                ", address='" + address + '\'' +
+                ", salary='" + salary + '\'' +
+                ", mode='" + mode + '\'' +
+                '}';
+    }
 }

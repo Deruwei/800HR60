@@ -126,5 +126,28 @@ public class ShieldCompanyBean {
         public void setUpdate_time(String update_time) {
             this.update_time = update_time;
         }
+
+        @Override
+        public String toString() {
+            return "EliminateListBean{" +
+                    "id='" + id + '\'' +
+                    ", user_id='" + user_id + '\'' +
+                    ", eliminate_id='" + eliminate_id + '\'' +
+                    ", edit_time='" + edit_time + '\'' +
+                    ", eliminate_txt='" + eliminate_txt + '\'' +
+                    ", enterprise_ids='" + enterprise_ids + '\'' +
+                    ", free_enterprise_ids='" + free_enterprise_ids + '\'' +
+                    ", update_time='" + update_time + '\'' +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "ShieldCompanyBean{" +
+                "error_code=" + error_code +
+                ", _run_time='" + _run_time + '\'' +
+                ", eliminate_list=" + eliminate_list +
+                '}';
     }
 }

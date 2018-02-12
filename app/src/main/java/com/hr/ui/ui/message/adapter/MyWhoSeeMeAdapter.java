@@ -14,6 +14,7 @@ import com.hr.ui.R;
 import com.hr.ui.bean.WhoSeeMeBean;
 import com.hr.ui.constants.Constants;
 import com.hr.ui.utils.ClickUtils;
+import com.hr.ui.utils.Utils;
 
 import java.util.List;
 
@@ -61,7 +62,7 @@ public class MyWhoSeeMeAdapter extends RecyclerView.Adapter<MyWhoSeeMeAdapter.Vi
             Glide.with(context).load(Constants.IMAGE_BASEPATH2 + listBeans.get(position).getEnt_logo()).centerCrop().into(viewHolder.ivWhoSeeMeCompanyIcon);
         }
         viewHolder.tvRecommendJobCompanyName.setText(listBeans.get(position).getEnterprise_name());
-        viewHolder.tvWhoSeeMeTime.setText(listBeans.get(position).getBrowsed_time());
+        viewHolder.tvWhoSeeMeTime.setText(Utils.getDateMonthAndDay(listBeans.get(position).getBrowsed_time()));
         if ("".equals(listBeans.get(position).getRecruit_info().getJob_name()) || "".equals(listBeans.get(position).getRecruit_info().getTotal()) || "0".equals(listBeans.get(position).getRecruit_info().getTotal())) {
             viewHolder.llWhoSeeMeText2.setVisibility(View.GONE);
             viewHolder.llWhoSeeMeText1.setText(R.string.noDataPosition);

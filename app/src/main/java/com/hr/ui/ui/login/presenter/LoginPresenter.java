@@ -79,7 +79,7 @@ public class LoginPresenter extends LoginContract.Presenter {
                         System.out.println(thirdPartBean.toString());
                         int userId=jsonObject.getInt("user_id");
                         LoginBean loginBean=new LoginBean();
-                        if("QQ".equals(Constants.TYPE_THIRDPARTLOGIN)){
+                        if("qq".equals(Constants.TYPE_THIRDPARTLOGIN)){
                             loginBean.setLoginType(2);
                         }else{
                             loginBean.setLoginType(3);
@@ -104,7 +104,7 @@ public class LoginPresenter extends LoginContract.Presenter {
 
             @Override
             protected void _onError(String message) {
-                ToastUitl.showShort(message);
+                //ToastUitl.showShort(message);
             }
         }));
     }
@@ -117,7 +117,7 @@ public class LoginPresenter extends LoginContract.Presenter {
                 if(registerBean.getError_code()==0){
                     mView.bindingSuccess(registerBean.getUser_id());
                     LoginBean loginBean=new LoginBean();
-                    if("QQ".equals(Constants.TYPE_THIRDPARTLOGIN)){
+                    if("qq".equals(Constants.TYPE_THIRDPARTLOGIN)){
                         loginBean.setLoginType(2);
                     }else{
                         loginBean.setLoginType(3);

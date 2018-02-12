@@ -114,7 +114,11 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
         if (sUtils.getBooleanValue(Constants.IS_GUIDE, false) == false) {
             WelcomeActivity.startAction(SplashActivity.this, requestCode);
         } else {
-            mPresenter.getConnect(this);
+            if(type!=1) {
+                mPresenter.getConnect(this);
+            }else{
+                setViewVisible();
+            }
         }
 
        /* int screenWidth = getWindowManager().getDefaultDisplay().getWidth();//真实分辨率 宽

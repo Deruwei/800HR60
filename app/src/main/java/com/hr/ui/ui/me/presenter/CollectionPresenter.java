@@ -1,5 +1,7 @@
 package com.hr.ui.ui.me.presenter;
 
+import android.util.Log;
+
 import com.hr.ui.base.RxSubscriber;
 import com.hr.ui.bean.CollectionBean;
 import com.hr.ui.ui.me.contract.CollectionContract;
@@ -35,7 +37,7 @@ public class CollectionPresenter extends CollectionContract.Presenter {
 
             @Override
             protected void _onError(String message) {
-
+                Log.i("到这里了2","------");
             }
         }));
     }

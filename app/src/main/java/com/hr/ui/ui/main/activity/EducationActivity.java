@@ -34,6 +34,7 @@ import com.hr.ui.view.CustomDatePicker;
 import com.hr.ui.view.MyDialog;
 import com.hr.ui.view.MyStartAndEndTimeCustomDatePicker;
 import com.hr.ui.view.MyTextView;
+import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -401,9 +402,11 @@ public class EducationActivity extends BaseActivity<EducationPresenter, Educatio
 
     @Override
     public void sendEducationSuccess(String eduId) {
+        MobclickAgent.onEvent(this,"v6_edit_resumeEducationBackgound");
         this.eduId=eduId;
         sUtils.setStringValue(Constants.EDUCATION_ID,eduId);
         if (stopType == 2) {
+            MobclickAgent.onEvent(this,"v6_resume_complete");
             MainActivity.startAction(this, 0);
             AppManager.getAppManager().finishAllActivity();
         } else {

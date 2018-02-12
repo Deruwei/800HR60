@@ -171,7 +171,7 @@ public class MessageFragment extends BaseFragment<MessageFragmentPresenter, Mess
             tvWhoSeeMeCompanyName.setText(browsedListBeans.get(0).getEnterprise_name());
             tvWhoSeeMeCompanyTime.setText(Utils.getDateMonthAndDay(browsedListBeans.get(0).getBrowsed_time()));
         } else {
-            tvFeedbackCompanyName.setText("暂无记录");
+            tvWhoSeeMeCompanyName.setText("暂无记录");
             ivMessageWhoSeeMeNum.setVisibility(View.GONE);
         }
     }
@@ -229,7 +229,9 @@ public class MessageFragment extends BaseFragment<MessageFragmentPresenter, Mess
         personImage = sUtils.getStringValue(Constants.PERSONIMAGE, "");
         if (!"".equals(personImage) && personImage != null) {
            /* Glide.with(this).load(Constants.IMAGE_BASEPATH + personImage).centerCrop().into(ivResumePersonPhoto);*/
-            Glide.with(this).load(Constants.IMAGE_BASEPATH + personImage).fitCenter().into(ivResumePersonPhoto);
+            Glide.with(this).load(Constants.IMAGE_BASEPATH + personImage).fitCenter() .into(ivResumePersonPhoto);
+        }else{
+            ivResumePersonPhoto.setImageResource(R.mipmap.persondefault);
         }
     }
 

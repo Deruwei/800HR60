@@ -21,6 +21,7 @@ import com.hr.ui.ui.message.model.EmploymentGuidanceModel;
 import com.hr.ui.ui.message.presenter.EmploymentGuidancePresenter;
 import com.hr.ui.utils.ProgressStyle;
 import com.hr.ui.view.XRecyclerView;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,22 +93,31 @@ public class EmploymentGuidanceFragment extends BaseFragment<EmploymentGuidanceP
     private void checkEmploymentId(int position){
         if(position==0){
             guidanceId="83";
+            MobclickAgent.onEvent(getActivity(),"v6_scan_bookCover");
         }else if(position==1){
             guidanceId="120";
+            MobclickAgent.onEvent(getActivity(),"v6_scan_occupationGuidance");
         }else if(position==2){
             guidanceId="86";
+            MobclickAgent.onEvent(getActivity(),"v6_scan_occupationDiagnose");
         }else if(position==3){
             guidanceId="82";
+            MobclickAgent.onEvent(getActivity(),"v6_scan_workGrossip");
         }else if(position==4){
             guidanceId="723";
+            MobclickAgent.onEvent(getActivity(),"v6_scan_startUpGuidance");
         }else if(position==5){
             guidanceId="121";
+            MobclickAgent.onEvent(getActivity(),"v6_scan_interviewWay");
         }else if(position==6){
             guidanceId="846";
+            MobclickAgent.onEvent(getActivity(),"v6_scan_modelWorker");
         }else if(position==7){
             guidanceId="87";
+            MobclickAgent.onEvent(getActivity(),"v6_scan_relationShip");
         }else if(position==8) {
             guidanceId="122";
+            MobclickAgent.onEvent(getActivity(),"v6_scan_salaryInfo");
         }
     }
     private void initRv() {

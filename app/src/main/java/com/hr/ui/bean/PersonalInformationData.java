@@ -90,4 +90,19 @@ public class PersonalInformationData {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
+    @Override
+    public String toString() {
+        return "PersonalInformationData{" +
+                "name='" + name + '\'' +
+                ", sex='" + sex + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", birth='" + birth + '\'' +
+                ", livePlace='" + livePlace + '\'' +
+                ", workTime='" + workTime + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", Email='" + Email + '\'' +
+                ", positionTitle='" + positionTitle + '\'' +
+                '}';
+    }
 }

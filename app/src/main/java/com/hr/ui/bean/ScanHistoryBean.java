@@ -90,4 +90,19 @@ public class ScanHistoryBean {
     public void setIs_expect(String is_expect) {
         this.is_expect = is_expect;
     }
+
+    @Override
+    public String toString() {
+        return "ScanHistoryBean{" +
+                "jobId='" + jobId + '\'' +
+                ", jobName='" + jobName + '\'' +
+                ", place='" + place + '\'' +
+                ", exp='" + exp + '\'' +
+                ", degree='" + degree + '\'' +
+                ", companyName='" + companyName + '\'' +
+                ", salary='" + salary + '\'' +
+                ", time='" + time + '\'' +
+                ", is_expect='" + is_expect + '\'' +
+                '}';
+    }
 }

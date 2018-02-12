@@ -63,7 +63,7 @@ public class SettingPresenter extends SettingContract.Presenter {
 
             @Override
             protected void _onError(String message) {
-                ToastUitl.showShort(message);
+                //ToastUitl.showShort(message);
             }
         }));
     }
@@ -92,7 +92,7 @@ public class SettingPresenter extends SettingContract.Presenter {
 
             @Override
             protected void _onError(String message) {
-                ToastUitl.showShort(message);
+                //ToastUitl.showShort(message);
             }
         }));
     }

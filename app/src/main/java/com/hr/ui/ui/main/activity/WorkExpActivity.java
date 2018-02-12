@@ -32,6 +32,7 @@ import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.MyDialog;
 import com.hr.ui.view.MyStartAndEndTimeCustomDatePicker;
 import com.hr.ui.view.MyTextView;
+import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -526,9 +527,11 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
 
     @Override
     public void sendWorkExpSuccess(String expId) {
+        MobclickAgent.onEvent(this,"v6_edit_resumeWorkExp");
         this.expId=expId;
         sUtis.setStringValue(Constants.WORKEXP_ID,expId);
         if (stopType == 3) {
+            MobclickAgent.onEvent(this,"v6_resume_complete");
             MainActivity.startAction(this, 0);
             AppManager.getAppManager().finishAllActivity();
         } else {

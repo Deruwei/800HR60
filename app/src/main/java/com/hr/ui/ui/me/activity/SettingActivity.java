@@ -185,6 +185,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter,SettingModel>
         ToastUitl.showShort("退出成功");
         SharedPreferencesUtils sUtils=new SharedPreferencesUtils(this);
         sUtils.setIntValue(Constants.ISAUTOLOGIN,0);
+        sUtils.setStringValue(Constants.PERSONIMAGE, "");
         AppManager.getAppManager().finishAllActivity();
         SplashActivity.startAction(this,1);
 

@@ -137,6 +137,7 @@ public class PositionPagePresenter extends PositionPageContract.Presenter {
                 @Override
                 protected void _onError(String message) {
                     // Log.i("okht",message);
+                    mView.retryCulScore();
                 }
             }));
     }

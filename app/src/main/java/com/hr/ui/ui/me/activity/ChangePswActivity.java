@@ -3,6 +3,7 @@ package com.hr.ui.ui.me.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -62,7 +63,9 @@ public class ChangePswActivity extends BaseActivity<ChangePswPresenter, ChangePs
     ImageView ivChangePswNewDelete;
     @BindView(R.id.iv_changePswNewHiddenPsw)
     ImageView ivChangePswNewHiddenPsw;
-    private boolean isHiddenOld,isHiddenNew;
+    @BindView(R.id.cl_changePsw)
+    ConstraintLayout clChangePsw;
+    private boolean isHiddenOld, isHiddenNew;
 
     public static void startAction(Activity activity) {
         Intent intent = new Intent(activity, ChangePswActivity.class);
@@ -136,9 +139,9 @@ public class ChangePswActivity extends BaseActivity<ChangePswPresenter, ChangePs
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()>0){
+                if (s.length() > 0) {
                     ivChangePswNewDelete.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     ivChangePswNewDelete.setVisibility(View.GONE);
                 }
             }
@@ -151,10 +154,10 @@ public class ChangePswActivity extends BaseActivity<ChangePswPresenter, ChangePs
         etChangePswNew.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
+                if (!hasFocus) {
                     ivChangePswNewDelete.setVisibility(View.GONE);
-                }else{
-                    if(etChangePswNew.getText().toString()!=null&&!"".equals(etChangePswNew.getText().toString())){
+                } else {
+                    if (etChangePswNew.getText().toString() != null && !"".equals(etChangePswNew.getText().toString())) {
                         ivChangePswNewDelete.setVisibility(View.VISIBLE);
                     }
                 }
@@ -168,9 +171,9 @@ public class ChangePswActivity extends BaseActivity<ChangePswPresenter, ChangePs
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()>0){
+                if (s.length() > 0) {
                     ivChangePswOldDelete.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     ivChangePswOldDelete.setVisibility(View.GONE);
                 }
             }
@@ -183,10 +186,10 @@ public class ChangePswActivity extends BaseActivity<ChangePswPresenter, ChangePs
         etChangePswNewOld.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
+                if (!hasFocus) {
                     ivChangePswOldDelete.setVisibility(View.GONE);
-                }else{
-                    if(etChangePswNewOld.getText().toString()!=null&&!"".equals(etChangePswNewOld.getText().toString())){
+                } else {
+                    if (etChangePswNewOld.getText().toString() != null && !"".equals(etChangePswNewOld.getText().toString())) {
                         ivChangePswOldDelete.setVisibility(View.VISIBLE);
                     }
                 }
@@ -194,7 +197,7 @@ public class ChangePswActivity extends BaseActivity<ChangePswPresenter, ChangePs
         });
     }
 
-    @OnClick({R.id.btn_changePswOK,R.id.iv_changePswNewDelete,R.id.iv_changePswOldDelete,R.id.iv_changePswNewHiddenPsw,R.id.iv_changePswOldHiddenPsw})
+    @OnClick({R.id.btn_changePswOK, R.id.iv_changePswNewDelete, R.id.iv_changePswOldDelete, R.id.iv_changePswNewHiddenPsw, R.id.iv_changePswOldHiddenPsw})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_changePswOK:

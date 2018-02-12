@@ -148,8 +148,8 @@ public class ToolUtils {
             sUtils.setStringValue(Constants.EDUCATION_ID,"");
             sUtils.setStringValue(Constants.WORKEXP_ID,"");
         }else{
+            mPresenter.getResumeData(multipleResumeBean.getResume_list().get(0).getResume_id());
             sUtils.setIntValue(Constants.RESUME_ID,Integer.parseInt(multipleResumeBean.getResume_list().get(0).getResume_id()));
-                mPresenter.getResumeData(multipleResumeBean.getResume_list().get(0).getResume_id());
         }
     }
     public  void judgeResumeMultipleOrOne3(Activity activity, MultipleResumeBean multipleResumeBean, int userId, int[] imageIds, SplashPresenter mPresenter){

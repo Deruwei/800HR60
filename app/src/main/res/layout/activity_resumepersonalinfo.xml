@@ -47,6 +47,8 @@
                     android:id="@+id/iv_ResumePersonPhoto"
                     android:layout_centerVertical="true"
                     android:layout_width="@dimen/x120"
+                    app:civ_border_color="@color/bg_color"
+                    app:civ_border_width="@dimen/x1"
                     android:scaleType="centerCrop"
                     android:layout_alignParentRight="true"
                     android:layout_height="@dimen/x120" />

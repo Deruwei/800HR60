@@ -37,7 +37,8 @@ public class HomeFragmentPresenter extends HomeFragmentContract.Presenter {
             @Override
             protected void _onError(String message) {
                 //Log.i("你好",message);
-                mView.getRecommendJobError();
+                /*mView.getRecommendJobError();*/
+                mView.cantGetData();
             }
         }));
     }
@@ -72,8 +73,8 @@ public class HomeFragmentPresenter extends HomeFragmentContract.Presenter {
     }
 
     @Override
-    public void getRecommendJob(int page,int pageNum) {
-        mRxManage.add(mModel.getRecommendJob(page,pageNum).subscribe(new RxSubscriber<RecommendJobBean>(mContext,false) {
+    public void getRecommendJob(int page,int pageNum,boolean isCanRefresh) {
+        mRxManage.add(mModel.getRecommendJob(page,pageNum).subscribe(new RxSubscriber<RecommendJobBean>(mContext,isCanRefresh) {
             @Override
             protected void _onNext(RecommendJobBean recommendJobBean) throws IOException {
                 if("0".equals(recommendJobBean.getError_code())) {
@@ -85,7 +86,7 @@ public class HomeFragmentPresenter extends HomeFragmentContract.Presenter {
 
             @Override
             protected void _onError(String message) {
-
+                mView.getRecommendJobError();
             }
         }));
     }

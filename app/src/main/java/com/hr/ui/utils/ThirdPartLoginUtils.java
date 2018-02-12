@@ -39,8 +39,9 @@ public class ThirdPartLoginUtils {
                 String birthdayString = hashMap.get("birthday") + "";
                 String tinyurlString = hashMap.get("figureurl_qq_2") + "";
                 String genderString = hashMap.get("gender") + "";
-                thirdPartBean.setType("QQ");
+                thirdPartBean.setType("qq");
                 thirdPartBean.setName(nickNameString);
+                thirdPartBean.setNikeName(nickNameString);
                 thirdPartBean.setUId(uidString);
                 thirdPartBean.setBirthDay(birthdayString);
                 thirdPartBean.setPhoto(tinyurlString);
@@ -49,7 +50,7 @@ public class ThirdPartLoginUtils {
                 //ThirdPartDBUtils.getInstance(HRApplication.getAppContext()).insertData(thirdPartBean);
                 //thirdPartBeanDao.insert(thirdPartBean);
                // HRApplication.getDaoSession().getThirdLoginBeanDao().insert(thirdPartBean);
-                Constants.TYPE_THIRDPARTLOGIN="QQ";
+                Constants.TYPE_THIRDPARTLOGIN="qq";
                 System.out.println("qq-complete"+thirdPartBean.toString());
                 mPresenter.getThirdPartLogin(thirdPartBean);
                // ToastUitl.showLong(hashMap.toString());

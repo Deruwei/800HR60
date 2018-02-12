@@ -85,7 +85,8 @@
     <string name="error_2014">用户名已存在</string>
     <string name="error_validCode">验证码错误</string>
     <string name="error_1101">网络正在连接，请重试</string>
-    <string name="error_other">出现未知错误，请重新连接</string>
+    <string name="error_cul">网络太慢，您被挤走了～</string>
+    <string name="error_other"></string>
     <string name="goInto">立即体验</string>
     <string name="exit">退出</string>
     //我的

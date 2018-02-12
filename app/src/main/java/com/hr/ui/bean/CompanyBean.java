@@ -334,5 +334,49 @@ public class CompanyBean {
         public void setNautica(String nautica) {
             this.nautica = nautica;
         }
+
+        @Override
+        public String toString() {
+            return "EnterpriseInfoBean{" +
+                    "enterprise_name='" + enterprise_name + '\'' +
+                    ", stuff_munber='" + stuff_munber + '\'' +
+                    ", address='" + address + '\'' +
+                    ", zipcode='" + zipcode + '\'' +
+                    ", linkman='" + linkman + '\'' +
+                    ", phone='" + phone + '\'' +
+                    ", fax='" + fax + '\'' +
+                    ", email='" + email + '\'' +
+                    ", homepage='" + homepage + '\'' +
+                    ", home_area='" + home_area + '\'' +
+                    ", synopsis='" + synopsis + '\'' +
+                    ", ent_logo='" + ent_logo + '\'' +
+                    ", map_lon='" + map_lon + '\'' +
+                    ", map_lat='" + map_lat + '\'' +
+                    ", lingyu='" + lingyu + '\'' +
+                    ", enterprise_name_min='" + enterprise_name_min + '\'' +
+                    ", patent_validate='" + patent_validate + '\'' +
+                    ", mobilephone='" + mobilephone + '\'' +
+                    ", is_from_net='" + is_from_net + '\'' +
+                    ", welfare_label='" + welfare_label + '\'' +
+                    ", baidu_map_lon='" + baidu_map_lon + '\'' +
+                    ", baidu_map_lat='" + baidu_map_lat + '\'' +
+                    ", enterprise_id='" + enterprise_id + '\'' +
+                    ", vip_ente_url='" + vip_ente_url + '\'' +
+                    ", contract_expiry='" + contract_expiry + '\'' +
+                    ", company_type='" + company_type + '\'' +
+                    ", industry='" + industry + '\'' +
+                    ", industry_name='" + industry_name + '\'' +
+                    ", nautica='" + nautica + '\'' +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "CompanyBean{" +
+                "error_code=" + error_code +
+                ", enterprise_info=" + enterprise_info +
+                ", _run_time='" + _run_time + '\'' +
+                '}';
     }
 }

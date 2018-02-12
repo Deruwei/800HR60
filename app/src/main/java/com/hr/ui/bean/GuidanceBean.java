@@ -86,6 +86,16 @@ public class GuidanceBean {
         public void setPage_nums(String page_nums) {
             this.page_nums = page_nums;
         }
+
+        @Override
+        public String toString() {
+            return "NavpageInfoBean{" +
+                    "current_page='" + current_page + '\'' +
+                    ", total_pages=" + total_pages +
+                    ", record_nums=" + record_nums +
+                    ", page_nums='" + page_nums + '\'' +
+                    '}';
+        }
     }
 
     public static class TitleListBean {
@@ -422,5 +432,53 @@ public class GuidanceBean {
         public void setPictures(List<?> pictures) {
             this.pictures = pictures;
         }
+
+        @Override
+        public String toString() {
+            return "TitleListBean{" +
+                    "id='" + id + '\'' +
+                    ", type='" + type + '\'' +
+                    ", catid='" + catid + '\'' +
+                    ", title='" + title + '\'' +
+                    ", subhead='" + subhead + '\'' +
+                    ", thumb='" + thumb + '\'' +
+                    ", keywords='" + keywords + '\'' +
+                    ", description='" + description + '\'' +
+                    ", flag_top='" + flag_top + '\'' +
+                    ", flag_top_date='" + flag_top_date + '\'' +
+                    ", flag_first='" + flag_first + '\'' +
+                    ", flag_commend='" + flag_commend + '\'' +
+                    ", flag_essence='" + flag_essence + '\'' +
+                    ", url='" + url + '\'' +
+                    ", listorder='" + listorder + '\'' +
+                    ", status='" + status + '\'' +
+                    ", add_uid='" + add_uid + '\'' +
+                    ", author='" + author + '\'' +
+                    ", contact='" + contact + '\'' +
+                    ", inputtime='" + inputtime + '\'' +
+                    ", updatetime='" + updatetime + '\'' +
+                    ", paginationtype='" + paginationtype + '\'' +
+                    ", maxcharperpage='" + maxcharperpage + '\'' +
+                    ", crop='" + crop + '\'' +
+                    ", voteid='" + voteid + '\'' +
+                    ", feedbackid='" + feedbackid + '\'' +
+                    ", copyfrom='" + copyfrom + '\'' +
+                    ", istiming='" + istiming + '\'' +
+                    ", timingtime='" + timingtime + '\'' +
+                    ", views='" + views + '\'' +
+                    ", audit_userid='" + audit_userid + '\'' +
+                    ", audit_time='" + audit_time + '\'' +
+                    ", pictures=" + pictures +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "GuidanceBean{" +
+                "error_code='" + error_code + '\'' +
+                ", navpage_info=" + navpage_info +
+                ", title_list=" + title_list +
+                '}';
     }
 }

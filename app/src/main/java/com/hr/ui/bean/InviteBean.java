@@ -87,6 +87,16 @@ public class InviteBean implements Serializable {
         public void setPage_nums(String page_nums) {
             this.page_nums = page_nums;
         }
+
+        @Override
+        public String toString() {
+            return "NavpageInfoBean{" +
+                    "current_page='" + current_page + '\'' +
+                    ", total_pages=" + total_pages +
+                    ", record_nums=" + record_nums +
+                    ", page_nums='" + page_nums + '\'' +
+                    '}';
+        }
     }
 
     public static class InvitedListBean implements Serializable{
@@ -321,5 +331,14 @@ public class InviteBean implements Serializable {
                     ", invited_time='" + invited_time + '\'' +
                     '}';
         }
+    }
+
+    @Override
+    public String toString() {
+        return "InviteBean{" +
+                "error_code='" + error_code + '\'' +
+                ", navpage_info=" + navpage_info +
+                ", invited_list=" + invited_list +
+                '}';
     }
 }

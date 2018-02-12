@@ -52,9 +52,9 @@ import rx.schedulers.Schedulers;
  */
 public class Api {
     //读超时长，单位：毫秒
-    public static final int READ_TIME_OUT = 10000;
+    public static final int READ_TIME_OUT = 6000;
     //连接时长，单位：毫秒
-    public static final int CONNECT_TIME_OUT = 10000;
+    public static final int CONNECT_TIME_OUT = 6000;
     public Retrofit retrofit;
     public ApiService movieService;
     public OkHttpClient okHttpClient;
@@ -205,7 +205,8 @@ public class Api {
             } else {
                 //没网2天失效
                 return originalResponse.newBuilder()
-                        .header("Cache-Control", "public, only-if-cached, max-stale=" + CACHE_STALE_SEC)
+                       /* .header("Cache-Control", "public, max-age=" + 60)*/
+                       .header("Cache-Control", "public, only-if-cached, max-stale=" + CACHE_STALE_SEC)
                         .removeHeader("Pragma")
                         .build();
             }

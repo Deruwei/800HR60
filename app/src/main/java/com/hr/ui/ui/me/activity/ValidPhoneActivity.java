@@ -5,12 +5,16 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -68,6 +72,8 @@ public class ValidPhoneActivity extends BaseActivity<ValidPhonePresenter, ValidP
     Button btnValidPhoneOK;
     @BindView(R.id.tv_validPhoneChangePhone)
     TextView tvValidPhoneChangePhone;
+    @BindView(R.id.cl_validPhone)
+    ConstraintLayout clValidPhone;
     private String phoneNumber;
     private SharedPreferencesUtils sUtils;
     private PopupWindow popupWindow;
@@ -129,6 +135,12 @@ public class ValidPhoneActivity extends BaseActivity<ValidPhonePresenter, ValidP
     }
 
     @Override
+    public void getValidCodeFailt() {
+        etAutoCode.setText("");
+        mPresenter.getCaptcha();
+    }
+
+    @Override
     public int getLayoutId() {
         return R.layout.activity_validphone;
     }
@@ -140,7 +152,7 @@ public class ValidPhoneActivity extends BaseActivity<ValidPhonePresenter, ValidP
 
     @Override
     public void initView() {
-        sUtils=new SharedPreferencesUtils(this);
+        sUtils = new SharedPreferencesUtils(this);
         phoneNumber = getIntent().getStringExtra("phone");
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -192,19 +204,12 @@ public class ValidPhoneActivity extends BaseActivity<ValidPhonePresenter, ValidP
      */
     public void initPopWindow() {
         final View popView = LayoutInflater.from(this).inflate(R.layout.layout_autocode, null);
-        popupWindow = new PopupWindow(popView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, true);
+        popupWindow = new PopupWindow(popView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
         popupWindow.setOutsideTouchable(true);
         ivAutoCode = popView.findViewById(R.id.vc_image);
         TextView tvReflesh = popView.findViewById(R.id.vc_refresh);
         etAutoCode = popView.findViewById(R.id.vc_code);
         RelativeLayout rlConfirm = popView.findViewById(R.id.rl__item_autocode_confirm);
-        LinearLayout llClose = popView.findViewById(R.id.ll_autoCodeClose);
-        llClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-            }
-        });
         rlConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -216,6 +221,27 @@ public class ValidPhoneActivity extends BaseActivity<ValidPhonePresenter, ValidP
                 }
             }
         });
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = 0.7f;
+        getWindow().setAttributes(lp);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+
+            @Override
+            public void onDismiss() {
+                WindowManager.LayoutParams lp = getWindow().getAttributes();
+                lp.alpha = 1f;
+                getWindow().setAttributes(lp);
+            }
+        });
+        if (Build.VERSION.SDK_INT >Build.VERSION_CODES.KITKAT) {
+            //  大于等于19即为4.4及以上执行内容
+            // 设置背景颜色变暗
+        } else {
+            //  低于19即为4.4以下执行内容
+            popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        }
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
         tvReflesh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -223,7 +249,7 @@ public class ValidPhoneActivity extends BaseActivity<ValidPhonePresenter, ValidP
             }
         });
         View rootview = LayoutInflater.from(this).inflate(R.layout.activity_register, null);
-        popupWindow.showAtLocation(rootview, Gravity.CENTER, 0, 0);
+        popupWindow.showAtLocation(clValidPhone, Gravity.CENTER, 0, 0);
     }
 
     @OnClick({R.id.tv_validPhoneValidCode, R.id.btn_validPhoneOK, R.id.tv_validPhoneChangePhone})
@@ -236,7 +262,7 @@ public class ValidPhoneActivity extends BaseActivity<ValidPhonePresenter, ValidP
                             mPresenter.getCaptcha();
                             initPopWindow();
                         } else {
-                            mPresenter.getValidCode(phoneNumber, Constants.VALIDCODE_RESETPHONEORPSW_YTPE, 1,"");
+                            mPresenter.getValidCode(phoneNumber, Constants.VALIDCODE_RESETPHONEORPSW_YTPE, 1, "");
                         }
                     } else {
                         ToastUitl.show("请输入正确的手机号码", Toast.LENGTH_SHORT);
@@ -256,10 +282,10 @@ public class ValidPhoneActivity extends BaseActivity<ValidPhonePresenter, ValidP
     }
 
     private void doValidCode() {
-        if(etValidPhoneValidCode.getText().toString()==null||"".equals(etValidPhoneValidCode.getText().toString())){
+        if (etValidPhoneValidCode.getText().toString() == null || "".equals(etValidPhoneValidCode.getText().toString())) {
             ToastUitl.showShort("请填写手机验证码");
             return;
         }
-        mPresenter.validPhone(phoneNumber,etValidPhoneValidCode.getText().toString());
+        mPresenter.validPhone(phoneNumber, etValidPhoneValidCode.getText().toString());
     }
 }

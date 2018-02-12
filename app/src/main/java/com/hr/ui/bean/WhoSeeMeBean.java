@@ -87,6 +87,16 @@ public class WhoSeeMeBean {
         public void setPage_nums(String page_nums) {
             this.page_nums = page_nums;
         }
+
+        @Override
+        public String toString() {
+            return "NavpageInfoBean{" +
+                    "current_page='" + current_page + '\'' +
+                    ", total_pages=" + total_pages +
+                    ", record_nums=" + record_nums +
+                    ", page_nums='" + page_nums + '\'' +
+                    '}';
+        }
     }
 
     public static class BrowsedListBean {
@@ -238,6 +248,41 @@ public class WhoSeeMeBean {
             public void setTotal(String total) {
                 this.total = total;
             }
+
+            @Override
+            public String toString() {
+                return "RecruitInfoBean{" +
+                        "job_name='" + job_name + '\'' +
+                        ", total='" + total + '\'' +
+                        '}';
+            }
         }
+
+        @Override
+        public String toString() {
+            return "BrowsedListBean{" +
+                    "enterprise_id='" + enterprise_id + '\'' +
+                    ", enterprise_name='" + enterprise_name + '\'' +
+                    ", user_id='" + user_id + '\'' +
+                    ", resume_id='" + resume_id + '\'' +
+                    ", industry='" + industry + '\'' +
+                    ", company_type='" + company_type + '\'' +
+                    ", ent_logo='" + ent_logo + '\'' +
+                    ", industry_name='" + industry_name + '\'' +
+                    ", stuffmunber='" + stuffmunber + '\'' +
+                    ", record_id='" + record_id + '\'' +
+                    ", browsed_time='" + browsed_time + '\'' +
+                    ", recruit_info=" + recruit_info +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "WhoSeeMeBean{" +
+                "error_code=" + error_code +
+                ", navpage_info=" + navpage_info +
+                ", browsed_list=" + browsed_list +
+                '}';
     }
 }

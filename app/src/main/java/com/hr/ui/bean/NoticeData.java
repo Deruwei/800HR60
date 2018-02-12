@@ -86,4 +86,19 @@ public class NoticeData {
     public void setPush_way(String push_way) {
         this.push_way = push_way;
     }
+
+    @Override
+    public String toString() {
+        return "NoticeData{" +
+                "rushjob_state='" + rushjob_state + '\'' +
+                ", invite_state='" + invite_state + '\'' +
+                ", sound_state='" + sound_state + '\'' +
+                ", notice_bgntime='" + notice_bgntime + '\'' +
+                ", notice_endtime='" + notice_endtime + '\'' +
+                ", phonecode='" + phonecode + '\'' +
+                ", baidu_user_id='" + baidu_user_id + '\'' +
+                ", baidu_channel_id='" + baidu_channel_id + '\'' +
+                ", push_way='" + push_way + '\'' +
+                '}';
+    }
 }

@@ -22,6 +22,7 @@ import com.hr.ui.ui.message.presenter.DeliverFeedbackFragmentPresenter;
 import com.hr.ui.utils.ProgressStyle;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.view.XRecyclerView;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,6 +94,7 @@ public class DeliverFeedbackFragment extends BaseFragment<DeliverFeedbackFragmen
         rvDeliverFeedback.setNestedScrollingEnabled(false);
         rvDeliverFeedback.setLoadingMoreProgressStyle(ProgressStyle.BallTrianglePath);
         adapter = new MyDeliverFeedbackAdapter();
+        ivNoDataSearch.setVisibility(View.GONE);
         rvDeliverFeedback.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
@@ -135,8 +137,10 @@ public class DeliverFeedbackFragment extends BaseFragment<DeliverFeedbackFragmen
         super.lazyLoad();
         position = getArguments().getInt("position");
         if (position == 0) {
+            MobclickAgent.onEvent(getActivity(),"v6_scan_deliverPosition");
             mPresenter.getDeliverFeedBack(page, 0, 0,true);
         } else if (position == 1) {
+            MobclickAgent.onEvent(getActivity(),"v6_scan_seem");
             mPresenter.getDeliverFeedBack(page, 1, 0,true);
         }
     }

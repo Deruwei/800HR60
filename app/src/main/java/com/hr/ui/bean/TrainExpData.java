@@ -59,4 +59,16 @@ public class TrainExpData {
     public void setTrainDes(String trainDes) {
         this.trainDes = trainDes;
     }
+
+    @Override
+    public String toString() {
+        return "TrainExpData{" +
+                "trainId='" + trainId + '\'' +
+                ", trainInstruction='" + trainInstruction + '\'' +
+                ", trainClass='" + trainClass + '\'' +
+                ", startTime='" + startTime + '\'' +
+                ", endTime='" + endTime + '\'' +
+                ", trainDes='" + trainDes + '\'' +
+                '}';
+    }
 }

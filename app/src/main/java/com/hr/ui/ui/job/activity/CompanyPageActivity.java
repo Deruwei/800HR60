@@ -28,6 +28,7 @@ import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.Utils;
 import com.hr.ui.view.ExpandableTextView;
 import com.hr.ui.view.RoundImageView;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -126,6 +127,7 @@ public class CompanyPageActivity extends BaseActivity<CompanyPagePresenter, Comp
 
     @Override
     public void getCompanyDataSuccess(CompanyBean.EnterpriseInfoBean enterpriseInfoBean1) {
+        MobclickAgent.onEvent(this,"v6_scan_company");
         if (enterpriseInfoBean1 != null && !"".equals(enterpriseInfoBean1)) {
             enterpriseInfoBean = enterpriseInfoBean1;
             tvCompanyPageAddress.setText(enterpriseInfoBean.getAddress());
@@ -287,7 +289,11 @@ public class CompanyPageActivity extends BaseActivity<CompanyPagePresenter, Comp
     public void onViewClicked(View v) {
         switch (v.getId()) {
             case R.id.ll_companyLocation:
-                BaiDuMapActivity.startAction(this, enterpriseInfoBean.getBaidu_map_lon(), enterpriseInfoBean.getBaidu_map_lat());
+                if(enterpriseInfoBean.getBaidu_map_lat()==null||enterpriseInfoBean.getBaidu_map_lon()==null||"".equals(enterpriseInfoBean.getBaidu_map_lat())||"".equals(enterpriseInfoBean.getBaidu_map_lon())){
+
+                }else {
+                    BaiDuMapActivity.startAction(this, enterpriseInfoBean.getBaidu_map_lon(), enterpriseInfoBean.getBaidu_map_lat());
+                }
                 break;
             case R.id.iv_noNetError:
                 mPresenter.getCompanyData(companyId);

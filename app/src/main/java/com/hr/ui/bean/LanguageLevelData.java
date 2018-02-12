@@ -32,4 +32,13 @@ public class LanguageLevelData {
     public void setReadLevel(String readLevel) {
         this.readLevel = readLevel;
     }
+
+    @Override
+    public String toString() {
+        return "LanguageLevelData{" +
+                "languageId='" + languageId + '\'' +
+                ", speakLevel='" + speakLevel + '\'' +
+                ", readLevel='" + readLevel + '\'' +
+                '}';
+    }
 }

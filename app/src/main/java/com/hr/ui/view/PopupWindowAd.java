@@ -10,6 +10,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.hr.ui.R;
+import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.message.activity.WebActivity;
 import com.hr.ui.utils.Utils;
 import com.hr.ui.utils.recyclerviewutils.AVLoadingIndicatorView;
@@ -45,7 +46,7 @@ public class PopupWindowAd {
         ImageView ivAds=view.findViewById(R.id.iv_adPhoto);
         ImageView ivClose=view.findViewById(R.id.iv_closeAd);
         if(imageUrl!=null) {
-            Utils.setImageResource(activity,ivAds,imageUrl);
+            Utils.setImageResource(activity,ivAds, imageUrl);
         }
         ivAds.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +74,7 @@ public class PopupWindowAd {
             }
         });
         popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(false);
         popupWindow.setAnimationStyle(R.style.style_pop_animation2);
         popupWindow.showAtLocation(viewMain, Gravity.CENTER, 0, 0);
     }

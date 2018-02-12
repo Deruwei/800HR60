@@ -5,7 +5,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -17,6 +20,7 @@ import android.text.method.PasswordTransformationMethod;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -100,6 +104,8 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
     RelativeLayout rlBindNewAccountHiddenPsw;
     @BindView(R.id.tv_bindNewAccountPhone)
     TextView tvBindNewAccountPhone;
+    @BindView(R.id.cl_bindNewPhone)
+    ConstraintLayout clBindNewPhone;
     private SharedPreferencesUtils sUtils;
     private PopupWindow popupWindow;
     private String autoCode;
@@ -185,13 +191,14 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
 
     @Override
     public void sendAutoCode(String autoCode) {
-        initPopWindow();
+        this.autoCode = autoCode;
         ivAutoCode.setImageBitmap(EncryptUtils.stringtoBitmap(autoCode));
 
     }
 
     @Override
     public void sendRegisterSuccess(int userId) {
+        MobclickAgent.onEvent(this, "v6_register_thirdPart");
         ThirdLoginBean thirdPartBean = new ThirdLoginBean();
         List<ThirdLoginBean> thirdPartBeanList = ThirdPartDao.queryThirdPart(Constants.TYPE_THIRDPARTLOGIN);
         // List<ThirdLoginBean> thirdPartBeanList= HRApplication.getDaoSession().getThirdLoginBeanDao().queryBuilder().where(ThirdPartBeanDao.Properties.Type.eq(Constants.TYPE_THIRDPARTLOGIN)).list();
@@ -203,16 +210,17 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
                 break;
             }
         }
-       // System.out.println("hello" + thirdPartBean.toString());
+        // System.out.println("hello" + thirdPartBean.toString());
         mPresenter.getThidBinding(thirdPartBean, phoneNumber, password, 0);
     }
 
     @Override
     public void bindingSuccess(int userId) {
-        MobclickAgent.onProfileSignIn("WB",userId+"");
+        MobclickAgent.onProfileSignIn("WB", userId + "");
+        MobclickAgent.onEvent(this, "v6_register_thirdPart");
         sUtils.setIntValue(Constants.ISAUTOLOGIN, 1);
         LoginBean loginBean = new LoginBean();
-        if ("QQ".equals(Constants.TYPE_THIRDPARTLOGIN)) {
+        if ("qq".equals(Constants.TYPE_THIRDPARTLOGIN)) {
             loginBean.setLoginType(2);
             sUtils.setIntValue(Constants.AUTOLOGINTYPE, 2);
         } else {
@@ -241,6 +249,8 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
 
     @Override
     public void needToGetAutoCode() {
+        ToastUitl.showShort("图形验证码错误");
+        etAutoCode.setText("");
         mPresenter.getAutoCode();
     }
 
@@ -253,7 +263,9 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
                 mPresenter.getRegister(phoneNumber, validCode, password);
             } else {
                 if (sUtils.getIntValue("code", 0) >= 1) {
+                    initPopWindow();
                     mPresenter.getAutoCode();
+
                 } else {
                     mPresenter.getValidCode(phoneNumber, "", 0, Constants.VALIDCODE_REGISTER_YTPE);
                 }
@@ -375,7 +387,7 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
         });
     }
 
-    @OnClick({R.id.tv_bindNewAccountGetValidCode,R.id.tv_bindNewAccountPhone, R.id.rl_bindNewAccountHiddenPsw, R.id.iv_bindNewAccountNumberDelete, R.id.iv_bindNewAccountPswDelete, R.id.iv_bindNewAccountGetValidCodeDelete, R.id.btn_bindNewAccountOK, R.id.tv_bindNewAccountFindPsw})
+    @OnClick({R.id.tv_bindNewAccountGetValidCode, R.id.tv_bindNewAccountPhone, R.id.rl_bindNewAccountHiddenPsw, R.id.iv_bindNewAccountNumberDelete, R.id.iv_bindNewAccountPswDelete, R.id.iv_bindNewAccountGetValidCodeDelete, R.id.btn_bindNewAccountOK, R.id.tv_bindNewAccountFindPsw})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_bindNewAccountHiddenPsw:
@@ -459,6 +471,7 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
             ToastUitl.showShort("请输入长度为6-25位的密码");
             return;
         }
+        type=0;
         mPresenter.validPhoneIsExit(phoneNumber);
     }
 
@@ -484,19 +497,12 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
      */
     public void initPopWindow() {
         final View popView = LayoutInflater.from(this).inflate(R.layout.layout_autocode, null);
-        popupWindow = new PopupWindow(popView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, true);
+        popupWindow = new PopupWindow(popView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
         popupWindow.setOutsideTouchable(true);
         ivAutoCode = popView.findViewById(R.id.vc_image);
         TextView tvReflesh = popView.findViewById(R.id.vc_refresh);
         etAutoCode = popView.findViewById(R.id.vc_code);
         RelativeLayout rlConfirm = popView.findViewById(R.id.rl__item_autocode_confirm);
-        LinearLayout llClose = popView.findViewById(R.id.ll_autoCodeClose);
-        llClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-            }
-        });
         rlConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -508,6 +514,28 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
                 }
             }
         });
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = 0.7f;
+        getWindow().setAttributes(lp);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+
+            @Override
+            public void onDismiss() {
+                WindowManager.LayoutParams lp = getWindow().getAttributes();
+                lp.alpha = 1f;
+                getWindow().setAttributes(lp);
+            }
+        });
+        if (Build.VERSION.SDK_INT >Build.VERSION_CODES.KITKAT) {
+            //  大于等于19即为4.4及以上执行内容
+            // 设置背景颜色变暗
+        } else {
+            //  低于19即为4.4以下执行内容
+            popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        }
+
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
         tvReflesh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -515,7 +543,7 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
             }
         });
         View rootview = LayoutInflater.from(this).inflate(R.layout.activity_register, null);
-        popupWindow.showAtLocation(rootview, Gravity.CENTER, 0, 0);
+        popupWindow.showAtLocation(clBindNewPhone, Gravity.CENTER, 0, 0);
     }
 
     @Override

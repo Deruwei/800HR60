@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
@@ -14,6 +16,7 @@ import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -147,6 +150,7 @@ public class ResumePersonalInfoActivity extends BaseActivity<ResumePersonalInfoP
     ImageView toolbarAdd;
     @BindView(R.id.iv_resumePhoneValid)
     ImageView ivResumePhoneValid;
+    public static String Tag=ResumePersonalInfoActivity.class.getSimpleName();
     private String imageUrl, name, sexid, birth, liveplaceId, workTime, phoneNumber, email, positionTitleId;
     private CustomDatePicker datePickerSex, datePickerWorkTime, datePickerPositionTitle;
     private MyCustomDatePicker datePickerBirth;
@@ -474,7 +478,7 @@ public class ResumePersonalInfoActivity extends BaseActivity<ResumePersonalInfoP
             case R.id.rl_resumePersonalInfoPhone:
                 setFocus();
                 if("2".equals(resumePersonalInfoBean.getBase_info().get(0).getYdphone_verify_status())) {
-                    ChangePhoneActivity.startAction(this);
+                    ChangePhoneActivity.startAction(this,TAG);
                 }else{
                     String phone=resumePersonalInfoBean.getBase_info().get(0).getYdphone();
                     if(phone!=null&&RegularExpression.isCellphone(phone)==true) {
@@ -508,6 +512,25 @@ public class ResumePersonalInfoActivity extends BaseActivity<ResumePersonalInfoP
             }
         });
         popupWindow.setOutsideTouchable(true);
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = 0.7f;
+        getWindow().setAttributes(lp);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+
+            @Override
+            public void onDismiss() {
+                WindowManager.LayoutParams lp = getWindow().getAttributes();
+                lp.alpha = 1f;
+                getWindow().setAttributes(lp);
+            }
+        });
+        if (Build.VERSION.SDK_INT >Build.VERSION_CODES.KITKAT) {
+            //  大于等于24即为4.4及以上执行内容
+            // 设置背景颜色变暗
+        } else {
+            //  低于19即为4.4以下执行内容
+            popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        }
         tvTakePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

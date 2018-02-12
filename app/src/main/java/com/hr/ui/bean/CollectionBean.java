@@ -11,8 +11,8 @@ public class CollectionBean {
 
     /**
      * error_code : 0
-     * favourite_list : [{"user_id":"9505708","enterprise_id":"57cS1","job_id":"ZZCoV","job_name":"会计","enterprise_name":"嘉博设计","industry":"11","job_work_area":"1200","expiration_date":"1521302399","applied_num":"30","release_time":"2017-12-28","topjob_type":"1","salary":"8000 - 9999","post_rank":"","language":"","workyear":"","study":"","applied_time":"0","workplace":"上海","record_id":"318411781","favourite_time":"2018-01-13","is_expire":0,"is_apply":0},{"user_id":"9505708","enterprise_id":"57cS1","job_id":"I9fPM","job_name":"外立面深化设计专项设计师","enterprise_name":"嘉博设计","industry":"11","job_work_area":"1200","expiration_date":"1521302399","applied_num":"6","release_time":"2017-12-28","topjob_type":"1","salary":"10000 - 30000","post_rank":"","language":"","workyear":"","study":"","applied_time":"0","workplace":"上海","record_id":"318411780","favourite_time":"2018-01-13","is_expire":0,"is_apply":0},{"user_id":"9505708","enterprise_id":"SeMCJ","job_id":"YPGBG","job_name":"医生","enterprise_name":"北京禾普诊所有限公司","industry":"14","job_work_area":"1105","expiration_date":"1517414399","applied_num":"8","release_time":"2017-09-23","topjob_type":"1","salary":"10000 - 30000","post_rank":"","language":"","workyear":"","study":"","applied_time":{"job_id":"4976484","time":"1515669744"},"workplace":"北京-朝阳区","record_id":"318411779","favourite_time":"2018-01-13","is_expire":0,"is_apply":0}]
-     * navpage_info : {"current_page":"1","total_pages":1,"record_nums":3,"page_nums":"20"}
+     * favourite_list : [{"user_id":"5692217","enterprise_id":"ciaTs","job_id":"YPFCN","job_name":"地铁项目总监","enterprise_name":"上海市建设工程监理咨询有限公司","industry":"11","job_work_area":"2102","expiration_date":"1542556799","applied_num":"8","release_time":"2018-02-05","topjob_type":"1","study":"本科及以上","workyear":"十年以上","language":"","post_rank":"","salary":"20000 - 25000","applied_time":"0","workplace":"山东-青岛市","record_id":"319689283","favourite_time":"2018-02-11","is_expire":0,"is_apply":0},{"user_id":"5692217","enterprise_id":"Kmmvx","job_id":"reYQg","job_name":"建筑学实习生","enterprise_name":"青岛理工大学建筑设计研究院","industry":"11","job_work_area":"2102","expiration_date":"1524758399","applied_num":"167","release_time":"2017-04-27","topjob_type":"1","study":"不限","workyear":"不限","language":"","post_rank":"","salary":"面议","applied_time":"0","workplace":"山东-青岛市","record_id":"319685958","favourite_time":"2018-02-11","is_expire":0,"is_apply":0}]
+     * navpage_info : {"current_page":"1","total_pages":2,"record_nums":33,"page_nums":"20"}
      */
 
     private String error_code;
@@ -46,8 +46,8 @@ public class CollectionBean {
     public static class NavpageInfoBean {
         /**
          * current_page : 1
-         * total_pages : 1
-         * record_nums : 3
+         * total_pages : 2
+         * record_nums : 33
          * page_nums : 20
          */
 
@@ -87,30 +87,40 @@ public class CollectionBean {
         public void setPage_nums(String page_nums) {
             this.page_nums = page_nums;
         }
+
+        @Override
+        public String toString() {
+            return "NavpageInfoBean{" +
+                    "current_page='" + current_page + '\'' +
+                    ", total_pages=" + total_pages +
+                    ", record_nums=" + record_nums +
+                    ", page_nums='" + page_nums + '\'' +
+                    '}';
+        }
     }
 
     public static class FavouriteListBean {
         /**
-         * user_id : 9505708
-         * enterprise_id : 57cS1
-         * job_id : ZZCoV
-         * job_name : 会计
-         * enterprise_name : 嘉博设计
+         * user_id : 5692217
+         * enterprise_id : ciaTs
+         * job_id : YPFCN
+         * job_name : 地铁项目总监
+         * enterprise_name : 上海市建设工程监理咨询有限公司
          * industry : 11
-         * job_work_area : 1200
-         * expiration_date : 1521302399
-         * applied_num : 30
-         * release_time : 2017-12-28
+         * job_work_area : 2102
+         * expiration_date : 1542556799
+         * applied_num : 8
+         * release_time : 2018-02-05
          * topjob_type : 1
-         * salary : 8000 - 9999
-         * post_rank :
+         * study : 本科及以上
+         * workyear : 十年以上
          * language :
-         * workyear :
-         * study :
+         * post_rank :
+         * salary : 20000 - 25000
          * applied_time : 0
-         * workplace : 上海
-         * record_id : 318411781
-         * favourite_time : 2018-01-13
+         * workplace : 山东-青岛市
+         * record_id : 319689283
+         * favourite_time : 2018-02-11
          * is_expire : 0
          * is_apply : 0
          */
@@ -126,12 +136,11 @@ public class CollectionBean {
         private String applied_num;
         private String release_time;
         private String topjob_type;
-        private String salary;
-        private String post_rank;
-        private String language;
-        private String workyear;
         private String study;
-        private String applied_time;
+        private String workyear;
+        private String language;
+        private String post_rank;
+        private String salary;
         private String workplace;
         private String record_id;
         private String favourite_time;
@@ -226,28 +235,12 @@ public class CollectionBean {
             this.topjob_type = topjob_type;
         }
 
-        public String getSalary() {
-            return salary;
+        public String getStudy() {
+            return study;
         }
 
-        public void setSalary(String salary) {
-            this.salary = salary;
-        }
-
-        public String getPost_rank() {
-            return post_rank;
-        }
-
-        public void setPost_rank(String post_rank) {
-            this.post_rank = post_rank;
-        }
-
-        public String getLanguage() {
-            return language;
-        }
-
-        public void setLanguage(String language) {
-            this.language = language;
+        public void setStudy(String study) {
+            this.study = study;
         }
 
         public String getWorkyear() {
@@ -258,21 +251,37 @@ public class CollectionBean {
             this.workyear = workyear;
         }
 
-        public String getStudy() {
-            return study;
+        public String getLanguage() {
+            return language;
         }
 
-        public void setStudy(String study) {
-            this.study = study;
+        public void setLanguage(String language) {
+            this.language = language;
         }
 
-        public String getApplied_time() {
+        public String getPost_rank() {
+            return post_rank;
+        }
+
+        public void setPost_rank(String post_rank) {
+            this.post_rank = post_rank;
+        }
+
+        public String getSalary() {
+            return salary;
+        }
+
+        public void setSalary(String salary) {
+            this.salary = salary;
+        }
+
+       /* public String getApplied_time() {
             return applied_time;
         }
 
         public void setApplied_time(String applied_time) {
             this.applied_time = applied_time;
-        }
+        }*/
 
         public String getWorkplace() {
             return workplace;
@@ -313,5 +322,41 @@ public class CollectionBean {
         public void setIs_apply(int is_apply) {
             this.is_apply = is_apply;
         }
+
+        @Override
+        public String toString() {
+            return "FavouriteListBean{" +
+                    "user_id='" + user_id + '\'' +
+                    ", enterprise_id='" + enterprise_id + '\'' +
+                    ", job_id='" + job_id + '\'' +
+                    ", job_name='" + job_name + '\'' +
+                    ", enterprise_name='" + enterprise_name + '\'' +
+                    ", industry='" + industry + '\'' +
+                    ", job_work_area='" + job_work_area + '\'' +
+                    ", expiration_date='" + expiration_date + '\'' +
+                    ", applied_num='" + applied_num + '\'' +
+                    ", release_time='" + release_time + '\'' +
+                    ", topjob_type='" + topjob_type + '\'' +
+                    ", study='" + study + '\'' +
+                    ", workyear='" + workyear + '\'' +
+                    ", language='" + language + '\'' +
+                    ", post_rank='" + post_rank + '\'' +
+                    ", salary='" + salary + '\'' +
+                    ", workplace='" + workplace + '\'' +
+                    ", record_id='" + record_id + '\'' +
+                    ", favourite_time='" + favourite_time + '\'' +
+                    ", is_expire=" + is_expire +
+                    ", is_apply=" + is_apply +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "CollectionBean{" +
+                "error_code='" + error_code + '\'' +
+                ", navpage_info=" + navpage_info +
+                ", favourite_list=" + favourite_list +
+                '}';
     }
 }

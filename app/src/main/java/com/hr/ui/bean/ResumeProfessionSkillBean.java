@@ -116,5 +116,27 @@ public class ResumeProfessionSkillBean {
         public void setSkill_id(String skill_id) {
             this.skill_id = skill_id;
         }
+
+        @Override
+        public String toString() {
+            return "SkillListBean{" +
+                    "user_id='" + user_id + '\'' +
+                    ", usetime='" + usetime + '\'' +
+                    ", ability='" + ability + '\'' +
+                    ", skilltitle='" + skilltitle + '\'' +
+                    ", resume_id='" + resume_id + '\'' +
+                    ", resume_language='" + resume_language + '\'' +
+                    ", skill_id='" + skill_id + '\'' +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "ResumeProfessionSkillBean{" +
+                "error_code=" + error_code +
+                ", _run_time='" + _run_time + '\'' +
+                ", skill_list=" + skill_list +
+                '}';
     }
 }

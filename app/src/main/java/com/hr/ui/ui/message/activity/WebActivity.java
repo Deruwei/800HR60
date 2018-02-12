@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseNoConnectNetworkAcitivty;
+import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -76,6 +77,7 @@ public class WebActivity extends BaseNoConnectNetworkAcitivty {
                 }
             }
         });
+        MobclickAgent.onEvent(this,"v6_scan_advertisement");
         url=getIntent().getStringExtra("url");
         webSettings=wvContent.getSettings();
         wvContent.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);

@@ -96,5 +96,25 @@ public class ResumeLanguageBean {
         public void setGrade_exam(List<?> grade_exam) {
             this.grade_exam = grade_exam;
         }
+
+        @Override
+        public String toString() {
+            return "LanguageListBean{" +
+                    "langname='" + langname + '\'' +
+                    ", user_id='" + user_id + '\'' +
+                    ", read_level='" + read_level + '\'' +
+                    ", speak_level='" + speak_level + '\'' +
+                    ", grade_exam=" + grade_exam +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "ResumeLanguageBean{" +
+                "error_code=" + error_code +
+                ", _run_time='" + _run_time + '\'' +
+                ", language_list=" + language_list +
+                '}';
     }
 }

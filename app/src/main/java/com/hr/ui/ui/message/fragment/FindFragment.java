@@ -1,26 +1,26 @@
 package com.hr.ui.ui.message.fragment;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.hr.ui.R;
 import com.hr.ui.base.BaseFragment;
 import com.hr.ui.bean.FindBean;
 import com.hr.ui.ui.message.activity.WebActivity;
-import com.hr.ui.ui.message.adapter.MyDeliverFeedbackAdapter;
 import com.hr.ui.ui.message.adapter.MyFindAdapter;
 import com.hr.ui.ui.message.contract.FindContract;
 import com.hr.ui.ui.message.model.FindModel;
 import com.hr.ui.ui.message.presenter.FindPresenter;
 import com.hr.ui.utils.ProgressStyle;
 import com.hr.ui.view.XRecyclerView;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,19 +36,31 @@ import butterknife.Unbinder;
 public class FindFragment extends BaseFragment<FindPresenter, FindModel> implements FindContract.View {
     @BindView(R.id.rv_deliverFeedback)
     XRecyclerView rvDeliverFeedback;
-    private int page=1;
+    @BindView(R.id.iv_noContent)
+    ImageView ivNoContent;
+    @BindView(R.id.tv_noData)
+    TextView tvNoData;
+    @BindView(R.id.iv_noDataSearchIcon)
+    ImageView ivNoDataSearchIcon;
+    @BindView(R.id.iv_noDataSearch)
+    RelativeLayout ivNoDataSearch;
+    @BindView(R.id.rl_emptyView)
+    RelativeLayout rlEmptyView;
+    private int page = 1;
     Unbinder unbinder;
     private String ad_type;
     private int position;
     private MyFindAdapter adapter;
-    private List<FindBean.ListBean> listBeanList=new ArrayList<>();
+    private List<FindBean.ListBean> listBeanList = new ArrayList<>();
+
     public static FindFragment newInstance(int i) {
         FindFragment navigationFragment = new FindFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt("position",i);
+        bundle.putInt("position", i);
         navigationFragment.setArguments(bundle);
         return navigationFragment;
     }
+
     @Override
     public void showLoading(String title) {
 
@@ -66,25 +78,31 @@ public class FindFragment extends BaseFragment<FindPresenter, FindModel> impleme
 
     @Override
     public void getFiindDataSuccess(List<FindBean.ListBean> listBeans) {
-        if(listBeans!=null&&!"".equals(listBeans)&&!"[]".equals(listBeans)&&listBeans.size()!=0){
-            if(page==1){
-
-                adapter = new MyFindAdapter(getActivity(),position);
-                listBeanList=new ArrayList<>();
+        if (listBeans != null && !"".equals(listBeans) && !"[]".equals(listBeans) && listBeans.size() != 0) {
+            rlEmptyView.setVisibility(View.GONE);
+            rvDeliverFeedback.setVisibility(View.VISIBLE);
+            if (page == 1) {
+                adapter = new MyFindAdapter(getActivity(), position);
+                listBeanList = new ArrayList<>();
                 listBeanList.addAll(listBeans);
                 adapter.setListBeans(listBeanList);
                 rvDeliverFeedback.setAdapter(adapter);
-            }else{
+            } else {
                 listBeanList.addAll(listBeans);
                 adapter.notifyDataSetChanged();
             }
-        }else{
-            rvDeliverFeedback.setNoMore(true);
+        } else {
+            if(page==1){
+                rvDeliverFeedback.setVisibility(View.GONE);
+                rlEmptyView.setVisibility(View.VISIBLE);
+            }else {
+                rvDeliverFeedback.setNoMore(true);
+            }
         }
         adapter.setClickCallBack(new MyFindAdapter.ItemClickCallBack() {
             @Override
             public void onItemClick(int pos) {
-                WebActivity.startAction(getActivity(),listBeanList.get(pos).getTopic_url());
+                WebActivity.startAction(getActivity(), listBeanList.get(pos).getTopic_url());
             }
         });
     }
@@ -96,7 +114,7 @@ public class FindFragment extends BaseFragment<FindPresenter, FindModel> impleme
 
     @Override
     public void initPresenter() {
-      mPresenter.setVM(this,mModel);
+        mPresenter.setVM(this, mModel);
     }
 
     @Override
@@ -106,19 +124,22 @@ public class FindFragment extends BaseFragment<FindPresenter, FindModel> impleme
 
     @Override
     protected void lazyLoad() {
-        position=getArguments().getInt("position");
-        if(position==0) {
-            ad_type="4";
-        }else if(position==1){
-            ad_type="7";
-        }else if(position==2){
-            ad_type="5";
+        position = getArguments().getInt("position");
+        if (position == 0) {
+            ad_type = "4";
+            MobclickAgent.onEvent(getActivity(),"v6_scan_brandRecuitment");
+        } else if (position == 1) {
+            ad_type = "7";
+            MobclickAgent.onEvent(getActivity(),"v6_scan_displayCompany");
+        } else if (position == 2) {
+            ad_type = "5";
+            MobclickAgent.onEvent(getActivity(),"v6_scan_topicActivity");
         }
-        mPresenter.getFindData(page,ad_type,true);
+        mPresenter.getFindData(page, ad_type, true);
     }
 
     private void initRv() {
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getActivity()){
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity()) {
             @Override
             public boolean canScrollHorizontally() {
                 return false;
@@ -130,15 +151,23 @@ public class FindFragment extends BaseFragment<FindPresenter, FindModel> impleme
         rvCollection.addItemDecoration(rvCollection.new DividerItemDecoration(dividerDrawable));*/
         rvDeliverFeedback.setRefreshProgressStyle(ProgressStyle.LineScaleParty);
         rvDeliverFeedback.setNestedScrollingEnabled(false);
+        ivNoDataSearch.setVisibility(View.GONE);
         rvDeliverFeedback.setLoadingMoreProgressStyle(ProgressStyle.BallTrianglePath);
-        adapter=new MyFindAdapter(getActivity(),position);
+        ivNoContent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                page=1;
+                mPresenter.getFindData(page,ad_type,true);
+            }
+        });
+        adapter = new MyFindAdapter(getActivity(), position);
         rvDeliverFeedback.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
-                new Handler().postDelayed(new Runnable(){
+                new Handler().postDelayed(new Runnable() {
                     public void run() {
-                        page=1;
-                        mPresenter.getFindData(page,ad_type,false);
+                        page = 1;
+                        mPresenter.getFindData(page, ad_type, false);
                         adapter.notifyDataSetChanged();
                         rvDeliverFeedback.refreshComplete();
                     }
@@ -151,7 +180,7 @@ public class FindFragment extends BaseFragment<FindPresenter, FindModel> impleme
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
                         page++;
-                        mPresenter.getFindData(page,ad_type,false);
+                        mPresenter.getFindData(page, ad_type, false);
                         rvDeliverFeedback.loadMoreComplete();
                         adapter.notifyDataSetChanged();
                     }

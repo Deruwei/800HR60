@@ -24,6 +24,7 @@ public interface PositionPageContract {
         void getResumeScoreSuccess(double s);
         void getPositionFaile();
         void goToCompleteResume(int errorCode);
+        void retryCulScore();
     }
     interface Model extends BaseModel{
         Observable<PositionBean> getPositionData(String jobId);

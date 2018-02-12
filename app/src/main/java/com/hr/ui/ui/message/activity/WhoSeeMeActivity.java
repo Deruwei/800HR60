@@ -23,6 +23,7 @@ import com.hr.ui.ui.message.model.WhoSeeMeModel;
 import com.hr.ui.ui.message.presenter.WhoSeeMePresenter;
 import com.hr.ui.utils.ProgressStyle;
 import com.hr.ui.view.XRecyclerView;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -128,6 +129,7 @@ public class WhoSeeMeActivity extends BaseActivity<WhoSeeMePresenter, WhoSeeMeMo
     public void initView() {
         mPresenter.getWhoSeeMeData(page,true);
         setSupportActionBar(toolBar);
+        MobclickAgent.onEvent(this,"v6_scan_whoSeeMe");
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolBar.setTitle("");

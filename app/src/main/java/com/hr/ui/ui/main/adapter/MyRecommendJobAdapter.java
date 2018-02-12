@@ -167,6 +167,7 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
                 }else{
                     viewHolder.llHomeItemTop.setVisibility(View.GONE);
                 }
+                viewHolder.viewLineJob.setVisibility(View.VISIBLE);
                 viewHolder.tvRecommendJobAddress.setText(jobsListBeanList.get(position-i).getWorkplace());
                 viewHolder.tvRecommendJobCompanyName.setText(jobsListBeanList.get(position-i).getEnterprise_name());
                 viewHolder.tvRecommendJobDegree.setText(jobsListBeanList.get(position-i).getStudy());

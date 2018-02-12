@@ -49,4 +49,14 @@ public class WorkExpBase {
     public void setResume_id(String resume_id) {
         this.resume_id = resume_id;
     }
+
+    @Override
+    public String toString() {
+        return "WorkExpBase{" +
+                "error_code=" + error_code +
+                ", experience_id='" + experience_id + '\'' +
+                ", _run_time='" + _run_time + '\'' +
+                ", resume_id='" + resume_id + '\'' +
+                '}';
+    }
 }

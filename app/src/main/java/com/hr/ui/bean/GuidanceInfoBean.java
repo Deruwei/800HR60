@@ -432,5 +432,55 @@ public class GuidanceInfoBean {
         public void setPictures(List<?> pictures) {
             this.pictures = pictures;
         }
+
+        @Override
+        public String toString() {
+            return "TitleContentListBean{" +
+                    "id='" + id + '\'' +
+                    ", type='" + type + '\'' +
+                    ", catid='" + catid + '\'' +
+                    ", title='" + title + '\'' +
+                    ", subhead='" + subhead + '\'' +
+                    ", thumb='" + thumb + '\'' +
+                    ", keywords='" + keywords + '\'' +
+                    ", description='" + description + '\'' +
+                    ", flag_top='" + flag_top + '\'' +
+                    ", flag_top_date='" + flag_top_date + '\'' +
+                    ", flag_first='" + flag_first + '\'' +
+                    ", flag_commend='" + flag_commend + '\'' +
+                    ", flag_essence='" + flag_essence + '\'' +
+                    ", url='" + url + '\'' +
+                    ", listorder='" + listorder + '\'' +
+                    ", status='" + status + '\'' +
+                    ", add_uid='" + add_uid + '\'' +
+                    ", author='" + author + '\'' +
+                    ", contact='" + contact + '\'' +
+                    ", inputtime='" + inputtime + '\'' +
+                    ", updatetime='" + updatetime + '\'' +
+                    ", content='" + content + '\'' +
+                    ", paginationtype='" + paginationtype + '\'' +
+                    ", maxcharperpage='" + maxcharperpage + '\'' +
+                    ", crop='" + crop + '\'' +
+                    ", voteid='" + voteid + '\'' +
+                    ", feedbackid='" + feedbackid + '\'' +
+                    ", copyfrom='" + copyfrom + '\'' +
+                    ", istiming='" + istiming + '\'' +
+                    ", timingtime='" + timingtime + '\'' +
+                    ", views='" + views + '\'' +
+                    ", audit_userid='" + audit_userid + '\'' +
+                    ", audit_time='" + audit_time + '\'' +
+                    ", all_catid='" + all_catid + '\'' +
+                    ", pictures=" + pictures +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "GuidanceInfoBean{" +
+                "error_code=" + error_code +
+                ", _run_time='" + _run_time + '\'' +
+                ", title_content_list=" + title_content_list +
+                '}';
     }
 }

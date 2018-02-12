@@ -28,6 +28,7 @@ import com.hr.ui.ui.message.contract.InviteContract;
 import com.hr.ui.ui.message.model.InviteModel;
 import com.hr.ui.ui.message.presenter.InvitePresenter;
 import com.hr.ui.utils.Utils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -119,6 +120,7 @@ public class InviteActivity extends BaseActivity<InvitePresenter, InviteModel> i
         toolBar.setTitleTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
         toolBar.setNavigationIcon(R.mipmap.back);
         tvToolbarTitle.setText(R.string.companyMessage);
+        MobclickAgent.onEvent(this,"v6_scan_companyMessage");
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -5,7 +5,7 @@ package com.hr.ui.bean;
  */
 
 public class ValidCodeBean {
-    public double error_code;
+    public int error_code;
     private String error_field;
     public int token_times;
 
@@ -17,11 +17,11 @@ public class ValidCodeBean {
         this.error_field = error_field;
     }
 
-    public double getError_code() {
+    public int getError_code() {
         return error_code;
     }
 
-    public void setError_code(double error_code) {
+    public void setError_code(int error_code) {
         this.error_code = error_code;
     }
 

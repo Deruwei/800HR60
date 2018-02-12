@@ -506,5 +506,66 @@ public class HomeRecommendBean {
         public void setSatisfy_time(String satisfy_time) {
             this.satisfy_time = satisfy_time;
         }
+
+        @Override
+        public String toString() {
+            return "JobsListBean{" +
+                    "job_id='" + job_id + '\'' +
+                    ", job_name='" + job_name + '\'' +
+                    ", issue_date='" + issue_date + '\'' +
+                    ", enterprise_name='" + enterprise_name + '\'' +
+                    ", work_area='" + work_area + '\'' +
+                    ", synopsis='" + synopsis + '\'' +
+                    ", monthly_pay='" + monthly_pay + '\'' +
+                    ", monthly_pay_to='" + monthly_pay_to + '\'' +
+                    ", department='" + department + '\'' +
+                    ", number='" + number + '\'' +
+                    ", email='" + email + '\'' +
+                    ", workyear='" + workyear + '\'' +
+                    ", work_type='" + work_type + '\'' +
+                    ", job_number='" + job_number + '\'' +
+                    ", is_show_pay_interview='" + is_show_pay_interview + '\'' +
+                    ", poster_state='" + poster_state + '\'' +
+                    ", topjob_type='" + topjob_type + '\'' +
+                    ", subordinate_num='" + subordinate_num + '\'' +
+                    ", superior='" + superior + '\'' +
+                    ", other_benefits='" + other_benefits + '\'' +
+                    ", recruit_students='" + recruit_students + '\'' +
+                    ", job_slogan='" + job_slogan + '\'' +
+                    ", show_language='" + show_language + '\'' +
+                    ", address='" + address + '\'' +
+                    ", enterprise_id='" + enterprise_id + '\'' +
+                    ", ent_logo='" + ent_logo + '\'' +
+                    ", func='" + func + '\'' +
+                    ", salary='" + salary + '\'' +
+                    ", year_salary='" + year_salary + '\'' +
+                    ", workplace='" + workplace + '\'' +
+                    ", study='" + study + '\'' +
+                    ", lingyu_name='" + lingyu_name + '\'' +
+                    ", industry='" + industry + '\'' +
+                    ", industry_name='" + industry_name + '\'' +
+                    ", release_date='" + release_date + '\'' +
+                    ", expiration_date='" + expiration_date + '\'' +
+                    ", nautica='" + nautica + '\'' +
+                    ", applied_nums='" + applied_nums + '\'' +
+                    ", age='" + age + '\'' +
+                    ", applied_time='" + applied_time + '\'' +
+                    ", favourite_time='" + favourite_time + '\'' +
+                    ", recom_time='" + recom_time + '\'' +
+                    ", match_value='" + match_value + '\'' +
+                    ", view_time='" + view_time + '\'' +
+                    ", satisfying='" + satisfying + '\'' +
+                    ", satisfy_time='" + satisfy_time + '\'' +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "HomeRecommendBean{" +
+                "error_code=" + error_code +
+                ", _run_time='" + _run_time + '\'' +
+                ", jobs_list=" + jobs_list +
+                '}';
     }
 }

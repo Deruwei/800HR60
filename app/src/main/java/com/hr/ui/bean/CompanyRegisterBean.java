@@ -86,4 +86,19 @@ public class CompanyRegisterBean {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    @Override
+    public String toString() {
+        return "CompanyRegisterBean{" +
+                "siteCode='" + siteCode + '\'' +
+                ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                ", passwordRe='" + passwordRe + '\'' +
+                ", enterpriseName='" + enterpriseName + '\'' +
+                ", linkMan='" + linkMan + '\'' +
+                ", howToknow='" + howToknow + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }

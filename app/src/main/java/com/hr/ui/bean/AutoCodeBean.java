@@ -7,6 +7,15 @@ package com.hr.ui.bean;
 public class AutoCodeBean {
     private double error_code;
     private String captcha;
+    private String error_field;
+
+    public String getError_field() {
+        return error_field;
+    }
+
+    public void setError_field(String error_field) {
+        this.error_field = error_field;
+    }
 
     public double getError_code() {
         return error_code;

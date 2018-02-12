@@ -74,8 +74,15 @@ public class ChangePhonePresenter extends ChangePhoneContract.Presenter {
                     mView.getValidCodeSuccess(baseBean.getToken_times());
                 }else if(baseBean.getError_code()==201){
                     ToastUitl.show("请输入正确的验证码",Toast.LENGTH_SHORT);
-                } else{
-                    Toast.makeText(mContext,Rc4Md5Utils.getErrorResourceId((int) baseBean.getError_code()),Toast.LENGTH_SHORT).show();
+                } else {
+                    if (baseBean.getError_code() == 328) {
+                        if ("captcha".equals(baseBean.getError_field())) {
+                            ToastUitl.showShort("图形验证码错误");
+                            mView.getValidCodeFailt();
+                        }
+                    } else {
+                        Toast.makeText(mContext, Rc4Md5Utils.getErrorResourceId((int) baseBean.getError_code()), Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 
@@ -95,13 +102,14 @@ public class ChangePhonePresenter extends ChangePhoneContract.Presenter {
                 if(baseBean.getError_code()==0){
                     mView.getCaptchaSuccess(baseBean.getCaptcha());
                 }else{
-                    Toast.makeText(mContext, Rc4Md5Utils.getErrorResourceId((int) baseBean.getError_code()),Toast.LENGTH_SHORT).show();
+
+                        Toast.makeText(mContext, Rc4Md5Utils.getErrorResourceId((int) baseBean.getError_code()), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             protected void _onError(String message) {
-                mView.showErrorTip(message);
+                //mView.showErrorTip(message);
                 // Log.i(TAG,message);
             }
         }));

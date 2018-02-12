@@ -214,7 +214,6 @@ public class ApiParameter {
         }else{
             requestMap.put("suid", "");
         }
-        //Log.i(TAG,requestMap.toString());
         return requestMap;
     }
 
@@ -239,6 +238,7 @@ public class ApiParameter {
             requestMap.put("user_name",userName);
             requestMap.put("user_pwd", psw);
         }
+        //Log.i(TAG,requestMap.toString());
         return requestMap;
     }
 
@@ -719,7 +719,7 @@ public class ApiParameter {
         requestMap.put("id",""+recordId);
         requestMap.put("user_id",sUtis.getStringValue(Constants.USERID,""));
 
-        Log.i("你好",requestMap.toString());
+        //Log.i("你好",requestMap.toString());
         return requestMap;
     }
     public static HashMap<String,String> collectionJob(String jobId){

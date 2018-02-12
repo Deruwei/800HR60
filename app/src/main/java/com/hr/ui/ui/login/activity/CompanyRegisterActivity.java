@@ -253,7 +253,7 @@ public class CompanyRegisterActivity extends BaseActivity<CompanyRegisterPresent
                 isCheck = !isCheck;
                 break;
             case R.id.tv_registcom_agreement:
-                VersionActivity.startAction(this,"http://m.800hr.com/ent/register/agreement.php");
+                VersionActivity.startAction(this,"http://m.800hr.com/ent/register/agreement.php?app=true");
                 break;
             case R.id.rl_comregistr_save:
                 doRegister();

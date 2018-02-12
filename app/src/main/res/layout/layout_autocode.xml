@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/translucent"
-    android:gravity="center">
-    <LinearLayout
-        android:orientation="vertical"
-        android:id="@+id/ll_autoCodeClose"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </LinearLayout>
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rl_autocode_background"
+   >
     <LinearLayout
         android:layout_width="@dimen/x600"
         android:layout_height="@dimen/x400"
@@ -51,16 +44,18 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/x40" />
+
             <TextView
                 android:id="@+id/vc_refresh"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/x16"
-                android:layout_marginRight="@dimen/x16"
+                android:layout_marginEnd="16dp"
                 android:text="刷新"
-                android:textSize="@dimen/x28"
-                android:textColor="#F39800" />
+                android:textColor="#F39800"
+                android:textSize="@dimen/x28" />
             <RelativeLayout
                 android:layout_marginLeft="@dimen/x16"
                 android:layout_marginRight="@dimen/x16"
@@ -71,6 +66,9 @@
                 android:background="#fff"
                 android:id="@+id/vc_code"
                 android:textSize="@dimen/x28"
+                android:singleLine="true"
+                android:layout_marginRight="@dimen/x20"
+                android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
                 <View

@@ -128,7 +128,10 @@ public class SplashPresenter extends SplashContract.Presenter {
                     } else if(error_code==301) {
                         ToastUitl.showShort(R.string.error_301);
                         mView.onConnectError();
-                    }else {
+                    }else if(error_code==305){
+                        ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) error_code));
+                        mView.onConnectError();
+                    }else{
                         ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) error_code));
                     }
                 } catch (IOException e) {
@@ -160,7 +163,7 @@ public class SplashPresenter extends SplashContract.Presenter {
 
             @Override
             protected void _onError(String message) {
-                ToastUitl.showShort(message);
+                //ToastUitl.showShort(message);
             }
         }));
     }
@@ -181,7 +184,7 @@ public class SplashPresenter extends SplashContract.Presenter {
 
             @Override
             protected void _onError(String message) {
-                ToastUitl.showShort(message);
+               // ToastUitl.showShort(message);
             }
         }));
     }
@@ -228,7 +231,7 @@ public class SplashPresenter extends SplashContract.Presenter {
 
             @Override
             protected void _onError(String message) {
-                ToastUitl.showShort(message);
+                //ToastUitl.showShort(message);
             }
         }));
     }

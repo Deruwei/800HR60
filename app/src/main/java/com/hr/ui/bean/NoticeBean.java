@@ -234,5 +234,39 @@ public class NoticeBean {
         public void setPush_way(String push_way) {
             this.push_way = push_way;
         }
+
+        @Override
+        public String toString() {
+            return "NoticeInfoBean{" +
+                    "phonecode='" + phonecode + '\'' +
+                    ", industry='" + industry + '\'' +
+                    ", func='" + func + '\'' +
+                    ", area='" + area + '\'' +
+                    ", searchword='" + searchword + '\'' +
+                    ", rushjob_state='" + rushjob_state + '\'' +
+                    ", invite_state='" + invite_state + '\'' +
+                    ", sound_state='" + sound_state + '\'' +
+                    ", notice_bgntime='" + notice_bgntime + '\'' +
+                    ", notice_endtime='" + notice_endtime + '\'' +
+                    ", os_name='" + os_name + '\'' +
+                    ", baidu_user_id='" + baidu_user_id + '\'' +
+                    ", baidu_channel_id='" + baidu_channel_id + '\'' +
+                    ", workyear='" + workyear + '\'' +
+                    ", worktype='" + worktype + '\'' +
+                    ", issuedate='" + issuedate + '\'' +
+                    ", study='" + study + '\'' +
+                    ", stuffmunber='" + stuffmunber + '\'' +
+                    ", salary='" + salary + '\'' +
+                    ", push_way='" + push_way + '\'' +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "NoticeBean{" +
+                "error_code='" + error_code + '\'' +
+                ", notice_info=" + notice_info +
+                '}';
     }
 }

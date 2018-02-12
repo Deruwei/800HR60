@@ -5,6 +5,7 @@
     android:fitsSystemWindows="true"
     android:background="@color/white"
     android:focusable="true"
+    android:id="@+id/cl_bindNewPhone"
     android:focusableInTouchMode="true"
     android:clipToPadding="true"
     xmlns:app="http://schemas.android.com/apk/res-auto">

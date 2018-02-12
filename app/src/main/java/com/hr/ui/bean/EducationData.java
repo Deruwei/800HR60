@@ -65,4 +65,16 @@ public class EducationData {
     public void setEducationId(String educationId) {
         this.educationId = educationId;
     }
+
+    @Override
+    public String toString() {
+        return "EducationData{" +
+                "schoolName='" + schoolName + '\'' +
+                ", educationId='" + educationId + '\'' +
+                ", profession='" + profession + '\'' +
+                ", degree='" + degree + '\'' +
+                ", startTime='" + startTime + '\'' +
+                ", endTime='" + endTime + '\'' +
+                '}';
+    }
 }

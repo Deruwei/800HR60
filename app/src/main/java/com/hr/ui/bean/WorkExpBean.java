@@ -356,5 +356,51 @@ public class WorkExpBean {
         public void setExperience_id(String experience_id) {
             this.experience_id = experience_id;
         }
+
+        @Override
+        public String toString() {
+            return "ExperienceListBean{" +
+                    "user_id='" + user_id + '\'' +
+                    ", fromyear='" + fromyear + '\'' +
+                    ", frommonth='" + frommonth + '\'' +
+                    ", toyear='" + toyear + '\'' +
+                    ", tomonth='" + tomonth + '\'' +
+                    ", company='" + company + '\'' +
+                    ", companyhide='" + companyhide + '\'' +
+                    ", industry='" + industry + '\'' +
+                    ", companytype='" + companytype + '\'' +
+                    ", stuffmunber='" + stuffmunber + '\'' +
+                    ", division='" + division + '\'' +
+                    ", companyaddress='" + companyaddress + '\'' +
+                    ", position='" + position + '\'' +
+                    ", responsiblity='" + responsiblity + '\'' +
+                    ", offreason='" + offreason + '\'' +
+                    ", achievement='" + achievement + '\'' +
+                    ", zhixi='" + zhixi + '\'' +
+                    ", zhicheng='" + zhicheng + '\'' +
+                    ", is_overseas='" + is_overseas + '\'' +
+                    ", country='" + country + '\'' +
+                    ", resume_id='" + resume_id + '\'' +
+                    ", resume_language='" + resume_language + '\'' +
+                    ", lingyu='" + lingyu + '\'' +
+                    ", func='" + func + '\'' +
+                    ", salary='" + salary + '\'' +
+                    ", salary_hide='" + salary_hide + '\'' +
+                    ", reterence='" + reterence + '\'' +
+                    ", yearsalary='" + yearsalary + '\'' +
+                    ", underling='" + underling + '\'' +
+                    ", superior='" + superior + '\'' +
+                    ", experience_id='" + experience_id + '\'' +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "WorkExpBean{" +
+                "error_code=" + error_code +
+                ", _run_time='" + _run_time + '\'' +
+                ", experience_list=" + experience_list +
+                '}';
     }
 }

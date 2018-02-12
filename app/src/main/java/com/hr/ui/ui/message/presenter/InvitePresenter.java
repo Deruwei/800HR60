@@ -36,7 +36,7 @@ public class InvitePresenter extends InviteContract.Presenter {
 
             @Override
             protected void _onError(String message) {
-                ToastUitl.showShort(message);
+
             }
         }));
     }
@@ -53,7 +53,11 @@ public class InvitePresenter extends InviteContract.Presenter {
                     if(error==0){
                         mView.setInviteIsReadSuccess();
                     }else{
-                        ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId(error));
+                        if(error==205){
+
+                        }else {
+                            ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId(error));
+                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

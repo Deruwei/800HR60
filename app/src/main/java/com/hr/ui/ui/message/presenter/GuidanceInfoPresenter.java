@@ -34,7 +34,7 @@ public class GuidanceInfoPresenter extends GuidanceInfoContract.Presenter {
 
             @Override
             protected void _onError(String message) {
-                ToastUitl.showShort(message);
+                //ToastUitl.showShort(message);
             }
         }));
     }

@@ -49,6 +49,7 @@ import com.hr.ui.utils.recyclerviewutils.OnItemClickListener;
 import com.hr.ui.view.CustomDatePicker;
 import com.hr.ui.view.MyFlowLayout;
 import com.hr.ui.view.XRecyclerView;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -158,6 +159,7 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
 
     @Override
     public void getSearchDataSuccess(List<RecommendJobBean.JobsListBean> jobsListBeanList) {
+        MobclickAgent.onEvent(getActivity(),"v6_positon_search");
         if (jobsListBeanList != null && !"[]".equals(jobsListBeanList.toString()) && jobsListBeanList.size() != 0) {
             if (page == 1) {
                 SearchAdapter = new MyRecommendJobAdapter(1);
@@ -229,8 +231,6 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
         };
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvJobSearchFragment.setLayoutManager(linearLayoutManager);
-        Drawable dividerDrawable = ContextCompat.getDrawable(getActivity(), R.drawable.divider_sample);
-        rvJobSearchFragment.addItemDecoration(rvJobSearchFragment.new DividerItemDecoration(dividerDrawable));
         rvJobSearchFragment.setRefreshProgressStyle(ProgressStyle.LineScaleParty);
         rvJobSearchFragment.setLoadingMoreProgressStyle(ProgressStyle.BallTrianglePath);
         rvJobSearchFragment.setPullRefreshEnabled(false);
@@ -423,6 +423,7 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
         historyBean.setPlaceId(jobSearchBean.getPlaceId());
         historyBean.setJobType(jobSearchBean.getJobType());
         SearchHistoryUtils.insertJobSearchDataOrReplace(historyBean);
+        page=1;
         mPresenter.getSearchList(jobSearchBean, page,true);
         rvJobSearchFragment.refresh();
     }

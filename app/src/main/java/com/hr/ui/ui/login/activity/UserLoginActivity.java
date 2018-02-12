@@ -120,6 +120,7 @@ public class UserLoginActivity extends BaseActivity<LoginPresenter, LoginModel> 
 
     @Override
     public void sendLoginSuccess(int userId) {
+        MobclickAgent.onEvent(this,"v6_login_user");
         MobclickAgent.onProfileSignIn(userId+"");
         sUtils.setIntValue(Constants.ISAUTOLOGIN, 1);
         sUtils.setIntValue(Constants.AUTOLOGINTYPE, 1);
@@ -130,9 +131,10 @@ public class UserLoginActivity extends BaseActivity<LoginPresenter, LoginModel> 
     @Override
     public void thirdPartLoginSuccess(int userId) {
         MobclickAgent.onProfileSignIn("WB",userId+"");
+        MobclickAgent.onEvent(this,"v6_login_thirdPart");
         this.userId = userId;
         sUtils.setIntValue(Constants.ISAUTOLOGIN, 1);
-        if ("QQ".equals(Constants.TYPE_THIRDPARTLOGIN)) {
+        if ("qq".equals(Constants.TYPE_THIRDPARTLOGIN)) {
             sUtils.setIntValue(Constants.AUTOLOGINTYPE, 2);
         } else {
             sUtils.setIntValue(Constants.AUTOLOGINTYPE, 3);

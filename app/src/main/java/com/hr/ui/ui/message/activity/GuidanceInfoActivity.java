@@ -17,6 +17,7 @@ import com.hr.ui.ui.message.contract.GuidanceInfoContract;
 import com.hr.ui.ui.message.model.GuidanceInfoModel;
 import com.hr.ui.ui.message.presenter.GuidanceInfoPresenter;
 import com.hr.ui.utils.Utils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.List;
 
@@ -119,6 +120,7 @@ public class GuidanceInfoActivity extends BaseActivity<GuidanceInfoPresenter, Gu
 
     @Override
     public void getGuidanceInfoSuccess(List<GuidanceInfoBean.TitleContentListBean> titleContentListBeans) {
+        MobclickAgent.onEvent(this,"v6_scan_article");
         if (titleContentListBeans != null && !"".equals(titleContentListBeans)) {
             titleContentListBean = titleContentListBeans.get(0);
             initUI();

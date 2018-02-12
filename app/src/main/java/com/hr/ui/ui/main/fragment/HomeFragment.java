@@ -34,6 +34,7 @@ import com.hr.ui.ui.main.modle.HomeFragmentModel;
 import com.hr.ui.ui.main.presenter.HomeFragmentPresenter;
 import com.hr.ui.utils.ClickUtils;
 import com.hr.ui.utils.ProgressStyle;
+import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.CircleImageView;
 import com.hr.ui.view.PieChartView;
@@ -108,7 +109,9 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
         personImage = sUtils.getStringValue(Constants.PERSONIMAGE, "");
         if (!"".equals(personImage) && personImage != null) {
            /* Glide.with(this).load(Constants.IMAGE_BASEPATH + personImage).centerCrop().into(ivResumePersonPhoto);*/
-            Glide.with(this).load(Constants.IMAGE_BASEPATH + personImage).fitCenter().into(ivResumePersonPhoto);
+            Glide.with(this).load(Constants.IMAGE_BASEPATH + personImage) .fitCenter().into(ivResumePersonPhoto);
+        }else{
+           ivResumePersonPhoto.setImageResource(R.mipmap.persondefault);
         }
     }
 
@@ -122,7 +125,8 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
         sUtils = new SharedPreferencesUtils(getActivity());
         jobAdapter = new MyRecommendJobAdapter();
         setImage();
-        mPresenter.getRecommendJobInfo("", 20, true);
+        mPresenter.getRecommendJobInfo("", 20, false);
+        mPresenter.getRecommendJob(page,20,true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity()) {
             @Override
             public boolean canScrollHorizontally() {
@@ -145,7 +149,8 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
                         if(recommendList!=null&&recommendList.size()>=20) {
                             mPresenter.getRecommendJobInfo("", 20, false);
                         }else{
-                            mPresenter.getRecommendJobInfo("",20,false);
+                                mPresenter.getRecommendJobInfo("", 20, false);
+                                mPresenter.getRecommendJob(page,20,false);
                         }
                         jobAdapter.notifyDataSetChanged();
                     }
@@ -157,11 +162,12 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
             public void onLoadMore() {
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
-                        page++;
+
                         if(recommendList!=null&&recommendList.size()>=20) {
                             rvHomeFragment.setLoadingMoreEnabled(false);
                         }else{
-                            mPresenter.getRecommendJob(page,20);
+                            page++;
+                            mPresenter.getRecommendJob(page,20,false);
                         }
                         jobAdapter.notifyDataSetChanged();
                     }
@@ -181,6 +187,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
     public void refresh() {
         page = 1;
         mPresenter.getRecommendJobInfo("", 20, false);
+        mPresenter.getRecommendJob(page,20,false);
     }
 
     @Override
@@ -217,8 +224,10 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
         //Log.i("现在的数据",jobsBeanList.toString());
         if (jobsBeanList != null && !"".equals(jobsBeanList) && jobsBeanList.size() != 0) {
             llNetError.setVisibility(View.GONE);
+            //ToastUitl.showShort(jobsBeanList.size()+"");
             if (page == 1) {
                 if(jobsBeanList.size()>=20) {
+                    //Log.i("nihao","到这里了");
                     jobAdapter = new MyRecommendJobAdapter();
                     recommendList.clear();
                     recommendList.addAll(jobsBeanList);
@@ -230,19 +239,16 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
                    recommendList.clear();
                     recommendList.addAll(jobsBeanList);
                     rvHomeFragment.refreshComplete();
-                    mPresenter.getRecommendJob(page,20-recommendList.size());
+                    mPresenter.getRecommendJob(page,20-recommendList.size(),false);
                 }
-            } else {
-                recommendList.addAll(jobsBeanList);
-                rvHomeFragment.loadMoreComplete();
-                jobAdapter.notifyDataSetChanged();
             }
             rlEmptyView.setVisibility(View.GONE);
             rvHomeFragment.setVisibility(View.VISIBLE);
             llNetError.setVisibility(View.GONE);
         } else {
+            jobAdapter=new MyRecommendJobAdapter(2);
             if (page == 1) {
-               mPresenter.getRecommendJob(page,20);
+               mPresenter.getRecommendJob(page,20,false);
             } else {
                 rvHomeFragment.setNoMore(true);
             }
@@ -274,9 +280,11 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
 
     @Override
     public void getRecommendJobError() {
-        rlEmptyView.setVisibility(View.GONE);
-        rvHomeFragment.setVisibility(View.GONE);
-        llNetError.setVisibility(View.VISIBLE);
+        if(recommendList.size()==0) {
+            rlEmptyView.setVisibility(View.GONE);
+            rvHomeFragment.setVisibility(View.GONE);
+            llNetError.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -317,6 +325,11 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
                 }
             }
         });
+    }
+
+    @Override
+    public void cantGetData() {
+        /*mPresenter.getRecommendJob(page,20,true*/
     }
 
     private void initCalculateScore(final int i) {
@@ -378,7 +391,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_netError:
-                mPresenter.getRecommendJobInfo("",10,true);
+                mPresenter.getRecommendJobInfo("",20,true);
                 break;
             case R.id.iv_ResumePersonPhoto:
                 MainActivity.instance.toggle();
@@ -387,7 +400,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
                 JobSerchActivity.startAction(getActivity(), MainActivity.instance.REQUEST_CODE);
                 break;
             case R.id.iv_noContent:
-                mPresenter.getRecommendJobInfo("", 10, true);
+                mPresenter.getRecommendJobInfo("", 20, true);
                 break;
             case R.id.rl_mainSearch:
                 JobSerchActivity.startAction(getActivity(), MainActivity.instance.REQUEST_CODE);

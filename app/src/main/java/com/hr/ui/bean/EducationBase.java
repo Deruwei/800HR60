@@ -49,4 +49,14 @@ public class EducationBase {
     public void setResume_id(String resume_id) {
         this.resume_id = resume_id;
     }
+
+    @Override
+    public String toString() {
+        return "EducationBase{" +
+                "error_code=" + error_code +
+                ", education_id='" + education_id + '\'' +
+                ", _run_time='" + _run_time + '\'' +
+                ", resume_id='" + resume_id + '\'' +
+                '}';
+    }
 }

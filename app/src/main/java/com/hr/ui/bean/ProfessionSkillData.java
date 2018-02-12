@@ -41,4 +41,14 @@ public class ProfessionSkillData {
     public void setSkillLevel(String skillLevel) {
         this.skillLevel = skillLevel;
     }
+
+    @Override
+    public String toString() {
+        return "ProfessionSkillData{" +
+                "skillId='" + skillId + '\'' +
+                ", skillName='" + skillName + '\'' +
+                ", skillUseTime='" + skillUseTime + '\'' +
+                ", skillLevel='" + skillLevel + '\'' +
+                '}';
+    }
 }

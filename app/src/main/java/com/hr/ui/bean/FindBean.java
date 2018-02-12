@@ -86,6 +86,16 @@ public class FindBean {
         public void setPage_nums(String page_nums) {
             this.page_nums = page_nums;
         }
+
+        @Override
+        public String toString() {
+            return "NavpageInfoBean{" +
+                    "current_page='" + current_page + '\'' +
+                    ", total_pages=" + total_pages +
+                    ", record_nums=" + record_nums +
+                    ", page_nums='" + page_nums + '\'' +
+                    '}';
+        }
     }
 
     public static class ListBean {
@@ -222,5 +232,33 @@ public class FindBean {
         public void setCompany_type(String company_type) {
             this.company_type = company_type;
         }
+
+        @Override
+        public String toString() {
+            return "ListBean{" +
+                    "a_id='" + a_id + '\'' +
+                    ", c_id='" + c_id + '\'' +
+                    ", title='" + title + '\'' +
+                    ", topic_type='" + topic_type + '\'' +
+                    ", topic_url='" + topic_url + '\'' +
+                    ", enterprise_id='" + enterprise_id + '\'' +
+                    ", ad_txt='" + ad_txt + '\'' +
+                    ", pic_path='" + pic_path + '\'' +
+                    ", pic_s_path='" + pic_s_path + '\'' +
+                    ", click_num='" + click_num + '\'' +
+                    ", edit_time='" + edit_time + '\'' +
+                    ", stuff_munber='" + stuff_munber + '\'' +
+                    ", company_type='" + company_type + '\'' +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "FindBean{" +
+                "error_code='" + error_code + '\'' +
+                ", navpage_info=" + navpage_info +
+                ", list=" + list +
+                '}';
     }
 }

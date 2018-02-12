@@ -216,5 +216,37 @@ public class EducationBean {
         public void setEducation_id(String education_id) {
             this.education_id = education_id;
         }
+
+        @Override
+        public String toString() {
+            return "EducationListBean{" +
+                    "user_id='" + user_id + '\'' +
+                    ", fromyear='" + fromyear + '\'' +
+                    ", frommonth='" + frommonth + '\'' +
+                    ", toyear='" + toyear + '\'' +
+                    ", tomonth='" + tomonth + '\'' +
+                    ", schoolname='" + schoolname + '\'' +
+                    ", moremajor='" + moremajor + '\'' +
+                    ", degree='" + degree + '\'' +
+                    ", edudetail='" + edudetail + '\'' +
+                    ", is_overseas='" + is_overseas + '\'' +
+                    ", country='" + country + '\'' +
+                    ", resume_id='" + resume_id + '\'' +
+                    ", resume_language='" + resume_language + '\'' +
+                    ", recruit_students='" + recruit_students + '\'' +
+                    ", degreecerti_no='" + degreecerti_no + '\'' +
+                    ", a_degreecerti_no='" + a_degreecerti_no + '\'' +
+                    ", education_id='" + education_id + '\'' +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "EducationBean{" +
+                "error_code=" + error_code +
+                ", _run_time='" + _run_time + '\'' +
+                ", education_list=" + education_list +
+                '}';
     }
 }

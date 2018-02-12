@@ -50,7 +50,7 @@ public class RegisterPresenter extends RegisterContract.Presenter {
                     sUtils.setIntValue(Constants.IS_FIRSTGETVALIDCODE,baseBean.getToken_times());
                     mView.sendValidCode(baseBean.getToken_times());
                 }else if(baseBean.getError_code()==201){
-                    ToastUitl.show("请输入正确的验证码",Toast.LENGTH_SHORT);
+                    ToastUitl.show("图形验证码错误",Toast.LENGTH_SHORT);
                 }else if(baseBean.getError_code()==328){
                     mView.needToGetAutoCode();
                 } else{
@@ -61,7 +61,7 @@ public class RegisterPresenter extends RegisterContract.Presenter {
             @Override
             protected void _onError(String message) {
                 mView.showErrorTip(message);
-                Log.i(TAG,message);
+               // Log.i(TAG,message);
             }
         }));
     }
@@ -113,11 +113,7 @@ public class RegisterPresenter extends RegisterContract.Presenter {
                     LoginDBUtils.insertData(loginBean);
                     mView.sendRegisterSuccess(registerBean.getUser_id());
                 }else if(registerBean.getError_code()==201){
-                    if("token".equals(registerBean.getError_field())) {
-                        ToastUitl.showShort(R.string.error_validCode);
-                    }else {
-                        ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) registerBean.getError_code()));
-                    }
+                    ToastUitl.showShort(R.string.error_validCode);
                 }
                 else{
                     ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) registerBean.getError_code()));
@@ -127,7 +123,7 @@ public class RegisterPresenter extends RegisterContract.Presenter {
             @Override
             protected void _onError(String message) {
                 mView.showErrorTip(message);
-                Log.i(TAG,message);
+                //Log.i(TAG,message);
             }
         }));
     }
@@ -139,7 +135,7 @@ public class RegisterPresenter extends RegisterContract.Presenter {
             protected void _onNext(RegisterBean registerBean) throws IOException {
                 if(registerBean.getError_code()==0){
                     LoginBean loginBean=new LoginBean();
-                    if("QQ".equals(Constants.TYPE_THIRDPARTLOGIN)){
+                    if("qq".equals(Constants.TYPE_THIRDPARTLOGIN)){
                         loginBean.setLoginType(2);
                     }else{
                         loginBean.setLoginType(3);

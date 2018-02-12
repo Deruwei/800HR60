@@ -48,6 +48,7 @@ import com.hr.ui.utils.datautils.FromStringToArrayList;
 import java.lang.reflect.Field;
 import java.math.RoundingMode;
 import java.sql.Time;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -91,7 +92,7 @@ public class Utils {
     }
     public static boolean checkVersion(String version,String version1)
     {
-        Log.i("现在的时候",version+"----"+version1);
+        //Log.i("现在的时候",version+"----"+version1);
         int  first= Integer.parseInt(version.substring(0,version.indexOf(".")));
         int second= Integer.parseInt(version.substring(version.indexOf(".")+1,version.lastIndexOf(".")));
         int third= Integer.parseInt(version.substring(version.lastIndexOf(".")+1));
@@ -122,20 +123,16 @@ public class Utils {
     }
     public static String getDateMonthAndDay(String time){
             //Log.i("现在的数据", time + "");
-        if(time.contains(":")){
-            return time.substring(time.indexOf(":")-2,time.indexOf(":"))+" : "+time.substring(time.indexOf(":")+1);
-        }else {
             time = time.substring(time.indexOf("-") + 1);
             if (time.contains("-")) {
                 String month = time.substring(0, time.indexOf("-"));
                 int monthInt = Integer.valueOf(month);
-                String day = time.substring(time.indexOf("-") + 1);
+                String day = time.substring(time.indexOf("-") + 1,time.indexOf("-")+3);
                 int dayInt = Integer.valueOf(day);
                 return monthInt + " - " + dayInt;
             } else {
                 return "";
             }
-        }
     }
     public static String getIndustryNUumber(int industryID){
         switch (industryID) {
@@ -166,12 +163,15 @@ public class Utils {
      * @return
      */
     public static String formatDouble(double d,int num) {
-        NumberFormat nf = NumberFormat.getNumberInstance();
-        // 保留两位小数
-        nf.setMaximumFractionDigits(2);
-        // 如果不需要四舍五入，可以使用RoundingMode.DOWN
-        nf.setRoundingMode(RoundingMode.UP);
-        return nf.format(d);
+        String s="";
+        if(num==2) {
+            DecimalFormat df = new DecimalFormat("#.00");
+           s= df.format(d);
+        }else if(num==1){
+            DecimalFormat df = new DecimalFormat("#.0");
+            s= df.format(d);
+        }
+        return s;
     }
     public static String timeStamp2Date(String seconds,String format) {
         if(seconds == null || seconds.isEmpty() || seconds.equals("null")){
@@ -218,7 +218,11 @@ public class Utils {
            double i=Double.parseDouble(time)/1000;
             String str=formatDouble(i,1);
             if(str.contains(".0")) {
-                return str.substring(0,str.indexOf(".")) + "千";
+                if(str.contains("0.0")) {
+                    return Integer.parseInt(str.substring(0, str.indexOf(".")))/10 + "万";
+                }else{
+                    return str.substring(0, str.indexOf(".")) + "千";
+                }
             }else {
                 return str+ "千";
             }

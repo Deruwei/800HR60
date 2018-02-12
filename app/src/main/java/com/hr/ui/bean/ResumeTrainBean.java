@@ -185,5 +185,34 @@ public class ResumeTrainBean {
         public void setPlant_id(String plant_id) {
             this.plant_id = plant_id;
         }
+
+        @Override
+        public String toString() {
+            return "PlantListBean{" +
+                    "user_id='" + user_id + '\'' +
+                    ", fromyear='" + fromyear + '\'' +
+                    ", frommonth='" + frommonth + '\'' +
+                    ", toyear='" + toyear + '\'' +
+                    ", tomonth='" + tomonth + '\'' +
+                    ", institution='" + institution + '\'' +
+                    ", place='" + place + '\'' +
+                    ", course='" + course + '\'' +
+                    ", certification='" + certification + '\'' +
+                    ", traindetail='" + traindetail + '\'' +
+                    ", resume_id='" + resume_id + '\'' +
+                    ", resume_language='" + resume_language + '\'' +
+                    ", certi_number='" + certi_number + '\'' +
+                    ", plant_id='" + plant_id + '\'' +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "ResumeTrainBean{" +
+                "error_code=" + error_code +
+                ", _run_time='" + _run_time + '\'' +
+                ", plant_list=" + plant_list +
+                '}';
     }
 }

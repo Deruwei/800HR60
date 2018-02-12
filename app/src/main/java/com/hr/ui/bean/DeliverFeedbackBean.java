@@ -87,6 +87,16 @@ public class DeliverFeedbackBean {
         public void setPage_nums(String page_nums) {
             this.page_nums = page_nums;
         }
+
+        @Override
+        public String toString() {
+            return "NavpageInfoBean{" +
+                    "current_page='" + current_page + '\'' +
+                    ", total_pages=" + total_pages +
+                    ", record_nums=" + record_nums +
+                    ", page_nums='" + page_nums + '\'' +
+                    '}';
+        }
     }
 
     public static class AppliedListBean {
@@ -428,6 +438,61 @@ public class DeliverFeedbackBean {
             public void setResume_id(String resume_id) {
                 this.resume_id = resume_id;
             }
+
+            @Override
+            public String toString() {
+                return "ResumeListBean{" +
+                        "title='" + title + '\'' +
+                        ", resume_language='" + resume_language + '\'' +
+                        ", resume_id='" + resume_id + '\'' +
+                        '}';
+            }
+
         }
+
+        @Override
+        public String toString() {
+            return "AppliedListBean{" +
+                    "user_id='" + user_id + '\'' +
+                    ", enterprise_id='" + enterprise_id + '\'' +
+                    ", job_id='" + job_id + '\'' +
+                    ", job_name='" + job_name + '\'' +
+                    ", enterprise_name='" + enterprise_name + '\'' +
+                    ", industry='" + industry + '\'' +
+                    ", isnew='" + isnew + '\'' +
+                    ", job_work_area='" + job_work_area + '\'' +
+                    ", read_time='" + read_time + '\'' +
+                    ", invite_time='" + invite_time + '\'' +
+                    ", invite_id='" + invite_id + '\'' +
+                    ", applied_time='" + applied_time + '\'' +
+                    ", last_applied_time='" + last_applied_time + '\'' +
+                    ", expiration_date='" + expiration_date + '\'' +
+                    ", applied_num='" + applied_num + '\'' +
+                    ", salary='" + salary + '\'' +
+                    ", company_type='" + company_type + '\'' +
+                    ", stuff_munber='" + stuff_munber + '\'' +
+                    ", workplace='" + workplace + '\'' +
+                    ", record_id='" + record_id + '\'' +
+                    ", is_favourite=" + is_favourite +
+                    ", is_expire=" + is_expire +
+                    ", is_apply=" + is_apply +
+                    ", topjob_type='" + topjob_type + '\'' +
+                    ", release_time='" + release_time + '\'' +
+                    ", study='" + study + '\'' +
+                    ", workyear='" + workyear + '\'' +
+                    ", language='" + language + '\'' +
+                    ", post_rank='" + post_rank + '\'' +
+                    ", resume_list=" + resume_list +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "DeliverFeedbackBean{" +
+                "error_code='" + error_code + '\'' +
+                ", navpage_info=" + navpage_info +
+                ", applied_list=" + applied_list +
+                '}';
     }
 }

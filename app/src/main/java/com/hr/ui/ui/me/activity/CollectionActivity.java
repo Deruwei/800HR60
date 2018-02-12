@@ -33,6 +33,7 @@ import com.hr.ui.utils.datautils.FromStringToArrayList;
 import com.hr.ui.view.MyRecommendDialog;
 import com.hr.ui.view.XRecyclerView;
 import com.loopeer.itemtouchhelperextension.ItemTouchHelperExtension;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,8 +103,10 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter, Collec
 
     @Override
     public void getCollectionSuccess(final List<CollectionBean.FavouriteListBean> favouriteListBeanList1) {
+        //Log.i("到这里了",favouriteListBeanList1.toString());
         if (favouriteListBeanList1 != null && !"".equals(favouriteListBeanList1)&&favouriteListBeanList1.size() != 0) {
             if (page == 1) {
+                adapter=new MyCollectionAdapter();
                 favouriteListBeanList.clear();
                 favouriteListBeanList.addAll(favouriteListBeanList1);
                 adapter.setFavouriteListBeanList(favouriteListBeanList);
@@ -120,6 +123,7 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter, Collec
                 rvCollection.setNoMore(true);
             }
         }
+        MobclickAgent.onEvent(this,"v6_scan_collection");
         adapter.setClickCallBack(new MyCollectionAdapter.ItemClickCallBack() {
             @Override
             public void onItemClick(int pos) {
@@ -161,6 +165,7 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter, Collec
 
     @Override
     public void deliverCollection() {
+        MobclickAgent.onEvent(this,"v6_resume_deliver");
         if (btn != null) {
             btn.setClickable(false);
             btn.setText(R.string.allReadyDeliver);

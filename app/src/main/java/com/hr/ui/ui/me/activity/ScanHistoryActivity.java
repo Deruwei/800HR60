@@ -24,6 +24,7 @@ import com.hr.ui.utils.ProgressStyle;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.view.MyDialog;
 import com.hr.ui.view.XRecyclerView;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,6 +79,7 @@ public class ScanHistoryActivity extends BaseNoConnectNetworkAcitivty {
     public void initView() {
         scanHistoryBeanList = ScanHistoryUtils.getInstance().query(page);
         setSupportActionBar(toolBar);
+        MobclickAgent.onEvent(this,"v6_scan_history");
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolBar.setTitle("");

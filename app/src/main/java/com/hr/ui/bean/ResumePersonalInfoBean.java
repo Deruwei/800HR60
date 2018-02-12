@@ -446,5 +446,60 @@ public class ResumePersonalInfoBean {
         public void setLanguage_list(List<?> language_list) {
             this.language_list = language_list;
         }
+
+        @Override
+        public String toString() {
+            return "BaseInfoBean{" +
+                    "user_id='" + user_id + '\'' +
+                    ", name='" + name + '\'' +
+                    ", sex='" + sex + '\'' +
+                    ", year='" + year + '\'' +
+                    ", month='" + month + '\'' +
+                    ", day='" + day + '\'' +
+                    ", height='" + height + '\'' +
+                    ", nationality='" + nationality + '\'' +
+                    ", hukou='" + hukou + '\'' +
+                    ", idnumber='" + idnumber + '\'' +
+                    ", cardtype='" + cardtype + '\'' +
+                    ", marriage='" + marriage + '\'' +
+                    ", salary='" + salary + '\'' +
+                    ", current_salary='" + current_salary + '\'' +
+                    ", work_beginyear='" + work_beginyear + '\'' +
+                    ", high_education='" + high_education + '\'' +
+                    ", location='" + location + '\'' +
+                    ", ydphone='" + ydphone + '\'' +
+                    ", emailaddress='" + emailaddress + '\'' +
+                    ", address='" + address + '\'' +
+                    ", zipcode='" + zipcode + '\'' +
+                    ", homepage='" + homepage + '\'' +
+                    ", echo_yes='" + echo_yes + '\'' +
+                    ", resume_language='" + resume_language + '\'' +
+                    ", post_rank='" + post_rank + '\'' +
+                    ", polity='" + polity + '\'' +
+                    ", blood='" + blood + '\'' +
+                    ", last_position='" + last_position + '\'' +
+                    ", current_workstate='" + current_workstate + '\'' +
+                    ", pic_filekey='" + pic_filekey + '\'' +
+                    ", modify_time='" + modify_time + '\'' +
+                    ", current_yearsalary='" + current_yearsalary + '\'' +
+                    ", capability='" + capability + '\'' +
+                    ", other_benefits='" + other_benefits + '\'' +
+                    ", other_benefits_txt='" + other_benefits_txt + '\'' +
+                    ", linkinfo_show='" + linkinfo_show + '\'' +
+                    ", ydphone_verify_status='" + ydphone_verify_status + '\'' +
+                    ", telephone='" + telephone + '\'' +
+                    ", im_account='" + im_account + '\'' +
+                    ", im_type='" + im_type + '\'' +
+                    ", language_list=" + language_list +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "ResumePersonalInfoBean{" +
+                "error_code=" + error_code +
+                ", base_info=" + base_info +
+                '}';
     }
 }

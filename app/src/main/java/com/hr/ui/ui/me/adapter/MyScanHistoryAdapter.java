@@ -58,20 +58,22 @@ public class MyScanHistoryAdapter extends RecyclerView.Adapter<MyScanHistoryAdap
     //将数据与界面进行绑定的操作
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-        String time=listBeans.get(position).getTime().substring(listBeans.get(position).getTime().indexOf("-")+1,listBeans.get(position).getTime().lastIndexOf("-")+2);
-        if(position!=0&&listBeans.get(position-1).getTime().substring(listBeans.get(position-1).getTime().indexOf("-")+1,listBeans.get(position-1).getTime().lastIndexOf("-")+2).equals(time)){
+        String time=listBeans.get(position).getTime().substring(listBeans.get(position).getTime().indexOf("-")+1,listBeans.get(position).getTime().lastIndexOf("-")+3);
+        if(position!=0&&listBeans.get(position-1).getTime().substring(listBeans.get(position-1).getTime().indexOf("-")+1,listBeans.get(position-1).getTime().lastIndexOf("-")+3).equals(time)){
             viewHolder.tvItemScanHistoryTime.setVisibility(View.GONE);
         }else{
-            time=time.replaceAll("-"," - ");
             viewHolder.tvItemScanHistoryTime.setVisibility(View.VISIBLE);
-            SimpleDateFormat formatter = new SimpleDateFormat("M - d");//格式为 2013年9月3日 14:44
+            SimpleDateFormat formatter = new SimpleDateFormat("MM-dd");//格式为 2013年9月3日 14:44
             Date curDate = new Date(System.currentTimeMillis());//获取当前时间
             String currentDate = formatter.format(curDate);
-            if(time.equals(currentDate)){
+           if(time.equals(currentDate)){
                 viewHolder.tvItemScanHistoryTime.setText("今天");
             }else {
+                String month=String.valueOf(Integer.parseInt(time.substring(0,time.indexOf("-"))));
+                String day=String.valueOf(Integer.parseInt(time.substring(time.indexOf("-")+1)));
+                time=month+" - "+day;
                 viewHolder.tvItemScanHistoryTime.setText(time);
-            }
+           }
         }
         viewHolder.tvItemScanHistoryJobName.setText(listBeans.get(position).getJobName());
         viewHolder.tvItemScanHistoryCompanyName.setText(listBeans.get(position).getCompanyName());

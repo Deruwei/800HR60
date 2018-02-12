@@ -32,4 +32,13 @@ public class IndustryBean {
     public void setIndustryUrlId(int industryUrlId) {
         this.industryUrlId = industryUrlId;
     }
+
+    @Override
+    public String toString() {
+        return "IndustryBean{" +
+                "id=" + id +
+                ", industryName=" + industryName +
+                ", industryUrlId=" + industryUrlId +
+                '}';
+    }
 }

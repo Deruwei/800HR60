@@ -28,16 +28,6 @@ public class ResumeData {
     @Generated(hash = 1068625934)
     public ResumeData() {
     }
-   
-
-    @Override
-    public String toString() {
-        return "ResumeData{" +
-                ", resumeId='" + resumeId + '\'' +
-                ", title='" + title + '\'' +
-                ", complete='" + complete + '\'' +
-                '}';
-    }
 
 
     public String getResumeId() {
@@ -77,5 +67,15 @@ public class ResumeData {
 
     public void setImageId(int imageId) {
         this.imageId = imageId;
+    }
+
+    @Override
+    public String toString() {
+        return "ResumeData{" +
+                "resumeId='" + resumeId + '\'' +
+                ", title='" + title + '\'' +
+                ", complete='" + complete + '\'' +
+                ", imageId=" + imageId +
+                '}';
     }
 }

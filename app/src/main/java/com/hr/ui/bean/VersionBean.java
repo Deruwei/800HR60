@@ -66,5 +66,22 @@ public class VersionBean {
         public void setUrl(String url) {
             this.url = url;
         }
+
+        @Override
+        public String toString() {
+            return "AndroidBean{" +
+                    "ver='" + ver + '\'' +
+                    ", time='" + time + '\'' +
+                    ", text='" + text + '\'' +
+                    ", url='" + url + '\'' +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "VersionBean{" +
+                "android=" + android +
+                '}';
     }
 }

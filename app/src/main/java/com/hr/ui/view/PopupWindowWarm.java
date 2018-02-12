@@ -45,6 +45,7 @@ public class PopupWindowWarm {
         // 设置背景颜色变暗
         WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
         lp.alpha = 0.7f;
+        tvContent.setText(content);
         activity.getWindow().setAttributes(lp);
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
 
@@ -56,6 +57,7 @@ public class PopupWindowWarm {
             }
         });
         popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(false);
         popupWindow.setAnimationStyle(R.style.style_pop_animation2);
         popupWindow.showAtLocation(viewMain, Gravity.CENTER, 0, 0);
     }

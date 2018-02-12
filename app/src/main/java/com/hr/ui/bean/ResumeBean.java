@@ -338,6 +338,28 @@ public class ResumeBean implements Serializable{
             public void setTalent_svr_state(String talent_svr_state) {
                 this.talent_svr_state = talent_svr_state;
             }
+
+            @Override
+            public String toString() {
+                return "TitleInfoBean{" +
+                        "user_id='" + user_id + '\'' +
+                        ", resume_id='" + resume_id + '\'' +
+                        ", title='" + title + '\'' +
+                        ", key_word='" + key_word + '\'' +
+                        ", apply='" + apply + '\'' +
+                        ", click='" + click + '\'' +
+                        ", resume_language='" + resume_language + '\'' +
+                        ", resume_type='" + resume_type + '\'' +
+                        ", open='" + open + '\'' +
+                        ", uptime='" + uptime + '\'' +
+                        ", fill_scale='" + fill_scale + '\'' +
+                        ", castbehalf='" + castbehalf + '\'' +
+                        ", add_time='" + add_time + '\'' +
+                        ", important='" + important + '\'' +
+                        ", modify_time='" + modify_time + '\'' +
+                        ", talent_svr_state='" + talent_svr_state + '\'' +
+                        '}';
+            }
         }
 
         public static class BaseInfoBean implements  Serializable{
@@ -744,6 +766,52 @@ public class ResumeBean implements Serializable{
             public void setIm_type(String im_type) {
                 this.im_type = im_type;
             }
+
+            @Override
+            public String toString() {
+                return "BaseInfoBean{" +
+                        "user_id='" + user_id + '\'' +
+                        ", name='" + name + '\'' +
+                        ", sex='" + sex + '\'' +
+                        ", year='" + year + '\'' +
+                        ", month='" + month + '\'' +
+                        ", day='" + day + '\'' +
+                        ", height='" + height + '\'' +
+                        ", nationality='" + nationality + '\'' +
+                        ", hukou='" + hukou + '\'' +
+                        ", idnumber='" + idnumber + '\'' +
+                        ", cardtype='" + cardtype + '\'' +
+                        ", marriage='" + marriage + '\'' +
+                        ", salary='" + salary + '\'' +
+                        ", current_salary='" + current_salary + '\'' +
+                        ", work_beginyear='" + work_beginyear + '\'' +
+                        ", high_education='" + high_education + '\'' +
+                        ", location='" + location + '\'' +
+                        ", ydphone='" + ydphone + '\'' +
+                        ", emailaddress='" + emailaddress + '\'' +
+                        ", address='" + address + '\'' +
+                        ", zipcode='" + zipcode + '\'' +
+                        ", homepage='" + homepage + '\'' +
+                        ", echo_yes='" + echo_yes + '\'' +
+                        ", resume_language='" + resume_language + '\'' +
+                        ", post_rank='" + post_rank + '\'' +
+                        ", polity='" + polity + '\'' +
+                        ", blood='" + blood + '\'' +
+                        ", last_position='" + last_position + '\'' +
+                        ", current_workstate='" + current_workstate + '\'' +
+                        ", pic_filekey='" + pic_filekey + '\'' +
+                        ", modify_time='" + modify_time + '\'' +
+                        ", current_yearsalary='" + current_yearsalary + '\'' +
+                        ", capability='" + capability + '\'' +
+                        ", other_benefits='" + other_benefits + '\'' +
+                        ", other_benefits_txt='" + other_benefits_txt + '\'' +
+                        ", linkinfo_show='" + linkinfo_show + '\'' +
+                        ", ydphone_verify_status='" + ydphone_verify_status + '\'' +
+                        ", telephone='" + telephone + '\'' +
+                        ", im_account='" + im_account + '\'' +
+                        ", im_type='" + im_type + '\'' +
+                        '}';
+            }
         }
 
         public static class OrderInfoBean implements  Serializable{
@@ -945,6 +1013,37 @@ public class ResumeBean implements Serializable{
                 public void setLingyu(String lingyu) {
                     this.lingyu = lingyu;
                 }
+
+                @Override
+                public String toString() {
+                    return "OrderIndustryBean{" +
+                            "industry='" + industry + '\'' +
+                            ", func='" + func + '\'' +
+                            ", lingyu='" + lingyu + '\'' +
+                            '}';
+                }
+            }
+
+            @Override
+            public String toString() {
+                return "OrderInfoBean{" +
+                        "user_id='" + user_id + '\'' +
+                        ", jobtype='" + jobtype + '\'' +
+                        ", industry='" + industry + '\'' +
+                        ", func='" + func + '\'' +
+                        ", workarea='" + workarea + '\'' +
+                        ", zhixi='" + zhixi + '\'' +
+                        ", order_salary='" + order_salary + '\'' +
+                        ", order_salary_noshow='" + order_salary_noshow + '\'' +
+                        ", resume_id='" + resume_id + '\'' +
+                        ", resume_language='" + resume_language + '\'' +
+                        ", jobname='" + jobname + '\'' +
+                        ", lingyu='" + lingyu + '\'' +
+                        ", order_yearsalary='" + order_yearsalary + '\'' +
+                        ", current_workstate='" + current_workstate + '\'' +
+                        ", castbehalf='" + castbehalf + '\'' +
+                        ", order_industry=" + order_industry +
+                        '}';
             }
         }
 
@@ -1012,6 +1111,18 @@ public class ResumeBean implements Serializable{
             public void setWeakness(String weakness) {
                 this.weakness = weakness;
             }
+
+            @Override
+            public String toString() {
+                return "AssessInfoBean{" +
+                        "user_id='" + user_id + '\'' +
+                        ", introduction='" + introduction + '\'' +
+                        ", resume_id='" + resume_id + '\'' +
+                        ", resume_language='" + resume_language + '\'' +
+                        ", virtue='" + virtue + '\'' +
+                        ", weakness='" + weakness + '\'' +
+                        '}';
+            }
         }
 
         public static class LanguageListBean implements  Serializable{
@@ -1067,6 +1178,17 @@ public class ResumeBean implements Serializable{
 
             public void setGrade_exam(List<?> grade_exam) {
                 this.grade_exam = grade_exam;
+            }
+
+            @Override
+            public String toString() {
+                return "LanguageListBean{" +
+                        "langname='" + langname + '\'' +
+                        ", user_id='" + user_id + '\'' +
+                        ", read_level='" + read_level + '\'' +
+                        ", speak_level='" + speak_level + '\'' +
+                        ", grade_exam=" + grade_exam +
+                        '}';
             }
         }
 
@@ -1243,6 +1365,29 @@ public class ResumeBean implements Serializable{
 
             public void setEducation_id(String education_id) {
                 this.education_id = education_id;
+            }
+
+            @Override
+            public String toString() {
+                return "EducationListBean{" +
+                        "user_id='" + user_id + '\'' +
+                        ", fromyear='" + fromyear + '\'' +
+                        ", frommonth='" + frommonth + '\'' +
+                        ", toyear='" + toyear + '\'' +
+                        ", tomonth='" + tomonth + '\'' +
+                        ", schoolname='" + schoolname + '\'' +
+                        ", moremajor='" + moremajor + '\'' +
+                        ", degree='" + degree + '\'' +
+                        ", edudetail='" + edudetail + '\'' +
+                        ", is_overseas='" + is_overseas + '\'' +
+                        ", country='" + country + '\'' +
+                        ", resume_id='" + resume_id + '\'' +
+                        ", resume_language='" + resume_language + '\'' +
+                        ", recruit_students='" + recruit_students + '\'' +
+                        ", degreecerti_no='" + degreecerti_no + '\'' +
+                        ", a_degreecerti_no='" + a_degreecerti_no + '\'' +
+                        ", education_id='" + education_id + '\'' +
+                        '}';
             }
         }
 
@@ -1560,6 +1705,43 @@ public class ResumeBean implements Serializable{
             public void setExperience_id(String experience_id) {
                 this.experience_id = experience_id;
             }
+
+            @Override
+            public String toString() {
+                return "ExperienceListBean{" +
+                        "user_id='" + user_id + '\'' +
+                        ", fromyear='" + fromyear + '\'' +
+                        ", frommonth='" + frommonth + '\'' +
+                        ", toyear='" + toyear + '\'' +
+                        ", tomonth='" + tomonth + '\'' +
+                        ", company='" + company + '\'' +
+                        ", companyhide='" + companyhide + '\'' +
+                        ", industry='" + industry + '\'' +
+                        ", companytype='" + companytype + '\'' +
+                        ", stuffmunber='" + stuffmunber + '\'' +
+                        ", division='" + division + '\'' +
+                        ", companyaddress='" + companyaddress + '\'' +
+                        ", position='" + position + '\'' +
+                        ", responsiblity='" + responsiblity + '\'' +
+                        ", offreason='" + offreason + '\'' +
+                        ", achievement='" + achievement + '\'' +
+                        ", zhixi='" + zhixi + '\'' +
+                        ", zhicheng='" + zhicheng + '\'' +
+                        ", is_overseas='" + is_overseas + '\'' +
+                        ", country='" + country + '\'' +
+                        ", resume_id='" + resume_id + '\'' +
+                        ", resume_language='" + resume_language + '\'' +
+                        ", lingyu='" + lingyu + '\'' +
+                        ", func='" + func + '\'' +
+                        ", salary='" + salary + '\'' +
+                        ", salary_hide='" + salary_hide + '\'' +
+                        ", reterence='" + reterence + '\'' +
+                        ", yearsalary='" + yearsalary + '\'' +
+                        ", underling='" + underling + '\'' +
+                        ", superior='" + superior + '\'' +
+                        ", experience_id='" + experience_id + '\'' +
+                        '}';
+            }
         }
 
         public static class ProjectListBean implements  Serializable{
@@ -1726,6 +1908,28 @@ public class ResumeBean implements Serializable{
             public void setProject_id(String project_id) {
                 this.project_id = project_id;
             }
+
+            @Override
+            public String toString() {
+                return "ProjectListBean{" +
+                        "user_id='" + user_id + '\'' +
+                        ", fromyear='" + fromyear + '\'' +
+                        ", frommonth='" + frommonth + '\'' +
+                        ", toyear='" + toyear + '\'' +
+                        ", tomonth='" + tomonth + '\'' +
+                        ", projectname='" + projectname + '\'' +
+                        ", projectdesc='" + projectdesc + '\'' +
+                        ", responsibility='" + responsibility + '\'' +
+                        ", position='" + position + '\'' +
+                        ", resume_id='" + resume_id + '\'' +
+                        ", resume_language='" + resume_language + '\'' +
+                        ", companyname='" + companyname + '\'' +
+                        ", companyhide='" + companyhide + '\'' +
+                        ", achievement='" + achievement + '\'' +
+                        ", reterence='" + reterence + '\'' +
+                        ", project_id='" + project_id + '\'' +
+                        '}';
+            }
         }
 
         public static class PlantListBean implements  Serializable{
@@ -1872,6 +2076,26 @@ public class ResumeBean implements Serializable{
             public void setPlant_id(String plant_id) {
                 this.plant_id = plant_id;
             }
+
+            @Override
+            public String toString() {
+                return "PlantListBean{" +
+                        "user_id='" + user_id + '\'' +
+                        ", fromyear='" + fromyear + '\'' +
+                        ", frommonth='" + frommonth + '\'' +
+                        ", toyear='" + toyear + '\'' +
+                        ", tomonth='" + tomonth + '\'' +
+                        ", institution='" + institution + '\'' +
+                        ", place='" + place + '\'' +
+                        ", course='" + course + '\'' +
+                        ", certification='" + certification + '\'' +
+                        ", traindetail='" + traindetail + '\'' +
+                        ", resume_id='" + resume_id + '\'' +
+                        ", resume_language='" + resume_language + '\'' +
+                        ", certi_number='" + certi_number + '\'' +
+                        ", plant_id='" + plant_id + '\'' +
+                        '}';
+            }
         }
 
         public static class SkillListBean implements  Serializable{
@@ -1947,6 +2171,19 @@ public class ResumeBean implements Serializable{
 
             public void setSkill_id(String skill_id) {
                 this.skill_id = skill_id;
+            }
+
+            @Override
+            public String toString() {
+                return "SkillListBean{" +
+                        "user_id='" + user_id + '\'' +
+                        ", usetime='" + usetime + '\'' +
+                        ", ability='" + ability + '\'' +
+                        ", skilltitle='" + skilltitle + '\'' +
+                        ", resume_id='" + resume_id + '\'' +
+                        ", resume_language='" + resume_language + '\'' +
+                        ", skill_id='" + skill_id + '\'' +
+                        '}';
             }
         }
 
@@ -2034,6 +2271,49 @@ public class ResumeBean implements Serializable{
             public void setSlave_id(String slave_id) {
                 this.slave_id = slave_id;
             }
+
+            @Override
+            public String toString() {
+                return "SlaveListBean{" +
+                        "user_id='" + user_id + '\'' +
+                        ", type='" + type + '\'' +
+                        ", attachname='" + attachname + '\'' +
+                        ", attachdescribe='" + attachdescribe + '\'' +
+                        ", slave_filekey='" + slave_filekey + '\'' +
+                        ", resume_id='" + resume_id + '\'' +
+                        ", resume_language='" + resume_language + '\'' +
+                        ", slave_id='" + slave_id + '\'' +
+                        '}';
+            }
         }
+
+        @Override
+        public String toString() {
+            return "ResumeInfoBean{" +
+                    "title_info=" + title_info +
+                    ", base_info=" + base_info +
+                    ", order_info=" + order_info +
+                    ", assess_info=" + assess_info +
+                    ", language_list=" + language_list +
+                    ", education_list=" + education_list +
+                    ", experience_list=" + experience_list +
+                    ", project_list=" + project_list +
+                    ", plant_list=" + plant_list +
+                    ", skill_list=" + skill_list +
+                    ", subjoin_list=" + subjoin_list +
+                    ", slave_list=" + slave_list +
+                    ", attachment=" + attachment +
+                    ", certificate_list=" + certificate_list +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "ResumeBean{" +
+                "error_code=" + error_code +
+                ", resume_info=" + resume_info +
+                ", _run_time='" + _run_time + '\'' +
+                '}';
     }
 }

@@ -46,7 +46,7 @@ public class ChangePswPresenter  extends ChangePswContract.Presenter{
 
             @Override
             protected void _onError(String message) {
-                ToastUitl.showShort(message);
+                //ToastUitl.showShort(message);
             }
         }));
     }

@@ -206,5 +206,36 @@ public class ProjectBean {
         public void setProject_id(String project_id) {
             this.project_id = project_id;
         }
+
+        @Override
+        public String toString() {
+            return "ProjectListBean{" +
+                    "user_id='" + user_id + '\'' +
+                    ", fromyear='" + fromyear + '\'' +
+                    ", frommonth='" + frommonth + '\'' +
+                    ", toyear='" + toyear + '\'' +
+                    ", tomonth='" + tomonth + '\'' +
+                    ", projectname='" + projectname + '\'' +
+                    ", projectdesc='" + projectdesc + '\'' +
+                    ", responsibility='" + responsibility + '\'' +
+                    ", position='" + position + '\'' +
+                    ", resume_id='" + resume_id + '\'' +
+                    ", resume_language='" + resume_language + '\'' +
+                    ", companyname='" + companyname + '\'' +
+                    ", companyhide='" + companyhide + '\'' +
+                    ", achievement='" + achievement + '\'' +
+                    ", reterence='" + reterence + '\'' +
+                    ", project_id='" + project_id + '\'' +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "ProjectBean{" +
+                "error_code=" + error_code +
+                ", _run_time='" + _run_time + '\'' +
+                ", project_list=" + project_list +
+                '}';
     }
 }

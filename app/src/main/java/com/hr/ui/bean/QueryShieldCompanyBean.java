@@ -86,5 +86,24 @@ public class QueryShieldCompanyBean {
         public void setIndustry(String industry) {
             this.industry = industry;
         }
+
+        @Override
+        public String toString() {
+            return "EnteListBean{" +
+                    "enterprise_id='" + enterprise_id + '\'' +
+                    ", enterprise_name='" + enterprise_name + '\'' +
+                    ", industry='" + industry + '\'' +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "QueryShieldCompanyBean{" +
+                "error_code=" + error_code +
+                ", totals='" + totals + '\'' +
+                ", _run_time='" + _run_time + '\'' +
+                ", ente_list=" + ente_list +
+                '}';
     }
 }

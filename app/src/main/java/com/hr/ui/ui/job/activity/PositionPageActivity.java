@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -34,6 +35,7 @@ import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.MyRecommendDialog;
 import com.hr.ui.view.PieChartView;
 import com.hr.ui.view.RoundImageView;
+import com.umeng.analytics.MobclickAgent;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -207,6 +209,7 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
     }
     @Override
     public void getPositionSuccess(PositionBean.JobInfoBean jobInfoBean) {
+        MobclickAgent.onEvent(this,"v6_scan_position");
         rlPositionContent.setVisibility(View.VISIBLE);
         llNetError.setVisibility(View.GONE);
         initUI(jobInfoBean);
@@ -224,7 +227,7 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
             scanHistoryBean.setExp(jobInfoBean.getWorkyear());
             scanHistoryBean.setSalary(jobInfoBean.getSalary());
             scanHistoryBean.setIs_expect(jobInfoBean.getIs_expire()+"");
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-M-d HH:mm:ss");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date curDate = new Date(System.currentTimeMillis());
             String str = formatter.format(curDate);
             scanHistoryBean.setTime(str);
@@ -286,6 +289,7 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
 
     @Override
     public void deliverPositionSuccess() {
+        MobclickAgent.onEvent(this,"v6_resume_deliver");
         ToastUitl.showShort("投递成功");
         if (apply == 1) {
             tvPositionPageDeliverResume.setText(R.string.deliverResume);
@@ -301,6 +305,8 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
         drawable.stop();
         pcvCulScore.setVisibility(View.VISIBLE);
         ivLoadCul.setVisibility(View.GONE);
+        llPositionPageCulScore.setEnabled(false);
+        s=Double.parseDouble(Utils.formatDouble(s,2));
         int number = (int) (s * 100.0);
         //Log.i("当前的数字",number+"----");
         tvPositionPageCulScore.setText(number + "分");
@@ -323,6 +329,22 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
             //ToastUitl.showShort(errorCode+"");
             setPopupwindow(1);
         }
+    }
+
+    @Override
+    public void retryCulScore() {
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                drawable.stop();
+                pcvCulScore.setVisibility(View.GONE);
+                ivLoadCul.setVisibility(View.GONE);
+                ivCulScore.setVisibility(View.VISIBLE);
+                tvPositionPageCulScore.setText(R.string.culculate);
+                llPositionPageCulScore.setEnabled(true);
+                ToastUitl.showShort(R.string.error_cul);
+            }
+        }, 3500);
+
     }
 
     @Override
@@ -360,7 +382,6 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
                 mPresenter.getPositionData(jobId, this);
                 break;
             case R.id.ll_positionPageCulScore:
-                llPositionPageCulScore.setEnabled(false);
                 if (!ClickUtils.isFastClick()) {
                     ivLoadCul.setVisibility(View.VISIBLE);
                     ivCulScore.setVisibility(View.GONE);

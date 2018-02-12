@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,6 +15,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -53,6 +56,7 @@ import com.hr.ui.view.SnailBar;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -277,6 +281,7 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
         /*srlResume.setRefreshing(false);*/
         if (isFlesh == true) {
             ToastUitl.showShort("刷新成功");
+            MobclickAgent.onEvent(getActivity(),"v6_fresh_resume");
             isFlesh = false;
         }
         resumeType = resumeBean.getResume_info().getTitle_info().get(0).getResume_type();
@@ -503,7 +508,7 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
     public void uploadImageSuccess(final String path) {
         sUtils.setStringValue(Constants.PERSONIMAGE, path);
         resumeInfoBean.getBase_info().get(0).setPic_filekey(path);
-        Glide.with(this).load(Constants.IMAGE_BASEPATH + path).fitCenter().into(ivResumePersonImage);
+        Glide.with(this).load(Constants.IMAGE_BASEPATH + path).fitCenter() .into(ivResumePersonImage);
         MainActivity.instance.setImage();
         HomeFragment.instance.setImage();
         MessageFragment.instance.setImage();
@@ -527,13 +532,15 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
 
     @Override
     public void updateSuccess() {
+        MobclickAgent.onEvent(getActivity(),"v6_update_resume");
         ToastUitl.showShort("简历升级成功");
         mPresenter.getResume(resumeId + "", true);
     }
 
     @Override
     public void refreshResumeSuccess() {
-
+        MobclickAgent.onEvent(getActivity(),"v6_fresh_resumeTime");
+        MobclickAgent.onEvent(getActivity(),"v6_fresh_resume");
     }
 
     @Override
@@ -569,7 +576,9 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
             tvResumePersonEmail.setText(baseInfoBean.get(0).getEmailaddress());
             tvResumePersonTel.setText(baseInfoBean.get(0).getYdphone());
             if (!"".equals(baseInfoBean.get(0).getPic_filekey()) && baseInfoBean.get(0).getPic_filekey() != null) {
-                Glide.with(this).load(Constants.IMAGE_BASEPATH + baseInfoBean.get(0).getPic_filekey()).fitCenter().into(ivResumePersonImage);
+                Glide.with(this).load(Constants.IMAGE_BASEPATH + baseInfoBean.get(0).getPic_filekey()) .fitCenter().into(ivResumePersonImage);
+            }else{
+                ivResumePersonImage.setImageResource(R.mipmap.persondefault);
             }
         }
     }
@@ -682,7 +691,7 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
 
     private void takePhoto() {
         final View popView = LayoutInflater.from(getActivity()).inflate(R.layout.layout_takephoto, null);
-        popupWindow = new PopupWindow(popView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, true);
+        popupWindow = new PopupWindow(popView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
         TextView tvTakePhoto = popView.findViewById(R.id.tv_takePhoto);
         TextView tvSelectPicture = popView.findViewById(R.id.tv_selectPicture);
         TextView tvCancel = popView.findViewById(R.id.tv_cancelSelect);
@@ -693,6 +702,25 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
                 popupWindow.dismiss();
             }
         });
+        WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
+        lp.alpha = 0.7f;
+        getActivity().getWindow().setAttributes(lp);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+
+            @Override
+            public void onDismiss() {
+                WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
+                lp.alpha = 1f;
+                getActivity().getWindow().setAttributes(lp);
+            }
+        });
+        if (Build.VERSION.SDK_INT >Build.VERSION_CODES.KITKAT) {
+            //  大于等于24即为4.4及以上执行内容
+            // 设置背景颜色变暗
+        } else {
+            //  低于19即为4.4以下执行内容
+            popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        }
         popupWindow.setOutsideTouchable(true);
         tvTakePhoto.setOnClickListener(new View.OnClickListener() {
             @Override

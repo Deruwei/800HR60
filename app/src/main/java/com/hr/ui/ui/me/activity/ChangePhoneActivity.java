@@ -5,12 +5,16 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -81,6 +85,8 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
     ImageView ivChangePhonePswDelete;
     @BindView(R.id.view_getValidCode3)
     View viewGetValidCode3;
+    @BindView(R.id.cl_changePhone)
+    ConstraintLayout clChangePhone;
     private String chaptcha;
     private String autoCode;
     private Intent mCodeTimerServiceIntent;
@@ -89,10 +95,19 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
     private EditText etAutoCode;
     private SharedPreferencesUtils sUtils;
     private int code;
+    private String Tag;
     private PopupWindow popupWindow;
 
     public static void startAction(Activity activity) {
         Intent intent = new Intent(activity, ChangePhoneActivity.class);
+        activity.startActivity(intent);
+        activity.overridePendingTransition(R.anim.fade_in,
+                R.anim.fade_out);
+    }
+
+    public static void startAction(Activity activity, String tag) {
+        Intent intent = new Intent(activity, ChangePhoneActivity.class);
+        intent.putExtra("tag", tag);
         activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.fade_in,
                 R.anim.fade_out);
@@ -116,8 +131,11 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
     @Override
     public void changePhoneSuccess() {
         ToastUitl.showShort("更改手机成功");
-        ResumePersonalInfoActivity.instance.setValid(etChangePhoneNumber.getText().toString());
         finish();
+        if (ResumePersonalInfoActivity.TAG.equals(Tag)) {
+            ResumePersonalInfoActivity.instance.setValid(etChangePhoneNumber.getText().toString());
+        }
+
     }
 
     @Override
@@ -153,6 +171,12 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
     }
 
     @Override
+    public void getValidCodeFailt() {
+        etAutoCode.setText("");
+        mPresenter.getCaptcha();
+    }
+
+    @Override
     public int getLayoutId() {
         return R.layout.activity_changephone;
     }
@@ -164,6 +188,7 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
 
     @Override
     public void initView() {
+        Tag = getIntent().getStringExtra("tag");
         sUtils = new SharedPreferencesUtils(this);
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -194,12 +219,12 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
     }
 
     private void editViewTextChangeAndFocos() {
-        Utils.setEditViewTextChangeAndFocus(etChangePhoneNumber,ivChangePhoneNumberDelete);
-        Utils.setEditViewTextChangeAndFocus(etChangePhonePsw,ivChangePhonePswDelete);
-        Utils.setEditViewTextChangeAndFocus(etChangePhoneValidCode,ivChangePhoneValidCodeDelete);
+        Utils.setEditViewTextChangeAndFocus(etChangePhoneNumber, ivChangePhoneNumberDelete);
+        Utils.setEditViewTextChangeAndFocus(etChangePhonePsw, ivChangePhonePswDelete);
+        Utils.setEditViewTextChangeAndFocus(etChangePhoneValidCode, ivChangePhoneValidCodeDelete);
     }
 
-    @OnClick({R.id.tv_changePhoneValidCode, R.id.btn_changePhoneOK,R.id.iv_changePhoneNumberDelete,R.id.iv_changePhonePswDelete,R.id.iv_changePhoneValidCodeDelete})
+    @OnClick({R.id.tv_changePhoneValidCode, R.id.btn_changePhoneOK, R.id.iv_changePhoneNumberDelete, R.id.iv_changePhonePswDelete, R.id.iv_changePhoneValidCodeDelete})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_changePhoneValidCode:
@@ -234,19 +259,12 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
      */
     public void initPopWindow() {
         final View popView = LayoutInflater.from(this).inflate(R.layout.layout_autocode, null);
-        popupWindow = new PopupWindow(popView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, true);
+        popupWindow = new PopupWindow(popView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
         popupWindow.setOutsideTouchable(true);
         ivAutoCode = popView.findViewById(R.id.vc_image);
         TextView tvReflesh = popView.findViewById(R.id.vc_refresh);
         etAutoCode = popView.findViewById(R.id.vc_code);
         RelativeLayout rlConfirm = popView.findViewById(R.id.rl__item_autocode_confirm);
-        LinearLayout llClose = popView.findViewById(R.id.ll_autoCodeClose);
-        llClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-            }
-        });
         rlConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -258,6 +276,28 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
                 }
             }
         });
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = 0.7f;
+        getWindow().setAttributes(lp);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+
+            @Override
+            public void onDismiss() {
+                WindowManager.LayoutParams lp = getWindow().getAttributes();
+                lp.alpha = 1f;
+                getWindow().setAttributes(lp);
+            }
+        });
+        if (Build.VERSION.SDK_INT >Build.VERSION_CODES.KITKAT) {
+            //  大于等于24即为4.4及以上执行内容
+            // 设置背景颜色变暗
+        } else {
+            //  低于19即为4.4以下执行内容
+            popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        }
+
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
         tvReflesh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -265,7 +305,7 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
             }
         });
         View rootview = LayoutInflater.from(this).inflate(R.layout.activity_register, null);
-        popupWindow.showAtLocation(rootview, Gravity.CENTER, 0, 0);
+        popupWindow.showAtLocation(clChangePhone, Gravity.CENTER, 0, 0);
     }
 
     private void doChangePhone() {
@@ -283,11 +323,11 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
             ToastUitl.showShort("请填写手机验证码");
             return;
         }
-        if(etChangePhonePsw.getText().toString()==null||"".equals(etChangePhonePsw.getText().toString())){
+        if (etChangePhonePsw.getText().toString() == null || "".equals(etChangePhonePsw.getText().toString())) {
             ToastUitl.showShort("请填写密码");
             return;
         }
-        if(!loginBean.getPassword().equals(etChangePhonePsw.getText().toString())){
+        if (!loginBean.getPassword().equals(etChangePhonePsw.getText().toString())) {
             ToastUitl.showShort("密码错误，请重新输入");
             return;
         }

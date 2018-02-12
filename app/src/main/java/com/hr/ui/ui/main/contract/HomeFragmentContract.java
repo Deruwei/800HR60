@@ -27,10 +27,11 @@ public interface HomeFragmentContract {
         void getResumeScoreSuccess(double s);
         void getRecommendJobError();
         void getRecommendJobSuccess2(List<RecommendJobBean.JobsListBean> jobsListBeanList);
+        void cantGetData();
     }
     abstract class Presenter extends BasePresenter<View,Model>{
         public abstract void getRecommendJobInfo(String resumeId,int limit,boolean isCanRefresh);
         public abstract void getResumeScore(String id);
-        public abstract void getRecommendJob(int page,int pageNum);
+        public abstract void getRecommendJob(int page,int pageNum,boolean isCanRefresh);
     }
 }

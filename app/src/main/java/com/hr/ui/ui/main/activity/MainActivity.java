@@ -49,7 +49,10 @@ import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.CircleImageView;
 import com.hr.ui.view.MyDrawLayout2;
 import com.hr.ui.view.OnBottomNavigationItemClickListener;
+import com.hr.ui.view.PopupWindowAd;
 import com.hr.ui.view.PopupWindowComment;
+import com.hr.ui.view.PopupWindowWarm;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,10 +108,11 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
     JobSearchFragment jobSearchFragment;
     public static MainActivity instance;
     private SharedPreferencesUtils sUtis;
-    private String personImage;
+    private String personImage,contentWarn,imageUrl,adUrl;
+    private List<FindBean.ListBean> listBeanList=new ArrayList<>();
     private PopupWindow popupWindowGiveComment;
     public  RadioButton rbResume1;
-
+    private boolean giveComment,hasAds,hasWarm;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,7 +143,6 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
         activity.overridePendingTransition(R.anim.fade_in,
                 R.anim.fade_out);
     }
-
     @OnClick({R.id.rl_collection, R.id.rl_history, R.id.rl_feedback, R.id.rl_setting})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -171,6 +174,8 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
         if (!"".equals(personImage) && personImage != null) {
            /* Glide.with(this).load(Constants.IMAGE_BASEPATH + personImage).centerCrop().into(ivResumePersonPhoto);*/
             Glide.with(this).load(Constants.IMAGE_BASEPATH + personImage).fitCenter().into(ivPersonImageLeft);
+        }else{
+            ivPersonImageLeft.setImageResource(R.mipmap.persondefault);
         }
     }
     private void initFragment() {
@@ -200,20 +205,31 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
         //判断是否添加
         if (!fragments.get(index).isAdded()) {
             ft.add(R.id.ll_main, fragments.get(index)).show(fragments.get(index));
+            if(index==0){
+                MobclickAgent.onEvent(this,"v6_scan_main");
+            }
             if(index==2){
+                MobclickAgent.onEvent(this,"v6_scan_resume");
                 idMenu.setDrawerLockMode(MyDrawLayout2.LOCK_MODE_LOCKED_CLOSED);
                 rlLeftPage.setBackgroundResource(R.drawable.resume_title_bg);
+            }
+            if(index==1){
+                MobclickAgent.onEvent(this,"v6_scan_message");
             }
         } else {
             ft.show(fragments.get(index));
             if(index==0){
+                MobclickAgent.onEvent(this,"v6_scan_main");
                 idMenu.setDrawerLockMode(MyDrawLayout2.LOCK_MODE_UNLOCKED);
                 rlLeftPage.setBackgroundResource(R.color.bg_homeTitle);
             }
             if(index==1){
+                MobclickAgent.onEvent(this,"v6_scan_message");
+                MobclickAgent.onEvent(this,"v6_fresh_message");
                 MessageFragment.instance.getDate(false);
             }
             if(index==2){
+                MobclickAgent.onEvent(this,"v6_scan_resume");
                 idMenu.setDrawerLockMode(MyDrawLayout2.LOCK_MODE_LOCKED_CLOSED);
                 rlLeftPage.setBackgroundResource(R.drawable.resume_title_bg);
             }
@@ -299,20 +315,23 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK
                 && event.getAction() == KeyEvent.ACTION_DOWN) {
-            if ((System.currentTimeMillis() - exitTime) > 2000) {
-                //弹出提示，可以有多种方式
-                //PopupWindowComment popupWindowComment=new PopupWindowComment(popupWindowGiveComment,this,idMenu);
-                ToastUitl.showShort("再点一次退出程序");
-                exitTime = System.currentTimeMillis();
-            } else {
-                finish();
+            if(giveComment==true){
+                PopupWindowComment popupWindowComment=new PopupWindowComment(new PopupWindow(this),this,idMenu);
+            }else {
+                if ((System.currentTimeMillis() - exitTime) > 2000) {
+                    //弹出提示，可以有多种方式
+                    //PopupWindowComment popupWindowComment=new PopupWindowComment(popupWindowGiveComment,this,idMenu);
+                    ToastUitl.showShort("再点一次退出程序");
+                    exitTime = System.currentTimeMillis();
+                } else {
+                    finish();
+                }
             }
             return true;
         }
 
         return super.onKeyDown(keyCode, event);
     }
-
     /**
      * 自定义NavigationIcon设置关联DrawerLayout
      */
@@ -373,6 +392,32 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
     }
     @Override
     public void getNoticeSuccess(List<FindBean.ListBean> listBean) {
+        listBeanList.clear();
+        listBeanList.addAll(listBean);
+        for(int i=0;i<listBean.size();i++){
+            if("798".equals(listBean.get(i).getA_id())){
+                hasWarm=true;
+                contentWarn=listBean.get(i).getAd_txt();
+            }
+            if("794".equals(listBean.get(i).getA_id())){
+                hasAds=true;
+               imageUrl=listBean.get(i).getPic_s_path();
+               adUrl=listBean.get(i).getTopic_url();
+            }
+            if("796".equals(listBean.get(i).getA_id())){
+                giveComment=true;
+            }
+        }
+        initPop();
+    }
 
+    private void initPop() {
+        if(hasWarm==true){
+            PopupWindowWarm popupWindowWarm=new PopupWindowWarm(new PopupWindow(this),contentWarn,idMenu,this);
+        }else{
+            if(hasAds==true){
+                PopupWindowAd popupWindowAd=new PopupWindowAd(this,new PopupWindow(this),idMenu,adUrl,imageUrl);
+            }
+        }
     }
 }

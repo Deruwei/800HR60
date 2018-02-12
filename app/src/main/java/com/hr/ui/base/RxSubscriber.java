@@ -114,6 +114,7 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
     @Override
     public void onNext(T t) {
         try {
+            _onNext(t);
             if(isShow==true) {
                 isShow=false;
                 if(mContext instanceof PositionPageActivity) {
@@ -122,14 +123,12 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
                     LoadingDialog.cancelDialogForLoading();
                 }
             }
-            _onNext(t);
             String s=t.toString();
             s=s.substring(s.indexOf("{"),s.lastIndexOf("}")+1);
-            //Log.i("当前的数据",s);
             JSONObject jsonObject=new JSONObject(s);
-            String errorCode=jsonObject.getString("error_code");
-            //Log.i("当前",""+errorCode);
-           if("204".equals(errorCode)||"203".equals(errorCode)||"205.1".equals(errorCode)||"205.2".equals(errorCode)||"303".equals(errorCode)) {
+            String error=jsonObject.getString("error_code");
+            int errorCode=Integer.parseInt(error);
+           if(errorCode==204||errorCode==203||errorCode==205||errorCode==303) {
                 //Rc4Md5Utils.secret_key = Constants.INIT_SECRET_KRY;
                 //Log.i("当前","3");
                 Constants.SESSION_KEY=null;
@@ -148,7 +147,7 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
            *//* LoadingDialog.cancelDialogForLoading();
             ToastUitl.showShort(HRApplication.getAppContext().getString(R.string.net_error));*//*
         }*/
-        //e.printStackTrace();
+        e.printStackTrace();
         //网络
         if (!NetWorkUtils.isNetConnected(HRApplication.getAppContext())) {
             if (isShow == true) {
@@ -163,6 +162,7 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
         //服务器
         else if (e instanceof ServerException) {
             if (isShow == true) {
+                isShow=false;
                 if (mContext instanceof PositionPageActivity) {
                     LoadingDialog2.cancelDialogForLoading();
                 } else {
@@ -175,6 +175,7 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
                 @Override
                 public void run() {
                     if (isShow == true) {
+                        isShow=false;
                         if (mContext instanceof PositionPageActivity) {
                             LoadingDialog2.cancelDialogForLoading();
                         } else {
@@ -184,7 +185,7 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
                         _onError(HRApplication.getAppContext().getString(R.string.net_error));
                     }
                 }
-            }, 10000);
+            }, 3000);
 
         }
       /*  else{

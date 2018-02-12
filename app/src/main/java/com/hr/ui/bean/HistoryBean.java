@@ -131,6 +131,24 @@ public class HistoryBean {
     public void setCompanyType(String companyType) {
         this.companyType = companyType;
     }
-  
 
+    @Override
+    public String toString() {
+        return "HistoryBean{" +
+                "jobType=" + jobType +
+                ", searchName='" + searchName + '\'' +
+                ", placeId='" + placeId + '\'' +
+                ", industryId='" + industryId + '\'' +
+                ", fieldId='" + fieldId + '\'' +
+                ", workExp='" + workExp + '\'' +
+                ", workType='" + workType + '\'' +
+                ", JobTime='" + JobTime + '\'' +
+                ", degree='" + degree + '\'' +
+                ", companyScale='" + companyScale + '\'' +
+                ", salary_left='" + salary_left + '\'' +
+                ", salary_right='" + salary_right + '\'' +
+                ", positionId='" + positionId + '\'' +
+                ", companyType='" + companyType + '\'' +
+                '}';
+    }
 }

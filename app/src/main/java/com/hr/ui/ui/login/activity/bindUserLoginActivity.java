@@ -141,11 +141,11 @@ public class bindUserLoginActivity extends BaseActivity<LoginPresenter, LoginMod
 
     @Override
     public void bindingSuccess(int userId) {
-        MobclickAgent.onProfileSignIn("WB",userId+"");
+        MobclickAgent.onEvent(this,"v6_login_thirdPart");
         this.userId = userId;
         sUtils.setIntValue(Constants.ISAUTOLOGIN, 1);
         LoginBean loginBean = new LoginBean();
-        if ("QQ".equals(Constants.TYPE_THIRDPARTLOGIN)) {
+        if ("qq".equals(Constants.TYPE_THIRDPARTLOGIN)) {
             loginBean.setLoginType(2);
             sUtils.setIntValue(Constants.AUTOLOGINTYPE, 2);
         } else {
@@ -159,6 +159,7 @@ public class bindUserLoginActivity extends BaseActivity<LoginPresenter, LoginMod
         loginBean.setThirdPartSUid(userId + "");
         LoginDBUtils.insertData(loginBean);
         mPresenter.getResumeList();
+        MobclickAgent.onProfileSignIn("WB",userId+"");
     }
 
     @Override

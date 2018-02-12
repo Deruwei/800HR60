@@ -26,6 +26,7 @@ public interface ChangePhoneContract {
         void getValidCodeSuccess(int code);
         void getCaptchaSuccess(String autoCode);
         void phoneIsExit(String flag);
+        void getValidCodeFailt();
     }
     abstract class Presenter extends BasePresenter<View,Model>{
         public abstract void changePhone(String phoneNumber,String validCode);

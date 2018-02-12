@@ -68,4 +68,17 @@ public class ProjectExpData {
     public void setProjectResponsibility(String projectResponsibility) {
         this.projectResponsibility = projectResponsibility;
     }
+
+    @Override
+    public String toString() {
+        return "ProjectExpData{" +
+                "projectId='" + projectId + '\'' +
+                ", projectName='" + projectName + '\'' +
+                ", projectPosition='" + projectPosition + '\'' +
+                ", startTime='" + startTime + '\'' +
+                ", endTime='" + endTime + '\'' +
+                ", projectDes='" + projectDes + '\'' +
+                ", projectResponsibility='" + projectResponsibility + '\'' +
+                '}';
+    }
 }
