@@ -26,13 +26,16 @@
             android:layout_width="@dimen/x191"
             android:layout_height="@dimen/x1"/>
     </LinearLayout>
-    <LinearLayout
+    <FrameLayout
         android:layout_below="@+id/ll_homeItemTop"
+        android:id="@+id/fl_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical"
-        android:id="@+id/ll_content"
         android:paddingLeft="@dimen/x31"
         android:paddingRight="@dimen/x31"
         android:paddingTop="@dimen/x40">
@@ -227,9 +230,16 @@
                 android:textSize="@dimen/x28" />
         </LinearLayout>
     </LinearLayout>
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/iv_topJob"
+            android:src="@mipmap/top"
+            android:layout_width="@dimen/x64"
+            android:layout_height="@dimen/x64" />
+    </FrameLayout>
     <View
         android:id="@+id/view_lineJob"
-        android:layout_below="@+id/ll_content"
+        android:layout_below="@+id/fl_content"
         android:background="@color/resumeContent_bg"
         android:layout_width="match_parent"
         android:layout_height="@dimen/x20"/>

@@ -116,7 +116,7 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
     private CustomDatePicker datePickerSalaryAround;
     private JobSearchBean jobSearchBean;
     private int jobSerchType;
-    private String placeId, industryIdMain, fieldId, salaryAroundName, salaryAroundId, workExpId, degreeNeedId, releaseTimeId, workTypeId, companyTypeId, salaty_left, salary_right;
+    private String placeId,searchWord, industryIdMain, fieldId,positionId, salaryAroundName, salaryAroundId, workExpId, degreeNeedId, releaseTimeId, workTypeId, companyTypeId, salaty_left, salary_right;
     private List<CityBean> cityBeanList2, cityBeanList;
     private List<CityBean> provinceCityList = new ArrayList<>();
     private List<CityBean> selectCityList = new ArrayList<>();
@@ -130,6 +130,7 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
     private TextView tvSalaryAround;
     private MyRecommendJobAdapter SearchAdapter;
     private List<RecommendJobBean.JobsListBean> searchList = new ArrayList<>();
+    private List<RecommendJobBean.JobsListBean> topSearchList=new ArrayList<>();
     public int page = 1;
     private int type = 1;
 
@@ -164,6 +165,12 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
             if (page == 1) {
                 SearchAdapter = new MyRecommendJobAdapter(1);
                 searchList.clear();
+                if(topSearchList!=null&&!"".equals(topSearchList)&&topSearchList.size()!=0){
+                    for(int i=0;i<topSearchList.size();i++){
+                        topSearchList.get(i).setTop(true);
+                    }
+                    searchList.addAll(topSearchList);
+                }
                 searchList.addAll(jobsListBeanList);
                 SearchAdapter.setJobsListBeanList(searchList);
                 rvJobSearchFragment.setAdapter(SearchAdapter);
@@ -194,6 +201,16 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
         rvJobSearchFragment.refreshComplete();
     }
 
+    @Override
+    public void getTopSearchJobSuccess(List<RecommendJobBean.JobsListBean> jobsListBeans) {
+       topSearchList.clear();
+       topSearchList.addAll(jobsListBeans);
+    }
+
+    @Override
+    public void getTopSearchFaild() {
+        topSearchList.clear();
+    }
 
 
     @Override
@@ -209,8 +226,14 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
     @Override
     protected void initView() {
         jobSearchBean = (JobSearchBean) getArguments().getSerializable("jobSearch");
-        //Log.i("数据的结果",jobSearchBean.toString());
         initDialog();
+        industryIdMain=jobSearchBean.getIndustryId();
+        fieldId=jobSearchBean.getFieldId();
+        searchWord=jobSearchBean.getSearchName();
+        positionId=jobSearchBean.getPositionId();
+        if(searchWord==null||"null".equals(searchWord)){
+            searchWord="";
+        }
         tvJobSearchFragment.setText("关闭");
         etJobSearch.setText(jobSearchBean.getSearchName());
         jobSerchType = jobSearchBean.getJobType();
@@ -259,12 +282,14 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
         etJobSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    tvJobSearchFragment.setText("关闭");
-                    type = 1;
-                } else {
-                    tvJobSearchFragment.setText("搜索");
-                    type = 2;
+                if(tvJobSearchFragment!=null) {
+                    if (!hasFocus) {
+                        tvJobSearchFragment.setText("关闭");
+                        type = 1;
+                    } else {
+                        tvJobSearchFragment.setText("搜索");
+                        type = 2;
+                    }
                 }
             }
         });
@@ -289,6 +314,7 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
 
     public void initData(JobSearchBean jobSearchBean) {
         mPresenter.getSearchList(jobSearchBean, page,true);
+        mPresenter.getTopSearchJob(jobSearchBean);
         rvJobSearchFragment.refresh();
     }
 
@@ -355,6 +381,12 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
         } else {
             jobSearchBean.setSearchName("");
         }
+        if(!etJobSearch.getText().toString().equals(searchWord)){
+            fieldId="";
+            industryIdMain="";
+            positionId="";
+        }
+        searchWord=etJobSearch.getText().toString();
         jobSearchBean.setJobType(jobSerchType);
         if (placeId != null && !"".equals(placeId)) {
             jobSearchBean.setPlaceId(placeId);
@@ -367,10 +399,14 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
             jobSearchBean.setIndustryId("");
         }
         if (!"".equals(fieldId) && fieldId != null) {
-            jobSearchBean.setPositionId("");
             jobSearchBean.setFieldId(fieldId);
         } else {
             jobSearchBean.setFieldId("");
+        }
+        if (!"".equals(positionId) && positionId != null) {
+            jobSearchBean.setPositionId(positionId);
+        } else {
+            jobSearchBean.setPositionId("");
         }
         if (!"".equals(releaseTimeId) && releaseTimeId != null) {
             jobSearchBean.setJobTime(releaseTimeId);
@@ -422,9 +458,12 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
         historyBean.setIndustryId(jobSearchBean.getIndustryId());
         historyBean.setPlaceId(jobSearchBean.getPlaceId());
         historyBean.setJobType(jobSearchBean.getJobType());
-        SearchHistoryUtils.insertJobSearchDataOrReplace(historyBean);
+        if(!"".equals(historyBean.getSearchName())&&historyBean.getSearchName()!=null) {
+            SearchHistoryUtils.insertJobSearchDataOrReplace(historyBean);
+        }
         page=1;
         mPresenter.getSearchList(jobSearchBean, page,true);
+        mPresenter.getTopSearchJob(jobSearchBean);
         rvJobSearchFragment.refresh();
     }
 
@@ -548,6 +587,7 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
                 if (releaseTimeList.get(position).isCheck() == true) {
                    Utils.setListCheckFalse(releaseTimeList);
                     releaseTimeList.get(0).setCheck(true);
+                    selectReleaseTimeList.clear();
                     selectReleaseTimeList.add(releaseTimeList.get(0));
                 } else {
                     Utils.setListCheckFalse(releaseTimeList);
@@ -581,6 +621,7 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
                 if (degreeNeedList.get(position).isCheck() == true) {
                    Utils.setListCheckFalse(degreeNeedList);
                     degreeNeedList.get(0).setCheck(true);
+                    selectDegreeNeedList.clear();
                     selectDegreeNeedList.add(degreeNeedList.get(0));
                 } else {
                     Utils.setListCheckFalse(degreeNeedList);
@@ -612,6 +653,7 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
                 if (workExopList.get(position).isCheck() == true) {
                    Utils.setListCheckFalse(workExopList);
                     workExopList.get(0).setCheck(true);
+                    selectWorkExpList.clear();
                     selectWorkExpList.add(workExopList.get(0));
                 } else {
                     Utils.setListCheckFalse(workExopList);
@@ -644,6 +686,7 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
                 if (workTypeList.get(position).isCheck() == true) {
                     Utils.setListCheckFalse(workTypeList);
                     workTypeList.get(0).setCheck(true);
+                    selectWorkTypeList.clear();
                     selectWorkTypeList.add(workTypeList.get(0));
                 } else {
                     Utils.setListCheckFalse(workTypeList);
@@ -677,6 +720,7 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
                 if (companyTypeList.get(position).isCheck() == true) {
                     Utils.setListCheckFalse(companyTypeList);
                     companyTypeList.get(0).setCheck(true);
+                    selectCompanyTypeList.clear();
                     selectCompanyTypeList.add(companyTypeList.get(0));
                 } else {
                     Utils.setListCheckFalse(companyTypeList);

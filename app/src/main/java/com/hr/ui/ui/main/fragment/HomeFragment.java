@@ -162,7 +162,6 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
             public void onLoadMore() {
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
-
                         if(recommendList!=null&&recommendList.size()>=20) {
                             rvHomeFragment.setLoadingMoreEnabled(false);
                         }else{

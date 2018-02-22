@@ -37,6 +37,7 @@ import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.Utils;
 import com.hr.ui.utils.datautils.FromStringToArrayList;
 import com.hr.ui.view.CustomDatePicker;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -157,6 +158,7 @@ public class CompanyRegisterActivity extends BaseActivity<CompanyRegisterPresent
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolBar.setTitle("");
+        MobclickAgent.onEvent(this,"v6_scanCompanyRegister");
         toolBar.setTitleTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
         toolBar.setNavigationIcon(R.mipmap.back);
         tvToolbarTitle.setText(R.string.companyRegister);
@@ -227,12 +229,16 @@ public class CompanyRegisterActivity extends BaseActivity<CompanyRegisterPresent
     @Override
     public void registerCompanySuccess() {
         ToastUitl.showShort("企业注册成功");
+        MobclickAgent.onEvent(this,"v6_registerCompany");
         finish();
     }
 
-    @OnClick({R.id.et_comregister_HowToGet, R.id.rl_comregister_industry, R.id.iv_comregister_comnameDelete, R.id.iv_comregister_comphoneDelete, R.id.iv_comregister_comcontactsDelete, R.id.iv_comregister_comnemailDelete, R.id.iv_comregister_usernameDelete, R.id.iv_comregister_passwordDelete, R.id.iv_comregister_passwordHiddenPsw, R.id.iv_comregister_passwordSureDelete, R.id.iv_comregister_passwordSureHiddenPsw, R.id.iv_comregister_aotoPSWDelete, R.id.ll_aotucode, R.id.iv_registcom_check, R.id.tv_registcom_agreement, R.id.rl_comregistr_save})
+    @OnClick({R.id.et_comregister_HowToGet,R.id.tv_company_register_phone, R.id.rl_comregister_industry, R.id.iv_comregister_comnameDelete, R.id.iv_comregister_comphoneDelete, R.id.iv_comregister_comcontactsDelete, R.id.iv_comregister_comnemailDelete, R.id.iv_comregister_usernameDelete, R.id.iv_comregister_passwordDelete, R.id.iv_comregister_passwordHiddenPsw, R.id.iv_comregister_passwordSureDelete, R.id.iv_comregister_passwordSureHiddenPsw, R.id.iv_comregister_aotoPSWDelete, R.id.ll_aotucode, R.id.iv_registcom_check, R.id.tv_registcom_agreement, R.id.rl_comregistr_save})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.tv_company_register_phone:
+                MobclickAgent.onEvent(this,"v6_callPhone");
+                break;
             case R.id.rl_comregister_industry:
                 datePickerInsdustry.show(tvComregisterIndustry.getText().toString());
                 break;

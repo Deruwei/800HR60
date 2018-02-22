@@ -19,11 +19,15 @@ import rx.Observable;
 public interface JobSearchFragmentContract {
     interface Model extends BaseModel{
         Observable<RecommendJobBean> getSearchList(JobSearchBean jobSearchBean, int page);
+        Observable<RecommendJobBean> getTopSearchJob(JobSearchBean jobSearchBean);
     }
     interface View extends BaseView{
         void getSearchDataSuccess(List<RecommendJobBean.JobsListBean> jobsListBean);
+        void getTopSearchJobSuccess(List<RecommendJobBean.JobsListBean> jobsListBeans);
+        void getTopSearchFaild();
     }
     abstract class Presenter extends BasePresenter<View,Model>{
         public abstract void getSearchList(JobSearchBean jobSearchBean,int page,boolean isCanRefresh);
+        public abstract void getTopSearchJob(JobSearchBean jobSearchBean);
     }
 }

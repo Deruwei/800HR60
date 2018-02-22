@@ -691,11 +691,28 @@ public class ApiParameter {
         if(!"".equals(jobSearchBean.getFieldId())&&jobSearchBean.getFieldId()!=null) {
             requestMap.put("lingyu", jobSearchBean.getFieldId());
         }
-
         requestMap.put("page", page+"");
         requestMap.put("page_nums", "20");
         requestMap.put("wordtype",jobSearchBean.getJobType()+"");
-       // Log.i("数据1",requestMap.toString());
+        Log.i("数据1",requestMap.toString());
+        return requestMap;
+    }
+    public static HashMap<String,String> getTopSearchJob(JobSearchBean jobSearchBean){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","job.topsearch");
+        if(jobSearchBean.getPositionId()!=null&&!"".equals(jobSearchBean.getPositionId())) {
+            requestMap.put("func", jobSearchBean.getPositionId());
+        }
+        if(!"".equals(jobSearchBean.getPlaceId())&&jobSearchBean.getPlaceId()!=null) {
+            requestMap.put("area", jobSearchBean.getPlaceId());
+        }
+        if(!"".equals(jobSearchBean.getSearchName())&&jobSearchBean.getSearchName()!=null) {
+            requestMap.put("searchword", jobSearchBean.getSearchName());
+        }
+        if(!"".equals(jobSearchBean.getIndustryId())&&jobSearchBean.getIndustryId()!=null) {
+            requestMap.put("industry", jobSearchBean.getIndustryId());
+        }
+        //Log.i("现在的数据",requestMap.toString());
         return requestMap;
     }
     public static HashMap<String,String> getPositionData(String jobId){

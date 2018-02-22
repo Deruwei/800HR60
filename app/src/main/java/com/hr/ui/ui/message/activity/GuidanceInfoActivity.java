@@ -96,6 +96,7 @@ public class GuidanceInfoActivity extends BaseActivity<GuidanceInfoPresenter, Gu
         guidanceId = getIntent().getStringExtra("guidanceId");
         position = getIntent().getIntExtra("position", 0);
         mPresenter.getGuidanceInfo(guidanceId);
+        MobclickAgent.onEvent(this,"v6_scan_article");
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -120,7 +121,6 @@ public class GuidanceInfoActivity extends BaseActivity<GuidanceInfoPresenter, Gu
 
     @Override
     public void getGuidanceInfoSuccess(List<GuidanceInfoBean.TitleContentListBean> titleContentListBeans) {
-        MobclickAgent.onEvent(this,"v6_scan_article");
         if (titleContentListBeans != null && !"".equals(titleContentListBeans)) {
             titleContentListBean = titleContentListBeans.get(0);
             initUI();

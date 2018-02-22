@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.hr.ui"
-    android:versionCode="68"
-    android:versionName="6.0.0">
+    android:versionCode="69"
+    android:versionName="6.0.1">
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <!-- 添加必要的权限shareSDK -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
@@ -62,7 +62,7 @@
         </meta-data>
         //过18分钟触发一次
         <service android:name=".utils.LongRunningService" android:enabled="true" ></service>
-        <receiver android:name=".utils.AlarmReceiver" >
+        <receiver android:name=".utils.AlarmReceiver" android:process=":newinst">
         </receiver>
         <service android:name="com.baidu.location.f" android:enabled="true" android:process=":remote"> </service>
 

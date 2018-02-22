@@ -58,7 +58,7 @@ public class ThirdPartLoginUtils {
 
             @Override
             public void onError(Platform platform, int i, Throwable throwable) {
-                Log.i(TAG,throwable.getMessage());
+                Log.i(TAG,throwable.getMessage()+"失败");
             }
 
             @Override
@@ -104,7 +104,7 @@ public class ThirdPartLoginUtils {
                 thirdPartBean.setPhoto(tinyurlString);
                 thirdPartBean.setGender(genderString);
                 Constants.TYPE_THIRDPARTLOGIN="weixin";
-                System.out.println("wechat-complete"+thirdPartBean.toString());
+                //System.out.println("wechat-complete"+thirdPartBean.toString());
                 mPresenter.getThirdPartLogin(thirdPartBean);
             }
 

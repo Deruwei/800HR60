@@ -211,6 +211,34 @@ public class RecommendJobBean {
         private int is_favourite;
         private int is_expire;
         private int is_apply;
+        private int is_urgent;
+        private int top_id;
+        private boolean isTop;
+
+        public boolean isTop() {
+            return isTop;
+        }
+
+        public void setTop(boolean top) {
+            isTop = top;
+        }
+
+        public int getIs_urgent() {
+            return is_urgent;
+        }
+
+        public void setIs_urgent(int is_urgent) {
+            this.is_urgent = is_urgent;
+        }
+
+        public int getTop_id() {
+            return top_id;
+        }
+
+        public void setTop_id(int top_id) {
+            this.top_id = top_id;
+        }
+
         private List<?> ente_property;
 
         public String getJob_id() {

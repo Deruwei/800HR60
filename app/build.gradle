@@ -15,8 +15,8 @@ android {
         applicationId "com.hr.ui"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 68
-        versionName "6.0.0"
+        versionCode 69
+        versionName "6.0.1"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [UMENG_CHANNEL_CALUE: "umeng"]       //默认为uMeng

@@ -216,8 +216,8 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
 
     @Override
     public void bindingSuccess(int userId) {
-        MobclickAgent.onProfileSignIn("WB", userId + "");
-        MobclickAgent.onEvent(this, "v6_register_thirdPart");
+        MobclickAgent.onEvent(this,"v6_login_thirdPart");
+        MobclickAgent.onProfileSignIn("WB",userId+"");
         sUtils.setIntValue(Constants.ISAUTOLOGIN, 1);
         LoginBean loginBean = new LoginBean();
         if ("qq".equals(Constants.TYPE_THIRDPARTLOGIN)) {

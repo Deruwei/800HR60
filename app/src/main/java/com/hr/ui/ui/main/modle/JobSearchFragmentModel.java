@@ -45,4 +45,26 @@ public class JobSearchFragmentModel implements JobSearchFragmentContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())  //在主线程里面接受返回的数据
                 .compose(RxSchedulers.<RecommendJobBean>io_main());
     }
+
+    @Override
+    public Observable<RecommendJobBean> getTopSearchJob(JobSearchBean jobSearchBean) {
+        return Api.getDefault(HostType.HR).getResponseString(EncryptUtils.encrypParams(ApiParameter.getTopSearchJob(jobSearchBean)))
+                .map(new Func1<ResponseBody, RecommendJobBean>() {
+                    @Override
+                    public RecommendJobBean call(ResponseBody responseBody) {
+                        RecommendJobBean recommendJobBean=null;
+                        try {
+                            String s=responseBody.string().toString();
+                            recommendJobBean=new Gson().fromJson(s,RecommendJobBean.class);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        return recommendJobBean;
+                    }
+                })
+                .subscribeOn(Schedulers.newThread())        //在新线程里面处理网络请求
+                .observeOn(AndroidSchedulers.mainThread())  //在主线程里面接受返回的数据
+                .compose(RxSchedulers.<RecommendJobBean>io_main());
+    }
 }

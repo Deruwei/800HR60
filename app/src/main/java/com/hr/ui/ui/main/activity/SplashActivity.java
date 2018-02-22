@@ -39,6 +39,7 @@ import com.hr.ui.utils.ToolUtils;
 import com.hr.ui.utils.Utils;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.PopWindowUpdate;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -112,6 +113,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
         isAutoLogin = sUtils.getIntValue(Constants.ISAUTOLOGIN, 0);
         autoLoginType = sUtils.getIntValue(Constants.AUTOLOGINTYPE, 5);
         if (sUtils.getBooleanValue(Constants.IS_GUIDE, false) == false) {
+            MobclickAgent.onEvent(this,"v6_firstStartApp");
             WelcomeActivity.startAction(SplashActivity.this, requestCode);
         } else {
             if(type!=1) {
@@ -236,6 +238,13 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
 
     @Override
     public void phoneLoginSuccess(int userId) {
+        if(autoLoginType==0){
+            MobclickAgent.onEvent(this,"v6_login_phone");
+            MobclickAgent.onProfileSignIn(userId+"");
+        }else{
+            MobclickAgent.onEvent(this,"v6_login_user");
+            MobclickAgent.onProfileSignIn(userId+"");
+        }
         this.userId = userId;
         //Log.i("现在的时候","好吧");
         mPresenter.getResumeList();
@@ -244,6 +253,8 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
     @Override
     public void thirdBindingLoginSuccess(int userId) {
         this.userId = userId;
+        MobclickAgent.onEvent(this,"v6_login_thirdPart");
+        MobclickAgent.onProfileSignIn("WB",userId+"");
         mPresenter.getResumeList();
     }
 

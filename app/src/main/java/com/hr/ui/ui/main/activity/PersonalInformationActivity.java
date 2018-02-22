@@ -588,7 +588,7 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
     }
 
     public void setSelectCity(CityBean cityBean) {
-        if (tvLivePlace != null) {
+        if (tvLivePlace != null&&!"".equals(cityBean.getName())&&cityBean.getName()!=null) {
             tvLivePlace.setText(cityBean.getName());
         }
         cityId = cityBean.getId();

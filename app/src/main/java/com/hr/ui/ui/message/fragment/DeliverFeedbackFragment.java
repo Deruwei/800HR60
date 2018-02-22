@@ -123,9 +123,9 @@ public class DeliverFeedbackFragment extends BaseFragment<DeliverFeedbackFragmen
                         } else if (position == 1) {
                             mPresenter.getDeliverFeedBack(page, 1, 0,false);
                         }
-
-                        adapter.notifyDataSetChanged();
                         rvDeliverFeedback.loadMoreComplete();
+                        adapter.notifyDataSetChanged();
+
                     }
                 }, 1000);
             }

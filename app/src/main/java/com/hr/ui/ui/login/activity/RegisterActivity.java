@@ -201,6 +201,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
     @Override
     public void sendRegisterSuccess(int userId) {
         MobclickAgent.onEvent(mContext, "v6_register_phone");
+        MobclickAgent.onEvent(this,"v6_login_phone");
         sUtils.setIntValue(Constants.ISAUTOLOGIN, 1);
         sUtils.setIntValue(Constants.AUTOLOGINTYPE, 0);
         sUtils.setStringValue(Constants.USERPHONE, phoneNumber);
