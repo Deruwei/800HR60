@@ -226,6 +226,7 @@
                 android:layout_height="@dimen/x18" />
         </RelativeLayout>
         <RelativeLayout
+            android:id="@+id/rl_historyTitle"
             android:layout_marginTop="@dimen/x40"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

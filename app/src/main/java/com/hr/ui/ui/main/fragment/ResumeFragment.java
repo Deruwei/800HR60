@@ -252,6 +252,7 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
     @Override
     public void onResume() {
         super.onResume();
+        MobclickAgent.onEvent(getActivity()," v6_scan_resume");
         isCanFresh = sUtils.getBooleanValue(Constants.IS_FERSH, false);
         if (isCanFresh == true) {
          /*   mPresenter.getResumeList();*/
@@ -273,7 +274,6 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
     public void showErrorTip(String msg) {
 
     }
-
     @Override
     public void getResumeSuccess(ResumeBean resumeBean) {
         srlResume.setVisibility(View.VISIBLE);
@@ -589,7 +589,6 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
     private void initTitleInfo() {
         if (titleInfoBean != null) {
             //Log.i("当前的数据", titleInfoBean.get(0).getFill_scale());
-            pbResume.setProgram(Integer.parseInt(titleInfoBean.get(0).getFill_scale()));
             sbResume.setMaxCount(100);
             if ("2".equals(titleInfoBean.get(0).getOpen())) {
                 isCheck = true;
@@ -597,7 +596,13 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
             } else {
                 ivHideResume.setChecked(false);
             }
-            sbResume.setCurrentCount(Integer.parseInt(titleInfoBean.get(0).getFill_scale()));
+            if(isCanFresh==true){
+                pbResume.setProgram2(Integer.parseInt(titleInfoBean.get(0).getFill_scale()));
+                sbResume.setCurrentCount2(Integer.parseInt(titleInfoBean.get(0).getFill_scale()));
+            }else {
+                pbResume.setProgram(Integer.parseInt(titleInfoBean.get(0).getFill_scale()));
+                sbResume.setCurrentCount(Integer.parseInt(titleInfoBean.get(0).getFill_scale()));
+            }
         }
     }
 

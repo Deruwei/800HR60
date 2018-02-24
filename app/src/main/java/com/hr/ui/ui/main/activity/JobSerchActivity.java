@@ -3,7 +3,6 @@ package com.hr.ui.ui.main.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -96,6 +95,8 @@ public class JobSerchActivity extends BaseActivity<JobSearchPresenter, JobSearch
     View viewMiddle;
     @BindView(R.id.rv_hotSearch)
     RecyclerView rvHotSearch;
+    @BindView(R.id.rl_historyTitle)
+    RelativeLayout rlHistoryTitle;
     private PopupWindow popupWindowJobType;
     private List<HistoryBean> historyBeanList;
     private String cityId, cityName, industryId, industryName, postionId, positionName;
@@ -142,9 +143,12 @@ public class JobSerchActivity extends BaseActivity<JobSearchPresenter, JobSearch
         mPresenter.getHotSearchJob(1, "3");
         historyBeanList = SearchHistoryUtils.queryAll();
         if (historyBeanList != null && historyBeanList.size() != 0) {
+            rlHistoryTitle.setVisibility(View.VISIBLE);
             initHistoryView();
+        }else{
+            rlHistoryTitle.setVisibility(View.GONE);
         }
-        LinearLayoutManager manager=new LinearLayoutManager(this){
+        LinearLayoutManager manager = new LinearLayoutManager(this) {
             @Override
             public boolean canScrollVertically() {
                 return false;
@@ -152,7 +156,7 @@ public class JobSerchActivity extends BaseActivity<JobSearchPresenter, JobSearch
         };
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         rvHotSearch.setLayoutManager(manager);
-        DividerItemDecoration dividerDrawable=new DividerItemDecoration(this,1);
+        DividerItemDecoration dividerDrawable = new DividerItemDecoration(this, 1);
         rvHotSearch.addItemDecoration(dividerDrawable);
     }
 
@@ -195,7 +199,7 @@ public class JobSerchActivity extends BaseActivity<JobSearchPresenter, JobSearch
                     jobSearchBean.setIndustryId(historyBeanList.get(finalI).getIndustryId());
                     jobSearchBean.setPlaceId(historyBeanList.get(finalI).getPlaceId());
                     jobSearchBean.setJobType(historyBeanList.get(finalI).getJobType());
-                    Log.i("当前的数据",jobSearchBean.toString());
+                   // Log.i("当前的数据", jobSearchBean.toString());
                     MainActivity.instance.isHome = false;
                     Intent intent = new Intent(JobSerchActivity.this, MainActivity.class);
                     intent.putExtra("jobSearch", (Serializable) jobSearchBean);
@@ -256,7 +260,7 @@ public class JobSerchActivity extends BaseActivity<JobSearchPresenter, JobSearch
                 }
                 if (isSearch == false) {
                     if (etJobSearch.getText().toString() == null || "".equals(etJobSearch.getText().toString())) {
-                        if("".equals(selectPositionList)||selectPositionList==null||selectPositionList.size()==0) {
+                        if ("".equals(selectPositionList) || selectPositionList == null || selectPositionList.size() == 0) {
                             ToastUitl.showShort("职位与关键词至少选择一个");
                             return;
                         }
@@ -292,6 +296,7 @@ public class JobSerchActivity extends BaseActivity<JobSearchPresenter, JobSearch
             case R.id.iv_historyDelete:
                 SearchHistoryUtils.deleteAll();
                 rlJobSearchHistory.removeAllViewsInLayout();
+                rlHistoryTitle.setVisibility(View.GONE);
                 break;
         }
     }
@@ -423,13 +428,13 @@ public class JobSerchActivity extends BaseActivity<JobSearchPresenter, JobSearch
 
     @Override
     public void getHotSearchJobSuccess(final List<FindBean.ListBean> listBeans) {
-        adapter=new MyHotSearchAdapter(this);
+        adapter = new MyHotSearchAdapter(this);
         adapter.setListBeans(listBeans);
         rvHotSearch.setAdapter(adapter);
         adapter.setClickCallBack(new MyHotSearchAdapter.ItemClickCallBack() {
             @Override
             public void onItemClick(int pos) {
-                CompanyPageActivity.startAction(JobSerchActivity.this,listBeans.get(pos).getEnterprise_id());
+                CompanyPageActivity.startAction(JobSerchActivity.this, listBeans.get(pos).getEnterprise_id());
             }
         });
     }

@@ -2,6 +2,8 @@ package com.hr.ui.ui.main.activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -58,7 +61,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
     RelativeLayout rlLogin;
     @BindView(R.id.rl_register)
     RelativeLayout rlRegister;
-    public int requestCode = 1000;
+    public int REQUEST_CODE = 1000;
     @BindView(R.id.iv_welComeBack)
     ImageView ivWelComeBack;
     @BindView(R.id.tv_loginText)
@@ -73,6 +76,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
     ConstraintLayout clSplash;
     private SharedPreferencesUtils sUtils;
     private int isAutoLogin, autoLoginType;
+    public static SplashActivity instance;
     private LoginBean loginBean;
     String[] permissions = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.CHANGE_WIFI_STATE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS};
     List<String> mPermissionList = new ArrayList<>();
@@ -93,6 +97,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        instance=this;
     }
 
     @Override
@@ -107,6 +112,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
 
     @Override
     public void initView() {
+        instance=this;
         type = getIntent().getIntExtra("type", 0);
         sUtils = new SharedPreferencesUtils(this);
         /*sUtils.setIntValue("code",0);*/
@@ -114,7 +120,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
         autoLoginType = sUtils.getIntValue(Constants.AUTOLOGINTYPE, 5);
         if (sUtils.getBooleanValue(Constants.IS_GUIDE, false) == false) {
             MobclickAgent.onEvent(this,"v6_firstStartApp");
-            WelcomeActivity.startAction(SplashActivity.this, requestCode);
+            WelcomeActivity.startAction(SplashActivity.this, REQUEST_CODE);
         } else {
             if(type!=1) {
                 mPresenter.getConnect(this);
@@ -216,24 +222,8 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
     public void SendConnectSuccess() {
         Intent intent = new Intent(HRApplication.getAppContext(), LongRunningService.class);
         startService(intent);
+        getPermission();
         mPresenter.getVersion(BuildConfig.VERSION_NAME);
-        if (autoLoginType != 5) {
-            loginBean = LoginDBUtils.queryDataById(autoLoginType + "");
-            // System.out.println("auto"+loginBean.toString());
-            if (isAutoLogin == 0) {
-                setViewVisible();
-            } else {
-                if (autoLoginType == 0) {
-                    mPresenter.getAutoPhoneLogin(loginBean.getName(), loginBean.getPassword(), 1,false);
-                } else if (autoLoginType == 1) {
-                    mPresenter.getAutoPhoneLogin(loginBean.getName(), loginBean.getPassword(), 2,false);
-                } else {
-                    mPresenter.getThirdBindingLogin(loginBean,false);
-                }
-            }
-        } else {
-            setViewVisible();
-        }
     }
 
     @Override
@@ -276,14 +266,37 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
 
     @Override
     public void getVersion(VersionBean.AndroidBean androidBean) {
-        String version = androidBean.getVer();
+        String version = "6.0.3";
         String version1 = BuildConfig.VERSION_NAME;
         if (Utils.checkVersion(version, version1) == true) {
             popupWindow=new PopupWindow(this);
             PopWindowUpdate popWindowUpdate = new PopWindowUpdate(this, popupWindow, androidBean,clSplash );
         }
+        if(popupWindow==null){
+            doAutoLogin();
+        }
     }
-
+    public void doAutoLogin(){
+        if(isAppOnForeground()==false) {
+            if (autoLoginType != 5) {
+                loginBean = LoginDBUtils.queryDataById(autoLoginType + "");
+                // System.out.println("auto"+loginBean.toString());
+                if (isAutoLogin == 0) {
+                    setViewVisible();
+                } else {
+                    if (autoLoginType == 0) {
+                        mPresenter.getAutoPhoneLogin(loginBean.getName(), loginBean.getPassword(), 1, false);
+                    } else if (autoLoginType == 1) {
+                        mPresenter.getAutoPhoneLogin(loginBean.getName(), loginBean.getPassword(), 2, false);
+                    } else {
+                        mPresenter.getThirdBindingLogin(loginBean, false);
+                    }
+                }
+            } else {
+                setViewVisible();
+            }
+        }
+    }
     @OnClick({R.id.rl_login, R.id.rl_register, R.id.rl_companySplash})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -298,7 +311,22 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
                 break;
         }
     }
-
+    public  boolean isAppOnForeground() {
+        ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
+        for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
+            if (appProcess.processName.equals(getPackageName())) {
+                if (appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_BACKGROUND) {
+                    Log.i("后台", appProcess.processName);
+                    return true;
+                }else{
+                    Log.i("前台", appProcess.processName);
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
     //读取返回信息
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -214,7 +214,7 @@ public class DeliverFeedbackFragment extends BaseFragment<DeliverFeedbackFragmen
                 continue;
             }
         }
-        if(sb!=null&&!"".equals(sb)){
+        if(sb!=null&&!"".equals(sb)&&sb.length()!=0){
             sb.deleteCharAt(0);
             mPresenter.setDeliverFeedBackIsRead(sb.toString());
         }

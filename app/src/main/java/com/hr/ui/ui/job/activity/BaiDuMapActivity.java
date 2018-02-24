@@ -99,6 +99,7 @@ public class BaiDuMapActivity extends BaseNoConnectNetworkAcitivty implements Ba
     private UiSettings uiSettings;
     private String companyAddress;
     private Polyline mPolyline;
+    private String addressName;
     private RoutePlanSearch search;
     private BDLocation location,location1;
     private LocationClient mClient;
@@ -117,6 +118,13 @@ public class BaiDuMapActivity extends BaseNoConnectNetworkAcitivty implements Ba
         activity.overridePendingTransition(R.anim.zoom_in,
                 R.anim.zoom_out);
     }
+    public static void startAction(Activity activity, String addressName) {
+        Intent intent = new Intent(activity, BaiDuMapActivity.class);
+        intent.putExtra("address",addressName);
+        activity.startActivity(intent);
+        activity.overridePendingTransition(R.anim.zoom_in,
+                R.anim.zoom_out);
+    }
     @Override
     public int getLayoutId() {
         return R.layout.activity_location;
@@ -128,12 +136,20 @@ public class BaiDuMapActivity extends BaseNoConnectNetworkAcitivty implements Ba
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        longitude=Double.parseDouble(getIntent().getStringExtra("x"));
-        latitude=Double.parseDouble(getIntent().getStringExtra("y"));
+
+        addressName=getIntent().getStringExtra("address");
         location1=new BDLocation();
-        location1.setLongitude(longitude);
-        location1.setLatitude(latitude);
-        getCommanyData();
+        if(addressName==null||"".equals(addressName)) {
+            longitude = Double.parseDouble(getIntent().getStringExtra("x"));
+            latitude = Double.parseDouble(getIntent().getStringExtra("y"));
+            location1.setLongitude(longitude);
+            location1.setLatitude(latitude);
+            getCommanyData();
+        } else{
+            companyAddress=addressName;
+            getCompanyDataByName();
+        }
+
         toolBar.setTitle("");
         toolBar.setTitleTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
         toolBar.setNavigationIcon(R.mipmap.back);
@@ -289,7 +305,43 @@ public class BaiDuMapActivity extends BaseNoConnectNetworkAcitivty implements Ba
         };
         Object.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(mSubscriber);
     }
+    private void getCompanyDataByName(){
+        ApiService RxService = Api.getDefault(HostType.HR);
+        Observable<ResponseBody> Object = RxService.getCompanyAddress("http://api.map.baidu.com/geocoder/v2/?address="+addressName+"&output=json&ak=jMfg95xhZFMHsDjfxVitMjyg&mcode=FE:53:F7:B1:21:8A:71:5B:DA:B7:F6:08:87:CE:B4:85:AB:CA:71:FC;com.hr.ui&callback=showLocation");
+        Subscriber mSubscriber = new Subscriber<ResponseBody>() {
+            @Override
+            public void onCompleted() {
+                Log.d("api", "onCompleted");
+            }
+            @Override
+            public void onError(Throwable e) {
+                Log.d("api", "onError: " + e.toString());
+            }
 
+            @Override
+            public void onNext(ResponseBody responseBody) {
+                try {
+                    String s= responseBody.string().toString();
+                    //Log.i("当前的数据",s);
+                    s=s.substring(s.indexOf("(")+1,s.lastIndexOf(")"));
+                    JSONObject jsonObject=new JSONObject(s);
+                    int status=jsonObject.getInt("status");
+                    if(status==0){
+                        longitude= Double.parseDouble(jsonObject.getJSONObject("result").getJSONObject("location").getString("lng"));
+                        latitude= Double.parseDouble(jsonObject.getJSONObject("result").getJSONObject("location").getString("lat"));
+                        location1.setLongitude(longitude);
+                        location1.setLatitude(latitude);
+                        initBaiDuMapStartAndEndPoint();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        Object.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(mSubscriber);
+    }
     @Override
     public void onMapClick(LatLng latLng) {
 

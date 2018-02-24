@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:gravity="center"
+    android:layout_height="match_parent">
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
     <LinearLayout
         android:orientation="vertical"
         android:background="@drawable/edit_bg"
@@ -51,4 +55,5 @@
             android:layout_width="@dimen/x195"
             android:layout_height="@dimen/x191" />
     </RelativeLayout>
-</FrameLayout>
+    </FrameLayout>
+</LinearLayout>

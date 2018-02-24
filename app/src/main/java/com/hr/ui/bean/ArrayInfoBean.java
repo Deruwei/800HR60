@@ -64,6 +64,14 @@ public class ArrayInfoBean {
         public void setLasttime(String lasttime) {
             this.lasttime = lasttime;
         }
+
+        @Override
+        public String toString() {
+            return "CityBean{" +
+                    "ver='" + ver + '\'' +
+                    ", lasttime='" + lasttime + '\'' +
+                    '}';
+        }
     }
 
     public static class JobBean {
@@ -89,6 +97,14 @@ public class ArrayInfoBean {
 
         public void setLasttime(String lasttime) {
             this.lasttime = lasttime;
+        }
+
+        @Override
+        public String toString() {
+            return "JobBean{" +
+                    "ver='" + ver + '\'' +
+                    ", lasttime='" + lasttime + '\'' +
+                    '}';
         }
     }
 
@@ -116,5 +132,22 @@ public class ArrayInfoBean {
         public void setLasttime(String lasttime) {
             this.lasttime = lasttime;
         }
+
+        @Override
+        public String toString() {
+            return "LingyuBean{" +
+                    "ver='" + ver + '\'' +
+                    ", lasttime='" + lasttime + '\'' +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "ArrayInfoBean{" +
+                "city=" + city +
+                ", job=" + job +
+                ", lingyu=" + lingyu +
+                '}';
     }
 }

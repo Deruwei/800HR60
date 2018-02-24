@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.hr.ui.R;
 import com.hr.ui.bean.VersionBean;
+import com.hr.ui.ui.main.activity.SplashActivity;
 import com.hr.ui.utils.DownloadSignatureServic;
 
 /**
@@ -34,17 +35,11 @@ public class PopWindowUpdate {
 
     private void initView() {
         View view = activity.getLayoutInflater().inflate(R.layout.layout_update, null);
-        popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
         TextView tvUpdateContent=view.findViewById(R.id.tv_updateContent);
         TextView tvUpdateNow=view.findViewById(R.id.tv_updateNow);
         tvUpdateContent.setText(androidBean.getText());
-        tvUpdateNow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-            }
-        });
         // 设置背景颜色变暗
         WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
         lp.alpha = 0.7f;
@@ -56,6 +51,7 @@ public class PopWindowUpdate {
                 WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
                 lp.alpha = 1f;
                 activity.getWindow().setAttributes(lp);
+                SplashActivity.instance.doAutoLogin();
             }
         });
         tvUpdateNow.setOnClickListener(new View.OnClickListener() {
@@ -66,6 +62,7 @@ public class PopWindowUpdate {
                 }
         });
         popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(false);
         popupWindow.setAnimationStyle(R.style.style_pop_animation2);
         popupWindow.showAtLocation(viewMain, Gravity.CENTER, 0, 0);
     }

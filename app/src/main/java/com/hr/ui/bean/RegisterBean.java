@@ -5,7 +5,7 @@ package com.hr.ui.bean;
  */
 
 public class RegisterBean {
-    private int error_code;
+    private double error_code;
     private String error_field;
     private  int user_id;
     private int industry;
@@ -18,11 +18,11 @@ public class RegisterBean {
         this.error_field = error_field;
     }
 
-    public int getError_code() {
+    public double getError_code() {
         return error_code;
     }
 
-    public void setError_code(int error_code) {
+    public void setError_code(double error_code) {
         this.error_code = error_code;
     }
 

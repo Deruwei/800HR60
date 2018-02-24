@@ -78,7 +78,7 @@ public class DownloadSignatureServic extends Service {
         Log.e(TAG, "DownloadFile");
         /*文件名*/
         fileName = downloadUrl.substring(downloadUrl.lastIndexOf("/") + 1);
-        fileName=fileName.substring(0,fileName.indexOf("."))+BuildConfig.VERSION_NAME.replaceAll(".","_")+fileName.substring(fileName.indexOf(".")+1);
+        fileName=fileName.substring(0,fileName.indexOf("."))+BuildConfig.VERSION_NAME.replace(".","_")+fileName.substring(fileName.indexOf("."));
         /*缓存文件*/
         fileNametemp = "download.tmp";
         /*下载目录*/
@@ -125,8 +125,8 @@ public class DownloadSignatureServic extends Service {
                 @Override
                 protected String doInBackground(String... params) {
                     try {
-                        fileName = params[0].substring(params[0].lastIndexOf("/") + 1);
-                        Log.e("LLL", "---fileName = " + fileName);
+                        //fileName = params[0].substring(params[0].lastIndexOf("/") + 1);
+                        //Log.e("LLL", "---fileName = " + fileName);
                         //获取文件名
                         URL myURL = new URL(params[0]);
                         URLConnection conn = myURL.openConnection();
@@ -150,6 +150,7 @@ public class DownloadSignatureServic extends Service {
                             //循环读取
                             int numread = is.read(buf);
                             if (numread == -1) {
+                                fos.close();
                                 break;
                             }
                             fos.write(buf, 0, numread);
@@ -171,18 +172,19 @@ public class DownloadSignatureServic extends Service {
 
                 @Override
                 protected void onPostExecute(String s) {
+                    super.onPostExecute(s);
                     /*下载成功后*/
                     if (downloadfiletemp.exists()) {
                         downloadfiletemp.renameTo(downloadfile);
                     }
+                    Log.i("文件的路径",downloadfiletemp+"-------"+downloadfile);
                     Toast.makeText(DownloadSignatureServic.this, s, Toast.LENGTH_SHORT).show();
+                    installApp(DownloadSignatureServic.this, fileRootPath + fileDownloadPath + fileName);
                     /*取消通知*/
                     mBuilder.setContentText(s).setProgress(100, 0, false);
                     mNotifyManager.cancel(notifiID);
-                    installApp(DownloadSignatureServic.this, fileRootPath + fileDownloadPath + fileName);
                     /*service kill 自杀*/
                     DownloadSignatureServic.this.stopSelf();
-                    super.onPostExecute(s);
                 }
             }.execute(downloadUrl);
 
@@ -198,17 +200,24 @@ public class DownloadSignatureServic extends Service {
      * @param filePath
      */
     public void installApp(Context context, String filePath) {
-        File _file = new File(filePath);
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-//判断是否是AndroidN以及更高的版本
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            Uri contentUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".fileProvider", _file);
-            intent.setDataAndType(contentUri, "application/vnd.android.package-archive");
-        } else {
-            intent.setDataAndType(Uri.fromFile(_file), "application/vnd.android.package-archive");
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        File file = new File(filePath);
+        Log.i("文件的路径",filePath+"");
+        if (file.exists()) {
+            if (Build.VERSION.SDK_INT >= 24) {//判读版本是否在7.0以上
+                Uri apkUri = FileProvider.getUriForFile(context, "com.hr.ui.fileProvider", file);//在AndroidManifest中的android:authorities值
+                Intent install = new Intent(Intent.ACTION_VIEW);
+                install.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                install.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);//添加这一句表示对目标应用临时授权该Uri所代表的文件
+                install.setDataAndType(apkUri, "application/vnd.android.package-archive");
+                context.startActivity(install);
+            } else {
+                Intent install = new Intent(Intent.ACTION_VIEW);
+                install.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
+                install.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(install);
+            }
+        }else{
+            ToastUitl.showShort("文件不存在");
         }
-        startActivity(intent);
     }
 }

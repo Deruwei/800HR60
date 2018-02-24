@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -14,6 +15,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hr.ui.R;
+import com.hr.ui.api.Api;
+import com.hr.ui.api.ApiService;
+import com.hr.ui.api.HostType;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
 import com.hr.ui.bean.CompanyBean;
@@ -30,6 +34,10 @@ import com.hr.ui.view.ExpandableTextView;
 import com.hr.ui.view.RoundImageView;
 import com.umeng.analytics.MobclickAgent;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +45,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.sharesdk.onekeyshare.OnekeyShare;
+import okhttp3.ResponseBody;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by wdr on 2018/1/12.
@@ -130,7 +143,6 @@ public class CompanyPageActivity extends BaseActivity<CompanyPagePresenter, Comp
         MobclickAgent.onEvent(this,"v6_scan_company");
         if (enterpriseInfoBean1 != null && !"".equals(enterpriseInfoBean1)) {
             enterpriseInfoBean = enterpriseInfoBean1;
-            tvCompanyPageAddress.setText(enterpriseInfoBean.getAddress());
             tvCompanyPageCompanyName.setText(enterpriseInfoBean.getEnterprise_name());
             tvCompanyPagePlace.setText(enterpriseInfoBean.getHome_area());
             tvCompanyPageIndustry.setText(enterpriseInfoBean.getIndustry_name());
@@ -142,9 +154,50 @@ public class CompanyPageActivity extends BaseActivity<CompanyPagePresenter, Comp
             } else {
                 Utils.setImageResourceDefault(this, ivCompanyPageCompanyImage);
             }
+                if(enterpriseInfoBean.getAddress()!=null&&!"".equals(enterpriseInfoBean.getAddress())){
+                    tvCompanyPageAddress.setText(enterpriseInfoBean.getAddress());
+                }else{
+                    if(enterpriseInfoBean.getBaidu_map_lat()==null||enterpriseInfoBean.getBaidu_map_lon()==null||"0.000000".equals(enterpriseInfoBean.getBaidu_map_lat())||"0.000000".equals(enterpriseInfoBean.getBaidu_map_lon())||"".equals(enterpriseInfoBean.getBaidu_map_lat())||"".equals(enterpriseInfoBean.getBaidu_map_lon())) {
+                        tvCompanyPageAddress.setText("公司暂无地址");
+                    }else{
+                        getCommanyData();
+                    }
+                }
         }
     }
+    private void getCommanyData(){
+        ApiService RxService = Api.getDefault(HostType.HR);
+        Observable<ResponseBody> Object = RxService.getCompanyAddress("http://api.map.baidu.com/geocoder/v2/?callback=renderReverse&location="+enterpriseInfoBean.getBaidu_map_lat()+","+enterpriseInfoBean.getBaidu_map_lon()+"&output=json&pois=1&ak=jMfg95xhZFMHsDjfxVitMjyg&mcode=FE:53:F7:B1:21:8A:71:5B:DA:B7:F6:08:87:CE:B4:85:AB:CA:71:FC;com.hr.ui");
+        Subscriber mSubscriber = new Subscriber<ResponseBody>() {
+            @Override
+            public void onCompleted() {
+                Log.d("api", "onCompleted");
+            }
+            @Override
+            public void onError(Throwable e) {
+                Log.d("api", "onError: " + e.toString());
+            }
 
+            @Override
+            public void onNext(ResponseBody responseBody) {
+                try {
+                    String s= responseBody.string().toString();
+                    s=s.substring(s.indexOf("(")+1,s.lastIndexOf(")"));
+                    JSONObject jsonObject=new JSONObject(s);
+                    int status=jsonObject.getInt("status");
+                    if(status==0){
+                        String address=jsonObject.getJSONObject("result").getString("formatted_address");
+                        tvCompanyPageAddress.setText(address);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        Object.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(mSubscriber);
+    }
     @Override
     public void getReleaseJobSuccess(List<RecommendJobBean.JobsListBean> jobInfoBeanList) {
         llCompanyContent.setVisibility(View.VISIBLE);
@@ -289,8 +342,11 @@ public class CompanyPageActivity extends BaseActivity<CompanyPagePresenter, Comp
     public void onViewClicked(View v) {
         switch (v.getId()) {
             case R.id.ll_companyLocation:
-                if(enterpriseInfoBean.getBaidu_map_lat()==null||enterpriseInfoBean.getBaidu_map_lon()==null||"".equals(enterpriseInfoBean.getBaidu_map_lat())||"".equals(enterpriseInfoBean.getBaidu_map_lon())){
-
+               // Log.i("当前的经纬度",enterpriseInfoBean.getBaidu_map_lat()+"=----"+enterpriseInfoBean.getBaidu_map_lon());
+                if(enterpriseInfoBean.getBaidu_map_lat()==null||enterpriseInfoBean.getBaidu_map_lon()==null||"0.000000".equals(enterpriseInfoBean.getBaidu_map_lat())||"0.000000".equals(enterpriseInfoBean.getBaidu_map_lon())||"".equals(enterpriseInfoBean.getBaidu_map_lat())||"".equals(enterpriseInfoBean.getBaidu_map_lon())){
+                   if(enterpriseInfoBean.getAddress()!=null&&!"".equals(enterpriseInfoBean.getAddress())){
+                       BaiDuMapActivity.startAction(this,enterpriseInfoBean.getAddress());
+                   }
                 }else {
                     BaiDuMapActivity.startAction(this, enterpriseInfoBean.getBaidu_map_lon(), enterpriseInfoBean.getBaidu_map_lat());
                 }

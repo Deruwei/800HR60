@@ -58,8 +58,8 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
 
     private Context mContext;
     private String msg;
-    private boolean showDialog=true;
-    private boolean isShow;
+    private boolean showDialog=true;//是否需要dialog
+    private boolean isShow;//是否停止dialog显示
 
     /**
      * 是否显示浮动dialog
@@ -96,13 +96,11 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
         super.onStart();
         if (showDialog) {
             try {
-                //Log.i("到这里","shide");
                 if(mContext instanceof PositionPageActivity) {
                     LoadingDialog2.showDialogForLoading((Activity) mContext);
                 }else{
                     LoadingDialog.showDialogForLoading(mContext, msg, true);
                 }
-               // Log.i("到这里","shide4");
                 isShow=true;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -123,30 +121,58 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
                     LoadingDialog.cancelDialogForLoading();
                 }
             }
-            String s=t.toString();
-            s=s.substring(s.indexOf("{"),s.lastIndexOf("}")+1);
-            JSONObject jsonObject=new JSONObject(s);
-            String error=jsonObject.getString("error_code");
-            int errorCode=Integer.parseInt(error);
-           if(errorCode==204||errorCode==203||errorCode==205||errorCode==303) {
+            String s="";
+            if(t instanceof ResponseBody){
+                s=((ResponseBody) t).string().toString();
+            }else{
+                s=t.toString();
+            }
+            //Log.i("当前的数据1",s+"---");
+            if(s.contains("error_code")){
+                s=s.substring(s.indexOf("error_code")+2);
+                s=s.substring(s.indexOf("=")+1);
+                s=s.substring(0,s.indexOf(","));
+                if(s.contains("'")){
+                    s=s.substring(s.indexOf("'")+1,s.lastIndexOf("'"));
+                }
+            }
+            //Log.i("当前的数据",s+"---");
+            if ("204".equals(s) || "203".equals(s) || "205".equals(s) || "303".equals(s)||"205.2".equals(s)) {
                 //Rc4Md5Utils.secret_key = Constants.INIT_SECRET_KRY;
                 //Log.i("当前","3");
-                Constants.SESSION_KEY=null;
+                Constants.SESSION_KEY = null;
                 getConnect();
             }
+           /* String s=t.toString();
+            String error="";
+            if(t instanceof ResponseBody){
+                JSONObject jsonObject = new JSONObject(((ResponseBody) t).string().toString());
+                error = jsonObject.getString("error_code");
+            }else {
+               // Log.i("现在的数据", s.toString() + "");
+                s = s.substring(s.indexOf("{"), s.lastIndexOf("}") + 1);
+                *//*Log.i("现在的数据", s.toString() + "");*//*
+                error=s.substring(s.indexOf("=")+1);
+                error=error.substring(0,error.indexOf(","));
+                if(error.contains("'")){
+                    error=error.substring(error.indexOf("'")+1,error.lastIndexOf("'"));
+                }
+            }
+            double errorCode1= Double.parseDouble(error);
+            int errorCode= (int) errorCode1;
+            //Log.i("error的数据",errorCode+"");
+            if (errorCode == 204 || errorCode == 203 || errorCode == 205 || errorCode == 303) {
+                //Rc4Md5Utils.secret_key = Constants.INIT_SECRET_KRY;
+                //Log.i("当前","3");
+                Constants.SESSION_KEY = null;
+                getConnect();
+            }*/
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
     @Override
     public void onError(final Throwable e) {
-       // Log.i("网络错误码",e.getMessage());
-        /*if (showDialog) {
-           *//* LoadingDialog.cancelDialogForLoading();
-            ToastUitl.showShort(HRApplication.getAppContext().getString(R.string.net_error));*//*
-        }*/
         e.printStackTrace();
         //网络
         if (!NetWorkUtils.isNetConnected(HRApplication.getAppContext())) {
@@ -181,8 +207,9 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
                         } else {
                             LoadingDialog.cancelDialogForLoading();
                         }
-                        ToastUitl.showShort(HRApplication.getAppContext().getString(R.string.net_error));
                         _onError(HRApplication.getAppContext().getString(R.string.net_error));
+                        ToastUitl.showShort(HRApplication.getAppContext().getString(R.string.net_error));
+
                     }
                 }
             }, 3000);

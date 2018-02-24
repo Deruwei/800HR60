@@ -172,7 +172,11 @@ public class SnailBar extends View {
             }
         }).start();
     }
-
+    public void setCurrentCount2(final float currentCount) {
+        program=0;
+       program= (int) currentCount;
+       postInvalidate();
+    }
     public float getMaxCount() {
         return maxCount;
     }

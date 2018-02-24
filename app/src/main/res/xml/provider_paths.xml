@@ -3,7 +3,6 @@
 
     <!--解决 imagePick 7.0拍照是 与自己配置的 provider的冲突-->
     <paths>
-        <external-path path="Android/data/com.hr.ui/" name="files_root" />
-        <external-path path="." name="external_storage_root" />
+        <external-path path="" name="download" />
     </paths>
 </paths>
