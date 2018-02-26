@@ -13,6 +13,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -85,6 +86,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
     private int userId;
     private int type;
     private PopupWindow popupWindow;
+    public boolean isAllreadyInstance=true;
 
     public static void startAction(Activity activity, int type) {
         Intent intent = new Intent(activity, SplashActivity.class);
@@ -128,7 +130,6 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
                 setViewVisible();
             }
         }
-
        /* int screenWidth = getWindowManager().getDefaultDisplay().getWidth();//真实分辨率 宽
          int screenHeight = getWindowManager().getDefaultDisplay().getHeight();//真实分辨率 高*/
            /* setViewVisible();*/
@@ -136,6 +137,15 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
          dm = getResources().getDisplayMetrics();
          int densityDPI = dm.densityDpi;     // 屏幕密度（每寸像素：120(ldpi)/160(mdpi)/213(tvdpi)/240(hdpi)/320(xhdpi)）
         Toast.makeText(this, "真实分辨率："+screenWidth+"*"+screenHeight+"  每英寸:"+densityDPI, Toast.LENGTH_LONG).show();*/
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(isAllreadyInstance==false){
+            isAllreadyInstance=true;
+            doAutoLogin();
+        }
     }
 
     private void getPermission() {
@@ -200,7 +210,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
                     rlLogin.post(new Runnable() {
                         @Override
                         public void run() {
-                            AnimationUtil.showAndHiddenAnimation(rlRegister, AnimationUtil.AnimationState.STATE_SHOW, 2000);
+                            AnimationUtil.showAndHiddenAnimation(rlRegister, AnimationUtil.AnimationState.STATE_SHOW, 1500);
                         }
                     });
 
@@ -266,7 +276,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
 
     @Override
     public void getVersion(VersionBean.AndroidBean androidBean) {
-        String version = "6.0.3";
+        String version = androidBean.getVer();
         String version1 = BuildConfig.VERSION_NAME;
         if (Utils.checkVersion(version, version1) == true) {
             popupWindow=new PopupWindow(this);
@@ -277,10 +287,10 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
         }
     }
     public void doAutoLogin(){
-        if(isAppOnForeground()==false) {
             if (autoLoginType != 5) {
                 loginBean = LoginDBUtils.queryDataById(autoLoginType + "");
                 // System.out.println("auto"+loginBean.toString());
+                //isAutoLogin是否是自动登录   0不是
                 if (isAutoLogin == 0) {
                     setViewVisible();
                 } else {
@@ -295,7 +305,6 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
             } else {
                 setViewVisible();
             }
-        }
     }
     @OnClick({R.id.rl_login, R.id.rl_register, R.id.rl_companySplash})
     public void onViewClicked(View view) {
@@ -310,22 +319,6 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
                 RegisterActivity.startAction(this);
                 break;
         }
-    }
-    public  boolean isAppOnForeground() {
-        ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
-        for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
-            if (appProcess.processName.equals(getPackageName())) {
-                if (appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_BACKGROUND) {
-                    Log.i("后台", appProcess.processName);
-                    return true;
-                }else{
-                    Log.i("前台", appProcess.processName);
-                    return false;
-                }
-            }
-        }
-        return false;
     }
     //读取返回信息
     @Override

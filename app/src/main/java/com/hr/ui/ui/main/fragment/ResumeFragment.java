@@ -613,7 +613,7 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
             sUtils.setStringValue(Constants.INDUSTRY_ID, orderInfoBean.get(0).getIndustry());
             if (isCanFresh == true) {
                 sUtils.setBooleanValue(Constants.IS_FERSH, false);
-                HomeFragment.instance.refresh();
+                HomeFragment.instance.refresh(false);
             }
         }
     }

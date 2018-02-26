@@ -51,13 +51,16 @@ public class PopWindowUpdate {
                 WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
                 lp.alpha = 1f;
                 activity.getWindow().setAttributes(lp);
-                SplashActivity.instance.doAutoLogin();
+                if(SplashActivity.instance.isAllreadyInstance==true) {
+                    SplashActivity.instance.doAutoLogin();
+                }
             }
         });
         tvUpdateNow.setOnClickListener(new View.OnClickListener() {
             @Override
                 public void onClick(View v) {
                     downLoadApp();
+                    SplashActivity.instance.isAllreadyInstance=false;
                     popupWindow.dismiss();
                 }
         });

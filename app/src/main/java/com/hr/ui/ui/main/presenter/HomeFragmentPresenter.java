@@ -23,8 +23,8 @@ import okhttp3.ResponseBody;
 
 public class HomeFragmentPresenter extends HomeFragmentContract.Presenter {
     @Override
-    public void getRecommendJobInfo(String resumeId,int limit,boolean isCanRefresh) {
-        mRxManage.add(mModel.getRecommendJobInfo(resumeId,limit).subscribe(new RxSubscriber<HomeRecommendBean>(mContext,isCanRefresh) {
+    public void getRecommendJobInfo(int limit,boolean isCanRefresh) {
+        mRxManage.add(mModel.getRecommendJobInfo(limit).subscribe(new RxSubscriber<HomeRecommendBean>(mContext,isCanRefresh) {
             @Override
             protected void _onNext(HomeRecommendBean homeRecommendBean) throws IOException {
                     if(homeRecommendBean.getError_code()==0) {

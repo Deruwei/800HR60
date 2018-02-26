@@ -18,7 +18,7 @@ import rx.Observable;
 
 public interface HomeFragmentContract {
     interface Model extends BaseModel{
-        Observable<HomeRecommendBean> getRecommendJobInfo(String resumeId,int limit);
+        Observable<HomeRecommendBean> getRecommendJobInfo(int limit);
         Observable<ResponseBody> getResumeScore(String id);
         Observable<RecommendJobBean> getRecommendJob(int page,int pageNum);
     }
@@ -30,7 +30,7 @@ public interface HomeFragmentContract {
         void cantGetData();
     }
     abstract class Presenter extends BasePresenter<View,Model>{
-        public abstract void getRecommendJobInfo(String resumeId,int limit,boolean isCanRefresh);
+        public abstract void getRecommendJobInfo(int limit,boolean isCanRefresh);
         public abstract void getResumeScore(String id);
         public abstract void getRecommendJob(int page,int pageNum,boolean isCanRefresh);
     }

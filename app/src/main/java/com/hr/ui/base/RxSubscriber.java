@@ -72,7 +72,6 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
     }
 
     public RxSubscriber(Context context, String msg,boolean showDialog) {
-       // Log.i("到这里","shide3");
         this.mContext = context;
         this.msg = msg;
         this.showDialog=showDialog;
@@ -82,7 +81,6 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
     }
     public RxSubscriber(Context context,boolean showDialog) {
         this(context,HRApplication.getAppContext().getString(R.string.loading),showDialog);
-       // Log.i("到这里","shide2");
     }
 
     @Override
@@ -138,35 +136,9 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
             }
             //Log.i("当前的数据",s+"---");
             if ("204".equals(s) || "203".equals(s) || "205".equals(s) || "303".equals(s)||"205.2".equals(s)) {
-                //Rc4Md5Utils.secret_key = Constants.INIT_SECRET_KRY;
-                //Log.i("当前","3");
-                Constants.SESSION_KEY = null;
+               /* Constants.SESSION_KEY = null;*/
                 getConnect();
             }
-           /* String s=t.toString();
-            String error="";
-            if(t instanceof ResponseBody){
-                JSONObject jsonObject = new JSONObject(((ResponseBody) t).string().toString());
-                error = jsonObject.getString("error_code");
-            }else {
-               // Log.i("现在的数据", s.toString() + "");
-                s = s.substring(s.indexOf("{"), s.lastIndexOf("}") + 1);
-                *//*Log.i("现在的数据", s.toString() + "");*//*
-                error=s.substring(s.indexOf("=")+1);
-                error=error.substring(0,error.indexOf(","));
-                if(error.contains("'")){
-                    error=error.substring(error.indexOf("'")+1,error.lastIndexOf("'"));
-                }
-            }
-            double errorCode1= Double.parseDouble(error);
-            int errorCode= (int) errorCode1;
-            //Log.i("error的数据",errorCode+"");
-            if (errorCode == 204 || errorCode == 203 || errorCode == 205 || errorCode == 303) {
-                //Rc4Md5Utils.secret_key = Constants.INIT_SECRET_KRY;
-                //Log.i("当前","3");
-                Constants.SESSION_KEY = null;
-                getConnect();
-            }*/
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -215,9 +187,6 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
             }, 3000);
 
         }
-      /*  else{
-            ToastUitl.showShort(HRApplication.getAppContext().getString(R.string.net_error));
-        }*/
     }
 
     protected abstract void _onNext(T t) throws IOException;
@@ -244,7 +213,6 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
                     Constants.SESSION_KEY=baseBean.getSession_key();
                     Rc4Md5Utils.secret_key = Constants.PRE_SECRET_KRY + baseBean.getSecret_key();
                     Constants.SVR_API_VER = baseBean.getSvr_api_ver();
-                    // Log.i("数据的加载",baseBean.toString());
                     getArray();
                 }
             }

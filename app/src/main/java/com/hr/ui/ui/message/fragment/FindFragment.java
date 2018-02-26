@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.hr.ui.R;
 import com.hr.ui.base.BaseFragment;
 import com.hr.ui.bean.FindBean;
+import com.hr.ui.ui.job.activity.CompanyPageActivity;
 import com.hr.ui.ui.message.activity.WebActivity;
 import com.hr.ui.ui.message.adapter.MyFindAdapter;
 import com.hr.ui.ui.message.contract.FindContract;
@@ -77,7 +78,7 @@ public class FindFragment extends BaseFragment<FindPresenter, FindModel> impleme
     }
 
     @Override
-    public void getFiindDataSuccess(List<FindBean.ListBean> listBeans) {
+    public void getFiindDataSuccess(final List<FindBean.ListBean> listBeans) {
         if (listBeans != null && !"".equals(listBeans) && !"[]".equals(listBeans) && listBeans.size() != 0) {
             rlEmptyView.setVisibility(View.GONE);
             rvDeliverFeedback.setVisibility(View.VISIBLE);
@@ -102,7 +103,11 @@ public class FindFragment extends BaseFragment<FindPresenter, FindModel> impleme
         adapter.setClickCallBack(new MyFindAdapter.ItemClickCallBack() {
             @Override
             public void onItemClick(int pos) {
-                WebActivity.startAction(getActivity(), listBeanList.get(pos).getTopic_url());
+                if("1".equals(listBeanList.get(pos).getTopic_type())) {
+                    WebActivity.startAction(getActivity(), listBeanList.get(pos).getTopic_url());
+                }else if("2".equals(listBeanList.get(pos).getTopic_type())){
+                    CompanyPageActivity.startAction(getActivity(),listBeanList.get(pos).getEnterprise_id());
+                }
             }
         });
     }

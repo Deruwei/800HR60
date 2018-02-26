@@ -265,10 +265,6 @@
             android:windowSoftInputMode="adjustPan|stateHidden"
             android:theme="@style/DialogTransparent"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.job.activity.PositionPageActivity2"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            android:theme="@style/DialogTransparent"
-            android:screenOrientation="portrait" />
         <activity android:name=".ui.job.activity.CompanyPageActivity"
             android:windowSoftInputMode="adjustPan|stateHidden"
             android:theme="@style/DialogTransparent"

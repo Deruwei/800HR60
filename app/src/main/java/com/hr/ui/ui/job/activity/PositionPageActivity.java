@@ -168,6 +168,11 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
         jobId = getIntent().getStringExtra("jobId");
         mPresenter.getPositionData(jobId, this);
     }
+
+    /**
+     * 简历不符合跳出提示框
+     * @param type
+     */
     private void setPopupwindow(int type){
         dialog=new MyRecommendDialog(this);
         if(type==1) {

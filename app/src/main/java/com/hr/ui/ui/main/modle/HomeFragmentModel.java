@@ -25,8 +25,8 @@ import rx.schedulers.Schedulers;
 
 public class HomeFragmentModel implements HomeFragmentContract.Model {
     @Override
-    public Observable<HomeRecommendBean> getRecommendJobInfo(String resumeId,int limit) {
-        return Api.getDefault(HostType.HR).getResponseString(EncryptUtils.encrypParams(ApiParameter.getRecommendJobScore(resumeId,limit)))
+    public Observable<HomeRecommendBean> getRecommendJobInfo(int limit) {
+        return Api.getDefault(HostType.HR).getResponseString(EncryptUtils.encrypParams(ApiParameter.getRecommendJobScore(limit)))
                 .map(new Func1<ResponseBody, HomeRecommendBean>() {
                     @Override
                     public HomeRecommendBean call(ResponseBody responseBody) {

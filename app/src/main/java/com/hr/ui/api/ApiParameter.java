@@ -632,7 +632,7 @@ public class ApiParameter {
         requestMap.put("openstate",openstate);
         return  requestMap;
     }
-    public static HashMap<String,String> getRecommendJobScore(String resumeId,int limit){
+    public static HashMap<String,String> getRecommendJobScore(int limit){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","job.recomlist");
         SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
