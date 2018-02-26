@@ -2,58 +2,28 @@ package com.hr.ui.app;
 
 import android.app.Activity;
 import android.app.AlarmManager;
-import android.app.Application;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.multidex.MultiDex;
-import android.util.Log;
 
 import com.afa.tourism.greendao.gen.DaoMaster;
 import com.afa.tourism.greendao.gen.DaoSession;
 import com.baidu.mapapi.SDKInitializer;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.hr.ui.api.Api;
-import com.hr.ui.api.ApiParameter;
-import com.hr.ui.api.ApiService;
-import com.hr.ui.api.HostType;
-import com.hr.ui.bean.BaseBean;
 import com.hr.ui.constants.Constants;
 import com.hr.ui.db.MySQLiteOpenHelper;
-import com.hr.ui.utils.AlamrReceiver;
-import com.hr.ui.utils.BaiDuLocationUtils;
-import com.hr.ui.utils.EncryptUtils;
+import com.service.AlamrReceiver;
 import com.hr.ui.utils.GlideImageLoader;
-import com.hr.ui.utils.LongRunningService;
-import com.hr.ui.utils.Rc4Md5Utils;
-import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.UnCeHandler;
-import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.view.CropImageView;
 import com.mob.MobApplication;
 import com.networkbench.agent.impl.NBSAppAgent;
-import com.service.CodeTimerService;
 import com.service.MyTimeService;
 import com.umeng.commonsdk.UMConfigure;
 
 import java.util.Calendar;
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.OkHttpClient;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
-
-import static com.hr.ui.base.handleexception.ExceptionFunc.TAG;
 
 /**
  * Created by wdr on 2017/11/20.

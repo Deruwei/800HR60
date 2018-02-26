@@ -3,14 +3,18 @@ package com.hr.ui.ui.main.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -103,6 +107,7 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
     private PopupWindow popupWindowGiveComment;
     public  RadioButton rbResume1;
     private boolean giveComment,hasAds,hasWarm;
+    private PopupWindow popupWindowTips;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -268,6 +273,7 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
         mPresenter.getNotice("96","794,796,797,798");
         userId = getIntent().getIntExtra("userId", 0);
         rbResume1=rbResume;
+        sUtis=new SharedPreferencesUtils(this);
         initFragment();
         setRadioGroupListener();
         idMenu.setDrawerListener(new MyDrawLayout2.DrawerListener() {
@@ -300,7 +306,16 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
         });
     }
     private long exitTime = 0;
-
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 0:
+                    initTips();
+                    break;
+            }
+        }
+    };
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK
@@ -382,6 +397,12 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
     }
     @Override
     public void getNoticeSuccess(List<FindBean.ListBean> listBean) {
+        boolean isFirstInto=sUtis.getBooleanValue(Constants.ISFIRSTINTO,false);
+        if(isFirstInto==true){
+            sUtis.setBooleanValue(Constants.ISFIRSTINTO,false);
+            handler.sendEmptyMessageDelayed(0, 10);
+
+        }
         listBeanList.clear();
         listBeanList.addAll(listBean);
         for(int i=0;i<listBean.size();i++){
@@ -409,5 +430,48 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
                 PopupWindowAd popupWindowAd=new PopupWindowAd(this,new PopupWindow(this),idMenu,adUrl,imageUrl);
             }
         }
+    }
+      private void initTips() {
+        View viewTips = getLayoutInflater().inflate(R.layout.layout_tips, null);
+        popupWindowTips = new PopupWindow(viewTips, LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        ImageView ivTips=viewTips.findViewById(R.id.iv_tip);
+        ivTips.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindowTips.dismiss();
+            }
+        });
+        // 设置背景颜色变暗
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = 0.7f;
+        getWindow().setAttributes(lp);
+        popupWindowTips.setOnDismissListener(new PopupWindow.OnDismissListener() {
+
+            @Override
+            public void onDismiss() {
+                WindowManager.LayoutParams lp =getWindow().getAttributes();
+                lp.alpha = 1f;
+               getWindow().setAttributes(lp);
+            }
+        });
+          popupWindowTips.setFocusable(true);
+          popupWindowTips.setOutsideTouchable(false);
+          popupWindowTips.setAnimationStyle(R.style.style_pop_animation2);
+          popupWindowTips.showAtLocation(idMenu, Gravity.CENTER, 0, 0);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if(popupWindowTips!=null){
+            popupWindowTips.dismiss();
+        }
+        if(popupWindowGiveComment!=null){
+            popupWindowGiveComment.dismiss();
+        }
+        if(popupWindow!=null){
+            popupWindow.dismiss();
+        }
+        super.onDestroy();
     }
 }

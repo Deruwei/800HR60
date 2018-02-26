@@ -545,8 +545,13 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
 
     @Override
     public void netError() {
-        srlResume.setVisibility(View.GONE);
-        llNetError.setVisibility(View.VISIBLE);
+        if(llNetError!=null) {
+            llNetError.setVisibility(View.VISIBLE);
+        }
+        if(srlResume!=null) {
+            srlResume.setVisibility(View.GONE);
+        }
+
     }
 
     /**

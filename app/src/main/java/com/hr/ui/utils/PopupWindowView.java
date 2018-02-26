@@ -83,11 +83,15 @@ public class PopupWindowView {
             tvOK.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if(selectCityList!=null&&!"".equals(selectCityList)&&selectCityList.size()!=0) {
                         JobSearchFragment.instance.setPlaceId(selectCityList);
                         if (popupWindow != null) {
                             popupWindow.dismiss();
                         }
-                        JobSearchFragment.instance.page=1;
+                        JobSearchFragment.instance.page = 1;
+                    }else{
+                        ToastUitl.showShort("请选择城市");
+                    }
                 }
             });
             initSelectCity();

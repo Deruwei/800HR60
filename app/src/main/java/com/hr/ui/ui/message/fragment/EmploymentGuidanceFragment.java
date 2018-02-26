@@ -143,7 +143,6 @@ public class EmploymentGuidanceFragment extends BaseFragment<EmploymentGuidanceP
                         page=1;
                         mPresenter.getEmploymentGuidanceData(page,guidanceId,false);
                         adapter.notifyDataSetChanged();
-                        rvDeliverFeedback.refreshComplete();
                     }
 
                 }, 1000);            //refresh data here
@@ -155,7 +154,6 @@ public class EmploymentGuidanceFragment extends BaseFragment<EmploymentGuidanceP
                     public void run() {
                         page++;
                         mPresenter.getEmploymentGuidanceData(page,guidanceId,false);
-                        rvDeliverFeedback.loadMoreComplete();
                         adapter.notifyDataSetChanged();
                     }
                 }, 1000);
@@ -185,8 +183,10 @@ public class EmploymentGuidanceFragment extends BaseFragment<EmploymentGuidanceP
                 titleListBeans.addAll(titleListBeanList);
                 adapter.setFavouriteListBeanList(titleListBeans);
                 rvDeliverFeedback.setAdapter(adapter);
+                rvDeliverFeedback.refreshComplete();
             }else{
                 titleListBeans.addAll(titleListBeanList);
+                rvDeliverFeedback.loadMoreComplete();
                 adapter.notifyDataSetChanged();
             }
         }else{

@@ -25,13 +25,16 @@ public class Constants {
     public static final int NETWORK_WIFI=4;
     public static final int NETWORK_UNKNOWN=0;
     public static final String BINDING="0";
+    //是否是自动登录
     public static final String ISAUTOLOGIN="isAutoLogin";
+    //自动登录的类型  手机号码登录  用户登录  自动登录
     public static final String AUTOLOGINTYPE="autoLoginType";
     public static final String CITY_VER="city_ver";
     public static final String JOB_VER="job_ver";
     public static final String LINGYU_VER="lingYu_ver";
     public static final String PERSONIMAGE="person_image";
     public static final String CITYNAME="city_name";
+    public static final String ISFIRSTINTO="is_firstInto";
     public static final String BIRTHYEAR="birth_year";
     public static final String ISHAVENEWS="is_have_new";
     public static final String EDUCATION_ID="education_id";

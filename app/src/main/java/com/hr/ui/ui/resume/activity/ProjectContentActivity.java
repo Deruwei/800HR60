@@ -99,7 +99,7 @@ public class ProjectContentActivity extends BaseNoConnectNetworkAcitivty {
         tag = getIntent().getStringExtra("tag");
         where=getIntent().getIntExtra("where",0);
         etContent.setMaxEms(400);
-        if (getIntent().getStringExtra("text") != null || !"".equals(getIntent().getStringExtra("text"))) {
+        if (getIntent().getStringExtra("text") != null &&!"".equals(getIntent().getStringExtra("text"))) {
             etContent.setText(getIntent().getStringExtra("text"));
             tvTextSum.setText(etContent.getText().toString().length() + " / 400");
             text=getIntent().getStringExtra("text");
@@ -110,14 +110,18 @@ public class ProjectContentActivity extends BaseNoConnectNetworkAcitivty {
         toolBar.setTitle("");
         toolBar.setTitleTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
         toolBar.setNavigationIcon(R.mipmap.back);
-        if(where==1){
-            tvToolbarTitle.setText(R.string.trainDes);
+        if(tag!=null&&!"".equals(tag)){
+            if("1".equals(tag)) {
+                tvToolbarTitle.setText(R.string.projectDes);
+            }else if("2".equals(tag)){
+                tvToolbarTitle.setText(R.string.projectResponsibility);
+            }
+        }else {
+            if (where == 1) {
+                tvToolbarTitle.setText(R.string.trainDes);
+            }
         }
-        if("1".equals(tag)) {
-            tvToolbarTitle.setText(R.string.projectDes);
-        }else if("2".equals(tag)){
-            tvToolbarTitle.setText(R.string.projectResponsibility);
-        }
+
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -171,13 +175,16 @@ public class ProjectContentActivity extends BaseNoConnectNetworkAcitivty {
     @OnClick(R.id.btn_contentOK)
     public void onViewClicked() {
         if (etContent.getText().toString() == null || "".equals(etContent.getText().toString())) {
-            if("1".equals(tag)){
-                ToastUitl.showShort("请填写项目描述");
-            }else if("2".equals(tag)) {
-                ToastUitl.showShort("请填写项目职责");
-            }
-            if(where==1){
-                ToastUitl.showShort("请填写培训描述");
+            if(tag!=null&&!"".equals(tag)) {
+                if ("1".equals(tag)) {
+                    ToastUitl.showShort("请填写项目描述");
+                } else if ("2".equals(tag)) {
+                    ToastUitl.showShort("请填写项目职责");
+                }
+            }else {
+                if (where == 1) {
+                    ToastUitl.showShort("请填写培训描述");
+                }
             }
             return;
         }

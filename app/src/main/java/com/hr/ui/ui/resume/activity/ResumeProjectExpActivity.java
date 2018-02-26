@@ -378,6 +378,9 @@ public class ResumeProjectExpActivity extends BaseActivity<ResumeProjectExpPrese
         if(projectId!=null&&!"".equals(projectExpData)) {
             projectExpData.setProjectId(projectId);
         }
+        if("至今".equals(endTimes)){
+            endTimes="0-0";
+        }
         projectExpData.setEndTime(endTimes);
         projectExpData.setStartTime(startTimes);
         projectExpData.setProjectPosition(etResumeProjectExpPosition.getText().toString());

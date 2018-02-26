@@ -1,4 +1,4 @@
-package com.hr.ui.utils;
+package com.service;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

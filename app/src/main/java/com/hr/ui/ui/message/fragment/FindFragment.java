@@ -88,8 +88,10 @@ public class FindFragment extends BaseFragment<FindPresenter, FindModel> impleme
                 listBeanList.addAll(listBeans);
                 adapter.setListBeans(listBeanList);
                 rvDeliverFeedback.setAdapter(adapter);
+                rvDeliverFeedback.refreshComplete();
             } else {
                 listBeanList.addAll(listBeans);
+                rvDeliverFeedback.loadMoreComplete();
                 adapter.notifyDataSetChanged();
             }
         } else {
@@ -174,7 +176,6 @@ public class FindFragment extends BaseFragment<FindPresenter, FindModel> impleme
                         page = 1;
                         mPresenter.getFindData(page, ad_type, false);
                         adapter.notifyDataSetChanged();
-                        rvDeliverFeedback.refreshComplete();
                     }
 
                 }, 1000);            //refresh data here
@@ -186,7 +187,6 @@ public class FindFragment extends BaseFragment<FindPresenter, FindModel> impleme
                     public void run() {
                         page++;
                         mPresenter.getFindData(page, ad_type, false);
-                        rvDeliverFeedback.loadMoreComplete();
                         adapter.notifyDataSetChanged();
                     }
                 }, 1000);

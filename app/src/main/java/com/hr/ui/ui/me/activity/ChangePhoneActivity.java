@@ -327,9 +327,13 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
             ToastUitl.showShort("请填写密码");
             return;
         }
-        if (!loginBean.getPassword().equals(etChangePhonePsw.getText().toString())) {
-            ToastUitl.showShort("密码错误，请重新输入");
-            return;
+        if(loginBean==null||"".equals(loginBean)){
+            loginBean = LoginDBUtils.queryDataById(autoLoginType + "");
+        }else {
+            if (!loginBean.getPassword().equals(etChangePhonePsw.getText().toString())) {
+                ToastUitl.showShort("密码错误，请重新输入");
+                return;
+            }
         }
         mPresenter.changePhone(etChangePhoneNumber.getText().toString(), etChangePhoneValidCode.getText().toString());
     }

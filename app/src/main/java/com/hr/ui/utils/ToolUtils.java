@@ -68,6 +68,10 @@ public class ToolUtils {
         }else{
             sharedPreferencesUtils.setStringValue(Constants.PERSONIMAGE,"");
         }
+        if(resumeBean.getResume_info().getBase_info().get(0).getYear()!=null&&!"".equals(resumeBean.getResume_info().getBase_info().get(0).getYear())){
+            String year=resumeBean.getResume_info().getBase_info().get(0).getYear();
+            sharedPreferencesUtils.setStringValue(Constants.BIRTHYEAR,year);
+        }
         if(!"".equals(resumeBean.getResume_info().getTitle_info().get(0).getResume_type())&&resumeBean.getResume_info().getTitle_info().get(0).getResume_type()!=null) {
             sharedPreferencesUtils.setStringValue(Constants.RESUME_TYPE, resumeBean.getResume_info().getTitle_info().get(0).getResume_type());
         }

@@ -1,4 +1,4 @@
-package com.hr.ui.utils;
+package com.service;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -6,23 +6,6 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.SystemClock;
-import android.util.Log;
-
-import com.hr.ui.api.Api;
-import com.hr.ui.api.ApiParameter;
-import com.hr.ui.api.ApiService;
-import com.hr.ui.api.HostType;
-import com.hr.ui.app.HRApplication;
-import com.hr.ui.bean.BaseBean;
-import com.hr.ui.constants.Constants;
-import com.hr.ui.utils.datautils.SharedPreferencesUtils;
-
-import java.util.Date;
-
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by wdr on 2018/2/1.

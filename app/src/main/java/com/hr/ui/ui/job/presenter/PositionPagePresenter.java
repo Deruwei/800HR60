@@ -123,8 +123,12 @@ public class PositionPagePresenter extends PositionPageContract.Presenter {
                         String error=jsonObject.getString("error_code");
                         if("0".equals(error)){
                             JSONArray array=jsonObject.getJSONArray("list");
-                            double score=array.getJSONObject(0).getDouble("score");
-                            mView.getResumeScoreSuccess(score);
+                            if(array==null){
+                                mView.retryCulScore();
+                            }else {
+                                double score = array.getJSONObject(0).getDouble("score");
+                                mView.getResumeScoreSuccess(score);
+                            }
                         }else{
                             ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId(Integer.parseInt(error) ));
                         }

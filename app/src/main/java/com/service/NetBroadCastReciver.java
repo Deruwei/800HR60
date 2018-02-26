@@ -1,4 +1,4 @@
-package com.hr.ui.utils;
+package com.service;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
+
+import com.hr.ui.utils.ToastUitl;
 
 /**
  * Created by wdr on 2018/1/19.

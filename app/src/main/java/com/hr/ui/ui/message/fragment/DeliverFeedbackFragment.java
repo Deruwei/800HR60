@@ -107,7 +107,6 @@ public class DeliverFeedbackFragment extends BaseFragment<DeliverFeedbackFragmen
                             mPresenter.getDeliverFeedBack(page, 1, 0,false);
                         }
                         adapter.notifyDataSetChanged();
-                        rvDeliverFeedback.refreshComplete();
                     }
 
                 }, 1000);            //refresh data here
@@ -123,7 +122,6 @@ public class DeliverFeedbackFragment extends BaseFragment<DeliverFeedbackFragmen
                         } else if (position == 1) {
                             mPresenter.getDeliverFeedBack(page, 1, 0,false);
                         }
-                        rvDeliverFeedback.loadMoreComplete();
                         adapter.notifyDataSetChanged();
 
                     }
@@ -183,8 +181,10 @@ public class DeliverFeedbackFragment extends BaseFragment<DeliverFeedbackFragmen
                 appliedListBeanList.addAll(appliedListBeanList1);
                 adapter.setFavouriteListBeanList(appliedListBeanList);
                 rvDeliverFeedback.setAdapter(adapter);
+                rvDeliverFeedback.refreshComplete();
             } else {
                 appliedListBeanList.addAll(appliedListBeanList1);
+                rvDeliverFeedback.loadMoreComplete();
                 adapter.notifyDataSetChanged();
             }
         } else {

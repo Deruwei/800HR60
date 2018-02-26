@@ -105,11 +105,21 @@ public class ApiParameter {
         return requestMap;
     }
 
+    /**
+     * 用户收藏等统计量
+     * @return
+     */
     public static HashMap<String,String> getAllInfo(){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_stow.totals");
         return requestMap;
     }
+
+    /**
+     * 通知
+     * @param ims
+     * @return
+     */
     public static HashMap<String,String> getNotice(String ims){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","job.getnotice");

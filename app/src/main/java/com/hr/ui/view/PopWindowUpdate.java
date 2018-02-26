@@ -1,7 +1,6 @@
 package com.hr.ui.view;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -14,7 +13,7 @@ import android.widget.TextView;
 import com.hr.ui.R;
 import com.hr.ui.bean.VersionBean;
 import com.hr.ui.ui.main.activity.SplashActivity;
-import com.hr.ui.utils.DownloadSignatureServic;
+import com.service.DownloadSignatureServic;
 
 /**
  * Created by wdr on 2018/1/31.

@@ -47,7 +47,7 @@
         </activity>
 
 
-        <service android:name=".utils.DownloadSignatureServic" />
+        <service android:name="com.service.DownloadSignatureServic" />
         <!--友盟-->
         <meta-data android:value="50762338527015512a000084" android:name="UMENG_APPKEY"/>
         <meta-data android:value="${UMENG_CHANNEL_VALUE}" android:name="UMENG_CHANNEL"/>
@@ -61,8 +61,8 @@
             android:value="jMfg95xhZFMHsDjfxVitMjyg" >
         </meta-data>
         //过18分钟触发一次
-        <service android:name=".utils.LongRunningService" android:enabled="true" ></service>
-        <receiver android:name=".utils.AlarmReceiver" android:process=":newinst">
+        <service android:name="com.service.LongRunningService" android:enabled="true" ></service>
+        <receiver android:name="com.service.AlarmReceiver" android:process=":newinst">
         </receiver>
         <service android:name="com.baidu.location.f" android:enabled="true" android:process=":remote"> </service>
 
@@ -75,7 +75,7 @@
             />
         <!--网络监听-->
         <receiver
-            android:name=".utils.NetBroadCastReciver"
+            android:name="com.service.NetBroadCastReciver"
             >
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
@@ -84,7 +84,7 @@
             </intent-filter>
 
         </receiver>
-        <receiver android:name=".utils.AlamrReceiver" android:process=":remote"></receiver>
+        <receiver android:name="com.service.AlamrReceiver" android:process=":remote"></receiver>
         <!--QQ分享-->
         <activity
             android:name="cn.sharesdk.tencent.qq.ReceiveActivity"

@@ -588,10 +588,12 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
     }
 
     public void setSelectCity(CityBean cityBean) {
-        if (tvLivePlace != null&&!"".equals(cityBean.getName())&&cityBean.getName()!=null) {
-            tvLivePlace.setText(cityBean.getName());
+        if(cityBean!=null&&!"".equals(cityBean)) {
+            if (!"".equals(cityBean.getName()) && cityBean.getName() != null) {
+                tvLivePlace.setText(cityBean.getName());
+            }
+            cityId = cityBean.getId();
         }
-        cityId = cityBean.getId();
     }
 
     private void exitOrFinishActivity() {

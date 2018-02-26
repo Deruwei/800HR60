@@ -200,10 +200,12 @@ public class JobSerchActivity extends BaseActivity<JobSearchPresenter, JobSearch
                     jobSearchBean.setPlaceId(historyBeanList.get(finalI).getPlaceId());
                     jobSearchBean.setJobType(historyBeanList.get(finalI).getJobType());
                    // Log.i("当前的数据", jobSearchBean.toString());
-                    MainActivity.instance.isHome = false;
                     Intent intent = new Intent(JobSerchActivity.this, MainActivity.class);
                     intent.putExtra("jobSearch", (Serializable) jobSearchBean);
                     setResult(RESULT_CODE, intent);
+                    if(MainActivity.instance!=null){
+                        MainActivity.instance.isHome = false;
+                    }
                     finish();
                 }
             });
@@ -223,11 +225,14 @@ public class JobSerchActivity extends BaseActivity<JobSearchPresenter, JobSearch
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_jobSearchBack:
-                MainActivity.instance.isHome = true;
+
                 JobSearchBean jobSearchBean1 = new JobSearchBean();
                 Intent intent1 = new Intent(this, MainActivity.class);
                 intent1.putExtra("jobSearch", (Serializable) jobSearchBean1);
                 setResult(RESULT_CODE, intent1);
+                if(MainActivity.instance!=null) {
+                    MainActivity.instance.isHome = true;
+                }
                 finish();
                 break;
             case R.id.rl_jobSearchType:
@@ -273,10 +278,13 @@ public class JobSerchActivity extends BaseActivity<JobSearchPresenter, JobSearch
                     SearchHistoryUtils.insertJobSearchDataOrReplace(historyBean);
                 }
 
-                MainActivity.instance.isHome = false;
+
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.putExtra("jobSearch", (Serializable) jobSearchBean);
                 setResult(RESULT_CODE, intent);
+                if(MainActivity.instance!=null){
+                    MainActivity.instance.isHome = false;
+                }
                 finish();
                 break;
             case R.id.rl_jobSearchPlace:

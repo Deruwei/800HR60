@@ -1,4 +1,4 @@
-package com.hr.ui.utils;
+package com.service;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -9,10 +9,7 @@ import com.hr.ui.api.Api;
 import com.hr.ui.api.ApiParameter;
 import com.hr.ui.api.ApiService;
 import com.hr.ui.api.HostType;
-import com.hr.ui.app.HRApplication;
-import com.hr.ui.bean.BaseBean;
-import com.hr.ui.constants.Constants;
-import com.hr.ui.utils.datautils.SharedPreferencesUtils;
+import com.hr.ui.utils.EncryptUtils;
 
 import okhttp3.ResponseBody;
 import rx.Observable;

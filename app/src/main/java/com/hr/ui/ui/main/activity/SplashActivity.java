@@ -2,8 +2,6 @@ package com.hr.ui.ui.main.activity;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.ActivityManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -12,8 +10,6 @@ import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -38,7 +34,7 @@ import com.hr.ui.ui.main.contract.SplashContract;
 import com.hr.ui.ui.main.modle.SplashModel;
 import com.hr.ui.ui.main.presenter.SplashPresenter;
 import com.hr.ui.utils.AnimationUtil;
-import com.hr.ui.utils.LongRunningService;
+import com.service.LongRunningService;
 import com.hr.ui.utils.ToolUtils;
 import com.hr.ui.utils.Utils;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
@@ -122,6 +118,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
         autoLoginType = sUtils.getIntValue(Constants.AUTOLOGINTYPE, 5);
         if (sUtils.getBooleanValue(Constants.IS_GUIDE, false) == false) {
             MobclickAgent.onEvent(this,"v6_firstStartApp");
+            sUtils.setBooleanValue(Constants.ISFIRSTINTO,true);
             WelcomeActivity.startAction(SplashActivity.this, REQUEST_CODE);
         } else {
             if(type!=1) {

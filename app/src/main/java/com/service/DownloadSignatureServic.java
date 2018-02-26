@@ -1,4 +1,4 @@
-package com.hr.ui.utils;
+package com.service;
 
 import android.app.NotificationManager;
 import android.app.Service;
@@ -15,6 +15,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.hr.ui.BuildConfig;
+import com.hr.ui.utils.ToastUitl;
 
 import java.io.File;
 import java.io.FileOutputStream;
