@@ -18,11 +18,14 @@ import rx.Observable;
 public interface EducationContract {
     interface Model extends BaseModel{
         Observable<EducationBase> sendEducationToResume(EducationData educationData);
+        Observable<ResponseBody> creatNewResume();
     }
     interface View extends BaseView{
         void sendEducationSuccess(String eduId);
+        void creatNewResumeSuccess(int resumeId);
     }
     abstract class Presenter extends BasePresenter<View,Model>{
         public abstract void sendEducationToResume(EducationData educationData);
+        public abstract void createNewResume();
     }
 }

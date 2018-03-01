@@ -20,7 +20,6 @@ import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.view.CropImageView;
 import com.mob.MobApplication;
 import com.networkbench.agent.impl.NBSAppAgent;
-import com.service.MyTimeService;
 import com.umeng.commonsdk.UMConfigure;
 
 import java.util.Calendar;
@@ -33,7 +32,6 @@ public class HRApplication extends MobApplication {
     private static HRApplication hrApplication;
     private  MySQLiteOpenHelper mHelper;
     private static DaoSession daoSession;
-    private Intent mCodeTimerServiceIntent;
     private Calendar c;
     public static final String CODE = "connectCode";
     private String nbsAppKey="8a97e06a76944ee3886dafe60f20a809";
@@ -58,8 +56,6 @@ public class HRApplication extends MobApplication {
         UMConfigure.setEncryptEnabled(true); //设置是否加密传输log
         NBSAppAgent.setLicenseKey(nbsAppKey).withLocationServiceEnabled(true).startInApplication(this.getApplicationContext());//Appkey 请从官网获取
         Constants.SESSION_KEY=null;
-        mCodeTimerServiceIntent = new Intent(HRApplication.getAppContext(), MyTimeService.class);
-        mCodeTimerServiceIntent.setAction(CODE);
         initIsHaveNew();
     }
     private void initIsHaveNew() {

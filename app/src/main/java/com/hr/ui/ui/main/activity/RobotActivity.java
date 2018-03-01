@@ -44,6 +44,7 @@ public class RobotActivity extends BaseNoConnectNetworkAcitivty{
     private String TAG = MultipleResumeActivity.class.getSimpleName();
     private int userId;
     private MyDialog myDialog;
+    private SharedPreferencesUtils sUtils;
 
     /**
      * 入口
@@ -81,6 +82,7 @@ public class RobotActivity extends BaseNoConnectNetworkAcitivty{
     public void initView() {
         userId = getIntent().getIntExtra("userId", 0);
         titles = getIntent().getStringArrayListExtra("titles");
+        sUtils=new SharedPreferencesUtils(this);
         //Log.i("title",titles.toString());
         if (titles != null && titles.size() != 0) {
             rlRobot.setVisibility(View.VISIBLE);
@@ -119,7 +121,11 @@ public class RobotActivity extends BaseNoConnectNetworkAcitivty{
                 JobOrderActivity.startAction(this);
             }
         }else{
-            SelectResumeTypeActivity.startAction(this);
+            if(sUtils.getBooleanValue(Constants.JUST_ELEGANTRESUME,true)){
+                EducationActivity.startAction(this);
+            }else {
+                SelectResumeTypeActivity.startAction(this);
+            }
         }
     }
 

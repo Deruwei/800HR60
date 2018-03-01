@@ -3,6 +3,7 @@ package com.service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 
 import com.hr.ui.api.Api;
@@ -10,6 +11,8 @@ import com.hr.ui.api.ApiParameter;
 import com.hr.ui.api.ApiService;
 import com.hr.ui.api.HostType;
 import com.hr.ui.utils.EncryptUtils;
+
+import java.util.Date;
 
 import okhttp3.ResponseBody;
 import rx.Observable;
@@ -27,13 +30,17 @@ public class AlarmReceiver extends BroadcastReceiver {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                //Log.d("LongRunningService", "executed at " + new Date().
+                Log.d("LongRunningService", "executed at " + new Date().toString());
                 //toString());
                 getConnect();
             }
         }).start();
         Intent i = new Intent(context, LongRunningService.class);
-        context.startService(i);
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
+            context.startForegroundService(i);
+        } else {
+            context.startService(i);
+        }
     }
     private void getConnect(){
         ApiService RxService = Api.getDefault(HostType.HR);

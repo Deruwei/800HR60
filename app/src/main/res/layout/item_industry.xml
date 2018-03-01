@@ -4,8 +4,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:gravity="center"
-    android:paddingTop="@dimen/x33"
-    android:paddingLeft="@dimen/x72"
+    android:background="@drawable/recycler_item_selector"
+    android:layout_marginTop="@dimen/x20"
+    android:layout_marginBottom="@dimen/x20"
+    android:padding="@dimen/x40"
+    android:layout_marginLeft="@dimen/x50"
     android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/iv_industryImg"

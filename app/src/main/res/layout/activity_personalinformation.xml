@@ -10,73 +10,70 @@
     android:focusableInTouchMode="true"
     android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <include layout="@layout/layout_toolbar"
+        <include layout="@layout/layout_toolbar"
         android:id="@+id/in_personalInformation"
         />
+    <RelativeLayout
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/in_personalInformation"
+        android:layout_width="0dp"
+        android:layout_height="0dp">
         <android.support.v4.widget.NestedScrollView
             android:id="@+id/ns_view"
-            android:layout_width="0dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/in_personalInformation"
-            android:layout_height="0dp">
+            android:layout_above="@+id/rl_bottomPersonal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            <android.support.constraint.ConstraintLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/view1"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="@string/personalInformation"
                     android:textColor="@color/color_333"
-                    android:textSize="@dimen/x50"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent" />
+                    android:textSize="@dimen/x50" />
 
                 <ImageView
+                    android:layout_centerHorizontal="true"
                     android:id="@+id/view2"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/x28"
                     android:src="@mipmap/program1"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/view1" />
+                    android:layout_below="@+id/view1"
+                    />
 
                 <com.hr.ui.view.CircleImageView
                     android:id="@+id/iv_personalInformationImage"
                     android:layout_width="@dimen/x100"
-                    android:layout_height="@dimen/y100"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_height="@dimen/x100"
+                    android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/y49"
                     android:src="@mipmap/personimage"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/view2" />
+                    android:layout_below="@+id/view2" />
 
                 <TextView
                     android:id="@+id/view3"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/x14"
                     android:gravity="center_horizontal"
                     android:text="@string/selectImage"
                     android:textSize="@dimen/x20"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/iv_personalInformationImage" />
+                    android:layout_below="@+id/iv_personalInformationImage"/>
 
                 <RelativeLayout
                     android:id="@+id/view4"
                     style="@style/fastResume_RelativeLayout"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/view3">
+                    android:layout_width="match_parent"
+                   android:layout_below="@id/view3">
 
                     <com.hr.ui.view.MyTextView
                         android:id="@+id/tv_nameTag"
@@ -106,10 +103,9 @@
 
                 <RelativeLayout
                     android:id="@+id/view5"
+                    android:layout_width="match_parent"
                     style="@style/fastResume_RelativeLayout"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/view4">
+                    android:layout_below="@+id/view4">
 
                     <com.hr.ui.view.MyTextView
                         android:id="@+id/tv_sexTag"
@@ -139,10 +135,9 @@
 
                 <RelativeLayout
                     android:id="@+id/view6"
+                    android:layout_width="match_parent"
                     style="@style/fastResume_RelativeLayout"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/view5">
+                    android:layout_below="@+id/view5">
 
                     <com.hr.ui.view.MyTextView
                         android:id="@+id/tv_birthTag"
@@ -172,10 +167,9 @@
 
                 <RelativeLayout
                     android:id="@+id/view7"
+                    android:layout_width="match_parent"
                     style="@style/fastResume_RelativeLayout"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/view6">
+                    android:layout_below="@+id/view6">
 
                     <com.hr.ui.view.MyTextView
                         android:id="@+id/tv_livePlaceTag"
@@ -206,10 +200,9 @@
 
                 <RelativeLayout
                     android:id="@+id/view8"
+                    android:layout_width="match_parent"
                     style="@style/fastResume_RelativeLayout"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/view7">
+                    android:layout_below="@+id/view7">
 
                     <com.hr.ui.view.MyTextView
                         android:id="@+id/tv_workTimeTag"
@@ -241,10 +234,9 @@
 
                 <RelativeLayout
                     android:id="@+id/view9"
+                    android:layout_width="match_parent"
                     style="@style/fastResume_RelativeLayout"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/view8">
+                    android:layout_below="@+id/view8">
 
                     <com.hr.ui.view.MyTextView
                         android:id="@+id/tv_emailTag"
@@ -275,10 +267,10 @@
 
                 <RelativeLayout
                     android:id="@+id/view10"
+                    android:layout_width="match_parent"
                     style="@style/fastResume_RelativeLayout"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/view9">
+                    android:layout_marginBottom="@dimen/x40"
+                    android:layout_below="@+id/view9">
 
                     <com.hr.ui.view.MyTextView
                         android:id="@+id/tv_positionTitleTag"
@@ -306,22 +298,28 @@
                             style="@style/fastResume_view" />
                     </RelativeLayout>
                 </RelativeLayout>
-
-                <Button
-                    android:id="@+id/btn_next"
-                    android:text="@string/next"
-                    style="@style/fastResume_ButtonOK"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/view10" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/dimen_36dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/btn_next" />
-            </android.support.constraint.ConstraintLayout>
+            </RelativeLayout>
         </android.support.v4.widget.NestedScrollView>
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/rl_bottomPersonal"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:background="@drawable/top_shadow"
+            android:layout_height="wrap_content">
+            <Button
+                android:elevation="@dimen/x4"
+                android:id="@+id/btn_next"
+                android:text="@string/next"
+                android:layout_marginTop="@dimen/x20"
+                android:layout_width="match_parent"
+                style="@style/fastResume_ButtonOK"
+                android:layout_above="@+id/view11" />
 
+            <View
+                android:id="@+id/view11"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x72"/>
+        </LinearLayout>
+    </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

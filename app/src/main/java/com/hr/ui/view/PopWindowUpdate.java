@@ -2,6 +2,7 @@ package com.hr.ui.view;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -74,6 +75,10 @@ public class PopWindowUpdate {
         bundle.putString("versionName",androidBean.getVer());
        /* bundle.putString("version",);*/
         Intent it = new Intent().setClass(activity, DownloadSignatureServic.class).putExtras(bundle);
-        activity.startService(it);
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
+            activity.startForegroundService(it);
+        } else {
+            activity.startService(it);
+        }
     }
 }

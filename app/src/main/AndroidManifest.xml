@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.hr.ui"
-    android:versionCode="69"
-    android:versionName="6.0.1">
+    android:versionCode="70"
+    android:versionName="6.0.2">
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <!-- 添加必要的权限shareSDK -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
@@ -70,9 +70,6 @@
         <service
             android:name="com.service.CodeTimerService"
             android:enabled="true" />
-        <service android:name="com.service.MyTimeService"
-            android:enabled="true"
-            />
         <!--网络监听-->
         <receiver
             android:name="com.service.NetBroadCastReciver"

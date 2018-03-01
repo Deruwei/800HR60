@@ -53,6 +53,8 @@ public class SettingActivity extends BaseActivity<SettingPresenter,SettingModel>
     @BindView(R.id.iv_hideResume)
     Switch ivHideResume;
     private boolean isCheck;
+    private String isOpen;
+    private SharedPreferencesUtils sUtils;
     /**
      * 入口
      *
@@ -76,6 +78,8 @@ public class SettingActivity extends BaseActivity<SettingPresenter,SettingModel>
 
     @Override
     public void initView() {
+        sUtils=new SharedPreferencesUtils(this);
+        isOpen=sUtils.getStringValue(Constants.RESUME_OPENTYPE,"");
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -83,7 +87,13 @@ public class SettingActivity extends BaseActivity<SettingPresenter,SettingModel>
         toolBar.setTitleTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
         toolBar.setNavigationIcon(R.mipmap.back);
         tvToolbarTitle.setText(R.string.setting);
-        mPresenter.getNotice(PushAliasString.getDeviceId(this));
+        if ("2".equals(isOpen)) {
+            ivHideResume.setChecked(true);
+        }else if("0".equals(isOpen)){
+            ivHideResume.setChecked(false);
+        }
+        Log.i("现在的数据",isOpen);
+        //mPresenter.getNotice(PushAliasString.getDeviceId(this));
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,7 +103,15 @@ public class SettingActivity extends BaseActivity<SettingPresenter,SettingModel>
         ivHideResume.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                NoticeData noticeData=new NoticeData();
+                if (isChecked) {
+                        mPresenter.setHide("2");
+                        isOpen = "2";
+                } else {
+                    isCheck=false;
+                    mPresenter.setHide("0");
+                    isOpen="0";
+                }
+              /*  NoticeData noticeData=new NoticeData();
                 noticeData.setBaidu_channel_id(null);
                 noticeData.setBaidu_user_id(null);
                 noticeData.setNotice_bgntime("9:00");
@@ -111,7 +129,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter,SettingModel>
                     noticeData.setRushjob_state("0");
                     noticeData.setInvite_state("0");
                     mPresenter.setNotice(noticeData);
-                }
+                }*/
             }
         });
     }
@@ -189,6 +207,17 @@ public class SettingActivity extends BaseActivity<SettingPresenter,SettingModel>
         AppManager.getAppManager().finishAllActivity();
         SplashActivity.startAction(this,1);
 
+    }
+
+    @Override
+    public void setHideSuccess() {
+        Log.i("现在的数据",isOpen);
+        sUtils.setStringValue(Constants.RESUME_OPENTYPE,isOpen);
+        if (ivHideResume.isChecked()) {
+            ToastUitl.showShort("简历已保密");
+        } else {
+            ToastUitl.showShort("简历已公开");
+        }
     }
 
     @Override

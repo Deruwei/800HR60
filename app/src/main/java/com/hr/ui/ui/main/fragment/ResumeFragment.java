@@ -813,7 +813,17 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
                 mPresenter.getResume(resumeId+"",true);
                 break;
             case R.id.tv_refreshResume:
-                mPresenter.refreshResume(resumeId + "");
+                srlResume.setRefreshing(true);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        // 设置SwipeRefreshLayout当前是否处于刷新状态，一般是在请求数据的时候设置为true，在数据被加载到View中后，设置为false。
+                        mPresenter.refreshResume(resumeId + "");
+                        if (srlResume != null) {
+                            srlResume.setRefreshing(false);
+                        }
+                    }
+                }, 2000);
                 break;
             case R.id.rl_hideResume:
                 doUpdateResume();

@@ -32,6 +32,22 @@
                 android:text="@string/messageNotification"
                 style="@style/tv_setting" />
             <Switch
+                android:id="@+id/iv_hideMessageNotification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/x30"
+                android:thumb="@drawable/thumb"
+                android:track="@drawable/track" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rl_settingHideResume"
+            style="@style/rl_setting">
+            <TextView
+                android:text="@string/hideResume"
+                style="@style/tv_setting" />
+            <Switch
                 android:id="@+id/iv_hideResume"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

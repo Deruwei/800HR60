@@ -13,6 +13,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -143,6 +144,7 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
     public static final int IMAGE_PICKER = 0x20;
     private String imagePath;
     private String content,workYear;
+    private String resumeType;
     /**
      * 入口
      *
@@ -154,7 +156,13 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
         activity.overridePendingTransition(R.anim.fade_in,
                 R.anim.fade_out);
     }
-
+    public static void startAction(Activity activity,String resumeType) {
+        Intent intent = new Intent(activity, PersonalInformationActivity.class);
+        intent.putExtra("resumeType",resumeType);
+        activity.startActivity(intent);
+        activity.overridePendingTransition(R.anim.fade_in,
+                R.anim.fade_out);
+    }
     @Override
     public void showLoading(String title) {
 
@@ -186,22 +194,31 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
     public void uploadImageSuccess(String path) {
         sUtis.setStringValue(Constants.PERSONIMAGE,path);
         PersonalInformationData personalInformationData = new PersonalInformationData();
-        personalInformationData.setImageUrl(path);
         personalInformationData.setName(etName.getText().toString());
         personalInformationData.setSex(sex);
-        personalInformationData.setBirth(tvBirth.getText().toString());
+        personalInformationData.setBirth(bitrh);
+        personalInformationData.setImageUrl(path);
+        sUtis.setStringValue(Constants.BIRTHYEAR, bitrh.substring(0, bitrh.indexOf("-")));
         personalInformationData.setLivePlace(cityId);
-        if ("1".equals(type)) {
-            workTime=workTime;
-        } else {
-            workTime="-1";
-        }
-        personalInformationData.setWorkTime(workTime);
-        personalInformationData.setPositionTitle(jobTitleId);
-        personalInformationData.setPhoneNumber(phoneNumber);
         personalInformationData.setEmail(etEmail.getText().toString());
+        if ("1".equals(type)) {
+            personalInformationData.setWorkTime(workTime);
+        } else {
+            workTime = "-1";
+            personalInformationData.setWorkTime("-1");
+        }
+        personalInformationData.setPhoneNumber(phoneNumber);
+        personalInformationData.setPositionTitle(jobTitleId);
+        // Log.i("手机号码", phoneNumber);
         mPresenter.sendPersonalInformationToResume(personalInformationData);
     }
+
+    @Override
+    public void sendResumeId(int resumeId) {
+        sUtis.setIntValue(Constants.RESUME_ID,resumeId);
+        doSend();
+    }
+
 
     @Override
     public int getLayoutId() {
@@ -218,6 +235,7 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
         sUtis = new SharedPreferencesUtils(this);
         stopType = sUtis.getIntValue(Constants.RESUME_STOPTYPE, 0);
         startType=sUtis.getIntValue(Constants.RESUME_STARTTYPE,0);
+        resumeType=getIntent().getStringExtra("resumeType");
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -518,7 +536,7 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
                 break;
             case R.id.btn_next:
                 if(!ClickUtils.isFastClick()) {
-                    doSendPersonalInformation();
+                   doSendPersonalInformation();
                 }
                 break;
             case R.id.iv_nameDelete:
@@ -564,20 +582,29 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
             ToastUitl.showShort("请选择现有职称");
             return;
         }
-        if(content!=null&&!"".equals(content)) {
-            mPresenter.upLoadImage(content);
+        Log.i("resumeType",resumeType);
+        if(resumeType!=null&&!"".equals(resumeType)){
+            mPresenter.setResumeType(resumeType);
         }else {
+            doSend();
+        }
+    }
+
+    private void doSend() {
+        if (content != null && !"".equals(content)) {
+            mPresenter.upLoadImage(content);
+        } else {
             PersonalInformationData personalInformationData = new PersonalInformationData();
             personalInformationData.setName(etName.getText().toString());
             personalInformationData.setSex(sex);
             personalInformationData.setBirth(bitrh);
-            sUtis.setStringValue(Constants.BIRTHYEAR,bitrh.substring(0,bitrh.indexOf("-")));
+            sUtis.setStringValue(Constants.BIRTHYEAR, bitrh.substring(0, bitrh.indexOf("-")));
             personalInformationData.setLivePlace(cityId);
             personalInformationData.setEmail(etEmail.getText().toString());
             if ("1".equals(type)) {
                 personalInformationData.setWorkTime(workTime);
             } else {
-                workTime="-1";
+                workTime = "-1";
                 personalInformationData.setWorkTime("-1");
             }
             personalInformationData.setPhoneNumber(phoneNumber);

@@ -2,14 +2,17 @@ package com.hr.ui.ui.job.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,12 +59,15 @@ import com.hr.ui.api.HostType;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseNoConnectNetworkAcitivty;
 import com.hr.ui.utils.BaiDuLocationUtils;
+import com.hr.ui.utils.ToastUitl;
+import com.hr.ui.utils.Utils;
 import com.hr.ui.utils.datautils.SaveFile;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -93,17 +99,13 @@ public class BaiDuMapActivity extends BaseNoConnectNetworkAcitivty implements Ba
     ImageView ivLocation;
     private BaiduMap baiduMap;
     private double longitude,latitude;
-    private BitmapDescriptor mCurrentMarker;
     private MyLocationConfiguration.LocationMode mCurrentMode;
     public static BaiDuMapActivity instance;
     private UiSettings uiSettings;
     private String companyAddress;
-    private Polyline mPolyline;
     private String addressName;
-    private RoutePlanSearch search;
     private BDLocation location,location1;
     private LocationClient mClient;
-    private boolean isFirstLoc=true;
     private MyLocationListenner listenner;
     /**
      * 入口
@@ -136,30 +138,32 @@ public class BaiDuMapActivity extends BaseNoConnectNetworkAcitivty implements Ba
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        addressName=getIntent().getStringExtra("address");
-        location1=new BDLocation();
-        if(addressName==null||"".equals(addressName)) {
-            longitude = Double.parseDouble(getIntent().getStringExtra("x"));
-            latitude = Double.parseDouble(getIntent().getStringExtra("y"));
-            location1.setLongitude(longitude);
-            location1.setLatitude(latitude);
-            getCommanyData();
-        } else{
-            companyAddress=addressName;
-            getCompanyDataByName();
-        }
-
         toolBar.setTitle("");
         toolBar.setTitleTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
         toolBar.setNavigationIcon(R.mipmap.back);
         tvToolbarTitle.setText(R.string.companyAddress);
+        tvToolbarSave.setText("导航");
+        tvToolbarSave.setVisibility(View.VISIBLE);
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
+        addressName=getIntent().getStringExtra("address");
+        //Log.i("okht1",addressName);
+        location1=new BDLocation();
+        if(addressName!=null&&!"".equals(addressName)) {
+           /* longitude = Double.parseDouble(getIntent().getStringExtra("x"));
+            latitude = Double.parseDouble(getIntent().getStringExtra("y"));
+            location1.setLongitude(longitude);
+            location1.setLatitude(latitude);
+            getCommanyData();
+        } else{*/
+            companyAddress=addressName;
+            getCompanyDataByName();
+        }
+
         initBaiduMap();
 
     }
@@ -177,12 +181,12 @@ public class BaiDuMapActivity extends BaseNoConnectNetworkAcitivty implements Ba
         LocationClientOption option = new LocationClientOption();
         option.setOpenGps(true);// 打开gps
         option.setCoorType("bd09ll"); // 设置坐标类型
+        option.setIsNeedAddress(true);
         mClient.setLocOption(option);
         mClient.start();
         //地图点击事件处理
         baiduMap.setOnMapClickListener(this);
         // 初始化搜索模块，注册事件监听
-        search= RoutePlanSearch.newInstance();
     }
 
     private void initBaiDuMapStartAndEndPoint() {
@@ -231,6 +235,44 @@ public class BaiDuMapActivity extends BaseNoConnectNetworkAcitivty implements Ba
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_toolbarSave:
+                PopupMenu popup = new PopupMenu(this, tvToolbarSave);
+                //Inflating the Popup using xml file
+                popup.getMenuInflater()
+                        .inflate(R.menu.popup_menu, popup.getMenu());
+
+                //registering popup with OnMenuItemClickListener
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()){
+                            case R.id.baiDuMap:
+                                if (Utils.isAvilible(BaiDuMapActivity.this, "com.baidu.BaiduMap")) {
+                                        Intent i1 = new Intent();
+                                        // 公交路线规划
+                                        i1.setData(Uri.parse("baidumap://map/direction?origin=name:" + location.getAddrStr() + "|latlng:" + location.getLatitude() + "," + location.getLongitude() + "&destination=" + companyAddress + "&mode=transit&sy=3&index=0&target=1"));
+                                        startActivity(i1);
+                                } else {
+                                    ToastUitl.showShort("您尚未安装百度地图或地图版本过低");
+                                }
+                                break;
+                            case R.id.gaoDeMap:
+                                if (Utils.isAvilible(BaiDuMapActivity.this, "com.autonavi.minimap")) {
+                                    try {
+                                        //sourceApplication
+                                        Intent intent = Intent.getIntent("amapuri://route/plan/?slat="+location.getLatitude()+"&slon="+location.getLongitude()+"&sname="+location.getAddrStr()+"&did=BGVIS2&dlat="+location1.getLatitude()+"&dlon="+location1.getLongitude()+"&dname="+companyAddress+"&dev=0&t=1");
+                                        startActivity(intent);
+                                    } catch (URISyntaxException e) {
+                                        e.printStackTrace();
+                                    }
+                                } else {
+                                    ToastUitl.showShort("您尚未安装高德地图或地图版本过低");
+                                }
+                                break;
+                        }
+                        return true;
+                    }
+                });
+
+                popup.show(); //showing popup menu
                 break;
             case R.id.iv_location:
                 initLocation(location);
@@ -272,7 +314,7 @@ public class BaiDuMapActivity extends BaseNoConnectNetworkAcitivty implements Ba
         super.onDestroy();
         mClient.unRegisterLocationListener(listenner);
     }
-    private void getCommanyData(){
+  /*  private void getCommanyData(){
         ApiService RxService = Api.getDefault(HostType.HR);
         Observable<ResponseBody> Object = RxService.getCompanyAddress("http://api.map.baidu.com/geocoder/v2/?callback=renderReverse&location="+latitude+","+longitude+"&output=json&pois=1&ak=jMfg95xhZFMHsDjfxVitMjyg&mcode=FE:53:F7:B1:21:8A:71:5B:DA:B7:F6:08:87:CE:B4:85:AB:CA:71:FC;com.hr.ui");
         Subscriber mSubscriber = new Subscriber<ResponseBody>() {
@@ -304,7 +346,7 @@ public class BaiDuMapActivity extends BaseNoConnectNetworkAcitivty implements Ba
             }
         };
         Object.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(mSubscriber);
-    }
+    }*/
     private void getCompanyDataByName(){
         ApiService RxService = Api.getDefault(HostType.HR);
         Observable<ResponseBody> Object = RxService.getCompanyAddress("http://api.map.baidu.com/geocoder/v2/?address="+addressName+"&output=json&ak=jMfg95xhZFMHsDjfxVitMjyg&mcode=FE:53:F7:B1:21:8A:71:5B:DA:B7:F6:08:87:CE:B4:85:AB:CA:71:FC;com.hr.ui&callback=showLocation");
@@ -361,6 +403,7 @@ public class BaiDuMapActivity extends BaseNoConnectNetworkAcitivty implements Ba
             // map view 销毁后不在处理新接收的位置
             if (location == null || mapLocation == null)
                 return;
+            Log.i("okht",location.getAddress().address+""+location.getAddrStr());
         }
     }
 

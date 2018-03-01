@@ -118,7 +118,11 @@ public class EducationActivity extends BaseActivity<EducationPresenter, Educatio
     public void showErrorTip(String msg) {
 
     }
-
+    @Override
+    public void creatNewResumeSuccess(int resumeId) {
+        sUtils.setIntValue(Constants.RESUME_ID,resumeId);
+        doSend();
+    }
 
     @Override
     public int getLayoutId() {
@@ -350,6 +354,15 @@ public class EducationActivity extends BaseActivity<EducationPresenter, Educatio
             ToastUitl.showShort("请选择起止时间");
             return;
         }
+        boolean justElegantResume=sUtils.getBooleanValue(Constants.JUST_ELEGANTRESUME,false);
+        if(justElegantResume==true){
+            mPresenter.createNewResume();
+        }else {
+            doSend();
+        }
+    }
+
+    private void doSend() {
         EducationData educationData = new EducationData();
         educationData.setSchoolName(etSchool.getText().toString());
         educationData.setDegree(degreeId);

@@ -19,6 +19,7 @@ import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseNoConnectNetworkAcitivty;
 import com.hr.ui.ui.main.activity.WorkExpActivity;
 import com.hr.ui.utils.ToastUitl;
+import com.hr.ui.utils.Utils;
 import com.hr.ui.view.MyDialog;
 
 import butterknife.BindView;
@@ -113,6 +114,8 @@ public class ProjectContentActivity extends BaseNoConnectNetworkAcitivty {
         if(tag!=null&&!"".equals(tag)){
             if("1".equals(tag)) {
                 tvToolbarTitle.setText(R.string.projectDes);
+                Utils.showSoftInputFromWindow(this,etContent);
+                etContent.setHint(R.string.projectExpHint);
             }else if("2".equals(tag)){
                 tvToolbarTitle.setText(R.string.projectResponsibility);
             }

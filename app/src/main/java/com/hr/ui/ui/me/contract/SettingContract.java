@@ -18,16 +18,19 @@ public interface SettingContract {
     interface Model extends BaseModel{
         Observable<ResponseBody> getLoginOut();
         Observable<NoticeBean> getNotice(String ims);
+        Observable<ResponseBody> setHide(String openstate);
         Observable<ResponseBody> setNotice(NoticeData noticeData);
     }
     interface View extends BaseView{
         void getLoginOutSuccess();
+        void setHideSuccess();
         void getImsSuccess(NoticeBean.NoticeInfoBean noticeInfoBean);
         void setNoticeSuccess();
     }
     abstract class Presenter extends BasePresenter<View,Model>{
         public abstract void getLoginOut();
         public abstract void getNotice(String ims);
+        public abstract void setHide(String openstate);
         public abstract void setNotice(NoticeData noticeData);
     }
 }

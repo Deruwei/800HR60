@@ -73,6 +73,7 @@
             android:layout_toLeftOf="@+id/tv_jobSearch"
             android:background="@null"
             android:singleLine="true"
+            android:imeOptions="actionSearch"
             android:layout_marginRight="@dimen/x25"
             android:textColor="@color/color_333"
             android:textColorHint="@color/color_999"

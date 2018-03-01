@@ -1,5 +1,6 @@
 package com.service;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
@@ -51,6 +52,7 @@ public class DownloadSignatureServic extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        startForeground(1,new Notification());
     }
 
     @Override

@@ -477,15 +477,17 @@ public class ResumePersonalInfoActivity extends BaseActivity<ResumePersonalInfoP
                 break;
             case R.id.rl_resumePersonalInfoPhone:
                 setFocus();
-                if("2".equals(resumePersonalInfoBean.getBase_info().get(0).getYdphone_verify_status())) {
-                    ChangePhoneActivity.startAction(this,TAG);
-                }else{
-                    String phone=resumePersonalInfoBean.getBase_info().get(0).getYdphone();
-                    if(phone!=null&&RegularExpression.isCellphone(phone)==true) {
-                        ValidPhoneActivity.startAction(this,phone );
-                    }else{
-                        ToastUitl.showShort("号码错误，请重新进行号码的绑定");
-                        ChangePhoneActivity.startAction(this);
+                if(resumePersonalInfoBean!=null) {
+                    if ("2".equals(resumePersonalInfoBean.getBase_info().get(0).getYdphone_verify_status())) {
+                        ChangePhoneActivity.startAction(this, TAG);
+                    } else {
+                        String phone = resumePersonalInfoBean.getBase_info().get(0).getYdphone();
+                        if (phone != null && RegularExpression.isCellphone(phone) == true) {
+                            ValidPhoneActivity.startAction(this, phone);
+                        } else {
+                            ToastUitl.showShort("号码错误，请重新进行号码的绑定");
+                            ChangePhoneActivity.startAction(this);
+                        }
                     }
                 }
                 break;
@@ -624,10 +626,12 @@ public class ResumePersonalInfoActivity extends BaseActivity<ResumePersonalInfoP
     }
 
     public void setSelectCity(CityBean cityBean) {
-        etResumeLivePlace.setText(cityBean.getName());
-        liveplaceId = cityBean.getId();
-        cityBeanList.clear();
-        cityBeanList.add(cityBean);
+        if(cityBean!=null) {
+            etResumeLivePlace.setText(cityBean.getName());
+            liveplaceId = cityBean.getId();
+            cityBeanList.clear();
+            cityBeanList.add(cityBean);
+        }
     }
     public void setValid(String phoneNumber){
         resumePersonalInfoBean.getBase_info().get(0).setYdphone_verify_status("2");

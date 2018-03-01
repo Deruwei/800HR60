@@ -40,4 +40,36 @@ public class EducationPresenter extends EducationContract.Presenter {
             }
         }));
     }
+    @Override
+    public void createNewResume() {
+        mRxManage.add(mModel.creatNewResume().subscribe(new RxSubscriber<ResponseBody>(mContext,false) {
+            @Override
+            protected void _onNext(ResponseBody responseBody) throws IOException {
+                String s=responseBody.string().toString();
+                try {
+                    JSONObject jsonObject=new JSONObject(s);
+                    String error=jsonObject.getString("error_code");
+                    if("0".equals(error)){
+                        String resumeId=jsonObject.getString("resume_id");
+                        mView.creatNewResumeSuccess(Integer.parseInt(resumeId));
+                    }else{
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+             /*   if ("0".equals(pictureBean.getError_code())){
+                    mView.uploadImageSuccess(pictureBean.getPic_filekey());
+                }else{
+                    ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId(Integer.parseInt(pictureBean.getError_code())));
+                }*/
+            }
+
+            @Override
+            protected void _onError(String message) {
+
+            }
+        }));
+    }
 }

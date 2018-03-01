@@ -10,10 +10,13 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -144,9 +147,11 @@ public class JobSerchActivity extends BaseActivity<JobSearchPresenter, JobSearch
         historyBeanList = SearchHistoryUtils.queryAll();
         if (historyBeanList != null && historyBeanList.size() != 0) {
             rlHistoryTitle.setVisibility(View.VISIBLE);
+            rlJobSearchHistory.setVisibility(View.VISIBLE);
             initHistoryView();
         }else{
             rlHistoryTitle.setVisibility(View.GONE);
+            rlJobSearchHistory.setVisibility(View.GONE);
         }
         LinearLayoutManager manager = new LinearLayoutManager(this) {
             @Override
@@ -158,6 +163,19 @@ public class JobSerchActivity extends BaseActivity<JobSearchPresenter, JobSearch
         rvHotSearch.setLayoutManager(manager);
         DividerItemDecoration dividerDrawable = new DividerItemDecoration(this, 1);
         rvHotSearch.addItemDecoration(dividerDrawable);
+        Utils.showSoftInputFromWindow(this,etJobSearch);
+        etJobSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH){
+                    doSearch();
+                    InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    im.hideSoftInputFromWindow(getCurrentFocus().getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     private void initHistoryView() {
@@ -239,59 +257,13 @@ public class JobSerchActivity extends BaseActivity<JobSearchPresenter, JobSearch
                 initPopSearchType();
                 break;
             case R.id.tv_jobSearch:
-                JobSearchBean jobSearchBean = new JobSearchBean();
-                HistoryBean historyBean = new HistoryBean();
-                if (industryId != null && !"".equals(industryId)) {
-                    jobSearchBean.setIndustryId(industryId);
-                    historyBean.setIndustryId(industryId);
-                    isSearch = true;
-                }
-                jobSearchBean.setJobType(jobSerchType);
-                historyBean.setJobType(jobSerchType);
-                if (!"".equals(cityId) && cityId != null) {
-                    jobSearchBean.setPlaceId(cityId);
-                    historyBean.setPlaceId(cityId);
-                    isSearch = true;
-                }
-                if (!"".equals(postionId) && postionId != null) {
-                    jobSearchBean.setPositionId(postionId);
-                    historyBean.setPositionId(postionId);
-                    isSearch = true;
-                }
-                if (!"".equals(functionId) && functionId != null) {
-                    jobSearchBean.setFieldId(functionId);
-                    historyBean.setFieldId(functionId);
-                    isSearch = true;
-                }
-                if (isSearch == false) {
-                    if (etJobSearch.getText().toString() == null || "".equals(etJobSearch.getText().toString())) {
-                        if ("".equals(selectPositionList) || selectPositionList == null || selectPositionList.size() == 0) {
-                            ToastUitl.showShort("职位与关键词至少选择一个");
-                            return;
-                        }
-
-                    }
-                }
-                if (etJobSearch.getText().toString() != null && !"".equals(etJobSearch.getText().toString())) {
-                    jobSearchBean.setSearchName(etJobSearch.getText().toString());
-                    historyBean.setSearchName(etJobSearch.getText().toString());
-                    SearchHistoryUtils.insertJobSearchDataOrReplace(historyBean);
-                }
-
-
-                Intent intent = new Intent(this, MainActivity.class);
-                intent.putExtra("jobSearch", (Serializable) jobSearchBean);
-                setResult(RESULT_CODE, intent);
-                if(MainActivity.instance!=null){
-                    MainActivity.instance.isHome = false;
-                }
-                finish();
+                doSearch();
                 break;
             case R.id.rl_jobSearchPlace:
                 SelectCityActivity.startAction(this, 2, TAG, selectCityList);
                 break;
             case R.id.rl_jobSearchIndustry:
-                SelectFunctionActivity.startAction(this, industryId, selectFunctionList, TAG);
+                SelectIndustryActivity.startAction(JobSerchActivity.this, selectIndustryList);
                 break;
             case R.id.rl_jobSearchFunction:
                 if (industryId != null && !"".equals(industryId)) {
@@ -304,9 +276,60 @@ public class JobSerchActivity extends BaseActivity<JobSearchPresenter, JobSearch
             case R.id.iv_historyDelete:
                 SearchHistoryUtils.deleteAll();
                 rlJobSearchHistory.removeAllViewsInLayout();
+                rlJobSearchHistory.setVisibility(View.GONE);
                 rlHistoryTitle.setVisibility(View.GONE);
                 break;
         }
+    }
+
+    private void doSearch() {
+        JobSearchBean jobSearchBean = new JobSearchBean();
+        HistoryBean historyBean = new HistoryBean();
+        if (industryId != null && !"".equals(industryId)) {
+            jobSearchBean.setIndustryId(industryId);
+            historyBean.setIndustryId(industryId);
+            isSearch = true;
+        }
+        jobSearchBean.setJobType(jobSerchType);
+        historyBean.setJobType(jobSerchType);
+        if (!"".equals(cityId) && cityId != null) {
+            jobSearchBean.setPlaceId(cityId);
+            historyBean.setPlaceId(cityId);
+            isSearch = true;
+        }
+        if (!"".equals(postionId) && postionId != null) {
+            jobSearchBean.setPositionId(postionId);
+            historyBean.setPositionId(postionId);
+            isSearch = true;
+        }
+        if (!"".equals(functionId) && functionId != null) {
+            jobSearchBean.setFieldId(functionId);
+            historyBean.setFieldId(functionId);
+            isSearch = true;
+        }
+        if (isSearch == false) {
+            if (etJobSearch.getText().toString() == null || "".equals(etJobSearch.getText().toString())) {
+                if ("".equals(selectPositionList) || selectPositionList == null || selectPositionList.size() == 0) {
+                    ToastUitl.showShort("职位与关键词至少选择一个");
+                    return;
+                }
+
+            }
+        }
+        if (etJobSearch.getText().toString() != null && !"".equals(etJobSearch.getText().toString())) {
+            jobSearchBean.setSearchName(etJobSearch.getText().toString());
+            historyBean.setSearchName(etJobSearch.getText().toString());
+            SearchHistoryUtils.insertJobSearchDataOrReplace(historyBean);
+        }
+
+
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("jobSearch", (Serializable) jobSearchBean);
+        setResult(RESULT_CODE, intent);
+        if(MainActivity.instance!=null){
+            MainActivity.instance.isHome = false;
+        }
+        finish();
     }
 
     private void initPopSearchType() {
@@ -361,10 +384,16 @@ public class JobSerchActivity extends BaseActivity<JobSearchPresenter, JobSearch
             sb.append("," + selectCityList.get(i).getId());
             sbName.append("，" + selectCityList.get(i).getName());
         }
-        sb.deleteCharAt(0);
-        sbName.deleteCharAt(0);
-        cityId = sb.toString();
-        tvJobSearchPlace.setText(sbName);
+        if(sb!=null) {
+            sb.deleteCharAt(0);
+            cityId = sb.toString();
+        }
+        if(sbName!=null) {
+            sbName.deleteCharAt(0);
+            tvJobSearchPlace.setText(sbName.toString());
+        }
+
+
     }
 
     /**
@@ -398,7 +427,12 @@ public class JobSerchActivity extends BaseActivity<JobSearchPresenter, JobSearch
             tvJobSearchIndustry.setText("[" + ResumeInfoIDToString.getIndustry(HRApplication.getAppContext(), industryId, true) + "]");
         }
     }
-
+    public void setIndustry(CityBean cityBean){
+        if(cityBean!=null&&!"".equals(cityBean)){
+            tvJobSearchIndustry.setText(cityBean.getName());
+            industryId=cityBean.getId();
+        }
+    }
     public void setPosition(List<CityBean> selectPositionList) {
         this.selectPositionList.clear();
         this.selectPositionList = selectPositionList;

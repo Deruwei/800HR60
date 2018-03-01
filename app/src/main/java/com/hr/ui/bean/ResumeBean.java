@@ -57,10 +57,10 @@ public class ResumeBean implements Serializable{
         private List<ProjectListBean> project_list;
         private List<PlantListBean> plant_list;
         private List<SkillListBean> skill_list;
-        private List<?> subjoin_list;
+       /* private List<?> subjoin_list;*/
         private List<SlaveListBean> slave_list;
-        private List<?> attachment;
-        private List<?> certificate_list;
+      /*  private List<?> attachment;
+        private List<?> certificate_list;*/
 
         public List<TitleInfoBean> getTitle_info() {
             return title_info;
@@ -142,13 +142,13 @@ public class ResumeBean implements Serializable{
             this.skill_list = skill_list;
         }
 
-        public List<?> getSubjoin_list() {
+     /*   public List<?> getSubjoin_list() {
             return subjoin_list;
         }
 
         public void setSubjoin_list(List<?> subjoin_list) {
             this.subjoin_list = subjoin_list;
-        }
+        }*/
 
         public List<SlaveListBean> getSlave_list() {
             return slave_list;
@@ -158,7 +158,7 @@ public class ResumeBean implements Serializable{
             this.slave_list = slave_list;
         }
 
-        public List<?> getAttachment() {
+     /*   public List<?> getAttachment() {
             return attachment;
         }
 
@@ -172,7 +172,7 @@ public class ResumeBean implements Serializable{
 
         public void setCertificate_list(List<?> certificate_list) {
             this.certificate_list = certificate_list;
-        }
+        }*/
 
         public static class TitleInfoBean implements  Serializable{
             /**
@@ -2300,10 +2300,10 @@ public class ResumeBean implements Serializable{
                     ", project_list=" + project_list +
                     ", plant_list=" + plant_list +
                     ", skill_list=" + skill_list +
-                    ", subjoin_list=" + subjoin_list +
+                   /* ", subjoin_list=" + subjoin_list +*/
                     ", slave_list=" + slave_list +
-                    ", attachment=" + attachment +
-                    ", certificate_list=" + certificate_list +
+                   /* ", attachment=" + attachment +
+                    ", certificate_list=" + certificate_list +*/
                     '}';
         }
     }

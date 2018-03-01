@@ -5,6 +5,7 @@ import android.util.Log;
 import com.hr.ui.base.RxSubscriber;
 import com.hr.ui.bean.PersonalInformationData;
 import com.hr.ui.bean.PictureBean;
+import com.hr.ui.bean.ResumeIdBean;
 import com.hr.ui.ui.main.contract.PersonalInformationContract;
 import com.hr.ui.utils.Rc4Md5Utils;
 import com.hr.ui.utils.ToastUitl;
@@ -52,7 +53,24 @@ public class PersonalInformationPresenter extends PersonalInformationContract.Pr
             }
         }));
     }
+    @Override
+    public void setResumeType(String type) {
+        mRxManage.add(mModel.setResumeType(type).subscribe(new RxSubscriber<ResumeIdBean>(mContext,false) {
+            @Override
+            protected void _onNext(ResumeIdBean resumeIdBean) throws IOException {
+                if(resumeIdBean.getError_code()==0){
+                    mView.sendResumeId(resumeIdBean.getResume_id());
+                }else{
+                    ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) resumeIdBean.getError_code()));
+                }
+            }
 
+            @Override
+            protected void _onError(String message) {
+
+            }
+        }));
+    }
     @Override
     public void upLoadImage(String content) {
         mRxManage.add(mModel.upLoadImage(content).subscribe(new RxSubscriber<PictureBean>(mContext,false) {
@@ -71,4 +89,5 @@ public class PersonalInformationPresenter extends PersonalInformationContract.Pr
             }
         }));
     }
+
 }

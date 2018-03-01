@@ -483,9 +483,11 @@ public class ResumeWorkExpActivity extends BaseActivity<ResumeWorkExpPresenter, 
         clWorkExp.findFocus();
     }
     public void setSelectCity(CityBean cityBean) {
-        if (tvResumeWorkExpWorkPlace != null) {
-            tvResumeWorkExpWorkPlace.setText(cityBean.getName());
+        if(cityBean!=null) {
+            if (tvResumeWorkExpWorkPlace != null) {
+                tvResumeWorkExpWorkPlace.setText(cityBean.getName());
+            }
+            cityid = cityBean.getId();
         }
-        cityid = cityBean.getId();
     }
 }

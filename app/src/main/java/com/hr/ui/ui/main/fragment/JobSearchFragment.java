@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -198,7 +199,7 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
                 PositionPageActivity.startAction(getActivity(), searchList.get(pos).getJob_id());
             }
         });
-        rvJobSearchFragment.refreshComplete();
+        /*rvJobSearchFragment.refreshComplete();*/
     }
 
     @Override
@@ -226,6 +227,7 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
     @Override
     protected void initView() {
         jobSearchBean = (JobSearchBean) getArguments().getSerializable("jobSearch");
+        MobclickAgent.onEvent(getActivity(),"v6_scan_searchResultPage");
         initDialog();
         industryIdMain=jobSearchBean.getIndustryId();
         fieldId=jobSearchBean.getFieldId();
@@ -287,6 +289,7 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
                         tvJobSearchFragment.setText("关闭");
                         type = 1;
                     } else {
+                        etJobSearch.setCursorVisible(true);
                         tvJobSearchFragment.setText("搜索");
                         type = 2;
                     }
@@ -294,28 +297,23 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
             }
         });
         etJobSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-
             @Override
-            public boolean onEditorAction(TextView v, int actionId,
-                                          KeyEvent event) {
-                if ((actionId == 0 || actionId == 3) && event != null) {
-                    etJobSearch.setCursorVisible(false);
-                    doSearch();
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH){
                     InputMethodManager im = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                     im.hideSoftInputFromWindow(getActivity().getCurrentFocus().getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                    return true;
+                    doSearch(true);
                 }
                 return false;
-
             }
-
         });
     }
 
     public void initData(JobSearchBean jobSearchBean) {
+        int page=1;
         mPresenter.getSearchList(jobSearchBean, page,true);
         mPresenter.getTopSearchJob(jobSearchBean);
-        rvJobSearchFragment.refresh();
+       /* rvJobSearchFragment.refresh();*/
     }
 
     private void initDialog() {
@@ -349,7 +347,7 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
                     MainActivity.instance.isHome = true;
                     MainActivity.instance.setIndexSelected(0);
                 } else if (type == 2) {
-                    doSearch();
+                    doSearch(true);
                 }
                 setFocus();
                 break;
@@ -375,7 +373,7 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
         rlJobSearchFragmentTop.findFocus();
     }
 
-    private void doSearch() {
+    private void doSearch(boolean b) {
         if (!"".equals(etJobSearch.getText().toString()) && etJobSearch.getText().toString() != null) {
             jobSearchBean.setSearchName(etJobSearch.getText().toString());
         } else {
@@ -462,9 +460,10 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
             SearchHistoryUtils.insertJobSearchDataOrReplace(historyBean);
         }
         page=1;
-        mPresenter.getSearchList(jobSearchBean, page,true);
         mPresenter.getTopSearchJob(jobSearchBean);
-        rvJobSearchFragment.refresh();
+        mPresenter.getSearchList(jobSearchBean, page,b);
+
+        //rvJobSearchFragment.refresh();
     }
 
     private void initPopOther() {
@@ -763,7 +762,7 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
         workTypeId = FromStringToArrayList.getInstance().getDataId(selectWorkTypeList);
         releaseTimeId = FromStringToArrayList.getInstance().getDataId(selectReleaseTimeList);
         degreeNeedId = FromStringToArrayList.getInstance().getDataId(selectDegreeNeedList);
-        doSearch();
+        doSearch(true);
         //Log.i("当前的数据", "------" + workExpId);
     }
 
@@ -878,7 +877,7 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
         } else {
             placeId = "";
         }
-        doSearch();
+        doSearch(true);
     }
 
     /**
@@ -923,7 +922,7 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
                 industryIdMain = "";
             }
         }
-        doSearch();
+        doSearch(true);
     }
 
     @Override

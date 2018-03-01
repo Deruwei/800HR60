@@ -121,6 +121,7 @@ public class Api {
         okHttpClient = new OkHttpClient.Builder()
                 .readTimeout(READ_TIME_OUT, TimeUnit.MILLISECONDS)
                 .connectTimeout(CONNECT_TIME_OUT, TimeUnit.MILLISECONDS)
+                .retryOnConnectionFailure(true)
                 .addInterceptor(mRewriteCacheControlInterceptor)
                /* .sslSocketFactory(SSLHelper.getSSLCertifcation(context))//为OkHttp对象设置SocketFactory用于双向认证
                 .hostnameVerifier(new UnSafeHostnameVerifier())*/

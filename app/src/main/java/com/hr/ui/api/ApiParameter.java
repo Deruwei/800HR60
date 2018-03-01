@@ -259,8 +259,8 @@ public class ApiParameter {
     public static HashMap<String,String> getResumeList(){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_resume.resumelist");
-       /* requestMap.put("is_complete","1");
-        requestMap.put("mb","");*/
+        //requestMap.put("is_complete","1");
+        //requestMap.put("mb","1");
         return requestMap;
     }
     /**
@@ -304,7 +304,27 @@ public class ApiParameter {
         //Log.i("简历信息",requestMap.toString());
         return requestMap;
     }
-
+    public static HashMap<String,String> createNewResume(){
+        HashMap<String,String> requestMap=new HashMap<>();
+        SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
+        String elegantResumeId=sUtils.getStringValue(Constants.ELEGANTRESUME_ID,"");
+        String resumeId="";
+        if(elegantResumeId==null||"".equals(elegantResumeId)){
+            resumeId="1";
+        }else{
+            if("1".equals(elegantResumeId)){
+                resumeId="2";
+            }else{
+                resumeId="1";
+            }
+        }
+        requestMap.put("method","user_resume.titleset");
+        requestMap.put("resume_id",resumeId);
+        requestMap.put("resume_type","1");
+        requestMap.put("resume_language","zh");
+        //Log.i("简历信息",requestMap.toString());
+        return requestMap;
+    }
     /**
      * 添加或者修改简历的个人信息
      * @param personalInformationData
@@ -319,7 +339,10 @@ public class ApiParameter {
         requestMap.put("method","user_resume.baseinfoset");
         requestMap.put("resume_language","zh");
         SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
-        requestMap.put("resume",sUtils.getIntValue(Constants.RESUME_ID,0)+"");
+        int resumeId=sUtils.getIntValue(Constants.RESUME_ID,10);
+        if(resumeId!=10) {
+            requestMap.put("resume_id", resumeId+"");
+        }
         if(personalInformationData.getImageUrl()!=null&&!"".equals(personalInformationData.getImageUrl())) {
             requestMap.put("pic_filekey", personalInformationData.getImageUrl());
         }
@@ -351,7 +374,10 @@ public class ApiParameter {
         }
         requestMap.put("fromyear",fromYear);
         SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
-        requestMap.put("resume_id",sUtils.getIntValue(Constants.RESUME_ID,0)+"");
+        int resumeId=sUtils.getIntValue(Constants.RESUME_ID,10);
+        if(resumeId!=10) {
+            requestMap.put("resume_id", resumeId+"");
+        }
         requestMap.put("frommonth",fromMonth);
         requestMap.put("toyear",toYear);
         requestMap.put("tomonth",toMonth);
@@ -359,6 +385,7 @@ public class ApiParameter {
         requestMap.put("degree",educationData.getDegree());
         requestMap.put("moremajor",educationData.getProfession());
         requestMap.put("edudetail","");
+        Log.i("okht",requestMap.toString());
         return requestMap;
     }
     public static HashMap<String,String> sendWorkExpToResume(WorkExpData workExpData){
@@ -372,7 +399,10 @@ public class ApiParameter {
         String toMonth=endTime.substring(endTime.indexOf("-")+1);
         requestMap.put("method","user_resume.experienceset");
         SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
-        requestMap.put("resume_id",sUtils.getIntValue(Constants.RESUME_ID,0)+"");
+        int resumeId=sUtils.getIntValue(Constants.RESUME_ID,10);
+        if(resumeId!=10) {
+            requestMap.put("resume_id", resumeId+"");
+        }
         if(!"".equals(workExpData.getExperienceId())&&workExpData.getExperienceId()!=null){
             requestMap.put("experience_id",workExpData.getExperienceId());
         }
@@ -391,7 +421,10 @@ public class ApiParameter {
         SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_resume.orderset");
-        requestMap.put("resume_id",sUtils.getIntValue(Constants.RESUME_ID,0)+"");
+        int resumeId=sUtils.getIntValue(Constants.RESUME_ID,10);
+        if(resumeId!=10) {
+            requestMap.put("resume_id", resumeId+"");
+        }
         if(jobOrderData.getJobStyle()==null||"".equals(jobOrderData.getJobStyle())){
                 requestMap.put("current_workstate", "11");
         }else{
@@ -420,8 +453,23 @@ public class ApiParameter {
      */
     public static HashMap<String,String> setResumeType(String type){
         HashMap<String,String> requestMap=new HashMap<>();
-        requestMap.put("method","user_resume.typeset");
+        SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
+        String elegantResumeId=sUtils.getStringValue(Constants.ELEGANTRESUME_ID,"");
+        String resumeId="";
+        if(elegantResumeId==null||"".equals(elegantResumeId)){
+            resumeId="1";
+        }else{
+            if("1".equals(elegantResumeId)){
+                resumeId="2";
+            }else{
+                resumeId="1";
+            }
+        }
+        requestMap.put("method","user_resume.titleset");
+        requestMap.put("resume_id",resumeId);
         requestMap.put("resume_type",type);
+        requestMap.put("resume_language","zh");
+        //Log.i("简历信息",requestMap.toString());
         return requestMap;
     }
 

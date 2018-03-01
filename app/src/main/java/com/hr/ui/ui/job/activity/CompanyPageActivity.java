@@ -157,15 +157,15 @@ public class CompanyPageActivity extends BaseActivity<CompanyPagePresenter, Comp
                 if(enterpriseInfoBean.getAddress()!=null&&!"".equals(enterpriseInfoBean.getAddress())){
                     tvCompanyPageAddress.setText(enterpriseInfoBean.getAddress());
                 }else{
-                    if(enterpriseInfoBean.getBaidu_map_lat()==null||enterpriseInfoBean.getBaidu_map_lon()==null||"0.000000".equals(enterpriseInfoBean.getBaidu_map_lat())||"0.000000".equals(enterpriseInfoBean.getBaidu_map_lon())||"".equals(enterpriseInfoBean.getBaidu_map_lat())||"".equals(enterpriseInfoBean.getBaidu_map_lon())) {
-                        tvCompanyPageAddress.setText("公司暂无地址");
-                    }else{
+                   /* if(enterpriseInfoBean.getBaidu_map_lat()==null||enterpriseInfoBean.getBaidu_map_lon()==null||"0.000000".equals(enterpriseInfoBean.getBaidu_map_lat())||"0.000000".equals(enterpriseInfoBean.getBaidu_map_lon())||"".equals(enterpriseInfoBean.getBaidu_map_lat())||"".equals(enterpriseInfoBean.getBaidu_map_lon())) {*/
+                        tvCompanyPageAddress.setText("该公司未公开地址信息");
+                 /*   }else{
                         getCommanyData();
-                    }
+                    }*/
                 }
         }
     }
-    private void getCommanyData(){
+ /*   private void getCommanyData(){
         ApiService RxService = Api.getDefault(HostType.HR);
         Observable<ResponseBody> Object = RxService.getCompanyAddress("http://api.map.baidu.com/geocoder/v2/?callback=renderReverse&location="+enterpriseInfoBean.getBaidu_map_lat()+","+enterpriseInfoBean.getBaidu_map_lon()+"&output=json&pois=1&ak=jMfg95xhZFMHsDjfxVitMjyg&mcode=FE:53:F7:B1:21:8A:71:5B:DA:B7:F6:08:87:CE:B4:85:AB:CA:71:FC;com.hr.ui");
         Subscriber mSubscriber = new Subscriber<ResponseBody>() {
@@ -197,7 +197,7 @@ public class CompanyPageActivity extends BaseActivity<CompanyPagePresenter, Comp
             }
         };
         Object.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(mSubscriber);
-    }
+    }*/
     @Override
     public void getReleaseJobSuccess(List<RecommendJobBean.JobsListBean> jobInfoBeanList) {
         llCompanyContent.setVisibility(View.VISIBLE);
@@ -343,13 +343,13 @@ public class CompanyPageActivity extends BaseActivity<CompanyPagePresenter, Comp
         switch (v.getId()) {
             case R.id.ll_companyLocation:
                // Log.i("当前的经纬度",enterpriseInfoBean.getBaidu_map_lat()+"=----"+enterpriseInfoBean.getBaidu_map_lon());
-                if(enterpriseInfoBean.getBaidu_map_lat()==null||enterpriseInfoBean.getBaidu_map_lon()==null||"0.000000".equals(enterpriseInfoBean.getBaidu_map_lat())||"0.000000".equals(enterpriseInfoBean.getBaidu_map_lon())||"".equals(enterpriseInfoBean.getBaidu_map_lat())||"".equals(enterpriseInfoBean.getBaidu_map_lon())){
+               /* if(enterpriseInfoBean.getBaidu_map_lat()==null||enterpriseInfoBean.getBaidu_map_lon()==null||"0.000000".equals(enterpriseInfoBean.getBaidu_map_lat())||"0.000000".equals(enterpriseInfoBean.getBaidu_map_lon())||"".equals(enterpriseInfoBean.getBaidu_map_lat())||"".equals(enterpriseInfoBean.getBaidu_map_lon())){*/
                    if(enterpriseInfoBean.getAddress()!=null&&!"".equals(enterpriseInfoBean.getAddress())){
                        BaiDuMapActivity.startAction(this,enterpriseInfoBean.getAddress());
                    }
-                }else {
+            /*    }else {
                     BaiDuMapActivity.startAction(this, enterpriseInfoBean.getBaidu_map_lon(), enterpriseInfoBean.getBaidu_map_lat());
-                }
+                }*/
                 break;
             case R.id.iv_noNetError:
                 mPresenter.getCompanyData(companyId);

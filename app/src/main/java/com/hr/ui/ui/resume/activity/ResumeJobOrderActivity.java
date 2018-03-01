@@ -474,7 +474,7 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
            ToastUitl.showShort("请选择工作城市");
            return;
        }
-       if(orderInfoBean.getOrder_industry()==null||"".equals(orderInfoBean.getOrder_industry())||orderInfoBean.getOrder_industry().size()==0){
+       if(orderInfoBean==null||orderInfoBean.getOrder_industry()==null||"".equals(orderInfoBean.getOrder_industry())||orderInfoBean.getOrder_industry().size()==0){
            ToastUitl.showShort("请选择期望职位");
            return;
        }
@@ -483,10 +483,10 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
        jobOrderData.setSalary(tvResumeJobOrderExpectedSalary.getText().toString());
        jobOrderData.setWorkType(jobType);
        jobOrderData.setJobStyle(jobStyle);
-        jobOrderData.setExpectPosition(positionId);
-        jobOrderData.setExpectArea(funId);
-        jobOrderData.setIndustry(industryId);
-        jobOrderData.setMode(mode);
+       jobOrderData.setExpectPosition(positionId);
+       jobOrderData.setExpectArea(funId);
+       jobOrderData.setIndustry(industryId);
+       jobOrderData.setMode(mode);
        mPresenter.setJobOrderInfo(jobOrderData);
     }
 

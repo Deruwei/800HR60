@@ -8,6 +8,7 @@ import com.hr.ui.api.HostType;
 import com.hr.ui.base.RxSchedulers;
 import com.hr.ui.bean.PersonalInformationData;
 import com.hr.ui.bean.PictureBean;
+import com.hr.ui.bean.ResumeIdBean;
 import com.hr.ui.ui.main.contract.PersonalInformationContract;
 import com.hr.ui.utils.EncryptUtils;
 
@@ -35,7 +36,19 @@ public class PersonalInformationModel implements PersonalInformationContract.Mod
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(RxSchedulers.<ResponseBody>io_main());
     }
-
+    @Override
+    public Observable<ResumeIdBean> setResumeType(String type) {
+        return Api.getDefault(HostType.HR).setResumeType(EncryptUtils.encrypParams(ApiParameter.setResumeType(type)))
+                .map(new Func1<ResumeIdBean, ResumeIdBean>() {
+                    @Override
+                    public ResumeIdBean call(ResumeIdBean resumeIdBean) {
+                        return resumeIdBean;
+                    }
+                })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxSchedulers.<ResumeIdBean>io_main());
+    }
     @Override
     public Observable<PictureBean> upLoadImage(String content) {
         return Api.getDefault(HostType.HR).uploadImage(EncryptUtils.encrypParams(ApiParameter.upLoadImage(content)))
@@ -49,4 +62,5 @@ public class PersonalInformationModel implements PersonalInformationContract.Mod
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(RxSchedulers.<PictureBean>io_main());
     }
+
 }

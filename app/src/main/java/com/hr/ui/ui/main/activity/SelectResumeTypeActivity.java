@@ -89,12 +89,12 @@ public class SelectResumeTypeActivity extends BaseActivity<ResumeTypePresenter, 
             case R.id.rl_selectStudent:
                 type="2";
                 sUtils.setStringValue(Constants.RESUME_TYPE,type);
-                doSetResumeType();
+                PersonalInformationActivity.startAction(this,type);
                 break;
             case R.id.rl_selectHasJob:
                 type="1";
                 sUtils.setStringValue(Constants.RESUME_TYPE,type);
-                doSetResumeType();
+                PersonalInformationActivity.startAction(this,type);
                 break;
         }
     }

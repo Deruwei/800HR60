@@ -252,11 +252,15 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
 
     @Override
     public void getRecommendJobError() {
-        if(recommendList.size()==0) {
-            rlEmptyView.setVisibility(View.GONE);
-            rvHomeFragment.setVisibility(View.GONE);
-            llNetError.setVisibility(View.VISIBLE);
-        }
+            if(rlEmptyView!=null) {
+                rlEmptyView.setVisibility(View.GONE);
+            }
+            if(rvHomeFragment!=null) {
+                rvHomeFragment.setVisibility(View.GONE);
+            }
+            if(rvHomeFragment!=null) {
+                llNetError.setVisibility(View.VISIBLE);
+            }
     }
 
     @Override

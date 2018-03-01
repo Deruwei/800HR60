@@ -18,6 +18,7 @@ import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseNoConnectNetworkAcitivty;
 import com.hr.ui.ui.resume.activity.ResumeWorkExpActivity;
 import com.hr.ui.utils.ToastUitl;
+import com.hr.ui.utils.Utils;
 import com.hr.ui.view.MyDialog;
 
 import butterknife.BindView;
@@ -66,6 +67,8 @@ public class ContentActivity extends BaseNoConnectNetworkAcitivty {
         toolBar.setTitleTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
         toolBar.setNavigationIcon(R.mipmap.back);
         tvToolbarTitle.setText(R.string.jobDescription);
+        etContent.setHint(R.string.jobDescriptionHint);
+        Utils.showSoftInputFromWindow(this,etContent);
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

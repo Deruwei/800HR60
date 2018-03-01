@@ -306,7 +306,23 @@
     <string name="pre_texSalary">税前月薪</string>
     <string name="grossPay_hint">请填写税前月薪</string>
     <string name="jobDescription">职责描述</string>
+    <string name="jobDescriptionHint">
+        【填写案例】：\n\n
+        作为品质经理，我的工作职责主要有：\n
+\u3000\u3000 1.督导各部门提升产品质量，防止异常发生,达到公司的品质目标。\n
+\u3000\u3000 2.协调及推动各部门按ISO9000各要素运作。\n
+\u3000\u3000 3.召开各种品质会议，协调各部门处理异常问题。\n
+\u3000\u3000 4.审核相关部门呈交的文件。
+</string>
     <string name="jobDescription_hint">请填写职责描述</string>
+    <string name="projectExpHint">【填写案例】：\n\n项目主要分三个步骤：\n
+
+\u3000\u3000 1.分析投资收益比，项目的可行性，厂商所应具备的条件。以客户提出的《需求建议书》或《招标书》为参考。\n
+
+\u3000\u3000 2.由各厂商向客户提交标书、介绍解决方案。竞标成功则签定合同。\n
+
+\u3000\u3000 3.由项目经理和项目组代表公司完全承担合同规定的任务。制定工作计划，定期监控进展，分析项目偏差，采取必要措施以实现目标。\n
+</string>
     <string name="jobIntention">求职意向</string>
     <string name="jobIntentionHelper">设置求职意向，开始找工作吧！</string>
     <string name="workType">工作性质</string>

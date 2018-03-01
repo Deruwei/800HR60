@@ -12,6 +12,9 @@ public class Constants {
     public static  String  ALIAS;
     public static String TYPE_THIRDPARTLOGIN = "";
     public static final String RESUME_ID="resume_id";
+    public static final String ELEGANTRESUME_ID="elegantResume_id";
+    public static final String JUST_ELEGANTRESUME="just_elegantResume";
+    public static final String BASEINFO_STR="baseInfo_str";
     public static final String RESUME_TYPE="resume_type";
     public static final String INDUSTRY_ID="industryId";
     public static final String RESUME_STARTTYPE="start_type";//表示快速简历页面在哪页停止，然后进入主页面
@@ -33,6 +36,7 @@ public class Constants {
     public static final String JOB_VER="job_ver";
     public static final String LINGYU_VER="lingYu_ver";
     public static final String PERSONIMAGE="person_image";
+    public static final String RESUME_OPENTYPE="resume_open";
     public static final String CITYNAME="city_name";
     public static final String ISFIRSTINTO="is_firstInto";
     public static final String BIRTHYEAR="birth_year";
@@ -48,7 +52,7 @@ public class Constants {
     //当前使用的设备
     public static final String OS_NAME = "android";
     //api版本
-    public static final String API_VER = "3.0";
+    public static final String API_VER = "4.0";
     //线上
     public static final String IMAGE_BASEPATH="http://file.800hr.com/";
     public static final String IMAGE_BASEPATH2="http://img.800hr.com";

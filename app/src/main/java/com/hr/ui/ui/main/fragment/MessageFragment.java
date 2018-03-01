@@ -164,6 +164,7 @@ public class MessageFragment extends BaseFragment<MessageFragmentPresenter, Mess
     @Override
     public void getWhoSeeMeSuccess(List<WhoSeeMeBean.BrowsedListBean> browsedListBeans) {
         if (isFlesh == true) {
+            isFlesh=false;
             ToastUitl.showShort("刷新成功");
         }
         if (browsedListBeans != null && browsedListBeans.size() != 0) {
@@ -200,6 +201,7 @@ public class MessageFragment extends BaseFragment<MessageFragmentPresenter, Mess
     public void getInviteInterViewSuceess(final List<InviteBean.InvitedListBean> invitedListBeans) {
         if (invitedListBeans != null && invitedListBeans.size() != 0) {
             if (page == 1) {
+                adapter = new MyMessageAdapter(getActivity());
                 invitedListBeanList.clear();
                 invitedListBeanList.addAll(invitedListBeans);
                 adapter.setListBeans(invitedListBeanList);
@@ -214,7 +216,7 @@ public class MessageFragment extends BaseFragment<MessageFragmentPresenter, Mess
         adapter.setClickCallBack(new MyMessageAdapter.ItemClickCallBack() {
             @Override
             public void onItemClick(int pos) {
-                InviteActivity.startAction(getActivity(), invitedListBeans.get(pos), pos);
+                InviteActivity.startAction(getActivity(), invitedListBeanList.get(pos), pos);
             }
         });
     }
@@ -289,6 +291,7 @@ public class MessageFragment extends BaseFragment<MessageFragmentPresenter, Mess
     }
 
     public void getDate(boolean b) {
+        page=1;
         mPresenter.getDeliverFeedback(page, 0, 0, b);
         mPresenter.getInviteInterview(page);
         mPresenter.getWHoSeeMe(page);

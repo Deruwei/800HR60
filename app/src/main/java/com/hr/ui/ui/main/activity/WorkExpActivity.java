@@ -469,10 +469,12 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
     }
 
     public void setSelectCity(CityBean cityBean) {
-        if (tvWorkPlace != null) {
-            tvWorkPlace.setText(cityBean.getName());
+        if(cityBean!=null) {
+            if (tvWorkPlace != null) {
+                tvWorkPlace.setText(cityBean.getName());
+            }
+            cityId = cityBean.getId();
         }
-        cityId = cityBean.getId();
     }
 
     public void setTvResponsibilityDes(String content) {

@@ -229,7 +229,7 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
                 rlLeftPage.setBackgroundResource(R.drawable.resume_title_bg);
             }
         }
-        ft.commit();
+        ft.commitAllowingStateLoss();
         //再次赋值
         mIndex = index;
 

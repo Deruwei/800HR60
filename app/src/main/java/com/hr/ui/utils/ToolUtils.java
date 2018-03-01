@@ -8,6 +8,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.hr.ui.app.AppManager;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.bean.MultipleResumeBean;
@@ -30,6 +31,7 @@ import com.hr.ui.ui.main.activity.WorkExpActivity;
 import com.hr.ui.ui.main.presenter.SplashPresenter;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,21 +50,51 @@ public class ToolUtils {
     public  void judgeResumeMultipleOrOne(Activity activity, MultipleResumeBean multipleResumeBean, int userId, int[] imageIds, LoginPresenter mPresenter){
         SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
         sUtils.setStringValue(Constants.USERPHONE,multipleResumeBean.getBase_info().get(0).getYdphone());
+        sUtils.setStringValue(Constants.PERSONIMAGE,"");
         //System.out.println(""+multipleResumeBean.getBase_info().get(0).getYdphone()+"---"+multipleResumeBean.getBase_info().get(0).getTelephone());
         if(multipleResumeBean.getResume_list()==null||"".equals(multipleResumeBean.getResume_list())||multipleResumeBean.getResume_list().size()==0){
+            sUtils.setBooleanValue(Constants.JUST_ELEGANTRESUME,false);
             RobotActivity.startAction(activity,userId);
             sUtils.setIntValue(Constants.RESUME_STOPTYPE, 0);
             sUtils.setIntValue(Constants.RESUME_STARTTYPE,0);
             sUtils.setStringValue(Constants.EDUCATION_ID,"");
             sUtils.setStringValue(Constants.WORKEXP_ID,"");
         }else{
-            sUtils.setIntValue(Constants.RESUME_ID,Integer.parseInt(multipleResumeBean.getResume_list().get(0).getResume_id()));
-            mPresenter.getResumeData(multipleResumeBean.getResume_list().get(0).getResume_id());
+            MultipleResumeBean.ResumeListBean resumeListBean=null;
+            if(multipleResumeBean.getResume_list().size()==1){
+                resumeListBean=multipleResumeBean.getResume_list().get(0);
+                if("4".equals(resumeListBean.getResume_type())){
+                    sUtils.setBooleanValue(Constants.JUST_ELEGANTRESUME,true);
+                    sUtils.setStringValue(Constants.ELEGANTRESUME_ID,resumeListBean.getResume_id());
+                    RobotActivity.startAction(activity,userId);
+                    sUtils.setIntValue(Constants.RESUME_ID,10);
+                    sUtils.setStringValue(Constants.RESUME_TYPE,"1");
+                    sUtils.setIntValue(Constants.RESUME_STOPTYPE, 0);
+                    sUtils.setIntValue(Constants.RESUME_STARTTYPE,0);
+                    sUtils.setStringValue(Constants.EDUCATION_ID,"");
+                    sUtils.setStringValue(Constants.WORKEXP_ID,"");
+                }else {
+                    sUtils.setBooleanValue(Constants.JUST_ELEGANTRESUME,false);
+                    sUtils.setIntValue(Constants.RESUME_ID, Integer.parseInt(resumeListBean.getResume_id()));
+                    mPresenter.getResumeData(resumeListBean.getResume_id());
+                }
+            }else{
+                sUtils.setBooleanValue(Constants.JUST_ELEGANTRESUME,false);
+                for(int i=0;i<multipleResumeBean.getResume_list().size();i++){
+                    if(!"4".equals(multipleResumeBean.getResume_list().get(i).getResume_type())){
+                        resumeListBean=multipleResumeBean.getResume_list().get(i);
+                        break;
+                    }
+                }
+                sUtils.setIntValue(Constants.RESUME_ID, Integer.parseInt(resumeListBean.getResume_id()));
+                mPresenter.getResumeData(resumeListBean.getResume_id());
+            }
         }
     }
     public void judgeResumeIsComplete(ResumeBean resumeBean, Activity activity, ArrayList<String> titles){
         titles=new ArrayList<>();
         SharedPreferencesUtils sharedPreferencesUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
+        sharedPreferencesUtils.setStringValue(Constants.RESUME_OPENTYPE,resumeBean.getResume_info().getTitle_info().get(0).getOpen());
         if(!"".equals(resumeBean.getResume_info().getBase_info().get(0).getPic_filekey())&&resumeBean.getResume_info().getBase_info().get(0).getPic_filekey()!=null){
             sharedPreferencesUtils.setStringValue(Constants.PERSONIMAGE,resumeBean.getResume_info().getBase_info().get(0).getPic_filekey());
         }else{
@@ -145,28 +177,93 @@ public class ToolUtils {
     }
     public  void judgeResumeMultipleOrOne2(Activity activity, MultipleResumeBean multipleResumeBean, int userId, int[] imageIds, RegisterPresenter mPresenter){
         SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
+        sUtils.setStringValue(Constants.USERPHONE,multipleResumeBean.getBase_info().get(0).getYdphone());
+        sUtils.setStringValue(Constants.PERSONIMAGE,"");
+        //System.out.println(""+multipleResumeBean.getBase_info().get(0).getYdphone()+"---"+multipleResumeBean.getBase_info().get(0).getTelephone());
         if(multipleResumeBean.getResume_list()==null||"".equals(multipleResumeBean.getResume_list())||multipleResumeBean.getResume_list().size()==0){
+            sUtils.setBooleanValue(Constants.JUST_ELEGANTRESUME,false);
             RobotActivity.startAction(activity,userId);
             sUtils.setIntValue(Constants.RESUME_STOPTYPE, 0);
             sUtils.setIntValue(Constants.RESUME_STARTTYPE,0);
             sUtils.setStringValue(Constants.EDUCATION_ID,"");
             sUtils.setStringValue(Constants.WORKEXP_ID,"");
         }else{
-            mPresenter.getResumeData(multipleResumeBean.getResume_list().get(0).getResume_id());
-            sUtils.setIntValue(Constants.RESUME_ID,Integer.parseInt(multipleResumeBean.getResume_list().get(0).getResume_id()));
+            MultipleResumeBean.ResumeListBean resumeListBean=null;
+            if(multipleResumeBean.getResume_list().size()==1){
+                resumeListBean=multipleResumeBean.getResume_list().get(0);
+                if("4".equals(resumeListBean.getResume_type())){
+                    sUtils.setBooleanValue(Constants.JUST_ELEGANTRESUME,true);
+                    RobotActivity.startAction(activity,userId);
+                    sUtils.setIntValue(Constants.RESUME_ID,10);
+                    sUtils.setStringValue(Constants.RESUME_TYPE,"1");
+                    sUtils.setStringValue(Constants.ELEGANTRESUME_ID,resumeListBean.getResume_id());
+                    sUtils.setIntValue(Constants.RESUME_STOPTYPE, 0);
+                    sUtils.setIntValue(Constants.RESUME_STARTTYPE,0);
+                    sUtils.setStringValue(Constants.EDUCATION_ID,"");
+                    sUtils.setStringValue(Constants.WORKEXP_ID,"");
+                }else {
+                    sUtils.setBooleanValue(Constants.JUST_ELEGANTRESUME,false);
+                    sUtils.setIntValue(Constants.RESUME_ID, Integer.parseInt(resumeListBean.getResume_id()));
+                    mPresenter.getResumeData(resumeListBean.getResume_id());
+                }
+            }else{
+                sUtils.setBooleanValue(Constants.JUST_ELEGANTRESUME,false);
+                for(int i=0;i<multipleResumeBean.getResume_list().size();i++){
+                    if(!"4".equals(multipleResumeBean.getResume_list().get(i).getResume_type())){
+                        resumeListBean=multipleResumeBean.getResume_list().get(i);
+                        break;
+                    }
+                }
+                sUtils.setIntValue(Constants.RESUME_ID, Integer.parseInt(resumeListBean.getResume_id()));
+                mPresenter.getResumeData(resumeListBean.getResume_id());
+            }
         }
     }
     public  void judgeResumeMultipleOrOne3(Activity activity, MultipleResumeBean multipleResumeBean, int userId, int[] imageIds, SplashPresenter mPresenter){
         SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
+        sUtils.setStringValue(Constants.USERPHONE,multipleResumeBean.getBase_info().get(0).getYdphone());
+        sUtils.setStringValue(Constants.PERSONIMAGE,"");
+        StringWriter str=new StringWriter();
+        String baseInfo=new Gson().toJson(multipleResumeBean.getBase_info().get(0));
+        sUtils.setStringValue(Constants.BASEINFO_STR,baseInfo);
+        //System.out.println(""+multipleResumeBean.getBase_info().get(0).getYdphone()+"---"+multipleResumeBean.getBase_info().get(0).getTelephone());
         if(multipleResumeBean.getResume_list()==null||"".equals(multipleResumeBean.getResume_list())||multipleResumeBean.getResume_list().size()==0){
+            sUtils.setBooleanValue(Constants.JUST_ELEGANTRESUME,false);
+            RobotActivity.startAction(activity,userId);
             sUtils.setIntValue(Constants.RESUME_STOPTYPE, 0);
             sUtils.setIntValue(Constants.RESUME_STARTTYPE,0);
             sUtils.setStringValue(Constants.EDUCATION_ID,"");
             sUtils.setStringValue(Constants.WORKEXP_ID,"");
-            RobotActivity.startAction(activity,userId);
         }else{
-            mPresenter.getResumeData(multipleResumeBean.getResume_list().get(0).getResume_id());
-            sUtils.setIntValue(Constants.RESUME_ID,Integer.parseInt(multipleResumeBean.getResume_list().get(0).getResume_id()));
+            MultipleResumeBean.ResumeListBean resumeListBean=null;
+            if(multipleResumeBean.getResume_list().size()==1){
+                resumeListBean=multipleResumeBean.getResume_list().get(0);
+                if("4".equals(resumeListBean.getResume_type())){
+                    sUtils.setBooleanValue(Constants.JUST_ELEGANTRESUME,true);
+                    sUtils.setStringValue(Constants.ELEGANTRESUME_ID,resumeListBean.getResume_id());
+                    RobotActivity.startAction(activity,userId);
+                    sUtils.setIntValue(Constants.RESUME_STOPTYPE, 0);
+                    sUtils.setIntValue(Constants.RESUME_STARTTYPE,0);
+                    sUtils.setStringValue(Constants.RESUME_TYPE,"1");
+                    sUtils.setIntValue(Constants.RESUME_ID,10);
+                    sUtils.setStringValue(Constants.EDUCATION_ID,"");
+                    sUtils.setStringValue(Constants.WORKEXP_ID,"");
+                }else {
+                    sUtils.setBooleanValue(Constants.JUST_ELEGANTRESUME,false);
+                    sUtils.setIntValue(Constants.RESUME_ID, Integer.parseInt(resumeListBean.getResume_id()));
+                    mPresenter.getResumeData(resumeListBean.getResume_id());
+                }
+            }else{
+                sUtils.setBooleanValue(Constants.JUST_ELEGANTRESUME,false);
+                for(int i=0;i<multipleResumeBean.getResume_list().size();i++){
+                    if(!"4".equals(multipleResumeBean.getResume_list().get(i).getResume_type())){
+                        resumeListBean=multipleResumeBean.getResume_list().get(i);
+                        break;
+                    }
+                }
+                sUtils.setIntValue(Constants.RESUME_ID, Integer.parseInt(resumeListBean.getResume_id()));
+                mPresenter.getResumeData(resumeListBean.getResume_id());
+            }
         }
     }
 }
