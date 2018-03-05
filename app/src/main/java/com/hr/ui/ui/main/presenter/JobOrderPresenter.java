@@ -51,7 +51,35 @@ public class JobOrderPresenter extends JobOrderContract.Presenter{
             }
         }));
     }
+    @Override
+    public void setHide(String openstate) {
+        mRxManage.add(mModel.setHide(openstate).subscribe(new RxSubscriber<ResponseBody>(mContext,false) {
+            @Override
+            protected void _onNext(ResponseBody responseBody) throws IOException {
+                String s= null;
+                try {
+                    s = responseBody.string().toString();
+                    JSONObject jsonObject=new JSONObject(s);
+                    double error_code=jsonObject.getDouble("error_code");
+                    if(error_code==0) {
+                        //System.out.print(s);
+                        mView.setHideSuccess();
+                    }else{
+                        ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) error_code));
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
 
+            @Override
+            protected void _onError(String message) {
+
+            }
+        }));
+    }
     @Override
     public void setDefaultResume(String resumeId, String important) {
         mRxManage.add(mModel.setDefaultResume(resumeId,important).subscribe(new RxSubscriber<ResponseBody>(mContext,false) {

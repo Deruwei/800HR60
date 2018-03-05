@@ -137,8 +137,14 @@ public class JobOrderActivity extends BaseActivity<JobOrderPresenter, JobOrderMo
 
     @Override
     public void setDefaultResumeSuccess() {
+        mPresenter.setHide("0");
         MainActivity.startAction(this, userId);
         AppManager.getAppManager().finishAllActivity();
+    }
+
+    @Override
+    public void setHideSuccess() {
+        sUtils.setStringValue(Constants.RESUME_OPENTYPE,"0");
     }
 
     @Override

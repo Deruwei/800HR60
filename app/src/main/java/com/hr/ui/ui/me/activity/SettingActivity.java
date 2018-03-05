@@ -92,7 +92,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter,SettingModel>
         }else if("0".equals(isOpen)){
             ivHideResume.setChecked(false);
         }
-        Log.i("现在的数据",isOpen);
+       // Log.i("现在的数据",isOpen);
         //mPresenter.getNotice(PushAliasString.getDeviceId(this));
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -211,7 +211,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter,SettingModel>
 
     @Override
     public void setHideSuccess() {
-        Log.i("现在的数据",isOpen);
+        //Log.i("现在的数据",isOpen);
         sUtils.setStringValue(Constants.RESUME_OPENTYPE,isOpen);
         if (ivHideResume.isChecked()) {
             ToastUitl.showShort("简历已保密");

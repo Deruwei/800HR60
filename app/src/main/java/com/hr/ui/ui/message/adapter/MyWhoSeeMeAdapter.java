@@ -69,6 +69,8 @@ public class MyWhoSeeMeAdapter extends RecyclerView.Adapter<MyWhoSeeMeAdapter.Vi
             viewHolder.tvWhoSeeMePositionNum.setVisibility(View.GONE);
         } else {
             viewHolder.llWhoSeeMePosition.setVisibility(View.VISIBLE);
+            viewHolder.llWhoSeeMeText1.setText("等");
+            viewHolder.llWhoSeeMeText2.setText("个职位在招");
             viewHolder.llWhoSeeMeText2.setVisibility(View.VISIBLE);
             viewHolder.tvWhoSeeMePositionNum.setVisibility(View.VISIBLE);
             if (Integer.parseInt(listBeans.get(position).getRecruit_info().getTotal()) > 20) {

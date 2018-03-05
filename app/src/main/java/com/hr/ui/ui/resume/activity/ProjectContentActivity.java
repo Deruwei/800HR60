@@ -128,7 +128,7 @@ public class ProjectContentActivity extends BaseNoConnectNetworkAcitivty {
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (etContent.getText().toString() != null && !"".equals(etContent.getText().toString())&&!text.equals(etContent.getText().toString())) {
+                if (etContent.getText().toString() != null && !"".equals(etContent.getText().toString())&&!etContent.getText().toString().equals(etContent)) {
                     myDialog = new MyDialog(ProjectContentActivity.this, 2);
                     myDialog.setMessage(getString(R.string.exitWarning));
                     myDialog.setYesOnclickListener("确定", new MyDialog.onYesOnclickListener() {

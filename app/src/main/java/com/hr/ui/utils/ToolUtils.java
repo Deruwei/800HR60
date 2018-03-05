@@ -50,7 +50,6 @@ public class ToolUtils {
     public  void judgeResumeMultipleOrOne(Activity activity, MultipleResumeBean multipleResumeBean, int userId, int[] imageIds, LoginPresenter mPresenter){
         SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
         sUtils.setStringValue(Constants.USERPHONE,multipleResumeBean.getBase_info().get(0).getYdphone());
-        sUtils.setStringValue(Constants.PERSONIMAGE,"");
         //System.out.println(""+multipleResumeBean.getBase_info().get(0).getYdphone()+"---"+multipleResumeBean.getBase_info().get(0).getTelephone());
         if(multipleResumeBean.getResume_list()==null||"".equals(multipleResumeBean.getResume_list())||multipleResumeBean.getResume_list().size()==0){
             sUtils.setBooleanValue(Constants.JUST_ELEGANTRESUME,false);

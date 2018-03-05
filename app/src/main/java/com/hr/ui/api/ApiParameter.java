@@ -319,7 +319,7 @@ public class ApiParameter {
             }
         }
         requestMap.put("method","user_resume.titleset");
-        requestMap.put("resume_id",resumeId);
+        //requestMap.put("resume_id",resumeId);
         requestMap.put("resume_type","1");
         requestMap.put("resume_language","zh");
         //Log.i("简历信息",requestMap.toString());

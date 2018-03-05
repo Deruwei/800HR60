@@ -344,7 +344,7 @@ public class CompanyPageActivity extends BaseActivity<CompanyPagePresenter, Comp
             case R.id.ll_companyLocation:
                // Log.i("当前的经纬度",enterpriseInfoBean.getBaidu_map_lat()+"=----"+enterpriseInfoBean.getBaidu_map_lon());
                /* if(enterpriseInfoBean.getBaidu_map_lat()==null||enterpriseInfoBean.getBaidu_map_lon()==null||"0.000000".equals(enterpriseInfoBean.getBaidu_map_lat())||"0.000000".equals(enterpriseInfoBean.getBaidu_map_lon())||"".equals(enterpriseInfoBean.getBaidu_map_lat())||"".equals(enterpriseInfoBean.getBaidu_map_lon())){*/
-                   if(enterpriseInfoBean.getAddress()!=null&&!"".equals(enterpriseInfoBean.getAddress())){
+                   if(enterpriseInfoBean!=null&&enterpriseInfoBean.getAddress()!=null&&!"".equals(enterpriseInfoBean.getAddress())){
                        BaiDuMapActivity.startAction(this,enterpriseInfoBean.getAddress());
                    }
             /*    }else {

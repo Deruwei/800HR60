@@ -53,8 +53,9 @@ public class Constants {
     public static final String OS_NAME = "android";
     //api版本
     public static final String API_VER = "4.0";
-    //线上
+    //头像的头地址
     public static final String IMAGE_BASEPATH="http://file.800hr.com/";
+    //普通图片的头地址
     public static final String IMAGE_BASEPATH2="http://img.800hr.com";
     public static final String API_URL = "https://api.800hr.com/svrdo.php";
     public static final String API_MIDDLE="svrdo.php";

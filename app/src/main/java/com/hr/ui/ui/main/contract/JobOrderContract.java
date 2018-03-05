@@ -18,13 +18,16 @@ public interface JobOrderContract {
     interface Model extends BaseModel{
         Observable<ResponseBody> sendJobOrderToResume(JobOrderData jobOrderData);
         Observable<ResponseBody> setDefaultResume(String resumeId,String important);
+        Observable<ResponseBody> setHide(String openstate);
     }
     interface View extends BaseView{
         void sendJobOrderSuccess();
         void setDefaultResumeSuccess();
+        void setHideSuccess();
     }
     abstract  class Presenter extends BasePresenter<View,Model>{
         public abstract void sendJobOrderToResume(JobOrderData jobOrderData);
         public abstract void setDefaultResume(String resumeId,String important);
+        public abstract void setHide(String openstate);
     }
 }

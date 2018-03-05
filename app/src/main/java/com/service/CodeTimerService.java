@@ -28,8 +28,10 @@ public class CodeTimerService extends Service {
     public void onStart(Intent intent, int startId) {
         super.onStart(intent, startId);
         //启动计时器
-        String action = intent.getAction();
-        CodeTimer mCodeTimer = new CodeTimer(this, 60000, 100, action);
-        mCodeTimer.start();
+        if(intent!=null&&intent.getAction()!=null) {
+            String action = intent.getAction();
+            CodeTimer mCodeTimer = new CodeTimer(this, 60000, 100, action);
+            mCodeTimer.start();
+        }
     }
 }

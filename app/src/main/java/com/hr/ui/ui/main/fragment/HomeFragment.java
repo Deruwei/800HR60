@@ -241,6 +241,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
             }
         } else {
             isHaveThirdRecommendData= false;
+            isThirdRecommendDataFill=false;
         }
     }
 

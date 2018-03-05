@@ -270,8 +270,9 @@ public class MyStartAndEndTimeCustomDatePicker {
                 selectStartYear=Integer.valueOf(startTime.substring(0,startTime.indexOf("-")));
                 selectStartMonth=Integer.valueOf(startTime.substring(startTime.indexOf("-")+1));
                 if(!"至今".equals(endTime)) {
-                    selectEndYear = Integer.valueOf(endTime.substring(0, endTime.indexOf("-")));
-                    selectEndMonth = Integer.valueOf(endTime.substring(endTime.lastIndexOf("-") + 1));
+                   /* selectEndYear = Integer.valueOf(endTime.substring(0, endTime.indexOf("-")));
+                    selectEndMonth = Integer.valueOf(endTime.substring(endTime.lastIndexOf("-") + 1));*/
+                    selectEndYears = endTime;
                 }else{
                     if(type==1){
                         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM");//格式为 2013年9月3日 14:44

@@ -582,7 +582,7 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
             ToastUitl.showShort("请选择现有职称");
             return;
         }
-        Log.i("resumeType",resumeType);
+        //Log.i("resumeType",resumeType);
         if(resumeType!=null&&!"".equals(resumeType)){
             mPresenter.setResumeType(resumeType);
         }else {

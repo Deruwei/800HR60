@@ -236,6 +236,10 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
         if(searchWord==null||"null".equals(searchWord)){
             searchWord="";
         }
+        placeId=jobSearchBean.getPlaceId();
+        if(placeId!=null&&!"".equals(placeId)){
+            selectCityList=FromStringToArrayList.getInstance().getSelectCityList(placeId);
+        }
         tvJobSearchFragment.setText("关闭");
         etJobSearch.setText(jobSearchBean.getSearchName());
         jobSerchType = jobSearchBean.getJobType();
@@ -861,14 +865,14 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
         popupWindowJobType.showAsDropDown(tvJobSearchTypeFragment, 0, 5);
     }
 
-    public void setPlaceId(List<CityBean> selectCityList) {
-        if (selectCityList != null && selectCityList.size() != 0) {
-            this.selectCityList = new ArrayList<>();
-            this.selectCityList = selectCityList;
+    public void setPlaceId(List<CityBean> selectCityList1) {
+        if (!"".equals(selectCityList1)&&selectCityList1 != null && selectCityList1.size() != 0) {
+            selectCityList = new ArrayList<>();
+            selectCityList = selectCityList1;
             //Log.i("您好",selectCityList.toString());
             StringBuffer sb = new StringBuffer();
-            for (int i = 0; i < this.selectCityList.size(); i++) {
-                sb.append("," + this.selectCityList.get(i).getId());
+            for (int i = 0; i < selectCityList.size(); i++) {
+                sb.append("," + selectCityList.get(i).getId());
             }
             if (sb != null && !"".equals(sb)) {
                 sb.deleteCharAt(0);

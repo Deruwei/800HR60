@@ -58,11 +58,13 @@ public class DownloadSignatureServic extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.e(TAG, "onStartCommand");
-        urlStr = (String) intent.getExtras().get("signatureurl");
-        Log.e(TAG, "urlStr = " + urlStr);
-        versionName=intent.getStringExtra("versionName");
+        if(intent!=null&&intent.getExtras()!=null) {
+            urlStr = (String) intent.getExtras().get("signatureurl");
+            Log.e(TAG, "urlStr = " + urlStr);
+            versionName = (String) intent.getExtras().get("versionName");
         /*Signature Download Url*/
-        DownloadFile(urlStr);
+            DownloadFile(urlStr);
+        }
         return super.onStartCommand(intent, flags, startId);
     }
 

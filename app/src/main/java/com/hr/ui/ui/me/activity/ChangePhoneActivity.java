@@ -330,7 +330,7 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
         if(loginBean==null||"".equals(loginBean)){
             loginBean = LoginDBUtils.queryDataById(autoLoginType + "");
         }else {
-            if (!loginBean.getPassword().equals(etChangePhonePsw.getText().toString())) {
+            if (!etChangePhonePsw.getText().toString().equals(loginBean.getPassword())) {
                 ToastUitl.showShort("密码错误，请重新输入");
                 return;
             }
