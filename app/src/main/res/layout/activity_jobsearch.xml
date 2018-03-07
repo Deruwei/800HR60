@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:focusable="true"
+    android:id="@+id/cl_searchJob"
     android:focusableInTouchMode="true"
     android:clipToPadding="true"
     xmlns:app="http://schemas.android.com/apk/res-auto">

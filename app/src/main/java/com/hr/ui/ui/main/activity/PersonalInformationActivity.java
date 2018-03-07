@@ -182,7 +182,7 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
     public void sendInformationSuccess() {
         MobclickAgent.onEvent(this,"v6_edit_resumePersonInfo");
         if (stopType == 1) {
-            MobclickAgent.onEvent(this,"v6_resume_complete");
+            //MobclickAgent.onEvent(this,"v6_resume_complete");
             MainActivity.startAction(this, 0);
             AppManager.getAppManager().finishAllActivity();
         } else {

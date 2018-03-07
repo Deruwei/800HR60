@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
+    android:layout_marginTop="@dimen/x20"
     android:layout_marginLeft="@dimen/x30"
     android:layout_marginRight="@dimen/x30"
     android:layout_height="wrap_content">
     <LinearLayout
-        android:layout_marginTop="@dimen/x20"
         android:orientation="vertical"
         android:background="@drawable/edit_bg_small"
         android:layout_width="match_parent"
@@ -112,4 +112,4 @@
         </RelativeLayout>
     </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</android.support.v7.widget.CardView>

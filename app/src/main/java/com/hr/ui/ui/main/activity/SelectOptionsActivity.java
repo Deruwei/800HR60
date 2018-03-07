@@ -130,6 +130,7 @@ public class SelectOptionsActivity extends BaseActivity {
     private List<CityBean> selectFuncList = new ArrayList<>();//选择的领域集合
     private List<CityBean> selectRealFuncList = new ArrayList<>();
     private List<CityBean> PositionList = new ArrayList<>();//所有的职位集合
+    private List<CityBean> PositionList1 = new ArrayList<>();//所有的职位集合
     private List<CityBean> positonLeftList, positionRightList;//listview左右的职位集合
     private List<CityBean> selectPositionList = new ArrayList<>();//选择的职位集合
     private List<CityBean> selectRealPositionList = new ArrayList<>();
@@ -437,8 +438,8 @@ public class SelectOptionsActivity extends BaseActivity {
                         llIndustryItems.removeView(llIndustryItems.findViewWithTag(indutryId));
                         industryIds.remove(indutryId);
                         indutryId = "";
-                        selectRealFuncList.clear();
-                        selectRealPositionList.clear();
+                        selectRealFuncList=new ArrayList<>();
+                        selectRealPositionList=new ArrayList<>();
                         glJobItems.removeAllViewsInLayout();
                         glTerritoryItems.removeAllViewsInLayout();
                         if (llIndustryItems.getChildCount() == 0) {
@@ -863,11 +864,12 @@ public class SelectOptionsActivity extends BaseActivity {
 
     private void initChooseJobView(String industryId) {
         PositionList = FromStringToArrayList.getInstance().getExpectPosition(industryId);
+        PositionList1=FromStringToArrayList.getInstance().getExpectPosition(industryId);
         //System.out.println(positonBeanList.toString());
         positonLeftList = new ArrayList<>();
-        for (int i = 0; i < PositionList.size(); i++) {
-            if (PositionList.get(i).getId().endsWith("000")) {
-                positonLeftList.add(PositionList.get(i));
+        for (int i = 0; i < PositionList1.size(); i++) {
+            if (PositionList1.get(i).getId().endsWith("000")) {
+                positonLeftList.add(PositionList1.get(i));
             }
         }
         //Log.i("现在的数据2",selectPositionList.toString());

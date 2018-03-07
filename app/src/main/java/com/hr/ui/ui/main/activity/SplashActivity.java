@@ -112,6 +112,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
     @Override
     public void initView() {
         instance=this;
+       /* MobclickAgent.onEvent(this,"v6_test");*/
         type = getIntent().getIntExtra("type", 0);
         sUtils = new SharedPreferencesUtils(this);
         /*sUtils.setIntValue("code",0);*/

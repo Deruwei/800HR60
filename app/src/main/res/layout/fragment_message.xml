@@ -3,11 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <RelativeLayout
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv_message"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_width="0dp"
         app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+        android:layout_width="match_parent"
         android:id="@+id/rl_fragmentTitle"
         android:layout_height="@dimen/x87">
         <com.hr.ui.view.CircleImageView
@@ -32,11 +36,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </RelativeLayout>
+    </android.support.v7.widget.CardView>
     <FrameLayout
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_width="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/rl_fragmentTitle"
+        app:layout_constraintTop_toBottomOf="@+id/cv_message"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_height="0dp">
         <include layout="@layout/layout_neterror"/>
@@ -56,7 +61,14 @@
                 android:background="@color/resumeContent_bg"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/x20"/>
-        <RelativeLayout
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <RelativeLayout
             android:id="@+id/rl_deliverFeedback"
             android:layout_marginRight="@dimen/x31"
             android:layout_marginLeft="@dimen/x31"
@@ -123,7 +135,7 @@
                     android:layout_height="@dimen/x24" />
             </FrameLayout>
         </RelativeLayout>
-            <RelativeLayout
+                    <RelativeLayout
                 android:id="@+id/rl_whoSeeMe"
                 android:layout_marginRight="@dimen/x31"
                 android:layout_marginLeft="@dimen/x31"
@@ -191,7 +203,7 @@
                         android:layout_height="@dimen/x24"/>
                 </FrameLayout>
             </RelativeLayout>
-            <RelativeLayout
+                    <RelativeLayout
                 android:id="@+id/rl_employmentGuidance"
                 android:layout_marginRight="@dimen/x31"
                 android:layout_marginLeft="@dimen/x31"
@@ -241,7 +253,7 @@
                         android:layout_height="@dimen/x24" />
                 </FrameLayout>
             </RelativeLayout>
-            <RelativeLayout
+                    <RelativeLayout
                 android:id="@+id/rl_find"
                 android:layout_marginRight="@dimen/x31"
                 android:layout_marginLeft="@dimen/x31"
@@ -291,16 +303,26 @@
                         android:layout_height="@dimen/x20" />
                 </FrameLayout>
             </RelativeLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
             <View
                 android:background="@color/resumeContent_bg"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/x20"/>
-            <com.hr.ui.view.XRecyclerView
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <com.hr.ui.view.XRecyclerView
                 android:id="@+id/rv_message"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
             </com.hr.ui.view.XRecyclerView>
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
     </android.support.v4.widget.SwipeRefreshLayout>

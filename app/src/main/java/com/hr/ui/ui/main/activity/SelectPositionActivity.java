@@ -85,7 +85,7 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
     TextView tvSelectPositionOK;
     @BindView(R.id.cl_selectPosition)
     ConstraintLayout clSelectPosition;
-    private List<CityBean> positonBeanList;
+    private List<CityBean> positonBeanList1,positonBeanList;
     private String industryId;
     private List<CityBean> positonLeftList, positionRightList;
     private MySelectPositionLeftAdapter leftAdapter;
@@ -139,11 +139,12 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
             }
         });
         positonBeanList = FromStringToArrayList.getInstance().getExpectPosition(industryId);
+        positonBeanList1=FromStringToArrayList.getInstance().getExpectPosition(industryId);
         //System.out.println(positonBeanList.toString());
         positonLeftList = new ArrayList<>();
-        for (int i = 0; i < positonBeanList.size(); i++) {
-            if (positonBeanList.get(i).getId().endsWith("000")) {
-                positonLeftList.add(positonBeanList.get(i));
+        for (int i = 0; i < positonBeanList1.size(); i++) {
+            if (positonBeanList1.get(i).getId().endsWith("000")) {
+                positonLeftList.add(positonBeanList1.get(i));
             }
         }
         if (selectPositionList != null && selectPositionList.size() != 0) {
@@ -267,14 +268,10 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
                     lvLeft.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            if (positonLeftList.get(position).isCheck() == false) {
-                                for (int i = 0; i < positonLeftList.size(); i++) {
-                                    positonLeftList.get(i).setCheck(false);
-                                }
-                                positonLeftList.get(position).setCheck(true);
-                            } else {
-                                positonLeftList.get(position).setCheck(false);
+                            for (int i = 0; i < positonLeftList.size(); i++) {
+                                positonLeftList.get(i).setCheck(false);
                             }
+                            positonLeftList.get(position).setCheck(true);
                             positionRightList = new ArrayList<>();
                             for (int i = 0; i < positonBeanList.size(); i++) {
                                 if (positonLeftList.get(position).getId().substring(0, 3).equals(positonBeanList.get(i).getId().substring(0, 3))) {
@@ -297,10 +294,11 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
                                     }
                                 }
                             }
+                            leftAdapter.notifyDataSetChanged();
                             Message message1 = Message.obtain();
                             message1.what = 2;
                             handler.sendMessage(message1);
-                            leftAdapter.notifyDataSetChanged();
+
                         }
                     });
                     break;

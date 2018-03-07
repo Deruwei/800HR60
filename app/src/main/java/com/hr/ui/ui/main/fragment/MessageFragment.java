@@ -223,8 +223,12 @@ public class MessageFragment extends BaseFragment<MessageFragmentPresenter, Mess
 
     @Override
     public void netError() {
-        llNetError.setVisibility(View.VISIBLE);
-        swipeRefresh.setVisibility(View.GONE);
+        if(llNetError!=null) {
+            llNetError.setVisibility(View.VISIBLE);
+        }
+        if(swipeRefresh!=null) {
+            swipeRefresh.setVisibility(View.GONE);
+        }
     }
 
     public void setImage() {

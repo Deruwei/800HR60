@@ -46,6 +46,7 @@ import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.CustomDatePicker;
 import com.hr.ui.view.MyDialog;
 import com.hr.ui.view.MyFlowLayout;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -325,6 +326,7 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolBar.setTitle("");
+        MobclickAgent.onEvent(this,"v6_scan_resumeorder");
         toolBar.setTitleTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
         toolBar.setNavigationIcon(R.mipmap.back);
         tvToolbarTitle.setText(R.string.jobIntention);
@@ -529,6 +531,9 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
             sbPosition.append("," + slectPositionList.get(i).getId());
         }
         sbPosition.deleteCharAt(0);
+        if(orderInfoBean!=null){
+            orderInfoBean=new ResumeOrderInfoBean.OrderInfoBean();
+        }
         orderInfoBean.getOrder_industry().get(updatePostion).setFunc(sbPosition.toString());
         mode="0";
         initIndustryUI();

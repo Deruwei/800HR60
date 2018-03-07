@@ -12,7 +12,7 @@
             android:layout_height="match_parent"
             android:background="@color/bg_homeTitle" >
             <FrameLayout
-                android:layout_above="@+id/view_main"
+                android:layout_above="@+id/cv_main"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <LinearLayout
@@ -35,17 +35,15 @@
                     android:onClick="toggleMenu"
                     android:src="@mipmap/defaultcompany"/>-->
             </FrameLayout>
-            <View
-                android:id="@+id/view_main"
-                android:layout_above="@+id/radioGroup"
+            <android.support.v7.widget.CardView
+                android:id="@+id/cv_main"
+                android:layout_alignParentBottom="true"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/x2"
-                android:background="@color/resumeContent_bg"/>
+                android:layout_height="wrap_content">
             <RadioGroup
                 android:id="@+id/radioGroup"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/x95"
-                android:layout_alignParentBottom="true"
                 android:clickable="true"
                 android:background="@color/white"
                 android:gravity="center"
@@ -71,6 +69,7 @@
                     android:text="@string/resume" />
 
             </RadioGroup>
+            </android.support.v7.widget.CardView>
         </RelativeLayout>
         <include layout="@layout/layout_menu"
         />

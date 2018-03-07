@@ -1,6 +1,7 @@
 package com.hr.ui.ui.main.adapter;
 
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -55,10 +56,11 @@ public class MySelectPositionLeftAdapter extends BaseAdapter {
         }
         holder.tvItemSelectCityName.setText(positionList.get(position).getName());
         holder.ivItemSelectCityCheck.setVisibility(View.GONE);
-        if(positionList.get(position).isCheck()==true){
-            holder.rlItemSelectCity.setBackgroundColor(ContextCompat.getColor(HRApplication.getAppContext(),R.color.resumeContent_bg));
+        Log.i("当前的",positionList.get(position).isCheck()+"");
+        if (positionList.get(position).isCheck() == true) {
+            holder.rlItemSelectCity.setBackgroundResource( R.color.resumeContent_bg);
         }else{
-            holder.rlItemSelectCity.setBackgroundColor(ContextCompat.getColor(HRApplication.getAppContext(),R.color.white));
+            holder.rlItemSelectCity.setBackgroundResource( R.color.white);
         }
         return convertView;
     }

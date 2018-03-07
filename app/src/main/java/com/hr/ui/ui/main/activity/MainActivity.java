@@ -24,6 +24,7 @@ import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.hr.ui.R;
+import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
 import com.hr.ui.bean.FindBean;
 import com.hr.ui.bean.JobSearchBean;
@@ -58,8 +59,6 @@ import butterknife.OnClick;
 public class MainActivity extends BaseActivity<MainPresenter,MainModel> implements MainContract.View {
     @BindView(R.id.ll_main)
     LinearLayout llMain;
-    @BindView(R.id.view_main)
-    View viewMain;
     @BindView(R.id.rb_home)
     RadioButton rbHome;
     @BindView(R.id.rb_message)
@@ -133,6 +132,9 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
      */
     public static void startAction(Activity activity, int userId) {
         Intent intent = new Intent(activity, MainActivity.class);
+        if(userId==0){
+            MobclickAgent.onEvent(HRApplication.getAppContext(),"v6_resume_complete");
+        }
         intent.putExtra("userId", userId);
         activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.fade_in,

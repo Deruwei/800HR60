@@ -4,6 +4,10 @@
     android:layout_height="match_parent"
     android:id="@+id/cl_homeFragment"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+   <android.support.v7.widget.CardView
+       android:id="@+id/cv_home"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
    <RelativeLayout
        android:background="@color/bg_homeTitle"
        android:id="@+id/rl_fragmentTitle"
@@ -52,9 +56,10 @@
          </RelativeLayout>
       </FrameLayout>
    </RelativeLayout>
+   </android.support.v7.widget.CardView>
    <FrameLayout
        android:background="@color/resumeContent_bg"
-       android:layout_below="@+id/rl_fragmentTitle"
+       android:layout_below="@+id/cv_home"
        android:layout_width="match_parent"
        android:layout_height="match_parent">
       <com.hr.ui.view.XRecyclerView

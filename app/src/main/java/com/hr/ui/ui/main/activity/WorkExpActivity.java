@@ -153,6 +153,7 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
 
     @Override
     public void initView() {
+        instance=this;
         sUtis = new SharedPreferencesUtils(this);
         type = sUtis.getStringValue(Constants.RESUME_TYPE, "");
         stopType = sUtis.getIntValue(Constants.RESUME_STOPTYPE, 0);
@@ -533,7 +534,7 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
         this.expId=expId;
         sUtis.setStringValue(Constants.WORKEXP_ID,expId);
         if (stopType == 3) {
-            MobclickAgent.onEvent(this,"v6_resume_complete");
+         /*   MobclickAgent.onEvent(this,"v6_resume_complete");*/
             MainActivity.startAction(this, 0);
             AppManager.getAppManager().finishAllActivity();
         } else {

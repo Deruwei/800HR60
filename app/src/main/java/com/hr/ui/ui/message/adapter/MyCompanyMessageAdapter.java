@@ -31,7 +31,7 @@ import retrofit2.http.Url;
  */
 public class MyCompanyMessageAdapter extends RecyclerView.Adapter<MyCompanyMessageAdapter.ViewHolder> {
     private List<InviteBean.InvitedListBean> listBeans;
-    private Context context;
+    private Activity context;
 
     public void setClickCallBack(ItemClickCallBack clickCallBack) {
         this.clickCallBack = clickCallBack;
@@ -47,7 +47,7 @@ public class MyCompanyMessageAdapter extends RecyclerView.Adapter<MyCompanyMessa
 
     private ItemClickCallBack clickCallBack;
 
-    public MyCompanyMessageAdapter(Context context) {
+    public MyCompanyMessageAdapter(Activity context) {
         this.context = context;
     }
 
@@ -89,7 +89,7 @@ public class MyCompanyMessageAdapter extends RecyclerView.Adapter<MyCompanyMessa
                 }
                 if (index != -1) {
                     spannable.removeSpan(spans[i]);
-                    spannable.setSpan(new AutolinkSpan(spans[i].getURL()), index
+                    spannable.setSpan(new AutolinkSpan(spans[i].getURL(),context), index
                             , end, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
                 }
             }

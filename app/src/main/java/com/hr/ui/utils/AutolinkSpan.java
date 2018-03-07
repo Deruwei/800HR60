@@ -1,6 +1,7 @@
 package com.hr.ui.utils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.text.TextPaint;
@@ -17,9 +18,11 @@ import com.hr.ui.ui.message.activity.WebActivity;
 
 public class AutolinkSpan extends URLSpan {
     private String url;
-    public AutolinkSpan(String url) {
+    private Activity context;
+    public AutolinkSpan(String url,Activity context) {
         super(url);
         this.url=url;
+        this.context=context;
     }
 
     @Override
@@ -28,7 +31,7 @@ public class AutolinkSpan extends URLSpan {
             widget.setTag(R.id.long_click, null);
             return;
         }
-        WebActivity.startAction((Activity) widget.getContext(),url);
+        WebActivity.startAction(context,url);
     }
 
     @Override

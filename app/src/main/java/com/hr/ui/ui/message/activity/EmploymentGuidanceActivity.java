@@ -100,7 +100,6 @@ public class EmploymentGuidanceActivity extends BaseNoConnectNetworkAcitivty {
             TabLayout.Tab tab = tlDeliverFeedback.getTabAt(i);
             if (tab != null) {
                 tab.setCustomView(mAdapter.getTabView(i));
-
             }
         }
     }

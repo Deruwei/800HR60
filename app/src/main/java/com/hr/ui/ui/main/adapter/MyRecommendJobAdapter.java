@@ -55,9 +55,6 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
         this.jobsListBeanList2 = jobsListBeanList2;
     }
 
-    public List<RecommendJobBean.JobsListBean> getJobsListBeanList() {
-        return jobsListBeanList;
-    }
 
     public void setJobsListBeanList(List<RecommendJobBean.JobsListBean> jobsListBeanList) {
         this.jobsListBeanList = jobsListBeanList;

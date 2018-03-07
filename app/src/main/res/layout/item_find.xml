@@ -4,14 +4,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_height="wrap_content">
-    <LinearLayout
+    <android.support.v7.widget.CardView
         android:background="@drawable/edit_bg_small_top"
-        android:layout_marginTop="@dimen/x20"
-        android:paddingBottom="@dimen/x20"
         android:layout_marginLeft="@dimen/x30"
         android:layout_marginRight="@dimen/x30"
+        android:layout_marginTop="@dimen/x20"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <LinearLayout
         android:orientation="vertical"
-        android:elevation="@dimen/x1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <FrameLayout
@@ -23,8 +24,6 @@
                 android:id="@+id/iv_findIcon"
                 android:src="@mipmap/finddefault"
                 android:layout_width="match_parent"
-                app:borderColor="@color/white"
-                app:borderWidth="@dimen/x1"
                 app:rectRoundRadius="@dimen/x10"
                 android:layout_height="@dimen/x140" />
             <TextView
@@ -38,6 +37,7 @@
                 android:layout_height="wrap_content" />
         </FrameLayout>
         <LinearLayout
+            android:paddingBottom="@dimen/x20"
             android:id="@+id/rl_itemFind"
             android:background="@color/white"
             android:orientation="vertical"
@@ -90,4 +90,5 @@
         </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+    </android.support.v7.widget.CardView>
 </LinearLayout>

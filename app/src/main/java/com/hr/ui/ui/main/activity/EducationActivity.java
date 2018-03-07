@@ -419,7 +419,7 @@ public class EducationActivity extends BaseActivity<EducationPresenter, Educatio
         this.eduId=eduId;
         sUtils.setStringValue(Constants.EDUCATION_ID,eduId);
         if (stopType == 2) {
-            MobclickAgent.onEvent(this,"v6_resume_complete");
+            //MobclickAgent.onEvent(this,"v6_resume_complete");
             MainActivity.startAction(this, 0);
             AppManager.getAppManager().finishAllActivity();
         } else {

@@ -130,7 +130,7 @@ public class JobOrderActivity extends BaseActivity<JobOrderPresenter, JobOrderMo
     @Override
     public void sendJobOrderSuccess() {
         MobclickAgent.onEvent(this,"v6_edit_resumeJobOrder");
-        MobclickAgent.onEvent(this,"v6_resume_complete");
+
         int resumeId = sUtils.getIntValue(Constants.RESUME_ID, 0);
         mPresenter.setDefaultResume(resumeId + "", "1");
     }

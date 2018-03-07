@@ -23,6 +23,7 @@ import com.hr.ui.ui.me.presenter.FeedbackPresenter;
 import com.hr.ui.utils.EncryptUtils;
 import com.hr.ui.utils.RegularExpression;
 import com.hr.ui.utils.ToastUitl;
+import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -73,6 +74,7 @@ public class FeedBackActivity extends BaseActivity<FeedbackPresenter, FeedBackMo
     @Override
     public void feedBackSuccess() {
         ToastUitl.showShort("投递意见反馈成功");
+        MobclickAgent.onEvent(this,"v6_feedback_question");
         finish();
     }
 

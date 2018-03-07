@@ -185,8 +185,8 @@ public class Rc4Md5Utils {
                 return R.string.error_1101;
             case 205:
                 return R.string.error_205;
-            case 206:
-                return R.string.error_206;
+         /*   case 206:
+                return R.string.error_206;*/
             case 207:
                 return R.string.error_207;
             case 208:

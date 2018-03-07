@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.hr.ui.R;
+import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseFragment;
 import com.hr.ui.bean.HomeRecommendBean;
 import com.hr.ui.bean.RecommendJobBean;
@@ -40,6 +41,7 @@ import com.hr.ui.view.CircleImageView;
 import com.hr.ui.view.DatePickerView;
 import com.hr.ui.view.PieChartView;
 import com.hr.ui.view.XRecyclerView;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -153,6 +155,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
             public void onRefresh() {
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
+                        MobclickAgent.onEvent(HRApplication.getAppContext(),"v6_fresh_home");
                        refresh(false);
                        jobAdapter.notifyDataSetChanged();
                     }
@@ -164,7 +167,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
             public void onLoadMore() {
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
-                        if(recommendList!=null&&recommendList.size()>=20) {
+                        if(isThirdRecommendDataFill==true) {
                             rvHomeFragment.setLoadingMoreEnabled(false);
                         }else{
                             page++;
