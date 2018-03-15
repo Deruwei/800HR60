@@ -5,11 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.afa.tourism.greendao.gen.DaoMaster;
-
 import org.greenrobot.greendao.AbstractDao;
 import org.greenrobot.greendao.database.Database;
-import org.greenrobot.greendao.database.StandardDatabase;
 import org.greenrobot.greendao.internal.DaoConfig;
 
 import java.lang.reflect.InvocationTargetException;
@@ -19,60 +16,101 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by wdr on 2017/12/11.
+ * 类名：MigrationHelper
+ * 类描述：用于数据库升级的工具类
+ * 创建人：孙广竹
+ * 创建日期： 2016/10/20.
+ * 版本：V1.0
  */
 
 public class MigrationHelper {
-    public static void migrate(SQLiteDatabase sqliteDatabase, Class<? extends AbstractDao<?, ?>>... daoClasses) {
-        StandardDatabase db = new StandardDatabase(sqliteDatabase);
-        generateNewTablesIfNotExists(db, daoClasses);
+    /**
+     * 调用升级方法
+     * @param db
+     * @param daoClasses 一系列dao.class
+     */
+    public static void migrate(Database db, Class<? extends AbstractDao<?, ?>>... daoClasses) {
+        //1 新建临时表
         generateTempTables(db, daoClasses);
-        dropAllTables(db, true, daoClasses);
+        //2 创建新表
         createAllTables(db, false, daoClasses);
+        //3 临时表数据写入新表，删除临时表
         restoreData(db, daoClasses);
     }
 
-    public static void migrate(StandardDatabase db, Class<? extends AbstractDao<?, ?>>... daoClasses) {
-        generateNewTablesIfNotExists(db, daoClasses);
-        generateTempTables(db, daoClasses);
-        dropAllTables(db, true, daoClasses);
-        createAllTables(db, false, daoClasses);
-        restoreData(db, daoClasses);
-    }
 
-    private static void generateNewTablesIfNotExists(StandardDatabase db, Class<? extends AbstractDao<?, ?>>... daoClasses) {
-        reflectMethod(db, "createTable", true, daoClasses);
-    }
-
-    private static void generateTempTables(StandardDatabase db, Class<? extends AbstractDao<?, ?>>... daoClasses) {
-        for (int i = 0; i < daoClasses.length; i++) {
-            DaoConfig daoConfig = new DaoConfig(db, daoClasses[i]);
+    /**
+     * 生成临时表，存储旧的表数据
+     * @param db
+     * @param daoClasses
+     */
+    private static void generateTempTables(Database db, Class<? extends AbstractDao<?, ?>>... daoClasses) {
+        for (int i=0;i<daoClasses.length;i++){
+            DaoConfig daoConfig = new DaoConfig(db,daoClasses[i]);
             String tableName = daoConfig.tablename;
+            if (!checkTable(db,tableName))
+                continue;
             String tempTableName = daoConfig.tablename.concat("_TEMP");
             StringBuilder insertTableStringBuilder = new StringBuilder();
-            insertTableStringBuilder.append("CREATE TEMP TABLE ").append(tempTableName);
-            insertTableStringBuilder.append(" AS SELECT * FROM ").append(tableName).append(";");
+            insertTableStringBuilder.append("alter table ")
+                    .append(tableName)
+                    .append(" rename to ")
+                    .append(tempTableName)
+                    .append(";");
             db.execSQL(insertTableStringBuilder.toString());
         }
     }
 
-    private static void dropAllTables(StandardDatabase db, boolean ifExists, @NonNull Class<? extends AbstractDao<?, ?>>... daoClasses) {
+    /**
+     * 检测table是否存在
+     * @param db
+     * @param tableName
+     */
+    private static Boolean checkTable(Database db,String  tableName){
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT count(*) FROM sqlite_master WHERE type='table' AND name='").append(tableName).append("'");
+        Cursor c = db.rawQuery(query.toString(), null);
+        if (c.moveToNext()){
+            int count = c.getInt(0);
+            if(count>0){
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+
+    /**
+     * 删除所有旧表
+     * @param db
+     * @param ifExists
+     * @param daoClasses
+     */
+    private static void dropAllTables(Database db, boolean ifExists, @NonNull Class<? extends AbstractDao<?, ?>>... daoClasses) {
         reflectMethod(db, "dropTable", ifExists, daoClasses);
     }
 
-    private static void createAllTables(StandardDatabase db, boolean ifNotExists, @NonNull Class<? extends AbstractDao<?, ?>>... daoClasses) {
+    /**
+     * 创建新的表结构
+     * @param db
+     * @param ifNotExists
+     * @param daoClasses
+     */
+    private static void createAllTables(Database db, boolean ifNotExists, @NonNull Class<? extends AbstractDao<?, ?>>... daoClasses) {
         reflectMethod(db, "createTable", ifNotExists, daoClasses);
     }
 
     /**
+     * 创建根删除都在NoteDao声明了，可以直接拿过来用
      * dao class already define the sql exec method, so just invoke it
      */
-    private static void reflectMethod(StandardDatabase db, String methodName, boolean isExists, @NonNull Class<? extends AbstractDao<?, ?>>... daoClasses) {
+    private static void reflectMethod(Database db, String methodName, boolean isExists, @NonNull Class<? extends AbstractDao<?, ?>>... daoClasses) {
         if (daoClasses.length < 1) {
             return;
         }
         try {
             for (Class cls : daoClasses) {
+                //根据方法名，找到声明的方法
                 Method method = cls.getDeclaredMethod(methodName, Database.class, boolean.class);
                 method.invoke(null, db, isExists);
             }
@@ -85,13 +123,21 @@ public class MigrationHelper {
         }
     }
 
-    private static void restoreData(StandardDatabase db, Class<? extends AbstractDao<?, ?>>... daoClasses) {
+    /**
+     * 临时表的数据写入新表
+     * @param db
+     * @param daoClasses
+     */
+    private static void restoreData(Database db, Class<? extends AbstractDao<?, ?>>... daoClasses) {
         for (int i = 0; i < daoClasses.length; i++) {
             DaoConfig daoConfig = new DaoConfig(db, daoClasses[i]);
             String tableName = daoConfig.tablename;
             String tempTableName = daoConfig.tablename.concat("_TEMP");
+            if (!checkTable(db,tempTableName))
+                continue;
             // get all columns from tempTable, take careful to use the columns list
             List<String> columns = getColumns(db, tempTableName);
+            //新表，临时表都包含的字段
             ArrayList<String> properties = new ArrayList<>(columns.size());
             for (int j = 0; j < daoConfig.properties.length; j++) {
                 String columnName = daoConfig.properties[j].columnName;
@@ -116,7 +162,7 @@ public class MigrationHelper {
         }
     }
 
-    private static List<String> getColumns(StandardDatabase db, String tableName) {
+    private static List<String> getColumns(Database db, String tableName) {
         List<String> columns = null;
         Cursor cursor = null;
         try {
@@ -134,4 +180,5 @@ public class MigrationHelper {
         }
         return columns;
     }
+
 }

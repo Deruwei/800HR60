@@ -265,10 +265,6 @@
                                 android:track="@drawable/track" />
                         </RelativeLayout>
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/x20"
-                            android:background="@color/resumeContent_bg" />
 
                         <TextView
                             style="@style/resume_TextViewItemTitle"
@@ -287,6 +283,10 @@
                             style="@style/resume_textViewAdd"
                             android:text="@string/addResumeAttachment"
                             android:visibility="gone" />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/x20"
+                            android:background="@color/resumeContent_bg" />
                     </LinearLayout>
 
                 </RelativeLayout>

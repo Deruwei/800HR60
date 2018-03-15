@@ -8,9 +8,8 @@ import com.hr.ui.base.RxSchedulers;
 import com.hr.ui.bean.MultipleResumeBean;
 import com.hr.ui.bean.PictureBean;
 import com.hr.ui.bean.ResumeBean;
-import com.hr.ui.ui.main.fragment.ResumeContract;
+import com.hr.ui.ui.main.contract.ResumeContract;
 import com.hr.ui.utils.EncryptUtils;
-import com.hr.ui.utils.JsonUtils;
 
 import java.io.IOException;
 

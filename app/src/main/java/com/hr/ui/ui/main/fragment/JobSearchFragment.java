@@ -31,6 +31,7 @@ import com.hr.ui.bean.CityBean;
 import com.hr.ui.bean.HistoryBean;
 import com.hr.ui.bean.JobSearchBean;
 import com.hr.ui.bean.RecommendJobBean;
+import com.hr.ui.bean.SearchHistoryBean;
 import com.hr.ui.db.SearchHistoryUtils;
 import com.hr.ui.ui.job.activity.PositionPageActivity;
 import com.hr.ui.ui.main.activity.JobSerchActivity;
@@ -339,7 +340,7 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
         switch (view.getId()) {
             case R.id.rl_jobSearchFragmentBack:
                 MainActivity.instance.goToSearch2();
-                MainActivity.instance.isHome = true;
+                //MainActivity.instance.isHome = true;
                 MainActivity.instance.setIndexSelected(0);
                 break;
             case R.id.tv_jobSearchTypeFragment:
@@ -348,7 +349,7 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
                 break;
             case R.id.tv_jobSearchFragment:
                 if (type == 1) {
-                    MainActivity.instance.isHome = true;
+                   // MainActivity.instance.isHome = true;
                     MainActivity.instance.setIndexSelected(0);
                 } else if (type == 2) {
                     doSearch(true);
@@ -445,7 +446,7 @@ public class JobSearchFragment extends BaseFragment<JobSearchFragmentPresenter, 
         } else {
             jobSearchBean.setSalary_left("");
         }
-        HistoryBean historyBean = new HistoryBean();
+        SearchHistoryBean historyBean = new SearchHistoryBean();
         historyBean.setCompanyType(jobSearchBean.getCompanyType());
         historyBean.setSearchName(jobSearchBean.getSearchName());
         historyBean.setDegree(jobSearchBean.getDegree());

@@ -392,6 +392,7 @@ public class JobOrderActivity extends BaseActivity<JobOrderPresenter, JobOrderMo
         jobOrderData.setExpectArea(functionId);
         jobOrderData.setSalary(tvExpectSalary.getText().toString());
         jobOrderData.setIndustry(industryId);
+        sUtils.setStringValue(Constants.INDUSTRY_ID,industryId);
         jobOrderData.setExpectPosition(positionId);
         jobOrderData.setAddress(placeId);
         jobOrderData.setWorkType(jobTypeId);

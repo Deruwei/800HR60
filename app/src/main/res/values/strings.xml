@@ -388,6 +388,8 @@
     <string name="introduction">自我评价</string>
     <string name="resumeAttachment">附件简历</string>
     <string name="hideResume">隐藏简历</string>
+    <string name="positionSearch">按职位搜索</string>
+    <string name="positionWarn">英才网联提示您：在求职面试过程中，如有企业向您收取任何费用请您警惕，谨防上当受骗！</string>
     <string name="updateResume">升级简历</string>
     <string name="updateResumeTips">Tips: 升级简历后将从“学生简历”变为“工作简历”</string>
     <string name="addResumeAttachment">+增加附件简历</string>
@@ -418,7 +420,7 @@
     <string name="listview_header_hint_normal">拉下刷新</string>
     <string name="listview_header_hint_release">松开加载</string>
     <string name="listview_loading">正在加载...</string>
-    <string name="nomore_loading">已经到底了</string>
+    <string name="nomore_loading">没有数据了</string>
     <string name="refreshing">刷新中...</string>
     <string name="refresh">刷新</string>
     <string name="refresh_done">刷新完成</string>

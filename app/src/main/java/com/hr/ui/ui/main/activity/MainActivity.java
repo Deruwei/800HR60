@@ -1,7 +1,13 @@
 package com.hr.ui.ui.main.activity;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -27,11 +33,9 @@ import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
 import com.hr.ui.bean.FindBean;
-import com.hr.ui.bean.JobSearchBean;
 import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.main.contract.MainContract;
 import com.hr.ui.ui.main.fragment.HomeFragment;
-import com.hr.ui.ui.main.fragment.JobSearchFragment;
 import com.hr.ui.ui.main.fragment.MessageFragment;
 import com.hr.ui.ui.main.fragment.ResumeFragment;
 import com.hr.ui.ui.main.modle.MainModel;
@@ -47,6 +51,7 @@ import com.hr.ui.view.MyDrawLayout2;
 import com.hr.ui.view.PopupWindowAd;
 import com.hr.ui.view.PopupWindowComment;
 import com.hr.ui.view.PopupWindowWarm;
+import com.service.MyJobService;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
@@ -91,14 +96,10 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
     RelativeLayout rlRightPage;
     @BindView(R.id.id_menu)
     MyDrawLayout2 idMenu;
-    private String apkUrl="http://www.800hr.com/app/android/800hr.apk";
     private PopupWindow popupWindow;
-    private int userId;
     private ArrayList<Fragment> fragments;
-    public int REQUEST_CODE = 0x1007;
-    public boolean isHome = true;
+   /* public boolean isHome = true;*/
     private int mIndex;
-    JobSearchFragment jobSearchFragment;
     public static MainActivity instance;
     private SharedPreferencesUtils sUtis;
     private String personImage,contentWarn,imageUrl,adUrl;
@@ -107,6 +108,7 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
     public  RadioButton rbResume1;
     private boolean giveComment,hasAds,hasWarm;
     private PopupWindow popupWindowTips;
+    private ComponentName mServieComponent;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -242,17 +244,9 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 switch (i) {
                     case R.id.rb_home:
-                        if (isHome == true) {
-                            idMenu.setDrawerLockMode(MyDrawLayout2.LOCK_MODE_UNLOCKED);
-                            rlLeftPage.setBackgroundResource(R.color.bg_homeTitle);
-                            isHome = true;
-                            setIndexSelected(0);
-                        } else {
-                            idMenu.setDrawerLockMode(MyDrawLayout2.LOCK_MODE_LOCKED_CLOSED);
-                            rlLeftPage.setBackgroundResource(R.color.view_f0f0f0);
-                            isHome = false;
-                            setIndexSelected(3);
-                        }
+                        idMenu.setDrawerLockMode(MyDrawLayout2.LOCK_MODE_UNLOCKED);
+                        rlLeftPage.setBackgroundResource(R.color.bg_homeTitle);
+                        setIndexSelected(0);
                         break;
                     case R.id.rb_message:
                         idMenu.setDrawerLockMode(MyDrawLayout2.LOCK_MODE_UNLOCKED);
@@ -273,11 +267,22 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
     public void initView() {
         instance = this;
         mPresenter.getNotice("96","794,796,797,798");
-        userId = getIntent().getIntExtra("userId", 0);
+        /*userId = getIntent().getIntExtra("userId", 0);*/
         rbResume1=rbResume;
         sUtis=new SharedPreferencesUtils(this);
         initFragment();
         setRadioGroupListener();
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mServieComponent=new ComponentName(this,MyJobService.class);
+            Intent startServiceIntent=new Intent(this,MyJobService.class);
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
+                startForegroundService(startServiceIntent);
+            } else {
+                startService(startServiceIntent);
+            }
+            pollServer();
+        }
+
         idMenu.setDrawerListener(new MyDrawLayout2.DrawerListener() {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
@@ -318,6 +323,28 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
             }
         }
     };
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public void pollServer(){
+        JobScheduler scheduler=(JobScheduler)this.getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        JobInfo jobInfo=new JobInfo.Builder(1,mServieComponent)
+                    /*
+                    * 定时任务
+                    * */
+                    .setPeriodic(1000*60*18)
+                    /*
+                    * 这将设置你的工作期限。即使是无法满足其他要求，你的任务将约在规定的时间已经过去时开始执行
+                    * */
+              /*  .setOverrideDeadline(60000)*/
+                    /*
+                    * 只有在设备处于一种特定的网络中时，它才启动
+                    * 默认值是JobInfo.NETWORK_TYPE_NONE :无论是否有网络连接，该任务均可以运行
+                    * JobInfo.NETWORK_TYPE_ANY，这需要某种类型的网络连接可用，工作才可以运行
+                    * JobInfo.NETWORK_TYPE_UNMETERED，这就要求设备在非蜂窝网络中
+                    * */
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                .build();
+                scheduler.schedule(jobInfo);
+    }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK
@@ -353,34 +380,7 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
     }
 
     public void goToSearch2() {
-        JobSerchActivity.startAction2(this, REQUEST_CODE);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode!=0&&resultCode!=0&&requestCode == REQUEST_CODE && resultCode == JobSerchActivity.instance.RESULT_CODE) {
-            JobSearchBean jobSearchBean1 = (JobSearchBean) data.getSerializableExtra("jobSearch");
-            //Log.i("当前的数据",jobSearchBean1.toString());
-            if (isHome == false) {
-                idMenu.setDrawerLockMode(MyDrawLayout2.LOCK_MODE_LOCKED_CLOSED);
-                /*rlFragmentTitle.setVisibility(View.GONE);*/
-                rlLeftPage.setBackgroundResource(R.color.view_f0f0f0);
-                if (fragments.size() == 4) {
-                    fragments.remove(3);
-                }
-                jobSearchFragment = JobSearchFragment.newInstance(jobSearchBean1);
-                //Log.i("传到",fragments.get(3).toString());
-                fragments.add(jobSearchFragment);
-                //Log.i("传到", fragments.get(3).toString());
-                setIndexSelected(3);
-            } else {
-                if (fragments.size() == 4) {
-                    fragments.remove(3);
-                }
-                setIndexSelected(0);
-            }
-        }
+        JobSerchActivity.startAction2(this);
     }
 
     @Override

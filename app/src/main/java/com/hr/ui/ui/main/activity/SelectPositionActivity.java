@@ -24,6 +24,10 @@ import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseNoConnectNetworkAcitivty;
 import com.hr.ui.bean.CityBean;
+import com.hr.ui.bean.HistoryBean;
+import com.hr.ui.bean.JobSearchBean;
+import com.hr.ui.bean.SearchHistoryBean;
+import com.hr.ui.db.SearchHistoryUtils;
 import com.hr.ui.ui.main.adapter.MySelectPositionLeftAdapter;
 import com.hr.ui.ui.main.adapter.MySelectPositionRightAdapter;
 import com.hr.ui.utils.PopupWindowPositonClassView;
@@ -33,7 +37,9 @@ import com.hr.ui.utils.datautils.FromStringToArrayList;
 import com.hr.ui.view.MyFlowLayout;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -86,7 +92,7 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
     @BindView(R.id.cl_selectPosition)
     ConstraintLayout clSelectPosition;
     private List<CityBean> positonBeanList1,positonBeanList;
-    private String industryId;
+    private String industryId,cityid;
     private List<CityBean> positonLeftList, positionRightList;
     private MySelectPositionLeftAdapter leftAdapter;
     private MySelectPositionRightAdapter rightAdapter;
@@ -102,6 +108,15 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
      *
      * @param activity
      */
+    public static void startAction(Activity activity, String industryId, String cityId, String tag) {
+        Intent intent = new Intent(activity, SelectPositionActivity.class);
+        intent.putExtra("tag", tag);
+        intent.putExtra("industryId", industryId);
+        intent.putExtra("cityId", cityId);
+        activity.startActivity(intent);
+        activity.overridePendingTransition(R.anim.fade_in,
+                R.anim.fade_out);
+    }
     public static void startAction(Activity activity, String industryId, List<CityBean> selectPositionList, String tag) {
         Intent intent = new Intent(activity, SelectPositionActivity.class);
         intent.putExtra("tag", tag);
@@ -111,7 +126,6 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
         activity.overridePendingTransition(R.anim.fade_in,
                 R.anim.fade_out);
     }
-
     @Override
     public int getLayoutId() {
         return R.layout.acticity_selectposition;
@@ -122,8 +136,12 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
         instance = this;
         viewIndustryBottom.setVisibility(View.GONE);
         llIndustryTitle.setVisibility(View.GONE);
-        selectPositionList = (List<CityBean>) getIntent().getSerializableExtra("selectPosition");
+        cityid=  getIntent().getStringExtra("cityId");
         industryId = getIntent().getStringExtra("industryId");
+        selectPositionList= (List<CityBean>) getIntent().getSerializableExtra("selectPosition");
+        if(selectPositionList==null||"".equals(selectPositionList)){
+            selectPositionList=new ArrayList<>();
+        }
         tag = getIntent().getStringExtra("tag");
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -178,7 +196,22 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
                     if (JobOrderActivity.TAG.equals(tag)) {
                         JobOrderActivity.instance.setPositionList(selectPositionList);
                     } else if (JobSerchActivity.TAG.equals(tag)) {
-                        JobSerchActivity.instance.setPosition(selectPositionList);
+                       /* JobSerchActivity.instance.setPosition(selectPositionList);*/
+                       JobSearchBean jobSearchBean=new JobSearchBean();
+                        SearchHistoryBean historyBean=new SearchHistoryBean();
+                       jobSearchBean.setPositionId(FromStringToArrayList.getInstance().getPositionId(selectPositionList));
+                       historyBean.setPositionId(FromStringToArrayList.getInstance().getPositionId(selectPositionList));
+                       jobSearchBean.setIndustryId(industryId);
+                        historyBean.setIndustryId(industryId);
+                       jobSearchBean.setPlaceId(cityid);
+                        historyBean.setPlaceId(cityid);
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        Date curDate = new Date(System.currentTimeMillis());
+                        String str = formatter.format(curDate);
+                        historyBean.setAddDate(str);
+                        SearchHistoryUtils.insertJobSearchData(historyBean);
+                        JobSearchResultActivity.startAction(this,jobSearchBean);
+                        JobSerchActivity.instance.finish();
                     }
                     finish();
                 } else {

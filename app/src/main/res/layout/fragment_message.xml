@@ -14,19 +14,23 @@
         android:layout_width="match_parent"
         android:id="@+id/rl_fragmentTitle"
         android:layout_height="@dimen/x87">
-        <com.hr.ui.view.CircleImageView
-            android:layout_marginTop="@dimen/x15"
-            android:layout_marginLeft="@dimen/x37"
-            android:layout_marginBottom="@dimen/x15"
-            android:layout_marginRight="@dimen/x30"
+            <android.support.v7.widget.CardView
+                app:cardElevation="@dimen/x1"
+                app:cardCornerRadius="@dimen/x29"
+                android:layout_marginTop="@dimen/x15"
+                android:layout_marginLeft="@dimen/x37"
+                android:layout_marginBottom="@dimen/x15"
+                android:layout_marginRight="@dimen/x30"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            <com.hr.ui.view.CircleImageView
             android:id="@+id/iv_ResumePersonPhoto"
             android:layout_width="@dimen/x58"
             android:layout_height="@dimen/x58"
-            app:civ_border_color="@color/bg_color"
-            app:civ_border_width="@dimen/x1"
             android:scaleType="centerCrop"
             android:onClick="toggleMenu"
             android:src="@mipmap/persondefault"/>
+            </android.support.v7.widget.CardView>
         <TextView
             android:id="@+id/tv_fragmentMessage"
            android:layout_centerInParent="true"
@@ -62,6 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/x20"/>
             <android.support.v7.widget.CardView
+                app:cardElevation="@dimen/x1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <LinearLayout
@@ -203,7 +208,7 @@
                         android:layout_height="@dimen/x24"/>
                 </FrameLayout>
             </RelativeLayout>
-                    <RelativeLayout
+                <RelativeLayout
                 android:id="@+id/rl_employmentGuidance"
                 android:layout_marginRight="@dimen/x31"
                 android:layout_marginLeft="@dimen/x31"
@@ -309,9 +314,6 @@
                 android:background="@color/resumeContent_bg"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/x20"/>
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -322,7 +324,6 @@
 
             </com.hr.ui.view.XRecyclerView>
                 </RelativeLayout>
-            </android.support.v7.widget.CardView>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
     </android.support.v4.widget.SwipeRefreshLayout>

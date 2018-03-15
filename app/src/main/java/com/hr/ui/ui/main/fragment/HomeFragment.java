@@ -410,14 +410,14 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
                 MainActivity.instance.toggle();
                 break;
             case R.id.iv_noDataSearch:
-                JobSerchActivity.startAction(getActivity(), MainActivity.instance.REQUEST_CODE);
+                JobSerchActivity.startAction(getActivity());
                 break;
             case R.id.iv_noContent:
               /*  mPresenter.getRecommendJobInfo( 20, true);*//**/
                 refresh(true);
                 break;
             case R.id.rl_mainSearch:
-                JobSerchActivity.startAction(getActivity(), MainActivity.instance.REQUEST_CODE);
+                JobSerchActivity.startAction(getActivity());
                 break;
         }
     }

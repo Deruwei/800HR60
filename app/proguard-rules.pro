@@ -44,7 +44,6 @@
 -dontwarn com.baidu.**
 #友盟
 -keep class com.umeng.commonsdk.** {*;}
-
 # ProGuard configurations for NetworkBench Lens
 -keep class com.networkbench.** { *; }
 -dontwarn com.networkbench.**

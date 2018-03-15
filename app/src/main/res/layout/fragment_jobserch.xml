@@ -2,6 +2,9 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/view_f0f0f0"
+    android:clipToPadding="true"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <LinearLayout
         android:orientation="vertical"
@@ -15,7 +18,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent">
     <RelativeLayout
-        android:background="@color/view_f0f0f0"
         android:layout_width="match_parent"
         android:layout_height="@dimen/x87">
         <RelativeLayout
@@ -101,7 +103,6 @@
             android:layout_height="@dimen/x1"/>
     </RelativeLayout>
     <LinearLayout
-        android:background="@color/view_f0f0f0"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         app:layout_constraintLeft_toLeftOf="parent"

@@ -27,7 +27,7 @@
             android:layout_height="@dimen/x1"/>
     </LinearLayout>
     <android.support.v7.widget.CardView
-        app:cardElevation="@dimen/x6"
+        app:cardElevation="@dimen/x1"
         android:id="@+id/cv_homeFragment"
         android:layout_below="@+id/ll_homeItemTop"
         android:layout_width="match_parent"
@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:maxEms="10"
                 android:singleLine="true"
-                android:text="餐品专员"
+                android:text=""
                 android:textColor="@color/color_333"
                 android:textSize="@dimen/x36" />
 
@@ -65,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:text="1万-2万"
+                android:text=""
                 android:textColor="@color/new_main"
                 android:textSize="@dimen/x36" />
         </RelativeLayout>
@@ -79,7 +79,7 @@
                 android:id="@+id/tv_recommendJobAddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="海淀区"
+                android:text=""
                 android:textColor="@color/color_999"
                 android:textSize="@dimen/x28" />
 
@@ -99,7 +99,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/tv_recommendJobView1"
-                android:text="3年"
+                android:text=""
                 android:textColor="@color/color_999"
                 android:textSize="@dimen/x28" />
 
@@ -119,7 +119,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/tv_recommendJobView2"
-                android:text="本科"
+                android:text=""
                 android:textColor="@color/color_999"
                 android:textSize="@dimen/x28" />
         </RelativeLayout>
@@ -130,7 +130,11 @@
             android:layout_marginBottom="@dimen/x40"
             android:layout_marginTop="@dimen/x44"
             android:orientation="horizontal">
-
+            <android.support.v7.widget.CardView
+                app:cardElevation="@dimen/x1"
+                app:cardCornerRadius="@dimen/x6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
             <com.hr.ui.view.RoundImageView
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
@@ -142,7 +146,7 @@
                 app:rectRoundRadius="@dimen/x6"
                 android:layout_height="@dimen/x82"
                 android:src="@mipmap/defaultcompany" />
-
+            </android.support.v7.widget.CardView>
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -154,7 +158,7 @@
                     android:layout_height="wrap_content"
                     android:maxEms="14"
                     android:singleLine="true"
-                    android:text="北京英才网联科技有限公司"
+                    android:text=""
                     android:textColor="@color/color_666"
                     android:textSize="@dimen/x28" />
 
@@ -168,7 +172,7 @@
                         android:id="@+id/tv_recommendJobIndustry"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="海淀区"
+                        android:text=""
                         android:textColor="@color/color_999"
                         android:textSize="@dimen/x24" />
 
@@ -188,7 +192,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/tv_recommendJobView3"
-                        android:text="3年"
+                        android:text=""
                         android:textColor="@color/color_999"
                         android:textSize="@dimen/x24" />
 
@@ -208,7 +212,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/tv_recommendJobView4"
-                        android:text="本科"
+                        android:text=""
                         android:textColor="@color/color_999"
                         android:textSize="@dimen/x24" />
                 </LinearLayout>
@@ -224,22 +228,35 @@
                     android:layout_centerVertical="true" />
 
             </RelativeLayout>
-            <TextView
-                android:id="@+id/tv_recommendJobTime"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="11-15"
-                android:gravity="right"
+            <FrameLayout
                 android:layout_gravity="bottom"
-                android:textColor="@color/color_999"
-                android:textSize="@dimen/x28" />
+                android:layout_alignParentRight="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_recommendJobTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text=""
+                    android:gravity="right"
+                    android:textColor="@color/color_999"
+                    android:textSize="@dimen/x28" />
+                <ImageView
+                    android:id="@+id/iv_recommendJobNowPublic"
+                    android:visibility="gone"
+                    android:src="@mipmap/nowpublic"
+                    android:layout_gravity="right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </FrameLayout>
         </LinearLayout>
     </LinearLayout>
         <ImageView
             android:visibility="gone"
             android:id="@+id/iv_topJob"
-            android:src="@mipmap/top"
+            android:src="@mipmap/topred"
             android:layout_width="@dimen/x64"
             android:layout_height="@dimen/x64" />
     </FrameLayout>

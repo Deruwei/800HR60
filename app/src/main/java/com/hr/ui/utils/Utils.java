@@ -19,6 +19,7 @@ import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.Html;
@@ -36,11 +37,13 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.hr.ui.R;
+import com.hr.ui.app.HRApplication;
 import com.hr.ui.bean.CityBean;
 import com.hr.ui.bean.FindBean;
 import com.hr.ui.bean.ThirdLoginBean;
@@ -124,6 +127,101 @@ public class Utils {
             }
         }
     }
+    //判断集合是否为空
+    public static boolean checkListIsNotEmpty(List<?> list){
+        if(list!=null&&!"".equals(list)&&list.size()!=0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * 返回选择城市中左侧的数据
+     * @param list 原始的list数组
+     * @return
+     */
+    public static List<CityBean> findProvinceCityList(List<CityBean> list){
+        List<CityBean> provinceList=new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getId().endsWith("00")) {
+                provinceList.add(list.get(i));
+            }
+        }
+        return provinceList;
+    }
+    public static void setTvState(TextView tv,boolean b){
+        if(b){
+            tv.setBackgroundResource(R.drawable.tv_rectange_orange);
+            tv.setTextColor(ContextCompat.getColor(HRApplication.getAppContext(),R.color.new_main));
+        }else{
+            tv.setBackgroundResource(R.drawable.tv_rectange_gray);
+            tv.setTextColor(ContextCompat.getColor(HRApplication.getAppContext(),R.color.color_333));
+        }
+    }
+    /**
+     * 给以选择的直辖市标记状态
+     * @param selectCityList 已选择的城市集合
+     * @param originCityList  城市集合
+     * @return
+     */
+    public static List<CityBean> setSelectCityInToOriginList(List<CityBean> selectCityList,List<CityBean> originCityList){
+        for(int i=0;i<4;i++){
+            for(int j=0;j<selectCityList.size();j++){
+                if(selectCityList.get(j).getId().equals(originCityList.get(i).getId())){
+                    originCityList.get(i).setCheck(true);
+                    continue;
+                }
+            }
+        }
+        return originCityList;
+    }
+    public static List<CityBean> setSelectCityInToOriginList2(List<CityBean> selectCityList,List<CityBean> originCityList){
+        for(int i=0;i<originCityList.size();i++){
+            for(int j=0;j<selectCityList.size();j++){
+                if(selectCityList.get(j).getId().equals(originCityList.get(i).getId())){
+                    originCityList.get(i).setCheck(true);
+                    continue;
+                }
+            }
+        }
+        return originCityList;
+    }
+    /**
+     * 设置citybean集合全部为false
+     * @param list
+     * @param position 该位置开始
+     */
+    public static void setCityListIsAllFalse(List<CityBean> list,int position){
+        for(int i=position;i<list.size();i++){
+            list.get(i).setCheck(false);
+        }
+    }
+
+    /**
+     * 选择城市右边数据
+     * @param cityBean
+     * @param list
+     * @return
+     */
+    public static List<CityBean> findCityList(CityBean cityBean,List<CityBean> list){
+        List<CityBean> cityList=new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            if (cityBean.getId().substring(0, 2).equals(list.get(i).getId().substring(0, 2))) {
+                list.get(i).setCheck(false);
+                cityList.add(list.get(i));
+            }
+        }
+        return cityList;
+     }
+     public static List<CityBean> removeList(CityBean cityBean,List<CityBean> selectCityList){
+        for(int i=0;i<selectCityList.size();i++){
+            if(cityBean.getId().equals(selectCityList.get(i).getId())){
+                selectCityList.remove(selectCityList.get(i));
+            }
+        }
+        return selectCityList;
+     }
     /**
      * EditText获取焦点并显示软键盘
      */

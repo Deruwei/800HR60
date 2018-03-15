@@ -4,12 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <android.support.v7.widget.CardView
-        app:cardCornerRadius="0dp"
-        android:layout_marginTop="@dimen/x20"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
     <LinearLayout
+        android:layout_marginTop="@dimen/x20"
         android:background="@color/white"
         android:paddingTop="@dimen/x30"
         android:paddingBottom="@dimen/x29"
@@ -68,5 +64,4 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
     </LinearLayout>
-    </android.support.v7.widget.CardView>
 </LinearLayout>

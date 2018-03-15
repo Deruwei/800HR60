@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.hr.ui.R;
 import com.hr.ui.bean.CityBean;
 import com.hr.ui.ui.main.activity.JobOrderActivity;
+import com.hr.ui.ui.main.activity.JobSearchResultActivity;
 import com.hr.ui.ui.main.adapter.MySelectFunctionLeftAdapter;
 import com.hr.ui.ui.main.adapter.MySelectPositionRightAdapter;
 import com.hr.ui.ui.main.fragment.JobSearchFragment;
@@ -79,11 +80,11 @@ public class PopupWindowFieldView {
         this.tvOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                            JobSearchFragment.instance.setFunctionList(selectIndustryList,selectFunctionList);
+                JobSearchResultActivity.instance.setFunctionList(selectIndustryList,selectFunctionList);
                             if(popupWindow!=null){
                                 popupWindow.dismiss();
                             }
-                            JobSearchFragment.instance.page=1;
+                            JobSearchResultActivity.instance.page=1;
             }
         });
         this.tvCancel.setOnClickListener(new View.OnClickListener() {

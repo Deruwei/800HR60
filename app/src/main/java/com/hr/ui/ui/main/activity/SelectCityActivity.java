@@ -50,8 +50,6 @@ public class SelectCityActivity extends BaseNoConnectNetworkAcitivty {
     TextView tvToolbarTitle;
     @BindView(R.id.tool_bar)
     Toolbar toolBar;
-    @BindView(R.id.iv_dingWei)
-    ImageView ivDingWei;
     @BindView(R.id.tv_locationTag)
     TextView tvLocationTag;
     @BindView(R.id.tv_location_city)
@@ -151,6 +149,7 @@ public class SelectCityActivity extends BaseNoConnectNetworkAcitivty {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         AniDraw = (AnimationDrawable) ivFresh.getDrawable();
+
         if (type == 2) {
             llLocation.setVisibility(View.GONE);
             rlSelectCityShow.setVisibility(View.GONE);
@@ -173,8 +172,8 @@ public class SelectCityActivity extends BaseNoConnectNetworkAcitivty {
             }
         });
         provinceCityList = new ArrayList<>();
-        cityBeanList = FromStringToArrayList.getInstance().getCityList("city.txt");
-        cityBeanList2 = FromStringToArrayList.getInstance().getCityList("city.txt");
+        cityBeanList = FromStringToArrayList.getInstance().getCityList();
+        cityBeanList2 = FromStringToArrayList.getInstance().getCityList();
         /**
          * 找出直辖市和省份，左边的数据
          */

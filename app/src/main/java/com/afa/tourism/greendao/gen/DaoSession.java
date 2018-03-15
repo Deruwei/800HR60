@@ -15,6 +15,7 @@ import com.hr.ui.bean.LoginBean;
 import com.hr.ui.bean.PersonalInformationData;
 import com.hr.ui.bean.ResumeData;
 import com.hr.ui.bean.ScanHistoryBean;
+import com.hr.ui.bean.SearchHistoryBean;
 import com.hr.ui.bean.ThirdLoginBean;
 import com.hr.ui.bean.User;
 import com.hr.ui.bean.WorkExpData;
@@ -26,6 +27,7 @@ import com.afa.tourism.greendao.gen.LoginBeanDao;
 import com.afa.tourism.greendao.gen.PersonalInformationDataDao;
 import com.afa.tourism.greendao.gen.ResumeDataDao;
 import com.afa.tourism.greendao.gen.ScanHistoryBeanDao;
+import com.afa.tourism.greendao.gen.SearchHistoryBeanDao;
 import com.afa.tourism.greendao.gen.ThirdLoginBeanDao;
 import com.afa.tourism.greendao.gen.UserDao;
 import com.afa.tourism.greendao.gen.WorkExpDataDao;
@@ -46,6 +48,7 @@ public class DaoSession extends AbstractDaoSession {
     private final DaoConfig personalInformationDataDaoConfig;
     private final DaoConfig resumeDataDaoConfig;
     private final DaoConfig scanHistoryBeanDaoConfig;
+    private final DaoConfig searchHistoryBeanDaoConfig;
     private final DaoConfig thirdLoginBeanDaoConfig;
     private final DaoConfig userDaoConfig;
     private final DaoConfig workExpDataDaoConfig;
@@ -57,6 +60,7 @@ public class DaoSession extends AbstractDaoSession {
     private final PersonalInformationDataDao personalInformationDataDao;
     private final ResumeDataDao resumeDataDao;
     private final ScanHistoryBeanDao scanHistoryBeanDao;
+    private final SearchHistoryBeanDao searchHistoryBeanDao;
     private final ThirdLoginBeanDao thirdLoginBeanDao;
     private final UserDao userDao;
     private final WorkExpDataDao workExpDataDao;
@@ -86,6 +90,9 @@ public class DaoSession extends AbstractDaoSession {
         scanHistoryBeanDaoConfig = daoConfigMap.get(ScanHistoryBeanDao.class).clone();
         scanHistoryBeanDaoConfig.initIdentityScope(type);
 
+        searchHistoryBeanDaoConfig = daoConfigMap.get(SearchHistoryBeanDao.class).clone();
+        searchHistoryBeanDaoConfig.initIdentityScope(type);
+
         thirdLoginBeanDaoConfig = daoConfigMap.get(ThirdLoginBeanDao.class).clone();
         thirdLoginBeanDaoConfig.initIdentityScope(type);
 
@@ -102,6 +109,7 @@ public class DaoSession extends AbstractDaoSession {
         personalInformationDataDao = new PersonalInformationDataDao(personalInformationDataDaoConfig, this);
         resumeDataDao = new ResumeDataDao(resumeDataDaoConfig, this);
         scanHistoryBeanDao = new ScanHistoryBeanDao(scanHistoryBeanDaoConfig, this);
+        searchHistoryBeanDao = new SearchHistoryBeanDao(searchHistoryBeanDaoConfig, this);
         thirdLoginBeanDao = new ThirdLoginBeanDao(thirdLoginBeanDaoConfig, this);
         userDao = new UserDao(userDaoConfig, this);
         workExpDataDao = new WorkExpDataDao(workExpDataDaoConfig, this);
@@ -113,6 +121,7 @@ public class DaoSession extends AbstractDaoSession {
         registerDao(PersonalInformationData.class, personalInformationDataDao);
         registerDao(ResumeData.class, resumeDataDao);
         registerDao(ScanHistoryBean.class, scanHistoryBeanDao);
+        registerDao(SearchHistoryBean.class, searchHistoryBeanDao);
         registerDao(ThirdLoginBean.class, thirdLoginBeanDao);
         registerDao(User.class, userDao);
         registerDao(WorkExpData.class, workExpDataDao);
@@ -126,6 +135,7 @@ public class DaoSession extends AbstractDaoSession {
         personalInformationDataDaoConfig.clearIdentityScope();
         resumeDataDaoConfig.clearIdentityScope();
         scanHistoryBeanDaoConfig.clearIdentityScope();
+        searchHistoryBeanDaoConfig.clearIdentityScope();
         thirdLoginBeanDaoConfig.clearIdentityScope();
         userDaoConfig.clearIdentityScope();
         workExpDataDaoConfig.clearIdentityScope();
@@ -157,6 +167,10 @@ public class DaoSession extends AbstractDaoSession {
 
     public ScanHistoryBeanDao getScanHistoryBeanDao() {
         return scanHistoryBeanDao;
+    }
+
+    public SearchHistoryBeanDao getSearchHistoryBeanDao() {
+        return searchHistoryBeanDao;
     }
 
     public ThirdLoginBeanDao getThirdLoginBeanDao() {

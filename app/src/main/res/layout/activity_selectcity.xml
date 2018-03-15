@@ -29,18 +29,12 @@
                 android:id="@+id/ll_location"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_50dp">
-                <ImageView
-                    android:layout_marginLeft="@dimen/x37"
-                    android:layout_centerVertical="true"
-                    android:id="@+id/iv_dingWei"
-                    android:src="@mipmap/dingwei"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
                 <TextView
+                    android:drawableLeft="@mipmap/dingwei"
+                    android:drawablePadding="@dimen/x6"
                     android:id="@+id/tv_locationTag"
                     android:textSize="@dimen/x28"
-                    android:layout_marginLeft="@dimen/x11"
-                    android:layout_toRightOf="@+id/iv_dingWei"
+                    android:layout_marginLeft="@dimen/x37"
                     android:layout_centerVertical="true"
                     android:text="@string/location"
                     android:layout_width="wrap_content"
@@ -52,9 +46,10 @@
                     android:layout_toRightOf="@+id/tv_locationTag"
                     android:layout_centerVertical="true"
                     android:text=""
+                    android:textColor="@color/color_333"
                     android:padding="@dimen/x6"
                     android:gravity="center"
-                    android:background="@drawable/tv_bg_gray"
+                    android:background="@drawable/tv_rectange_gray"
                     android:minWidth="@dimen/x100"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"  />

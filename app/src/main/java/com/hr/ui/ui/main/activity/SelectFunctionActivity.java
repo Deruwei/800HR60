@@ -255,7 +255,7 @@ public class SelectFunctionActivity extends BaseNoConnectNetworkAcitivty {
                             if(tag.equals(JobOrderActivity.TAG)) {
                                 JobOrderActivity.instance.setFunctionList(industryId, selectFunctionList);
                             }else if(tag.equals(JobSerchActivity.TAG)){
-                                JobSerchActivity.instance.setFunctionList(industryId, selectFunctionList);
+                               /* JobSerchActivity.instance.setFunctionList(industryId, selectFunctionList);*/
                             }
                             finish();
                         } else {
@@ -266,7 +266,7 @@ public class SelectFunctionActivity extends BaseNoConnectNetworkAcitivty {
                         if(tag.equals(JobOrderActivity.TAG)) {
                             JobOrderActivity.instance.setFunctionList(industryId, selectFunctionList);
                         }else if(tag.equals(JobSerchActivity.TAG)){
-                            JobSerchActivity.instance.setFunctionList(industryId, selectFunctionList);
+                           /* JobSerchActivity.instance.setFunctionList(industryId, selectFunctionList);*/
                         }
                         finish();
                     }

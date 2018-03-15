@@ -35,6 +35,8 @@ import com.hr.ui.ui.main.contract.SplashContract;
 import com.hr.ui.ui.main.modle.SplashModel;
 import com.hr.ui.ui.main.presenter.SplashPresenter;
 import com.hr.ui.utils.AnimationUtil;
+import com.hr.ui.utils.BaiDuLocationUtils;
+import com.hr.ui.utils.ToastUitl;
 import com.service.LongRunningService;
 import com.hr.ui.utils.ToolUtils;
 import com.hr.ui.utils.Utils;
@@ -76,7 +78,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
     private int isAutoLogin, autoLoginType;
     public static SplashActivity instance;
     private LoginBean loginBean;
-    String[] permissions = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.CHANGE_WIFI_STATE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS};
+    String[] permissions = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.RECEIVE_BOOT_COMPLETED, Manifest.permission.CHANGE_WIFI_STATE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS};
     List<String> mPermissionList = new ArrayList<>();
     private int[] imageIds = {R.mipmap.resume1, R.mipmap.resume2, R.mipmap.resume3, R.mipmap.resume4, R.mipmap.resume5};
     private ArrayList<String> titles;
@@ -118,6 +120,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
         /*sUtils.setIntValue("code",0);*/
         isAutoLogin = sUtils.getIntValue(Constants.ISAUTOLOGIN, 0);
         autoLoginType = sUtils.getIntValue(Constants.AUTOLOGINTYPE, 5);
+        BaiDuLocationUtils.getInstance().initData();
         if (sUtils.getBooleanValue(Constants.IS_GUIDE, false) == false) {
             MobclickAgent.onEvent(this,"v6_firstStartApp");
             sUtils.setBooleanValue(Constants.ISFIRSTINTO,true);
@@ -280,7 +283,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
     @Override
     public void getVersion(VersionBean.AndroidBean androidBean) {
         String version =androidBean.getVer();
-        String version1 = BuildConfig.VERSION_NAME;
+        String version1 = "6.0.3";
         if (Utils.checkVersion(version, version1) == true) {
             popupWindow=new PopupWindow(this);
             PopWindowUpdate popWindowUpdate = new PopWindowUpdate(this, popupWindow, androidBean,clSplash );
@@ -291,18 +294,26 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
     }
     public void doAutoLogin(){
             if (autoLoginType != 5) {
-                loginBean = LoginDBUtils.queryDataById(autoLoginType + "");
+                try{
+                    loginBean = LoginDBUtils.queryDataById(autoLoginType + "");
+                }catch(Exception e){
+                    setViewVisible();
+                }
                 // System.out.println("auto"+loginBean.toString());
                 //isAutoLogin是否是自动登录   0不是
                 if (isAutoLogin == 0) {
                     setViewVisible();
                 } else {
-                    if (autoLoginType == 0) {
-                        mPresenter.getAutoPhoneLogin(loginBean.getName(), loginBean.getPassword(), 1, false);
-                    } else if (autoLoginType == 1) {
-                        mPresenter.getAutoPhoneLogin(loginBean.getName(), loginBean.getPassword(), 2, false);
-                    } else {
-                        mPresenter.getThirdBindingLogin(loginBean, false);
+                    if(loginBean==null||"".equals(loginBean)){
+                        setViewVisible();
+                    }else {
+                        if (autoLoginType == 0) {
+                            mPresenter.getAutoPhoneLogin(loginBean.getName(), loginBean.getPassword(), 1, false);
+                        } else if (autoLoginType == 1) {
+                            mPresenter.getAutoPhoneLogin(loginBean.getName(), loginBean.getPassword(), 2, false);
+                        } else {
+                            mPresenter.getThirdBindingLogin(loginBean, false);
+                        }
                     }
                 }
             } else {
@@ -355,6 +366,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
         if (popupWindow != null) {
             popupWindow.dismiss();
         }
+        BaiDuLocationUtils.getInstance().stopLocation();
         super.onDestroy();
     }
 }

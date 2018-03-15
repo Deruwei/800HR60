@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.hr.ui.R;
 import com.hr.ui.bean.CityBean;
+import com.hr.ui.ui.main.activity.JobSearchResultActivity;
 import com.hr.ui.ui.main.activity.PersonalInformationActivity;
 import com.hr.ui.ui.main.activity.SelectPositionActivity;
 import com.hr.ui.ui.main.activity.WorkExpActivity;
@@ -83,18 +84,18 @@ public class PopupWindowView {
             tvOK.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                        JobSearchFragment.instance.setPlaceId(selectCityList);
+                    JobSearchResultActivity.instance.setPlaceId(selectCityList);
                         if (popupWindow != null) {
                             popupWindow.dismiss();
                         }
-                        JobSearchFragment.instance.page = 1;
+                    JobSearchResultActivity.instance.page = 1;
                 }
             });
             initSelectCity();
     }
     private void initSelectCity() {
-        cityBeanList = FromStringToArrayList.getInstance().getCityList("city.txt");
-        cityBeanList2 = FromStringToArrayList.getInstance().getCityList("city.txt");
+        cityBeanList = FromStringToArrayList.getInstance().getCityList();
+        cityBeanList2 = FromStringToArrayList.getInstance().getCityList();
         /**
          * 找出直辖市和省份，左边的数据
          */

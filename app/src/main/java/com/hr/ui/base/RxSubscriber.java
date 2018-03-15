@@ -136,7 +136,7 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
             }
             //Log.i("当前的数据",s+"---");
             if ("204".equals(s) || "203".equals(s) || "205".equals(s) || "303".equals(s)||"205.2".equals(s)) {
-               /* Constants.SESSION_KEY = null;*/
+               // Constants.SESSION_KEY = "";
                 getConnect();
             }
         } catch (IOException e) {

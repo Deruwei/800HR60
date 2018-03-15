@@ -31,6 +31,8 @@
                 android:layout_toLeftOf="@+id/tv_itemShieldCompanySetShield"
                 android:id="@+id/tv_itemShieldCompanyName"
                 android:textSize="@dimen/x28"
+                android:editable="false"
+                android:textIsSelectable="true"
                 android:layout_marginRight="@dimen/x10"
                 android:textColor="@color/color_333"
                 android:layout_width="match_parent"

@@ -531,7 +531,7 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
             sbPosition.append("," + slectPositionList.get(i).getId());
         }
         sbPosition.deleteCharAt(0);
-        if(orderInfoBean!=null){
+        if(orderInfoBean==null){
             orderInfoBean=new ResumeOrderInfoBean.OrderInfoBean();
         }
         orderInfoBean.getOrder_industry().get(updatePostion).setFunc(sbPosition.toString());

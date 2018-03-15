@@ -30,7 +30,7 @@ public class FromStringToArrayList {
         }
         return instance;
     }
-    public List<CityBean> getCityList(String fileName){
+    public List<CityBean> getCityList(){
         List<CityBean> cityBeanList=new ArrayList<>();
         String s=SaveFile.getDataFromInternalStorage(HRApplication.getAppContext(),"city.txt");
         try {
@@ -108,6 +108,108 @@ public class FromStringToArrayList {
             e.printStackTrace();
         }
         return expectPositionList;
+    }
+    public  String getExpectPositionName(String positionId,String industryId){
+        List<CityBean> expectPositionList=new ArrayList<>();
+        StringBuffer sb=new StringBuffer();
+        String s=SaveFile.getDataFromInternalStorage(HRApplication.getAppContext(),"job.txt");
+        try {
+            JSONObject jsonObject=new JSONObject(s);
+            JSONArray jsonArray=jsonObject.getJSONArray(industryId);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                CityBean cityBean=new CityBean();
+                JSONObject object = jsonArray.getJSONObject(i);
+                Iterator it=object.keys();
+                while(it.hasNext()){
+                    String key=(String) it.next();
+                    cityBean.setId(key);
+                    cityBean.setName(object.getString(key));
+                    cityBean.setCheck(false);
+                }
+                expectPositionList.add(cityBean);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String[] ids=positionId.split(",");
+        for(int i=0;i<ids.length;i++){
+            for(int j=0;j<expectPositionList.size();j++){
+                if(expectPositionList.get(j).getId().equals(ids[i])){
+                    sb.append(","+expectPositionList.get(j).getName());
+                    continue;
+                }
+            }
+        }
+        sb.deleteCharAt(0);
+        return sb.toString();
+    }
+    public String getCityListId(String cityName) {
+        List<CityBean> cityBeanList = new ArrayList<>();
+        String cityId="";
+        String s = SaveFile.getDataFromInternalStorage(HRApplication.getAppContext(), "city.txt");
+        try {
+            JSONArray cityJSONArray = new JSONArray(s);
+            for (int i = 0; i < cityJSONArray.length(); i++) {
+                CityBean cityBean = new CityBean();
+                JSONObject object = cityJSONArray.getJSONObject(i);
+                Iterator it = object.keys();
+                while (it.hasNext()) {
+                    String key = (String) it.next();
+                    cityBean.setId(key);
+                    cityBean.setName(object.getString(key));
+                    cityBean.setCheck(false);
+                }
+                cityBeanList.add(cityBean);
+            }
+            //System.out.println("cityBean"+cityBeanList.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        for (int i = 0; i < cityBeanList.size(); i++) {
+                if(cityName.equals(cityBeanList.get(i).getName())) {
+                   cityId=cityBeanList.get(i).getId();
+                }
+        }
+        return cityId;
+    }
+
+    public String getCityName(String text) {
+        List<CityBean> cityBeanList = new ArrayList<>();
+        String cityName="";
+        String name="";
+        String s = SaveFile.getDataFromInternalStorage(HRApplication.getAppContext(), "city.txt");
+        try {
+            JSONArray cityJSONArray = new JSONArray(s);
+            for (int i = 0; i < cityJSONArray.length(); i++) {
+                CityBean cityBean = new CityBean();
+                JSONObject object = cityJSONArray.getJSONObject(i);
+                Iterator it = object.keys();
+                while (it.hasNext()) {
+                    String key = (String) it.next();
+                    cityBean.setId(key);
+                    cityBean.setName(object.getString(key));
+                    cityBean.setCheck(false);
+                }
+                cityBeanList.add(cityBean);
+            }
+            //System.out.println("cityBean"+cityBeanList.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        for (int i = 0; i < cityBeanList.size(); i++) {
+            name=cityBeanList.get(i).getName();
+            if(text.contains(name)){
+                cityName=name;
+            }else{
+                if(name.contains("州")){
+                    if(text.contains(name.substring(0,name.indexOf("州")))){
+                        cityName=name;
+                    }
+                }
+            }
+        }
+
+        return cityName;
     }
     public String getCityListName(String text) {
         List<CityBean> cityBeanList = new ArrayList<>();
@@ -400,6 +502,18 @@ public class FromStringToArrayList {
         }else{
             return "";
         }
+
+    }
+    public String getPositionId(List<CityBean> selectPositionList){
+        if(selectPositionList!=null&&selectPositionList.size()!=0) {
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < selectPositionList.size(); i++) {
+                sb.append(","+selectPositionList.get(i).getId());
+            }
+            sb.deleteCharAt(0);
+            return sb.toString();
+        }
+        return"";
 
     }
     public List<CityBean> getPositionClassList(){

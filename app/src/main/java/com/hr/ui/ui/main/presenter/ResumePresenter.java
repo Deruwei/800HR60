@@ -1,17 +1,12 @@
 package com.hr.ui.ui.main.presenter;
 
-import android.util.Log;
-import android.util.MutableInt;
-
 import com.hr.ui.base.RxSubscriber;
 import com.hr.ui.bean.MultipleResumeBean;
 import com.hr.ui.bean.PictureBean;
 import com.hr.ui.bean.ResumeBean;
-import com.hr.ui.ui.main.activity.MultipleResumeActivity;
-import com.hr.ui.ui.main.fragment.ResumeContract;
+import com.hr.ui.ui.main.contract.ResumeContract;
 import com.hr.ui.utils.Rc4Md5Utils;
 import com.hr.ui.utils.ToastUitl;
-import com.hr.ui.utils.Utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;

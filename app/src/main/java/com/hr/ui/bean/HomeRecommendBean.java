@@ -106,6 +106,7 @@ public class HomeRecommendBean {
         private String workyear;
         private String work_type;
         private String job_number;
+        private String company_type;
         private String is_show_pay_interview;
         private String poster_state;
         private String topjob_type;
@@ -138,6 +139,14 @@ public class HomeRecommendBean {
         private String view_time;
         private String satisfying;
         private String satisfy_time;
+
+        public String getCompany_type() {
+            return company_type;
+        }
+
+        public void setCompany_type(String company_type) {
+            this.company_type = company_type;
+        }
 
         public String getJob_id() {
             return job_id;

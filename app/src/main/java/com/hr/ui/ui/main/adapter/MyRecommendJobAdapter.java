@@ -1,6 +1,7 @@
 package com.hr.ui.ui.main.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +18,14 @@ import com.hr.ui.utils.Utils;
 import com.hr.ui.view.PieChartView;
 import com.hr.ui.view.RoundImageView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.hr.ui.ui.main.activity.JobOrderActivity.TAG;
 
 /**
  *
@@ -80,9 +85,9 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
         if (type != 3) {
             if (type == 1) {
                 viewHolder.llHomeItemTop.setVisibility(View.GONE);
-                if(jobsListBeanList.get(position).isTop()==true){
+                if (jobsListBeanList.get(position).isTop() == true) {
                     viewHolder.ivTopJob.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     viewHolder.ivTopJob.setVisibility(View.GONE);
                 }
                 viewHolder.tvRecommendJobAddress.setText(jobsListBeanList.get(position).getWorkplace());
@@ -97,7 +102,17 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
                 viewHolder.tvRecommendJobName.setText(jobsListBeanList.get(position).getJob_name());
                 viewHolder.tvRecommendJobSalary.setText(Utils.getSalary(jobsListBeanList.get(position).getSalary()));
                 String day = Utils.getDateMonthAndDay(jobsListBeanList.get(position).getIssue_date());
-                viewHolder.tvRecommendJobTime.setText(day);
+                SimpleDateFormat formatter = new SimpleDateFormat("M - d");//格式为 2013年9月3日 14:44
+                Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+                String currentDate = formatter.format(curDate);
+                Log.d(TAG, "onBindViewHolder: .i"+currentDate);
+                if(currentDate.equals(day)){
+                    viewHolder.ivRecommendJobNowPublic.setVisibility(View.VISIBLE);
+                }else{
+                    viewHolder.ivRecommendJobNowPublic.setVisibility(View.GONE);
+                    viewHolder.tvRecommendJobTime.setText(day);
+                }
+
                 viewHolder.tvRecommendPersonNum.setText(jobsListBeanList.get(position).getStuff_munber());
                 viewHolder.tvRecommendJobWorkYear.setText(jobsListBeanList.get(position).getWorkyear());
                 viewHolder.tvRecommendJobCompanyType.setText(jobsListBeanList.get(position).getCompany_type());
@@ -126,6 +141,7 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
                 viewHolder.tvRecommendJobTime.setText(day);
                 viewHolder.tvRecommendPersonNum.setText(jobsListBeanList2.get(position).getNumber());
                 viewHolder.tvRecommendJobWorkYear.setText(jobsListBeanList2.get(position).getWorkyear());
+                viewHolder.tvRecommendJobCompanyType.setText(jobsListBeanList2.get(position).getCompany_type());
             }
         } else {
             //Log.i("经过这里",jobsListBeanList2.toString());
@@ -157,6 +173,7 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
                 viewHolder.tvRecommendJobTime.setText(day);
                 viewHolder.tvRecommendPersonNum.setText(jobsListBeanList2.get(position).getNumber());
                 viewHolder.tvRecommendJobWorkYear.setText(jobsListBeanList2.get(position).getWorkyear());
+                viewHolder.tvRecommendJobCompanyType.setText(jobsListBeanList2.get(position).getCompany_type());
                 //viewHolder.tvRecommendJobCompanyType.setText(jobsListBeanList2.get(position).getCompany_type());
                 int num = (int) (Double.parseDouble(jobsListBeanList2.get(position).getMatch_value()) * 100.0);
                 viewHolder.pcvNum.SetProgram(num);
@@ -184,7 +201,7 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
                 viewHolder.tvRecommendJobTime.setText(Utils.getDateMonthAndDay(jobsListBeanList.get(position - i).getIssue_date()));
                 viewHolder.tvRecommendPersonNum.setText(jobsListBeanList.get(position - i).getNumber());
                 viewHolder.tvRecommendJobWorkYear.setText(jobsListBeanList.get(position - i).getWorkyear());
-                //viewHolder.tvRecommendJobCompanyType.setText(jobsListBeanList2.get(position).getCompany_type());
+                viewHolder.tvRecommendJobCompanyType.setText(jobsListBeanList.get(position - i).getCompany_type());
             }
         }
         if (clickCallBack != null) {
@@ -243,6 +260,8 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
         TextView tvRecommendJobSalary;
         @BindView(R.id.tv_recommendJobAddress)
         TextView tvRecommendJobAddress;
+        @BindView(R.id.iv_recommendJobNowPublic)
+        ImageView ivRecommendJobNowPublic;
         @BindView(R.id.tv_recommendJobWorkYear)
         TextView tvRecommendJobWorkYear;
         @BindView(R.id.tv_recommendJobDegree)

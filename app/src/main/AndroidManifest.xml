@@ -64,6 +64,11 @@
         <service android:name="com.service.LongRunningService" android:enabled="true" ></service>
         <receiver android:name="com.service.AlarmReceiver" android:process=":newinst">
         </receiver>
+        <service
+            android:name="com.service.MyJobService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
         <service android:name="com.baidu.location.f" android:enabled="true" android:process=":remote"> </service>
 
         <!--验证码计时器服务-->
@@ -332,6 +337,14 @@
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.login.activity.CompanyRegisterActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.main.activity.SelectCitySearchActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.main.activity.JobSearchResultActivity"
             android:windowSoftInputMode="adjustPan|stateHidden"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait"/>

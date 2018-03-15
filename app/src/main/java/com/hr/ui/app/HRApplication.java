@@ -1,18 +1,29 @@
 package com.hr.ui.app;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.multidex.MultiDex;
+import android.util.Log;
 
 import com.afa.tourism.greendao.gen.DaoMaster;
 import com.afa.tourism.greendao.gen.DaoSession;
 import com.baidu.mapapi.SDKInitializer;
 import com.hr.ui.constants.Constants;
-import com.hr.ui.db.MySQLiteOpenHelper;
+import com.hr.ui.db.HMROpenHelper;
+import com.hr.ui.utils.ToastUitl;
 import com.service.AlamrReceiver;
 import com.hr.ui.utils.GlideImageLoader;
 import com.hr.ui.utils.UnCeHandler;
@@ -20,6 +31,7 @@ import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.view.CropImageView;
 import com.mob.MobApplication;
 import com.networkbench.agent.impl.NBSAppAgent;
+import com.service.MyJobService;
 import com.umeng.commonsdk.UMConfigure;
 
 import java.util.Calendar;
@@ -30,16 +42,37 @@ import java.util.Calendar;
 
 public class HRApplication extends MobApplication {
     private static HRApplication hrApplication;
-    private  MySQLiteOpenHelper mHelper;
     private static DaoSession daoSession;
     private Calendar c;
+    private int refCount = 0;
     public static final String CODE = "connectCode";
     private String nbsAppKey="8a97e06a76944ee3886dafe60f20a809";
+    private Runnable runnable;
 
     public static HRApplication getAppContext() {
         return hrApplication;
     }
-
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 0:
+                    Log.i("现在处于","后台");
+                    runnable=new Runnable() {
+                        @Override
+                        public void run() {
+                            AppManager.getAppManager().finishAllActivity();
+                        }
+                    };
+                    handler.postDelayed(runnable,1000*60*20);
+                    break;
+                case 1:
+                    Log.i("现在处于","前台");
+                    handler.removeCallbacks(runnable);
+                    break;
+            }
+        }
+    };
     @Override
 
     public void onCreate() {
@@ -57,7 +90,52 @@ public class HRApplication extends MobApplication {
         NBSAppAgent.setLicenseKey(nbsAppKey).withLocationServiceEnabled(true).startInApplication(this.getApplicationContext());//Appkey 请从官网获取
         Constants.SESSION_KEY=null;
         initIsHaveNew();
+        registerAppCallback();
     }
+    private void registerAppCallback() {
+        registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+            @Override
+            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+
+            }
+
+            @Override
+            public void onActivityStarted(Activity activity) {
+                refCount++;
+                if(refCount>0){
+                    handler.sendEmptyMessage(1);
+                }
+            }
+
+            @Override
+            public void onActivityResumed(Activity activity) {
+            }
+
+            @Override
+            public void onActivityPaused(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityStopped(Activity activity) {
+                refCount--;
+                if(refCount == 0){
+                    handler.sendEmptyMessage(0);
+                }
+            }
+
+            @Override
+            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+            }
+
+            @Override
+            public void onActivityDestroyed(Activity activity) {
+
+            }
+        });
+    }
+
     private void initIsHaveNew() {
         c=Calendar.getInstance();
         c.setTimeInMillis(System.currentTimeMillis());
@@ -101,9 +179,9 @@ public class HRApplication extends MobApplication {
      */
     private void setupDatabase() {
         //创建数据库shop.db"
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "resume.db", null);
+        HMROpenHelper mHelper = new HMROpenHelper(this, "resume.db", null);//为数据库升级封装过的使用方式
         //获取可写数据库
-        SQLiteDatabase db = helper.getWritableDatabase();
+        SQLiteDatabase db = mHelper.getWritableDatabase();
         //获取数据库对象
         DaoMaster daoMaster = new DaoMaster(db);
         //获取Dao对象管理者

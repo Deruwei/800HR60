@@ -22,6 +22,7 @@ android {
         manifestPlaceholders = [UMENG_CHANNEL_CALUE: "umeng"]       //默认为uMeng
         signingConfig signingConfigs.release
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -48,7 +49,7 @@ android {
         }
     }
     greendao {
-        schemaVersion 1
+        schemaVersion 2
         daoPackage 'com.afa.tourism.greendao.gen'
         targetGenDir 'src/main/java'
     }
@@ -82,8 +83,8 @@ dependencies {
     compile 'com.orhanobut:logger:1.13'
     compile 'com.loopeer.library:itemtouchhelperextension:1.0.6'
     //友盟
-    compile 'com.umeng.sdk:common:latest.integration'
-    compile 'com.umeng.sdk:analytics:latest.integration'
+    compile 'com.umeng.sdk:common:1.4.4'
+    compile 'com.umeng.sdk:analytics:7.4.4'
     //打印日志
     compile 'io.reactivex:rxjava:1.0.1'
     compile 'io.reactivex:rxandroid:1.0.1'
@@ -107,6 +108,7 @@ dependencies {
     implementation files('libs/ShareSDK-Wechat-Favorite-3.1.2.jar')
     implementation files('libs/ShareSDK-Wechat-Moments-3.1.2.jar')
     implementation files('libs/BaiduLBS_Android.jar')
-    implementation files('libs/httpmime-4.1.2.jar')
+    /*implementation files('libs/httpmime-4.1.2.jar')*/
     implementation project(':imagepicker')
+    implementation files('libs/IndoorscapeAlbumPlugin.jar')
 }

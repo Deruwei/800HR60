@@ -61,7 +61,7 @@
                             android:gravity="center"
                             android:lineSpacingMultiplier="1.2"
                             android:layout_marginTop="@dimen/x85"
-                            android:text="北京英才网联科技有限公司"
+                            android:text=""
                             android:textColor="@color/color_333"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
@@ -73,7 +73,7 @@
                            <TextView
                                android:id="@+id/tv_companyPagePlace"
                                android:textColor="@color/color_999"
-                               android:text="[北京]"
+                               android:text=""
                                android:textSize="@dimen/x28"
                                android:layout_width="wrap_content"
                                android:layout_height="wrap_content" />
@@ -81,7 +81,7 @@
                                android:id="@+id/tv_companyPageIndustry"
                                android:layout_marginLeft="@dimen/x10"
                                android:textColor="@color/color_999"
-                               android:text="[北京]"
+                               android:text=""
                                android:textSize="@dimen/x28"
                                android:layout_width="wrap_content"
                                android:layout_height="wrap_content" />
@@ -95,7 +95,7 @@
                            <TextView
                                android:id="@+id/tv_companyPageCompanyType"
                                android:textColor="@color/color_999"
-                               android:text="[北京]"
+                               android:text=""
                                android:textSize="@dimen/x28"
                                android:layout_width="wrap_content"
                                android:layout_height="wrap_content" />
@@ -103,7 +103,7 @@
                                android:id="@+id/tv_companyPageCompanyScale"
                                android:layout_marginLeft="@dimen/x10"
                                android:textColor="@color/color_999"
-                               android:text="[北京]"
+                               android:text=""
                                android:textSize="@dimen/x28"
                                android:layout_width="wrap_content"
                                android:layout_height="wrap_content" />
@@ -145,6 +145,7 @@
                     <RelativeLayout
                         android:layout_marginBottom="@dimen/x20"
                         android:layout_marginLeft="@dimen/x40"
+                        android:layout_marginRight="@dimen/x40"
                         android:layout_marginTop="@dimen/x20"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -191,7 +192,7 @@
                             android:id="@id/id_source_textview"
                             android:textSize="@dimen/x32"
                             android:textColor="@color/color_333"
-                            android:text="@string/companyIntro"
+                            android:text=""
                             android:lineSpacingMultiplier="1.2"
                             android:layout_marginRight="@dimen/x40"
                             android:layout_marginLeft="@dimen/x40"
