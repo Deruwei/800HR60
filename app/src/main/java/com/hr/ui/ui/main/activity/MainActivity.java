@@ -4,14 +4,19 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -19,14 +24,21 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.hr.ui.R;
@@ -44,6 +56,9 @@ import com.hr.ui.ui.me.activity.CollectionActivity;
 import com.hr.ui.ui.me.activity.FeedBackActivity;
 import com.hr.ui.ui.me.activity.ScanHistoryActivity;
 import com.hr.ui.ui.me.activity.SettingActivity;
+import com.hr.ui.utils.CodeTimer;
+import com.hr.ui.utils.EncryptUtils;
+import com.hr.ui.utils.RegularExpression;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.CircleImageView;
@@ -51,6 +66,7 @@ import com.hr.ui.view.MyDrawLayout2;
 import com.hr.ui.view.PopupWindowAd;
 import com.hr.ui.view.PopupWindowComment;
 import com.hr.ui.view.PopupWindowWarm;
+import com.service.CodeTimerService;
 import com.service.MyJobService;
 import com.umeng.analytics.MobclickAgent;
 
@@ -60,8 +76,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
-public class MainActivity extends BaseActivity<MainPresenter,MainModel> implements MainContract.View {
+public class MainActivity extends BaseActivity<MainPresenter, MainModel> implements MainContract.View {
     @BindView(R.id.ll_main)
     LinearLayout llMain;
     @BindView(R.id.rb_home)
@@ -98,23 +115,24 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
     MyDrawLayout2 idMenu;
     private PopupWindow popupWindow;
     private ArrayList<Fragment> fragments;
-   /* public boolean isHome = true;*/
+    /* public boolean isHome = true;*/
     private int mIndex;
     public static MainActivity instance;
     private SharedPreferencesUtils sUtis;
-    private String personImage,contentWarn,imageUrl,adUrl;
-    private List<FindBean.ListBean> listBeanList=new ArrayList<>();
+    private String personImage, contentWarn, imageUrl, adUrl;
+    private List<FindBean.ListBean> listBeanList = new ArrayList<>();
     private PopupWindow popupWindowGiveComment;
-    public  RadioButton rbResume1;
-    private boolean giveComment,hasAds,hasWarm;
+    public RadioButton rbResume1;
+    private boolean giveComment, hasAds, hasWarm;
     private PopupWindow popupWindowTips;
     private ComponentName mServieComponent;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         //创建手势检测
-        instance=this;
+        instance = this;
     }
 
     @Override
@@ -124,7 +142,7 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
 
     @Override
     public void initPresenter() {
-        mPresenter.setVM(this,mModel);
+        mPresenter.setVM(this, mModel);
     }
 
     /**
@@ -134,14 +152,15 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
      */
     public static void startAction(Activity activity, int userId) {
         Intent intent = new Intent(activity, MainActivity.class);
-        if(userId==0){
-            MobclickAgent.onEvent(HRApplication.getAppContext(),"v6_resume_complete");
+        if (userId == 0) {
+            MobclickAgent.onEvent(HRApplication.getAppContext(), "v6_resume_complete");
         }
         intent.putExtra("userId", userId);
         activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.fade_in,
                 R.anim.fade_out);
     }
+
     @OnClick({R.id.rl_collection, R.id.rl_history, R.id.rl_feedback, R.id.rl_setting})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -173,19 +192,20 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
         if (!"".equals(personImage) && personImage != null) {
            /* Glide.with(this).load(Constants.IMAGE_BASEPATH + personImage).centerCrop().into(ivResumePersonPhoto);*/
             Glide.with(this).load(Constants.IMAGE_BASEPATH + personImage).fitCenter().into(ivPersonImageLeft);
-        }else{
+        } else {
             ivPersonImageLeft.setImageResource(R.mipmap.persondefault);
         }
     }
+
     private void initFragment() {
-        fragments=new ArrayList<>();
+        fragments = new ArrayList<>();
         HomeFragment homeFragment = HomeFragment.newInstance("home");
         MessageFragment messageFragment = MessageFragment.newInstance("message");
-        ResumeFragment resumeFragment= ResumeFragment.newInstance("resume");
+        ResumeFragment resumeFragment = ResumeFragment.newInstance("resume");
         //添加到数组
-       fragments.add(homeFragment);
-       fragments.add(messageFragment);
-       fragments.add(resumeFragment);
+        fragments.add(homeFragment);
+        fragments.add(messageFragment);
+        fragments.add(resumeFragment);
         //开启事务
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         //添加首页
@@ -193,6 +213,7 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
         //默认设置为第0个
         setIndexSelected(0);
     }
+
     public void setIndexSelected(int index) {
         if (mIndex == index) {
             return;
@@ -204,31 +225,31 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
         //判断是否添加
         if (!fragments.get(index).isAdded()) {
             ft.add(R.id.ll_main, fragments.get(index)).show(fragments.get(index));
-            if(index==0){
-                MobclickAgent.onEvent(this,"v6_scan_main");
+            if (index == 0) {
+                MobclickAgent.onEvent(this, "v6_scan_main");
             }
-            if(index==2){
-                MobclickAgent.onEvent(this,"v6_scan_resume");
+            if (index == 2) {
+                MobclickAgent.onEvent(this, "v6_scan_resume");
                 idMenu.setDrawerLockMode(MyDrawLayout2.LOCK_MODE_LOCKED_CLOSED);
                 rlLeftPage.setBackgroundResource(R.drawable.resume_title_bg);
             }
-            if(index==1){
-                MobclickAgent.onEvent(this,"v6_scan_message");
+            if (index == 1) {
+                MobclickAgent.onEvent(this, "v6_scan_message");
             }
         } else {
             ft.show(fragments.get(index));
-            if(index==0){
-                MobclickAgent.onEvent(this,"v6_scan_main");
+            if (index == 0) {
+                MobclickAgent.onEvent(this, "v6_scan_main");
                 idMenu.setDrawerLockMode(MyDrawLayout2.LOCK_MODE_UNLOCKED);
                 rlLeftPage.setBackgroundResource(R.color.bg_homeTitle);
             }
-            if(index==1){
-                MobclickAgent.onEvent(this,"v6_scan_message");
-                MobclickAgent.onEvent(this,"v6_fresh_message");
+            if (index == 1) {
+                MobclickAgent.onEvent(this, "v6_scan_message");
+                MobclickAgent.onEvent(this, "v6_fresh_message");
                 MessageFragment.instance.getDate(false);
             }
-            if(index==2){
-                MobclickAgent.onEvent(this,"v6_scan_resume");
+            if (index == 2) {
+                MobclickAgent.onEvent(this, "v6_scan_resume");
                 idMenu.setDrawerLockMode(MyDrawLayout2.LOCK_MODE_LOCKED_CLOSED);
                 rlLeftPage.setBackgroundResource(R.drawable.resume_title_bg);
             }
@@ -238,6 +259,7 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
         mIndex = index;
 
     }
+
     private void setRadioGroupListener() {
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -266,15 +288,15 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
     @Override
     public void initView() {
         instance = this;
-        mPresenter.getNotice("96","794,796,797,798");
+        mPresenter.getNotice("96", "794,796,797,798");
         /*userId = getIntent().getIntExtra("userId", 0);*/
-        rbResume1=rbResume;
-        sUtis=new SharedPreferencesUtils(this);
+        rbResume1 = rbResume;
+        sUtis = new SharedPreferencesUtils(this);
         initFragment();
         setRadioGroupListener();
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mServieComponent=new ComponentName(this,MyJobService.class);
-            Intent startServiceIntent=new Intent(this,MyJobService.class);
+            mServieComponent = new ComponentName(this, MyJobService.class);
+            Intent startServiceIntent = new Intent(this, MyJobService.class);
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
                 startForegroundService(startServiceIntent);
             } else {
@@ -282,7 +304,10 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
             }
             pollServer();
         }
-
+        if (!sUtis.getBooleanValue(Constants.VALID_TYPE, true)) {
+            //customAnimationDialog();
+            ValidPhoneFirstActivity.startAction(this,sUtis.getStringValue(Constants.USERPHONE,""));
+        }
         idMenu.setDrawerListener(new MyDrawLayout2.DrawerListener() {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
@@ -312,25 +337,28 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
             }
         });
     }
+
+
     private long exitTime = 0;
-    private Handler handler=new Handler(){
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case 0:
                     initTips();
                     break;
             }
         }
     };
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public void pollServer(){
-        JobScheduler scheduler=(JobScheduler)this.getSystemService(Context.JOB_SCHEDULER_SERVICE);
-        JobInfo jobInfo=new JobInfo.Builder(1,mServieComponent)
+    public void pollServer() {
+        JobScheduler scheduler = (JobScheduler) this.getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        JobInfo jobInfo = new JobInfo.Builder(1, mServieComponent)
                     /*
                     * 定时任务
                     * */
-                    .setPeriodic(1000*60*18)
+                .setPeriodic(1000 * 60 * 18)
                     /*
                     * 这将设置你的工作期限。即使是无法满足其他要求，你的任务将约在规定的时间已经过去时开始执行
                     * */
@@ -343,15 +371,16 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
                     * */
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
                 .build();
-                scheduler.schedule(jobInfo);
+        scheduler.schedule(jobInfo);
     }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK
                 && event.getAction() == KeyEvent.ACTION_DOWN) {
-            if(giveComment==true){
-                PopupWindowComment popupWindowComment=new PopupWindowComment(new PopupWindow(this),this,idMenu);
-            }else {
+            if (giveComment == true) {
+                PopupWindowComment popupWindowComment = new PopupWindowComment(new PopupWindow(this), this, idMenu);
+            } else {
                 if ((System.currentTimeMillis() - exitTime) > 2000) {
                     //弹出提示，可以有多种方式
                     //PopupWindowComment popupWindowComment=new PopupWindowComment(popupWindowGiveComment,this,idMenu);
@@ -366,6 +395,7 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
 
         return super.onKeyDown(keyCode, event);
     }
+
     /**
      * 自定义NavigationIcon设置关联DrawerLayout
      */
@@ -397,47 +427,49 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
     public void showErrorTip(String msg) {
 
     }
+
     @Override
     public void getNoticeSuccess(List<FindBean.ListBean> listBean) {
-        boolean isFirstInto=sUtis.getBooleanValue(Constants.ISFIRSTINTO,false);
-        if(isFirstInto==true){
-            sUtis.setBooleanValue(Constants.ISFIRSTINTO,false);
+        boolean isFirstInto = sUtis.getBooleanValue(Constants.ISFIRSTINTO, false);
+        if (isFirstInto == true) {
+            sUtis.setBooleanValue(Constants.ISFIRSTINTO, false);
             handler.sendEmptyMessageDelayed(0, 10);
 
         }
         listBeanList.clear();
         listBeanList.addAll(listBean);
-        for(int i=0;i<listBean.size();i++){
-            if("798".equals(listBean.get(i).getA_id())){
-                hasWarm=true;
-                contentWarn=listBean.get(i).getAd_txt();
+        for (int i = 0; i < listBean.size(); i++) {
+            if ("798".equals(listBean.get(i).getA_id())) {
+                hasWarm = true;
+                contentWarn = listBean.get(i).getAd_txt();
             }
-            if("794".equals(listBean.get(i).getA_id())){
-                hasAds=true;
-               imageUrl=listBean.get(i).getPic_s_path();
-               adUrl=listBean.get(i).getTopic_url();
+            if ("794".equals(listBean.get(i).getA_id())) {
+                hasAds = true;
+                imageUrl = listBean.get(i).getPic_s_path();
+                adUrl = listBean.get(i).getTopic_url();
             }
-            if("796".equals(listBean.get(i).getA_id())){
-                giveComment=true;
+            if ("796".equals(listBean.get(i).getA_id())) {
+                giveComment = true;
             }
         }
         initPop();
     }
 
     private void initPop() {
-        if(hasWarm==true){
-            PopupWindowWarm popupWindowWarm=new PopupWindowWarm(new PopupWindow(this),contentWarn,idMenu,this);
-        }else{
-            if(hasAds==true){
-                PopupWindowAd popupWindowAd=new PopupWindowAd(this,new PopupWindow(this),idMenu,adUrl,imageUrl);
+        if (hasWarm == true) {
+            PopupWindowWarm popupWindowWarm = new PopupWindowWarm(new PopupWindow(this), contentWarn, idMenu, this);
+        } else {
+            if (hasAds == true) {
+                PopupWindowAd popupWindowAd = new PopupWindowAd(this, new PopupWindow(this), idMenu, adUrl, imageUrl);
             }
         }
     }
-      private void initTips() {
+
+    private void initTips() {
         View viewTips = getLayoutInflater().inflate(R.layout.layout_tips, null);
         popupWindowTips = new PopupWindow(viewTips, LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
-        ImageView ivTips=viewTips.findViewById(R.id.iv_tip);
+        ImageView ivTips = viewTips.findViewById(R.id.iv_tip);
         ivTips.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -452,26 +484,26 @@ public class MainActivity extends BaseActivity<MainPresenter,MainModel> implemen
 
             @Override
             public void onDismiss() {
-                WindowManager.LayoutParams lp =getWindow().getAttributes();
+                WindowManager.LayoutParams lp = getWindow().getAttributes();
                 lp.alpha = 1f;
-               getWindow().setAttributes(lp);
+                getWindow().setAttributes(lp);
             }
         });
-          popupWindowTips.setFocusable(true);
-          popupWindowTips.setOutsideTouchable(false);
-          popupWindowTips.setAnimationStyle(R.style.style_pop_animation2);
-          popupWindowTips.showAtLocation(idMenu, Gravity.CENTER, 0, 0);
+        popupWindowTips.setFocusable(true);
+        popupWindowTips.setOutsideTouchable(false);
+        popupWindowTips.setAnimationStyle(R.style.style_pop_animation2);
+        popupWindowTips.showAtLocation(idMenu, Gravity.CENTER, 0, 0);
     }
 
     @Override
     protected void onDestroy() {
-        if(popupWindowTips!=null){
+        if (popupWindowTips != null) {
             popupWindowTips.dismiss();
         }
-        if(popupWindowGiveComment!=null){
+        if (popupWindowGiveComment != null) {
             popupWindowGiveComment.dismiss();
         }
-        if(popupWindow!=null){
+        if (popupWindow != null) {
             popupWindow.dismiss();
         }
         super.onDestroy();

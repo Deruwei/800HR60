@@ -49,7 +49,9 @@ public class ToastUitl {
      */
     public static void showShort(int strResId) {
 //		Toast.makeText(context, strResId, Toast.LENGTH_SHORT).show();
-        initToast(HRApplication.getAppContext().getResources().getText(strResId), Toast.LENGTH_SHORT).show();
+        if(!"".equals(HRApplication.getAppContext().getResources().getText(strResId))) {
+            initToast(HRApplication.getAppContext().getResources().getText(strResId), Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**

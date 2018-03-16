@@ -137,6 +137,8 @@
     <string name="shieldCancel">取消屏蔽</string>
     <string name="resetPsw">修改密码</string>
     <string name="validPhone">验证手机</string>
+    <string name="validPhoneWarn1">根据国家互联网实名制规定，您必须进行手机号码验证，这将有利于您的求职。</string>
+    <string name="validPhoneWarn2">我们向您保证您的个人信息将不会有任何泄露的风险。</string>
     <string name="changeTel">更换手机</string>
     <string name="changeTelephoneNumber">更换手机号码</string>
     <string name="evaluateMine">评价我们</string>
@@ -334,6 +336,7 @@
     <string name="workCity">工作城市</string>
     <string name="city">城市</string>
     <string name="field">领域</string>
+    <string name="selectDeliver">批量投递</string>
     <string name="other">筛选</string>
     <string name="salary_around">薪资范围</string>
     <string name="degreeNeed">学历要求</string>

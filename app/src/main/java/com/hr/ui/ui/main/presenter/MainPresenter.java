@@ -2,14 +2,19 @@ package com.hr.ui.ui.main.presenter;
 
 import android.util.Log;
 import android.widget.Adapter;
+import android.widget.Toast;
 
 import com.hr.ui.base.RxSubscriber;
+import com.hr.ui.bean.AutoCodeBean;
 import com.hr.ui.bean.FindBean;
 import com.hr.ui.bean.MultipleResumeBean;
 import com.hr.ui.bean.ResumeBean;
+import com.hr.ui.bean.ValidCodeBean;
+import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.main.contract.MainContract;
 import com.hr.ui.utils.Rc4Md5Utils;
 import com.hr.ui.utils.ToastUitl;
+import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,4 +46,5 @@ public class MainPresenter extends MainContract.Presenter {
             }
         }));
     }
+
 }

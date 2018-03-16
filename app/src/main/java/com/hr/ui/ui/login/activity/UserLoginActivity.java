@@ -133,6 +133,7 @@ public class UserLoginActivity extends BaseActivity<LoginPresenter, LoginModel> 
         MobclickAgent.onProfileSignIn("WB",userId+"");
         MobclickAgent.onEvent(this,"v6_login_thirdPart");
         this.userId = userId;
+        sUtils.setStringValue(Constants.USERID,userId+"");
         sUtils.setIntValue(Constants.ISAUTOLOGIN, 1);
         if ("qq".equals(Constants.TYPE_THIRDPARTLOGIN)) {
             sUtils.setIntValue(Constants.AUTOLOGINTYPE, 2);

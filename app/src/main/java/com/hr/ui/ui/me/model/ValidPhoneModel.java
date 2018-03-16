@@ -62,4 +62,17 @@ public class ValidPhoneModel implements ValidPhoneContract.Model{
                 .observeOn(AndroidSchedulers.mainThread())  //在主线程里面接受返回的数据
                 .compose(RxSchedulers.<AutoCodeBean>io_main());
     }
+    @Override
+    public Observable<ResponseBody> validPhoneIsExit(String phone) {
+        return Api.getDefault(HostType.HR).getResponseString(EncryptUtils.encrypParams(ApiParameter.validPhoneIsExit(phone)))
+                .map(new Func1<ResponseBody, ResponseBody>() {
+                    @Override
+                    public ResponseBody call(ResponseBody responseBody) {
+                        return responseBody;
+                    }
+                })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxSchedulers.<ResponseBody>io_main());
+    }
 }

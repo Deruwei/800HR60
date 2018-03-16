@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/x600"
+    android:orientation="vertical"
+    android:id="@+id/ll_validPhone"
+    android:background="@drawable/edit_bg"
+    android:paddingLeft="@dimen/x40"
+    android:paddingRight="@dimen/x40"
+    android:paddingBottom="@dimen/x40"
+    android:layout_height="wrap_content">
+    <TextView
+        android:layout_marginTop="@dimen/x40"
+        android:layout_gravity="center"
+        android:textSize="@dimen/x36"
+        android:text="@string/validPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <RelativeLayout
+        style="@style/login_relativeLayout">
+        <ImageView
+            android:layout_marginLeft="@dimen/x3"
+            android:id="@+id/iv_validPhoneNumberIcon"
+            android:src="@mipmap/phone"
+            style="@style/Login_imageViewIcon"
+            />
+        <EditText
+            android:layout_toRightOf="@+id/iv_validPhoneNumberIcon"
+            android:id="@+id/et_validPhoneNumber"
+            android:inputType="number"
+            android:maxLength="11"
+            android:layout_marginRight="@dimen/x10"
+            android:layout_toLeftOf="@+id/iv_validPhoneNumberDelete"
+            android:singleLine="true"
+            style="@style/login_editText"
+            android:hint="@string/phoneNumber"
+            />
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/iv_validPhoneNumberDelete"
+            style="@style/Login_imageViewIcon"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/delete"
+            />
+        <View
+            android:id="@+id/view_getValidCodePhone"
+            style="@style/login_view"
+            android:layout_below="@+id/et_validPhoneNumber" />
+    </RelativeLayout>
+
+    <RelativeLayout style="@style/login_relativeLayout">
+
+        <ImageView
+            android:id="@+id/iv_validPhoneValidCodeIcon"
+            style="@style/Login_imageViewIcon"
+            android:layout_width="@dimen/x35"
+            android:layout_height="@dimen/y30"
+            android:src="@mipmap/validcode" />
+
+        <EditText
+            android:id="@+id/et_validPhoneValidCode"
+            style="@style/login_editText"
+            android:layout_marginRight="@dimen/x10"
+            android:layout_toLeftOf="@+id/iv_validPhoneValidCodeDelete"
+            android:layout_toRightOf="@+id/iv_validPhoneValidCodeIcon"
+            android:hint="@string/ValidCode"
+            android:inputType="number"
+            android:singleLine="true" />
+        <ImageView
+            android:layout_marginRight="@dimen/x20"
+            android:layout_toLeftOf="@+id/tv_validPhoneValidCode"
+            android:visibility="gone"
+            android:id="@+id/iv_validPhoneValidCodeDelete"
+            style="@style/Login_imageViewIcon"
+            android:src="@mipmap/delete"
+            />
+        <TextView
+            android:id="@+id/tv_validPhoneValidCode"
+            style="@style/login_textViewValidCode"
+            android:layout_above="@+id/view_getValidCodeValid" />
+
+        <View
+            android:id="@+id/view_getValidCodeValid"
+            style="@style/login_view"
+            android:layout_below="@+id/et_validPhoneValidCode" />
+    </RelativeLayout>
+    <Button
+        android:id="@+id/btn_validPhoneOK"
+        android:text="@string/valid"
+        style="@style/login_buttonOK"
+        android:layout_marginTop="@dimen/x40"
+        />
+</LinearLayout>

@@ -198,7 +198,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
             public void run() {
                 mPresenter.getRecommendJob(page,20,isrefresh);
             }
-        },500);
+        },2000);
     }
 
     @Override

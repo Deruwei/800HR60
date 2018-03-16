@@ -227,6 +227,7 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
             loginBean.setLoginType(3);
             sUtils.setIntValue(Constants.AUTOLOGINTYPE, 3);
         }
+        sUtils.setStringValue(Constants.USERID,userId+"");
         loginBean.setName(phoneNumber);
         loginBean.setPassword(password);
         loginBean.setThirdPartUid(uid);

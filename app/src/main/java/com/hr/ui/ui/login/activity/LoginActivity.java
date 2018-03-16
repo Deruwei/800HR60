@@ -126,6 +126,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
         MobclickAgent.onEvent(this,"v6_login_phone");
         MobclickAgent.onProfileSignIn(userId+"");
         this.userId = userId;
+        sUtils.setStringValue(Constants.USERID,userId+"");
         sUtils.setIntValue(Constants.ISAUTOLOGIN, 1);
         sUtils.setIntValue(Constants.AUTOLOGINTYPE, 0);
         sUtils.setStringValue(Constants.USERPHONE, phoneNum);

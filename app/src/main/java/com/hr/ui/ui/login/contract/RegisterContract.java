@@ -21,31 +21,34 @@ import rx.Observable;
 
 public interface RegisterContract {
     interface Model extends BaseModel{
-        Observable<ValidCodeBean> getValidCode(String phoneNumber,String captcha,int type,String way);
-        Observable<AutoCodeBean> getAutoCode();
+
         Observable<RegisterBean> getRegister(String phoneNumber, String validCode, String psw);
         Observable<RegisterBean> getThirdBinding(ThirdLoginBean thirdPartBean, String userName, String psw, int type);
         Observable<MultipleResumeBean> getResumeList();
         Observable<ResumeBean> getResumeData(String resumeId);
         Observable<ResponseBody> validPhoneIsExit(String phone);
+        Observable<ValidCodeBean> getValidCode(String phoneNumber,String captcha,int type,String way);
+        Observable<AutoCodeBean> getAutoCode();
     }
     interface  View extends BaseView{
-        void sendValidCode(int code);
-        void sendAutoCode(String autoCode);
+
         void sendRegisterSuccess(int userId);
         void bindingSuccess(int userId);
         void getResumeListSuccess(MultipleResumeBean multipleResumeBean);
         void getResumeDataSuccess(ResumeBean resumeBean);
         void needToGetAutoCode();
         void phoneIsExit(String flag);
+        void sendValidCode(int code);
+        void sendAutoCode(String autoCode);
     }
     abstract  class Presenter extends BasePresenter<RegisterContract.View, RegisterContract.Model> {
-        public abstract  void getValidCode(String phoneNumber,String captcha,int type,String way);
-        public abstract void getAutoCode();
+
         public abstract void getRegister(String phoneNumber,String validCode,String psw);
         public abstract void getThidBinding(ThirdLoginBean thirdPartBean,String userName,String psw,int type);
         public abstract void getResumeList();
         public abstract void getResumeData(String resumeId);
         public abstract void validPhoneIsExit(String phone);
+        public abstract  void getValidCode(String phoneNumber,String captcha,int type,String way);
+        public abstract void getAutoCode();
     }
 }

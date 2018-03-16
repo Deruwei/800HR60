@@ -3,9 +3,11 @@ package com.hr.ui.ui.main.contract;
 import com.hr.ui.base.BaseModel;
 import com.hr.ui.base.BasePresenter;
 import com.hr.ui.base.BaseView;
+import com.hr.ui.bean.AutoCodeBean;
 import com.hr.ui.bean.FindBean;
 import com.hr.ui.bean.MultipleResumeBean;
 import com.hr.ui.bean.ResumeBean;
+import com.hr.ui.bean.ValidCodeBean;
 
 
 import java.util.List;

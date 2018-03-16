@@ -108,6 +108,13 @@ public class ToolUtils {
         }
         if(resumeBean.getResume_info().getBase_info().get(0).getName()==null||"".equals(resumeBean.getResume_info().getBase_info().get(0).getName())){
             titles.add("基本信息");
+        }else{
+            if("2".equals(resumeBean.getResume_info().getBase_info().get(0).getYdphone_verify_status())){
+                sharedPreferencesUtils.setBooleanValue(Constants.VALID_TYPE,true);
+            }else{
+                sharedPreferencesUtils.setBooleanValue(Constants.VALID_TYPE,false);
+            }
+
         }
         //System.out.println(resumeBean.toString());
         if(resumeBean.getResume_info().getEducation_list()==null||"".equals(resumeBean.getResume_info().getEducation_list())||"[]".equals(resumeBean.getResume_info().getEducation_list())||resumeBean.getResume_info().getEducation_list().size()==0){

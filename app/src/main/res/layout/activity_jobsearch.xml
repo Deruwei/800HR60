@@ -211,9 +211,9 @@
         </RelativeLayout>
         <com.hr.ui.view.FlowLayout
             android:layout_marginTop="@dimen/x20"
-            app:flChildSpacingForLastRow="align"
+            app:flChildSpacingForLastRow="@dimen/x10"
             app:flRowSpacing="@dimen/x16"
-            app:flChildSpacing="auto"
+            app:flChildSpacing="@dimen/x10"
             android:id="@+id/rl_jobSearchHistory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

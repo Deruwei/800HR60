@@ -19,16 +19,19 @@ public interface ValidPhoneContract {
         Observable<ResponseBody> validPhone(String phoneNumber, String validCode);
         Observable<ValidCodeBean> getValidCode(String phoneNumber, String type, int way, String captcha);
         Observable<AutoCodeBean> getCaptcha();
+        Observable<ResponseBody> validPhoneIsExit(String phone);
     }
     interface View extends BaseView{
         void validPhoneSuccess();
         void getValidCodeSuccess(int code);
         void getCaptchaSuccess(String autoCode);
         void getValidCodeFailt();
+        void phoneIsExit(String flag);
     }
     abstract class Presenter extends BasePresenter<View,Model>{
         public abstract void validPhone(String phoneNumber,String validCode);
         public abstract void getValidCode(String phoneNumber,String type,int way,String captcha);
         public abstract void getCaptcha();
+        public abstract void validPhoneIsExit(String phone);
     }
 }

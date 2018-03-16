@@ -72,7 +72,7 @@ import butterknife.ButterKnife;
 //    }
 //}
 public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel> extends AppCompatActivity {
-    public T mPresenter;
+    public  T mPresenter;
     public E mModel;
     public Context mContext;
     public RxManager mRxManager;

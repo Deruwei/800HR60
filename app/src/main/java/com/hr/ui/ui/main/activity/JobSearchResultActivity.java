@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -396,6 +397,7 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
         } else {
             jobSearchBean.setSalary_left("");
         }
+        //Log.i("jobSearchBean",jobSearchBean.toString());
         SearchHistoryBean historyBean = new SearchHistoryBean();
         historyBean.setCompanyType(jobSearchBean.getCompanyType());
         historyBean.setSearchName(jobSearchBean.getSearchName());
@@ -910,7 +912,10 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
                 break;
             case R.id.rl_jobSearchFragmentSelectLingYu:
                 setFocus();
-                initPopField();
+                if(SearchAdapter!=null) {
+                    SearchAdapter.setCheck(true);
+                    SearchAdapter.notifyDataSetChanged();
+                }
                 break;
             case R.id.rl_jobSearchFragmentSelectOther:
                 setFocus();

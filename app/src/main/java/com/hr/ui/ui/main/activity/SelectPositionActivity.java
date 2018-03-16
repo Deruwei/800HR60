@@ -211,7 +211,6 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
                         historyBean.setAddDate(str);
                         SearchHistoryUtils.insertJobSearchData(historyBean);
                         JobSearchResultActivity.startAction(this,jobSearchBean);
-                        JobSerchActivity.instance.finish();
                     }
                     finish();
                 } else {

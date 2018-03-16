@@ -206,6 +206,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
         sUtils.setIntValue(Constants.AUTOLOGINTYPE, 0);
         sUtils.setStringValue(Constants.USERPHONE, phoneNumber);
         this.userId = userId;
+        sUtils.setStringValue(Constants.USERID,userId+"");
         mPresenter.getResumeList();
     }
 

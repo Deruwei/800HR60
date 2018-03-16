@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="true"
+    android:focusable="true"
+    android:id="@+id/cl_validPhone"
+    android:focusableInTouchMode="true"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <include layout="@layout/layout_toolbar"
+        android:id="@+id/in_validPhone"
+        />
+    <LinearLayout
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/in_validPhone"
+        style="@style/login_contentLinearLayout"
+        android:layout_height="0dp">
+        <RelativeLayout
+            style="@style/login_relativeLayout">
+            <ImageView
+                android:layout_marginLeft="@dimen/x3"
+                android:id="@+id/iv_validPhoneNumberIcon"
+                android:src="@mipmap/phone"
+                style="@style/Login_imageViewIcon"
+                />
+            <EditText
+                android:layout_toRightOf="@+id/iv_validPhoneNumberIcon"
+                android:id="@+id/et_validPhoneNumber"
+                android:inputType="number"
+                android:layout_toLeftOf="@+id/iv_validPhoneNumberDelete"
+                android:maxLength="11"
+                android:singleLine="true"
+                android:layout_marginRight="@dimen/x10"
+                style="@style/login_editText"
+                android:hint="@string/phoneNumber"
+                />
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/iv_validPhoneNumberDelete"
+                style="@style/Login_imageViewIcon"
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/delete"/>
+        </RelativeLayout>
+
+        <RelativeLayout style="@style/login_relativeLayout">
+
+            <ImageView
+                android:id="@+id/iv_validPhoneValidCodeIcon"
+                style="@style/Login_imageViewIcon"
+                android:layout_width="@dimen/x35"
+                android:layout_height="@dimen/y30"
+                android:src="@mipmap/validcode" />
+
+            <EditText
+                android:id="@+id/et_validPhoneValidCode"
+                style="@style/login_editText"
+                android:layout_marginRight="@dimen/x10"
+                android:layout_toLeftOf="@+id/iv_validPhoneValidCodeDelete"
+                android:layout_toRightOf="@+id/iv_validPhoneValidCodeIcon"
+                android:hint="@string/ValidCode"
+                android:inputType="number"
+                android:singleLine="true" />
+            <ImageView
+                android:layout_marginRight="@dimen/x20"
+                android:layout_toLeftOf="@+id/tv_validPhoneValidCode"
+                android:visibility="gone"
+                android:id="@+id/iv_validPhoneValidCodeDelete"
+                style="@style/Login_imageViewIcon"
+                android:src="@mipmap/delete"
+                />
+            <TextView
+                android:id="@+id/tv_validPhoneValidCode"
+                style="@style/login_textViewValidCode"
+                android:layout_above="@+id/view_getValidCodeValid" />
+
+            <View
+                android:id="@+id/view_getValidCodeValid"
+                style="@style/login_view"
+                android:layout_below="@+id/et_validPhoneValidCode" />
+        </RelativeLayout>
+        <Button
+            android:id="@+id/btn_validPhoneOK"
+            android:text="@string/valid"
+            style="@style/login_buttonOK"
+            />
+        <TextView
+            android:layout_marginTop="@dimen/x40"
+            android:textSize="@dimen/x30"
+            android:textColor="#B22222"
+            android:gravity="center"
+            android:lineSpacingMultiplier="1.2"
+            android:text="@string/validPhoneWarn1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginTop="@dimen/x20"
+            android:textSize="@dimen/x24"
+            android:textColor="@color/new_main"
+            android:gravity="center"
+            android:text="@string/validPhoneWarn2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

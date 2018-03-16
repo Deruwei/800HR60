@@ -1,12 +1,17 @@
 package com.hr.ui.ui.main.adapter;
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hr.ui.R;
@@ -31,12 +36,13 @@ import static com.hr.ui.ui.main.activity.JobOrderActivity.TAG;
  *
  */
 public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAdapter.ViewHolder> {
-
     private int firstNum, sencondNum;
     private int type;//type：1识别为搜索结果的item  没有传递的话就是主页的item
     private List<RecommendJobBean.JobsListBean> jobsListBeanList;
     private OnCalCulateScoreClickListener onCalCulateScoreClickListener;
     private List<HomeRecommendBean.JobsListBean> jobsListBeanList2;
+    private boolean isCheck;
+    private int limitLength=14;
 
     public void setClickCallBack(ItemClickCallBack clickCallBack) {
         this.clickCallBack = clickCallBack;
@@ -44,6 +50,15 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
 
     public void setOnCalCulateScoreClickListener(OnCalCulateScoreClickListener onCalCulateScoreClickListener) {
         this.onCalCulateScoreClickListener = onCalCulateScoreClickListener;
+    }
+
+    public void setCheck(boolean check) {
+        isCheck = check;
+        if(isCheck) {
+            limitLength = 10;
+        }else{
+            limitLength = 14;
+        }
     }
 
     public interface ItemClickCallBack {
@@ -90,7 +105,15 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
                 } else {
                     viewHolder.ivTopJob.setVisibility(View.GONE);
                 }
+
+                if (isCheck == true) {
+
+                    viewHolder.rlHomeFragmentItemLeft.setVisibility(View.VISIBLE);
+                }else{
+                    viewHolder.rlHomeFragmentItemLeft.setVisibility(View.GONE);
+                }
                 viewHolder.tvRecommendJobAddress.setText(jobsListBeanList.get(position).getWorkplace());
+                viewHolder.tvRecommendJobCompanyName.setMaxEms(limitLength);
                 viewHolder.tvRecommendJobCompanyName.setText(jobsListBeanList.get(position).getEnterprise_name());
                 viewHolder.tvRecommendJobDegree.setText(jobsListBeanList.get(position).getStudy());
                 viewHolder.tvRecommendJobIndustry.setText(jobsListBeanList.get(position).getIndustry_name());
@@ -105,11 +128,13 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
                 SimpleDateFormat formatter = new SimpleDateFormat("M - d");//格式为 2013年9月3日 14:44
                 Date curDate = new Date(System.currentTimeMillis());//获取当前时间
                 String currentDate = formatter.format(curDate);
-                Log.d(TAG, "onBindViewHolder: .i"+currentDate);
-                if(currentDate.equals(day)){
+                //Log.d(TAG, "onBindViewHolder: .i" + currentDate);
+                if (currentDate.equals(day)) {
                     viewHolder.ivRecommendJobNowPublic.setVisibility(View.VISIBLE);
-                }else{
+                    viewHolder.tvRecommendJobTime.setVisibility(View.GONE);
+                } else {
                     viewHolder.ivRecommendJobNowPublic.setVisibility(View.GONE);
+                    viewHolder.tvRecommendJobTime.setVisibility(View.VISIBLE);
                     viewHolder.tvRecommendJobTime.setText(day);
                 }
 
@@ -254,41 +279,56 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
 
     //自定义的ViewHolder，持有每个Item的的所有界面元素
     public static class ViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.tv_itemTitle)
+        TextView tvItemTitle;
+        @BindView(R.id.ll_homeItemTop)
+        LinearLayout llHomeItemTop;
+        @BindView(R.id.rb_check)
+        CheckBox rbCheck;
+        @BindView(R.id.rl_homeFragmentItemLeft)
+        RelativeLayout rlHomeFragmentItemLeft;
         @BindView(R.id.tv_recommendJobName)
         TextView tvRecommendJobName;
         @BindView(R.id.tv_recommendJobSalary)
         TextView tvRecommendJobSalary;
         @BindView(R.id.tv_recommendJobAddress)
         TextView tvRecommendJobAddress;
-        @BindView(R.id.iv_recommendJobNowPublic)
-        ImageView ivRecommendJobNowPublic;
+        @BindView(R.id.tv_recommendJobView1)
+        TextView tvRecommendJobView1;
         @BindView(R.id.tv_recommendJobWorkYear)
         TextView tvRecommendJobWorkYear;
+        @BindView(R.id.tv_recommendJobView2)
+        TextView tvRecommendJobView2;
         @BindView(R.id.tv_recommendJobDegree)
         TextView tvRecommendJobDegree;
-        @BindView(R.id.tv_recommendJobTime)
-        TextView tvRecommendJobTime;
         @BindView(R.id.iv_recommendJobCompanyIcon)
         RoundImageView ivRecommendJobCompanyIcon;
         @BindView(R.id.tv_recommendJobCompanyName)
         TextView tvRecommendJobCompanyName;
         @BindView(R.id.tv_recommendJobIndustry)
         TextView tvRecommendJobIndustry;
+        @BindView(R.id.tv_recommendJobView3)
+        TextView tvRecommendJobView3;
         @BindView(R.id.tv_recommendJobCompanyType)
         TextView tvRecommendJobCompanyType;
+        @BindView(R.id.tv_recommendJobView4)
+        TextView tvRecommendJobView4;
         @BindView(R.id.tv_recommendPersonNum)
         TextView tvRecommendPersonNum;
         @BindView(R.id.pcv_num)
         PieChartView pcvNum;
+        @BindView(R.id.tv_recommendJobTime)
+        TextView tvRecommendJobTime;
+        @BindView(R.id.iv_recommendJobNowPublic)
+        ImageView ivRecommendJobNowPublic;
         @BindView(R.id.iv_topJob)
         ImageView ivTopJob;
-        @BindView(R.id.tv_itemTitle)
-        TextView tvItemTitle;
+        @BindView(R.id.fl_content)
+        FrameLayout flContent;
+        @BindView(R.id.cv_homeFragment)
+        CardView cvHomeFragment;
         @BindView(R.id.view_lineJob)
         View viewLineJob;
-        @BindView(R.id.ll_homeItemTop)
-        LinearLayout llHomeItemTop;
-
         public ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);

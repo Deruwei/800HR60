@@ -111,4 +111,33 @@ public class ValidPhonePresenter extends ValidPhoneContract.Presenter {
             }
         }));
     }
+    @Override
+    public void validPhoneIsExit(String phone) {
+        mRxManage.add(mModel.validPhoneIsExit(phone).subscribe(new RxSubscriber<ResponseBody>(mContext,false) {
+            @Override
+            protected void _onNext(ResponseBody responseBody)  {
+                try {
+                    String s=responseBody.string().toString();
+                    JSONObject jsonObject=new JSONObject(s);
+                    int errorCode=jsonObject.getInt("error_code");
+                    if(errorCode==0) {
+                        String flag = jsonObject.getString("flag_exist");
+                        mView.phoneIsExit(flag);
+                    }else{
+                        ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId(errorCode));
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            protected void _onError(String message) {
+
+            }
+        }));
+    }
 }

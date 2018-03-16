@@ -152,6 +152,7 @@ public class bindUserLoginActivity extends BaseActivity<LoginPresenter, LoginMod
             loginBean.setLoginType(3);
             sUtils.setIntValue(Constants.AUTOLOGINTYPE, 3);
         }
+        sUtils.setStringValue(Constants.USERID,userId+"");
         loginBean.setName(userName);
         loginBean.setPassword(psw);
         loginBean.setThirdPartUid(uid);

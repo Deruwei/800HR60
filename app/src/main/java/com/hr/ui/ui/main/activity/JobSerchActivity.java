@@ -161,7 +161,11 @@ public class JobSerchActivity extends BaseActivity<JobSearchPresenter, JobSearch
         instance = this;
         sUtils = new SharedPreferencesUtils(this);
         cityName = sUtils.getStringValue(Constants.CITYNAME, "");
-        setPlace2(cityName);
+        if("".equals(cityName)){
+            tvSelectCityName.setText("定位失败");
+        }else {
+            setPlace2(cityName);
+        }
         LinearLayoutManager manager = new LinearLayoutManager(this) {
             @Override
             public boolean canScrollVertically() {
@@ -403,7 +407,7 @@ public class JobSerchActivity extends BaseActivity<JobSearchPresenter, JobSearch
                 tvSelectCityName.setText(sbName.toString());
             }
         } else {
-            tvSelectCityName.setText("");
+            tvSelectCityName.setText("全国");
             cityId = "";
         }
 

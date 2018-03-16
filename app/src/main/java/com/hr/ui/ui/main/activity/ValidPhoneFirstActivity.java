@@ -1,4 +1,4 @@
-package com.hr.ui.ui.me.activity;
+package com.hr.ui.ui.main.activity;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -26,9 +26,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hr.ui.R;
+import com.hr.ui.app.AppManager;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
 import com.hr.ui.constants.Constants;
+import com.hr.ui.ui.me.activity.ChangePhoneActivity;
 import com.hr.ui.ui.me.contract.ValidPhoneContract;
 import com.hr.ui.ui.me.model.ValidPhoneModel;
 import com.hr.ui.ui.me.presenter.ValidPhonePresenter;
@@ -37,8 +39,8 @@ import com.hr.ui.utils.CodeTimer;
 import com.hr.ui.utils.EncryptUtils;
 import com.hr.ui.utils.RegularExpression;
 import com.hr.ui.utils.ToastUitl;
+import com.hr.ui.utils.Utils;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
-import com.hr.ui.view.PopupWindowComment;
 import com.service.CodeTimerService;
 
 import butterknife.BindView;
@@ -46,10 +48,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by wdr on 2018/2/6.
+ * Created by wdr on 2018/3/16.
  */
 
-public class ValidPhoneActivity extends BaseActivity<ValidPhonePresenter, ValidPhoneModel> implements ValidPhoneContract.View {
+public class ValidPhoneFirstActivity extends BaseActivity<ValidPhonePresenter, ValidPhoneModel> implements ValidPhoneContract, ValidPhoneContract.View {
+
     @BindView(R.id.tv_toolbarTitle)
     TextView tvToolbarTitle;
     @BindView(R.id.toolbarAdd)
@@ -60,20 +63,22 @@ public class ValidPhoneActivity extends BaseActivity<ValidPhonePresenter, ValidP
     Toolbar toolBar;
     @BindView(R.id.iv_validPhoneNumberIcon)
     ImageView ivValidPhoneNumberIcon;
-    @BindView(R.id.tv_validPhoneNumber)
-    TextView tvValidPhoneNumber;
+    @BindView(R.id.et_validPhoneNumber)
+    EditText etValidPhoneNumber;
+    @BindView(R.id.iv_validPhoneNumberDelete)
+    ImageView ivValidPhoneNumberDelete;
     @BindView(R.id.iv_validPhoneValidCodeIcon)
     ImageView ivValidPhoneValidCodeIcon;
     @BindView(R.id.et_validPhoneValidCode)
     EditText etValidPhoneValidCode;
+    @BindView(R.id.iv_validPhoneValidCodeDelete)
+    ImageView ivValidPhoneValidCodeDelete;
     @BindView(R.id.tv_validPhoneValidCode)
     TextView tvValidPhoneValidCode;
     @BindView(R.id.view_getValidCodeValid)
-    View viewGetValidCodeValid;
+    android.view.View viewGetValidCodeValid;
     @BindView(R.id.btn_validPhoneOK)
     Button btnValidPhoneOK;
-    @BindView(R.id.tv_validPhoneChangePhone)
-    TextView tvValidPhoneChangePhone;
     @BindView(R.id.cl_validPhone)
     ConstraintLayout clValidPhone;
     private String phoneNumber;
@@ -91,7 +96,7 @@ public class ValidPhoneActivity extends BaseActivity<ValidPhonePresenter, ValidP
      * @param activity
      */
     public static void startAction(Activity activity, String phoneNumber) {
-        Intent intent = new Intent(activity, ValidPhoneActivity.class);
+        Intent intent = new Intent(activity, ValidPhoneFirstActivity.class);
         intent.putExtra("phone", phoneNumber);
         activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.fade_in,
@@ -116,7 +121,7 @@ public class ValidPhoneActivity extends BaseActivity<ValidPhonePresenter, ValidP
     @Override
     public void validPhoneSuccess() {
         ToastUitl.showShort("手机号码验证成功");
-        ResumePersonalInfoActivity.instance.setValid(phoneNumber);
+        //ResumePersonalInfoActivity.instance.setValid(phoneNumber);
         finish();
     }
 
@@ -159,7 +164,7 @@ public class ValidPhoneActivity extends BaseActivity<ValidPhonePresenter, ValidP
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_validphone;
+        return R.layout.activity_validphone_fisrt;
     }
 
     @Override
@@ -178,11 +183,14 @@ public class ValidPhoneActivity extends BaseActivity<ValidPhonePresenter, ValidP
         toolBar.setTitleTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
         toolBar.setNavigationIcon(R.mipmap.back);
         tvToolbarTitle.setText(R.string.validPhone);
-        tvValidPhoneNumber.setText(phoneNumber);
-        toolBar.setNavigationOnClickListener(new View.OnClickListener() {
+        etValidPhoneNumber.setText(phoneNumber);
+        toolBar.setNavigationOnClickListener(new android.view.View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                finish();
+            public void onClick(android.view.View v) {
+                SplashActivity.startAction(ValidPhoneFirstActivity.this,1);
+                SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
+                sUtils.setIntValue(Constants.ISAUTOLOGIN,0);
+                AppManager.getAppManager().finishAllActivity();
             }
         });
     }
@@ -197,6 +205,12 @@ public class ValidPhoneActivity extends BaseActivity<ValidPhonePresenter, ValidP
         //注册接收验证码计时器信息的广播
         IntentFilter filter = new IntentFilter(CODE);
         registerReceiver(mCodeTimerReceiver, filter);
+        editTextChangeAndFucos();
+    }
+
+    private void editTextChangeAndFucos() {
+        Utils.setEditViewTextChangeAndFocus(etValidPhoneValidCode, ivValidPhoneValidCodeDelete);
+        Utils.setEditViewTextChangeAndFocus(etValidPhoneNumber, ivValidPhoneNumberDelete);
     }
 
     /**
@@ -220,16 +234,16 @@ public class ValidPhoneActivity extends BaseActivity<ValidPhonePresenter, ValidP
      * 图形验证码界面   String phoneNumber, String type,int way, String captcha
      */
     public void initPopWindow() {
-        final View popView = LayoutInflater.from(this).inflate(R.layout.layout_autocode, null);
+        final android.view.View popView = LayoutInflater.from(this).inflate(R.layout.layout_autocode, null);
         popupWindow = new PopupWindow(popView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
         popupWindow.setOutsideTouchable(true);
         ivAutoCode = popView.findViewById(R.id.vc_image);
         TextView tvReflesh = popView.findViewById(R.id.vc_refresh);
         etAutoCode = popView.findViewById(R.id.vc_code);
         RelativeLayout rlConfirm = popView.findViewById(R.id.rl__item_autocode_confirm);
-        rlConfirm.setOnClickListener(new View.OnClickListener() {
+        rlConfirm.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(android.view.View v) {
                 String autoCodeText = etAutoCode.getText().toString();
                 if (autoCodeText != null && !"".equals(autoCodeText)) {
                     mPresenter.getValidCode(phoneNumber, Constants.VALIDCODE_RESETORVALIDPHONE_YTPE, 1, autoCodeText);
@@ -250,7 +264,7 @@ public class ValidPhoneActivity extends BaseActivity<ValidPhonePresenter, ValidP
                 getWindow().setAttributes(lp);
             }
         });
-        if (Build.VERSION.SDK_INT >Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
             //  大于等于19即为4.4及以上执行内容
             // 设置背景颜色变暗
         } else {
@@ -259,20 +273,21 @@ public class ValidPhoneActivity extends BaseActivity<ValidPhonePresenter, ValidP
         }
         popupWindow.setFocusable(true);
         popupWindow.setOutsideTouchable(true);
-        tvReflesh.setOnClickListener(new View.OnClickListener() {
+        tvReflesh.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(android.view.View v) {
                 mPresenter.getCaptcha();
             }
         });
-        View rootview = LayoutInflater.from(this).inflate(R.layout.activity_register, null);
+        android.view.View rootview = LayoutInflater.from(this).inflate(R.layout.activity_register, null);
         popupWindow.showAtLocation(clValidPhone, Gravity.CENTER, 0, 0);
     }
 
-    @OnClick({R.id.tv_validPhoneValidCode, R.id.btn_validPhoneOK, R.id.tv_validPhoneChangePhone})
-    public void onViewClicked(View view) {
+    @OnClick({R.id.tv_validPhoneValidCode, R.id.btn_validPhoneOK,R.id.iv_validPhoneNumberDelete,R.id.iv_validPhoneValidCodeDelete})
+    public void onViewClicked(android.view.View view) {
         switch (view.getId()) {
             case R.id.tv_validPhoneValidCode:
+                phoneNumber=etValidPhoneNumber.getText().toString();
                 if (!"".equals(phoneNumber) && phoneNumber != null) {
                     if (RegularExpression.isCellphone(phoneNumber)) {
                         mPresenter.validPhoneIsExit(phoneNumber);
@@ -286,9 +301,11 @@ public class ValidPhoneActivity extends BaseActivity<ValidPhonePresenter, ValidP
             case R.id.btn_validPhoneOK:
                 doValidCode();
                 break;
-            case R.id.tv_validPhoneChangePhone:
-                ChangePhoneActivity.startAction(this);
-                finish();
+            case R.id.iv_validPhoneNumberDelete:
+                etValidPhoneNumber.setText("");
+                break;
+            case R.id.iv_validPhoneValidCodeDelete:
+                etValidPhoneValidCode.setText("");
                 break;
         }
     }
@@ -299,5 +316,19 @@ public class ValidPhoneActivity extends BaseActivity<ValidPhonePresenter, ValidP
             return;
         }
         mPresenter.validPhone(phoneNumber, etValidPhoneValidCode.getText().toString());
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK
+                && event.getAction() == KeyEvent.ACTION_DOWN) {
+            onBackPressed();
+        }
+
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
     }
 }
