@@ -98,6 +98,7 @@ public class BaiDuMapActivity extends BaseNoConnectNetworkAcitivty implements Ba
     @BindView(R.id.iv_location)
     ImageView ivLocation;
     private BaiduMap baiduMap;
+    //经纬度
     private double longitude,latitude;
     private MyLocationConfiguration.LocationMode mCurrentMode;
     public static BaiDuMapActivity instance;
@@ -153,17 +154,11 @@ public class BaiDuMapActivity extends BaseNoConnectNetworkAcitivty implements Ba
         addressName=getIntent().getStringExtra("address");
         //Log.i("okht1",addressName);
         location1=new BDLocation();
+        //根据公司名找到该公司的经纬度
         if(addressName!=null&&!"".equals(addressName)) {
-           /* longitude = Double.parseDouble(getIntent().getStringExtra("x"));
-            latitude = Double.parseDouble(getIntent().getStringExtra("y"));
-            location1.setLongitude(longitude);
-            location1.setLatitude(latitude);
-            getCommanyData();
-        } else{*/
             companyAddress=addressName;
             getCompanyDataByName();
         }
-
         initBaiduMap();
 
     }
@@ -181,7 +176,7 @@ public class BaiDuMapActivity extends BaseNoConnectNetworkAcitivty implements Ba
         LocationClientOption option = new LocationClientOption();
         option.setOpenGps(true);// 打开gps
         option.setCoorType("bd09ll"); // 设置坐标类型
-        option.setIsNeedAddress(true);
+        option.setIsNeedAddress(true);//打开读取地址信息
         mClient.setLocOption(option);
         mClient.start();
         //地图点击事件处理
@@ -403,7 +398,7 @@ public class BaiDuMapActivity extends BaseNoConnectNetworkAcitivty implements Ba
             // map view 销毁后不在处理新接收的位置
             if (location == null || mapLocation == null)
                 return;
-            Log.i("okht",location.getAddress().address+""+location.getAddrStr());
+            //Log.i("okht",location.getAddress().address+""+location.getAddrStr());
         }
     }
 

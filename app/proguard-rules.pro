@@ -47,6 +47,8 @@
 # ProGuard configurations for NetworkBench Lens
 -keep class com.networkbench.** { *; }
 -dontwarn com.networkbench.**
+-keep class okhttp3.** { *;}
+-dontwarn okhttp3.**
 -keepattributes Exceptions, Signature, InnerClasses
 -keepattributes SourceFile,LineNumberTable
 # End NetworkBench Lens

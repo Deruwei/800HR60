@@ -57,17 +57,17 @@ public class HRApplication extends MobApplication {
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case 0:
-                    Log.i("现在处于","后台");
+                    //Log.i("现在处于","后台");
                     runnable=new Runnable() {
                         @Override
                         public void run() {
-                            AppManager.getAppManager().finishAllActivity();
+                            AppManager.getAppManager().exitApp();
                         }
                     };
-                    handler.postDelayed(runnable,1000*60*20);
+                    handler.postDelayed(runnable,1000*60*30);
                     break;
                 case 1:
-                    Log.i("现在处于","前台");
+                    //Log.i("现在处于","前台");
                     handler.removeCallbacks(runnable);
                     break;
             }
@@ -79,7 +79,7 @@ public class HRApplication extends MobApplication {
         super.onCreate();
         if(hrApplication == null)
             hrApplication = this;
-        //init();
+        init();
         SDKInitializer.initialize(getApplicationContext());
         initPhotoPicker();
         setupDatabase();
@@ -87,9 +87,12 @@ public class HRApplication extends MobApplication {
         UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, null);
         UMConfigure.setLogEnabled(true);//设置log日志
         UMConfigure.setEncryptEnabled(true); //设置是否加密传输log
+        //听云
         NBSAppAgent.setLicenseKey(nbsAppKey).withLocationServiceEnabled(true).startInApplication(this.getApplicationContext());//Appkey 请从官网获取
         Constants.SESSION_KEY=null;
+        //设置每天8点左右消息的就业指导
         initIsHaveNew();
+        //设置监听app前后台监听
         registerAppCallback();
     }
     private void registerAppCallback() {

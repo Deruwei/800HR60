@@ -214,6 +214,15 @@ public class RecommendJobBean {
         private int is_urgent;
         private int top_id;
         private boolean isTop;
+        private boolean isCheck;
+
+        public boolean isCheck() {
+            return isCheck;
+        }
+
+        public void setCheck(boolean check) {
+            isCheck = check;
+        }
 
         public boolean isTop() {
             return isTop;

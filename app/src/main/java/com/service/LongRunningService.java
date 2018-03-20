@@ -22,7 +22,7 @@ public class LongRunningService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         startForeground(1,new Notification());
         AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        int anHour = 1 * 60 * 1000; // 这是12分钟的毫秒数
+        int anHour = 18 * 60 * 1000; // 这是12分钟的毫秒数
         long triggerAtTime = SystemClock.elapsedRealtime() + anHour;
         Intent i = new Intent(this, AlarmReceiver.class);
         PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, 0);

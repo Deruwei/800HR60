@@ -1,13 +1,8 @@
 package com.hr.ui.utils;
 
 import android.app.Activity;
-import android.content.Context;
-import android.database.sqlite.SQLiteException;
-import android.graphics.Paint;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,23 +15,14 @@ import android.widget.TextView;
 
 import com.hr.ui.R;
 import com.hr.ui.bean.CityBean;
-import com.hr.ui.ui.main.activity.JobOrderActivity;
 import com.hr.ui.ui.main.activity.JobSearchResultActivity;
 import com.hr.ui.ui.main.adapter.MySelectFunctionLeftAdapter;
 import com.hr.ui.ui.main.adapter.MySelectPositionRightAdapter;
-import com.hr.ui.ui.main.fragment.JobSearchFragment;
 import com.hr.ui.utils.datautils.FromStringToArrayList;
 import com.hr.ui.utils.datautils.ResumeInfoIDToString;
 import com.hr.ui.view.MyFlowLayout;
 
-import org.greenrobot.greendao.annotation.Id;
-import org.w3c.dom.Text;
-
 import java.util.List;
-import java.util.logging.Level;
-
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by wdr on 2018/1/9.
@@ -80,7 +66,7 @@ public class PopupWindowFieldView {
         this.tvOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                JobSearchResultActivity.instance.setFunctionList(selectIndustryList,selectFunctionList);
+              /*  JobSearchResultActivity.instance.setFunctionList(selectIndustryList,selectFunctionList);*/
                             if(popupWindow!=null){
                                 popupWindow.dismiss();
                             }

@@ -51,6 +51,7 @@ import com.hr.ui.ui.message.activity.WebActivity;
 import com.hr.ui.utils.datautils.FromStringToArrayList;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Time;
 import java.text.DecimalFormat;
@@ -135,7 +136,20 @@ public class Utils {
             return false;
         }
     }
+    /**
+     * 判断是否是数字
+     * @param str
+     * @return
+     */
+    public static boolean isNum(String str) {
+        try {
 
+            new BigDecimal(str);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
     /**
      * 返回选择城市中左侧的数据
      * @param list 原始的list数组

@@ -354,7 +354,11 @@ public class FindPhonePasswordActivity extends BaseActivity<FindPasswordPresente
         this.code = tokenTimes;
         sUtils.setIntValue("code", tokenTimes);
         tvFindPhonePswValidCode.setEnabled(false);
-        startService(mCodeTimerServiceIntent);//启动服务
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
+            startForegroundService(mCodeTimerServiceIntent);
+        } else {
+            startService(mCodeTimerServiceIntent);
+        }
         if (popupWindow != null) {
             popupWindow.dismiss();
         }

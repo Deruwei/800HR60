@@ -159,6 +159,7 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
     @Override
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
+        //设置改页面的宽高占手机屏幕的比例
         View view = getWindow().getDecorView();
         WindowManager.LayoutParams lp = (WindowManager.LayoutParams) view.getLayoutParams();
         lp.gravity = Gravity.CENTER;
@@ -326,12 +327,9 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
 
     @Override
     public void goToCompleteResume(int errorCode) {
-        //Log.i("现在的参数",errorCode+"");
         if(errorCode==413||errorCode==417){
-            //ToastUitl.showShort(errorCode+"");
            setPopupwindow(2);
         }else{
-            //ToastUitl.showShort(errorCode+"");
             setPopupwindow(1);
         }
     }
@@ -447,12 +445,6 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
         oks.setTitle(text);
         // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
         oks.setTitleUrl(mobilUrl);
-        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-//                if (!Image_path.equals("")) {
-//                    String fileName = FileUtil.getRootDir() + "/800HR/Poster/"
-//                            + Image_path.substring(Image_path.lastIndexOf("/") + 1);
-//                    oks.setImagePath(fileName);
-//                }
         // url仅在微信（包括好友和朋友圈）中使用
         oks.setImagePath(EncryptUtils.getBenDiPhoto(this));
         oks.setUrl(mobilUrl);

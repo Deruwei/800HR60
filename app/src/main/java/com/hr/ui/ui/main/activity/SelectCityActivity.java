@@ -22,6 +22,7 @@ import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseNoConnectNetworkAcitivty;
 import com.hr.ui.bean.CityBean;
+import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.main.adapter.MyCityAdapter;
 import com.hr.ui.ui.main.adapter.MyProvinceAdapter;
 import com.hr.ui.ui.resume.activity.ResumeJobOrderActivity;
@@ -145,21 +146,21 @@ public class SelectCityActivity extends BaseNoConnectNetworkAcitivty {
         type = getIntent().getIntExtra("type", 1);
         tag = getIntent().getStringExtra("tag");
         selectCityList = (List<CityBean>) getIntent().getSerializableExtra("selectCityList");
+        String placeName=sUtils.getStringValue(Constants.CITYNAME,"");
+        setCityName(placeName);
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         AniDraw = (AnimationDrawable) ivFresh.getDrawable();
-
         if (type == 2) {
             llLocation.setVisibility(View.GONE);
             rlSelectCityShow.setVisibility(View.GONE);
             llSelectCityBottom.setVisibility(View.VISIBLE);
         } else if (type == 1) {
-            BaiDuLocationUtils.getInstance().initData();
+            //BaiDuLocationUtils.getInstance().initData();
             llLocation.setVisibility(View.VISIBLE);
             rlSelectCityShow.setVisibility(View.GONE);
             llSelectCityBottom.setVisibility(View.GONE);
-
         }
         toolBar.setTitle("");
         toolBar.setTitleTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
@@ -314,8 +315,6 @@ public class SelectCityActivity extends BaseNoConnectNetworkAcitivty {
                             Message message = Message.obtain();
                             message.what = 2;
                             handler.sendMessage(message);
-
-
                         }
                     });
                     break;

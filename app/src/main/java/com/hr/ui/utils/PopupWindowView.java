@@ -1,7 +1,6 @@
 package com.hr.ui.utils;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
@@ -17,18 +16,10 @@ import android.widget.TextView;
 import com.hr.ui.R;
 import com.hr.ui.bean.CityBean;
 import com.hr.ui.ui.main.activity.JobSearchResultActivity;
-import com.hr.ui.ui.main.activity.PersonalInformationActivity;
-import com.hr.ui.ui.main.activity.SelectPositionActivity;
-import com.hr.ui.ui.main.activity.WorkExpActivity;
 import com.hr.ui.ui.main.adapter.MyCityAdapter;
 import com.hr.ui.ui.main.adapter.MyProvinceAdapter;
-import com.hr.ui.ui.main.fragment.JobSearchFragment;
-import com.hr.ui.ui.resume.activity.ResumePersonalInfoActivity;
-import com.hr.ui.ui.resume.activity.ResumeWorkExpActivity;
 import com.hr.ui.utils.datautils.FromStringToArrayList;
 import com.hr.ui.view.MyFlowLayout;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;

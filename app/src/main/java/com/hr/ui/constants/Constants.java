@@ -8,6 +8,7 @@ import com.hr.ui.api.HostType;
 
 public class Constants {
     public static final String ARGS = "args";
+    //用户的id
     public static final String USERID = "userId";
     public static  String  ALIAS;
     public static String TYPE_THIRDPARTLOGIN = "";
@@ -52,12 +53,13 @@ public class Constants {
     public static final  String DNFROM="800hr";
     //当前使用的设备
     public static final String OS_NAME = "android";
-    //api版本
+    //api版本 正式库现在为4.0  测试库 2.0最佳
     public static final String API_VER = "4.0";
     //头像的头地址
     public static final String IMAGE_BASEPATH="http://file.800hr.com/";
     //普通图片的头地址
     public static final String IMAGE_BASEPATH2="http://img.800hr.com";
+    //正式
     public static final String API_URL = "https://api.800hr.com/svrdo.php";
     public static final String API_MIDDLE="svrdo.php";
     //测试

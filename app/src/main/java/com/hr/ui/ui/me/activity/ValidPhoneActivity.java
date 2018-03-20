@@ -125,7 +125,11 @@ public class ValidPhoneActivity extends BaseActivity<ValidPhonePresenter, ValidP
         this.code = code;
         sUtils.setIntValue("code", code);
         tvValidPhoneValidCode.setEnabled(false);
-        startService(mCodeTimerServiceIntent);//启动服务
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
+            startForegroundService(mCodeTimerServiceIntent);
+        } else {
+            startService(mCodeTimerServiceIntent);
+        }
         if (popupWindow != null) {
             popupWindow.dismiss();
         }

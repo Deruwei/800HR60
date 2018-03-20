@@ -20,14 +20,18 @@ public interface JobSearchFragmentContract {
     interface Model extends BaseModel{
         Observable<RecommendJobBean> getSearchList(JobSearchBean jobSearchBean, int page);
         Observable<RecommendJobBean> getTopSearchJob(JobSearchBean jobSearchBean);
+        Observable<ResponseBody> deliverPosition(String jobId);
     }
     interface View extends BaseView{
         void getSearchDataSuccess(List<RecommendJobBean.JobsListBean> jobsListBean);
         void getTopSearchJobSuccess(List<RecommendJobBean.JobsListBean> jobsListBeans);
         void getTopSearchFaild();
+        void deliverPositionSuccess();
+        void goToCompleteResume(int errorCode);
     }
     abstract class Presenter extends BasePresenter<View,Model>{
         public abstract void getSearchList(JobSearchBean jobSearchBean,int page,boolean isCanRefresh);
         public abstract void getTopSearchJob(JobSearchBean jobSearchBean);
+        public abstract void  deliverPosition(String jobId);
     }
 }

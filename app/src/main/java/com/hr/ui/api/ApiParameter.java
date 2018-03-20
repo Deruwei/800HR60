@@ -78,8 +78,8 @@ public class ApiParameter {
      * 手机验证码
      * @param type 1表示不是第一次请求请求 0代表第一次请求手机验证码
      * @param context
-     * @param phoneNum
-     * @param way
+     * @param phoneNum  手机号码
+     * @param way 1注册，2登录，3找回密码，4修改、验证手机，5修改手机+密码
      * @return
      */
     public static HashMap<String,String> getValidCode(Context context,String phoneNum,String captcha,int type,String way){
@@ -96,10 +96,9 @@ public class ApiParameter {
 
     /**
      * 图形验证码
-     * @param context
      * @return
      */
-    public static HashMap<String,String> getAutoCode(Context context){
+    public static HashMap<String,String> getAutoCode(){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user.captcha");
         return requestMap;
@@ -116,7 +115,7 @@ public class ApiParameter {
     }
 
     /**
-     * 通知
+     * 获取通知的消息
      * @param ims
      * @return
      */
@@ -126,6 +125,12 @@ public class ApiParameter {
         requestMap.put("phonecode",ims);
         return requestMap;
     }
+
+    /**
+     * 设置通知开关
+     * @param noticeData   通知的数据
+     * @return
+     */
     public static HashMap<String,String> setNotice(NoticeData noticeData){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","job.setnotice");
@@ -142,9 +147,9 @@ public class ApiParameter {
     }
     /**
      * 注册参数
-     * @param phoneNumber
-     * @param validCode
-     * @param psw
+     * @param phoneNumber  手机号码
+     * @param validCode  验证码
+     * @param psw   密码
      * @return
      */
     public static HashMap<String,String> getRegister(String phoneNumber,String validCode,String psw){
@@ -159,8 +164,9 @@ public class ApiParameter {
 
     /**
      * 手机用户登录(type:1 标识手机登录 2 表示用户名登录)
-     * @param phoneNumber
-     * @param psw
+     * @param phoneNumber   用户名
+     * @param psw   密码
+     * @param type  登录的类型
      * @return
      */
     public static HashMap<String,String> getLogin(String phoneNumber,String psw,int type){
@@ -181,9 +187,9 @@ public class ApiParameter {
     }
     /**
      * 手机找回密码
-     * @param phoneNumber
-     * @param psw
-     * @param validCode
+     * @param phoneNumber  手机号码
+     * @param psw    密码
+     * @param validCode  手机验证码
      * @return
      */
     public static HashMap<String,String> resetPhonePsw(String phoneNumber,String validCode,String psw){
@@ -196,8 +202,8 @@ public class ApiParameter {
     }
     /**
      * 用户找回密码
-     * @param email
-     * @param userName
+     * @param email   邮箱
+     * @param userName   用户名
      * @return
      */
     public static HashMap<String,String> resetUserPsw(String email,String userName){
@@ -210,7 +216,7 @@ public class ApiParameter {
 
     /**
      * 第三方登录
-     * @param thirdPartBean
+     * @param thirdPartBean  第三方帐号的信息
      * @return
      */
     public static HashMap<String,String> getThirdPartLogin(ThirdLoginBean thirdPartBean){
@@ -229,10 +235,10 @@ public class ApiParameter {
 
     /**
      * 第三方绑定
-     * @param thirdPartBean
-     * @param userName
-     * @param psw
-     * @param type
+     * @param thirdPartBean  第三方平台用户的信息
+     * @param userName  用户名
+     * @param psw    密码
+     * @param type  app用户的类型  1：
      * @return
      */
     public static HashMap<String,String> getThirdPartBinding(ThirdLoginBean thirdPartBean, String userName, String psw, int type){
@@ -274,6 +280,12 @@ public class ApiParameter {
         requestMap.put("mb","");*/
         return requestMap;
     }
+
+    /**
+     * 企业注册
+     * @param companyRegisterBean  企业注册的内容
+     * @return
+     */
     public static HashMap<String,String> companyRegister(CompanyRegisterBean companyRegisterBean){
         HashMap<String, String> requestParams = new HashMap<String, String>();
         requestParams.put("method", "enterprise.register");
@@ -293,7 +305,7 @@ public class ApiParameter {
     }
     /**
      * 获取具体简历的信息
-     * @param resumeId
+     * @param resumeId 简历的id
      * @return
      */
     public static HashMap<String,String> getResumeDate(String resumeId){
@@ -304,6 +316,11 @@ public class ApiParameter {
         //Log.i("简历信息",requestMap.toString());
         return requestMap;
     }
+
+    /**
+     * 创建一份新的简历
+     * @return
+     */
     public static HashMap<String,String> createNewResume(){
         HashMap<String,String> requestMap=new HashMap<>();
         SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
@@ -327,7 +344,7 @@ public class ApiParameter {
     }
     /**
      * 添加或者修改简历的个人信息
-     * @param personalInformationData
+     * @param personalInformationData 添加/修改的内容
      * @return
      */
     public static HashMap<String,String> sendPersonalInformationToResume(PersonalInformationData personalInformationData){
@@ -360,6 +377,12 @@ public class ApiParameter {
         //System.out.println(requestMap.toString()+"haha");
         return requestMap;
     }
+
+    /**
+     *添加/修改教育背景
+     * @param educationData  添加/修改的内容
+     * @return
+     */
     public static HashMap<String,String> sendEducationToResume(EducationData educationData){
         HashMap<String,String> requestMap=new HashMap<>();
         String startTime=educationData.getStartTime();
@@ -388,6 +411,12 @@ public class ApiParameter {
         Log.i("okht",requestMap.toString());
         return requestMap;
     }
+
+    /**
+     * 添加/修改工作经历
+     * @param workExpData 添加/修改的内容
+     * @return
+     */
     public static HashMap<String,String> sendWorkExpToResume(WorkExpData workExpData){
         //Log.i("现在的数据",workExpData.toString());
         HashMap<String,String> requestMap=new HashMap<>();
@@ -417,6 +446,12 @@ public class ApiParameter {
         requestMap.put("responsiblity",workExpData.getResponsibilityDescription());
         return requestMap;
     }
+
+    /**
+     * 修改/添加求职意向
+     * @param jobOrderData 修改/添加的内容
+     * @return
+     */
     public static HashMap<String,String> sendJobOrderToResume(JobOrderData jobOrderData){
         SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
         HashMap<String,String> requestMap=new HashMap<>();
@@ -447,7 +482,7 @@ public class ApiParameter {
     }
 
     /**
-     * 修改简历的类型
+     * 添加/修改简历标题
      * @param type
      * @return
      */
@@ -475,8 +510,8 @@ public class ApiParameter {
 
     /**
      * 设置默认简历
-     * @param resumeId
-     * @param important
+     * @param resumeId  简历的id
+     * @param important  0:不是默认   1：默认
      * @return
      */
     public static HashMap<String,String> setDefaultResume(String resumeId,String important){
@@ -502,7 +537,7 @@ public class ApiParameter {
 
     /**
      * 上传图片
-     * @param content
+     * @param content  加密的图片的内容
      * @return
      */
     public static HashMap<String,String> upLoadImage(String content){
@@ -512,12 +547,23 @@ public class ApiParameter {
         //Log.i("数据",requestMap.toString());
         return requestMap;
     }
+
+    /**
+     * 获取求职意向的内容
+     * @return
+     */
     public static HashMap<String,String> getJobOrderInfo(){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_resume.orderget");
         //Log.i("数据",requestMap.toString());
         return requestMap;
     }
+
+    /**
+     * 获取教育背景的内容
+     * @param educationId  教育背景的id
+     * @return
+     */
     public static HashMap<String,String> getEducation(String educationId){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_resume.educationget");
@@ -525,6 +571,12 @@ public class ApiParameter {
         requestMap.put("resume_language","zh");
         return requestMap;
     }
+
+    /**
+     * 删除教育背景
+     * @param educationId 教育背景的id
+     * @return
+     */
     public static HashMap<String,String> deleteEducation(String educationId){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_resume.educationdel");
@@ -532,6 +584,12 @@ public class ApiParameter {
         requestMap.put("resume_language","zh");
         return requestMap;
     }
+
+    /**
+     * 获取项目经历的内容
+     * @param experienceId  项目经历的id
+     * @return
+     */
     public static HashMap<String,String> getWorkExp(String experienceId){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_resume.experienceget");
@@ -540,6 +598,12 @@ public class ApiParameter {
         requestMap.put("experience_id",experienceId);
         return  requestMap;
     }
+
+    /**
+     * 删除工作经历
+     * @param experienceId  工作经历的id
+     * @return
+     */
     public static HashMap<String,String> deleteWorkExp(String experienceId){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_resume.experiencedel");
@@ -548,6 +612,12 @@ public class ApiParameter {
         requestMap.put("experience_id",experienceId);
         return  requestMap;
     }
+
+    /**
+     * 添加/修改项目经历
+     * @param projectExpData  添加/修改的内容
+     * @return
+     */
     public static HashMap<String,String> addOrReplaceProjectExp(ProjectExpData projectExpData){
         HashMap<String,String> requestMap=new HashMap<>();
         String startTime=projectExpData.getStartTime();
@@ -572,6 +642,12 @@ public class ApiParameter {
         requestMap.put("position",projectExpData.getProjectPosition());
         return  requestMap;
     }
+
+    /**
+     * 删除项目经历
+     * @param projectId  项目经历的id
+     * @return
+     */
     public static HashMap<String,String> deleteProjectInfo(String projectId){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_resume.projectdel");
@@ -580,6 +656,12 @@ public class ApiParameter {
         requestMap.put("project_id",projectId);
         return  requestMap;
     }
+
+    /**
+     * 获取项目经历的内容
+     * @param projectId 项目经历的id
+     * @return
+     */
     public static HashMap<String,String> getProjectInfo(String projectId){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_resume.projectget");
@@ -588,6 +670,12 @@ public class ApiParameter {
         requestMap.put("project_id",projectId);
         return  requestMap;
     }
+
+    /**
+     * 添加/修改培训经历
+     * @param trainExpData  添加/修改的内容
+     * @return
+     */
     public static HashMap<String,String> addOrReplaceTrainExp(TrainExpData trainExpData){
         HashMap<String,String> requestMap=new HashMap<>();
         String startTime=trainExpData.getStartTime();
@@ -612,6 +700,12 @@ public class ApiParameter {
        /* requestMap.put("",);*/
         return requestMap;
     }
+
+    /**
+     * 删除培训经历
+     * @param trainId  培训经历的id
+     * @return
+     */
     public static HashMap<String,String> deleteTrainExp(String trainId){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_resume.plantdel");
@@ -620,6 +714,12 @@ public class ApiParameter {
         requestMap.put("plant_id",trainId);
         return  requestMap;
     }
+
+    /**
+     * 获取培训经历的内容
+     * @param trainId  培训经历的id
+     * @return
+     */
     public static HashMap<String,String> getTrainExp(String trainId){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_resume.plantget");
@@ -628,6 +728,12 @@ public class ApiParameter {
         requestMap.put("plant_id", trainId);
         return  requestMap;
     }
+
+    /**
+     * 添加/修改语言能力
+     * @param languageLevelData  添加/修改的内容
+     * @return
+     */
     public static HashMap<String,String> addOrReplaceLanguageLevel(LanguageLevelData languageLevelData){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_resume.languageset");
@@ -636,18 +742,36 @@ public class ApiParameter {
         requestMap.put("speak_level", languageLevelData.getSpeakLevel());
         return requestMap;
     }
+
+    /**
+     * 删除语言能力
+     * @param LanguageId  语言能力的id
+     * @return
+     */
     public static HashMap<String,String> deleteLanguageLevel(String LanguageId){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_resume.languagedel");
         requestMap.put("langname",LanguageId);
         return  requestMap;
     }
+
+    /**
+     * 获取语言能力的内容
+     * @param languageId  语言能力的id
+     * @return
+     */
     public static HashMap<String,String> getLanguage(String languageId){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_resume.languageget");
         requestMap.put("langname",languageId);
         return  requestMap;
     }
+
+    /**
+     * 添加/修改专业技能
+     * @param professionSkillData  添加/修改的内容
+     * @return
+     */
     public static HashMap<String,String> addOrReplaceProfessionSkill(ProfessionSkillData professionSkillData){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_resume.skillset");
@@ -659,18 +783,36 @@ public class ApiParameter {
         requestMap.put("ability", professionSkillData.getSkillLevel());
         return requestMap;
     }
+
+    /**
+     * 删除专业技能
+     * @param skillId 专业技能的id
+     * @return
+     */
     public static HashMap<String,String> deleteProfessionSkill(String skillId){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_resume.skilldel");
         requestMap.put("skill_id",skillId);
         return  requestMap;
     }
+
+    /**
+     * 获取专业技能的数据
+     * @param skillId 专业技能的id
+     * @return
+     */
     public static HashMap<String,String> getProfessionSkill(String skillId){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_resume.skillget");
         requestMap.put("skill_id",skillId);
         return  requestMap;
     }
+
+    /**
+     * 添加/修改自我介绍
+     * @param content  自我介绍的内容
+     * @return
+     */
     public static HashMap<String,String> addOrReplaceIntroduction(String content){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_resume.assessset");
@@ -682,6 +824,12 @@ public class ApiParameter {
         requestMap.put("method","user_resume.assessget");
         return  requestMap;
     }
+
+    /**
+     * 设置简历的公开度
+     * @param openstate  0：公开  2：保密
+     * @return
+     */
     public static HashMap<String,String> setHide(String openstate){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_resume.setopenstate");
@@ -690,6 +838,12 @@ public class ApiParameter {
         requestMap.put("openstate",openstate);
         return  requestMap;
     }
+
+    /**
+     * 获取推荐职位的数据集合
+     * @param limit   获取的限制数量
+     * @return
+     */
     public static HashMap<String,String> getRecommendJobScore(int limit){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","job.recomlist");
@@ -698,6 +852,13 @@ public class ApiParameter {
         requestMap.put("limit",""+limit);
         return requestMap;
     }
+
+    /**
+     * 获取符合求职意向的职位列表
+     * @param page  页码
+     * @param pageNum 每页加载的数量
+     * @return
+     */
     public static HashMap<String,String> getRecommendJobInfo(int page,int pageNum){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","job.jobrecom");
@@ -710,6 +871,13 @@ public class ApiParameter {
         //Log.i("你好",requestMap.toString());
         return requestMap;
     }
+
+    /**
+     * 获取搜索职位的数据
+     * @param jobSearchBean 搜索条件
+     * @param page  页码
+     * @return
+     */
     public static HashMap<String,String> getJobSearchList(JobSearchBean jobSearchBean,int page){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","job.search");
@@ -752,9 +920,15 @@ public class ApiParameter {
         requestMap.put("page", page+"");
         requestMap.put("page_nums", "20");
         requestMap.put("wordtype",jobSearchBean.getJobType()+"");
-        Log.i("数据1",requestMap.toString());
+        //Log.i("数据1",requestMap.toString());
         return requestMap;
     }
+
+    /**
+     * 获取搜索置顶职位数据
+     * @param jobSearchBean 搜索条件
+     * @return
+     */
     public static HashMap<String,String> getTopSearchJob(JobSearchBean jobSearchBean){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","job.topsearch");
@@ -773,6 +947,12 @@ public class ApiParameter {
         //Log.i("现在的数据",requestMap.toString());
         return requestMap;
     }
+
+    /**
+     * 获取职位的信息
+     * @param jobId 职位的id
+     * @return
+     */
     public static HashMap<String,String> getPositionData(String jobId){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","job.jobinfo");
@@ -780,6 +960,12 @@ public class ApiParameter {
        /* Log.i("你好",requestMap.toString());*/
         return requestMap;
     }
+
+    /**
+     * 设置企业来信为已读
+     * @param recordId 来信id
+     * @return
+     */
     public static HashMap<String,String> setInviteIsRead(String recordId){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_stow.invitedread");
@@ -787,6 +973,12 @@ public class ApiParameter {
        /* Log.i("你好",requestMap.toString());*/
         return requestMap;
     }
+
+    /**
+     * 获取企业来信的内容
+     * @param recordId  企业来信的id
+     * @return
+     */
     public static HashMap<String,String> getInviteInfo(String recordId){
         HashMap<String,String> requestMap=new HashMap<>();
         SharedPreferencesUtils sUtis=new SharedPreferencesUtils(HRApplication.getAppContext());
@@ -797,6 +989,12 @@ public class ApiParameter {
         //Log.i("你好",requestMap.toString());
         return requestMap;
     }
+
+    /**
+     * 收藏职位
+     * @param jobId  职位id
+     * @return
+     */
     public static HashMap<String,String> collectionJob(String jobId){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","job.favour");
@@ -804,6 +1002,12 @@ public class ApiParameter {
        /* Log.i("你好",requestMap.toString());*/
         return requestMap;
     }
+
+    /**
+     * 投递职位
+     * @param jobId  职位的id
+     * @return
+     */
     public static HashMap<String,String> deliverJob(String jobId){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","job.apply");
@@ -814,18 +1018,36 @@ public class ApiParameter {
        /* Log.i("你好",requestMap.toString());*/
         return requestMap;
     }
+
+    /**
+     * 获取公司的详情
+     * @param companyId   公司的id
+     * @return
+     */
     public static HashMap<String,String> getCompanyData(String companyId){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","job.enterprise");
         requestMap.put("enterprise_id",companyId);
         return requestMap;
     }
+
+    /**
+     * 验证手机号码是否已经注册
+     * @param phone  手机号码
+     * @return
+     */
     public static HashMap<String,String> validPhoneIsExit(String phone){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_check.phoneexists");
         requestMap.put("phone",phone);
         return requestMap;
     }
+
+    /**
+     * 获取该公司所发布的职位
+     * @param CompanyId  公司的id
+     * @return
+     */
     public static HashMap<String,String> getReleaseJob(String CompanyId){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","job.alljobs");
@@ -833,6 +1055,12 @@ public class ApiParameter {
        /* Log.i("你好",requestMap.toString());*/
         return requestMap;
     }
+
+    /**
+     * 收藏记录
+     * @param page  页码
+     * @return
+     */
     public static HashMap<String,String> getCollectionData(int page){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_stow.favourite");
@@ -841,6 +1069,13 @@ public class ApiParameter {
        /* Log.i("你好",requestMap.toString());*/
         return requestMap;
     }
+
+    /**
+     * 删除收藏的内容
+     * @param collectionId  收藏的id
+     * @param jobId  职位的id
+     * @return
+     */
     public static HashMap<String,String> deleteCollectionData(String collectionId,String jobId){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_stow.delefavourite");
@@ -849,6 +1084,14 @@ public class ApiParameter {
        /* Log.i("你好",requestMap.toString());*/
         return requestMap;
     }
+
+    /**
+     * 获取投递反馈的数据
+     * @param page  页码
+     * @param isRead  是否已读
+     * @param isInvite  是否邀请
+     * @return
+     */
     public static HashMap<String,String> getDeliverFeedback(int page,int isRead,int isInvite){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_stow.applied");
@@ -859,6 +1102,12 @@ public class ApiParameter {
        /* Log.i("你好",requestMap.toString());*/
         return requestMap;
     }
+
+    /**
+     * 设置投递反馈已读
+     * @param id  投递反馈的id
+     * @return
+     */
     public static HashMap<String,String> setDeliverFeedBack(String id){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_stow.appliedread");
@@ -866,6 +1115,12 @@ public class ApiParameter {
        /* Log.i("你好",requestMap.toString());*/
         return requestMap;
     }
+
+    /**
+     * 获取谁看我了的数据
+     * @param page  页码
+     * @return
+     */
     public static HashMap<String,String> getWhoSeeMe(int page){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_stow.browsed");
@@ -874,6 +1129,12 @@ public class ApiParameter {
        /* Log.i("你好",requestMap.toString());*/
         return requestMap;
     }
+
+    /**
+     * 获取企业来信列表信息
+     * @param page  页码
+     * @return
+     */
     public static HashMap<String,String> getInviteInterview(int page){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_stow.invited");
@@ -882,6 +1143,13 @@ public class ApiParameter {
        /* Log.i("你好",requestMap.toString());*/
         return requestMap;
     }
+
+    /**
+     * 意见反馈
+     * @param content  内容
+     * @param email   邮箱
+     * @return
+     */
     public static HashMap<String,String> feedBack(String content,String email){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user.feedback");
@@ -891,6 +1159,13 @@ public class ApiParameter {
        /* Log.i("你好",requestMap.toString());*/
         return requestMap;
     }
+
+    /**
+     * 获取发现的内容
+     * @param page  页码
+     * @param ad_type  广告的类型
+     * @return
+     */
     public static HashMap<String,String> getFind(int page,String ad_type){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","mobilead.list");
@@ -902,6 +1177,13 @@ public class ApiParameter {
        /* Log.i("你好",requestMap.toString());*/
         return requestMap;
     }
+
+    /**
+     * 获取广告
+     * @param cid
+     * @param aId
+     * @return
+     */
     public static HashMap<String,String> getNotice(String cid,String aId){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","mobilead.list");
@@ -911,12 +1193,25 @@ public class ApiParameter {
         //Log.i("现在的数据",requestMap.toString());
         return requestMap;
     }
+
+    /**
+     * 获取职位的匹配度
+     * @param id  匹配的id
+     * @return
+     */
     public static HashMap<String,String> getResumeScore(String id){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","job.resumematch");
         requestMap.put("match", id);
         return requestMap;
     }
+
+    /**
+     * 获取就业指导的列表
+     * @param page  页码
+     * @param guidanceId  就业指导的id
+     * @return
+     */
     public static HashMap<String,String> getGuidanceTitle(int page,String guidanceId){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","news.gettitle");
@@ -925,12 +1220,23 @@ public class ApiParameter {
         requestMap.put("page_nums","20");
         return requestMap;
     }
+
+    /**
+     * 获取就业指导的内容
+     * @param newId  新闻的id
+     * @return
+     */
     public static HashMap<String,String> getGuidanceTitleInfo(String newId){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","news.gettitlecon");
         requestMap.put("news_id",newId);
         return requestMap;
     }
+
+    /**
+     *获取屏蔽的内容
+     * @return
+     */
     public static HashMap<String,String> getShieldCompanyData(){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_eliminate.list");
@@ -943,35 +1249,71 @@ public class ApiParameter {
         requestMap.put("nums",50+"");
         return requestMap;
     }
+
+    /**
+     * 设置屏蔽的内容
+     * @param companyName  屏蔽的关键词
+     * @return
+     */
     public static HashMap<String,String> setShieldCompany(String companyName){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_eliminate.set");
         requestMap.put("eliminate_txt",companyName);
         return requestMap;
     }
+
+    /**
+     * 用户退出
+     * @return
+     */
     public static HashMap<String,String> getLoginOut(){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user.logout");
         return requestMap;
     }
+
+    /**
+     * 删除屏蔽的关键词
+     * @param shieldId  屏蔽的id
+     * @return
+     */
     public static HashMap<String,String> deleteShieldCompany(String shieldId){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_eliminate.del");
         requestMap.put("id",shieldId);
         return requestMap;
     }
+
+    /**
+     * 升级简历
+     * @param resumeId  简历的id
+     * @return
+     */
     public static HashMap<String,String> updateResume(String resumeId){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_resume.upgradetype");
         requestMap.put("resume_id",resumeId);
         return requestMap;
     }
+
+    /**
+     * 更新简历的事件
+     * @param resumeId  简历id
+     * @return
+     */
     public static HashMap<String,String> refreshResume(String resumeId){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user_resume.updatetime");
         requestMap.put("resume_id",resumeId);
         return requestMap;
     }
+
+    /**
+     * 修改手机号码
+     * @param phone  手机号码
+     * @param validCode  验证码
+     * @return
+     */
     public static HashMap<String,String> changePhone(String phone,String validCode){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user.chgphone");
@@ -980,6 +1322,13 @@ public class ApiParameter {
         //Log.i("现在的 数据",requestMap.toString());
         return requestMap;
     }
+
+    /**
+     * 修改用户密码
+     * @param oldPsw  旧密码
+      * @param newPsw  新密码
+     * @return
+     */
     public static HashMap<String,String> changePsw(String oldPsw,String newPsw){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user.updatepwd");

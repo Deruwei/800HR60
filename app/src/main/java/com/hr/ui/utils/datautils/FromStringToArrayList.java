@@ -30,6 +30,11 @@ public class FromStringToArrayList {
         }
         return instance;
     }
+
+    /**
+     *
+     * @return
+     */
     public List<CityBean> getCityList(){
         List<CityBean> cityBeanList=new ArrayList<>();
         String s=SaveFile.getDataFromInternalStorage(HRApplication.getAppContext(),"city.txt");

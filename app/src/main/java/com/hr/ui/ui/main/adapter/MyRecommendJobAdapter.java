@@ -7,11 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
+import android.widget.TextClock;
 import android.widget.TextView;
 
 import com.hr.ui.R;
@@ -22,6 +24,8 @@ import com.hr.ui.constants.Constants;
 import com.hr.ui.utils.Utils;
 import com.hr.ui.view.PieChartView;
 import com.hr.ui.view.RoundImageView;
+
+import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -41,11 +45,21 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
     private List<RecommendJobBean.JobsListBean> jobsListBeanList;
     private OnCalCulateScoreClickListener onCalCulateScoreClickListener;
     private List<HomeRecommendBean.JobsListBean> jobsListBeanList2;
+    private OnFastDeliverListener onFastDeliverListener;
+    private OnCheckListener onCheckListener;
     private boolean isCheck;
     private int limitLength=14;
 
+    public void setOnFastDeliverListener(OnFastDeliverListener onFastDeliverListener) {
+        this.onFastDeliverListener = onFastDeliverListener;
+    }
+
     public void setClickCallBack(ItemClickCallBack clickCallBack) {
         this.clickCallBack = clickCallBack;
+    }
+
+    public void setOnCheckListener(OnCheckListener onCheckListener) {
+        this.onCheckListener = onCheckListener;
     }
 
     public void setOnCalCulateScoreClickListener(OnCalCulateScoreClickListener onCalCulateScoreClickListener) {
@@ -60,7 +74,9 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
             limitLength = 14;
         }
     }
-
+    public interface OnFastDeliverListener{
+        void onFastDeliverListener(int pos);
+    }
     public interface ItemClickCallBack {
         void onItemClick(int pos);
     }
@@ -68,7 +84,9 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
     public interface OnCalCulateScoreClickListener {
         void onCalulateScore(int pos);
     }
-
+    public interface OnCheckListener{
+        void onCheckListener(int pos,boolean b);
+    }
     private ItemClickCallBack clickCallBack;
 
     public void setJobsListBeanList2(List<HomeRecommendBean.JobsListBean> jobsListBeanList2) {
@@ -106,11 +124,20 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
                     viewHolder.ivTopJob.setVisibility(View.GONE);
                 }
 
-                if (isCheck == true) {
-
+                if (isCheck == true&&jobsListBeanList.get(position).getIs_apply()!=1) {
                     viewHolder.rlHomeFragmentItemLeft.setVisibility(View.VISIBLE);
                 }else{
                     viewHolder.rlHomeFragmentItemLeft.setVisibility(View.GONE);
+                }
+                if(jobsListBeanList.get(position).isCheck()){
+                    viewHolder.rbCheck.setChecked(true);
+                }else{
+                    viewHolder.rbCheck.setChecked(false);
+                }
+                if(jobsListBeanList.get(position).getIs_apply()==1){
+                    viewHolder.tvSearchResultAlreadyDeliver.setVisibility(View.VISIBLE);
+                }else{
+                    viewHolder.tvSearchResultAlreadyDeliver.setVisibility(View.GONE);
                 }
                 viewHolder.tvRecommendJobAddress.setText(jobsListBeanList.get(position).getWorkplace());
                 viewHolder.tvRecommendJobCompanyName.setMaxEms(limitLength);
@@ -141,12 +168,31 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
                 viewHolder.tvRecommendPersonNum.setText(jobsListBeanList.get(position).getStuff_munber());
                 viewHolder.tvRecommendJobWorkYear.setText(jobsListBeanList.get(position).getWorkyear());
                 viewHolder.tvRecommendJobCompanyType.setText(jobsListBeanList.get(position).getCompany_type());
+                if(onCheckListener!=null) {
+                    viewHolder.rbCheck.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if(jobsListBeanList.get(position).isCheck()){
+                                onCheckListener.onCheckListener(position,false);
+                            }else{
+                                onCheckListener.onCheckListener(position,true);
+                            }
+                        }
+                    });
+                }
             } else {
                 if (position == 0) {
                     viewHolder.llHomeItemTop.setVisibility(View.VISIBLE);
                     viewHolder.tvItemTitle.setText(R.string.recommendJob1);
                 } else {
                     viewHolder.llHomeItemTop.setVisibility(View.GONE);
+                }
+                if(jobsListBeanList2.get(position).getIs_apply()==1){
+                    viewHolder.tvSearchResultFastDeliver.setVisibility(View.GONE);
+                    viewHolder.tvSearchResultAlreadyDeliver.setVisibility(View.VISIBLE);
+                }else{
+                    viewHolder.tvSearchResultFastDeliver.setVisibility(View.VISIBLE);
+                    viewHolder.tvSearchResultAlreadyDeliver.setVisibility(View.GONE);
                 }
                 viewHolder.tvRecommendJobAddress.setText(jobsListBeanList2.get(position).getWorkplace());
                 viewHolder.tvRecommendJobCompanyName.setText(jobsListBeanList2.get(position).getEnterprise_name());
@@ -180,6 +226,13 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
                 if (position == jobsListBeanList2.size() - 1) {
                     viewHolder.viewLineJob.setVisibility(View.GONE);
                 }
+                if(jobsListBeanList2.get(position).getIs_apply()==1){
+                    viewHolder.tvSearchResultFastDeliver.setVisibility(View.GONE);
+                    viewHolder.tvSearchResultAlreadyDeliver.setVisibility(View.VISIBLE);
+                }else{
+                    viewHolder.tvSearchResultFastDeliver.setVisibility(View.VISIBLE);
+                    viewHolder.tvSearchResultAlreadyDeliver.setVisibility(View.GONE);
+                }
                 viewHolder.tvRecommendJobAddress.setText(jobsListBeanList2.get(position).getWorkplace());
                 viewHolder.tvRecommendJobCompanyName.setText(jobsListBeanList2.get(position).getEnterprise_name());
                 viewHolder.tvRecommendJobDegree.setText(jobsListBeanList2.get(position).getStudy());
@@ -210,6 +263,13 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
                     viewHolder.tvItemTitle.setText(R.string.recommendJob2);
                 } else {
                     viewHolder.llHomeItemTop.setVisibility(View.GONE);
+                }
+                if(jobsListBeanList.get(position-i).getIs_apply()==1){
+                    viewHolder.tvSearchResultFastDeliver.setVisibility(View.GONE);
+                    viewHolder.tvSearchResultAlreadyDeliver.setVisibility(View.VISIBLE);
+                }else{
+                    viewHolder.tvSearchResultFastDeliver.setVisibility(View.VISIBLE);
+                    viewHolder.tvSearchResultAlreadyDeliver.setVisibility(View.GONE);
                 }
                 viewHolder.viewLineJob.setVisibility(View.VISIBLE);
                 viewHolder.tvRecommendJobAddress.setText(jobsListBeanList.get(position - i).getWorkplace());
@@ -242,6 +302,14 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
                 @Override
                 public void onClick(View v) {
                     onCalCulateScoreClickListener.onCalulateScore(position);
+                }
+            });
+        }
+        if(onFastDeliverListener!=null){
+            viewHolder.tvSearchResultFastDeliver.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onFastDeliverListener.onFastDeliverListener(position);
                 }
             });
         }
@@ -329,6 +397,10 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
         CardView cvHomeFragment;
         @BindView(R.id.view_lineJob)
         View viewLineJob;
+        @BindView(R.id.tv_searchResultAlreadyDeliver)
+        TextView tvSearchResultAlreadyDeliver;
+        @BindView(R.id.tv_searchResultFastDeliver)
+        TextView tvSearchResultFastDeliver;
         public ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);

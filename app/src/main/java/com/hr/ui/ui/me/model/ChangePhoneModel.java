@@ -51,7 +51,7 @@ public class ChangePhoneModel implements ChangePhoneContract.Model {
 
     @Override
     public Observable<AutoCodeBean> getCaptcha() {
-        return Api.getDefault(HostType.HR).getAutoCode(EncryptUtils.encrypParams(ApiParameter.getAutoCode(HRApplication.getAppContext())))
+        return Api.getDefault(HostType.HR).getAutoCode(EncryptUtils.encrypParams(ApiParameter.getAutoCode()))
                 .map(new Func1<AutoCodeBean, AutoCodeBean>() {
                     @Override
                     public AutoCodeBean call(AutoCodeBean baseBean) {

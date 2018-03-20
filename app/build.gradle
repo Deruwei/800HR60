@@ -15,8 +15,8 @@ android {
         applicationId "com.hr.ui"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 70
-        versionName "6.0.2"
+        versionCode 71
+        versionName "6.0.3"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [UMENG_CHANNEL_CALUE: "umeng"]       //默认为uMeng
@@ -91,7 +91,7 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta4'
-    compile 'com.networkbench.newlens.agent.android:nbs.newlens.agent:2.7.2'
+    compile 'com.networkbench.newlens.agent.android:nbs.newlens.agent:2.8.2'
     // TingYun_Version 为当前听云 APP 版本号
     compile 'org.greenrobot:eventbus:3.1.1'
     implementation 'com.android.support:design:26.1.0'

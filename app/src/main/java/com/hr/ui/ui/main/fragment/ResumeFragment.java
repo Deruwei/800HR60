@@ -510,7 +510,9 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
         Glide.with(this).load(Constants.IMAGE_BASEPATH + path).fitCenter() .into(ivResumePersonImage);
         MainActivity.instance.setImage();
         HomeFragment.instance.setImage();
-        MessageFragment.instance.setImage();
+        if(MessageFragment.instance!=null) {
+            MessageFragment.instance.setImage();
+        }
         // Log.i("okht","你好啊 "+Constants.IMAGE_BASEPATH + path);
     }
 

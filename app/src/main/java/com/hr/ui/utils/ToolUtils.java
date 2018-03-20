@@ -56,6 +56,7 @@ public class ToolUtils {
             RobotActivity.startAction(activity,userId);
             sUtils.setIntValue(Constants.RESUME_STOPTYPE, 0);
             sUtils.setIntValue(Constants.RESUME_STARTTYPE,0);
+            sUtils.setBooleanValue(Constants.VALID_TYPE,true);
             sUtils.setStringValue(Constants.EDUCATION_ID,"");
             sUtils.setStringValue(Constants.WORKEXP_ID,"");
         }else{
@@ -67,6 +68,7 @@ public class ToolUtils {
                     sUtils.setStringValue(Constants.ELEGANTRESUME_ID,resumeListBean.getResume_id());
                     RobotActivity.startAction(activity,userId);
                     sUtils.setIntValue(Constants.RESUME_ID,10);
+                    sUtils.setBooleanValue(Constants.VALID_TYPE,true);
                     sUtils.setStringValue(Constants.RESUME_TYPE,"1");
                     sUtils.setIntValue(Constants.RESUME_STOPTYPE, 0);
                     sUtils.setIntValue(Constants.RESUME_STARTTYPE,0);
@@ -189,6 +191,7 @@ public class ToolUtils {
         if(multipleResumeBean.getResume_list()==null||"".equals(multipleResumeBean.getResume_list())||multipleResumeBean.getResume_list().size()==0){
             sUtils.setBooleanValue(Constants.JUST_ELEGANTRESUME,false);
             RobotActivity.startAction(activity,userId);
+            sUtils.setBooleanValue(Constants.VALID_TYPE,true);
             sUtils.setIntValue(Constants.RESUME_STOPTYPE, 0);
             sUtils.setIntValue(Constants.RESUME_STARTTYPE,0);
             sUtils.setStringValue(Constants.EDUCATION_ID,"");
@@ -205,6 +208,7 @@ public class ToolUtils {
                     sUtils.setStringValue(Constants.ELEGANTRESUME_ID,resumeListBean.getResume_id());
                     sUtils.setIntValue(Constants.RESUME_STOPTYPE, 0);
                     sUtils.setIntValue(Constants.RESUME_STARTTYPE,0);
+                    sUtils.setBooleanValue(Constants.VALID_TYPE,true);
                     sUtils.setStringValue(Constants.EDUCATION_ID,"");
                     sUtils.setStringValue(Constants.WORKEXP_ID,"");
                 }else {
@@ -236,6 +240,7 @@ public class ToolUtils {
         if(multipleResumeBean.getResume_list()==null||"".equals(multipleResumeBean.getResume_list())||multipleResumeBean.getResume_list().size()==0){
             sUtils.setBooleanValue(Constants.JUST_ELEGANTRESUME,false);
             RobotActivity.startAction(activity,userId);
+            sUtils.setBooleanValue(Constants.VALID_TYPE,true);
             sUtils.setIntValue(Constants.RESUME_STOPTYPE, 0);
             sUtils.setIntValue(Constants.RESUME_STARTTYPE,0);
             sUtils.setStringValue(Constants.EDUCATION_ID,"");
@@ -248,6 +253,7 @@ public class ToolUtils {
                     sUtils.setBooleanValue(Constants.JUST_ELEGANTRESUME,true);
                     sUtils.setStringValue(Constants.ELEGANTRESUME_ID,resumeListBean.getResume_id());
                     RobotActivity.startAction(activity,userId);
+                    sUtils.setBooleanValue(Constants.VALID_TYPE,true);
                     sUtils.setIntValue(Constants.RESUME_STOPTYPE, 0);
                     sUtils.setIntValue(Constants.RESUME_STARTTYPE,0);
                     sUtils.setStringValue(Constants.RESUME_TYPE,"1");

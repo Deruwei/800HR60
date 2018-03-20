@@ -27,18 +27,22 @@ import com.hr.ui.bean.HomeRecommendBean;
 import com.hr.ui.bean.RecommendJobBean;
 import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.job.activity.PositionPageActivity;
+import com.hr.ui.ui.main.activity.JobSearchResultActivity;
 import com.hr.ui.ui.main.activity.JobSerchActivity;
 import com.hr.ui.ui.main.activity.MainActivity;
 import com.hr.ui.ui.main.adapter.MyRecommendJobAdapter;
 import com.hr.ui.ui.main.contract.HomeFragmentContract;
 import com.hr.ui.ui.main.modle.HomeFragmentModel;
 import com.hr.ui.ui.main.presenter.HomeFragmentPresenter;
+import com.hr.ui.ui.resume.activity.ResumeJobOrderActivity;
 import com.hr.ui.utils.ClickUtils;
 import com.hr.ui.utils.ProgressStyle;
 import com.hr.ui.utils.ToastUitl;
+import com.hr.ui.utils.datautils.FromStringToArrayList;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.CircleImageView;
 import com.hr.ui.view.DatePickerView;
+import com.hr.ui.view.MyRecommendDialog;
 import com.hr.ui.view.PieChartView;
 import com.hr.ui.view.XRecyclerView;
 import com.umeng.analytics.MobclickAgent;
@@ -86,6 +90,8 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
     LinearLayout llNetError;
     private int page = 1;
     public static HomeFragment instance;
+    private MyRecommendDialog dialog;
+    private String industryName;
     /**
      * 1 判断是否有第三方公司推荐职位的数据
      * 2.判断是否第三方公司推荐职位的数据满足20条
@@ -100,7 +106,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
     private PopupWindow popupWindowCalculateScore;
     private SharedPreferencesUtils sUtils;
     private String personImage;
-    private int mProgress;
+    private int mProgress,position;
 
     public static HomeFragment newInstance(String s) {
         HomeFragment navigationFragment = new HomeFragment();
@@ -298,6 +304,24 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
                 }
             }
         });
+        jobAdapter.setOnFastDeliverListener(new MyRecommendJobAdapter.OnFastDeliverListener() {
+            @Override
+            public void onFastDeliverListener(int pos) {
+                position=pos;
+                if(isThirdRecommendDataFill==false) {
+                    if (pos < recommendList.size()) {
+                        industryName=recommendList.get(pos).getIndustry_name();
+                        mPresenter.deliverPosition(recommendList.get(pos).getJob_id());
+                    } else {
+                        industryName=recommendJobList.get(pos - recommendList.size()).getIndustry_name();
+                        mPresenter.deliverPosition(recommendJobList.get(pos - recommendList.size()).getJob_id());
+                    }
+                }else{
+                    industryName=recommendList.get(pos).getIndustry_name();
+                    mPresenter.deliverPosition(recommendList.get(pos).getJob_id());
+                }
+            }
+        });
     }
     private void setAdapter(){
         if(isHaveRecommendData==true||isHaveThirdRecommendData==true){
@@ -344,6 +368,76 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
         /*mPresenter.getRecommendJob(page,20,true*/
     }
 
+    @Override
+    public void deliverPositionSuccess() {
+        MobclickAgent.onEvent(getActivity(), "v6_resume_deliver");
+        ToastUitl.showShort("投递成功");
+        if(isThirdRecommendDataFill==false) {
+            if (position < recommendList.size()) {
+               recommendList.get(position).setIs_apply(1);
+            } else {
+               recommendJobList.get(position - recommendList.size()).setIs_apply(1);
+            }
+        }else{
+           recommendList.get(position).setIs_apply(1);
+        }
+        jobAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void goToCompleteResume(int errorCode) {
+        if (errorCode == 413 || errorCode == 417) {
+            //ToastUitl.showShort(errorCode+"");
+            setPopupwindow(2);
+        } else {
+            //ToastUitl.showShort(errorCode+"");
+            setPopupwindow(1);
+        }
+    }
+
+    /**
+     * 简历不符合跳出提示框
+     *
+     * @param type
+     */
+    private void setPopupwindow(int type) {
+        dialog = new MyRecommendDialog(getActivity());
+        if (type == 1) {
+            dialog.setTitle(getString(R.string.resumeNoComplete));
+            dialog.setMessage(getString(R.string.resumeNoCompleteContent));
+            dialog.setNoOnclickListener(getString(R.string.known), new MyRecommendDialog.onNoOnclickListener() {
+                @Override
+                public void onNoClick() {
+                    dialog.dismiss();
+                }
+            });
+            dialog.setYesOnclickListener(getString(R.string.goNow), new MyRecommendDialog.onYesOnclickListener() {
+                @Override
+                public void onYesClick() {
+                    dialog.dismiss();
+                    MainActivity.instance.rbResume1.setChecked(true);
+                    ResumeFragment.instance.refresh();
+                }
+            });
+        } else {
+            dialog.setTitle(getString(R.string.noIndustry1) + industryName + "行业" + getString(R.string.noIndustry2));
+            dialog.setMessage(getString(R.string.noJobOrderContent1) + industryName + "行业" + getString(R.string.noJobOrderContent2));
+            dialog.setNoOnclickListener(getString(R.string.known), new MyRecommendDialog.onNoOnclickListener() {
+                @Override
+                public void onNoClick() {
+                    dialog.dismiss();
+                }
+            });
+            dialog.setYesOnclickListener(getString(R.string.goNow), new MyRecommendDialog.onYesOnclickListener() {
+                @Override
+                public void onYesClick() {
+                    dialog.dismiss();
+                    ResumeJobOrderActivity.startAction(getActivity());
+                }
+            });
+        }
+        dialog.show();
+    }
    /* private void initCalculateScore(final int i) {
         View viewCalculateScore = getLayoutInflater().inflate(R.layout.layout_calculatescore, null);
         popupWindowCalculateScore = new PopupWindow(viewCalculateScore, LinearLayout.LayoutParams.MATCH_PARENT,
@@ -420,5 +514,13 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
                 JobSerchActivity.startAction(getActivity());
                 break;
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        if(dialog!=null){
+            dialog.dismiss();
+        }
+        super.onDestroy();
     }
 }

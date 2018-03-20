@@ -16,7 +16,6 @@ public class CodeTimerService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        startForeground(1,new Notification());
     }
 
     @Override
@@ -28,6 +27,7 @@ public class CodeTimerService extends Service {
     public void onStart(Intent intent, int startId) {
         super.onStart(intent, startId);
         //启动计时器
+        startForeground(1,new Notification());
         if(intent!=null&&intent.getAction()!=null) {
             String action = intent.getAction();
             CodeTimer mCodeTimer = new CodeTimer(this, 60000, 100, action);

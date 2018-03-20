@@ -1,5 +1,6 @@
 package com.hr.ui.ui.main.adapter;
 
+import android.graphics.Typeface;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +56,11 @@ public class MyCityAdapter extends BaseAdapter {
         }
         viewHolder.tvItemSelectCityName.setText(cityBeanList.get(position).getName());
         viewHolder.rlItemSelectCity.setBackgroundColor(ContextCompat.getColor(HRApplication.getAppContext(),R.color.resumeContent_bg));
+        if(position==0) {
+            viewHolder.tvItemSelectCityName.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+        }else{
+            viewHolder.tvItemSelectCityName.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+        }
         if(cityBeanList.get(position).isCheck()==true){
             viewHolder.ivItemSelectCityCheck.setVisibility(View.VISIBLE);
         }else{

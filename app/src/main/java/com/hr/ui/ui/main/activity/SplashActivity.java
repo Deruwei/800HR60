@@ -232,12 +232,6 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
 
     @Override
     public void SendConnectSuccess() {
-        Intent intent = new Intent(HRApplication.getAppContext(), LongRunningService.class);
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
-            startForegroundService(intent);
-        } else {
-            startService(intent);
-        }
         getPermission();
         mPresenter.getVersion(BuildConfig.VERSION_NAME);
     }
@@ -283,7 +277,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
     @Override
     public void getVersion(VersionBean.AndroidBean androidBean) {
         String version =androidBean.getVer();
-        String version1 = "6.0.3";
+        String version1 = BuildConfig.VERSION_NAME;
         if (Utils.checkVersion(version, version1) == true) {
             popupWindow=new PopupWindow(this);
             PopWindowUpdate popWindowUpdate = new PopWindowUpdate(this, popupWindow, androidBean,clSplash );

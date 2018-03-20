@@ -21,6 +21,7 @@ public interface HomeFragmentContract {
         Observable<HomeRecommendBean> getRecommendJobInfo(int limit);
         Observable<ResponseBody> getResumeScore(String id);
         Observable<RecommendJobBean> getRecommendJob(int page,int pageNum);
+        Observable<ResponseBody> deliverPosition(String jobId);
     }
     interface View extends BaseView {
         void getRecommendJobSuccess(List<HomeRecommendBean.JobsListBean> jobsBeanList);
@@ -28,10 +29,13 @@ public interface HomeFragmentContract {
         void getRecommendJobError();
         void getRecommendJobSuccess2(List<RecommendJobBean.JobsListBean> jobsListBeanList);
         void cantGetData();
+        void deliverPositionSuccess();
+        void goToCompleteResume(int errorCode);
     }
     abstract class Presenter extends BasePresenter<View,Model>{
         public abstract void getRecommendJobInfo(int limit,boolean isCanRefresh);
         public abstract void getResumeScore(String id);
         public abstract void getRecommendJob(int page,int pageNum,boolean isCanRefresh);
+        public abstract void  deliverPosition(String jobId);
     }
 }

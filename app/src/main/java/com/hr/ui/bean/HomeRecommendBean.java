@@ -139,6 +139,42 @@ public class HomeRecommendBean {
         private String view_time;
         private String satisfying;
         private String satisfy_time;
+        private int is_favourite;
+        private int is_expire;
+        private int is_apply;
+        private int is_shoufa;
+
+        public int getIs_favourite() {
+            return is_favourite;
+        }
+
+        public void setIs_favourite(int is_favourite) {
+            this.is_favourite = is_favourite;
+        }
+
+        public int getIs_expire() {
+            return is_expire;
+        }
+
+        public void setIs_expire(int is_expire) {
+            this.is_expire = is_expire;
+        }
+
+        public int getIs_apply() {
+            return is_apply;
+        }
+
+        public void setIs_apply(int is_apply) {
+            this.is_apply = is_apply;
+        }
+
+        public int getIs_shoufa() {
+            return is_shoufa;
+        }
+
+        public void setIs_shoufa(int is_shoufa) {
+            this.is_shoufa = is_shoufa;
+        }
 
         public String getCompany_type() {
             return company_type;
@@ -533,6 +569,7 @@ public class HomeRecommendBean {
                     ", workyear='" + workyear + '\'' +
                     ", work_type='" + work_type + '\'' +
                     ", job_number='" + job_number + '\'' +
+                    ", company_type='" + company_type + '\'' +
                     ", is_show_pay_interview='" + is_show_pay_interview + '\'' +
                     ", poster_state='" + poster_state + '\'' +
                     ", topjob_type='" + topjob_type + '\'' +
@@ -565,6 +602,10 @@ public class HomeRecommendBean {
                     ", view_time='" + view_time + '\'' +
                     ", satisfying='" + satisfying + '\'' +
                     ", satisfy_time='" + satisfy_time + '\'' +
+                    ", is_favourite=" + is_favourite +
+                    ", is_expire=" + is_expire +
+                    ", is_apply=" + is_apply +
+                    ", is_shoufa=" + is_shoufa +
                     '}';
         }
     }

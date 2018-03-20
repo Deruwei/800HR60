@@ -174,7 +174,7 @@ public class JobSerchActivity extends BaseActivity<JobSearchPresenter, JobSearch
         };
         industryId = sUtils.getStringValue(Constants.INDUSTRY_ID, "");
         if (industryId.contains(",")) {
-            industryId = industryId.substring(0, industryId.indexOf(","));
+            industryId = industryId.substring( industryId.lastIndexOf(",")+1);
         }
         tvSearchIndustryName.setText(FromStringToArrayList.getInstance().getIndustryName(industryId));
         manager.setOrientation(LinearLayoutManager.VERTICAL);

@@ -180,8 +180,10 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
                             LoadingDialog.cancelDialogForLoading();
                         }
                         _onError(HRApplication.getAppContext().getString(R.string.net_error));
-                        ToastUitl.showShort(HRApplication.getAppContext().getString(R.string.net_error));
-
+                        //Log.i("当前的错误",e.getMessage()+"----");
+                        if(e.getMessage()!=null) {
+                            ToastUitl.showShort(HRApplication.getAppContext().getString(R.string.net_error));
+                        }
                     }
                 }
             }, 3000);

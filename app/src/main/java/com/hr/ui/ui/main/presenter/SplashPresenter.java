@@ -195,13 +195,13 @@ public class SplashPresenter extends SplashContract.Presenter {
             @Override
             protected void _onNext(ArrayInfoBean arrayInfoBean)  {
                 SharedPreferencesUtils sUtils=new SharedPreferencesUtils(mContext);
-                if(!sUtils.getStringValue(Constants.CITY_VER,"").equals(arrayInfoBean.getCity().getVer())){
+                if(!sUtils.getStringValue(Constants.CITY_VER,"").equals(arrayInfoBean.getCity().getVer())||!SaveFile.fileIsExists("city.txt")){
                     getArrayData("client/file/array/city.php","city.txt");
                 }
-                if(!sUtils.getStringValue(Constants.JOB_VER,"").equals(arrayInfoBean.getJob().getVer())){
+                if(!sUtils.getStringValue(Constants.JOB_VER,"").equals(arrayInfoBean.getJob().getVer())||!SaveFile.fileIsExists("job.txt")){
                     getArrayData("client/file/array/job.php","job.txt");
                 }
-                if(!sUtils.getStringValue(Constants.LINGYU_VER,"").equals(arrayInfoBean.getLingyu().getVer())){
+                if(!sUtils.getStringValue(Constants.LINGYU_VER,"").equals(arrayInfoBean.getLingyu().getVer())||!SaveFile.fileIsExists("lingyu.txt")){
                     getArrayData("client/file/array/lingyu.php","lingyu.txt");
                 }
                 sUtils.setStringValue(Constants.CITY_VER,arrayInfoBean.getCity().getVer());

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
 
+import com.hr.ui.app.HRApplication;
 import com.hr.ui.constants.Constants;
 
 import java.io.BufferedInputStream;
@@ -46,6 +47,21 @@ public class SaveFile {
             e.printStackTrace();
         }
     }
+    //判断文件是否存在
+    public static boolean fileIsExists(String strFile)
+    {
+        try
+        {
+            FileInputStream fin = HRApplication.getAppContext().openFileInput(strFile);
+            if(fin.available()==0)
+            {
+                return false;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
     public static String getDataFromInternalStorage(Context context,String fileName){
         String s="";
         try {
@@ -60,7 +76,6 @@ public class SaveFile {
             }
            s=sBuilder.toString();
            System.out.println("读取成功");
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {

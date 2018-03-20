@@ -15,9 +15,7 @@ import org.greenrobot.greendao.database.Database;
 /**
  * 类名：HMROpenHelper
  * 类描述：用于数据库升级的工具类
- * 创建人：孙广竹
- * 创建日期： 2016/10/20.
- * 版本：V1.0
+ * Created by wdr on 2017/12/12.
  */
 
 public class HMROpenHelper extends DaoMaster.OpenHelper {

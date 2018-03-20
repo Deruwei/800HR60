@@ -127,7 +127,6 @@ public class MessageFragment extends BaseFragment<MessageFragmentPresenter, Mess
     public static MessageFragment newInstance(String s) {
         MessageFragment navigationFragment = new MessageFragment();
         Bundle bundle = new Bundle();
-        instance = navigationFragment;
         bundle.putString(Constants.ARGS, s);
         navigationFragment.setArguments(bundle);
         return navigationFragment;
@@ -232,6 +231,7 @@ public class MessageFragment extends BaseFragment<MessageFragmentPresenter, Mess
     }
 
     public void setImage() {
+        sUtils=new SharedPreferencesUtils(getActivity());
         personImage = sUtils.getStringValue(Constants.PERSONIMAGE, "");
         if (!"".equals(personImage) && personImage != null) {
            /* Glide.with(this).load(Constants.IMAGE_BASEPATH + personImage).centerCrop().into(ivResumePersonPhoto);*/
@@ -253,6 +253,7 @@ public class MessageFragment extends BaseFragment<MessageFragmentPresenter, Mess
 
     @Override
     protected void initView() {
+        instance = this;
         sUtils = new SharedPreferencesUtils(getActivity());
         ivResumePersonPhoto.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,6 +1,7 @@
 package com.service;
 
 import android.annotation.TargetApi;
+import android.app.Notification;
 import android.app.job.JobParameters;
 import android.app.job.JobService;
 import android.content.Context;
@@ -21,6 +22,7 @@ import com.hr.ui.api.ApiService;
 import com.hr.ui.api.HostType;
 import com.hr.ui.utils.EncryptUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import okhttp3.ResponseBody;
@@ -45,6 +47,7 @@ public class MyJobService extends JobService {
 
     @Override
     public boolean onStartJob(JobParameters params) {
+        startForeground(2, new Notification());
         Log.d(TAG, "onStartJob: ");
         if(isNetworkConnected()){
             new WebDownLoadTask().execute(params);
@@ -105,7 +108,10 @@ public class MyJobService extends JobService {
 
             @Override
             public void onNext(ResponseBody responseBody) {
-                System.out.println("连接中");
+                SimpleDateFormat   formatter   =   new SimpleDateFormat("yyyy年MM月dd日   HH:mm:ss");
+                Date curDate =  new Date(System.currentTimeMillis());
+                String   str   =   formatter.format(curDate);
+                System.out.println("连接中："+str);
             }
         };
         Object.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(mSubscriber);
