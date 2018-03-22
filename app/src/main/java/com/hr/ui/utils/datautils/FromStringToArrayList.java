@@ -347,7 +347,9 @@ public class FromStringToArrayList {
                     cityBean.setName(object.getString(key));
                     cityBean.setCheck(false);
                 }
-                expectFieldList.add(cityBean);
+                if(cityBean.getId().contains("00")) {
+                    expectFieldList.add(cityBean);
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();

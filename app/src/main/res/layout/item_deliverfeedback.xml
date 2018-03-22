@@ -8,7 +8,8 @@
     android:layout_marginTop="@dimen/x20"
     android:layout_height="wrap_content">
     <LinearLayout
-        android:id="@+id/left_menu"
+        android:id="@+id/ll_deliverFeedBack"
+        android:background="@drawable/recycler_item_selector"
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">

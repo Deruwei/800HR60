@@ -21,13 +21,16 @@
             android:layout_height="@dimen/x120"/>
     </RelativeLayout>
     <LinearLayout
-        android:layout_marginTop="@dimen/x366"
+        android:layout_marginTop="@dimen/x326"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
         <RelativeLayout
+            android:paddingTop="@dimen/x40"
+            android:paddingBottom="@dimen/x40"
             android:id="@+id/rl_collection"
+            android:background="@drawable/recycler_item_selector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
@@ -52,8 +55,10 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:background="@drawable/recycler_item_selector"
             android:id="@+id/rl_history"
-            android:layout_marginTop="@dimen/x80"
+            android:paddingTop="@dimen/x40"
+            android:paddingBottom="@dimen/x40"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
@@ -79,8 +84,10 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:background="@drawable/recycler_item_selector"
             android:id="@+id/rl_feedback"
-            android:layout_marginTop="@dimen/x80"
+            android:paddingTop="@dimen/x40"
+            android:paddingBottom="@dimen/x40"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
@@ -105,8 +112,10 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:background="@drawable/recycler_item_selector"
             android:id="@+id/rl_setting"
-            android:layout_marginTop="@dimen/x80"
+            android:paddingTop="@dimen/x40"
+            android:paddingBottom="@dimen/x40"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 

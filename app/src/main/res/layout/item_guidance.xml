@@ -5,8 +5,9 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <LinearLayout
+        android:id="@+id/ll_employmentGuidanceMain"
         android:layout_marginTop="@dimen/x20"
-        android:background="@color/white"
+        android:background="@drawable/recycler_item_selector"
         android:paddingTop="@dimen/x30"
         android:paddingBottom="@dimen/x29"
         android:paddingLeft="@dimen/x31"

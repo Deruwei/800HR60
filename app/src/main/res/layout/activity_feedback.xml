@@ -23,15 +23,21 @@
             android:background="@color/view_color"
             android:layout_width="match_parent"
             android:layout_height="@dimen/x1"/>
-        <EditText
-            android:id="@+id/et_feedBackContent"
-            android:textSize="@dimen/x28"
-            android:background="@null"
-            android:padding="@dimen/x36"
-            android:gravity="top|left"
-            android:textColor="@color/color_333"
+        <android.support.v7.widget.CardView
+            app:cardElevation="@dimen/x1"
+            app:cardCornerRadius="0dp"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/x720" />
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/et_feedBackContent"
+                android:textSize="@dimen/x28"
+                android:background="@null"
+                android:padding="@dimen/x36"
+                android:gravity="top|left"
+                android:textColor="@color/color_333"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x720" />
+        </android.support.v7.widget.CardView>
         <LinearLayout
             android:orientation="vertical"
             android:background="@color/resumeContent_bg"
@@ -46,12 +52,17 @@
                 android:textSize="@dimen/x24"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-            <EditText
-                android:background="@drawable/edit_bg_small"
-                android:id="@+id/et_feedbackEmail"
+            <android.support.v7.widget.CardView
                 android:layout_marginTop="@dimen/x20"
                 android:layout_marginLeft="@dimen/x31"
                 android:layout_marginRight="@dimen/x31"
+                android:layout_width="match_parent"
+                app:cardElevation="@dimen/x1"
+                app:cardCornerRadius="0dp"
+                android:layout_height="wrap_content">
+            <EditText
+                android:background="@drawable/edit_bg_small"
+                android:id="@+id/et_feedbackEmail"
                 android:hint="请输入您的电子邮箱"
                 android:paddingTop="@dimen/x6"
                 android:paddingLeft="@dimen/x20"
@@ -63,20 +74,15 @@
                 android:textColor="@color/color_333"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/x80" />
-            <View
-                android:layout_marginLeft="@dimen/x31"
-                android:layout_marginRight="@dimen/x31"
-                android:layout_marginTop="@dimen/x6"
-                android:background="@color/bg_color"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/x1"/>
+            </android.support.v7.widget.CardView>
+
             <Button
                 android:id="@+id/btn_feedBackOK"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/x90"
                 android:layout_marginLeft="@dimen/x25"
                 android:layout_marginRight="@dimen/x25"
-                android:layout_marginTop="@dimen/x54"
+                android:layout_marginTop="@dimen/x60"
                 android:background="@drawable/button_login"
                 android:text="@string/submit"
                 android:textColor="@color/white"

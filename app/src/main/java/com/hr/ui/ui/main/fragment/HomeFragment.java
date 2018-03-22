@@ -107,6 +107,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
     private SharedPreferencesUtils sUtils;
     private String personImage;
     private int mProgress,position;
+    public static String TAG=HomeFragment.class.getSimpleName();
 
     public static HomeFragment newInstance(String s) {
         HomeFragment navigationFragment = new HomeFragment();
@@ -295,12 +296,12 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
             public void onItemClick(int pos) {
                 if(isThirdRecommendDataFill==false) {
                     if (pos < recommendList.size()) {
-                        PositionPageActivity.startAction(getActivity(), recommendList.get(pos).getJob_id());
+                        PositionPageActivity.startAction(getActivity(), recommendList.get(pos).getJob_id(),pos,TAG);
                     } else {
-                        PositionPageActivity.startAction(getActivity(), recommendJobList.get(pos - recommendList.size()).getJob_id());
+                        PositionPageActivity.startAction(getActivity(), recommendJobList.get(pos - recommendList.size()).getJob_id(),pos,TAG);
                     }
                 }else{
-                    PositionPageActivity.startAction(getActivity(), recommendList.get(pos).getJob_id());
+                    PositionPageActivity.startAction(getActivity(), recommendList.get(pos).getJob_id(),pos,TAG);
                 }
             }
         });
@@ -347,7 +348,20 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
         rvHomeFragment.refreshComplete();
         rvHomeFragment.setLoadingMoreEnabled(false);
     }
+    public void notificationDataItem(int pos){
+        position=pos;
+        if(isThirdRecommendDataFill==false) {
+            if (position < recommendList.size()) {
+                recommendList.get(position).setIs_apply(1);
+            } else {
+                recommendJobList.get(position - recommendList.size()).setIs_apply(1);
+            }
+        }else{
+            recommendList.get(position).setIs_apply(1);
+        }
+        jobAdapter.notifyDataSetChanged();
 
+    }
     /**
      * 第三方公司推荐职位有数据但是不满足20个，拼接上公司职位推荐数据
      */

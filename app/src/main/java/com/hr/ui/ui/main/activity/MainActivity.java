@@ -42,6 +42,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.hr.ui.R;
+import com.hr.ui.app.AppManager;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
 import com.hr.ui.bean.FindBean;
@@ -387,7 +388,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
                     ToastUitl.showShort("再点一次退出程序");
                     exitTime = System.currentTimeMillis();
                 } else {
-                    finish();
+                    AppManager.getAppManager().exitApp();
                 }
             }
             return true;

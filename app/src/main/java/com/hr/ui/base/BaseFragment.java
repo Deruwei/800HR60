@@ -13,6 +13,7 @@ import com.hr.ui.R;
 import com.hr.ui.utils.LoadingDialog;
 import com.hr.ui.utils.TUtil;
 import com.hr.ui.utils.ToastUitl;
+import com.umeng.analytics.MobclickAgent;
 
 import butterknife.ButterKnife;
 
@@ -229,6 +230,17 @@ public abstract  class BaseFragment<T extends BasePresenter, E extends BaseModel
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(getActivity());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(getActivity());
+    }
 
     /**
      * 延迟加载

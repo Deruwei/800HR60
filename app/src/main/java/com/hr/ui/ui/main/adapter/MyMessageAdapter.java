@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hr.ui.R;
@@ -64,7 +65,7 @@ public class MyMessageAdapter extends RecyclerView.Adapter<MyMessageAdapter.View
             viewHolder.ivItemMessageNum.setVisibility(View.GONE);
         }
         if (clickCallBack != null) {
-            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            viewHolder.rlItemInterview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     clickCallBack.onItemClick(position);
@@ -93,6 +94,8 @@ public class MyMessageAdapter extends RecyclerView.Adapter<MyMessageAdapter.View
         ImageView ivItemMessageNum;
         @BindView(R.id.rl_message)
         FrameLayout rlMessage;
+        @BindView(R.id.rl_itemInterview)
+        RelativeLayout rlItemInterview;
 
         public ViewHolder(View view) {
             super(view);

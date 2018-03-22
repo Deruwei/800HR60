@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hr.ui.R;
@@ -65,7 +66,7 @@ public class MyShieldCompanyDataAdapter extends RecyclerView.Adapter<MyShieldCom
        viewHolder.tvItemShieldCompanySetShield.setText(HRApplication.getAppContext().getString(R.string.shieldCancel));
        /*viewHolder.tvItemShieldCompanyIndustry.setText(FromStringToArrayList.getInstance().getIndustryName(favouriteListBeanList.get(position).getIndustry()));*/
         if (clickCallBack != null) {
-            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            viewHolder.llShieldCompanyMain.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     clickCallBack.onItemClick(position);
@@ -105,6 +106,8 @@ public class MyShieldCompanyDataAdapter extends RecyclerView.Adapter<MyShieldCom
         TextView tvItemShieldCompanyScale;
         @BindView(R.id.tv_itemShieldCompanySetShield)
         TextView tvItemShieldCompanySetShield;
+        @BindView(R.id.ll_shieldCompanyMain)
+        LinearLayout llShieldCompanyMain;
 
         public ViewHolder(View view) {
             super(view);

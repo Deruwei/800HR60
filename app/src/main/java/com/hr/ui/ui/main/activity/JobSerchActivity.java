@@ -208,11 +208,11 @@ public class JobSerchActivity extends BaseActivity<JobSearchPresenter, JobSearch
             final LinearLayout ll = (LinearLayout) LayoutInflater.from(this).inflate(
                     R.layout.item_history, null, false);
             TextView tv = ll.findViewById(R.id.item_selectHistory);
-            Random random = new Random();
+            /*Random random = new Random();
             GradientDrawable bgShape = (GradientDrawable) tv.getBackground();
 //                    bgShape.setColor(Color.BLACK);
             bgShape.setStroke(1, ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_e4));
-            bgShape.setCornerRadius(15);
+            bgShape.setCornerRadius(15);*/
             tv.setTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
             ll.setLayoutParams(params);
             String name="";

@@ -32,282 +32,295 @@
         android:layout_below="@+id/ll_homeItemTop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <FrameLayout
-        android:id="@+id/fl_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/x320">
-
-            <RelativeLayout
-                android:id="@+id/rl_homeFragmentItemLeft"
-                android:layout_width="@dimen/x60"
-                android:layout_height="match_parent"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:visibility="gone">
-
-                <CheckBox
-                    android:theme="@style/My_CheckBox"
-                    android:id="@+id/rb_check"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true" />
-            </RelativeLayout>
-            <LinearLayout
-                android:layout_toRightOf="@+id/rl_homeFragmentItemLeft"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:orientation="vertical"
-                android:paddingLeft="@dimen/x31"
-                android:paddingRight="@dimen/x31"
-                android:paddingTop="@dimen/x40">
-
-        <RelativeLayout
+        <FrameLayout
+            android:id="@+id/fl_content"
+            android:background="@drawable/recycler_item_selector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/tv_recommendJobName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:maxEms="10"
-                android:singleLine="true"
-                android:text=""
-                android:textColor="@color/color_333"
-                android:textSize="@dimen/x36" />
-
-            <TextView
-                android:id="@+id/tv_recommendJobSalary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text=""
-                android:textColor="@color/new_main"
-                android:textSize="@dimen/x36" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/x16">
-
-            <TextView
-                android:id="@+id/tv_recommendJobAddress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textColor="@color/color_999"
-                android:textSize="@dimen/x28" />
-
-            <TextView
-                android:id="@+id/tv_recommendJobView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/x10"
-                android:layout_marginRight="@dimen/x10"
-                android:layout_toRightOf="@+id/tv_recommendJobAddress"
-                android:text="/"
-                android:textColor="@color/color_999"
-                android:textSize="@dimen/x28" />
-
-            <TextView
-                android:id="@+id/tv_recommendJobWorkYear"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/tv_recommendJobView1"
-                android:text=""
-                android:textColor="@color/color_999"
-                android:textSize="@dimen/x28" />
-
-            <TextView
-                android:id="@+id/tv_recommendJobView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/x10"
-                android:layout_marginRight="@dimen/x10"
-                android:layout_toRightOf="@+id/tv_recommendJobWorkYear"
-                android:text="/"
-                android:textColor="@color/color_999"
-                android:textSize="@dimen/x28" />
-
-            <TextView
-                android:id="@+id/tv_recommendJobDegree"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/tv_recommendJobView2"
-                android:text=""
-                android:textColor="@color/color_999"
-                android:textSize="@dimen/x28" />
-            <FrameLayout
-                android:layout_alignParentRight="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:visibility="gone"
-                    android:textColor="#119ee7"
-                    android:textSize="@dimen/x28"
-                    android:text="@string/alreadyDeliver"
-                    android:id="@+id/tv_searchResultAlreadyDeliver"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:visibility="gone"
-                    android:padding="@dimen/x5"
-                    android:id="@+id/tv_searchResultFastDeliver"
-                    android:textSize="@dimen/x28"
-                    android:background="@drawable/edit_bg_orange"
-                    android:textColor="@color/white"
-                    android:text="@string/fastDeliver"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </FrameLayout>
-
-        </RelativeLayout>
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_marginBottom="@dimen/x40"
-            android:layout_marginTop="@dimen/x44"
-            android:layout_height="match_parent">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-            <android.support.v7.widget.CardView
-                app:cardElevation="@dimen/x1"
-                app:cardCornerRadius="@dimen/x6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            <com.hr.ui.view.RoundImageView
-                android:adjustViewBounds="true"
-                android:scaleType="centerInside"
-                android:id="@+id/iv_recommendJobCompanyIcon"
-                android:layout_width="@dimen/x82"
-                app:type="rounded_rect"
-                app:borderWidth="@dimen/x1"
-                app:borderColor="@color/color_999"
-                app:rectRoundRadius="@dimen/x6"
-                android:layout_height="@dimen/x82"
-                android:src="@mipmap/defaultcompany" />
-            </android.support.v7.widget.CardView>
             <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/x20">
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x320">
 
-                <TextView
-                    android:id="@+id/tv_recommendJobCompanyName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:maxEms="14"
-                    android:singleLine="true"
-                    android:text=""
-                    android:textColor="@color/color_666"
-                    android:textSize="@dimen/x28" />
-
+                <RelativeLayout
+                    android:id="@+id/rl_homeFragmentItemLeft"
+                    android:layout_width="@dimen/x63"
+                    android:layout_height="match_parent"
+                    android:visibility="gone">
+                    <FrameLayout
+                        android:layout_centerInParent="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:id="@+id/iv_cantCheck"
+                            android:layout_marginLeft="@dimen/x31"
+                            android:src="@mipmap/cant_select"
+                            android:layout_width="@dimen/x32"
+                            android:layout_height="@dimen/x32" />
+                    <CheckBox
+                        android:background="@drawable/checkbox_bg"
+                        android:id="@+id/rb_check"
+                        android:button="@null"
+                        android:layout_marginLeft="@dimen/x31"
+                        android:layout_width="@dimen/x32"
+                        android:layout_height="@dimen/x32"
+                        />
+                    </FrameLayout>
+                </RelativeLayout>
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_recommendJobCompanyName"
-                    android:layout_marginTop="@dimen/x6">
-
-                    <TextView
-                        android:id="@+id/tv_recommendJobIndustry"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=""
-                        android:textColor="@color/color_999"
-                        android:textSize="@dimen/x24" />
-
-                    <TextView
-                        android:id="@+id/tv_recommendJobView3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/x10"
-                        android:layout_marginRight="@dimen/x10"
-                        android:layout_toRightOf="@+id/tv_recommendJobAddress"
-                        android:text="·"
-                        android:textColor="@color/color_999"
-                        android:textSize="@dimen/x24" />
-
-                    <TextView
-                        android:id="@+id/tv_recommendJobCompanyType"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toRightOf="@+id/tv_recommendJobView3"
-                        android:text=""
-                        android:textColor="@color/color_999"
-                        android:textSize="@dimen/x24" />
-
-                    <TextView
-                        android:id="@+id/tv_recommendJobView4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/x10"
-                        android:layout_marginRight="@dimen/x10"
-                        android:layout_toRightOf="@+id/tv_recommendJobWorkYear"
-                        android:text="/"
-                        android:textColor="@color/color_999"
-                        android:textSize="@dimen/x24" />
-
-                    <TextView
-                        android:id="@+id/tv_recommendPersonNum"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toRightOf="@+id/tv_recommendJobView4"
-                        android:text=""
-                        android:textColor="@color/color_999"
-                        android:textSize="@dimen/x24" />
-                </LinearLayout>
-
-                <com.hr.ui.view.PieChartView
-                    android:visibility="gone"
-                    android:id="@+id/pcv_num"
-                    android:layout_width="@dimen/x50"
-                    app:borderColorPie="@color/new_main"
-                    app:borderWidthPie="@dimen/x1"
-                    android:layout_height="@dimen/x50"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true" />
-
-            </RelativeLayout>
-        </LinearLayout>
-            <FrameLayout
-                android:layout_gravity="bottom|right"
-                android:layout_alignParentRight="true"
-                android:layout_width="@dimen/x122"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_gravity="right"
-                    android:id="@+id/tv_recommendJobTime"
+                    android:layout_toRightOf="@+id/rl_homeFragmentItemLeft"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingLeft="@dimen/x31"
+                    android:paddingRight="@dimen/x31"
+                    android:paddingTop="@dimen/x40">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_recommendJobName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxEms="10"
+                    android:singleLine="true"
+                    android:text=""
+                    android:textColor="@color/color_333"
+                    android:textSize="@dimen/x36" />
+
+                <TextView
+                    android:id="@+id/tv_recommendJobSalary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:text=""
-                    android:gravity="right"
+                    android:textColor="@color/new_main"
+                    android:textSize="@dimen/x36" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/x16">
+
+                <TextView
+                    android:id="@+id/tv_recommendJobAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
                     android:textColor="@color/color_999"
                     android:textSize="@dimen/x28" />
-                <ImageView
-                    android:id="@+id/iv_recommendJobNowPublic"
-                    android:visibility="gone"
-                    android:src="@mipmap/nowpublic"
-                    android:layout_gravity="right"
+
+                <TextView
+                    android:id="@+id/tv_recommendJobView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x10"
+                    android:layout_marginRight="@dimen/x10"
+                    android:layout_toRightOf="@+id/tv_recommendJobAddress"
+                    android:text="/"
+                    android:textColor="@color/color_999"
+                    android:textSize="@dimen/x28" />
+
+                <TextView
+                    android:id="@+id/tv_recommendJobWorkYear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/tv_recommendJobView1"
+                    android:text=""
+                    android:textColor="@color/color_999"
+                    android:textSize="@dimen/x28" />
+
+                <TextView
+                    android:id="@+id/tv_recommendJobView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x10"
+                    android:layout_marginRight="@dimen/x10"
+                    android:layout_toRightOf="@+id/tv_recommendJobWorkYear"
+                    android:text="/"
+                    android:textColor="@color/color_999"
+                    android:textSize="@dimen/x28" />
+
+                <TextView
+                    android:id="@+id/tv_recommendJobDegree"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/tv_recommendJobView2"
+                    android:text=""
+                    android:textColor="@color/color_999"
+                    android:textSize="@dimen/x28" />
+                <FrameLayout
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:visibility="gone"
+                        android:textColor="#119ee7"
+                        android:textSize="@dimen/x28"
+                        android:text="@string/alreadyDeliver"
+                        android:id="@+id/tv_searchResultAlreadyDeliver"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:visibility="gone"
+                        android:paddingTop="@dimen/x5"
+                        android:paddingBottom="@dimen/x5"
+                        android:paddingLeft="@dimen/x11"
+                        android:paddingRight="@dimen/x11"
+                        android:id="@+id/tv_searchResultFastDeliver"
+                        android:textSize="@dimen/x28"
+                        android:background="@drawable/edit_bg_orange"
+                        android:textColor="@color/white"
+                        android:text="@string/fastDeliver"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </FrameLayout>
+
+            </RelativeLayout>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_marginBottom="@dimen/x40"
+                android:layout_marginTop="@dimen/x44"
+                android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <android.support.v7.widget.CardView
+                    app:cardElevation="@dimen/x1"
+                    app:cardCornerRadius="@dimen/x6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                <com.hr.ui.view.RoundImageView
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerInside"
+                    android:id="@+id/iv_recommendJobCompanyIcon"
+                    android:layout_width="@dimen/x82"
+                    app:type="rounded_rect"
+                    app:borderWidth="@dimen/x1"
+                    app:borderColor="@color/color_999"
+                    app:rectRoundRadius="@dimen/x6"
+                    android:layout_height="@dimen/x82"
+                    android:src="@mipmap/defaultcompany" />
+                </android.support.v7.widget.CardView>
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x20">
+
+                    <TextView
+                        android:id="@+id/tv_recommendJobCompanyName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxEms="14"
+                        android:singleLine="true"
+                        android:text=""
+                        android:textColor="@color/color_666"
+                        android:textSize="@dimen/x28" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_recommendJobCompanyName"
+                        android:layout_marginTop="@dimen/x6">
+
+                        <TextView
+                            android:id="@+id/tv_recommendJobIndustry"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textColor="@color/color_999"
+                            android:textSize="@dimen/x24" />
+
+                        <TextView
+                            android:id="@+id/tv_recommendJobView3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/x10"
+                            android:layout_marginRight="@dimen/x10"
+                            android:layout_toRightOf="@+id/tv_recommendJobAddress"
+                            android:text="·"
+                            android:textColor="@color/color_999"
+                            android:textSize="@dimen/x24" />
+
+                        <TextView
+                            android:id="@+id/tv_recommendJobCompanyType"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/tv_recommendJobView3"
+                            android:text=""
+                            android:textColor="@color/color_999"
+                            android:textSize="@dimen/x24" />
+
+                        <TextView
+                            android:id="@+id/tv_recommendJobView4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/x10"
+                            android:layout_marginRight="@dimen/x10"
+                            android:layout_toRightOf="@+id/tv_recommendJobWorkYear"
+                            android:text="/"
+                            android:textColor="@color/color_999"
+                            android:textSize="@dimen/x24" />
+
+                        <TextView
+                            android:id="@+id/tv_recommendPersonNum"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/tv_recommendJobView4"
+                            android:text=""
+                            android:textColor="@color/color_999"
+                            android:textSize="@dimen/x24" />
+                    </LinearLayout>
+
+                    <com.hr.ui.view.PieChartView
+                        android:visibility="gone"
+                        android:id="@+id/pcv_num"
+                        android:layout_width="@dimen/x50"
+                        app:borderColorPie="@color/new_main"
+                        app:borderWidthPie="@dimen/x1"
+                        android:layout_height="@dimen/x50"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true" />
+
+                </RelativeLayout>
+            </LinearLayout>
+                <FrameLayout
+                    android:layout_gravity="bottom|right"
+                    android:layout_alignParentRight="true"
                     android:layout_width="@dimen/x122"
-                    android:layout_height="@dimen/x39" />
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_gravity="right"
+                        android:id="@+id/tv_recommendJobTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:text=""
+                        android:gravity="right"
+                        android:textColor="@color/color_999"
+                        android:textSize="@dimen/x28" />
+                    <ImageView
+                        android:id="@+id/iv_recommendJobNowPublic"
+                        android:visibility="gone"
+                        android:src="@mipmap/nowpublic"
+                        android:layout_gravity="right"
+                        android:layout_width="@dimen/x122"
+                        android:layout_height="@dimen/x39" />
+                </FrameLayout>
             </FrameLayout>
+        </LinearLayout>
+            </RelativeLayout>
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/iv_topJob"
+                android:src="@mipmap/topred"
+                android:layout_width="@dimen/x64"
+                android:layout_height="@dimen/x64" />
         </FrameLayout>
-    </LinearLayout>
-        </RelativeLayout>
-        <ImageView
-            android:visibility="gone"
-            android:id="@+id/iv_topJob"
-            android:src="@mipmap/topred"
-            android:layout_width="@dimen/x64"
-            android:layout_height="@dimen/x64" />
-    </FrameLayout>
     </android.support.v7.widget.CardView>
     <View
         android:id="@+id/view_lineJob"

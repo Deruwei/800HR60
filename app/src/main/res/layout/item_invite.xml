@@ -9,23 +9,34 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <com.hr.ui.view.RoundImageView
-            app:type="circle"
-            android:src="@mipmap/defaultcompany"
+        <android.support.v7.widget.CardView
+            app:cardCornerRadius="@dimen/x40"
+            app:cardElevation="@dimen/x3"
             android:layout_marginLeft="@dimen/x30"
-            android:id="@+id/iv_itemInviteImage"
-            android:layout_width="@dimen/x80"
-            android:scaleType="centerCrop"
-            android:layout_height="@dimen/x80" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <com.hr.ui.view.RoundImageView
+                app:type="circle"
+                android:src="@mipmap/defaultcompany"
+                android:id="@+id/iv_itemInviteImage"
+                android:layout_width="@dimen/x80"
+                android:scaleType="centerCrop"
+                android:layout_height="@dimen/x80" />
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            app:cardElevation="@dimen/x1"
+            android:layout_marginLeft="@dimen/x20"
+            android:layout_marginRight="@dimen/x140"
+            app:cardCornerRadius="@dimen/x9"
+            android:layout_height="wrap_content">
         <TextView
             android:paddingTop="@dimen/x22"
             android:paddingBottom="@dimen/x27"
             android:paddingLeft="@dimen/x18"
             android:paddingRight="@dimen/x16"
-            android:layout_marginLeft="@dimen/x20"
             android:textSize="@dimen/x28"
             android:background="@drawable/edit_bg_small"
-            android:layout_marginRight="@dimen/x140"
             android:textColor="@color/color_333"
             android:lineSpacingMultiplier="1.2"
             android:autoLink="web"
@@ -33,5 +44,6 @@
             android:id="@+id/tv_itemInviteContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+        </android.support.v7.widget.CardView>
     </LinearLayout>
 </LinearLayout>

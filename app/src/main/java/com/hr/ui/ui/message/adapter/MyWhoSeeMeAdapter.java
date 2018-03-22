@@ -81,7 +81,7 @@ public class MyWhoSeeMeAdapter extends RecyclerView.Adapter<MyWhoSeeMeAdapter.Vi
             viewHolder.tvWhoSeeMePosition.setText(listBeans.get(position).getRecruit_info().getJob_name());
         }
         if (clickCallBack != null) {
-            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            viewHolder.llWhoSeeMeMain.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (!ClickUtils.isFastClick()) {
@@ -120,6 +120,8 @@ public class MyWhoSeeMeAdapter extends RecyclerView.Adapter<MyWhoSeeMeAdapter.Vi
         TextView llWhoSeeMeText2;
         @BindView(R.id.ll_whoSeeMePosition)
         LinearLayout llWhoSeeMePosition;
+        @BindView(R.id.ll_whoSeeMeMain)
+        LinearLayout llWhoSeeMeMain;
 
         public ViewHolder(View view) {
             super(view);

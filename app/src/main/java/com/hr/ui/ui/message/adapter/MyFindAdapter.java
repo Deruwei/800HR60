@@ -74,7 +74,7 @@ public class MyFindAdapter extends RecyclerView.Adapter<MyFindAdapter.ViewHolder
         }
         Utils.setImageResource(context, viewHolder.ivFindIcon, listBeans.get(position).getPic_path());
         if (clickCallBack != null) {
-            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            viewHolder.llFindMain.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     clickCallBack.onItemClick(position);
@@ -105,6 +105,8 @@ public class MyFindAdapter extends RecyclerView.Adapter<MyFindAdapter.ViewHolder
         LinearLayout rlFindHide;
         @BindView(R.id.rl_itemFind)
         LinearLayout rlItemFind;
+        @BindView(R.id.ll_findMain)
+        LinearLayout llFindMain;
 
         public ViewHolder(View view) {
             super(view);

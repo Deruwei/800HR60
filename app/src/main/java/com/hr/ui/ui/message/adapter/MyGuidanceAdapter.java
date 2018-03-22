@@ -65,7 +65,7 @@ public class MyGuidanceAdapter extends RecyclerView.Adapter<MyGuidanceAdapter.Vi
         }
         viewHolder.tvItemGuidanceType.setText(favouriteListBeanList.get(position).getCopyfrom());
         if (clickCallBack != null) {
-            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            viewHolder.llEmploymentGuidanceMain.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     clickCallBack.onItemClick(position);
@@ -91,6 +91,8 @@ public class MyGuidanceAdapter extends RecyclerView.Adapter<MyGuidanceAdapter.Vi
         TextView tvItemGuidanceTime;
         @BindView(R.id.tv_itemGuidanceType)
         TextView tvItemGuidanceType;
+        @BindView(R.id.ll_employmentGuidanceMain)
+        LinearLayout llEmploymentGuidanceMain;
         public ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);

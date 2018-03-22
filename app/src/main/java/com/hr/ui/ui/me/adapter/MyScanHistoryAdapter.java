@@ -82,7 +82,7 @@ public class MyScanHistoryAdapter extends RecyclerView.Adapter<MyScanHistoryAdap
         viewHolder.tvItemScanHistoryPlace.setText(listBeans.get(position).getPlace());
         viewHolder.tvItemScanHistorySalary.setText(Utils.getSalary(listBeans.get(position).getSalary()));
         if (clickCallBack != null) {
-            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            viewHolder.rlScanHistoryMain.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     clickCallBack.onItemClick(position);
@@ -113,6 +113,8 @@ public class MyScanHistoryAdapter extends RecyclerView.Adapter<MyScanHistoryAdap
         TextView tvItemScanHistoryDegree;
         @BindView(R.id.tv_itemScanHistoryCompanyName)
         TextView tvItemScanHistoryCompanyName;
+        @BindView(R.id.rl_scanHistoryMain)
+        LinearLayout rlScanHistoryMain;
 
         public ViewHolder(View view) {
             super(view);

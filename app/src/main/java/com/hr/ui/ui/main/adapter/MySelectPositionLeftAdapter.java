@@ -56,7 +56,7 @@ public class MySelectPositionLeftAdapter extends BaseAdapter {
         }
         holder.tvItemSelectCityName.setText(positionList.get(position).getName());
         holder.ivItemSelectCityCheck.setVisibility(View.GONE);
-        Log.i("当前的",positionList.get(position).isCheck()+"");
+        //Log.i("当前的",positionList.get(position).isCheck()+"");
         if (positionList.get(position).isCheck() == true) {
             holder.rlItemSelectCity.setBackgroundResource( R.color.resumeContent_bg);
         }else{

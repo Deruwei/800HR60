@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -64,7 +65,7 @@ public class MyShieldCompanyAdapter extends RecyclerView.Adapter<MyShieldCompany
        viewHolder.tvItemShieldCompanyIndustry.setVisibility(View.GONE);
        viewHolder.tvItemShieldCompanySetShield.setVisibility(View.GONE);
         if (clickCallBack != null) {
-            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            viewHolder.llShieldCompanyMain.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     clickCallBack.onItemClick(position);
@@ -105,6 +106,8 @@ public class MyShieldCompanyAdapter extends RecyclerView.Adapter<MyShieldCompany
         TextView tvItemShieldCompanyScale;
         @BindView(R.id.tv_itemShieldCompanySetShield)
         TextView tvItemShieldCompanySetShield;
+        @BindView(R.id.ll_shieldCompanyMain)
+        LinearLayout llShieldCompanyMain;
 
         public ViewHolder(View view) {
             super(view);

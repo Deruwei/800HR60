@@ -4,14 +4,19 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="wrap_content">
-    <LinearLayout
+    <RelativeLayout
         android:layout_marginTop="@dimen/x20"
         android:background="@drawable/edit_bg_small"
         android:layout_marginLeft="@dimen/x31"
         android:layout_marginRight="@dimen/x31"
         android:layout_width="match_parent"
-        android:orientation="horizontal"
         android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/ll_shieldCompanyMain"
+            android:background="@drawable/recycler_item_selector"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <ImageView
             android:visibility="gone"
             android:id="@+id/iv_itemShieldCompanyIcon"
@@ -94,5 +99,6 @@
                 android:layout_width="@dimen/x120"
                 android:layout_height="@dimen/x52" />
         </RelativeLayout>
-    </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>

@@ -8,6 +8,8 @@
     app:cardElevation="@dimen/x3"
     android:layout_height="wrap_content">
     <LinearLayout
+        android:id="@+id/ll_releaseJobItem"
+        android:background="@drawable/recycler_item_selector"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

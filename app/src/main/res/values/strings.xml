@@ -402,11 +402,11 @@
     <string name="deleteThis">删除本条</string>
     <string name="cancel">取消</string>
     <string name="confirm">确定</string>
-    <string name="selectAll">全选</string>
+    <string name="selectAll">批量选择</string>
     <string name="selectTip1">还可勾选</string>
     <string name="selectTip2">个职位</string>
     <string name="deliverAll">投递全部</string>
-    <string name="fastDeliver">快速投递</string>
+    <string name="fastDeliver">速投</string>
     <string name="chooseIndustry">选择一个行业</string>
     <string name="chosenJob">已选择职位</string>
 
@@ -429,7 +429,7 @@
     <string name="listview_header_hint_normal">拉下刷新</string>
     <string name="listview_header_hint_release">松开加载</string>
     <string name="listview_loading">正在加载...</string>
-    <string name="nomore_loading">没有数据了</string>
+    <string name="nomore_loading">已加载全部内容</string>
     <string name="refreshing">刷新中...</string>
     <string name="refresh">刷新</string>
     <string name="refresh_done">刷新完成</string>

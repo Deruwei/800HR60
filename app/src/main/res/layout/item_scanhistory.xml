@@ -19,7 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/x40" />
         <LinearLayout
-            android:background="@color/white"
+            android:id="@+id/rl_scanHistoryMain"
+            android:background="@drawable/recycler_item_selector"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

@@ -75,7 +75,7 @@ public class MyDeliverFeedbackAdapter extends RecyclerView.Adapter<MyDeliverFeed
         }*/
         viewHolder.btnItemCollectionDeliver.setVisibility(View.GONE);
         if (clickCallBack != null) {
-            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            viewHolder.llDeliverFeedBack.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     clickCallBack.onItemClick(position);
@@ -116,6 +116,8 @@ public class MyDeliverFeedbackAdapter extends RecyclerView.Adapter<MyDeliverFeed
         TextView tvItemCollectionCompanyName;
         @BindView(R.id.btn_itemCollectionDeliver)
         Button btnItemCollectionDeliver;
+        @BindView(R.id.ll_deliverFeedBack)
+        LinearLayout llDeliverFeedBack;
 
         public ViewHolder(View view) {
             super(view);

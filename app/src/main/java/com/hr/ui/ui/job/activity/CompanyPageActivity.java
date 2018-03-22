@@ -26,6 +26,7 @@ import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.job.contract.CompanyPageContract;
 import com.hr.ui.ui.job.model.CompanyPageModel;
 import com.hr.ui.ui.job.presenter.CompanyPagePresenter;
+import com.hr.ui.ui.main.activity.JobSearchResultActivity;
 import com.hr.ui.ui.main.adapter.MyReleaseJobAdapter;
 import com.hr.ui.utils.EncryptUtils;
 import com.hr.ui.utils.ToastUitl;
@@ -122,7 +123,6 @@ public class CompanyPageActivity extends BaseActivity<CompanyPagePresenter, Comp
         activity.overridePendingTransition(R.anim.fade_in,
                 R.anim.fade_out);
     }
-
     @Override
     public void showLoading(String title) {
 
@@ -307,4 +307,5 @@ public class CompanyPageActivity extends BaseActivity<CompanyPagePresenter, Comp
                 break;
         }
     }
+
 }

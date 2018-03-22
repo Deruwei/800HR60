@@ -81,6 +81,7 @@
                             android:text="@string/resumeInfo" />
 
                         <RelativeLayout
+                            android:background="@drawable/recycler_item_selector"
                             android:id="@+id/rl_resumeJobOrder"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -123,6 +124,7 @@
                             android:orientation="vertical"></LinearLayout>
 
                         <TextView
+                            android:background="@drawable/recycler_item_selector"
                             android:id="@+id/tv_addResumeEduBG"
                             style="@style/resume_textViewAdd"
                             android:text="@string/addEducationBackground" />
@@ -139,6 +141,7 @@
                             android:orientation="vertical"></LinearLayout>
 
                         <TextView
+                            android:background="@drawable/recycler_item_selector"
                             android:id="@+id/tv_resumeAddWorkExp"
                             style="@style/resume_textViewAdd"
                             android:text="@string/addWorkExp" />
@@ -154,6 +157,7 @@
                             android:orientation="vertical"></LinearLayout>
 
                         <TextView
+                            android:background="@drawable/recycler_item_selector"
                             android:id="@+id/tv_addResumeProjectExp"
                             style="@style/resume_textViewAdd"
                             android:text="@string/addProjectExp" />
@@ -169,6 +173,7 @@
                             android:orientation="vertical"></LinearLayout>
 
                         <TextView
+                            android:background="@drawable/recycler_item_selector"
                             android:id="@+id/tv_addResumeProfessionSkill"
                             style="@style/resume_textViewAdd"
                             android:text="@string/addProfessionSkill" />
@@ -184,6 +189,7 @@
                             android:orientation="vertical"></LinearLayout>
 
                         <TextView
+                            android:background="@drawable/recycler_item_selector"
                             android:id="@+id/tv_addResumeLanguageSkill"
                             style="@style/resume_textViewAdd"
                             android:text="@string/addLanguageSkill" />
@@ -199,6 +205,7 @@
                             android:orientation="vertical"></LinearLayout>
 
                         <TextView
+                            android:background="@drawable/recycler_item_selector"
                             android:id="@+id/tv_addResumeTrainExp"
                             style="@style/resume_textViewAdd"
                             android:text="@string/addTrainExp" />
@@ -214,6 +221,7 @@
                             android:orientation="vertical"></LinearLayout>
 
                         <TextView
+                            android:background="@drawable/recycler_item_selector"
                             android:id="@+id/tv_addResumeIntroduction"
                             style="@style/resume_textViewAdd"
                             android:text="@string/addIntroduction" />
@@ -224,6 +232,7 @@
                             android:background="@color/resumeContent_bg" />
 
                         <RelativeLayout
+                            android:background="@drawable/recycler_item_selector"
                             android:id="@+id/rl_hideResume"
                             style="@style/resume_RelativeItem"
                             android:layout_height="@dimen/x100">

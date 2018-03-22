@@ -12,6 +12,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -666,6 +667,7 @@ public class SelectOptionsActivity extends BaseActivity {
      */
     private void initTerritoryPopupWindow(String industryId) {
         selectFuncList.clear();
+        Log.i("当前的id",industryId+"");
         final List<CityBean> terrirotyList2 = FromStringToArrayList.getInstance().getExpectField(industryId);
         if (selectRealFuncList != null && !"".equals(selectRealFuncList)) {
             for (int i = 0; i < selectRealFuncList.size(); i++) {

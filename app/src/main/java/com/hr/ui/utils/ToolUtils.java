@@ -50,13 +50,17 @@ public class ToolUtils {
     public  void judgeResumeMultipleOrOne(Activity activity, MultipleResumeBean multipleResumeBean, int userId, int[] imageIds, LoginPresenter mPresenter){
         SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
         sUtils.setStringValue(Constants.USERPHONE,multipleResumeBean.getBase_info().get(0).getYdphone());
+        if("2".equals(multipleResumeBean.getBase_info().get(0).getYdphone_verify_status())){
+            sUtils.setBooleanValue(Constants.VALID_TYPE,true);
+        }else{
+            sUtils.setBooleanValue(Constants.VALID_TYPE,false);
+        }
         //System.out.println(""+multipleResumeBean.getBase_info().get(0).getYdphone()+"---"+multipleResumeBean.getBase_info().get(0).getTelephone());
         if(multipleResumeBean.getResume_list()==null||"".equals(multipleResumeBean.getResume_list())||multipleResumeBean.getResume_list().size()==0){
             sUtils.setBooleanValue(Constants.JUST_ELEGANTRESUME,false);
             RobotActivity.startAction(activity,userId);
             sUtils.setIntValue(Constants.RESUME_STOPTYPE, 0);
             sUtils.setIntValue(Constants.RESUME_STARTTYPE,0);
-            sUtils.setBooleanValue(Constants.VALID_TYPE,true);
             sUtils.setStringValue(Constants.EDUCATION_ID,"");
             sUtils.setStringValue(Constants.WORKEXP_ID,"");
         }else{
@@ -68,7 +72,6 @@ public class ToolUtils {
                     sUtils.setStringValue(Constants.ELEGANTRESUME_ID,resumeListBean.getResume_id());
                     RobotActivity.startAction(activity,userId);
                     sUtils.setIntValue(Constants.RESUME_ID,10);
-                    sUtils.setBooleanValue(Constants.VALID_TYPE,true);
                     sUtils.setStringValue(Constants.RESUME_TYPE,"1");
                     sUtils.setIntValue(Constants.RESUME_STOPTYPE, 0);
                     sUtils.setIntValue(Constants.RESUME_STARTTYPE,0);
@@ -110,13 +113,6 @@ public class ToolUtils {
         }
         if(resumeBean.getResume_info().getBase_info().get(0).getName()==null||"".equals(resumeBean.getResume_info().getBase_info().get(0).getName())){
             titles.add("基本信息");
-        }else{
-            if("2".equals(resumeBean.getResume_info().getBase_info().get(0).getYdphone_verify_status())){
-                sharedPreferencesUtils.setBooleanValue(Constants.VALID_TYPE,true);
-            }else{
-                sharedPreferencesUtils.setBooleanValue(Constants.VALID_TYPE,false);
-            }
-
         }
         //System.out.println(resumeBean.toString());
         if(resumeBean.getResume_info().getEducation_list()==null||"".equals(resumeBean.getResume_info().getEducation_list())||"[]".equals(resumeBean.getResume_info().getEducation_list())||resumeBean.getResume_info().getEducation_list().size()==0){
@@ -187,11 +183,15 @@ public class ToolUtils {
         SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
         sUtils.setStringValue(Constants.USERPHONE,multipleResumeBean.getBase_info().get(0).getYdphone());
         sUtils.setStringValue(Constants.PERSONIMAGE,"");
+        if("2".equals(multipleResumeBean.getBase_info().get(0).getYdphone_verify_status())){
+            sUtils.setBooleanValue(Constants.VALID_TYPE,true);
+        }else{
+            sUtils.setBooleanValue(Constants.VALID_TYPE,false);
+        }
         //System.out.println(""+multipleResumeBean.getBase_info().get(0).getYdphone()+"---"+multipleResumeBean.getBase_info().get(0).getTelephone());
         if(multipleResumeBean.getResume_list()==null||"".equals(multipleResumeBean.getResume_list())||multipleResumeBean.getResume_list().size()==0){
             sUtils.setBooleanValue(Constants.JUST_ELEGANTRESUME,false);
             RobotActivity.startAction(activity,userId);
-            sUtils.setBooleanValue(Constants.VALID_TYPE,true);
             sUtils.setIntValue(Constants.RESUME_STOPTYPE, 0);
             sUtils.setIntValue(Constants.RESUME_STARTTYPE,0);
             sUtils.setStringValue(Constants.EDUCATION_ID,"");
@@ -208,7 +208,6 @@ public class ToolUtils {
                     sUtils.setStringValue(Constants.ELEGANTRESUME_ID,resumeListBean.getResume_id());
                     sUtils.setIntValue(Constants.RESUME_STOPTYPE, 0);
                     sUtils.setIntValue(Constants.RESUME_STARTTYPE,0);
-                    sUtils.setBooleanValue(Constants.VALID_TYPE,true);
                     sUtils.setStringValue(Constants.EDUCATION_ID,"");
                     sUtils.setStringValue(Constants.WORKEXP_ID,"");
                 }else {
@@ -233,6 +232,11 @@ public class ToolUtils {
         SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
         sUtils.setStringValue(Constants.USERPHONE,multipleResumeBean.getBase_info().get(0).getYdphone());
         sUtils.setStringValue(Constants.PERSONIMAGE,"");
+        if("2".equals(multipleResumeBean.getBase_info().get(0).getYdphone_verify_status())){
+            sUtils.setBooleanValue(Constants.VALID_TYPE,true);
+        }else{
+            sUtils.setBooleanValue(Constants.VALID_TYPE,false);
+        }
         StringWriter str=new StringWriter();
         String baseInfo=new Gson().toJson(multipleResumeBean.getBase_info().get(0));
         sUtils.setStringValue(Constants.BASEINFO_STR,baseInfo);
@@ -240,7 +244,6 @@ public class ToolUtils {
         if(multipleResumeBean.getResume_list()==null||"".equals(multipleResumeBean.getResume_list())||multipleResumeBean.getResume_list().size()==0){
             sUtils.setBooleanValue(Constants.JUST_ELEGANTRESUME,false);
             RobotActivity.startAction(activity,userId);
-            sUtils.setBooleanValue(Constants.VALID_TYPE,true);
             sUtils.setIntValue(Constants.RESUME_STOPTYPE, 0);
             sUtils.setIntValue(Constants.RESUME_STARTTYPE,0);
             sUtils.setStringValue(Constants.EDUCATION_ID,"");
@@ -253,7 +256,6 @@ public class ToolUtils {
                     sUtils.setBooleanValue(Constants.JUST_ELEGANTRESUME,true);
                     sUtils.setStringValue(Constants.ELEGANTRESUME_ID,resumeListBean.getResume_id());
                     RobotActivity.startAction(activity,userId);
-                    sUtils.setBooleanValue(Constants.VALID_TYPE,true);
                     sUtils.setIntValue(Constants.RESUME_STOPTYPE, 0);
                     sUtils.setIntValue(Constants.RESUME_STARTTYPE,0);
                     sUtils.setStringValue(Constants.RESUME_TYPE,"1");

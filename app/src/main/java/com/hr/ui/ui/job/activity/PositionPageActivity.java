@@ -24,7 +24,9 @@ import com.hr.ui.db.ScanHistoryUtils;
 import com.hr.ui.ui.job.contract.PositionPageContract;
 import com.hr.ui.ui.job.model.PositionPageModel;
 import com.hr.ui.ui.job.presenter.PositionPagePresenter;
+import com.hr.ui.ui.main.activity.JobSearchResultActivity;
 import com.hr.ui.ui.main.activity.MainActivity;
+import com.hr.ui.ui.main.fragment.HomeFragment;
 import com.hr.ui.ui.main.fragment.ResumeFragment;
 import com.hr.ui.ui.resume.activity.ResumeJobOrderActivity;
 import com.hr.ui.utils.ClickUtils;
@@ -119,8 +121,8 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
     @BindView(R.id.iv_positionPageSmile)
     ImageView ivPositionPageSmile;
     private AnimationDrawable drawable;
-    private String jobId, companyId;
-    private int collection, apply;
+    private String jobId, companyId,tag;
+    private int collection, apply,position;
     private int mWidth, mHeight;
     private SharedPreferencesUtils sUtils;
     private MyRecommendDialog dialog;
@@ -139,7 +141,15 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
         activity.overridePendingTransition(R.anim.zoom_in,
                 R.anim.zoom_out);
     }
-
+    public static void startAction(Activity activity, String jobId,int position,String tag) {
+        Intent intent = new Intent(activity, PositionPageActivity.class);
+        intent.putExtra("jobId", jobId);
+        intent.putExtra("position",position);
+        intent.putExtra("tag",tag);
+        activity.startActivity(intent);
+        activity.overridePendingTransition(R.anim.fade_in,
+                R.anim.fade_out);
+    }
 
     @Override
     public void showLoading(String title) {
@@ -304,6 +314,12 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
             llPositionPageDeliverResume.setBackgroundResource(R.drawable.tv_bg_right_gray);
             tvPositionPageDeliverResume.setText(R.string.allReadyDeliver);
         }
+        if(tag.equals(JobSearchResultActivity.TAG)) {
+                JobSearchResultActivity.instance.notificationDataItem(position);
+        }
+        if(tag.equals(HomeFragment.TAG)){
+            HomeFragment.instance.notificationDataItem(position);
+        }
     }
 
     @Override
@@ -364,6 +380,8 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
     public void initView() {
         sUtils = new SharedPreferencesUtils(this);
         drawable = (AnimationDrawable) ivLoadCul.getDrawable();
+        position=getIntent().getIntExtra("position",1000);
+        tag=getIntent().getStringExtra("tag");
     }
 
     @Override

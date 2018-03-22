@@ -32,6 +32,7 @@ import com.hr.ui.utils.PushAliasString;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.Utils;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -215,8 +216,10 @@ public class SettingActivity extends BaseActivity<SettingPresenter,SettingModel>
         sUtils.setStringValue(Constants.RESUME_OPENTYPE,isOpen);
         if (ivHideResume.isChecked()) {
             ToastUitl.showShort("简历已保密");
+            MobclickAgent.onEvent(this,"v6_hideResume");
         } else {
             ToastUitl.showShort("简历已公开");
+            MobclickAgent.onEvent(this,"v6_openResume");
         }
     }
 

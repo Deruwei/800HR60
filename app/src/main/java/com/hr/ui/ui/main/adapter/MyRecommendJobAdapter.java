@@ -123,22 +123,28 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
                 } else {
                     viewHolder.ivTopJob.setVisibility(View.GONE);
                 }
-
-                if (isCheck == true&&jobsListBeanList.get(position).getIs_apply()!=1) {
+                if (isCheck == true) {
                     viewHolder.rlHomeFragmentItemLeft.setVisibility(View.VISIBLE);
                 }else{
                     viewHolder.rlHomeFragmentItemLeft.setVisibility(View.GONE);
+                }
+                if(jobsListBeanList.get(position).getIs_apply()==1){
+                    viewHolder.rlHomeFragmentItemLeft.setEnabled(false);
+                    viewHolder.tvSearchResultAlreadyDeliver.setVisibility(View.VISIBLE);
+                    viewHolder.rbCheck.setVisibility(View.GONE);
+                    viewHolder.ivCantCheck.setVisibility(View.VISIBLE);
+                }else{
+                    viewHolder.rlHomeFragmentItemLeft.setEnabled(true);
+                    viewHolder.tvSearchResultAlreadyDeliver.setVisibility(View.GONE);
+                    viewHolder.rbCheck.setVisibility(View.VISIBLE);
+                    viewHolder.ivCantCheck.setVisibility(View.GONE);
                 }
                 if(jobsListBeanList.get(position).isCheck()){
                     viewHolder.rbCheck.setChecked(true);
                 }else{
                     viewHolder.rbCheck.setChecked(false);
                 }
-                if(jobsListBeanList.get(position).getIs_apply()==1){
-                    viewHolder.tvSearchResultAlreadyDeliver.setVisibility(View.VISIBLE);
-                }else{
-                    viewHolder.tvSearchResultAlreadyDeliver.setVisibility(View.GONE);
-                }
+
                 viewHolder.tvRecommendJobAddress.setText(jobsListBeanList.get(position).getWorkplace());
                 viewHolder.tvRecommendJobCompanyName.setMaxEms(limitLength);
                 viewHolder.tvRecommendJobCompanyName.setText(jobsListBeanList.get(position).getEnterprise_name());
@@ -170,6 +176,16 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
                 viewHolder.tvRecommendJobCompanyType.setText(jobsListBeanList.get(position).getCompany_type());
                 if(onCheckListener!=null) {
                     viewHolder.rbCheck.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if(jobsListBeanList.get(position).isCheck()){
+                                onCheckListener.onCheckListener(position,false);
+                            }else{
+                                onCheckListener.onCheckListener(position,true);
+                            }
+                        }
+                    });
+                    viewHolder.rlHomeFragmentItemLeft.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             if(jobsListBeanList.get(position).isCheck()){
@@ -290,7 +306,7 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
             }
         }
         if (clickCallBack != null) {
-            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            viewHolder.flContent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     clickCallBack.onItemClick(position);
@@ -401,6 +417,8 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
         TextView tvSearchResultAlreadyDeliver;
         @BindView(R.id.tv_searchResultFastDeliver)
         TextView tvSearchResultFastDeliver;
+        @BindView(R.id.iv_cantCheck)
+        ImageView ivCantCheck;
         public ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);

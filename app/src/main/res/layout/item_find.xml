@@ -12,6 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     <LinearLayout
+        android:id="@+id/ll_findMain"
+        android:background="@drawable/recycler_item_selector"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -39,7 +41,6 @@
         <LinearLayout
             android:paddingBottom="@dimen/x20"
             android:id="@+id/rl_itemFind"
-            android:background="@color/white"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

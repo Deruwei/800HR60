@@ -1,11 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<!--第一种方法-->
+<!--<item android:drawable="@drawable/shape_border_press" android:state_pressed="true" />-->
+<!--<item android:drawable="@drawable/shape_border_nor" android:state_window_focused="false"/>-->
 
-    <solid android:color="#ffffff" />
+<!--第二种方法-->
+<!--默认情况下是一个带圆角,白色背景,蓝色边框的矩形-->
+<item android:drawable="@color/new_main3"  android:state_pressed="true" >
+    <solid android:color="@color/new_main3" />
     <stroke
-        android:width="@dimen/x2"
-        android:color="@color/bg_color" />
+        android:width="@dimen/x1"
+        android:color="@color/view_color" />
     <!-- 圆角 -->
     <corners android:radius="@dimen/x29" />
-
-</shape>
+</item>
+<!--单击时是一个带圆角,白色背景,绿色边框的矩形-->
+<item android:drawable="@color/new_main3" android:state_focused="true">
+    <shape android:shape="rectangle">
+        <solid android:color="@color/new_main3" />
+        <stroke
+            android:width="@dimen/x1"
+            android:color="@color/view_color" />
+        <!-- 圆角 -->
+        <corners android:radius="@dimen/x29" />
+    </shape>
+</item>
+    <item android:drawable="@color/white" >
+        <shape android:shape="rectangle">
+            <solid android:color="#ffffff" />
+            <stroke
+                android:width="@dimen/x1"
+                android:color="@color/view_color" />
+            <!-- 圆角 -->
+            <corners android:radius="@dimen/x29" />
+        </shape>
+    </item>
+</selector>

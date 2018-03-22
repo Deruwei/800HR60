@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/edit_bg"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -193,12 +193,14 @@
                     android:background="@color/bg_color" />
 
                 <RelativeLayout
+                    android:background="@drawable/recycler_item_selector"
                     android:id="@+id/rl_positionPageCompanyInfo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/x38"
-                    android:layout_marginRight="@dimen/x38"
-                    android:layout_marginTop="@dimen/x25">
+                    android:paddingLeft="@dimen/x38"
+                    android:paddingRight="@dimen/x38"
+                    android:paddingBottom="@dimen/x25"
+                    android:paddingTop="@dimen/x25">
 
                     <com.hr.ui.view.RoundImageView
                         android:id="@+id/iv_positionPageCompanyIcon"
@@ -280,7 +282,6 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/x1"
-                    android:layout_marginTop="@dimen/x25"
                     android:background="@color/bg_color" />
 
                 <android.support.v4.widget.NestedScrollView

@@ -143,6 +143,11 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
             selectPositionList=new ArrayList<>();
         }
         tag = getIntent().getStringExtra("tag");
+        if(tag.equals(JobSerchActivity.TAG)){
+            tvSelectPositionOK.setText(R.string.search);
+        }else{
+            tvSelectPositionOK.setText(R.string.sure);
+        }
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

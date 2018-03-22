@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_enabled="false">
+
+        <shape>
+
+            <corners android:radius="2dp"></corners>
+
+            <solid android:color="@color/white"></solid>
+
+        </shape>
+
+    </item>
+
+    <item android:layout_width="match_parent" android:state_activated="true">
+
+        <shape>
+
+            <corners android:radius="2dp"></corners>
+
+            <solid android:color="@color/new_main"></solid>
+
+        </shape>
+
+    </item>
+
+    <item android:state_activated="false">
+
+        <shape>
+
+            <corners android:radius="2dp"></corners>
+
+            <solid android:color="@color/white"></solid>
+
+        </shape>
+
+    </item>
+</selector>
+

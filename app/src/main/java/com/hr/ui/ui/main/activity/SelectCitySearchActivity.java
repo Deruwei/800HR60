@@ -124,7 +124,11 @@ public class SelectCitySearchActivity extends BaseNoConnectNetworkAcitivty {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolBar.setTitle("");
         cityName=sUtils.getStringValue(Constants.CITYNAME,"");
-        tvLocationCity.setText(cityName);
+        if("".equals(cityName)){
+            tvLocationCity.setText("定位失败");
+        }else {
+            tvLocationCity.setText(cityName);
+        }
         selectCityList= (List<CityBean>) getIntent().getSerializableExtra("selectCityList");
         toolBar.setTitleTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
         toolBar.setNavigationIcon(R.mipmap.back);

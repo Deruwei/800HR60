@@ -22,6 +22,7 @@
     <application
         android:name=".app.HRApplication"
         android:allowBackup="true"
+        android:resizeableActivity="true"
         android:icon="@drawable/app"
         android:label="@string/app_name"
         android:supportsRtl="true"
@@ -55,6 +56,9 @@
         <!-- 填写您从Mob开发者后台中得到的Appkey和AppSecret -->
         <meta-data android:name="Mob-AppKey" android:value="f5b88fa661ff"/>
         <meta-data android:name="Mob-AppSecret" android:value="250503555782bda4dd4da382ea632d86"/>
+        <!--适配全面屏手机-->
+        <meta-data android:name="android.max_aspect"
+            android:value="2.1"/>
         <!--百度定位-->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
@@ -62,8 +66,7 @@
         </meta-data>
         //过18分钟触发一次
         <service android:name="com.service.LongRunningService" android:enabled="true" ></service>
-        <receiver android:name="com.service.AlarmReceiver" android:process=":newinst">
-        </receiver>
+        <receiver android:name="com.service.AlarmReceiver" android:process=":newinst"></receiver>
         <service
             android:name="com.service.MyJobService"
             android:enabled="true"
@@ -269,7 +272,7 @@
             android:screenOrientation="portrait" />
         <activity android:name=".ui.job.activity.CompanyPageActivity"
             android:windowSoftInputMode="adjustPan|stateHidden"
-            android:theme="@style/DialogTransparent"
+            android:theme="@style/AppTheme"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity android:name=".ui.me.activity.CollectionActivity"

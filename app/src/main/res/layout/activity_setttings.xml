@@ -8,9 +8,19 @@
     android:focusable="true"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <include layout="@layout/layout_toolbar"
-        android:id="@+id/in_setting"
-        />
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv_settings"
+        android:layout_width="0dp"
+        app:cardElevation="@dimen/x2"
+        app:cardCornerRadius="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_height="wrap_content">
+        <include layout="@layout/layout_toolbar"
+            android:id="@+id/in_setting"
+            />
+    </android.support.v7.widget.CardView>
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="0dp"
@@ -18,7 +28,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/in_setting"
+        app:layout_constraintTop_toBottomOf="@+id/cv_settings"
         >
         <View
             android:layout_width="match_parent"
@@ -41,119 +51,177 @@
                 android:thumb="@drawable/thumb"
                 android:track="@drawable/track" />
         </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/rl_settingHideResume"
-            style="@style/rl_setting">
-            <TextView
-                android:text="@string/hideResume"
-                style="@style/tv_setting" />
-            <Switch
-                android:id="@+id/iv_hideResume"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/x30"
-                android:thumb="@drawable/thumb"
-                android:track="@drawable/track" />
-        </RelativeLayout>
+        <android.support.v7.widget.CardView
+            app:cardCornerRadius="0dp"
+            app:cardElevation="@dimen/x1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:background="@drawable/recycler_item_selector"
+                android:id="@+id/rl_settingHideResume"
+                style="@style/rl_setting">
+                <TextView
+                    android:text="@string/hideResume"
+                    style="@style/tv_setting" />
+                <Switch
+                    android:id="@+id/iv_hideResume"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/x30"
+                    android:thumb="@drawable/thumb"
+                    android:track="@drawable/track" />
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/x1"
             android:background="@color/bg_color"/>
-        <RelativeLayout
-            android:id="@+id/rl_settingShieldCompany"
-            style="@style/rl_setting">
-            <TextView
-                android:text="@string/shieldCompany1"
-                style="@style/tv_setting" />
-            <ImageView
-                style="@style/iv_setting" />
-        </RelativeLayout>
+        <android.support.v7.widget.CardView
+            app:cardCornerRadius="0dp"
+            app:cardElevation="@dimen/x1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:background="@drawable/recycler_item_selector"
+                android:id="@+id/rl_settingShieldCompany"
+                style="@style/rl_setting">
+                <TextView
+                    android:text="@string/shieldCompany1"
+                    style="@style/tv_setting" />
+                <ImageView
+                    style="@style/iv_setting" />
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/x20"
             android:background="@color/resumeContent_bg"/>
-        <RelativeLayout
-            android:id="@+id/rl_settingResetPsw"
-            style="@style/rl_setting">
-            <TextView
-                android:text="@string/resetPsw"
-                style="@style/tv_setting" />
-            <ImageView
-                style="@style/iv_setting" />
-        </RelativeLayout>
+        <android.support.v7.widget.CardView
+            app:cardCornerRadius="0dp"
+            app:cardElevation="@dimen/x1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:background="@drawable/recycler_item_selector"
+                android:id="@+id/rl_settingResetPsw"
+                style="@style/rl_setting">
+                <TextView
+                    android:text="@string/resetPsw"
+                    style="@style/tv_setting" />
+                <ImageView
+                    style="@style/iv_setting" />
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/x1"
             android:background="@color/bg_color"/>
-        <RelativeLayout
-            android:id="@+id/rl_settingChangeTel"
-            style="@style/rl_setting">
-            <TextView
-                android:text="@string/changeTel"
-                style="@style/tv_setting" />
-            <ImageView
-                style="@style/iv_setting" />
-        </RelativeLayout>
+        <android.support.v7.widget.CardView
+            app:cardCornerRadius="0dp"
+            app:cardElevation="@dimen/x1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:background="@drawable/recycler_item_selector"
+                android:id="@+id/rl_settingChangeTel"
+                style="@style/rl_setting">
+                <TextView
+                    android:text="@string/changeTel"
+                    style="@style/tv_setting" />
+                <ImageView
+                    style="@style/iv_setting" />
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/x20"
             android:background="@color/resumeContent_bg"/>
-        <RelativeLayout
-            android:id="@+id/rl_settingEvaluateMine"
-            style="@style/rl_setting">
-            <TextView
-                android:text="@string/evaluateMine"
-                style="@style/tv_setting" />
-            <ImageView
-                style="@style/iv_setting" />
-        </RelativeLayout>
+        <android.support.v7.widget.CardView
+            app:cardCornerRadius="0dp"
+            app:cardElevation="@dimen/x1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:background="@drawable/recycler_item_selector"
+                android:id="@+id/rl_settingEvaluateMine"
+                style="@style/rl_setting">
+                <TextView
+                    android:text="@string/evaluateMine"
+                    style="@style/tv_setting" />
+                <ImageView
+                    style="@style/iv_setting" />
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/x1"
             android:background="@color/bg_color"/>
-        <RelativeLayout
-            android:id="@+id/rl_settingVersionDes"
-            style="@style/rl_setting">
-            <TextView
-                android:text="@string/versionDes"
-                style="@style/tv_setting" />
-            <ImageView
-                style="@style/iv_setting" />
-        </RelativeLayout>
+        <android.support.v7.widget.CardView
+            app:cardCornerRadius="0dp"
+            app:cardElevation="@dimen/x1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:background="@drawable/recycler_item_selector"
+                android:id="@+id/rl_settingVersionDes"
+                style="@style/rl_setting">
+                <TextView
+                    android:text="@string/versionDes"
+                    style="@style/tv_setting" />
+                <ImageView
+                    style="@style/iv_setting" />
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/x20"
             android:background="@color/resumeContent_bg"/>
-        <RelativeLayout
-            android:id="@+id/rl_settingCompanyDes"
-            style="@style/rl_setting">
-            <TextView
-                android:text="@string/companyInto"
-                style="@style/tv_setting" />
-            <ImageView
-                style="@style/iv_setting" />
-        </RelativeLayout>
+        <android.support.v7.widget.CardView
+            app:cardElevation="@dimen/x1"
+            app:cardCornerRadius="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:background="@drawable/recycler_item_selector"
+                android:id="@+id/rl_settingCompanyDes"
+                style="@style/rl_setting">
+                <TextView
+                    android:text="@string/companyInto"
+                    style="@style/tv_setting" />
+                <ImageView
+                    style="@style/iv_setting" />
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         <View
-            android:layout_above="@+id/rl_settingChangeAccount"
+            android:layout_above="@+id/cv_settingChangeAccount"
             android:background="@color/resumeContent_bg"
             android:layout_width="match_parent"
             android:layout_height="@dimen/x306"/>
-        <RelativeLayout
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="bottom"
-            android:id="@+id/rl_settingChangeAccount"
-            style="@style/rl_setting"
-            >
-            <TextView
-                android:layout_centerInParent="true"
-                android:text="@string/changeAccount"
-                style="@style/tv_setting" />
-        </RelativeLayout>
+            <android.support.v7.widget.CardView
+                android:id="@+id/cv_settingChangeAccount"
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                app:cardCornerRadius="0dp"
+                app:cardElevation="@dimen/x6"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:background="@drawable/recycler_item_selector"
+                    android:id="@+id/rl_settingChangeAccount"
+                    android:layout_alignParentBottom="true"
+                    android:layout_gravity="bottom"
+                    style="@style/rl_setting"
+                    >
+                    <TextView
+                        android:layout_centerInParent="true"
+                        android:text="@string/changeAccount"
+                        style="@style/tv_setting" />
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
         </RelativeLayout>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

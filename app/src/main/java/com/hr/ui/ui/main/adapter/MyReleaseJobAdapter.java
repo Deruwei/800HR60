@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -64,7 +65,7 @@ public class MyReleaseJobAdapter extends RecyclerView.Adapter<MyReleaseJobAdapte
         String day=time.substring(time.indexOf("-")+1);
         viewHolder.tvItemReleaseJobTime.setText(month+" - "+day);
         if (clickCallBack != null) {
-            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            viewHolder.llReleaseJobItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     clickCallBack.onItemClick(position);
@@ -93,6 +94,8 @@ public class MyReleaseJobAdapter extends RecyclerView.Adapter<MyReleaseJobAdapte
         TextView tvItemReleaseJobDegree;
         @BindView(R.id.tv_itemReleaseJobTime)
         TextView tvItemReleaseJobTime;
+        @BindView(R.id.ll_releaseJobItem)
+        LinearLayout llReleaseJobItem;
 
         public ViewHolder(View view) {
             super(view);
