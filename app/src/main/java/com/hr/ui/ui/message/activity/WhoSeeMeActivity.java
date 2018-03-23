@@ -95,9 +95,13 @@ public class WhoSeeMeActivity extends BaseActivity<WhoSeeMePresenter, WhoSeeMeMo
                 browsedListBeanList.addAll(browsedListBeans);
                 adapter.setListBeans(browsedListBeanList);
                 rvFind.setAdapter(adapter);
+
             } else {
                 browsedListBeanList.addAll(browsedListBeanList);
                 adapter.notifyDataSetChanged();
+            }
+            if(browsedListBeans.size()<20){
+                rvFind.setLoadingMoreEnabled(false);
             }
         } else {
             if(page==1){
@@ -152,9 +156,9 @@ public class WhoSeeMeActivity extends BaseActivity<WhoSeeMePresenter, WhoSeeMeMo
         rvFind.setLayoutManager(linearLayoutManager);
         /*Drawable dividerDrawable = ContextCompat.getDrawable(this, R.drawable.divider_sample);
         rvCollection.addItemDecoration(rvCollection.new DividerItemDecoration(dividerDrawable));*/
-        rvFind.setRefreshProgressStyle(ProgressStyle.LineScaleParty);
         rvFind.setNestedScrollingEnabled(false);
-        rvFind.setLoadingMoreProgressStyle(ProgressStyle.BallTrianglePath);
+        rvFind.setRefreshProgressStyle(ProgressStyle.BallPulse);
+        rvFind.setLoadingMoreProgressStyle(ProgressStyle.BallBeat);
         adapter = new MyWhoSeeMeAdapter(this);
         rvFind.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override

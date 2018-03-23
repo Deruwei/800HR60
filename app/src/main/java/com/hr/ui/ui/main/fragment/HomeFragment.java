@@ -154,8 +154,8 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
         tvNoData.setText("暂无合适职位推荐，点我刷新");
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvHomeFragment.setLayoutManager(linearLayoutManager);
-        rvHomeFragment.setRefreshProgressStyle(ProgressStyle.LineScaleParty);
-        rvHomeFragment.setLoadingMoreProgressStyle(ProgressStyle.BallTrianglePath);
+        rvHomeFragment.setRefreshProgressStyle(ProgressStyle.BallPulse);
+        rvHomeFragment.setLoadingMoreProgressStyle(ProgressStyle.BallBeat);
 
         rvHomeFragment.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
@@ -375,6 +375,9 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
         }else{
             rvHomeFragment.loadMoreComplete();
             jobAdapter.notifyDataSetChanged();
+        }
+        if(recommendJobList.size()<20){
+            rvHomeFragment.setLoadingMoreEnabled(false);
         }
     }
     @Override

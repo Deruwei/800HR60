@@ -1,13 +1,17 @@
 package com.hr.ui.ui.main.activity;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.transition.Fade;
+import android.transition.Slide;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    app:cardUseCompatPadding="true"
     android:layout_marginTop="@dimen/x20"
     android:layout_marginLeft="@dimen/x30"
     android:layout_marginRight="@dimen/x30"
@@ -14,6 +15,7 @@
         android:layout_height="wrap_content">
         <LinearLayout
             android:id="@+id/ll_whoSeeMeMain"
+            android:orientation="vertical"
             android:background="@drawable/recycler_item_selector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

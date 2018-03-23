@@ -94,6 +94,9 @@ public class FindFragment extends BaseFragment<FindPresenter, FindModel> impleme
                 rvDeliverFeedback.loadMoreComplete();
                 adapter.notifyDataSetChanged();
             }
+            if(listBeans.size()<20){
+                rvDeliverFeedback.setLoadingMoreEnabled(false);
+            }
         } else {
             if(page==1){
                 rvDeliverFeedback.setVisibility(View.GONE);
@@ -156,10 +159,10 @@ public class FindFragment extends BaseFragment<FindPresenter, FindModel> impleme
         rvDeliverFeedback.setLayoutManager(linearLayoutManager);
         /*Drawable dividerDrawable = ContextCompat.getDrawable(this, R.drawable.divider_sample);
         rvCollection.addItemDecoration(rvCollection.new DividerItemDecoration(dividerDrawable));*/
-        rvDeliverFeedback.setRefreshProgressStyle(ProgressStyle.LineScaleParty);
         rvDeliverFeedback.setNestedScrollingEnabled(false);
         ivNoDataSearch.setVisibility(View.GONE);
-        rvDeliverFeedback.setLoadingMoreProgressStyle(ProgressStyle.BallTrianglePath);
+        rvDeliverFeedback.setRefreshProgressStyle(ProgressStyle.BallPulse);
+        rvDeliverFeedback.setLoadingMoreProgressStyle(ProgressStyle.BallBeat);
         ivNoContent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -332,7 +332,7 @@ public class Utils {
             format = "yyyy-MM-dd HH:mm:ss";
         }
         SimpleDateFormat sdf = new SimpleDateFormat(format);
-        return sdf.format(new Date(Long.valueOf(seconds+"000")));
+        return sdf.format(new Date(Long.valueOf(seconds)));
     }
 
     public static String getDateMonthAndDay2(String time){

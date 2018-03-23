@@ -158,11 +158,7 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
                 viewHolder.tvRecommendJobName.setText(jobsListBeanList.get(position).getJob_name());
                 viewHolder.tvRecommendJobSalary.setText(Utils.getSalary(jobsListBeanList.get(position).getSalary()));
                 String day = Utils.getDateMonthAndDay(jobsListBeanList.get(position).getIssue_date());
-                SimpleDateFormat formatter = new SimpleDateFormat("M - d");//格式为 2013年9月3日 14:44
-                Date curDate = new Date(System.currentTimeMillis());//获取当前时间
-                String currentDate = formatter.format(curDate);
-                //Log.d(TAG, "onBindViewHolder: .i" + currentDate);
-                if (currentDate.equals(day)) {
+                if (jobsListBeanList.get(position).getIs_shoufa()==1) {
                     viewHolder.ivRecommendJobNowPublic.setVisibility(View.VISIBLE);
                     viewHolder.tvRecommendJobTime.setVisibility(View.GONE);
                 } else {
@@ -170,7 +166,6 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
                     viewHolder.tvRecommendJobTime.setVisibility(View.VISIBLE);
                     viewHolder.tvRecommendJobTime.setText(day);
                 }
-
                 viewHolder.tvRecommendPersonNum.setText(jobsListBeanList.get(position).getStuff_munber());
                 viewHolder.tvRecommendJobWorkYear.setText(jobsListBeanList.get(position).getWorkyear());
                 viewHolder.tvRecommendJobCompanyType.setText(jobsListBeanList.get(position).getCompany_type());
@@ -204,10 +199,10 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
                     viewHolder.llHomeItemTop.setVisibility(View.GONE);
                 }
                 if(jobsListBeanList2.get(position).getIs_apply()==1){
-                    viewHolder.tvSearchResultFastDeliver.setVisibility(View.GONE);
+                    viewHolder.cvSearchResultFastDeliver.setVisibility(View.GONE);
                     viewHolder.tvSearchResultAlreadyDeliver.setVisibility(View.VISIBLE);
                 }else{
-                    viewHolder.tvSearchResultFastDeliver.setVisibility(View.VISIBLE);
+                    viewHolder.cvSearchResultFastDeliver.setVisibility(View.VISIBLE);
                     viewHolder.tvSearchResultAlreadyDeliver.setVisibility(View.GONE);
                 }
                 viewHolder.tvRecommendJobAddress.setText(jobsListBeanList2.get(position).getWorkplace());
@@ -243,10 +238,10 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
                     viewHolder.viewLineJob.setVisibility(View.GONE);
                 }
                 if(jobsListBeanList2.get(position).getIs_apply()==1){
-                    viewHolder.tvSearchResultFastDeliver.setVisibility(View.GONE);
+                    viewHolder.cvSearchResultFastDeliver.setVisibility(View.GONE);
                     viewHolder.tvSearchResultAlreadyDeliver.setVisibility(View.VISIBLE);
                 }else{
-                    viewHolder.tvSearchResultFastDeliver.setVisibility(View.VISIBLE);
+                    viewHolder.cvSearchResultFastDeliver.setVisibility(View.VISIBLE);
                     viewHolder.tvSearchResultAlreadyDeliver.setVisibility(View.GONE);
                 }
                 viewHolder.tvRecommendJobAddress.setText(jobsListBeanList2.get(position).getWorkplace());
@@ -281,10 +276,10 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
                     viewHolder.llHomeItemTop.setVisibility(View.GONE);
                 }
                 if(jobsListBeanList.get(position-i).getIs_apply()==1){
-                    viewHolder.tvSearchResultFastDeliver.setVisibility(View.GONE);
+                    viewHolder.cvSearchResultFastDeliver.setVisibility(View.GONE);
                     viewHolder.tvSearchResultAlreadyDeliver.setVisibility(View.VISIBLE);
                 }else{
-                    viewHolder.tvSearchResultFastDeliver.setVisibility(View.VISIBLE);
+                    viewHolder.cvSearchResultFastDeliver.setVisibility(View.VISIBLE);
                     viewHolder.tvSearchResultAlreadyDeliver.setVisibility(View.GONE);
                 }
                 viewHolder.viewLineJob.setVisibility(View.VISIBLE);
@@ -419,6 +414,8 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
         TextView tvSearchResultFastDeliver;
         @BindView(R.id.iv_cantCheck)
         ImageView ivCantCheck;
+        @BindView(R.id.cv_searchResultFastDeliver)
+        CardView cvSearchResultFastDeliver;
         public ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);

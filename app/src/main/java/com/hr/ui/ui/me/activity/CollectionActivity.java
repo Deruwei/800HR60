@@ -262,8 +262,8 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter, Collec
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvCollection.setLayoutManager(linearLayoutManager);
-        rvCollection.setRefreshProgressStyle(ProgressStyle.LineScaleParty);
-        rvCollection.setLoadingMoreProgressStyle(ProgressStyle.BallTrianglePath);
+        rvCollection.setRefreshProgressStyle(ProgressStyle.BallPulse);
+        rvCollection.setLoadingMoreProgressStyle(ProgressStyle.BallBeat);
         adapter = new MyCollectionAdapter();
         rvCollection.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override

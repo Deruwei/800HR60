@@ -19,6 +19,7 @@
             <android.support.v7.widget.CardView
                 app:cardElevation="@dimen/x1"
                 app:cardCornerRadius="@dimen/x29"
+                app:cardUseCompatPadding="true"
                 android:layout_marginLeft="@dimen/x37"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/x30"

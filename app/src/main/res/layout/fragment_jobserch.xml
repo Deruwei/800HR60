@@ -178,6 +178,7 @@
                 android:layout_height="match_parent">
 
                 <com.hr.ui.view.XRecyclerView
+                    android:background="@color/resumeContent_bg"
                     android:id="@+id/rv_jobSearchFragment"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

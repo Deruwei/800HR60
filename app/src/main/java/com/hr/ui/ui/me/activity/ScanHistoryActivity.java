@@ -137,9 +137,9 @@ public class ScanHistoryActivity extends BaseNoConnectNetworkAcitivty {
         rvFind.setLayoutManager(linearLayoutManager);
         /*Drawable dividerDrawable = ContextCompat.getDrawable(this, R.drawable.divider_sample);
         rvCollection.addItemDecoration(rvCollection.new DividerItemDecoration(dividerDrawable));*/
-        rvFind.setRefreshProgressStyle(ProgressStyle.LineScaleParty);
+        rvFind.setRefreshProgressStyle(ProgressStyle.BallPulse);
+        rvFind.setLoadingMoreProgressStyle(ProgressStyle.BallBeat);
         rvFind.setNestedScrollingEnabled(false);
-        rvFind.setLoadingMoreProgressStyle(ProgressStyle.BallTrianglePath);
         adapter = new MyScanHistoryAdapter(this);
         rvFind.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override

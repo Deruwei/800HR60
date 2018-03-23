@@ -111,9 +111,9 @@ public class ShieldCompanyActivity extends BaseActivity<ShieldCompanyPresenter, 
         rvShieldCompany.setLayoutManager(linearLayoutManager);
         /*Drawable dividerDrawable = ContextCompat.getDrawable(this, R.drawable.divider_sample);
         rvCollection.addItemDecoration(rvCollection.new DividerItemDecoration(dividerDrawable));*/
-        rvShieldCompany.setRefreshProgressStyle(ProgressStyle.LineScaleParty);
+        rvShieldCompany.setRefreshProgressStyle(ProgressStyle.BallPulse);
         rvShieldCompany.setNestedScrollingEnabled(false);
-        rvShieldCompany.setLoadingMoreProgressStyle(ProgressStyle.BallTrianglePath);
+        rvShieldCompany.setLoadingMoreProgressStyle(ProgressStyle.BallBeat);
         adapter = new MyShieldCompanyAdapter();
         shieldCompanyDataAdapter = new MyShieldCompanyDataAdapter();
         tvNoData.setVisibility(View.GONE);
@@ -153,9 +153,9 @@ public class ShieldCompanyActivity extends BaseActivity<ShieldCompanyPresenter, 
         rvShieldCompanyQuery.setLayoutManager(linearLayoutManager2);
         /*Drawable dividerDrawable = ContextCompat.getDrawable(this, R.drawable.divider_sample);
         rvCollection.addItemDecoration(rvCollection.new DividerItemDecoration(dividerDrawable));*/
-        rvShieldCompanyQuery.setRefreshProgressStyle(ProgressStyle.LineScaleParty);
         rvShieldCompanyQuery.setNestedScrollingEnabled(false);
-        rvShieldCompanyQuery.setLoadingMoreProgressStyle(ProgressStyle.BallTrianglePath);
+        rvShieldCompanyQuery.setRefreshProgressStyle(ProgressStyle.BallPulse);
+        rvShieldCompanyQuery.setLoadingMoreProgressStyle(ProgressStyle.BallBeat);
         adapter = new MyShieldCompanyAdapter();
         rvShieldCompanyQuery.setVisibility(View.GONE);
         shieldCompanyDataAdapter = new MyShieldCompanyDataAdapter();

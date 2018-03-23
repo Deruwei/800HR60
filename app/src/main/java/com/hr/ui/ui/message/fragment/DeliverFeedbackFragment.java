@@ -90,9 +90,9 @@ public class DeliverFeedbackFragment extends BaseFragment<DeliverFeedbackFragmen
         rvDeliverFeedback.setLayoutManager(linearLayoutManager);
         /*Drawable dividerDrawable = ContextCompat.getDrawable(this, R.drawable.divider_sample);
         rvCollection.addItemDecoration(rvCollection.new DividerItemDecoration(dividerDrawable));*/
-        rvDeliverFeedback.setRefreshProgressStyle(ProgressStyle.LineScaleParty);
         rvDeliverFeedback.setNestedScrollingEnabled(false);
-        rvDeliverFeedback.setLoadingMoreProgressStyle(ProgressStyle.BallTrianglePath);
+        rvDeliverFeedback.setRefreshProgressStyle(ProgressStyle.BallPulse);
+        rvDeliverFeedback.setLoadingMoreProgressStyle(ProgressStyle.BallBeat);
         adapter = new MyDeliverFeedbackAdapter();
         ivNoDataSearch.setVisibility(View.GONE);
         rvDeliverFeedback.setLoadingListener(new XRecyclerView.LoadingListener() {
@@ -186,6 +186,9 @@ public class DeliverFeedbackFragment extends BaseFragment<DeliverFeedbackFragmen
                 appliedListBeanList.addAll(appliedListBeanList1);
                 rvDeliverFeedback.loadMoreComplete();
                 adapter.notifyDataSetChanged();
+            }
+            if(appliedListBeanList1.size()<20){
+                rvDeliverFeedback.setLoadingMoreEnabled(false);
             }
         } else {
             if(page==1){

@@ -28,6 +28,8 @@
     </LinearLayout>
     <android.support.v7.widget.CardView
         app:cardElevation="@dimen/x1"
+        app:cardCornerRadius="0dp"
+        app:cardUseCompatPadding="true"
         android:id="@+id/cv_homeFragment"
         android:layout_below="@+id/ll_homeItemTop"
         android:layout_width="match_parent"
@@ -39,12 +41,13 @@
             android:layout_height="wrap_content">
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/x320">
+                android:layout_height="wrap_content">
 
                 <RelativeLayout
+                    android:layout_centerVertical="true"
                     android:id="@+id/rl_homeFragmentItemLeft"
                     android:layout_width="@dimen/x63"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:visibility="gone">
                     <FrameLayout
                         android:layout_centerInParent="true"
@@ -163,19 +166,26 @@
                         android:id="@+id/tv_searchResultAlreadyDeliver"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
-                    <TextView
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/cv_searchResultFastDeliver"
+                        app:cardCornerRadius="@dimen/x7"
                         android:visibility="gone"
-                        android:paddingTop="@dimen/x5"
-                        android:paddingBottom="@dimen/x5"
-                        android:paddingLeft="@dimen/x11"
-                        android:paddingRight="@dimen/x11"
-                        android:id="@+id/tv_searchResultFastDeliver"
-                        android:textSize="@dimen/x28"
-                        android:background="@drawable/edit_bg_orange"
-                        android:textColor="@color/white"
-                        android:text="@string/fastDeliver"
+                        app:cardUseCompatPadding="true"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:paddingTop="@dimen/x5"
+                            android:paddingBottom="@dimen/x5"
+                            android:paddingLeft="@dimen/x11"
+                            android:paddingRight="@dimen/x11"
+                            android:id="@+id/tv_searchResultFastDeliver"
+                            android:textSize="@dimen/x28"
+                            android:background="@drawable/edit_bg_orange"
+                            android:textColor="@color/white"
+                            android:text="@string/fastDeliver"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </android.support.v7.widget.CardView>
                 </FrameLayout>
 
             </RelativeLayout>
@@ -325,7 +335,6 @@
     <View
         android:id="@+id/view_lineJob"
         android:layout_below="@+id/cv_homeFragment"
-        android:background="@color/resumeContent_bg"
         android:layout_width="match_parent"
         android:layout_height="@dimen/x20"/>
 </RelativeLayout>

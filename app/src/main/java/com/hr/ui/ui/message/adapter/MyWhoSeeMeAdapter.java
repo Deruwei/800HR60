@@ -78,8 +78,9 @@ public class MyWhoSeeMeAdapter extends RecyclerView.Adapter<MyWhoSeeMeAdapter.Vi
             } else {
                     viewHolder.tvWhoSeeMePositionNum.setText(listBeans.get(position).getRecruit_info().getTotal());
             }
-            viewHolder.tvWhoSeeMePosition.setText(listBeans.get(position).getRecruit_info().getJob_name());
+
         }
+        viewHolder.tvWhoSeeMePosition.setText(listBeans.get(position).getRecruit_info().getJob_name());
         if (clickCallBack != null) {
             viewHolder.llWhoSeeMeMain.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -213,8 +213,18 @@ public class RecommendJobBean {
         private int is_apply;
         private int is_urgent;
         private int top_id;
+        private int is_shoufa;
         private boolean isTop;
         private boolean isCheck;
+
+
+        public int getIs_shoufa() {
+            return is_shoufa;
+        }
+
+        public void setIs_shoufa(int is_shoufa) {
+            this.is_shoufa = is_shoufa;
+        }
 
         public boolean isCheck() {
             return isCheck;
@@ -693,6 +703,11 @@ public class RecommendJobBean {
                     ", is_favourite=" + is_favourite +
                     ", is_expire=" + is_expire +
                     ", is_apply=" + is_apply +
+                    ", is_urgent=" + is_urgent +
+                    ", top_id=" + top_id +
+                    ", is_shoufa=" + is_shoufa +
+                    ", isTop=" + isTop +
+                    ", isCheck=" + isCheck +
                     ", ente_property=" + ente_property +
                     '}';
         }

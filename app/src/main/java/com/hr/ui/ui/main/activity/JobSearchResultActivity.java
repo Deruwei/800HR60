@@ -3,6 +3,7 @@ package com.hr.ui.ui.main.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
@@ -13,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.transition.Fade;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -206,6 +208,9 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
                 rvJobSearchFragment.loadMoreComplete();
                 SearchAdapter.notifyDataSetChanged();
             }
+            if(jobsListBeanList.size()<20){
+                rvJobSearchFragment.setLoadingMoreEnabled(false);
+            }
             getNoSelectNum(searchList);
             rlEmptyView.setVisibility(View.GONE);
             rvJobSearchFragment.setVisibility(View.VISIBLE);
@@ -267,9 +272,11 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
                 searchList.get(i).setIs_apply(1);
             }
         }
+        isCanSelectDeliver=false;
         rlSearchResultDeleteInABatches.setVisibility(View.GONE);
         SearchAdapter.setCheck(false);
         tvJobSearchFragmentSelectLingYu.setText(R.string.selectDeliver);
+        cbSearchResultSelectAll.setChecked(false);
         SearchAdapter.notifyDataSetChanged();
     }
 
@@ -405,8 +412,8 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
         };
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvJobSearchFragment.setLayoutManager(linearLayoutManager);
-        rvJobSearchFragment.setRefreshProgressStyle(ProgressStyle.LineScaleParty);
-        rvJobSearchFragment.setLoadingMoreProgressStyle(ProgressStyle.BallTrianglePath);
+        rvJobSearchFragment.setRefreshProgressStyle(ProgressStyle.BallPulse);
+        rvJobSearchFragment.setLoadingMoreProgressStyle(ProgressStyle.BallBeat);
         rvJobSearchFragment.setPullRefreshEnabled(false);
         rvJobSearchFragment.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
@@ -487,7 +494,6 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
         ButterKnife.bind(this);
         instance = this;
     }
-
     private void doSearch(boolean b) {
         rlSearchResultDeleteInABatches.setVisibility(View.GONE);
         SearchAdapter.setCheck(false);

@@ -58,6 +58,7 @@
                 android:layout_marginRight="@dimen/x31"
                 android:layout_width="match_parent"
                 app:cardElevation="@dimen/x1"
+                app:cardUseCompatPadding="true"
                 app:cardCornerRadius="0dp"
                 android:layout_height="wrap_content">
             <EditText

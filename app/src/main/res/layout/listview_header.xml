@@ -8,14 +8,14 @@
         android:id="@+id/listview_header_content"
         android:layout_width="fill_parent"
         android:layout_height="@dimen/x104"
+        android:gravity="center"
         android:paddingTop="@dimen/x10">
 
         <LinearLayout
+            android:layout_centerVertical="true"
             android:id="@+id/listview_header_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
             android:orientation="vertical">
 
             <TextView
@@ -47,10 +47,10 @@
         </LinearLayout>
 
         <ImageView
+            android:layout_centerVertical="true"
             android:id="@+id/listview_header_arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/x10"
             android:layout_toLeftOf="@+id/listview_header_text"
             android:src="@mipmap/fresh_down" />
@@ -60,9 +60,8 @@
             android:layout_width="@dimen/x60"
             android:layout_height="@dimen/x60"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/x80"
-            android:layout_marginRight="@dimen/x20"
-            android:layout_toLeftOf="@+id/listview_header_text"
+            android:layout_marginLeft="@dimen/x10"
+            android:layout_toRightOf="@+id/listview_header_text"
             android:visibility="invisible" />
     </RelativeLayout>
 

@@ -11,6 +11,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.transition.Fade;
+import android.transition.Slide;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -372,7 +374,6 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
         setChangeListener();
         initDialog();
     }
-
     private void initDialog() {
         datePickerJobStyle = new CustomDatePicker(this, new CustomDatePicker.ResultHandler() {
             @Override
