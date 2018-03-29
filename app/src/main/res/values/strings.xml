@@ -120,7 +120,7 @@
     <string name="searchCondition">设置搜索条件</string>
     <string name="resume">简历</string>
     <string name="goodComment">给个好评吧？</string>
-    <string name="comment1">求职路漫漫，且行且珍惜，</string>
+    <string name="comment1">求职路漫漫，且行且珍惜，\n英才网联一路伴你。\n英才网联一路伴你。\n英才网联一路伴你。\n英才网联一路伴你。</string>
     <string name="comment2">英才网联一路伴你。</string>
     <string name="noComment">暂不评论</string>
     <string name="giveComment">给个评价</string>
@@ -137,8 +137,9 @@
     <string name="shieldCancel">取消屏蔽</string>
     <string name="resetPsw">修改密码</string>
     <string name="validPhone">验证手机</string>
-    <string name="validPhoneWarn1">根据国家互联网实名制规定，您必须进行手机号码验证，这将有利于您的求职。</string>
-    <string name="validPhoneWarn2">我们向您保证您的个人信息将不会有任何泄露的风险。</string>
+    <string name="validPhoneWarn1">根据“中华人民共和国互联网个人实名制规定”，</string>
+    <string name="validPhoneWarn2">要求个人“必须”完成手机号码验证，</string>
+    <string name="validPhoneWarn3">望您理解，这将有利于您的求职！</string>
     <string name="changeTel">更换手机</string>
     <string name="changeTelephoneNumber">更换手机号码</string>
     <string name="evaluateMine">评价我们</string>
@@ -209,7 +210,7 @@
     <string name="selectedExpectPosition">设置求职意向</string>
     <string name="selectedCity">已选城市</string>
     <string name="submitSuccessMsg">密码修改链接已提交到您的邮箱，请前去邮箱验证。</string>
-    <string name="alright">好的,开始填写</string>
+    <string name="alright">好的，开始填写</string>
     <string name="addSuccess">添加成功</string>
     <string name="add">添加</string>
     <string name="saveSuccess">保存成功</string>
@@ -446,4 +447,6 @@
     <string name="goNow">现在去</string>
     <string name="calculate4">好机会不容错过，</string>
     <string name="calculate5">感觉合适的话就赶紧投递吧～</string>
+    <string name="downloaded"> %s %%</string>
+
 </resources>

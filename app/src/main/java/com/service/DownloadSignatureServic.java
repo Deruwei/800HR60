@@ -16,6 +16,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.hr.ui.BuildConfig;
+import com.hr.ui.ui.main.activity.SplashActivity;
 import com.hr.ui.utils.ToastUitl;
 
 import java.io.File;
@@ -52,11 +53,11 @@ public class DownloadSignatureServic extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        startForeground(1,new Notification());
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        startForeground(8,new Notification());
         Log.e(TAG, "onStartCommand");
         if(intent!=null&&intent.getExtras()!=null) {
             urlStr = (String) intent.getExtras().get("signatureurl");
@@ -97,10 +98,14 @@ public class DownloadSignatureServic extends Service {
         /*如何文件存在 这安装文件*/
         if (downloadfile.exists()) {
                 installApp(DownloadSignatureServic.this, fileRootPath + fileDownloadPath + fileName);
+
         }
         /*否则下载文件*/
         else {
+            SplashActivity.instance.doAutoLogin();
             ToastUitl.showShort("行业找工作后台下载中");
+
+           /* SplashActivity.instance.isAllreadyInstance=true;*/
             mNotifyManager =
                     (NotificationManager) DownloadSignatureServic.this.getSystemService(DownloadSignatureServic.this.NOTIFICATION_SERVICE);
             mBuilder = new NotificationCompat.Builder(DownloadSignatureServic.this);
@@ -149,7 +154,7 @@ public class DownloadSignatureServic extends Service {
                         }
                         //把数据存入 路径+文件名
                         FileOutputStream fos = new FileOutputStream(downloadfiletemp);
-                        byte buf[] = new byte[1024];
+                        byte buf[] = new byte[512];
                         fileCache = 0;
                         do {
                             //循环读取
@@ -192,7 +197,6 @@ public class DownloadSignatureServic extends Service {
                     DownloadSignatureServic.this.stopSelf();
                 }
             }.execute(downloadUrl);
-
         }
 
 

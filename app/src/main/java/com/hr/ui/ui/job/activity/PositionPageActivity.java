@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.caption.netmonitorlibrary.netStateLib.NetUtils;
 import com.hr.ui.R;
 import com.hr.ui.base.Base2Activity;
 import com.hr.ui.bean.PositionBean;
@@ -479,5 +480,15 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
             dialog.dismiss();
         }
         super.onDestroy();
+    }
+
+    @Override
+    protected void onNetworkConnected(NetUtils.NetType type) {
+        mPresenter.getPositionData(jobId, this);
+    }
+
+    @Override
+    protected void onNetworkDisConnected() {
+
     }
 }

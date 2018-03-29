@@ -99,7 +99,7 @@ public class Utils {
     }
     public static boolean checkVersion(String version,String version1)
     {
-        //Log.i("现在的时候",version+"----"+version1);
+        Log.i("现在的时候",version+"----"+version1);
         int  first= Integer.parseInt(version.substring(0,version.indexOf(".")));
         int second= Integer.parseInt(version.substring(version.indexOf(".")+1,version.lastIndexOf(".")));
         int third= Integer.parseInt(version.substring(version.lastIndexOf(".")+1));

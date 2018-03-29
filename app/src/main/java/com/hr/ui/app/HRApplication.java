@@ -21,6 +21,7 @@ import android.util.Log;
 import com.afa.tourism.greendao.gen.DaoMaster;
 import com.afa.tourism.greendao.gen.DaoSession;
 import com.baidu.mapapi.SDKInitializer;
+import com.caption.netmonitorlibrary.netStateLib.NetStateReceiver;
 import com.hr.ui.constants.Constants;
 import com.hr.ui.db.HMROpenHelper;
 import com.hr.ui.utils.ToastUitl;
@@ -48,6 +49,7 @@ public class HRApplication extends MobApplication {
     public static final String CODE = "connectCode";
     private String nbsAppKey="8a97e06a76944ee3886dafe60f20a809";
     private Runnable runnable;
+    private Handler handlerTimeOut;
 
     public static HRApplication getAppContext() {
         return hrApplication;
@@ -64,11 +66,14 @@ public class HRApplication extends MobApplication {
                             AppManager.getAppManager().exitApp();
                         }
                     };
-                    handler.postDelayed(runnable,1000*60*30);
+                    handlerTimeOut=new Handler();
+                    handlerTimeOut.postDelayed(runnable,1000*60*20);
                     break;
                 case 1:
                     //Log.i("现在处于","前台");
-                    handler.removeCallbacks(runnable);
+                    if(handlerTimeOut!=null) {
+                        handlerTimeOut.removeCallbacks(runnable);
+                    }
                     break;
             }
         }
@@ -83,6 +88,8 @@ public class HRApplication extends MobApplication {
         SDKInitializer.initialize(getApplicationContext());
         initPhotoPicker();
         setupDatabase();
+         /*开启网络广播监听*/
+        NetStateReceiver.registerNetworkStateReceiver(this);
         //友盟初始化
         UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, null);
         UMConfigure.setLogEnabled(true);//设置log日志
@@ -176,7 +183,12 @@ public class HRApplication extends MobApplication {
         imagePicker.setOutPutX(600);//保存文件的宽度。单位像素
         imagePicker.setOutPutY(800);//保存文件的高度。单位像素
     }
-
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        NetStateReceiver.unRegisterNetworkStateReceiver(this);
+        android.os.Process.killProcess(android.os.Process.myPid());
+    }
     /**
      * 配置数据库
      */

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.caption.netmonitorlibrary.netStateLib.NetUtils;
 import com.hr.ui.R;
 import com.hr.ui.base.BaseFragment;
 import com.hr.ui.bean.DeliverFeedbackBean;
@@ -155,6 +156,22 @@ public class DeliverFeedbackFragment extends BaseFragment<DeliverFeedbackFragmen
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    protected void onNetworkConnected(NetUtils.NetType type) {
+        if (position == 0) {
+            MobclickAgent.onEvent(getActivity(),"v6_scan_deliverPosition");
+            mPresenter.getDeliverFeedBack(page, 0, 0,false);
+        } else if (position == 1) {
+            MobclickAgent.onEvent(getActivity(),"v6_scan_seem");
+            mPresenter.getDeliverFeedBack(page, 1, 0,false);
+        }
+    }
+
+    @Override
+    protected void onNetworkDisConnected() {
+
     }
 
     @Override

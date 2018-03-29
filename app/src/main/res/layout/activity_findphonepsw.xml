@@ -96,7 +96,7 @@
                 />
             <EditText
                 android:layout_toRightOf="@+id/iv_findPhonePswNewIcon"
-                android:layout_toLeftOf="@id/iv_findPhonePswDelete"
+                android:layout_toLeftOf="@+id/iv_findPhonePswDelete"
                 android:id="@+id/et_findPhonePswNew"
                 android:singleLine="true"
                 android:layout_marginRight="@dimen/x10"

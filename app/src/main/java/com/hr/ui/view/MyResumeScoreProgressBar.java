@@ -100,7 +100,7 @@ public class MyResumeScoreProgressBar extends View{
     }
     public  void setProgram2(final int program){
         mProgress=(int)(((float)360/(float)100)*program);
-      postInvalidate();
+        postInvalidate();
     }
     public MyResumeScoreProgressBar(Context context, AttributeSet attrs) {
         this(context, attrs, 0);

@@ -40,6 +40,7 @@ public class MyLocationListener extends BDAbstractLocationListener {
             JobSerchActivity.instance.setPlace2(city);
         }*/
         if(SelectCityActivity.instance!=null) {
+            ToastUitl.showShort("当前定位的城市："+city);
             SelectCityActivity.instance.setCityName(city);
         }
         if(SelectCitySearchActivity.instance!=null){

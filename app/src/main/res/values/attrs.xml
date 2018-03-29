@@ -21,11 +21,40 @@
     <attr name="borderWidth" format="dimension" />
     <attr name="rectRoundRadius" format="dimension" />
 
+    <declare-styleable name="GADownloadingView">
+
+        <attr name="arrow_color" format="color" />
+        <attr name="loading_circle_back_color" format="color" />
+        //线的颜色
+        <attr name="loading_line_color" format="color" />
+        //进度颜色
+        <attr name="progress_line_color" format="color" />
+        <attr name="progress_text_color" format="color" />
+        <attr name="done_text_color" format="color" />
+    </declare-styleable>
+
     <declare-styleable name="RoundImageView">
         <attr name="type" />
         <attr name="borderColor" />
         <attr name="borderWidth" />
         <attr name="rectRoundRadius" />
+    </declare-styleable>
+
+    <!-- wave beerProgress view -->
+    <declare-styleable name="BeerProgressView">
+        <attr name="bubbleColor" format="color"/>
+        <attr name="bubbleCount" format="integer"/>
+        <attr name="beerColor" format="color"/>
+        <attr name="beerProgress" format="integer"/>
+        <attr name="waveBorderWidth" format="dimension"/>
+        <attr name="waveBorderRadius" format="dimension"/>
+        <attr name="waveAmplitude" format="dimension"/>
+        <attr name="waveMax" format="integer"/>
+    </declare-styleable>
+
+    <!-- text view font -->
+    <declare-styleable name="TextViewPlus">
+        <attr name="customFont" format="string"/>
     </declare-styleable>
 
     <declare-styleable name="PieChartView">

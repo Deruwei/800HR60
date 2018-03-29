@@ -25,6 +25,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.caption.netmonitorlibrary.netStateLib.NetUtils;
 import com.hr.ui.R;
 import com.hr.ui.base.BaseFragment;
 import com.hr.ui.bean.ResumeBean;
@@ -246,6 +247,16 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    protected void onNetworkConnected(NetUtils.NetType type) {
+        mPresenter.getResume(resumeId + "", false);
+    }
+
+    @Override
+    protected void onNetworkDisConnected() {
+
     }
 
     @Override

@@ -6,13 +6,12 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <com.hr.ui.view.XRecyclerView
-        android:background="@color/resumeContent_bg"
-        android:id="@+id/rv_deliverFeedback"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </com.hr.ui.view.XRecyclerView>
+        <com.hr.ui.view.XRecyclerView
+            android:background="@color/resumeContent_bg"
+            android:id="@+id/rv_deliverFeedback"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </com.hr.ui.view.XRecyclerView>
         <include layout="@layout/layout_emptyview"/>
     </FrameLayout>
 </RelativeLayout>

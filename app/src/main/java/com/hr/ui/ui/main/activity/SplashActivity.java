@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -146,6 +147,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
         super.onResume();
         if(isAllreadyInstance==false){
             isAllreadyInstance=true;
+            Log.i("到这里了","heihei");
             doAutoLogin();
         }
     }
@@ -276,7 +278,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
 
     @Override
     public void getVersion(VersionBean.AndroidBean androidBean) {
-        String version =androidBean.getVer();
+        String version ="6.0.6";
         String version1 = BuildConfig.VERSION_NAME;
         if (Utils.checkVersion(version, version1) == true) {
             popupWindow=new PopupWindow(this);
@@ -359,6 +361,9 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
     protected void onDestroy() {
         if (popupWindow != null) {
             popupWindow.dismiss();
+        }
+        if(instance!=null){
+            instance=null;
         }
         BaiDuLocationUtils.getInstance().stopLocation();
         super.onDestroy();

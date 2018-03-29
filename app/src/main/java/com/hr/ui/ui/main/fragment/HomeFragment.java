@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.caption.netmonitorlibrary.netStateLib.NetUtils;
 import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseFragment;
@@ -163,7 +164,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
                         MobclickAgent.onEvent(HRApplication.getAppContext(),"v6_fresh_home");
-                       refresh(false);
+                        refresh(false);
                        jobAdapter.notifyDataSetChanged();
                     }
 
@@ -238,10 +239,21 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
     }
 
     @Override
+    protected void onNetworkConnected(NetUtils.NetType type) {
+        refresh(false);
+    }
+
+    @Override
+    protected void onNetworkDisConnected() {
+
+    }
+
+    @Override
     public void getRecommendJobSuccess(List<HomeRecommendBean.JobsListBean> jobsBeanList) {
         //Log.i("现在的数据",jobsBeanList.toString());
         if (jobsBeanList != null && !"".equals(jobsBeanList) && jobsBeanList.size() != 0) {
             recommendList.clear();
+            //Log.i("你好",jobsBeanList.size()+"");
             recommendList.addAll(jobsBeanList);
             isHaveThirdRecommendData=true;
             if(recommendList.size()>=20){

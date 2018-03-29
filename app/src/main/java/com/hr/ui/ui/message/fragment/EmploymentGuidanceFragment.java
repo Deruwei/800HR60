@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.caption.netmonitorlibrary.netStateLib.NetUtils;
 import com.hr.ui.R;
 import com.hr.ui.base.BaseFragment;
 import com.hr.ui.bean.GuidanceBean;
@@ -172,6 +173,16 @@ public class EmploymentGuidanceFragment extends BaseFragment<EmploymentGuidanceP
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    protected void onNetworkConnected(NetUtils.NetType type) {
+        mPresenter.getEmploymentGuidanceData(page, guidanceId, true);
+    }
+
+    @Override
+    protected void onNetworkDisConnected() {
+
     }
 
     @Override

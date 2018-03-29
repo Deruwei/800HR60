@@ -764,4 +764,12 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
             content = URLEncoder.encode(bt1);
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        if(instance!=null){
+            instance=null;
+        }
+        super.onDestroy();
+    }
 }

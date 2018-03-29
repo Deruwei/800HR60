@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.caption.netmonitorlibrary.netStateLib.NetUtils;
 import com.hr.ui.R;
 import com.hr.ui.base.BaseFragment;
 import com.hr.ui.bean.DeliverFeedbackBean;
@@ -322,6 +323,16 @@ public class MessageFragment extends BaseFragment<MessageFragmentPresenter, Mess
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    protected void onNetworkConnected(NetUtils.NetType type) {
+        getDate(false);
+    }
+
+    @Override
+    protected void onNetworkDisConnected() {
+
     }
 
     @OnClick({R.id.rl_deliverFeedback,R.id.iv_noNetError, R.id.rl_whoSeeMe, R.id.rl_employmentGuidance, R.id.rl_find})

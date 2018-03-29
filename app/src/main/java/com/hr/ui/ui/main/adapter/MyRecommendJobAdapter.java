@@ -199,12 +199,13 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
                     viewHolder.llHomeItemTop.setVisibility(View.GONE);
                 }
                 if(jobsListBeanList2.get(position).getIs_apply()==1){
-                    viewHolder.cvSearchResultFastDeliver.setVisibility(View.GONE);
+                    viewHolder.tvSearchResultFastDeliver.setVisibility(View.GONE);
                     viewHolder.tvSearchResultAlreadyDeliver.setVisibility(View.VISIBLE);
                 }else{
-                    viewHolder.cvSearchResultFastDeliver.setVisibility(View.VISIBLE);
+                    viewHolder.tvSearchResultFastDeliver.setVisibility(View.VISIBLE);
                     viewHolder.tvSearchResultAlreadyDeliver.setVisibility(View.GONE);
                 }
+                //Log.i("当前的数据",position+"----"+jobsListBeanList2.get(position).getIs_apply());
                 viewHolder.tvRecommendJobAddress.setText(jobsListBeanList2.get(position).getWorkplace());
                 viewHolder.tvRecommendJobCompanyName.setText(jobsListBeanList2.get(position).getEnterprise_name());
                 viewHolder.tvRecommendJobDegree.setText(jobsListBeanList2.get(position).getStudy());
@@ -236,14 +237,17 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
                 }
                 if (position == jobsListBeanList2.size() - 1) {
                     viewHolder.viewLineJob.setVisibility(View.GONE);
+                }else{
+                    viewHolder.viewLineJob.setVisibility(View.VISIBLE);
                 }
                 if(jobsListBeanList2.get(position).getIs_apply()==1){
-                    viewHolder.cvSearchResultFastDeliver.setVisibility(View.GONE);
+                    viewHolder.tvSearchResultFastDeliver.setVisibility(View.GONE);
                     viewHolder.tvSearchResultAlreadyDeliver.setVisibility(View.VISIBLE);
                 }else{
-                    viewHolder.cvSearchResultFastDeliver.setVisibility(View.VISIBLE);
+                    viewHolder.tvSearchResultFastDeliver.setVisibility(View.VISIBLE);
                     viewHolder.tvSearchResultAlreadyDeliver.setVisibility(View.GONE);
                 }
+                Log.i("当前的数据",position+"----"+jobsListBeanList2.get(position).getIs_apply());
                 viewHolder.tvRecommendJobAddress.setText(jobsListBeanList2.get(position).getWorkplace());
                 viewHolder.tvRecommendJobCompanyName.setText(jobsListBeanList2.get(position).getEnterprise_name());
                 viewHolder.tvRecommendJobDegree.setText(jobsListBeanList2.get(position).getStudy());
@@ -276,10 +280,10 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
                     viewHolder.llHomeItemTop.setVisibility(View.GONE);
                 }
                 if(jobsListBeanList.get(position-i).getIs_apply()==1){
-                    viewHolder.cvSearchResultFastDeliver.setVisibility(View.GONE);
+                    viewHolder.tvSearchResultFastDeliver.setVisibility(View.GONE);
                     viewHolder.tvSearchResultAlreadyDeliver.setVisibility(View.VISIBLE);
                 }else{
-                    viewHolder.cvSearchResultFastDeliver.setVisibility(View.VISIBLE);
+                    viewHolder.tvSearchResultFastDeliver.setVisibility(View.VISIBLE);
                     viewHolder.tvSearchResultAlreadyDeliver.setVisibility(View.GONE);
                 }
                 viewHolder.viewLineJob.setVisibility(View.VISIBLE);
@@ -414,8 +418,6 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
         TextView tvSearchResultFastDeliver;
         @BindView(R.id.iv_cantCheck)
         ImageView ivCantCheck;
-        @BindView(R.id.cv_searchResultFastDeliver)
-        CardView cvSearchResultFastDeliver;
         public ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);

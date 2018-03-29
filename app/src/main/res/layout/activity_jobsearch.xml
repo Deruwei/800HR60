@@ -76,10 +76,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <ImageView
+                    android:id="@+id/iv_locationAddress"
                     android:layout_marginRight="@dimen/x20"
                     android:layout_toLeftOf="@+id/tv_selectCityName"
                     android:layout_centerVertical="true"
-                    android:background="@mipmap/location"
+                    android:background="@mipmap/location_orange"
                     android:layout_width="@dimen/x20"
                     android:layout_height="@dimen/x30" />
                 <TextView

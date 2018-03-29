@@ -9,6 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+import com.caption.netmonitorlibrary.netStateLib.NetChangeObserver;
+import com.caption.netmonitorlibrary.netStateLib.NetStateReceiver;
+import com.caption.netmonitorlibrary.netStateLib.NetUtils;
 import com.hr.ui.R;
 import com.hr.ui.utils.LoadingDialog;
 import com.hr.ui.utils.TUtil;
@@ -57,6 +60,10 @@ public abstract  class BaseFragment<T extends BasePresenter, E extends BaseModel
     protected View rootView;
     public T mPresenter;
     public E mModel;
+    /**
+     * 网络观察者
+     */
+    protected NetChangeObserver mNetChangeObserver = null;
     public RxManager mRxManager;
     private boolean isShow;
 
@@ -72,6 +79,21 @@ public abstract  class BaseFragment<T extends BasePresenter, E extends BaseModel
         if(mPresenter!=null){
             mPresenter.mContext=this.getActivity();
         }
+        // 网络改变的一个回掉类
+        mNetChangeObserver = new NetChangeObserver() {
+            @Override
+            public void onNetConnected(NetUtils.NetType type) {
+                onNetworkConnected(type);
+            }
+
+            @Override
+            public void onNetDisConnect() {
+                onNetworkDisConnected();
+            }
+        };
+
+        //开启广播去监听 网络 改变事件
+        NetStateReceiver.registerObserver(mNetChangeObserver);
         initPresenter();
         initView();
         return rootView;
@@ -255,7 +277,17 @@ public abstract  class BaseFragment<T extends BasePresenter, E extends BaseModel
             mPresenter.onDestroy();
         mRxManager.clear();
     }
+    /**
+     * 网络连接状态
+     *
+     * @param type 网络状态
+     */
+    protected abstract void onNetworkConnected(NetUtils.NetType type);
 
+    /**
+     * 网络断开的时候调用
+     */
+    protected abstract void onNetworkDisConnected();
 
 
 }

@@ -17,6 +17,9 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import com.caption.netmonitorlibrary.netStateLib.NetChangeObserver;
+import com.caption.netmonitorlibrary.netStateLib.NetStateReceiver;
+import com.caption.netmonitorlibrary.netStateLib.NetUtils;
 import com.hr.ui.R;
 import com.hr.ui.app.AppManager;
 import com.hr.ui.utils.LoadingDialog;
@@ -71,6 +74,10 @@ import butterknife.ButterKnife;
 public abstract class Base2Activity<T extends BasePresenter, E extends BaseModel> extends Activity {
     public T mPresenter;
     public E mModel;
+    /**
+     * 网络观察者
+     */
+    protected NetChangeObserver mNetChangeObserver = null;
     public Context mContext;
     public RxManager mRxManager;
     private boolean isConfigChange=false;
@@ -87,6 +94,21 @@ public abstract class Base2Activity<T extends BasePresenter, E extends BaseModel
         ButterKnife.bind(this);
         mContext = this;
         mPresenter = TUtil.getT(this, 0);
+            // 网络改变的一个回掉类
+            mNetChangeObserver = new NetChangeObserver() {
+                @Override
+                public void onNetConnected(NetUtils.NetType type) {
+                    onNetworkConnected(type);
+                }
+
+                @Override
+                public void onNetDisConnect() {
+                    onNetworkDisConnected();
+                }
+            };
+
+            //开启广播去监听 网络 改变事件
+            NetStateReceiver.registerObserver(mNetChangeObserver);
         mModel=TUtil.getT(this,1);
         if(mPresenter!=null){
             mPresenter.mContext=this;
@@ -399,4 +421,15 @@ public abstract class Base2Activity<T extends BasePresenter, E extends BaseModel
         }
 
     }
+    /**
+     * 网络连接状态
+     *
+     * @param type 网络状态
+     */
+    protected abstract void onNetworkConnected(NetUtils.NetType type);
+
+    /**
+     * 网络断开的时候调用
+     */
+    protected abstract void onNetworkDisConnected();
 }

@@ -13,12 +13,13 @@
         android:id="@+id/in_validPhone"
         />
     <LinearLayout
+        android:id="@+id/ll_validPhone"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+
         app:layout_constraintTop_toBottomOf="@+id/in_validPhone"
         style="@style/login_contentLinearLayout"
-        android:layout_height="0dp">
+        android:layout_height="wrap_content">
         <RelativeLayout
             style="@style/login_relativeLayout">
             <ImageView
@@ -87,23 +88,38 @@
             android:text="@string/valid"
             style="@style/login_buttonOK"
             />
+    </LinearLayout>
+    <LinearLayout
+        app:layout_constraintTop_toBottomOf="@+id/ll_validPhone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:orientation="vertical"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp">
         <TextView
             android:layout_marginTop="@dimen/x40"
             android:textSize="@dimen/x30"
             android:textColor="#B22222"
             android:gravity="center"
-            android:lineSpacingMultiplier="1.2"
             android:text="@string/validPhoneWarn1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <TextView
-            android:layout_marginTop="@dimen/x20"
-            android:textSize="@dimen/x24"
-            android:textColor="@color/new_main"
+            android:layout_marginTop="@dimen/x10"
+            android:textSize="@dimen/x30"
+            android:textColor="#B22222"
             android:gravity="center"
             android:text="@string/validPhoneWarn2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginTop="@dimen/x10"
+            android:textSize="@dimen/x30"
+            android:textColor="#B22222"
+            android:gravity="center"
+            android:text="@string/validPhoneWarn3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
-
 </android.support.constraint.ConstraintLayout>

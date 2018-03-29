@@ -32,7 +32,6 @@ import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.datautils.FromStringToArrayList;
 import com.hr.ui.view.MyRecommendDialog;
 import com.hr.ui.view.XRecyclerView;
-import com.loopeer.itemtouchhelperextension.ItemTouchHelperExtension;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
@@ -70,8 +69,6 @@ public class CollectionActivity extends BaseActivity<CollectionPresenter, Collec
     private int page = 1;
     private MyCollectionAdapter adapter;
     private List<CollectionBean.FavouriteListBean> favouriteListBeanList = new ArrayList<>();
-    public ItemTouchHelperExtension mItemTouchHelper;
-    public ItemTouchHelperExtension.Callback mCallback;
     private MyRecommendDialog dialog;
     private int position;
     /**

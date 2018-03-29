@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.caption.netmonitorlibrary.netStateLib.NetUtils;
 import com.hr.ui.R;
 import com.hr.ui.base.BaseFragment;
 import com.hr.ui.bean.FindBean;
@@ -209,5 +210,15 @@ public class FindFragment extends BaseFragment<FindPresenter, FindModel> impleme
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    protected void onNetworkConnected(NetUtils.NetType type) {
+        mPresenter.getFindData(page, ad_type, true);
+    }
+
+    @Override
+    protected void onNetworkDisConnected() {
+
     }
 }

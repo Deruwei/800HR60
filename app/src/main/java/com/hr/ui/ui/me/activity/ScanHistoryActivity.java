@@ -15,11 +15,16 @@ import android.widget.TextView;
 
 import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
+import com.hr.ui.base.BaseActivity;
 import com.hr.ui.base.BaseNoConnectNetworkAcitivty;
+import com.hr.ui.bean.PositionBean;
 import com.hr.ui.bean.ScanHistoryBean;
 import com.hr.ui.db.ScanHistoryUtils;
 import com.hr.ui.ui.job.activity.PositionPageActivity;
 import com.hr.ui.ui.me.adapter.MyScanHistoryAdapter;
+import com.hr.ui.ui.me.contract.ScanHistoryContract;
+import com.hr.ui.ui.me.model.ScanHistoryModel;
+import com.hr.ui.ui.me.presenter.ScanHistoryPresenter;
 import com.hr.ui.utils.ProgressStyle;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.view.MyDialog;
@@ -31,12 +36,13 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Observable;
 
 /**
  * Created by wdr on 2018/1/17.
  */
 
-public class ScanHistoryActivity extends BaseNoConnectNetworkAcitivty {
+public class ScanHistoryActivity extends BaseActivity<ScanHistoryPresenter,ScanHistoryModel> implements ScanHistoryContract.View {
     @BindView(R.id.tv_toolbarTitle)
     TextView tvToolbarTitle;
     @BindView(R.id.toolbarAdd)
@@ -66,6 +72,11 @@ public class ScanHistoryActivity extends BaseNoConnectNetworkAcitivty {
     @Override
     public int getLayoutId() {
         return R.layout.activity_find;
+    }
+
+    @Override
+    public void initPresenter() {
+        mPresenter.setVM(this,mModel);
     }
 
     public static void startAction(Activity activity) {
@@ -177,7 +188,7 @@ public class ScanHistoryActivity extends BaseNoConnectNetworkAcitivty {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
@@ -221,7 +232,7 @@ public class ScanHistoryActivity extends BaseNoConnectNetworkAcitivty {
                     if ("1".equals(totalScanHistoryList.get(pos).getIs_expect())) {
                         ToastUitl.showShort(R.string.error_401);
                     } else {
-                        PositionPageActivity.startAction(ScanHistoryActivity.this, totalScanHistoryList.get(pos).getJobId());
+                       mPresenter.getPositionData(totalScanHistoryList.get(pos).getJobId());
                     }
                 }
             });
@@ -233,6 +244,30 @@ public class ScanHistoryActivity extends BaseNoConnectNetworkAcitivty {
         super.onDestroy();
         if (dialog != null) {
             dialog.dismiss();
+        }
+    }
+
+    @Override
+    public void showLoading(String title) {
+
+    }
+
+    @Override
+    public void stopLoading() {
+
+    }
+
+    @Override
+    public void showErrorTip(String msg) {
+
+    }
+
+    @Override
+    public void getPositionSuccess(PositionBean.JobInfoBean jobInfoBean) {
+        if(jobInfoBean.getIs_expire()==1){
+            ToastUitl.showShort(R.string.error_401);
+        }else{
+            PositionPageActivity.startAction(ScanHistoryActivity.this, jobInfoBean.getJob_id());
         }
     }
 }

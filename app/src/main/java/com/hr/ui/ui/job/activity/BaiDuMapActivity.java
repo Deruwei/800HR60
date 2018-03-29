@@ -198,7 +198,7 @@ public class BaiDuMapActivity extends BaseNoConnectNetworkAcitivty implements Ba
         baiduMap.addOverlays(overlay);
         TextView tv = new TextView(this);
         tv.setPadding(5,10,5,10);
-        tv.setBackgroundResource(R.drawable.edit_bg_small);
+        tv.setBackgroundResource(R.drawable.edit_bg);
         tv.setTextColor(ContextCompat.getColor(HRApplication.getAppContext(),R.color.color_333));
         if(companyAddress!=null&&!"".equals(companyAddress)) {
             tv.setText(companyAddress);

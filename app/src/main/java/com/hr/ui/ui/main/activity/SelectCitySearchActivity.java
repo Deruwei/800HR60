@@ -427,4 +427,13 @@ public class SelectCitySearchActivity extends BaseNoConnectNetworkAcitivty {
         }
         tvSelectCityNum.setText(sum + "");
     }
+
+    @Override
+    protected void onDestroy() {
+        if(instance!=null){
+            instance=null;
+        }
+        super.onDestroy();
+        BaiDuLocationUtils.getInstance().stopLocation();
+    }
 }

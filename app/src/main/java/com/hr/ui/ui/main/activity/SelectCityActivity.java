@@ -147,7 +147,6 @@ public class SelectCityActivity extends BaseNoConnectNetworkAcitivty {
         tag = getIntent().getStringExtra("tag");
         selectCityList = (List<CityBean>) getIntent().getSerializableExtra("selectCityList");
         String placeName=sUtils.getStringValue(Constants.CITYNAME,"");
-        setCityName(placeName);
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -161,6 +160,7 @@ public class SelectCityActivity extends BaseNoConnectNetworkAcitivty {
             llLocation.setVisibility(View.VISIBLE);
             rlSelectCityShow.setVisibility(View.GONE);
             llSelectCityBottom.setVisibility(View.GONE);
+            setCityName(placeName);
         }
         toolBar.setTitle("");
         toolBar.setTitleTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
@@ -401,6 +401,7 @@ public class SelectCityActivity extends BaseNoConnectNetworkAcitivty {
                     if ("".equals(cityName)) {
                         tvLocationCity.setText("定位失败");
                     } else {
+                        //ToastUitl.showShort("当前定位的城市："+cityName);
                         tvLocationCity.setText(cityName);
                     }
             }
@@ -544,6 +545,9 @@ public class SelectCityActivity extends BaseNoConnectNetworkAcitivty {
 
     @Override
     protected void onDestroy() {
+        if(instance!=null){
+            instance=null;
+        }
         super.onDestroy();
         if(type!=2) {
             BaiDuLocationUtils.getInstance().stopLocation();
