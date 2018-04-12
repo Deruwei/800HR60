@@ -39,11 +39,10 @@
             android:textSize="@dimen/x28"
             android:lineSpacingMultiplier="1.2"
             android:textColor="@color/color_333"
-            android:layout_gravity="center"
             android:layout_marginTop="@dimen/x41"
             android:layout_marginBottom="@dimen/x41"
             android:layout_marginRight="@dimen/x61"
-            android:text="中的男女都能拿到" />
+            android:text="" />
 
         <View
             android:layout_width="match_parent"

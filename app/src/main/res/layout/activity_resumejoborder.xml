@@ -13,10 +13,11 @@
         android:id="@+id/in_resumeJobOrder"
         />
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/ns_resumeJobOrder"
         android:layout_width="0dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/cv_resumeJobOrderOK"
         app:layout_constraintTop_toBottomOf="@+id/in_resumeJobOrder"
         android:layout_height="0dp">
         <LinearLayout
@@ -125,13 +126,36 @@
                     android:id="@+id/rl_resumeJobOrderIndustry"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-
                 </LinearLayout>
-                <Button
+                <RelativeLayout
+                    android:id="@+id/rl_resumeJobOrderAdd"
                     android:layout_below="@+id/rl_resumeJobOrderIndustry"
-                    android:id="@+id/btn_resumeJobOrderOK"
-                    style="@style/button_resumeOK"/>
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x100">
+                    <TextView
+                        android:textSize="@dimen/x28"
+                        android:layout_centerInParent="true"
+                        android:textColor="@color/new_main"
+                        android:text="@string/AddResumeJobOrder"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
             </RelativeLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
+    <android.support.v7.widget.CardView
+        android:layout_width="0dp"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="0dp"
+        android:id="@+id/cv_resumeJobOrderOK"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_marginBottom="@dimen/x76"
+            android:id="@+id/btn_resumeJobOrderOK"
+            style="@style/button_resumeOK"/>
+    </android.support.v7.widget.CardView>
 </android.support.constraint.ConstraintLayout>

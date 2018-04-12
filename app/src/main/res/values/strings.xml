@@ -110,6 +110,8 @@
     <string name="company">企业入口</string>
     <string name="home">主页</string>
     <string name="message">消息</string>
+    <string name="deliverOrNot1">是否投递</string>
+    <string name="deliverOrNot2">职位？</string>
     <string name="updateMessage"> 升级简历后，您的简历将会从[学生简历]升级到[工作简历]，“实习经历”将会变为“工作经历”。</string>
     <string name="hideTips">Tips: 隐藏后企业将无法搜到您的简历</string>
     <string name="searchHint">输入职位名/公司名</string>
@@ -341,6 +343,7 @@
     <string name="cancelSelectDeliver">取消批量</string>
     <string name="other">筛选</string>
     <string name="salary_around">薪资范围</string>
+    <string name="AddResumeJobOrder">+增加期望职位</string>
     <string name="degreeNeed">学历要求</string>
     <string name="releaseTime">发布时间</string>
     <string name="companyType">公司性质</string>
@@ -448,5 +451,6 @@
     <string name="calculate4">好机会不容错过，</string>
     <string name="calculate5">感觉合适的话就赶紧投递吧～</string>
     <string name="downloaded"> %s %%</string>
+    <string name="proxy">您当前使用了代理，请你确保当前代理安全</string>
 
 </resources>

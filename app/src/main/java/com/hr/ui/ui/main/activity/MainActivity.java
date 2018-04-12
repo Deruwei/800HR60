@@ -45,6 +45,7 @@ import com.hr.ui.R;
 import com.hr.ui.app.AppManager;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
+import com.hr.ui.bean.EventHomeBean;
 import com.hr.ui.bean.FindBean;
 import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.main.contract.MainContract;
@@ -70,6 +71,10 @@ import com.hr.ui.view.PopupWindowWarm;
 import com.service.CodeTimerService;
 import com.service.MyJobService;
 import com.umeng.analytics.MobclickAgent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -247,7 +252,8 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
             if (index == 1) {
                 MobclickAgent.onEvent(this, "v6_scan_message");
                 MobclickAgent.onEvent(this, "v6_fresh_message");
-                MessageFragment.instance.getDate(false);
+               // MessageFragment.instance.getDate(false);
+                EventBus.getDefault().post(new EventHomeBean(4));
             }
             if (index == 2) {
                 MobclickAgent.onEvent(this, "v6_scan_resume");
@@ -289,6 +295,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
     @Override
     public void initView() {
         instance = this;
+        EventBus.getDefault().register(this);
         mPresenter.getNotice("96", "794,796,797,798");
         /*userId = getIntent().getIntExtra("userId", 0);*/
         rbResume1 = rbResume;
@@ -455,7 +462,14 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
         }
         initPop();
     }
-
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMethod(EventHomeBean eventHomeBean){
+        switch (eventHomeBean.getType()){
+            case 1:
+                setImage();
+                break;
+        }
+    }
     private void initPop() {
         if (hasWarm == true) {
             PopupWindowWarm popupWindowWarm = new PopupWindowWarm(new PopupWindow(this), contentWarn, idMenu, this);
@@ -507,6 +521,10 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
         if (popupWindow != null) {
             popupWindow.dismiss();
         }
+        if(instance!=null){
+            instance=null;
+        }
+        EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 }

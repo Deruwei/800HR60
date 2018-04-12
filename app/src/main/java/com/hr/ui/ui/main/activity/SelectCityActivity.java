@@ -22,6 +22,8 @@ import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseNoConnectNetworkAcitivty;
 import com.hr.ui.bean.CityBean;
+import com.hr.ui.bean.EvenList;
+import com.hr.ui.bean.EventBean;
 import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.main.adapter.MyCityAdapter;
 import com.hr.ui.ui.main.adapter.MyProvinceAdapter;
@@ -33,6 +35,8 @@ import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.datautils.FromStringToArrayList;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.MyFlowLayout;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -299,15 +303,7 @@ public class SelectCityActivity extends BaseNoConnectNetworkAcitivty {
                                         removeView(provinceCityList.get(position));
                                     }
                                 } else {
-                                    if (PersonalInformationActivity.TAG.equals(tag)) {
-                                        PersonalInformationActivity.instance.setSelectCity(provinceCityList.get(position));
-                                    } else if (WorkExpActivity.TAG.equals(tag)) {
-                                        WorkExpActivity.instance.setSelectCity(provinceCityList.get(position));
-                                    } else if (ResumePersonalInfoActivity.TAG.equals(tag)) {
-                                        ResumePersonalInfoActivity.instance.setSelectCity(provinceCityList.get(position));
-                                    } else if (ResumeWorkExpActivity.TAG.equals(tag)) {
-                                        ResumeWorkExpActivity.instance.setSelectCity(provinceCityList.get(position));
-                                    }
+                                    EventBus.getDefault().post(new EventBean(tag,provinceCityList.get(position)));
                                     finish();
                                 }
                             }
@@ -334,15 +330,7 @@ public class SelectCityActivity extends BaseNoConnectNetworkAcitivty {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             if (type == 1) {
-                                if (PersonalInformationActivity.TAG.equals(tag)) {
-                                    PersonalInformationActivity.instance.setSelectCity(cityList.get(position));
-                                } else if (WorkExpActivity.TAG.equals(tag)) {
-                                    WorkExpActivity.instance.setSelectCity(cityList.get(position));
-                                } else if (ResumePersonalInfoActivity.TAG.equals(tag)) {
-                                    ResumePersonalInfoActivity.instance.setSelectCity(cityList.get(position));
-                                } else if (ResumeWorkExpActivity.TAG.equals(tag)) {
-                                    ResumeWorkExpActivity.instance.setSelectCity(cityList.get(position));
-                                }
+                                EventBus.getDefault().post(new EventBean(tag,cityList.get(position)));
                                 finish();
                             } else if (type == 2) {
                                 if (cityList.get(position).isCheck() == false) {
@@ -500,15 +488,7 @@ public class SelectCityActivity extends BaseNoConnectNetworkAcitivty {
             case R.id.tv_location_city:
                 if (!"定位失败".equals(cityName) && !"".equals(cityName)) {
                     CityBean cityBean = FromStringToArrayList.getInstance().getLocationCityBean(cityName);
-                    if (PersonalInformationActivity.TAG.equals(tag)) {
-                        PersonalInformationActivity.instance.setSelectCity(cityBean);
-                    } else if (WorkExpActivity.TAG.equals(tag)) {
-                        WorkExpActivity.instance.setSelectCity(cityBean);
-                    } else if (ResumePersonalInfoActivity.TAG.equals(tag)) {
-                        ResumePersonalInfoActivity.instance.setSelectCity(cityBean);
-                    } else if (ResumeWorkExpActivity.TAG.equals(tag)) {
-                        ResumeWorkExpActivity.instance.setSelectCity(cityBean);
-                    }
+                    EventBus.getDefault().post(new EventBean(tag,cityBean));
                     finish();
                 }
                 break;
@@ -529,9 +509,9 @@ public class SelectCityActivity extends BaseNoConnectNetworkAcitivty {
             case R.id.tv_selectCityOK:
                 if (selectCityList != null && !"".equals(selectCityList) && selectCityList.size() != 0) {
                     if (ResumeJobOrderActivity.TAG.equals(tag)) {
-                        ResumeJobOrderActivity.instance.setSelectCityList(selectCityList);
+                        EventBus.getDefault().post(new EvenList(0,selectCityList));
                     } else if (JobOrderActivity.TAG.equals(tag)) {
-                        JobOrderActivity.instance.setAddress(selectCityList);
+                        EventBus.getDefault().post(new EvenList(0,selectCityList));
                     } else if (JobSerchActivity.TAG.equals(tag)) {
                         JobSerchActivity.instance.setPlace(selectCityList);
                     }

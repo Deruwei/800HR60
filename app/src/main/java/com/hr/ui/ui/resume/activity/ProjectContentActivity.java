@@ -17,10 +17,13 @@ import android.widget.TextView;
 import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseNoConnectNetworkAcitivty;
+import com.hr.ui.bean.EventString;
 import com.hr.ui.ui.main.activity.WorkExpActivity;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.Utils;
 import com.hr.ui.view.MyDialog;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -192,12 +195,13 @@ public class ProjectContentActivity extends BaseNoConnectNetworkAcitivty {
             return;
         }
         if(where==1){
-            ResumeTrainActivity.instance.setTrainDes(etContent.getText().toString());
+            EventBus.getDefault().post(new EventString(etContent.getText().toString(),ResumeTrainActivity.class.getSimpleName()));
+            //ResumeTrainActivity.instance.setTrainDes(etContent.getText().toString());
         }else {
             if ("1".equals(tag)) {
-                ResumeProjectExpActivity.instance.setDes(etContent.getText().toString());
+                EventBus.getDefault().post(new EventString(etContent.getText().toString(),ResumeProjectExpActivity.class.getSimpleName(),tag));
             } else if ("2".equals(tag)) {
-                ResumeProjectExpActivity.instance.setRes(etContent.getText().toString());
+                EventBus.getDefault().post(new EventString(etContent.getText().toString(),ResumeProjectExpActivity.class.getSimpleName(),tag));
             }
         }
         finish();

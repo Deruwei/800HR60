@@ -18,7 +18,7 @@ public abstract class BasePresenter<T,E>{
         this.onStart();
     }
     public void onStart(){
-    };
+    }
     public void onDestroy() {
         mRxManage.clear();
     }

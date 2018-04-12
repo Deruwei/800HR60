@@ -54,7 +54,7 @@ public class MyStartAndEndTimeCustomDatePicker {
     private String birthYear;
     private String startTime,endTime,selectEndYears;
     private int NONOWTYPE=1;
-    private int type;
+    private int type,nowYear,nowMonth;
 
     public MyStartAndEndTimeCustomDatePicker(Context context, ResultHandler resultHandler,int type) {
             canAccess = true;
@@ -63,10 +63,13 @@ public class MyStartAndEndTimeCustomDatePicker {
             this.type=type;
             sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
             birthYear = sUtils.getStringValue(Constants.BIRTHYEAR, "2018");
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy");//格式为 2013年9月3日 14:44
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-M");//格式为 2013年9月3日 14:44
             Date curDate = new Date(System.currentTimeMillis());//获取当前时间
             String currentDate = formatter.format(curDate);
-            endYear = Integer.valueOf(currentDate);
+            endYear = Integer.valueOf(currentDate.substring(0,currentDate.indexOf("-")));
+            nowYear=endYear;
+            nowMonth=Integer.valueOf(currentDate.substring(currentDate.indexOf("-")+1));
+            //System.out.print("现在的数据"+nowMonth);
             if(type==NONOWTYPE){
                 startYear = Integer.valueOf(birthYear) + 1;
             }else {
@@ -150,8 +153,17 @@ public class MyStartAndEndTimeCustomDatePicker {
                 eYear.add(String.valueOf(i));
             }
         }
+        if(selectStartYear==nowYear){
+            for (int i = startMonth; i <= nowMonth; i++) {
+                month.add(String.valueOf(i));
+            }
+        }else {
+            for (int i = startMonth; i <= endMonth; i++) {
+                month.add(String.valueOf(i));
+            }
+        }
         for (int i = startMonth; i <= endMonth; i++) {
-            month.add(String.valueOf(i));
+
             eMonth.add(String.valueOf(i));
         }
         loadComponent();
@@ -192,6 +204,12 @@ public class MyStartAndEndTimeCustomDatePicker {
             @Override
             public void onSelect(String text) {
                 selectStartYear=Integer.valueOf(text);
+                if(nowYear==selectStartYear){
+                    endMonth=nowMonth;
+                }else{
+                    endMonth=12;
+                }
+                monthChange();
             }
         });
 
@@ -213,6 +231,8 @@ public class MyStartAndEndTimeCustomDatePicker {
                     selectEndYears="至今";
                     endMonth_pv.setVisibility(View.GONE);
                 }
+                endMonth=12;
+                monthEndChange();
             }
         });
         endMonth_pv.setOnSelectListener(new DatePickerView.onSelectListener() {
@@ -230,9 +250,12 @@ public class MyStartAndEndTimeCustomDatePicker {
             month.add(i+"");
         }
         startMonth_pv.setData(month);
+        if(selectStartMonth>endMonth){
+            selectStartMonth=startMonth;
+        }
         startMonth_pv.setSelected(selectStartMonth+"");
 
-        executeAnimator(startMonth_pv);
+       // executeAnimator(startMonth_pv);
 
     }
     private void monthEndChange() {
@@ -243,7 +266,7 @@ public class MyStartAndEndTimeCustomDatePicker {
         endMonth_pv.setData(eMonth);
         endMonth_pv.setSelected(selectEndMonth+"");
 
-        executeAnimator(endMonth_pv);
+        //executeAnimator(endMonth_pv);
 
     }
 

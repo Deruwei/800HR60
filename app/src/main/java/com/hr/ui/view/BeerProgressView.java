@@ -287,10 +287,13 @@ public class BeerProgressView extends View {
                     mBeerHeight
             );
             if (i == 0) {
+                //移动当前坐标
                 this.mPath.moveTo( x, y);
             }
+            //绘制贝塞尔曲线
             this.mPath.quadTo( x, y, x + 1, y);
         }
+        //画线
         this.mPath.lineTo(mBeerWidth, mBeerHeight);
         this.mPath.lineTo(0, mBeerHeight);
         this.mPath.close();

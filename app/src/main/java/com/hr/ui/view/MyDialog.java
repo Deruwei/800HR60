@@ -3,12 +3,15 @@ package com.hr.ui.view;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.StringRes;
+import android.text.SpannableStringBuilder;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hr.ui.R;
+import com.hr.ui.app.HRApplication;
 
 
 /**
@@ -24,9 +27,10 @@ public class MyDialog extends Dialog{
         private RelativeLayout rl_title;
         private String titleStr;//从外界设置的title文本
         private String messageStr;//从外界设置的消息文本
+        private SpannableStringBuilder stringBuilder;
         //确定文本和取消文本的显示内容
         private String yesStr, noStr;
-    private int type;
+        private int type;
 
         private onNoOnclickListener noOnclickListener;//取消按钮被点击了的监听器
         private onYesOnclickListener yesOnclickListener;//确定按钮被点击了的监听器
@@ -114,6 +118,10 @@ public class MyDialog extends Dialog{
             }
             if (messageStr != null) {
                 messageTv.setText(messageStr);
+            }else{
+                if(stringBuilder!=null) {
+                    messageTv.setText(stringBuilder);
+                }
             }
             //如果设置按钮的文字
             if (yesStr != null) {
@@ -163,7 +171,9 @@ public class MyDialog extends Dialog{
         public void setMessage(String message) {
             messageStr = message;
         }
-
+        public void setMessage(SpannableStringBuilder message) {
+            stringBuilder = message;
+        }
         /**
          * 设置确定按钮和取消被点击的接口
          */

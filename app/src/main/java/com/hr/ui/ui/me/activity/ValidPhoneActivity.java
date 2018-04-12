@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
+import com.hr.ui.bean.EventString;
 import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.me.contract.ValidPhoneContract;
 import com.hr.ui.ui.me.model.ValidPhoneModel;
@@ -40,6 +41,8 @@ import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.PopupWindowComment;
 import com.service.CodeTimerService;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -116,7 +119,7 @@ public class ValidPhoneActivity extends BaseActivity<ValidPhonePresenter, ValidP
     @Override
     public void validPhoneSuccess() {
         ToastUitl.showShort("手机号码验证成功");
-        ResumePersonalInfoActivity.instance.setValid(phoneNumber);
+        EventBus.getDefault().post(new EventString(phoneNumber,"validCode"));
         finish();
     }
 

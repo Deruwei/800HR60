@@ -72,8 +72,9 @@ public class ThirdPartLoginUtils {
         final ThirdLoginBean thirdPartBean=new ThirdLoginBean();
         Platform wechat = ShareSDK.getPlatform(Wechat.NAME);
 //        if (wechat.isAuthValid()) {
-        wechat.removeAccount(true);
+       // wechat.removeAccount(true);
 //        }
+        System.out.println("wechat-complete");
         if (wechat.isClientValid()) {
             wechat.removeAccount(true);
         } else {

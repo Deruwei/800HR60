@@ -19,6 +19,8 @@ import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
 import com.hr.ui.bean.CityBean;
+import com.hr.ui.bean.EventBean;
+import com.hr.ui.bean.EventString;
 import com.hr.ui.bean.WorkExpBean;
 import com.hr.ui.bean.WorkExpData;
 import com.hr.ui.constants.Constants;
@@ -34,6 +36,10 @@ import com.hr.ui.utils.datautils.FromStringToArrayList;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.MyDialog;
 import com.hr.ui.view.MyStartAndEndTimeCustomDatePicker;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -106,7 +112,6 @@ public class ResumeWorkExpActivity extends BaseActivity<ResumeWorkExpPresenter, 
     public static String TAG=ResumeWorkExpActivity.class.getSimpleName();
     private String experienceId,startTimes,endTimes,cityid;
     private MyStartAndEndTimeCustomDatePicker datePickerTime;
-    public static ResumeWorkExpActivity instance;
     private SharedPreferencesUtils sUtils;
     private int num=0;
     private MyDialog dialog;
@@ -196,8 +201,8 @@ public class ResumeWorkExpActivity extends BaseActivity<ResumeWorkExpPresenter, 
 
     @Override
     public void initView() {
-        instance=this;
         setSupportActionBar(toolBar);
+        EventBus.getDefault().register(this);
         sUtils=new SharedPreferencesUtils(this);
         num=getIntent().getIntExtra("num",0);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -359,7 +364,7 @@ public class ResumeWorkExpActivity extends BaseActivity<ResumeWorkExpPresenter, 
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_resumeWorkExpCompanyDelete:
-                etResumeWorkExpCompany.setText("");
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               etResumeWorkExpCompany.setText("");
                 break;
             case R.id.iv_resumeWorkExpPositionDelete:
                 etResumeWorkExpPosition.setText("");
@@ -418,13 +423,14 @@ public class ResumeWorkExpActivity extends BaseActivity<ResumeWorkExpPresenter, 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(dialog!=null){
+        if(dialog!=null) {
             dialog.dismiss();
         }
+        EventBus.getDefault().unregister(this);
     }
-
-    public void setTvResponsibilityDes(String content) {
-        tvResumeWorkExpJobDescription.setText(content);
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void setTvResponsibilityDes(EventString eventString) {
+        tvResumeWorkExpJobDescription.setText(eventString.getMsg());
     }
     private void doAddOrPlaceWorkExp() {
         if(etResumeWorkExpCompany.getText().toString()==null||"".equals(etResumeWorkExpCompany.getText().toString())){
@@ -482,12 +488,17 @@ public class ResumeWorkExpActivity extends BaseActivity<ResumeWorkExpPresenter, 
         clWorkExp.requestFocus();
         clWorkExp.findFocus();
     }
-    public void setSelectCity(CityBean cityBean) {
-        if(cityBean!=null) {
-            if (tvResumeWorkExpWorkPlace != null) {
-                tvResumeWorkExpWorkPlace.setText(cityBean.getName());
-            }
-            cityid = cityBean.getId();
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void setSelectCity(EventBean eventBean) {
+        switch (eventBean.getTag()) {
+            case "ResumeWorkExpActivity":
+                if (eventBean.getCityBean() != null) {
+                    if (tvResumeWorkExpWorkPlace != null) {
+                        tvResumeWorkExpWorkPlace.setText(eventBean.getCityBean().getName());
+                    }
+                    cityid = eventBean.getCityBean().getId();
+                }
+            break;
         }
     }
 }

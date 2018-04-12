@@ -247,7 +247,7 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
                     viewHolder.tvSearchResultFastDeliver.setVisibility(View.VISIBLE);
                     viewHolder.tvSearchResultAlreadyDeliver.setVisibility(View.GONE);
                 }
-                Log.i("当前的数据",position+"----"+jobsListBeanList2.get(position).getIs_apply());
+                //Log.i("当前的数据",position+"----"+jobsListBeanList2.get(position).getIs_apply());
                 viewHolder.tvRecommendJobAddress.setText(jobsListBeanList2.get(position).getWorkplace());
                 viewHolder.tvRecommendJobCompanyName.setText(jobsListBeanList2.get(position).getEnterprise_name());
                 viewHolder.tvRecommendJobDegree.setText(jobsListBeanList2.get(position).getStudy());
@@ -408,8 +408,6 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
         ImageView ivTopJob;
         @BindView(R.id.fl_content)
         FrameLayout flContent;
-        @BindView(R.id.cv_homeFragment)
-        CardView cvHomeFragment;
         @BindView(R.id.view_lineJob)
         View viewLineJob;
         @BindView(R.id.tv_searchResultAlreadyDeliver)

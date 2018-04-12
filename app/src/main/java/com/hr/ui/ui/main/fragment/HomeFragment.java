@@ -1,10 +1,16 @@
 package com.hr.ui.ui.main.fragment;
 
+import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -24,6 +30,8 @@ import com.caption.netmonitorlibrary.netStateLib.NetUtils;
 import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseFragment;
+import com.hr.ui.bean.EvenList;
+import com.hr.ui.bean.EventHomeBean;
 import com.hr.ui.bean.HomeRecommendBean;
 import com.hr.ui.bean.RecommendJobBean;
 import com.hr.ui.constants.Constants;
@@ -43,10 +51,15 @@ import com.hr.ui.utils.datautils.FromStringToArrayList;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.CircleImageView;
 import com.hr.ui.view.DatePickerView;
+import com.hr.ui.view.MyDialog;
 import com.hr.ui.view.MyRecommendDialog;
 import com.hr.ui.view.PieChartView;
 import com.hr.ui.view.XRecyclerView;
 import com.umeng.analytics.MobclickAgent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,6 +106,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
     public static HomeFragment instance;
     private MyRecommendDialog dialog;
     private String industryName;
+    private MyDialog dialogMessage;
     /**
      * 1 判断是否有第三方公司推荐职位的数据
      * 2.判断是否第三方公司推荐职位的数据满足20条
@@ -106,7 +120,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
     private List<RecommendJobBean.JobsListBean> recommendJobList=new ArrayList<>();
     private PopupWindow popupWindowCalculateScore;
     private SharedPreferencesUtils sUtils;
-    private String personImage;
+    private String personImage,jobId,jobName;
     private int mProgress,position;
     public static String TAG=HomeFragment.class.getSimpleName();
 
@@ -141,6 +155,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
 
     @Override
     protected void initView() {
+        EventBus.getDefault().register(this);
         sUtils = new SharedPreferencesUtils(getActivity());
         refresh(true);
         jobAdapter = new MyRecommendJobAdapter();
@@ -318,21 +333,45 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
             }
         });
         jobAdapter.setOnFastDeliverListener(new MyRecommendJobAdapter.OnFastDeliverListener() {
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onFastDeliverListener(int pos) {
                 position=pos;
+                dialogMessage=new MyDialog(getActivity(),2);
                 if(isThirdRecommendDataFill==false) {
                     if (pos < recommendList.size()) {
                         industryName=recommendList.get(pos).getIndustry_name();
-                        mPresenter.deliverPosition(recommendList.get(pos).getJob_id());
+                        jobId=recommendList.get(pos).getJob_id();
+                        jobName=recommendList.get(pos).getJob_name();
                     } else {
                         industryName=recommendJobList.get(pos - recommendList.size()).getIndustry_name();
-                        mPresenter.deliverPosition(recommendJobList.get(pos - recommendList.size()).getJob_id());
+                        jobId=recommendJobList.get(pos - recommendList.size()).getJob_id();
+                        jobName=recommendJobList.get(pos - recommendList.size()).getJob_name();
                     }
                 }else{
                     industryName=recommendList.get(pos).getIndustry_name();
-                    mPresenter.deliverPosition(recommendList.get(pos).getJob_id());
+                    jobId=recommendList.get(pos).getJob_id();
+                    jobName=recommendList.get(pos).getJob_name();
                 }
+                String s=getString(R.string.deliverOrNot1)+"“ "+jobName+" ”"+getString(R.string.deliverOrNot2);
+                SpannableStringBuilder style=new SpannableStringBuilder(s);
+                style.setSpan(new ForegroundColorSpan(Color.RED),6,6+jobName.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);     //设置指定位置textview的背景颜色
+                //设置指定位置文字的颜色
+                dialogMessage.setMessage(style);
+                dialogMessage.setNoOnclickListener("否", new MyDialog.onNoOnclickListener() {
+                    @Override
+                    public void onNoClick() {
+                        dialogMessage.dismiss();
+                    }
+                });
+                dialogMessage.setYesOnclickListener("是", new MyDialog.onYesOnclickListener() {
+                    @Override
+                    public void onYesClick() {
+                        mPresenter.deliverPosition(jobId);
+                        dialogMessage.dismiss();
+                    }
+                });
+                dialogMessage.show();
             }
         });
     }
@@ -359,6 +398,17 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
         rvHomeFragment.setAdapter(jobAdapter);
         rvHomeFragment.refreshComplete();
         rvHomeFragment.setLoadingMoreEnabled(false);
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMethod(EventHomeBean eventHomeBean){
+        switch (eventHomeBean.getType()){
+            case 0:
+                notificationDataItem(eventHomeBean.getPosition());
+                break;
+            case 1:
+                setImage();
+                break;
+        }
     }
     public void notificationDataItem(int pos){
         position=pos;
@@ -550,6 +600,11 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
         if(dialog!=null){
             dialog.dismiss();
         }
+        if(dialogMessage!=null){
+            dialogMessage.dismiss();
+        }
+        instance=null;
+        EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 }

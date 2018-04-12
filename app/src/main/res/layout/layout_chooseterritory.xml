@@ -11,28 +11,24 @@
         android:layout_height="match_parent">
     </android.support.v7.widget.RecyclerView>
     <LinearLayout
+        android:background="@color/white"
         android:layout_alignParentBottom="true"
         android:id="@+id/ll_chooseTerritory"
         android:layout_width="match_parent"
         android:orientation="horizontal"
-        android:layout_height="@dimen/x90">
+        android:layout_height="wrap_content">
         <Button
             android:id="@+id/btn_cancel"
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:text="@string/cancel"
+            android:layout_marginRight="@dimen/x90"
+            android:text="@string/next"
+            android:layout_marginTop="@dimen/x20"
             android:textSize="@dimen/x36"
+            android:layout_marginLeft="@dimen/x90"
+            android:layout_marginBottom="@dimen/x56"
             android:textColor="@color/white"
-            android:background="@color/color_333"
-            android:layout_height="match_parent" />
-        <Button
-            android:id="@+id/btn_confirm"
-            android:layout_weight="1"
-            android:text="@string/confirm"
-            android:textColor="@color/white"
-            android:textSize="@dimen/x36"
-            android:background="@color/new_main"
-            android:layout_width="0dp"
-            android:layout_height="match_parent" />
+            android:background="@drawable/button_bg"
+            android:layout_height="@dimen/x80" />
     </LinearLayout>
 </RelativeLayout>

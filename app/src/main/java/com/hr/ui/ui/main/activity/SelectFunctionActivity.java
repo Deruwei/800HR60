@@ -20,6 +20,7 @@ import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseNoConnectNetworkAcitivty;
 import com.hr.ui.bean.CityBean;
+import com.hr.ui.bean.EvenList;
 import com.hr.ui.ui.main.adapter.MySelectFunctionLeftAdapter;
 import com.hr.ui.ui.main.adapter.MySelectFunctionRightAdapter;
 import com.hr.ui.ui.main.adapter.MySelectPositionRightAdapter;
@@ -27,6 +28,8 @@ import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.datautils.FromStringToArrayList;
 import com.hr.ui.utils.datautils.ResumeInfoIDToString;
 import com.hr.ui.view.MyFlowLayout;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -253,7 +256,7 @@ public class SelectFunctionActivity extends BaseNoConnectNetworkAcitivty {
                     if (currentPosition < 5) {
                         if (selectFunctionList != null && selectFunctionList.size() != 0) {
                             if(tag.equals(JobOrderActivity.TAG)) {
-                                JobOrderActivity.instance.setFunctionList(industryId, selectFunctionList);
+                                EventBus.getDefault().post(new EvenList(2,industryId,selectFunctionList));
                             }else if(tag.equals(JobSerchActivity.TAG)){
                                /* JobSerchActivity.instance.setFunctionList(industryId, selectFunctionList);*/
                             }
@@ -264,7 +267,7 @@ public class SelectFunctionActivity extends BaseNoConnectNetworkAcitivty {
                         }
                     } else {
                         if(tag.equals(JobOrderActivity.TAG)) {
-                            JobOrderActivity.instance.setFunctionList(industryId, selectFunctionList);
+                            EventBus.getDefault().post(new EvenList(2,industryId,selectFunctionList));
                         }else if(tag.equals(JobSerchActivity.TAG)){
                            /* JobSerchActivity.instance.setFunctionList(industryId, selectFunctionList);*/
                         }

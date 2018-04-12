@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
+import com.hr.ui.bean.EventString;
 import com.hr.ui.bean.ProjectBean;
 import com.hr.ui.bean.ProjectExpData;
 import com.hr.ui.constants.Constants;
@@ -29,6 +30,10 @@ import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.MyDialog;
 import com.hr.ui.view.MyStartAndEndTimeCustomDatePicker;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -92,7 +97,6 @@ public class ResumeProjectExpActivity extends BaseActivity<ResumeProjectExpPrese
     private String startTimes, endTimes;
     private MyStartAndEndTimeCustomDatePicker datePickerTime;
     private String projectId;
-    public static ResumeProjectExpActivity instance;
     public static String TAG=ResumeProjectExpActivity.class.getSimpleName();
     private SharedPreferencesUtils sUtils;
     private MyDialog dialog;
@@ -179,6 +183,7 @@ public class ResumeProjectExpActivity extends BaseActivity<ResumeProjectExpPrese
     @Override
     public void initView() {
         setSupportActionBar(toolBar);
+        EventBus.getDefault().register(this);
         sUtils=new SharedPreferencesUtils(this);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -187,7 +192,6 @@ public class ResumeProjectExpActivity extends BaseActivity<ResumeProjectExpPrese
         toolBar.setTitleTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
         toolBar.setNavigationIcon(R.mipmap.back);
         tvToolbarTitle.setText(R.string.projectExp);
-        instance=this;
         ivResumeProjectExpNameDelete.setVisibility(View.GONE);
         ivResumeProjectExpPositionDelete.setVisibility(View.GONE);
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -352,6 +356,7 @@ public class ResumeProjectExpActivity extends BaseActivity<ResumeProjectExpPrese
         if(dialog!=null){
             dialog.dismiss();
         }
+        EventBus.getDefault().unregister(this);
     }
     private void doAddOrReplaceProjectExp() {
         if("".equals(etResumeProjectExpName.getText().toString())||etResumeProjectExpName.getText().toString()==null){
@@ -396,10 +401,18 @@ public class ResumeProjectExpActivity extends BaseActivity<ResumeProjectExpPrese
         clProjectExp.requestFocus();
         clProjectExp.findFocus();
     }
-    public void setDes(String content){
-        tvResumeProjectExpDes.setText(content);
-    }
-    public void setRes(String content){
-        tvResumeProjectExpResponsibility.setText(content);
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void setDes(EventString eventString){
+        switch (eventString.getType()){
+            //项目描述
+            case "1":
+                tvResumeProjectExpDes.setText(eventString.getMsg());
+                break;
+                //项目职责
+            case "2":
+                tvResumeProjectExpResponsibility.setText(eventString.getMsg());
+                break;
+        }
+
     }
 }

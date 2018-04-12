@@ -27,6 +27,8 @@ import android.widget.Toast;
 import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
+import com.hr.ui.bean.EventBean;
+import com.hr.ui.bean.EventString;
 import com.hr.ui.bean.LoginBean;
 import com.hr.ui.constants.Constants;
 import com.hr.ui.db.LoginDBUtils;
@@ -41,6 +43,8 @@ import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.Utils;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.service.CodeTimerService;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -133,7 +137,8 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
         ToastUitl.showShort("更改手机成功");
         finish();
         if (ResumePersonalInfoActivity.TAG.equals(Tag)) {
-            ResumePersonalInfoActivity.instance.setValid(etChangePhoneNumber.getText().toString());
+           // ResumePersonalInfoActivity.instance.setValid(etChangePhoneNumber.getText().toString());
+            EventBus.getDefault().post(new EventString(etChangePhoneNumber.getText().toString(),"validCode"));
         }
 
     }

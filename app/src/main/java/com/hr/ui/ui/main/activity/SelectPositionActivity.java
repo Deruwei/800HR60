@@ -24,6 +24,7 @@ import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseNoConnectNetworkAcitivty;
 import com.hr.ui.bean.CityBean;
+import com.hr.ui.bean.EvenList;
 import com.hr.ui.bean.HistoryBean;
 import com.hr.ui.bean.JobSearchBean;
 import com.hr.ui.bean.SearchHistoryBean;
@@ -35,6 +36,8 @@ import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.Utils;
 import com.hr.ui.utils.datautils.FromStringToArrayList;
 import com.hr.ui.view.MyFlowLayout;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -199,7 +202,8 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
             case R.id.tv_selectPositionOK:
                 if (selectPositionList != null && selectPositionList.size() != 0) {
                     if (JobOrderActivity.TAG.equals(tag)) {
-                        JobOrderActivity.instance.setPositionList(selectPositionList);
+                        //JobOrderActivity.instance.setPositionList(selectPositionList);
+                        EventBus.getDefault().post(new EvenList(1,selectPositionList));
                     } else if (JobSerchActivity.TAG.equals(tag)) {
                        /* JobSerchActivity.instance.setPosition(selectPositionList);*/
                        JobSearchBean jobSearchBean=new JobSearchBean();
@@ -458,5 +462,11 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
             positionRightList.get(position).setCheck(true);
         }
         rightAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        instance=null;
     }
 }

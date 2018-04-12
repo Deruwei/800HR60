@@ -8,7 +8,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_width="0dp"
-        app:cardElevation="@dimen/x2"
+        app:cardElevation="@dimen/x1"
         app:cardCornerRadius="0dp"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_height="wrap_content">
@@ -70,14 +70,9 @@
                             android:background="@color/resumeContent_bg"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/x20"/>
-                        <android.support.v7.widget.CardView
-                            android:id="@+id/cv_messageFragmentTop"
-                            android:layout_below="@+id/view_messageFragment1"
-                            app:cardElevation="@dimen/x2"
-                            app:cardCornerRadius="0dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
                             <LinearLayout
+                                android:id="@+id/ll_messageMiddle"
+                                android:layout_below="@+id/view_messageFragment1"
                                 android:orientation="vertical"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
@@ -321,21 +316,15 @@
                                     </FrameLayout>
                                 </RelativeLayout>
                                     </LinearLayout>
-                                </android.support.v7.widget.CardView>
+
                         <View
                             android:id="@+id/view_messageFragment2"
-                            android:layout_below="@+id/cv_messageFragmentTop"
+                            android:layout_below="@+id/ll_messageMiddle"
                             android:background="@color/resumeContent_bg"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/x20"/>
-                        <android.support.v7.widget.CardView
-                            android:layout_below="@+id/view_messageFragment2"
-                            app:cardCornerRadius="0dp"
-                            app:cardElevation="@dimen/x6"
-                            android:background="@color/new_main"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
                             <RelativeLayout
+                                android:layout_below="@+id/view_messageFragment2"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent">
                                 <com.hr.ui.view.XRecyclerView
@@ -344,7 +333,6 @@
                                     android:layout_height="match_parent">
                                 </com.hr.ui.view.XRecyclerView>
                             </RelativeLayout>
-                        </android.support.v7.widget.CardView>
                     </RelativeLayout>
                 </android.support.v4.widget.NestedScrollView>
             </android.support.v4.widget.SwipeRefreshLayout>

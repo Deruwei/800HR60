@@ -463,7 +463,7 @@ public class FromStringToArrayList {
     public  String getExpectFieldName(String industryId,String text){
         List<CityBean> expectFieldList=new ArrayList<>();
         String s=SaveFile.getDataFromInternalStorage(HRApplication.getAppContext(),"lingyu.txt");
-        Log.i("现在的数据",s);
+        //Log.i("现在的数据",s);
         try {
             JSONObject jsonObject=new JSONObject(s);
             JSONArray jsonArray=jsonObject.getJSONArray(industryId);

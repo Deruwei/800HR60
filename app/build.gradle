@@ -1,7 +1,12 @@
 apply plugin: 'com.android.application'
 apply plugin:'org.greenrobot.greendao'
 apply plugin:'newlens'
+
+
 android {
+    dexOptions {
+        javaMaxHeapSize "4096M"
+    }
     signingConfigs {
         release {
             keyAlias '800hr'
@@ -29,6 +34,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             //输出的为渠道包的名字，例如 xiaomi.apk
         }
+
     }
     flavorDimensions "umeng"
     productFlavors {
@@ -60,16 +66,14 @@ android {
         }
     }
 }
+
 allprojects {
     repositories {
         mavenCentral()
     }
 }
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:26.1.0'
     compile 'com.android.support:cardview-v7:26.1.0'
-    compile 'com.android.support:recyclerview-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
@@ -96,21 +100,20 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.1.1'
     implementation 'com.android.support:design:26.1.0'
     implementation files('libs/nineoldandroids-2.4.0.jar')
-    implementation files('libs/MobCommons-2017.1201.1507.jar')
-    implementation files('libs/MobTools-2017.1201.1507.jar')
-    implementation files('libs/ShareSDK-Core-3.1.2.jar')
-    compile 'com.android.support:multidex:1.0.1'
-    implementation files('libs/ShareSDK-QQ-3.1.2.jar')
-    implementation files('libs/ShareSDK-QZone-3.1.2.jar')
-    implementation files('libs/ShareSDK-SinaWeibo-3.1.2.jar')
-    implementation files('libs/ShareSDK-Wechat-3.1.2.jar')
-    implementation files('libs/ShareSDK-Wechat-Core-3.1.2.jar')
-    implementation files('libs/ShareSDK-Wechat-Favorite-3.1.2.jar')
-    implementation files('libs/ShareSDK-Wechat-Moments-3.1.2.jar')
+    compile 'com.android.support:multidex:1.0.2'
     implementation files('libs/BaiduLBS_Android.jar')
     /*implementation files('libs/httpmime-4.1.2.jar')*/
     implementation project(':imagepicker')
     compile 'com.caption:netmonitorlibrary:1.0.0'
     implementation files('libs/IndoorscapeAlbumPlugin.jar')
-
+    implementation files('libs/MobCommons-2018.0308.1404.jar')
+    implementation files('libs/MobTools-2018.0307.2123.jar')
+    implementation files('libs/ShareSDK-QQ-3.1.4.jar')
+    implementation files('libs/ShareSDK-Core-3.1.4.jar')
+    implementation files('libs/ShareSDK-QZone-3.1.4.jar')
+    implementation files('libs/ShareSDK-SinaWeibo-3.1.4.jar')
+    implementation files('libs/ShareSDK-Wechat-3.1.4.jar')
+    implementation files('libs/ShareSDK-Wechat-Core-3.1.4.jar')
+    implementation files('libs/ShareSDK-Wechat-Favorite-3.1.4.jar')
+    implementation files('libs/ShareSDK-Wechat-Moments-3.1.4.jar')
 }

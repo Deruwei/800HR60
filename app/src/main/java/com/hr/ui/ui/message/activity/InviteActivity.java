@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
+import com.hr.ui.bean.EventHomeBean;
 import com.hr.ui.bean.InviteBean;
 import com.hr.ui.bean.PositionBean;
 import com.hr.ui.constants.Constants;
@@ -29,6 +30,8 @@ import com.hr.ui.ui.message.model.InviteModel;
 import com.hr.ui.ui.message.presenter.InvitePresenter;
 import com.hr.ui.utils.Utils;
 import com.umeng.analytics.MobclickAgent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -185,7 +188,8 @@ public class InviteActivity extends BaseActivity<InvitePresenter, InviteModel> i
     @Override
     public void setInviteIsReadSuccess() {
         //Log.i("现在的位置",position+"-----");
-        MessageFragment.instance.setInviteHide(position);
+       // MessageFragment.instance.setInviteHide(position);
+        EventBus.getDefault().post(new EventHomeBean(3,position));
     }
 
     @Override

@@ -21,6 +21,8 @@ import com.hr.ui.app.AppManager;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
 import com.hr.ui.bean.CityBean;
+import com.hr.ui.bean.EventBean;
+import com.hr.ui.bean.EventString;
 import com.hr.ui.bean.WorkExpData;
 import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.main.contract.WorkExpContract;
@@ -33,6 +35,10 @@ import com.hr.ui.view.MyDialog;
 import com.hr.ui.view.MyStartAndEndTimeCustomDatePicker;
 import com.hr.ui.view.MyTextView;
 import com.umeng.analytics.MobclickAgent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -107,7 +113,6 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
     private String endTimes, startTimes, cityId, responbilityDes;
     private MyStartAndEndTimeCustomDatePicker datePickerSE;
     public static final String TAG = WorkExpActivity.class.getSimpleName();
-    public static WorkExpActivity instance;
     private String type;//简历类型
     private SharedPreferencesUtils sUtis;
     private MyDialog myDialog;
@@ -153,8 +158,8 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
 
     @Override
     public void initView() {
-        instance=this;
         sUtis = new SharedPreferencesUtils(this);
+        EventBus.getDefault().register(this);
         type = sUtis.getStringValue(Constants.RESUME_TYPE, "");
         stopType = sUtis.getIntValue(Constants.RESUME_STOPTYPE, 0);
         startType = sUtis.getIntValue(Constants.RESUME_STARTTYPE, 0);
@@ -196,7 +201,6 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
-        instance = this;
         initDialog();
         initListener();
     }
@@ -468,19 +472,24 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
         workExpData.setResponsibilityDescription(responbilityDes);
         mPresenter.sendWorkExpToResume(workExpData);
     }
-
-    public void setSelectCity(CityBean cityBean) {
-        if(cityBean!=null) {
-            if (tvWorkPlace != null) {
-                tvWorkPlace.setText(cityBean.getName());
-            }
-            cityId = cityBean.getId();
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void setSelectCity(EventBean eventBean) {
+        switch (eventBean.getTag()){
+            case "WorkExpActivity":
+                if(eventBean.getCityBean()!=null) {
+                    if (tvWorkPlace != null) {
+                        tvWorkPlace.setText(eventBean.getCityBean().getName());
+                    }
+                    cityId = eventBean.getCityBean().getId();
+                }
+                break;
         }
-    }
 
-    public void setTvResponsibilityDes(String content) {
-        tvResponsibilityDes.setText(content);
-        responbilityDes = content;
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void setTvResponsibilityDes(EventString eventString) {
+        tvResponsibilityDes.setText(eventString.getMsg());
+        responbilityDes = eventString.getMsg();
     }
 
     @OnClick(R.id.rl_responsibilityDes)
@@ -540,5 +549,11 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
         } else {
             JobOrderActivity.startAction(this);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

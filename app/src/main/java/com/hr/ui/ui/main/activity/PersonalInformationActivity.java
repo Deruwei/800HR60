@@ -35,6 +35,7 @@ import com.hr.ui.app.AppManager;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
 import com.hr.ui.bean.CityBean;
+import com.hr.ui.bean.EventBean;
 import com.hr.ui.bean.PersonalInformationData;
 import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.main.contract.PersonalInformationContract;
@@ -57,6 +58,10 @@ import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.umeng.analytics.MobclickAgent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -135,7 +140,6 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
     private CustomDatePicker customDatePickerJobTitle, datePickerSex, datePickerStartJobTime;
     private MyCustomDatePicker datePickerBirth;
     private String jobTitleId, sex, bitrh, cityId, workTime, phoneNumber;
-    public static PersonalInformationActivity instance;
     private String type;//简历类型 学生 已工作
     public static final String TAG = PersonalInformationActivity.class.getSimpleName();
     private MyDialog myDialog;
@@ -233,6 +237,7 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
     @Override
     public void initView() {
         sUtis = new SharedPreferencesUtils(this);
+        EventBus.getDefault().register(this);
         stopType = sUtis.getIntValue(Constants.RESUME_STOPTYPE, 0);
         startType=sUtis.getIntValue(Constants.RESUME_STARTTYPE,0);
         resumeType=getIntent().getStringExtra("resumeType");
@@ -261,6 +266,7 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
         if (stopType == 1) {
             btnNext.setText(R.string.complete);
         }
+        initTextChangeAndFocusChange();
         tvNameTag.setTitleWidth(tvBirthTag);
         tvSexTag.setTitleWidth(tvBirthTag);
         tvBirthTag.setTitleWidth(tvBirthTag);
@@ -270,170 +276,16 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
         tvWorkTimeTag.setTitleWidth(tvBirthTag);
         ivNameDelete.setVisibility(View.GONE);
         tvEmailDelete.setVisibility(View.GONE);
-        etName.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    }
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() > 0) {
-                    ivNameDelete.setVisibility(View.VISIBLE);
-                } else {
-                    ivNameDelete.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        etEmail.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() > 0) {
-                    tvEmailDelete.setVisibility(View.VISIBLE);
-                } else {
-                    tvEmailDelete.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        tvBirth.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() > 0) {
-                    tvBirthSelect.setImageResource(R.mipmap.right_arrow);
-                } else {
-                    tvBirthSelect.setImageResource(R.mipmap.arrowright);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        tvSex.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() > 0) {
-                    ivSexSelect.setImageResource(R.mipmap.right_arrow);
-                } else {
-                    ivSexSelect.setImageResource(R.mipmap.arrowright);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        tvLivePlace.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() > 0) {
-                    tvLivePlaceSelect.setImageResource(R.mipmap.right_arrow);
-                } else {
-                    tvLivePlaceSelect.setImageResource(R.mipmap.arrowright);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        tvWorkTime.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() > 0) {
-                    tvWorkTimeSelect.setImageResource(R.mipmap.right_arrow);
-                } else {
-                    tvWorkTimeSelect.setImageResource(R.mipmap.arrowright);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        etName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
-                    ivNameDelete.setVisibility(View.GONE);
-                }else{
-                    if(etName.getText().toString()!=null&&!"".equals(etName.getText().toString())){
-                        ivNameDelete.setVisibility(View.VISIBLE);
-                    }
-                }
-            }
-        });
-        etEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
-                    tvEmailDelete.setVisibility(View.GONE);
-                }else{
-                    if(etEmail.getText().toString()!=null&&!"".equals(etEmail.getText().toString())){
-                        tvEmailDelete.setVisibility(View.VISIBLE);
-                    }
-                }
-            }
-        });
-        tvPositionTitle.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() > 0) {
-                    tvPositionTitleSelect.setImageResource(R.mipmap.right_arrow);
-                } else {
-                    tvPositionTitleSelect.setImageResource(R.mipmap.arrowright);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+    private void initTextChangeAndFocusChange() {
+        Utils.setEditViewTextChangeAndFocus(etName,ivNameDelete);
+        Utils.setEditViewTextChangeAndFocus(etEmail,tvEmailDelete);
+        Utils.setTextViewChangeIconRightChange(tvSex,ivSexSelect);
+        Utils.setTextViewChangeIconRightChange(tvBirth,tvBirthSelect);
+        Utils.setTextViewChangeIconRightChange(tvLivePlace,tvLivePlaceSelect);
+        Utils.setTextViewChangeIconRightChange(tvWorkTime,tvWorkTimeSelect);
+        Utils.setTextViewChangeIconRightChange(tvPositionTitle,tvPositionTitleSelect);
     }
 
     @Override
@@ -441,7 +293,6 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
-        instance = this;
         initDialog();
     }
 
@@ -613,13 +464,17 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
             mPresenter.sendPersonalInformationToResume(personalInformationData);
         }
     }
-
-    public void setSelectCity(CityBean cityBean) {
-        if(cityBean!=null&&!"".equals(cityBean)) {
-            if (!"".equals(cityBean.getName()) && cityBean.getName() != null) {
-                tvLivePlace.setText(cityBean.getName());
-            }
-            cityId = cityBean.getId();
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void setSelectCity(EventBean eventBean) {
+        switch (eventBean.getTag()){
+            case "PersonalInformationActivity":
+                if(eventBean.getCityBean()!=null&&!"".equals(eventBean.getCityBean())) {
+                    if (!"".equals(eventBean.getCityBean().getName()) && eventBean.getCityBean().getName() != null) {
+                        tvLivePlace.setText(eventBean.getCityBean().getName());
+                    }
+                    cityId = eventBean.getCityBean().getId();
+                }
+                break;
         }
     }
 
@@ -721,12 +576,6 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
         popupWindow.showAtLocation(rootview, Gravity.BOTTOM, 0, 0);
     }
 
-    //dp转px工具
-    public int dip2px(Context context, float dpValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -767,9 +616,7 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
 
     @Override
     protected void onDestroy() {
-        if(instance!=null){
-            instance=null;
-        }
+       EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 }

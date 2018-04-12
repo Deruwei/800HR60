@@ -249,6 +249,7 @@
         <item name="android:background">@color/resumeContent_bg</item>
     </style>
     <style name="resume_RelativeLayout">
+        <item name="android:background">@color/white</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_marginLeft">@dimen/x32</item>
         <item name="android:layout_marginRight">@dimen/x32</item>

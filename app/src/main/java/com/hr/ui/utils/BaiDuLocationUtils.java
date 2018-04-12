@@ -37,9 +37,11 @@ public class BaiDuLocationUtils {
         }
     }
     public void stopLocation(){
-        if(client.isStarted()){
-            client.unRegisterLocationListener(listener);
-            client.stop();
+        if(client!=null) {
+            if (client.isStarted()) {
+                client.unRegisterLocationListener(listener);
+                client.stop();
+            }
         }
     }
 }

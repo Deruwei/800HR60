@@ -426,4 +426,5 @@ public class EducationActivity extends BaseActivity<EducationPresenter, Educatio
             WorkExpActivity.startAction(this);
         }
     }
+    
 }

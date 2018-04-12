@@ -168,6 +168,7 @@
                 android:id="@+id/rl_settingVersionDes"
                 style="@style/rl_setting">
                 <TextView
+                    android:id="@+id/tv_settingsVersionDes"
                     android:text="@string/versionDes"
                     style="@style/tv_setting" />
                 <ImageView

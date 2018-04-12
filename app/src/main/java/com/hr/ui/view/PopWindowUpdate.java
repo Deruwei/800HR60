@@ -82,7 +82,7 @@ public class PopWindowUpdate {
                 popupWindow.dismiss();
             }
         });
-        tvUpdateContent.setText(androidBean.getText()+"\n"+androidBean.getText()+"\n"+androidBean.getText()+"\n"+androidBean.getText()+"\n"+androidBean.getText());
+        tvUpdateContent.setText(androidBean.getText());
         tvUpdateContent.setMovementMethod(ScrollingMovementMethod.getInstance());
         // 设置背景颜色变暗
         WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
@@ -114,7 +114,7 @@ public class PopWindowUpdate {
     private void downLoadApp(){
         String s=androidBean.getUrl()+"android/800hr.apk";
         fileName = s.substring(s.lastIndexOf("/") + 1);
-        fileName=fileName.substring(0,fileName.indexOf("."))+ BuildConfig.VERSION_NAME.replace(".","_")+fileName.substring(fileName.indexOf("."));
+        fileName=fileName.substring(0,fileName.indexOf("."))+ androidBean.getVer().replace(".","_")+fileName.substring(fileName.indexOf("."));
         /*缓存文件*/
         fileNametemp = "download.tmp";
         /*下载目录*/

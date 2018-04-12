@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.service.carrier.CarrierService;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
@@ -25,6 +26,7 @@ import com.hr.ui.app.AppManager;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
 import com.hr.ui.bean.CityBean;
+import com.hr.ui.bean.EvenList;
 import com.hr.ui.bean.JobOrderData;
 import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.main.contract.JobOrderContract;
@@ -40,7 +42,12 @@ import com.hr.ui.view.MyDialog;
 import com.hr.ui.view.MyTextView;
 import com.umeng.analytics.MobclickAgent;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.List;
 
 import butterknife.BindView;
@@ -91,7 +98,6 @@ public class JobOrderActivity extends BaseActivity<JobOrderPresenter, JobOrderMo
     @BindView(R.id.cl_jobOrder)
     ConstraintLayout clJobOrder;
     private int userId;
-    public static JobOrderActivity instance;
     @BindView(R.id.tv_expectSalarySelect)
     ImageView tvExpectSalarySelect;
     private List<CityBean> selectPositonList = new ArrayList<>();
@@ -164,6 +170,7 @@ public class JobOrderActivity extends BaseActivity<JobOrderPresenter, JobOrderMo
     @Override
     public void initView() {
         sUtils = new SharedPreferencesUtils(this);
+        EventBus.getDefault().register(this);
         stopType = sUtils.getIntValue(Constants.RESUME_STOPTYPE, 0);
         startType=sUtils.getIntValue(Constants.RESUME_STARTTYPE,0);
         setSupportActionBar(toolBar);
@@ -192,119 +199,11 @@ public class JobOrderActivity extends BaseActivity<JobOrderPresenter, JobOrderMo
      */
     private void textChangeMethod() {
         tvExpectSalarySelect.setVisibility(View.GONE);
-        tvJobType.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() > 0) {
-                    ivJobTypeSelect.setImageResource(R.mipmap.right_arrow);
-                } else {
-                    ivJobTypeSelect.setImageResource(R.mipmap.arrowright);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        tvExpectedPosition.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() > 0) {
-                    tvExpectedPositionSelect.setImageResource(R.mipmap.right_arrow);
-                } else {
-                    tvExpectedPositionSelect.setImageResource(R.mipmap.arrowright);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        tvExpectedField.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() > 0) {
-                    tvExpectedFieldSelect.setImageResource(R.mipmap.right_arrow);
-                } else {
-                    tvExpectedFieldSelect.setImageResource(R.mipmap.arrowright);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        tvExpectSalary.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() > 0) {
-                    tvExpectSalarySelect.setVisibility(View.VISIBLE);
-                } else {
-                    tvExpectSalarySelect.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        tvExpectedAddress.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() > 0) {
-                    tvExpectedAddressSelect.setVisibility(View.VISIBLE);
-                } else {
-                    tvExpectedAddressSelect.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        tvExpectSalary.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
-                    tvExpectSalarySelect.setVisibility(View.GONE);
-                }else{
-                    if(tvExpectSalary.getText().toString()!=null&&!"".equals(tvExpectSalary.getText().toString())){
-                        tvExpectSalary.setVisibility(View.VISIBLE);
-                    }
-                }
-            }
-        });
+        Utils.setTextViewChangeIconRightChange(tvJobType,ivJobTypeSelect);
+        Utils.setTextViewChangeIconRightChange(tvExpectedPosition,tvExpectedPositionSelect);
+        Utils.setTextViewChangeIconRightChange(tvExpectedField,tvExpectedFieldSelect);
+        Utils.setTextViewChangeIconRightChange(tvExpectedAddress,tvExpectedAddressSelect);
+        Utils.setEditViewTextChangeAndFocus(tvExpectSalary,tvExpectSalarySelect);
     }
 
     private void setFocus() {
@@ -319,7 +218,6 @@ public class JobOrderActivity extends BaseActivity<JobOrderPresenter, JobOrderMo
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
-        instance = this;
         initDialog();
     }
 
@@ -406,38 +304,25 @@ public class JobOrderActivity extends BaseActivity<JobOrderPresenter, JobOrderMo
     /**
      * 选择职位页面传递过来的参数
      *
-     * @param positionList
+     * @param evenList
      */
-    public void setPositionList(List<CityBean> positionList) {
-        selectPositonList.clear();
-        selectPositonList = positionList;
-        StringBuffer sb = new StringBuffer();
-        StringBuffer sbName = new StringBuffer();
-        for (int i = 0; i < positionList.size(); i++) {
-            sb.append("," + positionList.get(i).getId());
-            if(positionList.get(i).getId().contains("|")) {
-                if(Utils.checkMedicinePositionClass2(positionList.get(i))==true) {
-                    sbName.append("，" + positionList.get(i).getName() + "(" + "行政后勤" + ")");
-                }else{
-                    sbName.append("，" + positionList.get(i).getName() + "(" + Utils.getPositionClassName(positionList.get(i).getId().substring(positionList.get(i).getId().indexOf("|") + 1)) + ")");
-                }
-            }else{
-                sbName.append("，" + positionList.get(i).getName());
-            }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void setEventMethod(EvenList evenList) {
+        switch (evenList.getType()){
+            case 0:
+                setCityData(evenList.getList());
+                break;
+            case 1:
+                setPositionData(evenList.getList());
+                break;
+            case 2:
+                setFunctionData(evenList.getIndustry(),evenList.getList());
+                break;
         }
-        sb.deleteCharAt(0);
-        positionId = sb.toString();
-        sbName.deleteCharAt(0);
-        tvExpectedPosition.setText(sbName);
+
     }
 
-    /**
-     * 选择领域页面传递过来的参数
-     *
-     * @param industryId
-     * @param selectFunctionList
-     */
-    public void setFunctionList(String industryId, List<CityBean> selectFunctionList) {
+    private void setFunctionData(String industryId,List<CityBean> selectFunctionList) {
         this.selectFunctionList.clear();
         if (!industryId.equals(this.industryId)) {
             tvExpectedPosition.setText("");
@@ -464,7 +349,7 @@ public class JobOrderActivity extends BaseActivity<JobOrderPresenter, JobOrderMo
         }
     }
 
-    public void setAddress(List<CityBean> selectCityList) {
+    private void setCityData(List<CityBean> selectCityList) {
         this.selectPlaceList.clear();
         this.selectPlaceList = selectCityList;
         //Log.i("选择",selectFunctionList.toString());
@@ -479,6 +364,31 @@ public class JobOrderActivity extends BaseActivity<JobOrderPresenter, JobOrderMo
         placeId = sb.toString();
         tvExpectedAddress.setText(sbName);
     }
+
+    private void setPositionData(List<CityBean> positionList) {
+        selectPositonList.clear();
+        selectPositonList = positionList;
+        StringBuffer sb = new StringBuffer();
+        StringBuffer sbName = new StringBuffer();
+        for (int i = 0; i < positionList.size(); i++) {
+            sb.append("," + positionList.get(i).getId());
+            if(positionList.get(i).getId().contains("|")) {
+                if(Utils.checkMedicinePositionClass2(positionList.get(i))==true) {
+                    sbName.append("，" + positionList.get(i).getName() + "(" + "行政后勤" + ")");
+                }else{
+                    sbName.append("，" + positionList.get(i).getName() + "(" + Utils.getPositionClassName(positionList.get(i).getId().substring(positionList.get(i).getId().indexOf("|") + 1)) + ")");
+                }
+            }else{
+                sbName.append("，" + positionList.get(i).getName());
+            }
+        }
+        sb.deleteCharAt(0);
+        positionId = sb.toString();
+        sbName.deleteCharAt(0);
+        tvExpectedPosition.setText(sbName);
+    }
+
+
 
     @OnClick(R.id.rl_expectedAddress)
     public void onViewClicked() {
@@ -521,5 +431,11 @@ public class JobOrderActivity extends BaseActivity<JobOrderPresenter, JobOrderMo
         }
 
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

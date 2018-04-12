@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
+import com.hr.ui.bean.EventString;
 import com.hr.ui.bean.ResumeTrainBean;
 import com.hr.ui.bean.TrainExpData;
 import com.hr.ui.constants.Constants;
@@ -28,6 +29,10 @@ import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.MyDialog;
 import com.hr.ui.view.MyStartAndEndTimeCustomDatePicker;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -83,7 +88,6 @@ public class ResumeTrainActivity extends BaseActivity<ResumeTrainExpPresenter, R
     private String startTimes, endTimes;
     private MyStartAndEndTimeCustomDatePicker datePickerTime;
     private String trainId;
-    public static ResumeTrainActivity instance;
     private SharedPreferencesUtils sUtils;
     private MyDialog dialog;
 
@@ -175,7 +179,7 @@ public class ResumeTrainActivity extends BaseActivity<ResumeTrainExpPresenter, R
 
     @Override
     public void initView() {
-        instance = this;
+        EventBus.getDefault().register(this);
         sUtils = new SharedPreferencesUtils(this);
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -341,9 +345,11 @@ public class ResumeTrainActivity extends BaseActivity<ResumeTrainExpPresenter, R
         if(dialog!=null){
             dialog.dismiss();
         }
+        EventBus.getDefault().unregister(this);
     }
-    public void setTrainDes(String content) {
-        etResumeTrainExpTrainDes.setText(content);
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void setTrainDes(EventString eventString) {
+        etResumeTrainExpTrainDes.setText(eventString.getMsg());
     }
 
     private void doAddOrReplaceTrainData() {

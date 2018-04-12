@@ -16,10 +16,13 @@ import android.widget.TextView;
 import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseNoConnectNetworkAcitivty;
+import com.hr.ui.bean.EventString;
 import com.hr.ui.ui.resume.activity.ResumeWorkExpActivity;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.Utils;
 import com.hr.ui.view.MyDialog;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -126,9 +129,10 @@ public class ContentActivity extends BaseNoConnectNetworkAcitivty {
             return;
         }
         if(tag.equals(WorkExpActivity.TAG)) {
-            WorkExpActivity.instance.setTvResponsibilityDes(etContent.getText().toString());
+           EventBus.getDefault().post(new EventString(etContent.getText().toString(),WorkExpActivity.class.getSimpleName()));
         }else if(tag.equals(ResumeWorkExpActivity.TAG)){
-            ResumeWorkExpActivity.instance.setTvResponsibilityDes(etContent.getText().toString());
+            EventBus.getDefault().post(new EventString(etContent.getText().toString(),ResumeWorkExpActivity.class.getSimpleName()));
+            //ResumeWorkExpActivity.instance.setTvResponsibilityDes(etContent.getText().toString());
         }
         finish();
     }

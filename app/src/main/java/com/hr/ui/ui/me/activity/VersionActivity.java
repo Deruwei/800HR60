@@ -141,7 +141,7 @@ public class VersionActivity extends BaseActivity<VersionPresenter, VersionModel
             @Override
             public void onReceivedTitle(WebView view, String title) {
                 //System.out.println("标题在这里");
-                tvToolbarTitle.setText(title);
+                tvToolbarTitle.setText("行业找工作（"+BuildConfig.VERSION_NAME+"）");
             }
 
 

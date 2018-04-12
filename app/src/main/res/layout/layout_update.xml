@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="@dimen/x700">
         <RelativeLayout
-            android:background="@color/white"
+            android:background="@drawable/edit_bg"
             android:orientation="vertical"
             android:layout_marginTop="@dimen/x82"
             android:layout_gravity="center_horizontal"

@@ -10,11 +10,14 @@ import android.widget.PopupWindow;
 
 import com.hr.ui.R;
 import com.hr.ui.bean.CityBean;
+import com.hr.ui.bean.EvenList;
 import com.hr.ui.ui.main.activity.SelectOptionsActivity;
 import com.hr.ui.ui.main.activity.SelectPositionActivity;
 import com.hr.ui.ui.main.adapter.MyPositionClassAdapter;
 import com.hr.ui.utils.datautils.FromStringToArrayList;
 import com.hr.ui.utils.recyclerviewutils.OnItemClickListener;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +84,8 @@ public class PopupWindowPositonClassView {
                     selectPositionClassList.add(positionClassList.get(position));
                     adapter.notifyDataSetChanged();
                     if(activity instanceof SelectOptionsActivity) {
-                        SelectOptionsActivity.instance.setPositionClassList(selectPositionClassList);
+                        EventBus.getDefault().post(new EvenList(6,selectPositionClassList));
+                        //SelectOptionsActivity.instance.setPositionClassList(selectPositionClassList);
                     }else if(activity instanceof SelectPositionActivity){
                         SelectPositionActivity.instance.setPositionClassList(selectPositionClassList);
                     }

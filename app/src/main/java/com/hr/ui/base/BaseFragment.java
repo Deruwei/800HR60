@@ -79,7 +79,7 @@ public abstract  class BaseFragment<T extends BasePresenter, E extends BaseModel
         if(mPresenter!=null){
             mPresenter.mContext=this.getActivity();
         }
-        // 网络改变的一个回掉类
+        // 网络改变的一个回调类
         mNetChangeObserver = new NetChangeObserver() {
             @Override
             public void onNetConnected(NetUtils.NetType type) {

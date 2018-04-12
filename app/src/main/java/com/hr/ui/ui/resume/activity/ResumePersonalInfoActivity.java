@@ -13,6 +13,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +33,8 @@ import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
 import com.hr.ui.bean.CityBean;
+import com.hr.ui.bean.EventBean;
+import com.hr.ui.bean.EventString;
 import com.hr.ui.bean.PersonalInformationData;
 import com.hr.ui.bean.ResumePersonalInfoBean;
 import com.hr.ui.constants.Constants;
@@ -44,6 +47,7 @@ import com.hr.ui.ui.resume.presenter.ResumePersonalInfoPresenter;
 import com.hr.ui.utils.Base64;
 import com.hr.ui.utils.RegularExpression;
 import com.hr.ui.utils.ToastUitl;
+import com.hr.ui.utils.Utils;
 import com.hr.ui.utils.datautils.FromStringToArrayList;
 import com.hr.ui.utils.datautils.ResumeInfoIDToString;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
@@ -53,6 +57,10 @@ import com.hr.ui.view.MyCustomDatePicker;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -155,7 +163,6 @@ public class ResumePersonalInfoActivity extends BaseActivity<ResumePersonalInfoP
     private CustomDatePicker datePickerSex, datePickerWorkTime, datePickerPositionTitle;
     private MyCustomDatePicker datePickerBirth;
     public static final String TAG = ResumePersonalInfoActivity.class.getSimpleName();
-    public static ResumePersonalInfoActivity instance;
     private List<CityBean> cityBeanList = new ArrayList<>();
     private PopupWindow popupWindow;
     public static final int REQUEST_CODE_SELECT = 0x10;
@@ -278,10 +285,10 @@ public class ResumePersonalInfoActivity extends BaseActivity<ResumePersonalInfoP
 
     @Override
     public void initView() {
-        instance = this;
         sUtils = new SharedPreferencesUtils(this);
         mPresenter.getPersonalInfo();
         setSupportActionBar(toolBar);
+        EventBus.getDefault().register(this);
         birthYear = sUtils.getStringValue(Constants.BIRTHYEAR, "");
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -299,74 +306,8 @@ public class ResumePersonalInfoActivity extends BaseActivity<ResumePersonalInfoP
     }
 
     private void setTextChangedListener() {
-        etResumePersonName.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() > 0) {
-                    ivPersonNameDelete.setVisibility(View.VISIBLE);
-                } else {
-                    ivPersonNameDelete.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        etResumePersonName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    ivPersonNameDelete.setVisibility(View.GONE);
-                } else {
-                    if (etResumeBirth.getText().toString() != null && !"".equals(etResumePersonName.getText().toString())) {
-                        ivPersonNameDelete.setVisibility(View.VISIBLE);
-                    }
-                }
-            }
-        });
-        etResumeEmail.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() > 0) {
-                    ivResumeEmailDelete.setVisibility(View.VISIBLE);
-                } else {
-                    ivResumeEmailDelete.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        etResumeEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    //System.out.println("焦点失去");
-                    ivResumeEmailDelete.setVisibility(View.GONE);
-                } else {
-                    //System.out.println("焦点得到");
-                    if (etResumeEmail.getText().toString() != null && !"".equals(etResumeEmail.getText().toString())) {
-                        ivResumeEmailDelete.setVisibility(View.VISIBLE);
-
-                    }
-                }
-                etResumeEmail.postInvalidate();
-            }
-        });
+        Utils.setEditViewTextChangeAndFocus(etResumePersonName,ivPersonNameDelete);
+        Utils.setTextViewChangeIconRightChange(etResumeEmail,ivResumeEmailDelete);
     }
 
     @Override
@@ -624,19 +565,31 @@ public class ResumePersonalInfoActivity extends BaseActivity<ResumePersonalInfoP
             mPresenter.updatePersonalInfo(personalInformationData);
         }
     }
-
-    public void setSelectCity(CityBean cityBean) {
-        if(cityBean!=null) {
-            etResumeLivePlace.setText(cityBean.getName());
-            liveplaceId = cityBean.getId();
-            cityBeanList.clear();
-            cityBeanList.add(cityBean);
+   @Subscribe(threadMode = ThreadMode.MAIN)
+    public void setSelectCity(EventBean eventBean) { System.out.print("----"+eventBean);
+        switch (eventBean.getTag()) {
+            case "ResumePersonalInfoActivity":
+                if (eventBean.getCityBean() != null) {
+                    etResumeLivePlace.setText(eventBean.getCityBean().getName());
+                    liveplaceId = eventBean.getCityBean().getId();
+                    cityBeanList.clear();
+                    cityBeanList.add(eventBean.getCityBean());
+                }
+            break;
         }
     }
-    public void setValid(String phoneNumber){
-        resumePersonalInfoBean.getBase_info().get(0).setYdphone_verify_status("2");
-        resumePersonalInfoBean.getBase_info().get(0).setYdphone(phoneNumber);
-        refreshPersonalInfoUI(resumePersonalInfoBean);
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void setValid(EventString eventString){
+        switch (eventString.getTag()) {
+            case "validCode":
+                if (eventString != null) {
+                    phoneNumber = eventString.getMsg();
+                    resumePersonalInfoBean.getBase_info().get(0).setYdphone_verify_status("2");
+                    resumePersonalInfoBean.getBase_info().get(0).setYdphone(phoneNumber);
+                    refreshPersonalInfoUI(resumePersonalInfoBean);
+                }
+                break;
+        }
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -675,5 +628,11 @@ public class ResumePersonalInfoActivity extends BaseActivity<ResumePersonalInfoP
             content = URLEncoder.encode(bt1);
             //Log.i("数据",en);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

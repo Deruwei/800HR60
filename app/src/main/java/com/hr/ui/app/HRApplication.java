@@ -22,9 +22,11 @@ import com.afa.tourism.greendao.gen.DaoMaster;
 import com.afa.tourism.greendao.gen.DaoSession;
 import com.baidu.mapapi.SDKInitializer;
 import com.caption.netmonitorlibrary.netStateLib.NetStateReceiver;
+import com.hr.ui.R;
 import com.hr.ui.constants.Constants;
 import com.hr.ui.db.HMROpenHelper;
 import com.hr.ui.utils.ToastUitl;
+import com.hr.ui.utils.Utils;
 import com.service.AlamrReceiver;
 import com.hr.ui.utils.GlideImageLoader;
 import com.hr.ui.utils.UnCeHandler;
@@ -88,6 +90,7 @@ public class HRApplication extends MobApplication {
         SDKInitializer.initialize(getApplicationContext());
         initPhotoPicker();
         setupDatabase();
+        //内存泄漏检测工具的初始化
          /*开启网络广播监听*/
         NetStateReceiver.registerNetworkStateReceiver(this);
         //友盟初始化

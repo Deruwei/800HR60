@@ -19,6 +19,8 @@ import com.hr.ui.ui.main.adapter.MyIndustryAdapter;
 import com.hr.ui.utils.datautils.FromStringToArrayList;
 import com.hr.ui.utils.recyclerviewutils.OnItemClickListener;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -106,4 +108,9 @@ public class SelectIndustryActivity extends BaseNoConnectNetworkAcitivty {
         ButterKnife.bind(this);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }

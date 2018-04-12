@@ -2,6 +2,7 @@ package com.hr.ui.ui.main.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.service.carrier.CarrierService;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.TypedValue;
@@ -19,6 +20,8 @@ import com.caption.netmonitorlibrary.netStateLib.NetUtils;
 import com.hr.ui.R;
 import com.hr.ui.base.BaseFragment;
 import com.hr.ui.bean.DeliverFeedbackBean;
+import com.hr.ui.bean.EventHomeBean;
+import com.hr.ui.bean.EventString;
 import com.hr.ui.bean.InviteBean;
 import com.hr.ui.bean.WhoSeeMeBean;
 import com.hr.ui.constants.Constants;
@@ -38,6 +41,10 @@ import com.hr.ui.utils.Utils;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.CircleImageView;
 import com.hr.ui.view.XRecyclerView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -121,7 +128,6 @@ public class MessageFragment extends BaseFragment<MessageFragmentPresenter, Mess
     private MyMessageAdapter adapter;
     private boolean isFlesh;
     private String personImage;
-    public static MessageFragment instance;
     private SharedPreferencesUtils sUtils;
     private List<InviteBean.InvitedListBean> invitedListBeanList = new ArrayList<>();
 
@@ -230,7 +236,25 @@ public class MessageFragment extends BaseFragment<MessageFragmentPresenter, Mess
             swipeRefresh.setVisibility(View.GONE);
         }
     }
-
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMethod(EventHomeBean eventHomeBean){
+        switch (eventHomeBean.getType()){
+            case 1:
+                if(ivResumePersonPhoto!=null){
+                    setImage();
+                }
+                break;
+            case 2:
+                setDeliverBackHide();
+                break;
+            case 3:
+                setInviteHide(eventHomeBean.getPosition());
+                break;
+            case 4:
+                getDate(false);
+                break;
+        }
+    }
     public void setImage() {
         sUtils=new SharedPreferencesUtils(getActivity());
         personImage = sUtils.getStringValue(Constants.PERSONIMAGE, "");
@@ -254,7 +278,7 @@ public class MessageFragment extends BaseFragment<MessageFragmentPresenter, Mess
 
     @Override
     protected void initView() {
-        instance = this;
+        EventBus.getDefault().register(this);
         sUtils = new SharedPreferencesUtils(getActivity());
         ivResumePersonPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -322,6 +346,7 @@ public class MessageFragment extends BaseFragment<MessageFragmentPresenter, Mess
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        EventBus.getDefault().unregister(this);
         unbinder.unbind();
     }
 

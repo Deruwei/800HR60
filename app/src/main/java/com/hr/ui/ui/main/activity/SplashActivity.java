@@ -122,6 +122,9 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
         isAutoLogin = sUtils.getIntValue(Constants.ISAUTOLOGIN, 0);
         autoLoginType = sUtils.getIntValue(Constants.AUTOLOGINTYPE, 5);
         BaiDuLocationUtils.getInstance().initData();
+        if(Utils.isWifiProxy(this)){
+            ToastUitl.showShort(getString(R.string.proxy));
+        }
         if (sUtils.getBooleanValue(Constants.IS_GUIDE, false) == false) {
             MobclickAgent.onEvent(this,"v6_firstStartApp");
             sUtils.setBooleanValue(Constants.ISFIRSTINTO,true);
@@ -147,7 +150,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
         super.onResume();
         if(isAllreadyInstance==false){
             isAllreadyInstance=true;
-            Log.i("到这里了","heihei");
+            //Log.i("到这里了","heihei");
             doAutoLogin();
         }
     }
@@ -278,7 +281,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
 
     @Override
     public void getVersion(VersionBean.AndroidBean androidBean) {
-        String version ="6.0.6";
+        String version =androidBean.getVer();
         String version1 = BuildConfig.VERSION_NAME;
         if (Utils.checkVersion(version, version1) == true) {
             popupWindow=new PopupWindow(this);

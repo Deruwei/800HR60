@@ -360,6 +360,7 @@ public class ResumeEducationActivity extends BaseActivity<ResumeEducationPresent
         if(dialog!=null){
             dialog.dismiss();
         }
+        instance=null;
     }
     private void doSaveOrUpdateEducation() {
         if(etResumeEduBDSchool.getText().toString()==null||"".equals(etResumeEduBDSchool.getText().toString())){

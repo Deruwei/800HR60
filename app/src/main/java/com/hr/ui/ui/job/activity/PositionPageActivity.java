@@ -18,6 +18,8 @@ import android.widget.TextView;
 import com.caption.netmonitorlibrary.netStateLib.NetUtils;
 import com.hr.ui.R;
 import com.hr.ui.base.Base2Activity;
+import com.hr.ui.bean.EvenList;
+import com.hr.ui.bean.EventHomeBean;
 import com.hr.ui.bean.PositionBean;
 import com.hr.ui.bean.ScanHistoryBean;
 import com.hr.ui.constants.Constants;
@@ -39,6 +41,8 @@ import com.hr.ui.view.MyRecommendDialog;
 import com.hr.ui.view.PieChartView;
 import com.hr.ui.view.RoundImageView;
 import com.umeng.analytics.MobclickAgent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -319,7 +323,7 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
                 JobSearchResultActivity.instance.notificationDataItem(position);
         }
         if(tag.equals(HomeFragment.TAG)){
-            HomeFragment.instance.notificationDataItem(position);
+            EventBus.getDefault().post(new EventHomeBean(0,position));
         }
     }
 

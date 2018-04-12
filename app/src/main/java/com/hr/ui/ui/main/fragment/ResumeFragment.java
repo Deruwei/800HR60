@@ -28,6 +28,8 @@ import com.bumptech.glide.Glide;
 import com.caption.netmonitorlibrary.netStateLib.NetUtils;
 import com.hr.ui.R;
 import com.hr.ui.base.BaseFragment;
+import com.hr.ui.bean.EventHomeBean;
+import com.hr.ui.bean.EventString;
 import com.hr.ui.bean.ResumeBean;
 import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.main.activity.MainActivity;
@@ -57,6 +59,10 @@ import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.umeng.analytics.MobclickAgent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -212,6 +218,7 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
         sUtils = new SharedPreferencesUtils(getActivity());
       /*  mPresenter.getResumeList();*/
         // 设置进度条的颜色变化，最多可以设置4种颜色
+        EventBus.getDefault().register(this);
         resumeId = sUtils.getIntValue(Constants.RESUME_ID, 0);
         srlResume.setColorSchemeResources(R.color.new_main);
         // 设置下拉监听，当用户下拉的时候会去执行回调
@@ -246,6 +253,7 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        instance=null;
         unbinder.unbind();
     }
 
@@ -519,11 +527,7 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
         sUtils.setStringValue(Constants.PERSONIMAGE, path);
         resumeInfoBean.getBase_info().get(0).setPic_filekey(path);
         Glide.with(this).load(Constants.IMAGE_BASEPATH + path).fitCenter() .into(ivResumePersonImage);
-        MainActivity.instance.setImage();
-        HomeFragment.instance.setImage();
-        if(MessageFragment.instance!=null) {
-            MessageFragment.instance.setImage();
-        }
+        EventBus.getDefault().post(new EventHomeBean(1));
         // Log.i("okht","你好啊 "+Constants.IMAGE_BASEPATH + path);
     }
 
@@ -923,6 +927,7 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
         if (dialog != null) {
             dialog.dismiss();
         }
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -938,5 +943,17 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
                 }
             }
         }, 2000);
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void setValid(EventString eventString){
+        switch (eventString.getTag()) {
+            case "validCode":
+                if (eventString != null) {
+                    resumeInfoBean.getBase_info().get(0).setYdphone(eventString.getMsg());
+                    resumeInfoBean.getBase_info().get(0).setYdphone_verify_status("2");
+                    initBaseInfo();
+                }
+                break;
+        }
     }
 }

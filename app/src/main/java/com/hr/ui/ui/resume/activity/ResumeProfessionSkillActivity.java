@@ -31,6 +31,8 @@ import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.CustomDatePicker;
 import com.hr.ui.view.MyDialog;
 
+import org.greenrobot.eventbus.EventBus;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -319,6 +321,7 @@ public class ResumeProfessionSkillActivity extends BaseActivity<ResumeProfession
         if(dialog!=null){
             dialog.dismiss();
         }
+        EventBus.getDefault().unregister(this);
     }
     private void doAddOrReplaceProfessionSkill() {
         if (etResumeProjectExpName.getText().toString() == null || "".equals(etResumeProjectExpName.getText().toString())) {

@@ -14,6 +14,7 @@ import com.caption.netmonitorlibrary.netStateLib.NetUtils;
 import com.hr.ui.R;
 import com.hr.ui.base.BaseFragment;
 import com.hr.ui.bean.DeliverFeedbackBean;
+import com.hr.ui.bean.EventHomeBean;
 import com.hr.ui.ui.job.activity.PositionPageActivity;
 import com.hr.ui.ui.main.fragment.MessageFragment;
 import com.hr.ui.ui.message.adapter.MyDeliverFeedbackAdapter;
@@ -24,6 +25,8 @@ import com.hr.ui.utils.ProgressStyle;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.view.XRecyclerView;
 import com.umeng.analytics.MobclickAgent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -242,6 +245,6 @@ public class DeliverFeedbackFragment extends BaseFragment<DeliverFeedbackFragmen
 
     @Override
     public void setDeliverFeedBackIsReadSuccess() {
-        MessageFragment.instance.setDeliverBackHide();
+        EventBus.getDefault().post(new EventHomeBean(2));
     }
 }
