@@ -1,5 +1,7 @@
 package com.hr.ui.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by wdr on 2018/1/11.
  */
@@ -30,7 +32,7 @@ public class PositionBean {
         this.job_info = job_info;
     }
 
-    public static class JobInfoBean {
+    public static class JobInfoBean  implements Serializable{
         /**
          * job_id : Zemo2
          * job_name : 人事专员

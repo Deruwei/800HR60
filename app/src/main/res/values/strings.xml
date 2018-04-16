@@ -236,6 +236,8 @@
     <string name="choosePosition">选择职位</string>
     <string name="student">学生</string>
     <string name="alreadyWork">已工作</string>
+    <string name="alreadyWorkExp">已有工作经验</string>
+    <string name="onlyInternshipExp">只有实习经验</string>
     <string name="selectIdentify">选择身份</string>
     <string name="personalInformation">个人信息</string>
     <string name="personalInformationHelper">有助于hr快速认识你</string>
@@ -303,6 +305,7 @@
     <string name="recommendJob2">看看符合求职意向的职位</string>
     <string name="deliverResume">投递简历</string>
     <string name="deliver">投递</string>
+    <string name="deliverSuccess">投递成功</string>
     <string name="collection2">收藏</string>
     <string name="culculate">计算</string>
     <string name="Score">匹配度</string>
@@ -403,6 +406,8 @@
     <string name="addResumeAttachment">+增加附件简历</string>
     //编辑页面
     <string name="save">保存</string>
+    <string name="RecommendDialogDeliverNum1">投递该职位的用户今日平均投递了</string>
+    <string name="RecommendDialogDeliverNum2">个职位</string>
     <string name="deleteThis">删除本条</string>
     <string name="cancel">取消</string>
     <string name="confirm">确定</string>
@@ -410,6 +415,7 @@
     <string name="selectTip1">还可勾选</string>
     <string name="selectTip2">个职位</string>
     <string name="deliverAll">投递全部</string>
+    <string name="deliverByOneKey">一键投递</string>
     <string name="fastDeliver">速投</string>
     <string name="chooseIndustry">选择一个行业</string>
     <string name="chosenJob">已选择职位</string>

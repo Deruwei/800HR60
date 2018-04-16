@@ -9,8 +9,7 @@
             android:fitsSystemWindows="true"
             android:clipToPadding="true"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/bg_homeTitle" >
+            android:layout_height="match_parent">
             <FrameLayout
                 android:layout_above="@+id/radioGroup"
                 android:layout_width="match_parent"
@@ -38,10 +37,10 @@
             <RadioGroup
                 android:layout_alignParentBottom="true"
                 android:id="@+id/radioGroup"
+                android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/x95"
                 android:clickable="true"
-                android:background="@color/white"
                 android:gravity="center"
                 android:orientation="horizontal">
 

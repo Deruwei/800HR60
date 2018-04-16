@@ -608,7 +608,7 @@ public class Utils {
                 return "0";
             }else if("2000以下".equals(salaty)){
                 return "0";
-            }else if("50000".equals(salaty)){
+            }else if("50000以上".equals(salaty)){
                 return "50000";
             }
         }
@@ -622,7 +622,7 @@ public class Utils {
                 return "500000";
             }else if("2000以下".equals(salary)){
                 return "2000";
-            }else if("50000".equals(salary)){
+            }else if("50000以上".equals(salary)){
                 return "500000";
             }
         }

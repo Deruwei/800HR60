@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.hr.ui.R;
+import com.hr.ui.app.HRApplication;
 import com.hr.ui.bean.CityBean;
 import com.hr.ui.constants.Constants;
 
@@ -816,6 +817,25 @@ public class ResumeInfoIDToString {
 			}
 		}
 		return selectList;
+	}
+	public static String getDegreeNeedId(String name){
+		List<CityBean> selectList=new ArrayList<>();
+			String[] Names = HRApplication.getAppContext().getResources().getStringArray(R.array.degreeNeed);
+			String[] Ids=HRApplication.getAppContext().getResources().getStringArray(R.array.degreeNeedId);
+			for(int i=0;i<Ids.length;i++){
+				CityBean cityBean=new CityBean();
+				cityBean.setId(Ids[i]);
+				cityBean.setName(Names[i]);
+				cityBean.setCheck(false);
+				selectList.add(cityBean);
+			}
+		String id="";
+		for(int i=0;i<selectList.size();i++){
+			if(name.equals(selectList.get(i).getName())){
+				id=selectList.get(i).getId();
+			}
+		}
+		return id;
 	}
 	public static List<CityBean> getReleaseTime(Context context){
 		List<CityBean> selectList=new ArrayList<>();

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -311,7 +312,6 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
     @Override
     public void deliverPositionSuccess() {
         MobclickAgent.onEvent(this,"v6_resume_deliver");
-        ToastUitl.showShort("投递成功");
         if (apply == 1) {
             tvPositionPageDeliverResume.setText(R.string.deliverResume);
         } else if (apply == 0) {
@@ -324,6 +324,12 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
         }
         if(tag.equals(HomeFragment.TAG)){
             EventBus.getDefault().post(new EventHomeBean(0,position));
+        }
+        if(sUtils.getIntValue(Constants.IS_RECOMMENDJOB,0)<3) {
+            RecommendJobActivity.startAction(this, jobInfoBean);
+            finish();
+        }else{
+            ToastUitl.showShort("投递成功");
         }
     }
 

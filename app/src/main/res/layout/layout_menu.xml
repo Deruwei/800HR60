@@ -7,8 +7,7 @@
     android:fitsSystemWindows="true"
     android:clipToPadding="true"
     android:clickable="true"
-    android:tag="left"
-    android:background="@color/white" >
+    android:tag="left">
     <RelativeLayout
         android:layout_marginTop="@dimen/x110"
         android:layout_width="match_parent"

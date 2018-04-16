@@ -216,6 +216,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         //添加首页
         ft.add(R.id.ll_main, homeFragment).commit();
+        rlLeftPage.setBackgroundResource(R.color.bg_homeTitle);
         //默认设置为第0个
         setIndexSelected(0);
     }
@@ -237,7 +238,6 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
             if (index == 2) {
                 MobclickAgent.onEvent(this, "v6_scan_resume");
                 idMenu.setDrawerLockMode(MyDrawLayout2.LOCK_MODE_LOCKED_CLOSED);
-                rlLeftPage.setBackgroundResource(R.drawable.resume_title_bg);
             }
             if (index == 1) {
                 MobclickAgent.onEvent(this, "v6_scan_message");
@@ -247,7 +247,6 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
             if (index == 0) {
                 MobclickAgent.onEvent(this, "v6_scan_main");
                 idMenu.setDrawerLockMode(MyDrawLayout2.LOCK_MODE_UNLOCKED);
-                rlLeftPage.setBackgroundResource(R.color.bg_homeTitle);
             }
             if (index == 1) {
                 MobclickAgent.onEvent(this, "v6_scan_message");
@@ -258,7 +257,6 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
             if (index == 2) {
                 MobclickAgent.onEvent(this, "v6_scan_resume");
                 idMenu.setDrawerLockMode(MyDrawLayout2.LOCK_MODE_LOCKED_CLOSED);
-                rlLeftPage.setBackgroundResource(R.drawable.resume_title_bg);
             }
         }
         ft.commitAllowingStateLoss();

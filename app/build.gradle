@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 apply plugin:'org.greenrobot.greendao'
 apply plugin:'newlens'
 
@@ -116,4 +117,8 @@ dependencies {
     implementation files('libs/ShareSDK-Wechat-Core-3.1.4.jar')
     implementation files('libs/ShareSDK-Wechat-Favorite-3.1.4.jar')
     implementation files('libs/ShareSDK-Wechat-Moments-3.1.4.jar')
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }

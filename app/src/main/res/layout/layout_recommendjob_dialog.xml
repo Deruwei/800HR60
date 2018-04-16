@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:visibility="gone"
+    android:id="@+id/cl_recommendJobActivity"
+    android:background="@drawable/edit_bg"
+    android:paddingBottom="@dimen/x20"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView
+        android:id="@+id/iv_recommendJobDialogClose"
+        android:src="@mipmap/close_position"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="@dimen/x122"
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingTop="@dimen/x40"
+        android:paddingLeft="@dimen/x40"
+        android:paddingRight="@dimen/x40"
+        android:paddingBottom="@dimen/x14"
+        android:layout_height="@dimen/x86" />
+    <ImageView
+        android:src="@mipmap/true_big"
+        android:id="@+id/iv_recommendJobDialogIcon"
+        app:layout_constraintTop_toBottomOf="@+id/iv_recommendJobDialogClose"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="@dimen/x120"
+        android:layout_marginLeft="@dimen/x68"
+        android:layout_height="@dimen/x120" />
+    <TextView
+        android:id="@+id/tv_recommendJobText1"
+        app:layout_constraintLeft_toRightOf="@+id/iv_recommendJobDialogIcon"
+        android:text="@string/deliverSuccess"
+        android:textSize="@dimen/x36"
+        app:layout_constraintTop_toBottomOf="@+id/iv_recommendJobDialogClose"
+        android:textColor="@color/new_main"
+        android:layout_marginLeft="@dimen/x32"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:text="@string/deliverSuccess"
+        android:layout_marginLeft="@dimen/x32"
+        android:layout_marginTop="@dimen/x20"
+        android:id="@+id/tv_tv_recommendJobText2"
+        android:textSize="@dimen/x28"
+        android:layout_marginRight="@dimen/x120"
+        app:layout_constraintRight_toRightOf="parent"
+        android:lineSpacingMultiplier="1.2"
+        app:layout_constraintLeft_toRightOf="@+id/iv_recommendJobDialogIcon"
+        app:layout_constraintTop_toBottomOf="@+id/tv_recommendJobText1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content" />
+    <View
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/x64"
+        android:id="@+id/view_recommendJobDialogLine"
+        app:layout_constraintTop_toBottomOf="@+id/tv_tv_recommendJobText2"
+        android:layout_width="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:background="@color/color_999"
+        android:layout_height="@dimen/x1"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_recommendJobDialog"
+        android:layout_width="0dp"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_recommendJobDialogLine"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <Button
+        android:visibility="gone"
+        android:id="@+id/btn_recommendJobDeliver"
+        android:layout_width="@dimen/x400"
+        android:layout_height="@dimen/x90"
+        android:layout_marginEnd="@dimen/x16"
+        android:layout_marginStart="@dimen/x16"
+        android:layout_marginTop="@dimen/x40"
+        android:background="@drawable/edit_bg_orange"
+        android:text="@string/deliverByOneKey"
+        android:textColor="@color/white"
+        android:textSize="@dimen/x32"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rv_recommendJobDialog" />
+  <!--  <View
+        android:id="@+id/view_recommendJob"
+        app:layout_constraintTop_toBottomOf="@+id/btn_recommendJobDeliver"
+        android:layout_width="0dp"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_height="@dimen/x55"/>-->
+</android.support.constraint.ConstraintLayout>

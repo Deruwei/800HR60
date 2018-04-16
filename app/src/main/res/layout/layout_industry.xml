@@ -50,7 +50,7 @@
             android:id="@+id/fl_expectedField"
             android:layout_width="match_parent"
             android:layout_marginTop="@dimen/x20"
-            android:layout_marginBottom="@dimen/x40"
+            android:layout_marginBottom="@dimen/x20"
             android:layout_height="wrap_content">
 
         </com.hr.ui.view.MyFlowLayout>
@@ -61,8 +61,8 @@
         </View>
 
         <com.hr.ui.view.MyFlowLayout
-            android:layout_marginBottom="@dimen/x40"
-            android:layout_marginTop="@dimen/x40"
+            android:layout_marginBottom="@dimen/x20"
+            android:layout_marginTop="@dimen/x20"
             android:id="@+id/fl_expectedPosition"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

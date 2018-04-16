@@ -20,6 +20,8 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Adapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -38,6 +40,7 @@ import com.hr.ui.bean.SearchHistoryBean;
 import com.hr.ui.db.SearchHistoryUtils;
 import com.hr.ui.ui.job.activity.PositionPageActivity;
 import com.hr.ui.ui.main.adapter.MyRecommendJobAdapter;
+import com.hr.ui.ui.main.adapter.MySalaryAdapter;
 import com.hr.ui.ui.main.adapter.MySelectOtherAdapter;
 import com.hr.ui.ui.main.contract.JobSearchFragmentContract;
 import com.hr.ui.ui.main.fragment.ResumeFragment;
@@ -90,10 +93,6 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
     ImageView ivJobSearchFragmentSelectOther;
     @BindView(R.id.rl_jobSearchFragmentSelectOther)
     RelativeLayout rlJobSearchFragmentSelectOther;
-    @BindView(R.id.tv_jobSearchFragmentSelectLingYu)
-    TextView tvJobSearchFragmentSelectLingYu;
-    @BindView(R.id.rl_jobSearchFragmentSelectLingYu)
-    RelativeLayout rlJobSearchFragmentSelectLingYu;
     @BindView(R.id.view_jobSearchFragment)
     View viewJobSearchFragment;
     @BindView(R.id.rv_jobSearchFragment)
@@ -157,6 +156,8 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
     private List<RecommendJobBean.JobsListBean> searchList = new ArrayList<>();
     //置顶职位集合
     private List<RecommendJobBean.JobsListBean> topSearchList = new ArrayList<>();
+    private List<CityBean> selectSalatyList=new ArrayList<>();
+    private  List<CityBean> salary=new ArrayList<>();
     //页码，批量投递没有选择的列表数
     public int page = 1, notSelectNum;
     public static JobSearchResultActivity instance;
@@ -191,6 +192,7 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
         if (jobsListBeanList != null && !"[]".equals(jobsListBeanList.toString()) && jobsListBeanList.size() != 0) {
             if (page == 1) {
                 SearchAdapter = new MyRecommendJobAdapter(1);
+                SearchAdapter.setCheck(true);
                 searchList.clear();
                 if (topSearchList != null && !"".equals(topSearchList) && topSearchList.size() != 0) {
                     for (int i = 0; i < topSearchList.size(); i++) {
@@ -274,8 +276,7 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
         }
         isCanSelectDeliver=false;
         rlSearchResultDeleteInABatches.setVisibility(View.GONE);
-        SearchAdapter.setCheck(false);
-        tvJobSearchFragmentSelectLingYu.setText(R.string.selectDeliver);
+        SearchAdapter.setCheck(true);
         cbSearchResultSelectAll.setChecked(false);
         SearchAdapter.notifyDataSetChanged();
     }
@@ -496,8 +497,7 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
     }
     private void doSearch(boolean b) {
         rlSearchResultDeleteInABatches.setVisibility(View.GONE);
-        SearchAdapter.setCheck(false);
-        tvJobSearchFragmentSelectLingYu.setText(R.string.selectDeliver);
+        SearchAdapter.setCheck(true);
         cbSearchResultSelectAll.setChecked(false);
         isCanSelectDeliver=false;
        /* if (!"".equals(etJobSearch.getText().toString()) && etJobSearch.getText().toString() != null) {
@@ -899,7 +899,7 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
         doSearch(true);
         //Log.i("当前的数据", "------" + workExpId);
     }
-
+    
 
     private void initPopCity() {
         View viewIndustry = getLayoutInflater().inflate(R.layout.layout_selectcity, null);
@@ -958,7 +958,7 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
     }
 
 
-    @OnClick({R.id.tv_searchResultDeliverAll, R.id.rl_searchResultBack, R.id.rl_jobSearchFragmentBack, R.id.rl_jobSearchFragmentSelectCity, R.id.rl_jobSearchFragmentSelectLingYu, R.id.rl_jobSearchFragmentSelectOther})
+    @OnClick({R.id.tv_searchResultDeliverAll, R.id.rl_searchResultBack,R.id.rl_jobSearchFragmentSelectSalary, R.id.rl_jobSearchFragmentBack, R.id.rl_jobSearchFragmentSelectCity, R.id.rl_jobSearchFragmentSelectOther})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_jobSearchFragmentBack:
@@ -971,24 +971,9 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
                 setFocus();
                 initPopCity();
                 break;
-            case R.id.rl_jobSearchFragmentSelectLingYu:
+            case R.id.rl_jobSearchFragmentSelectSalary:
                 setFocus();
-                if (SearchAdapter != null) {
-                    if (isCanSelectDeliver) {
-                        rlSearchResultDeleteInABatches.setVisibility(View.GONE);
-                        SearchAdapter.setCheck(false);
-                        tvJobSearchFragmentSelectLingYu.setText(R.string.selectDeliver);
-                        MobclickAgent.onEvent(this,"v6_notUserDeliverByQuery");
-                    } else {
-                        SearchAdapter.setCheck(true);
-                        getNoSelectNum(searchList);
-                        rlSearchResultDeleteInABatches.setVisibility(View.VISIBLE);
-                        tvJobSearchFragmentSelectLingYu.setText(R.string.cancelSelectDeliver);
-                        MobclickAgent.onEvent(this,"v6_userDeliverByQuery");
-                    }
-                    SearchAdapter.notifyDataSetChanged();
-                    isCanSelectDeliver = !isCanSelectDeliver;
-                }
+                initPopSalary();
                 break;
             case R.id.rl_jobSearchFragmentSelectOther:
                 setFocus();
@@ -1001,6 +986,70 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
                 }
                 break;
         }
+    }
+
+    private void initPopSalary() {
+        View viewSalary = getLayoutInflater().inflate(R.layout.layout_chooseindustry, null);
+        popupWindowJobType = new PopupWindow(viewSalary, LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        RecyclerView rvSalary=viewSalary.findViewById(R.id.rv_chooseIndustry);
+        LinearLayout llOk=viewSalary.findViewById(R.id.ll_chooseIndustryNext);
+        salary=ResumeInfoIDToString.getSalaryAroundList(this);
+        if(selectSalatyList!=null&&selectSalatyList.size()!=0){
+            for(int i=0;i<salary.size();i++){
+                if(salary.get(i).getId().equals(selectSalatyList.get(0).getId())){
+                    salary.get(i).setCheck(true);
+                    break;
+                }
+            }
+        }else{
+            salary.get(0).setCheck(true);
+        }
+        llOk.setVisibility(View.GONE);
+        int[] location = new int[2];
+        viewJobSearchFragment.getLocationOnScreen(location);
+        GridLayoutManager manager = new GridLayoutManager(this, 2) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+
+            @Override
+            public boolean canScrollHorizontally() {
+                return false;
+            }
+        };
+        manager.setOrientation(GridLayoutManager.VERTICAL);
+        rvSalary.setLayoutManager(manager);
+        final MySalaryAdapter adapter=new MySalaryAdapter(this,salary);
+        rvSalary.setAdapter(adapter);
+       adapter.setOnItemClickListener(new OnItemClickListener() {
+           @Override
+           public void OnItemCLick(View view, int position) {
+                selectSalatyList.clear();
+               selectSalatyList.add(salary.get(position));
+               salaryAroundName = salary.get(position).getName();
+               salary_left = Utils.getLeftSalary(salaryAroundName);
+               salary_right = Utils.getRightSalary(salaryAroundName);
+               doSearch(true);
+               popupWindowJobType.dismiss();
+               adapter.notifyDataSetChanged();
+           }
+       });
+        int x = location[0];
+        int y = location[1];
+        WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics dm = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(dm);
+        int width = dm.widthPixels;         // 屏幕宽度（像素）
+        int height = dm.heightPixels;       // 屏幕高度（像素）
+        popupWindowJobType.setWidth(width);
+        popupWindowJobType.setHeight(height - y);
+        viewJobSearchFragment.getLocationOnScreen(location);
+        popupWindowJobType.setOutsideTouchable(true);
+        popupWindowJobType.setFocusable(true);
+        popupWindowJobType.setAnimationStyle(R.style.style_pop_animation);
+        popupWindowJobType.showAtLocation(viewJobSearchFragment, Gravity.NO_GRAVITY, 0, y + viewJobSearchFragment.getHeight());
     }
 
     private void deliverAll() {
@@ -1041,6 +1090,11 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
             }     //设置指定位置textview的背景颜色
             //设置指定位置文字的颜色
             searchResultNoSelectNum.setText(ss);
+        }
+        if(selectNum==0){
+            rlSearchResultDeleteInABatches.setVisibility(View.GONE);
+        }else{
+            rlSearchResultDeleteInABatches.setVisibility(View.VISIBLE);
         }
 
     }

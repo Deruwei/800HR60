@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.support.multidex.MultiDex;
@@ -50,8 +51,7 @@ public class HRApplication extends MobApplication {
     private int refCount = 0;
     public static final String CODE = "connectCode";
     private String nbsAppKey="8a97e06a76944ee3886dafe60f20a809";
-    private Runnable runnable;
-    private Handler handlerTimeOut;
+    private CountDownTimer countDownTimer;
 
     public static HRApplication getAppContext() {
         return hrApplication;
@@ -61,20 +61,20 @@ public class HRApplication extends MobApplication {
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case 0:
-                    //Log.i("现在处于","后台");
-                    runnable=new Runnable() {
+                    countDownTimer= new CountDownTimer(1000*60*20, 1000*60*20) {
                         @Override
-                        public void run() {
+                        public void onTick(long millisUntilFinished) {
                             AppManager.getAppManager().exitApp();
                         }
+                        @Override
+                        public void onFinish() {
+
+                        }
                     };
-                    handlerTimeOut=new Handler();
-                    handlerTimeOut.postDelayed(runnable,1000*60*20);
                     break;
                 case 1:
-                    //Log.i("现在处于","前台");
-                    if(handlerTimeOut!=null) {
-                        handlerTimeOut.removeCallbacks(runnable);
+                    if(countDownTimer!=null) {
+                        countDownTimer.cancel();
                     }
                     break;
             }

@@ -2,8 +2,10 @@ package com.hr.ui.ui.main.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import com.hr.ui.R;
 import com.hr.ui.base.BaseActivity;
@@ -13,6 +15,7 @@ import com.hr.ui.ui.main.modle.ResumeTypeModel;
 import com.hr.ui.ui.main.presenter.ResumeTypePresenter;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -21,8 +24,13 @@ import butterknife.OnClick;
  */
 
 public class SelectResumeTypeActivity extends BaseActivity<ResumeTypePresenter, ResumeTypeModel> implements ResumeTypeContract.View {
+    @BindView(R.id.tv_student)
+    TextView tvStudent;
+    @BindView(R.id.tv_alreadyWork)
+    TextView tvAlreadyWork;
     private SharedPreferencesUtils sUtils;
     private String type;
+
     /**
      * 入口
      *
@@ -34,6 +42,7 @@ public class SelectResumeTypeActivity extends BaseActivity<ResumeTypePresenter, 
         activity.overridePendingTransition(R.anim.fade_in,
                 R.anim.fade_out);
     }
+
     @Override
     public void showLoading(String title) {
 
@@ -52,7 +61,7 @@ public class SelectResumeTypeActivity extends BaseActivity<ResumeTypePresenter, 
     @Override
     public void sendResumeId(int resumeId) {
         sUtils.setIntValue(Constants.RESUME_ID, resumeId);
-      // mPresenter.setDefaultResume(resumeId+"","1");
+        // mPresenter.setDefaultResume(resumeId+"","1");
         PersonalInformationActivity.startAction(this);
     }
 
@@ -74,6 +83,8 @@ public class SelectResumeTypeActivity extends BaseActivity<ResumeTypePresenter, 
     @Override
     public void initView() {
         sUtils = new SharedPreferencesUtils(this);
+        tvAlreadyWork.setPaintFlags(Paint.FAKE_BOLD_TEXT_FLAG);
+        tvStudent.setPaintFlags(Paint.FAKE_BOLD_TEXT_FLAG);
     }
 
     @Override
@@ -87,14 +98,14 @@ public class SelectResumeTypeActivity extends BaseActivity<ResumeTypePresenter, 
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_selectStudent:
-                type="2";
-                sUtils.setStringValue(Constants.RESUME_TYPE,type);
-                PersonalInformationActivity.startAction(this,type);
+                type = "2";
+                sUtils.setStringValue(Constants.RESUME_TYPE, type);
+                PersonalInformationActivity.startAction(this, type);
                 break;
             case R.id.rl_selectHasJob:
-                type="1";
-                sUtils.setStringValue(Constants.RESUME_TYPE,type);
-                PersonalInformationActivity.startAction(this,type);
+                type = "1";
+                sUtils.setStringValue(Constants.RESUME_TYPE, type);
+                PersonalInformationActivity.startAction(this, type);
                 break;
         }
     }

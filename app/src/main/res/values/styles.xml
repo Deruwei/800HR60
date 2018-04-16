@@ -219,7 +219,7 @@
     <style name="button_resumeOK">
         <item name="android:layout_marginLeft">@dimen/x25</item>
         <item name="android:layout_marginRight">@dimen/x25</item>
-        <item name="android:layout_marginTop">@dimen/x41</item>
+        <item name="android:layout_marginTop">@dimen/x20</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:text">@string/save</item>
         <item name="android:textSize">@dimen/x36</item>

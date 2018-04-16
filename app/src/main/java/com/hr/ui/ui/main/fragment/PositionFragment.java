@@ -3,12 +3,13 @@ package com.hr.ui.ui.main.fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.constraint.ConstraintLayout;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -62,7 +63,13 @@ public class PositionFragment extends BaseFragment {
     LinearLayout llChooseJob;
     Unbinder unbinder;
     @BindView(R.id.cl_chooseJob)
-    ConstraintLayout clChooseJob;
+    FrameLayout clChooseJob;
+    @BindView(R.id.btn_confirm)
+    Button btnConfirm;
+    @BindView(R.id.tv_selectNum)
+    TextView tvSelectNum;
+    @BindView(R.id.cv_selectNum)
+    CardView cvSelectNum;
     private String indutryId;
     private List<CityBean> selectPositionList = new ArrayList<>();
     private List<CityBean> selectRealPositionList = new ArrayList<>();
@@ -72,6 +79,7 @@ public class PositionFragment extends BaseFragment {
     private List<CityBean> selectPositionClassList = new ArrayList<>();
     private MySelectPositionLeftAdapter leftAdapter;
     private MySelectPositionRightAdapter rightAdapter;
+    private boolean isHidden;
 
     @Override
     protected int getLayoutResource() {
@@ -93,10 +101,10 @@ public class PositionFragment extends BaseFragment {
         EventBus.getDefault().register(this);
         indutryId = getArguments().getString("industryId");
         selectRealPositionList = (List<CityBean>) getArguments().getSerializable("selectPosition");
-        int position=getArguments().getInt("position");
-        if(position==100){
+        int position = getArguments().getInt("position");
+        if (position == 100) {
             llChooseJob.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             llChooseJob.setVisibility(View.GONE);
         }
         setAdapter();
@@ -215,6 +223,7 @@ public class PositionFragment extends BaseFragment {
             }
         } else {
             rlChosenJob.setVisibility(View.GONE);
+            tvSelectNum.setText("无");
         }
         final Message message = Message.obtain();
         message.what = 1;
@@ -383,12 +392,24 @@ public class PositionFragment extends BaseFragment {
 
     private void setNum() {
         sum = selectPositionList.size();
-        if(sum==0){
+        if (sum == 0) {
             rlChosenJob.setVisibility(View.GONE);
-        }else{
-            rlChosenJob.setVisibility(View.VISIBLE);
+            isHidden=true;
+        } else {
+            if(isHidden){
+                rlChosenJob.setVisibility(View.GONE);
+                isHidden=true;
+            }else {
+                rlChosenJob.setVisibility(View.VISIBLE);
+                isHidden=false;
+            }
         }
         tvChosenJobTitleNum.setText(sum + "");
+        if(sum==0){
+            tvSelectNum.setText("无");
+        }else {
+            tvSelectNum.setText(sum + "/5");
+        }
     }
 
     private Handler handler = new Handler() {
@@ -443,12 +464,29 @@ public class PositionFragment extends BaseFragment {
         EventBus.getDefault().unregister(this);
     }
 
-    @OnClick(R.id.btn_cancel)
-    public void onViewClicked() {
-        if(!"".equals(selectPositionList)&&selectPositionList!=null&&selectPositionList.size()!=0){
-            EventBus.getDefault().post(new EventJobOrderResume(8));
-        }else{
-            ToastUitl.showShort("请选择职位");
+    @OnClick({R.id.btn_cancel,R.id.cv_selectNum})
+    public void onViewClicked(View view) {
+        switch (view.getId()){
+            case R.id.btn_cancel:
+                if (!"".equals(selectPositionList) && selectPositionList != null && selectPositionList.size() != 0) {
+                    EventBus.getDefault().post(new EventJobOrderResume(8));
+                } else {
+                    ToastUitl.showShort("请选择职位");
+                }
+                break;
+            case R.id.cv_selectNum:
+                if(isHidden){
+                    if(selectPositionList.size()>0){
+                        rlChosenJob.setVisibility(View.VISIBLE);
+                        isHidden=!isHidden;
+                    }
+                }else {
+                    rlChosenJob.setVisibility(View.GONE);
+                    isHidden=!isHidden;
+                }
+
+                break;
         }
+
     }
 }

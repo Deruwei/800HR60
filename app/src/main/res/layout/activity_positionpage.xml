@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <FrameLayout
-        android:background="@drawable/edit_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <include layout="@layout/layout_neterror"
@@ -16,8 +15,7 @@
             android:id="@+id/rl_positionContent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/edit_bg"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <LinearLayout
                 android:layout_width="match_parent"

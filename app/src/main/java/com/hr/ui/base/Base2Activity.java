@@ -9,6 +9,7 @@ import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -71,7 +72,7 @@ import butterknife.ButterKnife;
 //    public void initView() {
 //    }
 //}
-public abstract class Base2Activity<T extends BasePresenter, E extends BaseModel> extends Activity {
+public abstract class Base2Activity<T extends BasePresenter, E extends BaseModel> extends FragmentActivity {
     public T mPresenter;
     public E mModel;
     /**

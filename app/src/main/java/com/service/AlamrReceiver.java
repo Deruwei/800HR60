@@ -19,6 +19,7 @@ public class AlamrReceiver extends BroadcastReceiver {
         // TODO Auto-generated method stub
         SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
         sUtils.setBooleanValue(Constants.ISHAVENEWS,true);
+        sUtils.setIntValue(Constants.IS_RECOMMENDJOB,0);
     }
 
 }
