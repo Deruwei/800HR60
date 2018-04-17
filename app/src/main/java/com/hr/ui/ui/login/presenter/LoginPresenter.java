@@ -1,20 +1,24 @@
 package com.hr.ui.ui.login.presenter;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.hr.ui.R;
 import com.hr.ui.base.RxSubscriber;
+import com.hr.ui.bean.AutoCodeBean;
 import com.hr.ui.bean.LoginBean;
 import com.hr.ui.bean.MultipleResumeBean;
 import com.hr.ui.bean.RegisterBean;
 import com.hr.ui.bean.ResumeBean;
 import com.hr.ui.bean.ThirdLoginBean;
+import com.hr.ui.bean.ValidCodeBean;
 import com.hr.ui.constants.Constants;
 import com.hr.ui.db.LoginDBUtils;
 import com.hr.ui.db.ThirdPartDao;
 import com.hr.ui.ui.login.contract.LoginContract;
 import com.hr.ui.utils.Rc4Md5Utils;
 import com.hr.ui.utils.ToastUitl;
+import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -173,6 +177,95 @@ public class LoginPresenter extends LoginContract.Presenter {
             @Override
             protected void _onError(String message) {
 
+            }
+        }));
+    }
+    @Override
+    public void validPhoneIsExit(String phone) {
+        mRxManage.add(mModel.validPhoneIsExit(phone).subscribe(new RxSubscriber<ResponseBody>(mContext,false) {
+            @Override
+            protected void _onNext(ResponseBody responseBody)  {
+                try {
+                    String s=responseBody.string().toString();
+                    JSONObject jsonObject=new JSONObject(s);
+                    int errorCode=jsonObject.getInt("error_code");
+                    if(errorCode==0) {
+                        String flag = jsonObject.getString("flag_exist");
+                        mView.phoneIsExit(flag);
+                    }else{
+                        ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId(errorCode));
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            protected void _onError(String message) {
+
+            }
+        }));
+    }
+    @Override
+    public void getValidCode(final String phoneNumber, String captcha,int type,String way) {
+        mRxManage.add(mModel.getValidCode(phoneNumber,captcha,type,way).subscribe(new RxSubscriber<ValidCodeBean>(mContext,false) {
+            @Override
+            public void onStart() {
+                super.onStart();
+                mView.showLoading("请稍等");
+            }
+            @Override
+            protected void _onNext(ValidCodeBean baseBean) {
+                mView.stopLoading();
+                // Log.i("现在的数据",baseBean.toString());
+                if(baseBean.getError_code()==0){
+                    ToastUitl.show("验证码发送成功", Toast.LENGTH_SHORT);
+                    SharedPreferencesUtils sUtils=new SharedPreferencesUtils(mContext);
+                    sUtils.setIntValue(Constants.IS_FIRSTGETVALIDCODE,baseBean.getToken_times());
+                    mView.sendValidCode(baseBean.getToken_times());
+                }else if(baseBean.getError_code()==201){
+                    ToastUitl.show("图形验证码错误",Toast.LENGTH_SHORT);
+                }else if(baseBean.getError_code()==328){
+                    mView.needToGetAutoCode();
+                } else{
+                    Toast.makeText(mContext,Rc4Md5Utils.getErrorResourceId((int) baseBean.getError_code()),Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            protected void _onError(String message) {
+                mView.showErrorTip(message);
+                // Log.i(TAG,message);
+            }
+        }));
+    }
+
+    @Override
+    public void getAutoCode() {
+        mRxManage.add(mModel.getAutoCode().subscribe(new RxSubscriber<AutoCodeBean>(mContext,false) {
+            @Override
+            public void onStart() {
+                super.onStart();
+                mView.showLoading("请稍等");
+            }
+
+            @Override
+            protected void _onNext(AutoCodeBean baseBean) {
+                mView.stopLoading();
+                if(baseBean.getError_code()==0){
+                    mView.sendAutoCode(baseBean.getCaptcha());
+                }else{
+                    Toast.makeText(mContext,Rc4Md5Utils.getErrorResourceId((int) baseBean.getError_code()),Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            protected void _onError(String message) {
+                mView.showErrorTip(message);
+                // Log.i(TAG,message);
             }
         }));
     }

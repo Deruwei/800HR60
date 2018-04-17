@@ -9,10 +9,9 @@ import org.greenrobot.greendao.annotation.Generated;
  */
 @Entity
 public class SearchHistoryBean {
-    @Id(autoincrement = true )
-    private long jobId;
-    private int jobType;
+    @Id
     private String searchName;
+    private int jobType;
     private String placeId;
     private String addDate;
     private String industryId;
@@ -26,15 +25,14 @@ public class SearchHistoryBean {
     private String salary_right;
     private String positionId;
     private String companyType;
-    @Generated(hash = 2122584432)
-    public SearchHistoryBean(long jobId, int jobType, String searchName,
-            String placeId, String addDate, String industryId, String fieldId,
-            String workExp, String workType, String JobTime, String degree,
-            String companyScale, String salary_left, String salary_right,
-            String positionId, String companyType) {
-        this.jobId = jobId;
-        this.jobType = jobType;
+    @Generated(hash = 1437532221)
+    public SearchHistoryBean(String searchName, int jobType, String placeId,
+            String addDate, String industryId, String fieldId, String workExp,
+            String workType, String JobTime, String degree, String companyScale,
+            String salary_left, String salary_right, String positionId,
+            String companyType) {
         this.searchName = searchName;
+        this.jobType = jobType;
         this.placeId = placeId;
         this.addDate = addDate;
         this.industryId = industryId;
@@ -52,11 +50,11 @@ public class SearchHistoryBean {
     @Generated(hash = 1570282321)
     public SearchHistoryBean() {
     }
-    public long getJobId() {
-        return this.jobId;
+    public String getSearchName() {
+        return this.searchName;
     }
-    public void setJobId(long jobId) {
-        this.jobId = jobId;
+    public void setSearchName(String searchName) {
+        this.searchName = searchName;
     }
     public int getJobType() {
         return this.jobType;
@@ -64,17 +62,17 @@ public class SearchHistoryBean {
     public void setJobType(int jobType) {
         this.jobType = jobType;
     }
-    public String getSearchName() {
-        return this.searchName;
-    }
-    public void setSearchName(String searchName) {
-        this.searchName = searchName;
-    }
     public String getPlaceId() {
         return this.placeId;
     }
     public void setPlaceId(String placeId) {
         this.placeId = placeId;
+    }
+    public String getAddDate() {
+        return this.addDate;
+    }
+    public void setAddDate(String addDate) {
+        this.addDate = addDate;
     }
     public String getIndustryId() {
         return this.industryId;
@@ -141,11 +139,5 @@ public class SearchHistoryBean {
     }
     public void setCompanyType(String companyType) {
         this.companyType = companyType;
-    }
-    public String getAddDate() {
-        return this.addDate;
-    }
-    public void setAddDate(String addDate) {
-        this.addDate = addDate;
     }
 }

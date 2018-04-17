@@ -213,12 +213,15 @@ public class SelectPositionActivity extends BaseNoConnectNetworkAcitivty {
                        jobSearchBean.setIndustryId(industryId);
                         historyBean.setIndustryId(industryId);
                        jobSearchBean.setPlaceId(cityid);
+                        String positionId=FromStringToArrayList.getInstance().getPositionId(selectPositionList);
+                        historyBean.setSearchName(FromStringToArrayList.getInstance().getExpectPositionName(positionId,industryId));
+                        jobSearchBean.setSearchName(FromStringToArrayList.getInstance().getExpectPositionName(positionId,industryId));
                         historyBean.setPlaceId(cityid);
                         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date curDate = new Date(System.currentTimeMillis());
                         String str = formatter.format(curDate);
                         historyBean.setAddDate(str);
-                        SearchHistoryUtils.insertJobSearchData(historyBean);
+                        SearchHistoryUtils.insertJobSearchDataOrReplace(historyBean);
                         JobSearchResultActivity.startAction(this,jobSearchBean);
                     }
                     finish();

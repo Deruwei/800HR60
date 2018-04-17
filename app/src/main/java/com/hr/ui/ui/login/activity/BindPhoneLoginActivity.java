@@ -177,6 +177,26 @@ public class BindPhoneLoginActivity extends BaseActivity<LoginPresenter, LoginMo
     }
 
     @Override
+    public void needToGetAutoCode() {
+
+    }
+
+    @Override
+    public void phoneIsExit(String flag) {
+
+    }
+
+    @Override
+    public void sendValidCode(int code) {
+
+    }
+
+    @Override
+    public void sendAutoCode(String autoCode) {
+
+    }
+
+    @Override
     public int getLayoutId() {
         return R.layout.activity_bindphone;
     }

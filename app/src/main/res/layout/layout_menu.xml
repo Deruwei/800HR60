@@ -5,6 +5,7 @@
     android:layout_gravity="start"
     android:id="@+id/rl_rightPage"
     android:fitsSystemWindows="true"
+    android:background="@color/white"
     android:clipToPadding="true"
     android:clickable="true"
     android:tag="left">

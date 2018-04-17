@@ -181,6 +181,11 @@ public class ApiParameter {
             requestMap.put("user_name", phoneNumber);
             requestMap.put("industry", "10");
             requestMap.put("user_pwd", psw);
+        }else if(type==3){
+            requestMap.put("method", "user.tokenlogin");
+            requestMap.put("user_phone", phoneNumber);
+            requestMap.put("industry", "10");
+            requestMap.put("token", psw);
         }
         //Log.i("当前的数据",requestMap.toString());
         return requestMap;
@@ -888,7 +893,9 @@ public class ApiParameter {
             requestMap.put("area", jobSearchBean.getPlaceId());
         }
         if(!"".equals(jobSearchBean.getSearchName())&&jobSearchBean.getSearchName()!=null) {
-            requestMap.put("searchword", jobSearchBean.getSearchName());
+            if(jobSearchBean.getPositionId()==null||"".equals(jobSearchBean.getPositionId())) {
+                requestMap.put("searchword", jobSearchBean.getSearchName());
+            }
         }
         if(!"".equals(jobSearchBean.getWorkExp())&&jobSearchBean.getWorkExp()!=null) {
             requestMap.put("filter_workyear", jobSearchBean.getWorkExp());

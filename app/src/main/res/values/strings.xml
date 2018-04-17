@@ -158,6 +158,8 @@
     <string name="psw_old">旧密码（最少6位）</string>
     <string name="psw_new">新密码（最少6位）</string>
     <string name="psw">密码（最少6位）</string>
+    <string name="pswLogin">密码登录</string>
+    <string name="validLogin">验证码登录</string>
     <string name="newPsw">新密码</string>
     <string name="accountLogin">账号登录</string>
     <string name="findPsw">找回密码</string>

@@ -21,6 +21,10 @@ public class ScanHistoryUtils {
         return instance;
     }
     public void insertOrReplcae(ScanHistoryBean scanHistoryBean){
+        if(queryAll().size()>=50){
+            List<ScanHistoryBean> list=HRApplication.getDaoInstant().getScanHistoryBeanDao().queryBuilder().orderDesc(ScanHistoryBeanDao.Properties.Time).list();
+            HRApplication.getDaoInstant().getScanHistoryBeanDao().delete(list.get(0));
+        }
         HRApplication.getDaoInstant().getScanHistoryBeanDao().insertOrReplace(scanHistoryBean);
     }
     public void deleteAll(){

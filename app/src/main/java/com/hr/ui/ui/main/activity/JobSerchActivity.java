@@ -334,7 +334,7 @@ public class JobSerchActivity extends BaseActivity<JobSearchPresenter, JobSearch
             Date curDate = new Date(System.currentTimeMillis());
             String str = formatter.format(curDate);
             historyBean.setAddDate(str);
-            SearchHistoryUtils.insertJobSearchData(historyBean);
+            SearchHistoryUtils.insertJobSearchDataOrReplace(historyBean);
         } else {
             ToastUitl.showShort("请输入职位名/公司名");
             return;

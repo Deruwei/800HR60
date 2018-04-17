@@ -160,7 +160,6 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
     @Override
     public void sendAutoCode(String autoCode) {
         this.autoCode = autoCode;
-
         ivAutoCode.setImageBitmap(EncryptUtils.stringtoBitmap(autoCode));
     }
 

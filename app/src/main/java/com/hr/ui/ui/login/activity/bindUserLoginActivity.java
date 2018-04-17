@@ -173,6 +173,26 @@ public class bindUserLoginActivity extends BaseActivity<LoginPresenter, LoginMod
         ToolUtils.getInstance().judgeResumeIsComplete(resumeBean, this, titles);
     }
 
+    @Override
+    public void needToGetAutoCode() {
+
+    }
+
+    @Override
+    public void phoneIsExit(String flag) {
+
+    }
+
+    @Override
+    public void sendValidCode(int code) {
+
+    }
+
+    @Override
+    public void sendAutoCode(String autoCode) {
+
+    }
+
 
     @Override
     public int getLayoutId() {

@@ -27,17 +27,19 @@ public class LoadingDialog {
      */
     public static Dialog showDialogForLoading(Context context, String msg, boolean cancelable) {
         //Log.i("进去","here");
-        View view = LayoutInflater.from(context).inflate(R.layout.dialog_loading, null);
-       // Log.i("进去2","here");
-        TextView loadingText = (TextView)view.findViewById(R.id.id_tv_loading_dialog_text);
-        loadingText.setText(msg);
-        //Log.i("进去2","here");
-        mLoadingDialog = new Dialog(context, R.style.CustomProgressDialog);
-        mLoadingDialog.setCancelable(cancelable);
+        if(context!=null) {
+            View view = LayoutInflater.from(context).inflate(R.layout.dialog_loading, null);
+            // Log.i("进去2","here");
+            TextView loadingText = (TextView) view.findViewById(R.id.id_tv_loading_dialog_text);
+            loadingText.setText(msg + "");
+            //Log.i("进去2","here");
+            mLoadingDialog = new Dialog(context, R.style.CustomProgressDialog);
+            mLoadingDialog.setCancelable(cancelable);
 
-        //Log.i("进去3","here");
-        mLoadingDialog.setContentView(view, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-        mLoadingDialog.show();
+            //Log.i("进去3","here");
+            mLoadingDialog.setContentView(view, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+            mLoadingDialog.show();
+        }
         return  mLoadingDialog;
     }
 

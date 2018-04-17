@@ -121,7 +121,6 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
         /*sUtils.setIntValue("code",0);*/
         isAutoLogin = sUtils.getIntValue(Constants.ISAUTOLOGIN, 0);
         autoLoginType = sUtils.getIntValue(Constants.AUTOLOGINTYPE, 5);
-        BaiDuLocationUtils.getInstance().initData();
         if(Utils.isWifiProxy(this)){
             ToastUitl.showShort(getString(R.string.proxy));
         }
@@ -239,6 +238,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
     public void SendConnectSuccess() {
         getPermission();
         mPresenter.getVersion(BuildConfig.VERSION_NAME);
+        BaiDuLocationUtils.getInstance().initData();
     }
 
     @Override

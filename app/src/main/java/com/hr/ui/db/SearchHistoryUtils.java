@@ -22,12 +22,14 @@ public class SearchHistoryUtils {
      * @param historyBean
      */
     public static void insertJobSearchDataOrReplace(SearchHistoryBean historyBean) {
+        if(queryAll().size()>=3){
+            List<SearchHistoryBean> list=HRApplication.getDaoInstant().getSearchHistoryBeanDao().queryBuilder().limit(1).orderAsc(SearchHistoryBeanDao.Properties.AddDate).list();
+            HRApplication.getDaoInstant().getSearchHistoryBeanDao().delete(list.get(0));
+        }
         HRApplication.getDaoInstant().getSearchHistoryBeanDao().insertOrReplace(historyBean);
     }
 
     public static void insertJobSearchData(SearchHistoryBean historyBean) {
-        int i=HRApplication.getDaoInstant().getSearchHistoryBeanDao().loadAll().size();
-        historyBean.setJobId(i+1);
         HRApplication.getDaoInstant().getSearchHistoryBeanDao().insert(historyBean);
     }
 
@@ -40,6 +42,6 @@ public class SearchHistoryUtils {
      * 查询全部数据
      */
     public static List<SearchHistoryBean> queryAll() {
-        return HRApplication.getDaoInstant().getSearchHistoryBeanDao().queryBuilder().limit(3).orderDesc(SearchHistoryBeanDao.Properties.AddDate).list();
+        return HRApplication.getDaoInstant().getSearchHistoryBeanDao().queryBuilder().orderDesc(SearchHistoryBeanDao.Properties.AddDate).list();
     }
 }
