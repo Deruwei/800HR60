@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>         //边框的颜色
+            <solid android:color="@color/new_main" />
+            <corners android:topLeftRadius="@dimen/x9"
+                android:topRightRadius="@dimen/x9"
+                />
+        </shape>
+    </item>
+
+    <item
+        android:top="@dimen/x2"
+        android:right="@dimen/x2"
+        android:left="@dimen/x2"
+        >  //这里有四个方向可以选择，设置top left  right
+        <shape>
+            <solid android:color="#fff" />  //整个空间的背景颜色
+            <corners android:topLeftRadius="@dimen/x9"
+                android:topRightRadius="@dimen/x9"
+                />
+        </shape>
+    </item>
+
+</layer-list>

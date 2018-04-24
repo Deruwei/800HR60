@@ -207,7 +207,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/x95"
                         android:background="@color/white"
-                        android:visibility="gone">
+                        >
                         <RelativeLayout
                             android:id="@+id/rl_searchResultSelectAll"
                             android:layout_width="wrap_content"

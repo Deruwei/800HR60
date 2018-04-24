@@ -10,6 +10,7 @@ import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -121,6 +122,7 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
     private SharedPreferencesUtils sUtils;
     private MyDialog myDialog; //返回弹出的dialog
     private MyDialog dialog; //删除求职意向弹出的dialog
+    private MyDialog myDeleteDialog;
 
     /**
      * 入口
@@ -174,7 +176,19 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
         //Log.i("funid",funId+"=------");
         initIndustryUI();
     }
-
+    private void canNotDeleteJobOrder(){
+        myDeleteDialog=new MyDialog(this,1);
+        myDeleteDialog.setNoGone();
+        myDeleteDialog.setTitle(getString(R.string.warningTips));
+        myDeleteDialog.setMessage(getString(R.string.deleteJobOrder));
+        myDeleteDialog.setYesOnclickListener("确定", new MyDialog.onYesOnclickListener() {
+            @Override
+            public void onYesClick() {
+                myDeleteDialog.dismiss();
+            }
+        });
+        myDeleteDialog.show();
+    }
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     private void initIndustryUI() {
         StringBuffer sbPosition = new StringBuffer();
@@ -254,7 +268,12 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
                 ivIndustryDelete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        deleteJobOrderInfo(finalI);
+                        if(industryBeanList.size()<=1){
+                            canNotDeleteJobOrder();
+                        }else{
+                            deleteJobOrderInfo(finalI);
+                        }
+
                     }
                 });
                 /*   tvResumeName2.setText(experienceListBeanList.get(i).getPosition());
@@ -276,7 +295,7 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
             if (sbIndustry != null && !"".equals(sbIndustry) && sbIndustry.length() != 0) {
                 industryId = sbIndustry.deleteCharAt(0).toString();
             }
-            //Log.i("funid",funId+"-------------");
+            Log.i("funid",industryIds.toString()+"-------------");
         } else {
             rlResumeJobOrderIndustry.setVisibility(View.GONE);
         }
@@ -467,6 +486,7 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
         jobOrderData.setExpectArea(funId);
         jobOrderData.setIndustry(industryId);
         jobOrderData.setMode(mode);
+        Log.i("funid",mode+"");
         mPresenter.setJobOrderInfo(jobOrderData);
     }
 
@@ -584,7 +604,7 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
         sbPosition.deleteCharAt(0);
         orderIndustryBean.setFunc(sbPosition.toString());
         orderInfoBean.getOrder_industry().add(orderIndustryBean);
-        mode = "1";
+        mode = "0";
         initIndustryUI();
     }
 
@@ -620,6 +640,9 @@ public class ResumeJobOrderActivity extends BaseActivity<ResumeJobOrderPresenter
         super.onDestroy();
         if (myDialog != null) {
             myDialog.dismiss();
+        }
+        if(myDeleteDialog!=null){
+            myDeleteDialog.dismiss();
         }
         EventBus.getDefault().unregister(this);
     }

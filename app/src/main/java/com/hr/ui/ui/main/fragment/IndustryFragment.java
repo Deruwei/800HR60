@@ -3,6 +3,7 @@ package com.hr.ui.ui.main.fragment;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,7 +88,7 @@ public class IndustryFragment extends BaseFragment {
             }
         }
         final SelectIndustryAdapter selectIndustryAdapter;
-        //Log.i("你好2",industryList.toString());
+       // Log.i("你好2",industryIds);
         if (updatePositionNum != 100) {
             //Log.i("你好2","你好1");
             selectIndustryAdapter = new SelectIndustryAdapter(industryList, indutryId, getActivity(), "1", industryIds);
@@ -158,7 +159,7 @@ public class IndustryFragment extends BaseFragment {
 
     @OnClick(R.id.btn_industryNext)
     public void onViewClicked() {
-        if(!"".equals(indutryId)){
+        if(!"".equals(indutryId)&&indutryId!=null){
             EventBus.getDefault().post(new EventJobOrderResume(6));
         }else{
             ToastUitl.showShort("请选择行业");

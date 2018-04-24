@@ -128,6 +128,7 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
                 }else{
                     viewHolder.rlHomeFragmentItemLeft.setVisibility(View.GONE);
                 }
+                viewHolder.tvRecommendJobCompanyType.setMaxEms(6);
                 if(jobsListBeanList.get(position).getIs_apply()==1){
                     viewHolder.rlHomeFragmentItemLeft.setEnabled(false);
                     viewHolder.tvSearchResultAlreadyDeliver.setVisibility(View.VISIBLE);

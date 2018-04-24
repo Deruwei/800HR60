@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.SharedElementCallback;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
@@ -28,6 +29,7 @@ import com.hr.ui.constants.Constants;
 import com.hr.ui.db.HMROpenHelper;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.Utils;
+import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.service.AlamrReceiver;
 import com.hr.ui.utils.GlideImageLoader;
 import com.hr.ui.utils.UnCeHandler;
@@ -61,19 +63,12 @@ public class HRApplication extends MobApplication {
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case 0:
-                    countDownTimer= new CountDownTimer(1000*60*20, 1000*60*20) {
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                            AppManager.getAppManager().exitApp();
-                        }
-                        @Override
-                        public void onFinish() {
-
-                        }
-                    };
+                    //Log.i("计时","开始");
+                    countDownTimer.start();
                     break;
                 case 1:
                     if(countDownTimer!=null) {
+                        //Log.i("计时","结束");
                         countDownTimer.cancel();
                     }
                     break;
@@ -100,8 +95,21 @@ public class HRApplication extends MobApplication {
         //听云
         NBSAppAgent.setLicenseKey(nbsAppKey).withLocationServiceEnabled(true).startInApplication(this.getApplicationContext());//Appkey 请从官网获取
         Constants.SESSION_KEY=null;
+        SharedPreferencesUtils sUtils=new SharedPreferencesUtils(getAppContext());
+        sUtils.setIntValue("code",0);
         //设置每天8点左右消息的就业指导
         initIsHaveNew();
+                countDownTimer= new CountDownTimer(1000*60*20, 1000) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                       // Log.i("计时",millisUntilFinished/1000+"");
+                    }
+                    @Override
+                    public void onFinish() {
+                        AppManager.getAppManager().exitApp();
+                    }
+                };
+
         //设置监听app前后台监听
         registerAppCallback();
     }

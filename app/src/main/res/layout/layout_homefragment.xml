@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/cl_homeFragment"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+   <FrameLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+      <com.hr.ui.view.XRecyclerView
+         android:id="@+id/rv_homeFragment"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"/>
+      <include layout="@layout/layout_emptyview" />
+      <include layout="@layout/layout_neterror"/>
+   </FrameLayout>
+   <RelativeLayout
+       android:id="@+id/rl_homeBg"
+       android:layout_width="match_parent"
+       android:layout_height="@dimen/x87"/>
    <RelativeLayout
        android:id="@+id/rl_fragmentTitle"
        android:layout_width="match_parent"
@@ -18,56 +32,38 @@
           app:cardCornerRadius="@dimen/x29"
           app:cardElevation="@dimen/x1"
           android:layout_height="wrap_content">
-      <com.hr.ui.view.CircleImageView
-          android:id="@+id/iv_ResumePersonPhoto"
-          android:layout_width="@dimen/x58"
-          android:layout_height="@dimen/x58"
-          android:scaleType="centerCrop"
-          android:onClick="toggleMenu"
-          android:src="@mipmap/persondefault"/>
+         <com.hr.ui.view.CircleImageView
+             android:id="@+id/iv_ResumePersonPhoto"
+             android:layout_width="@dimen/x58"
+             android:layout_height="@dimen/x58"
+             android:scaleType="centerCrop"
+             android:onClick="toggleMenu"
+             android:src="@mipmap/persondefault"/>
       </android.support.v7.widget.CardView>
-         <RelativeLayout
-             android:layout_toRightOf="@+id/home_cv"
-             android:id="@+id/rl_mainSearch"
-             android:layout_marginRight="@dimen/x52"
+      <RelativeLayout
+          android:layout_toRightOf="@+id/home_cv"
+          android:id="@+id/rl_mainSearch"
+          android:layout_marginRight="@dimen/x52"
+          android:layout_centerVertical="true"
+          android:background="@drawable/fragmentlayout_bg"
+          android:layout_width="match_parent"
+          android:gravity="center"
+          android:layout_height="@dimen/x58">
+         <ImageView
              android:layout_centerVertical="true"
-             android:background="@drawable/fragmentlayout_bg"
-             android:layout_width="match_parent"
-             android:gravity="center"
-             android:layout_height="@dimen/x58">
-            <ImageView
-                android:layout_centerVertical="true"
-                android:id="@+id/iv_mainSearch"
-                android:src="@mipmap/search"
-                android:layout_width="@dimen/x24"
-                android:layout_height="@dimen/x24" />
-            <TextView
-                android:layout_marginLeft="@dimen/x15"
-                android:textColor="@color/view_color"
-                android:layout_centerVertical="true"
-                android:textSize="@dimen/x24"
-                android:layout_toRightOf="@+id/iv_mainSearch"
-                android:text="@string/positionOrCompanyName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-         </RelativeLayout>
+             android:id="@+id/iv_mainSearch"
+             android:src="@mipmap/search"
+             android:layout_width="@dimen/x24"
+             android:layout_height="@dimen/x24" />
+         <TextView
+             android:layout_marginLeft="@dimen/x15"
+             android:textColor="@color/view_color"
+             android:layout_centerVertical="true"
+             android:textSize="@dimen/x24"
+             android:layout_toRightOf="@+id/iv_mainSearch"
+             android:text="@string/positionOrCompanyName"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content" />
+      </RelativeLayout>
    </RelativeLayout>
-   <View
-       android:layout_below="@+id/rl_fragmentTitle"
-       android:id="@+id/view_homeFragment"
-       android:layout_width="match_parent"
-       android:layout_height="@dimen/x1"
-       android:background="@color/view_color"
-       />
-   <FrameLayout
-       android:layout_below="@+id/view_homeFragment"
-       android:layout_width="match_parent"
-       android:layout_height="match_parent">
-      <com.hr.ui.view.XRecyclerView
-         android:id="@+id/rv_homeFragment"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"/>
-      <include layout="@layout/layout_emptyview" />
-      <include layout="@layout/layout_neterror"/>
-   </FrameLayout>
-</RelativeLayout>
+</FrameLayout>

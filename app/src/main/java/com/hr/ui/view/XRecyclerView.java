@@ -12,6 +12,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
+import android.util.EventLog;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
@@ -20,11 +22,14 @@ import android.view.ViewParent;
 import android.view.animation.LinearInterpolator;
 import android.widget.Scroller;
 
+import com.hr.ui.bean.EventType;
 import com.hr.ui.utils.AppBarStateChangeListener;
 import com.hr.ui.utils.recyclerviewutils.ArrowRefreshHeader;
 import com.hr.ui.utils.recyclerviewutils.CustomFooterViewCallBack;
 import com.hr.ui.utils.LoadingMoreFooter;
 import com.hr.ui.utils.ProgressStyle;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -367,7 +372,9 @@ public class XRecyclerView extends RecyclerView {
                 mLastY = ev.getRawY();
                 if (isOnTop() && pullRefreshEnabled && appbarState == AppBarStateChangeListener.State.EXPANDED) {
                     mRefreshHeader.onMove(deltaY / DRAG_RATE);
-                    if (mRefreshHeader.getVisibleHeight() > 0 && mRefreshHeader.getState() < ArrowRefreshHeader.STATE_REFRESHING) {
+
+                    if (mRefreshHeader.getVisibleHeight() > 0 && mRefreshHeader.getState() <ArrowRefreshHeader.STATE_REFRESHING) {
+                        EventBus.getDefault().post(new EventType(0));
                         return false;
                     }
                 }
@@ -375,6 +382,7 @@ public class XRecyclerView extends RecyclerView {
             default:
                 mLastY = -1; // reset
                 if (isOnTop() && pullRefreshEnabled && appbarState == AppBarStateChangeListener.State.EXPANDED) {
+
                     if (mRefreshHeader.releaseAction()) {
                         if (mLoadingListener != null) {
                             mLoadingListener.onRefresh();
@@ -820,17 +828,25 @@ public class XRecyclerView extends RecyclerView {
         if(scrollAlphaChangeListener == null){
             return;
         }
+        if(dy>0&&mRefreshHeader.getState()==ArrowRefreshHeader.STATE_NORMAL){
+            EventBus.getDefault().post(new EventType(1));
+        }
         int height = scrollAlphaChangeListener.setLimitHeight();
         scrollDyCounter = scrollDyCounter + dy;
-        if (scrollDyCounter <= 0) {
-            scrollAlphaChangeListener.onAlphaChange(0);
-        }else if(scrollDyCounter <= height && scrollDyCounter > 0){
-            float scale = (float) scrollDyCounter / height; /** 255/height = x/255 */
-            float alpha = (255 * scale);
-            scrollAlphaChangeListener.onAlphaChange((int) alpha);
-        }else {
-            scrollAlphaChangeListener.onAlphaChange(255);
+        if(mRefreshHeader.getState()==ArrowRefreshHeader.STATE_REFRESHING||mRefreshHeader.getState()==ArrowRefreshHeader.STATE_DONE){
+            scrollDyCounter=0;
         }
+            if (scrollDyCounter <= 0) {
+                scrollAlphaChangeListener.onAlphaChange(0);
+            } else if (scrollDyCounter <= height && scrollDyCounter > 0) {
+                float scale = (float) scrollDyCounter / height; /** 255/height = x/255 */
+                float alpha = (255 * scale);
+                //Log.i("现在的", alpha + "------" + height + "---------" + scrollDyCounter+"------------"+dy);
+                scrollAlphaChangeListener.onAlphaChange((int) alpha);
+            } else {
+                scrollAlphaChangeListener.onAlphaChange(255);
+            }
+
     }
 
     private ScrollAlphaChangeListener scrollAlphaChangeListener;

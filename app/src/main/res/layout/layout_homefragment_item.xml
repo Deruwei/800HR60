@@ -240,6 +240,7 @@
                             android:textSize="@dimen/x24" />
 
                         <TextView
+                            android:singleLine="true"
                             android:id="@+id/tv_recommendJobCompanyType"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

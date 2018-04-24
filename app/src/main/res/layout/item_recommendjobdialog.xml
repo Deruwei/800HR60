@@ -60,6 +60,15 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_itemRecommendJobDialogCompanyName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/iv_itemRecommendJobDialogAlreadyDeliver"
+        app:layout_constraintTop_toBottomOf="@id/tv_itemRecommendJobDialogSalary"
+        android:layout_marginRight="@dimen/x39"
+        android:src="@mipmap/already_deliver"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="@dimen/x90"
+        android:layout_height="@dimen/x44" />
     <TextView
         android:id="@+id/tv_itemRecommendJobDialogDate"
         android:textSize="@dimen/x24"

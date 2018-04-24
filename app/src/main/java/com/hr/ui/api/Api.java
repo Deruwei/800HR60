@@ -41,10 +41,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+
 
 /**
  * des:retorfit api
@@ -52,9 +49,9 @@ import rx.schedulers.Schedulers;
  */
 public class Api {
     //读超时长，单位：毫秒
-    public static final int READ_TIME_OUT = 6000;
+    public static final int READ_TIME_OUT = 20000;
     //连接时长，单位：毫秒
-    public static final int CONNECT_TIME_OUT =6000;
+    public static final int CONNECT_TIME_OUT =20000;
     public Retrofit retrofit;
     public ApiService movieService;
     public OkHttpClient okHttpClient;

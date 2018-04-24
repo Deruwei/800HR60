@@ -3,6 +3,7 @@ package com.hr.ui.ui.main.presenter;
 import android.util.Log;
 
 import com.hr.ui.base.RxSubscriber;
+import com.hr.ui.bean.FindBean;
 import com.hr.ui.bean.HomeRecommendBean;
 import com.hr.ui.bean.RecommendJobBean;
 import com.hr.ui.ui.main.contract.HomeFragmentContract;
@@ -27,7 +28,7 @@ public class HomeFragmentPresenter extends HomeFragmentContract.Presenter {
         mRxManage.add(mModel.getRecommendJobInfo(limit).subscribe(new RxSubscriber<HomeRecommendBean>(mContext,isCanRefresh) {
             @Override
             protected void _onNext(HomeRecommendBean homeRecommendBean) throws IOException {
-                    if(homeRecommendBean.getError_code()==0) {
+                    if(homeRecommendBean.getError_code()==0||homeRecommendBean.getError_code()==206) {
                         mView.getRecommendJobSuccess(homeRecommendBean.getJobs_list());
                     }else{
                         ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId(homeRecommendBean.getError_code() ));
@@ -116,6 +117,22 @@ public class HomeFragmentPresenter extends HomeFragmentContract.Presenter {
                     e.printStackTrace();
                 } catch (JSONException e) {
                     e.printStackTrace();
+                }
+            }
+
+            @Override
+            protected void _onError(String message) {
+
+            }
+        }));
+    }
+    @Override
+    public void getNotice(String cid,String aid) {
+        mRxManage.add(mModel.getNotice(cid,aid).subscribe(new RxSubscriber<FindBean>(mContext,false) {
+            @Override
+            protected void _onNext(FindBean findBean) throws IOException {
+                if("0".equals(findBean.getError_code())){
+                    mView.getNoticeSuccess(findBean.getList());
                 }
             }
 

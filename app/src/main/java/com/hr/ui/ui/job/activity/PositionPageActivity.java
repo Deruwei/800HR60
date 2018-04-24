@@ -322,6 +322,9 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
         if(tag.equals(JobSearchResultActivity.TAG)) {
                 JobSearchResultActivity.instance.notificationDataItem(position);
         }
+        if(tag.equals(RecommendJobActivity.class.getSimpleName())){
+            EventBus.getDefault().post(new EventHomeBean(11,position));
+        }
         if(tag.equals(HomeFragment.TAG)){
             EventBus.getDefault().post(new EventHomeBean(0,position));
         }

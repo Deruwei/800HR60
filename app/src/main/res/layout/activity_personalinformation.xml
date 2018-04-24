@@ -319,7 +319,7 @@
             <View
                 android:id="@+id/view11"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/x72"/>
+                android:layout_height="@dimen/x62"/>
         </LinearLayout>
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

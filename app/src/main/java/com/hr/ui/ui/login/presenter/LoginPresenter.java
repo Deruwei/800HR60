@@ -56,7 +56,13 @@ public class LoginPresenter extends LoginContract.Presenter {
                         ToastUitl.showShort(R.string.error_311);
                     }
                 }else{
-                    ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) registerBean.getError_code()));
+                    if(type==3){
+                        if(registerBean.getError_code()==201){
+                            ToastUitl.showShort(R.string.error_validCode);
+                        }
+                    }else {
+                        ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) registerBean.getError_code()));
+                    }
                 }
             }
 

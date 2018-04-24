@@ -80,6 +80,7 @@ public class PopupWindowView {
                             popupWindow.dismiss();
                         }
                     JobSearchResultActivity.instance.page = 1;
+                    JobSearchResultActivity.instance.doSearch(true);
                 }
             });
             initSelectCity();
@@ -193,6 +194,7 @@ public class PopupWindowView {
                                         provinceCityList.get(position).setCheck(false);
                                         removeView(provinceCityList.get(position));
                                     }
+                                    JobSearchResultActivity.instance.setPlaceId(selectCityList);
                             }
                             myProvinceAdapter.notifyDataSetChanged();
                             Message message = Message.obtain();
@@ -263,6 +265,7 @@ public class PopupWindowView {
                                     removeView(cityList.get(position));
 
                                 }
+                                JobSearchResultActivity.instance.setPlaceId(selectCityList);
                                 myCityAdapter.notifyDataSetChanged();
                         }
                     });

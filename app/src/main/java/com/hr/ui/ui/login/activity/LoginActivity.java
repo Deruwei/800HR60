@@ -15,7 +15,6 @@ import android.text.Selection;
 import android.text.Spannable;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +24,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,58 +61,43 @@ import butterknife.OnClick;
 
 public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> implements LoginContract.View {
 
+
     @BindView(R.id.tv_toolbarTitle)
     TextView tvToolbarTitle;
-    @BindView(R.id.tool_bar)
-    Toolbar toolBar;
-    @BindView(R.id.et_phoneLoginNumber)
-    EditText etPhoneLoginNumber;
-    @BindView(R.id.et_phoneLoginPsw)
-    EditText etPhoneLoginPsw;
-    @BindView(R.id.rl_phoneLoginHiddenPsw)
-    RelativeLayout rlPhoneLoginHiddenPsw;
-    @BindView(R.id.iv_phoneLoginHiddenPsw)
-    ImageView ivPhoneLoginHiddenPsw;
-    @BindView(R.id.tv_phoneLoginFindPsw)
-    TextView tvPhoneLoginFindPsw;
-    @BindView(R.id.ll_phoneLogin_middle)
-    LinearLayout llPhoneLoginMiddle;
-    @BindView(R.id.tv_text)
-    TextView tvText;
-    @BindView(R.id.iv_phoneLoginQQ)
-    ImageView ivPhoneLoginQQ;
-    @BindView(R.id.iv_phoneLoginWeChat)
-    ImageView ivPhoneLoginWeChat;
-    @BindView(R.id.rl_phoneLoginThirdPart)
-    RelativeLayout rlPhoneLoginThirdPart;
     @BindView(R.id.toolbarAdd)
     ImageView toolbarAdd;
     @BindView(R.id.tv_toolbarSave)
     TextView tvToolbarSave;
+    @BindView(R.id.tool_bar)
+    Toolbar toolBar;
+    @BindView(R.id.view_loginLine1)
+    View viewLoginLine1;
+    @BindView(R.id.rb_phoneLogin)
+    RadioButton rbPhoneLogin;
+    @BindView(R.id.rb_userLogin)
+    RadioButton rbUserLogin;
+    @BindView(R.id.rb_validCodeLogin)
+    RadioButton rbValidCodeLogin;
+    @BindView(R.id.view_loginLine2)
+    View viewLoginLine2;
+    @BindView(R.id.rl_loginTitle)
+    RelativeLayout rlLoginTitle;
     @BindView(R.id.iv_phoneLoginNumberIcon)
     ImageView ivPhoneLoginNumberIcon;
+    @BindView(R.id.et_phoneLoginNumber)
+    EditText etPhoneLoginNumber;
     @BindView(R.id.iv_phoneLoginPhoneDelete)
     ImageView ivPhoneLoginPhoneDelete;
     @BindView(R.id.iv_phoneLoginPswIcon)
     ImageView ivPhoneLoginPswIcon;
+    @BindView(R.id.et_phoneLoginPsw)
+    EditText etPhoneLoginPsw;
     @BindView(R.id.iv_phoneLoginPswDelete)
     ImageView ivPhoneLoginPswDelete;
-    @BindView(R.id.btn_phoneLoginOK)
-    Button btnPhoneLoginOK;
-    @BindView(R.id.tv_phoneLoginAccountLogin)
-    TextView tvPhoneLoginAccountLogin;
-    @BindView(R.id.tv_pswLogin)
-    TextView tvPswLogin;
-    @BindView(R.id.view_pswLogin)
-    View viewPswLogin;
-    @BindView(R.id.rl_pswLogin)
-    RelativeLayout rlPswLogin;
-    @BindView(R.id.tv_validLogin)
-    TextView tvValidLogin;
-    @BindView(R.id.view_validLogin)
-    View viewValidLogin;
-    @BindView(R.id.rl_validLogin)
-    RelativeLayout rlValidLogin;
+    @BindView(R.id.iv_phoneLoginHiddenPsw)
+    ImageView ivPhoneLoginHiddenPsw;
+    @BindView(R.id.rl_phoneLoginHiddenPsw)
+    RelativeLayout rlPhoneLoginHiddenPsw;
     @BindView(R.id.ll_pswLogin)
     LinearLayout llPswLogin;
     @BindView(R.id.iv_phoneLoginNumberIcon2)
@@ -131,12 +116,46 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     TextView tvSendValidCode;
     @BindView(R.id.ll_validLogin)
     LinearLayout llValidLogin;
+    @BindView(R.id.iv_userLoginNumberIcon)
+    ImageView ivUserLoginNumberIcon;
+    @BindView(R.id.et_userLoginNumber)
+    EditText etUserLoginNumber;
+    @BindView(R.id.iv_userLoginNumberDelete)
+    ImageView ivUserLoginNumberDelete;
+    @BindView(R.id.iv_userLoginPswIcon)
+    ImageView ivUserLoginPswIcon;
+    @BindView(R.id.et_userLoginPsw)
+    EditText etUserLoginPsw;
+    @BindView(R.id.iv_userLoginPswDelete)
+    ImageView ivUserLoginPswDelete;
+    @BindView(R.id.iv_userLoginHiddenPsw)
+    ImageView ivUserLoginHiddenPsw;
+    @BindView(R.id.rl_userLoginHiddenPsw)
+    RelativeLayout rlUserLoginHiddenPsw;
+    @BindView(R.id.ll_userLogin_middle)
+    LinearLayout llUserLoginMiddle;
+    @BindView(R.id.btn_phoneLoginOK)
+    Button btnPhoneLoginOK;
+    @BindView(R.id.tv_phoneLoginAccountLogin)
+    TextView tvPhoneLoginAccountLogin;
+    @BindView(R.id.tv_phoneLoginFindPsw)
+    TextView tvPhoneLoginFindPsw;
+    @BindView(R.id.ll_phoneLogin_middle)
+    LinearLayout llPhoneLoginMiddle;
+    @BindView(R.id.tv_text)
+    TextView tvText;
+    @BindView(R.id.iv_phoneLoginQQ)
+    ImageView ivPhoneLoginQQ;
+    @BindView(R.id.iv_phoneLoginWeChat)
+    ImageView ivPhoneLoginWeChat;
+    @BindView(R.id.rl_phoneLoginThirdPart)
+    RelativeLayout rlPhoneLoginThirdPart;
     @BindView(R.id.cl_phoneLogin)
     ConstraintLayout clPhoneLogin;
     private ImageView ivAutoCode;
     private EditText etAutoCode;
-    private boolean isHidden = true;
-    private String phoneNum, phoneNumberValid="", psw,validCode;
+    private boolean isHidden = true,isHiddleUser=true;
+    private String phoneNum,userNum, phoneNumberValid = "", psw,psw2, validCode;
     private SharedPreferencesUtils sUtils;
     private int[] imageIds = {R.mipmap.resume1, R.mipmap.resume2, R.mipmap.resume3, R.mipmap.resume4, R.mipmap.resume5};
     private ArrayList<String> titles;
@@ -144,7 +163,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     private Intent mCodeTimerServiceIntent;
     public static final String CODE = "codeValidLogin";
     private PopupWindow popupWindow;
-    private boolean isPswLogin=true;
+    private int isPswLogin = 0; //0代表手机登录 1代表密码登录  2 代表验证码邓丽
+
     /**
      * 入口
      *
@@ -174,15 +194,20 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
 
     @Override
     public void sendLoginSuccess(int userId) {
-        MobclickAgent.onEvent(this, "v6_login_phone");
         MobclickAgent.onProfileSignIn(userId + "");
         this.userId = userId;
         sUtils.setStringValue(Constants.USERID, userId + "");
-        if(isPswLogin) {
+        if (isPswLogin==0) {
+            MobclickAgent.onEvent(this, "v6_login_phone");
             sUtils.setIntValue(Constants.ISAUTOLOGIN, 1);
             sUtils.setIntValue(Constants.AUTOLOGINTYPE, 0);
-        }else{
+        }else if(isPswLogin==1){
+            MobclickAgent.onEvent(this,"v6_login_user");
+            sUtils.setIntValue(Constants.ISAUTOLOGIN, 1);
+            sUtils.setIntValue(Constants.AUTOLOGINTYPE, 1);
+        } else {
             sUtils.setIntValue(Constants.ISAUTOLOGIN, 0);
+            MobclickAgent.onEvent(this,"v6_login_validCode");
         }
         sUtils.setStringValue(Constants.USERPHONE, phoneNum);
         mPresenter.getResumeList();
@@ -239,6 +264,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
             return;
         } else {
             if (type == 0) {
+                mPresenter.getLogin(phoneNumberValid, validCode, 3);
                 //mPresenter.getRegister(phoneNumber, validCode, password);
             } else {
                 if (sUtils.getIntValue("code", 0) >= 1) {
@@ -343,7 +369,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
         toolBar.setTitle("");
         toolBar.setTitleTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
         toolBar.setNavigationIcon(R.mipmap.back);
-        tvToolbarTitle.setText(R.string.phoneLogin);
+        tvToolbarTitle.setText(R.string.userLogin);
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -388,31 +414,71 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
         Utils.setEditViewTextChangeAndFocus(etPhoneLoginNumber, ivPhoneLoginPhoneDelete);
         Utils.setEditViewTextChangeAndFocus(etPhoneLoginNumber2, ivPhoneLoginPhoneDelete2);
         Utils.setEditViewTextChangeAndFocus(etPhoneLoginValid, ivPhoneLoginValidDelete);
+        Utils.setEditViewTextChangeAndFocus(etUserLoginNumber,ivUserLoginNumberDelete);
+        Utils.setEditViewTextChangeAndFocus(etUserLoginPsw,ivUserLoginPswDelete);
     }
 
-    @OnClick({R.id.rl_phoneLoginHiddenPsw, R.id.rl_pswLogin, R.id.tv_sendValidCode, R.id.iv_phoneLoginPhoneDelete2, R.id.iv_phoneLoginValidDelete, R.id.rl_validLogin, R.id.iv_phoneLoginPhoneDelete, R.id.iv_phoneLoginPswDelete, R.id.btn_phoneLoginOK, R.id.tv_phoneLoginAccountLogin, R.id.tv_phoneLoginFindPsw, R.id.iv_phoneLoginQQ, R.id.iv_phoneLoginWeChat})
+    @OnClick({R.id.rl_phoneLoginHiddenPsw,R.id.rl_userLoginHiddenPsw,R.id.iv_userLoginNumberDelete,R.id.iv_userLoginPswDelete, R.id.rb_phoneLogin,R.id.rb_userLogin, R.id.tv_sendValidCode, R.id.iv_phoneLoginPhoneDelete2, R.id.iv_phoneLoginValidDelete, R.id.rb_validCodeLogin, R.id.iv_phoneLoginPhoneDelete, R.id.iv_phoneLoginPswDelete, R.id.btn_phoneLoginOK, R.id.tv_phoneLoginAccountLogin, R.id.tv_phoneLoginFindPsw, R.id.iv_phoneLoginQQ, R.id.iv_phoneLoginWeChat})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.rl_pswLogin:
-                isPswLogin=true;
+            case R.id.iv_userLoginNumberDelete:
+                etUserLoginNumber.setText("");
+                break;
+            case R.id.iv_userLoginPswDelete:
+                etUserLoginPsw.setText("");
+                break;
+            case R.id.rl_userLoginHiddenPsw:
+                if (isHidden) {
+                    //设置EditText文本为可见的
+                    ivUserLoginHiddenPsw.setImageResource(R.mipmap.see);
+                    etUserLoginPsw.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                } else {
+                    //设置EditText文本为隐藏的
+                    ivUserLoginHiddenPsw.setImageResource(R.mipmap.hidden);
+                    etUserLoginPsw.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                }
+                isHidden = !isHidden;
+                etUserLoginPsw.postInvalidate();
+                //切换后将EditText光标置于末尾
+                CharSequence charSequence = etUserLoginPsw.getText();
+                if (charSequence instanceof Spannable) {
+                    Spannable spanText = (Spannable) charSequence;
+                    Selection.setSelection(spanText, charSequence.length());
+                }
+                break;
+            case R.id.rb_phoneLogin:
+                isPswLogin = 0;
                 llPswLogin.setVisibility(View.VISIBLE);
                 llValidLogin.setVisibility(View.GONE);
-                tvPswLogin.setTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.new_main));
-                tvValidLogin.setTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_999));
-                viewPswLogin.setVisibility(View.VISIBLE);
-                viewValidLogin.setVisibility(View.GONE);
+                rbPhoneLogin.setTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.new_main));
+                rbValidCodeLogin.setTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_999));
+                rbUserLogin.setTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_999));
+                llUserLoginMiddle.setVisibility(View.GONE);
+               /* viewPswLogin.setVisibility(View.VISIBLE);
+                viewValidLogin.setVisibility(View.GONE);*/
                 break;
-            case R.id.rl_validLogin:
-                isPswLogin=false;
+            case R.id.rb_validCodeLogin:
+                isPswLogin = 2;
                 llPswLogin.setVisibility(View.GONE);
-                tvPswLogin.setTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_999));
-                tvValidLogin.setTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.new_main));
+                rbPhoneLogin.setTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_999));
+                rbValidCodeLogin.setTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.new_main));
+                rbUserLogin.setTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_999));
                 llValidLogin.setVisibility(View.VISIBLE);
-                viewPswLogin.setVisibility(View.GONE);
-                viewValidLogin.setVisibility(View.VISIBLE);
+                llUserLoginMiddle.setVisibility(View.GONE);
+                /*viewPswLogin.setVisibility(View.GONE);
+                viewValidLogin.setVisibility(View.VISIBLE);*/
+                break;
+            case R.id.rb_userLogin:
+                isPswLogin=1;
+                llPswLogin.setVisibility(View.GONE);
+                rbPhoneLogin.setTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_999));
+                rbValidCodeLogin.setTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_999));
+                rbUserLogin.setTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.new_main));
+                llValidLogin.setVisibility(View.GONE);
+                llUserLoginMiddle.setVisibility(View.VISIBLE);
                 break;
             case R.id.rl_phoneLoginHiddenPsw:
-                if (isHidden) {
+                if (isHiddleUser) {
                     //设置EditText文本为可见的
                     ivPhoneLoginHiddenPsw.setImageResource(R.mipmap.see);
                     etPhoneLoginPsw.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
@@ -421,13 +487,13 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                     ivPhoneLoginHiddenPsw.setImageResource(R.mipmap.hidden);
                     etPhoneLoginPsw.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 }
-                isHidden = !isHidden;
+                isHiddleUser = !isHiddleUser;
                 etPhoneLoginPsw.postInvalidate();
                 //切换后将EditText光标置于末尾
-                CharSequence charSequence = etPhoneLoginPsw.getText();
-                if (charSequence instanceof Spannable) {
-                    Spannable spanText = (Spannable) charSequence;
-                    Selection.setSelection(spanText, charSequence.length());
+                CharSequence charSequence1 = etPhoneLoginPsw.getText();
+                if (charSequence1 instanceof Spannable) {
+                    Spannable spanText = (Spannable) charSequence1;
+                    Selection.setSelection(spanText, charSequence1.length());
                 }
                 break;
             case R.id.btn_phoneLoginOK:
@@ -445,7 +511,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                 etPhoneLoginPsw.setText("");
                 break;
             case R.id.tv_sendValidCode:
-                type=1;
+                type = 1;
                 String phoneNumber1 = etPhoneLoginNumber2.getText().toString();
                 if (!"".equals(phoneNumber1) && phoneNumber1 != null) {
                     if (RegularExpression.isCellphone(phoneNumber1)) {
@@ -465,7 +531,11 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                 UserLoginActivity.startAction(this);
                 break;
             case R.id.tv_phoneLoginFindPsw:
-                FindPhonePasswordActivity.startAction(this);
+                if(isPswLogin==1){
+                    FindUserPasswordActivity.startAction(this);
+                }else {
+                    FindPhonePasswordActivity.startAction(this);
+                }
                 break;
             case R.id.iv_phoneLoginQQ:
                 ThirdPartLoginUtils.LoginQQ(mPresenter);
@@ -480,7 +550,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
      * 登录
      */
     private void doLogin() {
-        if(isPswLogin) {
+        if (isPswLogin==0) {
             phoneNum = etPhoneLoginNumber.getText().toString();
             psw = etPhoneLoginPsw.getText().toString();
             if ("".equals(phoneNum) || phoneNum == null) {
@@ -500,7 +570,19 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
             return;
         }*/
             mPresenter.getLogin(phoneNum, psw, 1);
-        }else{
+        }else if(isPswLogin==1){
+            userNum = etUserLoginNumber.getText().toString();
+            psw2 = etUserLoginPsw.getText().toString();
+            if ("".equals(userNum) || userNum == null) {
+                ToastUitl.showShort("请输入用户名");
+                return;
+            }
+            if ("".equals(psw2) || psw2 == null) {
+                ToastUitl.showShort("请输入密码");
+                return;
+            }
+            mPresenter.getLogin(userNum, psw2, 2);
+        } else {
             phoneNumberValid = etPhoneLoginNumber2.getText().toString();
             validCode = etPhoneLoginValid.getText().toString();
             if ("".equals(phoneNumberValid) || phoneNumberValid == null) {
@@ -512,10 +594,11 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
                 return;
             }
             if ("".equals(validCode) || validCode == null) {
-                ToastUitl.showShort("请输入密码");
+                ToastUitl.showShort("请输入验证码");
                 return;
             }
-            mPresenter.getLogin(phoneNumberValid, validCode, 3);
+            type = 0;
+            mPresenter.validPhoneIsExit(phoneNumberValid);
         }
     }
 

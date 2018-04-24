@@ -67,6 +67,7 @@ public class SelectIndustryAdapter extends RecyclerView.Adapter<SelectIndustryAd
         if ("1".equals(canSelectOther)) {
             if (industryList.get(position).isCheck() == true) {
                 holder.tvIndustryItemName.setBackgroundResource(R.drawable.tv_bg_orange);
+                holder.tvIndustryItemName.setPaintFlags(0| Paint.ANTI_ALIAS_FLAG);
                 holder.tvIndustryItemName.setTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.new_main));
                 if (onItemClickListener != null) {
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -87,6 +88,7 @@ public class SelectIndustryAdapter extends RecyclerView.Adapter<SelectIndustryAd
             }
             if(!industryIds.contains(industryList.get(position).getId())&&industryList.get(position).isCheck()!=true){
                 holder.tvIndustryItemName.setBackgroundResource(R.drawable.tv_bg_white);
+                holder.tvIndustryItemName.setPaintFlags(0| Paint.ANTI_ALIAS_FLAG);
                 holder.tvIndustryItemName.setTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
                 if (onItemClickListener != null) {
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -117,6 +119,7 @@ public class SelectIndustryAdapter extends RecyclerView.Adapter<SelectIndustryAd
             } else {
                 if (industryList.get(position).isCheck() == true) {
                     holder.tvIndustryItemName.setBackgroundResource(R.drawable.tv_bg_orange);
+                    holder.tvIndustryItemName.setPaintFlags(0 | Paint.ANTI_ALIAS_FLAG);
                     holder.tvIndustryItemName.setTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.new_main));
                 } else {
                     for (int i = 0; i < industryIds.size(); i++) {
@@ -129,6 +132,7 @@ public class SelectIndustryAdapter extends RecyclerView.Adapter<SelectIndustryAd
                 }
                 if (!industryIds.contains(industryList.get(position).getId())&&industryList.get(position).isCheck()!=true) {
                     holder.tvIndustryItemName.setBackgroundResource(R.drawable.tv_bg_white);
+                    holder.tvIndustryItemName.setPaintFlags(0 | Paint.ANTI_ALIAS_FLAG);
                     holder.tvIndustryItemName.setTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
                     if (onItemClickListener != null) {
                         holder.itemView.setOnClickListener(new View.OnClickListener() {

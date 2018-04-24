@@ -14,60 +14,70 @@
         android:id="@+id/in_login_toolbar"
         />
     <RelativeLayout
-        android:id="@+id/rl_pswLogin"
+        android:id="@+id/rl_loginTitle"
+        android:layout_width="0dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/in_login_toolbar"
-        app:layout_constraintRight_toLeftOf="@+id/rl_validLogin"
-        android:layout_marginLeft="@dimen/x80"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/x100">
-        <TextView
-            android:id="@+id/tv_pswLogin"
-            android:gravity="center"
-            android:textSize="@dimen/x36"
-            android:textColor="@color/color_999"
-            android:text="@string/pswLogin"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-        <View
-            android:id="@+id/view_pswLogin"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:layout_width="@dimen/x160"
-            android:background="@color/new_main"
-            android:layout_height="@dimen/x2"/>
-    </RelativeLayout>
-    <RelativeLayout
-        android:id="@+id/rl_validLogin"
-        app:layout_constraintTop_toBottomOf="@+id/in_login_toolbar"
-        app:layout_constraintLeft_toRightOf="@+id/rl_pswLogin"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginRight="@dimen/x80"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/x100">
-        <TextView
-            android:id="@+id/tv_validLogin"
-            android:gravity="center"
-            android:textSize="@dimen/x36"
-            android:textColor="@color/color_999"
-            android:text="@string/validLogin"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+        android:layout_height="@dimen/x87">
         <View
-            android:visibility="gone"
-            android:id="@+id/view_validLogin"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:layout_width="@dimen/x180"
-            android:background="@color/new_main"
-            android:layout_height="@dimen/x2"/>
+            android:id="@+id/view_loginLine1"
+            android:background="@drawable/border_one"
+            android:layout_width="@dimen/x50"
+            android:layout_height="match_parent"/>
+        <RadioGroup
+            android:layout_toRightOf="@+id/view_loginLine1"
+            android:layout_toLeftOf="@+id/view_loginLine2"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:clickable="true"
+            android:gravity="center"
+            android:layout_height="@dimen/x87">
+            <RadioButton
+                android:gravity="center"
+                android:id="@+id/rb_phoneLogin"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:checked="true"
+                android:button="@null"
+                android:textSize="@dimen/x32"
+                android:background="@drawable/border_selector"
+                android:text="@string/phoneLogin"
+                android:layout_width="0dp" />
+            <RadioButton
+                android:gravity="center"
+                android:id="@+id/rb_userLogin"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:button="@null"
+                android:textSize="@dimen/x32"
+                android:background="@drawable/border_selector"
+                android:text="@string/accountLogin"
+                android:layout_width="0dp" />
+            <RadioButton
+                android:gravity="center"
+                android:id="@+id/rb_validCodeLogin"
+                android:layout_weight="1"
+                android:textSize="@dimen/x32"
+                android:layout_height="match_parent"
+                android:button="@null"
+                android:background="@drawable/border_selector"
+                android:text="@string/validLogin"
+                android:layout_width="0dp" />
+        </RadioGroup>
+        <View
+            android:id="@+id/view_loginLine2"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/border_one"
+            android:layout_width="@dimen/x50"
+            android:layout_height="match_parent"/>
     </RelativeLayout>
     <LinearLayout
         android:id="@+id/ll_phoneLogin_middle"
         style="@style/login_contentLinearLayout"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rl_validLogin">
+        app:layout_constraintTop_toBottomOf="@+id/rl_loginTitle">
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -217,6 +227,80 @@
                         style="@style/login_view"/>
                 </RelativeLayout>
             </LinearLayout>
+            <LinearLayout
+                android:visibility="gone"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/ll_userLogin_middle"
+                >
+                <RelativeLayout
+                    style="@style/login_relativeLayout">
+                    <ImageView
+                        android:id="@+id/iv_userLoginNumberIcon"
+                        android:src="@mipmap/person"
+                        style="@style/Login_imageViewIcon"
+                        />
+                    <EditText
+                        android:layout_toRightOf="@+id/iv_userLoginNumberIcon"
+                        android:id="@+id/et_userLoginNumber"
+                        android:layout_toLeftOf="@+id/iv_userLoginNumberDelete"
+                        style="@style/login_editText"
+                        android:layout_marginRight="@dimen/x10"
+                        android:hint="@string/accountNumber"
+                        />
+                    <ImageView
+                        android:id="@+id/iv_userLoginNumberDelete"
+                        style="@style/Login_imageViewIcon"
+                        android:src="@mipmap/delete"
+                        android:layout_alignParentRight="true"
+                        android:visibility="gone"
+                        />
+                    <View
+                        android:layout_below="@+id/iv_userLoginNumberIcon"
+                        style="@style/login_view"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    style="@style/login_relativeLayout">
+                    <ImageView
+                        android:id="@+id/iv_userLoginPswIcon"
+                        android:src="@mipmap/psw"
+                        style="@style/Login_imageViewIcon"
+                        />
+                    <EditText
+                        android:layout_toRightOf="@+id/iv_userLoginPswIcon"
+                        android:inputType="textPassword"
+                        android:id="@+id/et_userLoginPsw"
+                        android:layout_toLeftOf="@+id/rl_userLoginHiddenPsw"
+                        style="@style/login_editText"
+                        android:hint="@string/psw"
+                        />
+                    <ImageView
+                        android:id="@+id/iv_userLoginPswDelete"
+                        style="@style/Login_imageViewIcon"
+                        android:src="@mipmap/delete"
+                        android:layout_toLeftOf="@+id/rl_userLoginHiddenPsw"
+                        android:visibility="gone"
+                        android:layout_marginRight="@dimen/x20"
+                        />
+                    <RelativeLayout
+                        android:id="@+id/rl_userLoginHiddenPsw"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:id="@+id/iv_userLoginHiddenPsw"
+                            style="@style/login_ImageViewHidden"
+                            android:src="@mipmap/hidden"
+                            />
+                    </RelativeLayout>
+                    <View
+                        android:layout_below="@+id/et_userLoginPsw"
+                        style="@style/login_view"/>
+                </RelativeLayout>
+            </LinearLayout>
         </FrameLayout>
         <Button
             android:id="@+id/btn_phoneLoginOK"
@@ -226,6 +310,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
+                android:visibility="gone"
                 android:id="@+id/tv_phoneLoginAccountLogin"
                 style="@style/login_textViewFindPsw"
                 android:text="@string/accountLogin"

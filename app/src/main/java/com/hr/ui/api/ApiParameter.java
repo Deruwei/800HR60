@@ -65,7 +65,8 @@ public class ApiParameter {
         String username = sUtils.getStringValue(Constants.DEVICE_USER_ID, "");
         requestMap.put("phonecode", username);
         requestMap.put("model", AndroidUtils.get_model());
-        requestMap.put("dnfrom", Constants.DNFROM);
+        requestMap.put("dnfrom", Utils.getAppMetaData(HRApplication.getAppContext(),"UMENG_CHANNEL"));
+
         requestMap.put("network_type", new NetworkMng(context).getNetworkType());
         return requestMap;
     }
@@ -873,7 +874,7 @@ public class ApiParameter {
         }
         requestMap.put("page",""+page);
         requestMap.put("page_nums",""+pageNum);
-        //Log.i("你好",requestMap.toString());
+       // Log.i("推荐职位的信息",requestMap.toString());
         return requestMap;
     }
 

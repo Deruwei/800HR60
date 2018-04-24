@@ -23,6 +23,7 @@ import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.Base2Activity;
 import com.hr.ui.bean.EventBoolean;
+import com.hr.ui.bean.EventHomeBean;
 import com.hr.ui.bean.JobSearchBean;
 import com.hr.ui.bean.PositionBean;
 import com.hr.ui.bean.RecommendJobBean;
@@ -153,7 +154,7 @@ public class RecommendJobActivity extends Base2Activity<RecommendJobActivityPres
         adapter.setClickCallBack(new MyRecommendJobDialogAdapter.ItemClickCallBack() {
             @Override
             public void onItemClick(int pos) {
-                PositionPageActivity.startAction(RecommendJobActivity.this, list.get(pos).getJob_id());
+                PositionPageActivity.startAction(RecommendJobActivity.this, list.get(pos).getJob_id(),pos,RecommendJobActivity.class.getSimpleName());
             }
         });
         adapter.setOnSelectClickListener(new MyRecommendJobDialogAdapter.OnSelectClickListener() {
@@ -190,7 +191,18 @@ public class RecommendJobActivity extends Base2Activity<RecommendJobActivityPres
                 break;
         }
     }
-
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onReceiveEvent2(EventHomeBean eventHomeBean) {
+        switch (eventHomeBean.getType()) {
+            case 11:
+              list.get(eventHomeBean.getPosition()).setCheck(false);
+              list.get(eventHomeBean.getPosition()).setIs_apply(1);
+              if(adapter!=null){
+                  adapter.notifyDataSetChanged();
+              }
+              break;
+        }
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

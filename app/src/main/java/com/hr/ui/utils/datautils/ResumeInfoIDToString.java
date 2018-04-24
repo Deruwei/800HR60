@@ -8,6 +8,7 @@ import com.hr.ui.app.HRApplication;
 import com.hr.ui.bean.CityBean;
 import com.hr.ui.constants.Constants;
 
+import org.greenrobot.greendao.annotation.Id;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -775,6 +776,24 @@ public class ResumeInfoIDToString {
 		}
 		return selectList;
 	}
+	public static List<CityBean> getSelectSalaryAroundList(Context context,String salary){
+		List<CityBean> selectList=new ArrayList<>();
+		if(context!=null) {
+			String[] salaryAroundNames = context.getResources().getStringArray(R.array.salaryAround);
+			String[] salaryAroundIds=context.getResources().getStringArray(R.array.salaryAroundId);
+			for(int i=0;i<salaryAroundIds.length;i++){
+				if(salaryAroundNames[i].equals(salary)) {
+					CityBean cityBean = new CityBean();
+					cityBean.setId(salaryAroundIds[i]);
+					cityBean.setName(salaryAroundNames[i]);
+					cityBean.setCheck(true);
+					selectList.add(cityBean);
+					break;
+				}
+			}
+		}
+		return selectList;
+	}
 	public static String getSalaryAroundId(Context context,String name){
 		String s="";
 		if(context!=null) {
@@ -803,6 +822,23 @@ public class ResumeInfoIDToString {
 		}
 		return selectList;
 	}
+	public static List<CityBean> getSelectWorkExp(Context context,String id){
+		List<CityBean> selectList=new ArrayList<>();
+		if(context!=null) {
+			String[] Names = context.getResources().getStringArray(R.array.workExp);
+			String[] Ids=context.getResources().getStringArray(R.array.workExpId);
+			for(int i=0;i<Ids.length;i++){
+				if(Ids[i].equals(id)) {
+					CityBean cityBean = new CityBean();
+					cityBean.setId(Ids[i]);
+					cityBean.setName(Names[i]);
+					cityBean.setCheck(true);
+					selectList.add(cityBean);
+				}
+			}
+		}
+		return selectList;
+	}
 	public static List<CityBean> getDegreeNeed(Context context){
 		List<CityBean> selectList=new ArrayList<>();
 		if(context!=null) {
@@ -814,6 +850,24 @@ public class ResumeInfoIDToString {
 				cityBean.setName(Names[i]);
 				cityBean.setCheck(false);
 				selectList.add(cityBean);
+			}
+		}
+		return selectList;
+	}
+	public static List<CityBean> getSelectDegreeNeed(Context context,String id){
+		List<CityBean> selectList=new ArrayList<>();
+		if(context!=null) {
+			String[] Names = context.getResources().getStringArray(R.array.degreeNeed);
+			String[] Ids=context.getResources().getStringArray(R.array.degreeNeedId);
+			for(int i=0;i<Ids.length;i++){
+				if(Ids[i].equals(id)) {
+					CityBean cityBean = new CityBean();
+					cityBean.setId(Ids[i]);
+					cityBean.setName(Names[i]);
+					cityBean.setCheck(false);
+					selectList.add(cityBean);
+					break;
+				}
 			}
 		}
 		return selectList;
@@ -852,6 +906,24 @@ public class ResumeInfoIDToString {
 		}
 		return selectList;
 	}
+	public static List<CityBean> getSelectReleaseTime(Context context,String id){
+		List<CityBean> selectList=new ArrayList<>();
+		if(context!=null) {
+			String[] Names = context.getResources().getStringArray(R.array.releaseTime);
+			String[] Ids=context.getResources().getStringArray(R.array.releaseTimeId );
+			for(int i=0;i<Ids.length;i++){
+				if(Ids[i].equals(id)) {
+					CityBean cityBean = new CityBean();
+					cityBean.setId(Ids[i]);
+					cityBean.setName(Names[i]);
+					cityBean.setCheck(false);
+					selectList.add(cityBean);
+					break;
+				}
+			}
+		}
+		return selectList;
+	}
 	public static List<CityBean> getWorkType(Context context){
 		List<CityBean> selectList=new ArrayList<>();
 		if(context!=null) {
@@ -867,6 +939,24 @@ public class ResumeInfoIDToString {
 		}
 		return selectList;
 	}
+	public static List<CityBean> getSelectWorkType(Context context,String id){
+		List<CityBean> selectList=new ArrayList<>();
+		if(context!=null) {
+			String[] Names = context.getResources().getStringArray(R.array.workType);
+			String[] Ids=context.getResources().getStringArray(R.array.workTypeId);
+			for(int i=0;i<Ids.length;i++){
+				if(Ids[i].equals(id)) {
+					CityBean cityBean = new CityBean();
+					cityBean.setId(Ids[i]);
+					cityBean.setName(Names[i]);
+					cityBean.setCheck(false);
+					selectList.add(cityBean);
+					break;
+				}
+			}
+		}
+		return selectList;
+	}
 	public static List<CityBean> getCompanyType(Context context){
 		List<CityBean> selectList=new ArrayList<>();
 		if(context!=null) {
@@ -878,6 +968,24 @@ public class ResumeInfoIDToString {
 				cityBean.setName(Names[i]);
 				cityBean.setCheck(false);
 				selectList.add(cityBean);
+			}
+		}
+		return selectList;
+	}
+	public static List<CityBean> getSelectCompanyType(Context context,String id){
+		List<CityBean> selectList=new ArrayList<>();
+		if(context!=null) {
+			String[] Names = context.getResources().getStringArray(R.array.company_xingzhi_zh);
+			String[] Ids=context.getResources().getStringArray(R.array.company_xingzhi_zh_ids);
+			for(int i=0;i<Ids.length;i++){
+				if (Ids[i].equals(id)) {
+					CityBean cityBean = new CityBean();
+					cityBean.setId(Ids[i]);
+					cityBean.setName(Names[i]);
+					cityBean.setCheck(false);
+					selectList.add(cityBean);
+					break;
+				}
 			}
 		}
 		return selectList;

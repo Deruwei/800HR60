@@ -25,6 +25,7 @@ public class MyDialog extends Dialog{
         private TextView titleTv;//消息标题文本
         private TextView messageTv;//消息提示文本
         private RelativeLayout rl_title;
+        private View viewMiddle;
         private String titleStr;//从外界设置的title文本
         private String messageStr;//从外界设置的消息文本
         private SpannableStringBuilder stringBuilder;
@@ -138,7 +139,9 @@ public class MyDialog extends Dialog{
         private void initView() {
             yes = (Button) findViewById(R.id.yes);
             no = (Button) findViewById(R.id.no);
+            viewMiddle=findViewById(R.id.view_myDialogMiddle);
             if(type==1){
+                viewMiddle.setVisibility(View.GONE);
                 no.setVisibility(View.GONE);
             }
             titleTv = (TextView) findViewById(R.id.title);

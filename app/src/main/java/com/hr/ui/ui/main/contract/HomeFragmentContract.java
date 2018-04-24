@@ -3,6 +3,7 @@ package com.hr.ui.ui.main.contract;
 import com.hr.ui.base.BaseModel;
 import com.hr.ui.base.BasePresenter;
 import com.hr.ui.base.BaseView;
+import com.hr.ui.bean.FindBean;
 import com.hr.ui.bean.HomeRecommendBean;
 import com.hr.ui.bean.RecommendJobBean;
 import com.hr.ui.ui.main.fragment.HomeFragment;
@@ -22,6 +23,7 @@ public interface HomeFragmentContract {
         Observable<ResponseBody> getResumeScore(String id);
         Observable<RecommendJobBean> getRecommendJob(int page,int pageNum);
         Observable<ResponseBody> deliverPosition(String jobId);
+        Observable<FindBean> getNotice(String cid, String aid);
     }
     interface View extends BaseView {
         void getRecommendJobSuccess(List<HomeRecommendBean.JobsListBean> jobsBeanList);
@@ -31,11 +33,13 @@ public interface HomeFragmentContract {
         void cantGetData();
         void deliverPositionSuccess();
         void goToCompleteResume(int errorCode);
+        void getNoticeSuccess(List<FindBean.ListBean> listBean);
     }
     abstract class Presenter extends BasePresenter<View,Model>{
         public abstract void getRecommendJobInfo(int limit,boolean isCanRefresh);
         public abstract void getResumeScore(String id);
         public abstract void getRecommendJob(int page,int pageNum,boolean isCanRefresh);
         public abstract void  deliverPosition(String jobId);
+        public abstract void getNotice(String cid,String aid);
     }
 }

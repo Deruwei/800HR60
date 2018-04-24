@@ -419,12 +419,12 @@
     <style name="fastResume_RelativeLayout">
         <item name="android:layout_marginLeft">@dimen/x71</item>
         <item name="android:layout_marginRight">@dimen/x71</item>
-        <item name="android:layout_marginTop">@dimen/x74</item>
+        <item name="android:layout_marginTop">@dimen/x40</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
     <style name="fastResume_MyTextView">
-        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_alignParentBottom">true</item>
         <item name="android:textSize">@dimen/x32</item>
         <item name="android:textColor">@color/color_666</item>
         <item name="android:layout_width">wrap_content</item>
@@ -436,9 +436,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     <style name="fastResume_relativeLayoutContent">
+        <item name="android:layout_alignParentBottom">true</item>
         <item name="android:layout_marginLeft">@dimen/x52</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
     <style name="fastResume_editView">
         <item name="android:background">@null</item>

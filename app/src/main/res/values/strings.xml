@@ -61,7 +61,7 @@
     <string name="error_321">缺少中文简历</string>
     <string name="error_326">请勿频繁获取验证码</string>
     <string name="error_327">手机号码已被使用</string>
-    <string name="error_phoneNotExit">手机号码未注册</string>
+    <string name="error_phoneNotExit">该手机号未被注册或绑定</string>
     <string name="error_401">职位已过期</string>
     <string name="error_402">职位已过期</string>
     <string name="error_403">职位近期已经投递过了</string>
@@ -110,6 +110,8 @@
     <string name="company">企业入口</string>
     <string name="home">主页</string>
     <string name="message">消息</string>
+    <string name="warningTips">温馨提示</string>
+    <string name="deleteJobOrder">至少保留一个期望职位，点击行业可编辑。</string>
     <string name="deliverOrNot1">是否投递</string>
     <string name="deliverOrNot2">职位？</string>
     <string name="updateMessage"> 升级简历后，您的简历将会从[学生简历]升级到[工作简历]，“实习经历”将会变为“工作经历”。</string>
@@ -153,13 +155,14 @@
     <string name="login">登录</string>
     <string name="register">注册</string>
     <string name="phoneLogin">手机登录</string>
+    <string name="userLogin">用户登录</string>
     <string name="phoneNumber">手机号码</string>
     <string name="phoneNumberNew">新手机号码</string>
     <string name="psw_old">旧密码（最少6位）</string>
     <string name="psw_new">新密码（最少6位）</string>
     <string name="psw">密码（最少6位）</string>
     <string name="pswLogin">密码登录</string>
-    <string name="validLogin">验证码登录</string>
+    <string name="validLogin">动态码登录</string>
     <string name="newPsw">新密码</string>
     <string name="accountLogin">账号登录</string>
     <string name="findPsw">找回密码</string>

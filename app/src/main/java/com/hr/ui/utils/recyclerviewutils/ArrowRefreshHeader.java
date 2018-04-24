@@ -18,7 +18,10 @@ import android.widget.TextView;
 
 import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
+import com.hr.ui.bean.EventType;
 import com.hr.ui.utils.ProgressStyle;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.Date;
 
@@ -197,6 +200,10 @@ public class ArrowRefreshHeader extends LinearLayout implements BaseRefreshHeade
         int height = getVisibleHeight();
         if (height == 0) // not visible.
             isOnRefresh = false;
+            if(mState==STATE_NORMAL) {
+                EventBus.getDefault().post(new EventType(1));
+            }
+
 
         if(getVisibleHeight() > mMeasuredHeight &&  mState < STATE_REFRESHING){
             setState(STATE_REFRESHING);

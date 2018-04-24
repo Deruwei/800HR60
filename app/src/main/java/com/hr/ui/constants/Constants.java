@@ -55,7 +55,7 @@ public class Constants {
     //当前使用的设备
     public static final String OS_NAME = "android";
     //api版本 正式库现在为4.0  测试库 2.0最佳
-    public static final String API_VER = "2.0";
+    public static final String API_VER = "4.0";
     //头像的头地址
     public static final String IMAGE_BASEPATH="http://file.800hr.com/";
     //普通图片的头地址
@@ -65,7 +65,7 @@ public class Constants {
     public static final String API_MIDDLE="svrdo.php";
     //测试
      public static final String API_URL_Text = "https://api.800hr.com/svrdo_v0.php";
-     public static final String  API_MIDDLE_TEST="svrdo_v0.php";
+     public static final String  API_MIDDLE_TEST="svrdo.php";
     // SharedPreference中标识设备ID的字符
     public static final String DEVICE_USER_ID = "device_user_id";
     //标识是否是第一次进入app
@@ -115,4 +115,8 @@ public class Constants {
         }
         return host;
     }
+    public static final String imageUrl1="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1524541614838&di=3bf915353d1ce47a5acab0807d274893&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimage%2Fc0%253Dpixel_huitu%252C0%252C0%252C294%252C40%2Fsign%3Db360ab28790e0cf3b4fa46bb633e9773%2Fe850352ac65c10387071c8f8b9119313b07e89f8.jpg";
+    public static final String imageUrl2="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1524541614838&di=62b35aa4594accd2829afb8dac1446b8&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimage%2Fc0%253Dpixel_huitu%252C0%252C0%252C294%252C40%2Fsign%3Df04093d6da00baa1ae214ffb2e68dc7e%2F34fae6cd7b899e5160ce642e49a7d933c8950d43.jpg";
+    public static final String imageUrl3="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1524541614838&di=4584c7e8e0bf05b0861620e79848afc5&imgtype=0&src=http%3A%2F%2Fpic.90sjimg.com%2Fback_pic%2Fqk%2Fback_origin_pic%2F00%2F04%2F01%2Fa8e8afe94d0e1e912643537ad60dc540.jpg";
+    public static final String imageUrl4="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1524541614836&di=4ad1b2feb8a9ae57eb4fbcdca8bf2dc8&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimage%2Fc0%253Dpixel_huitu%252C0%252C0%252C294%252C40%2Fsign%3Dde2aaf51c7bf6c81e33a24a8d546d459%2Fb812c8fcc3cec3fdbeabec4cdd88d43f87942775.jpg";
 }

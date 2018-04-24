@@ -30,14 +30,17 @@
 -dontwarn cn.sharesdk.**
 -dontwarn **.R$*
 ##########################################################################
-#glide混淆
--keeppublicclass *implements com.bumptech.glide.module.GlideModule
-
--keeppublic enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$**{
-    **[] $VALUES;
-    public*;
-}
 ##########################################################################
+# glide 的混淆代码
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
+}
+# banner 的混淆代码
+-keep class com.youth.banner.** {
+    *;
+ }
 #百度地图
 -keep class com.baidu.** {*;}
 -keep class vi.com.** {*;}

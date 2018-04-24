@@ -55,6 +55,7 @@ import com.hr.ui.utils.datautils.FromStringToArrayList;
 import com.hr.ui.utils.datautils.ResumeInfoIDToString;
 import com.hr.ui.utils.recyclerviewutils.OnItemClickListener;
 import com.hr.ui.view.CustomDatePicker;
+import com.hr.ui.view.MyDialog;
 import com.hr.ui.view.MyFlowLayout;
 import com.hr.ui.view.MyRecommendDialog;
 import com.hr.ui.view.XRecyclerView;
@@ -125,7 +126,7 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
     RelativeLayout rlSearchResultBack;
     @BindView(R.id.rl_searchResultSelectAll)
     RelativeLayout rlSearchResultSelectAll;
-    private PopupWindow popupWindowJobType, popupWindowOther;
+    private PopupWindow popupWindowJobType, popupWindowOther,popupWindowSalary;
     private JobSearchBean jobSearchBean;
     //传过来的搜索类型
     private int jobSearchType;
@@ -159,6 +160,8 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
     //页码，批量投递没有选择的列表数
     public int page = 1, notSelectNum;
     public static JobSearchResultActivity instance;
+    private boolean isCityShow,isSalaryShow,isOtherShow;
+    private MyDialog myDeleteDialog;
     public static String TAG=JobSearchResultActivity.class.getSimpleName();
 
     public static void startAction(Activity activity, JobSearchBean jobSearchBean) {
@@ -187,7 +190,12 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
     @Override
     public void getSearchDataSuccess(final List<RecommendJobBean.JobsListBean> jobsListBeanList) {
         MobclickAgent.onEvent(this, "v6_positon_search");
-        if (jobsListBeanList != null && !"[]".equals(jobsListBeanList.toString()) && jobsListBeanList.size() != 0) {
+        if(jobSearchBean.getPositionId()!=null&&!"".equals(jobSearchBean.getPositionId())){
+            MobclickAgent.onEvent(this,"v6_jobSearchByPosition");
+        }else{
+            MobclickAgent.onEvent(this,"v6_jobSearchByKeyword");
+        }
+        if (jobsListBeanList != null  && jobsListBeanList.size() != 0) {
             if (page == 1) {
                 SearchAdapter = new MyRecommendJobAdapter(1);
                 SearchAdapter.setCheck(true);
@@ -207,9 +215,6 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
                 searchList.addAll(jobsListBeanList);
                 rvJobSearchFragment.loadMoreComplete();
                 SearchAdapter.notifyDataSetChanged();
-            }
-            if(jobsListBeanList.size()<20){
-                rvJobSearchFragment.setLoadingMoreEnabled(false);
             }
             getNoSelectNum(searchList);
             rlEmptyView.setVisibility(View.GONE);
@@ -270,11 +275,12 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
         for (int i = 0; i < searchList.size(); i++) {
             if (searchList.get(i).isCheck()) {
                 searchList.get(i).setIs_apply(1);
+                searchList.get(i).setCheck(false);
             }
         }
         isCanSelectDeliver=false;
-        rlSearchResultDeleteInABatches.setVisibility(View.GONE);
         SearchAdapter.setCheck(true);
+        getNoSelectNum(searchList);
         cbSearchResultSelectAll.setChecked(false);
         SearchAdapter.notifyDataSetChanged();
     }
@@ -350,11 +356,6 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
      */
     public void initData(JobSearchBean jobSearchBean, boolean b) {
         int page = 1;
-        if(jobSearchBean.getPositionId()!=null&&!"".equals(jobSearchBean.getPositionId())){
-            MobclickAgent.onEvent(this,"v6_jobSearchByPosition");
-        }else{
-            MobclickAgent.onEvent(this,"v6_jobSearchByKeyword");
-        }
         mPresenter.getSearchList(jobSearchBean, page, b);
         mPresenter.getTopSearchJob(jobSearchBean);
     }
@@ -392,11 +393,37 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
         fieldId = jobSearchBean.getFieldId();
         searchWord = jobSearchBean.getSearchName();
         positionId = jobSearchBean.getPositionId();
+
         if (searchWord == null || "null".equals(searchWord)) {
             searchWord = "";
 
         } else {
             tvSearchResultName.setText(searchWord);
+        }
+        workExpId=jobSearchBean.getWorkExp();
+        degreeNeedId=jobSearchBean.getDegree();
+        releaseTimeId=jobSearchBean.getJobTime();
+        workTypeId=jobSearchBean.getWorkType();
+        companyTypeId=jobSearchBean.getCompanyType();
+        salary_left=jobSearchBean.getSalary_left();
+        salary_right=jobSearchBean.getSalary_right();
+        //Log.i("现在的数据",salary_left+"-"+salary_right);
+        selectSalatyList=ResumeInfoIDToString.getSelectSalaryAroundList(this,Utils.getSalaryAround(salary_left+"-"+salary_right));
+        //Log.i("现在的数据",selectSalatyList.toString());
+        if(workExpId!=null&&!"".equals(workExpId)) {
+            selectWorkExpList=ResumeInfoIDToString.getSelectWorkExp(this, workExpId);
+        }
+        if(degreeNeedId!=null&&!"".equals(degreeNeedId)){
+            selectDegreeNeedList=ResumeInfoIDToString.getSelectDegreeNeed(this,degreeNeedId);
+        }
+        if(releaseTimeId!=null&&!"".equals(releaseTimeId)){
+            selectReleaseTimeList=ResumeInfoIDToString.getSelectReleaseTime(this,releaseTimeId);
+        }
+        if(workTypeId!=null&&!"".equals(workTypeId)){
+            selectWorkTypeList=ResumeInfoIDToString.getSelectWorkType(this,workTypeId);
+        }
+        if(companyTypeId!=null&&!"".equals(companyTypeId)){
+            selectCompanyTypeList=ResumeInfoIDToString.getSelectCompanyType(this,companyTypeId);
         }
         placeId = jobSearchBean.getPlaceId();
         if (placeId != null && !"".equals(placeId)) {
@@ -421,8 +448,8 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
             public void onRefresh() {
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
-                     /*   page = 1;
-                        mPresenter.getSearchList(jobSearchBean, page);*/
+                        page = 1;
+                        mPresenter.getSearchList(jobSearchBean, page,false);
                     }
 
                 }, 1000);            //refresh data here
@@ -464,9 +491,33 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
         });
 
     }
-
+    private void setShowWatch(int type){
+       switch (type){
+           case 1:
+              isCityShow=!isCityShow;
+               isOtherShow=false;
+               isSalaryShow=false;
+               break;
+           case 2:
+               isCityShow=false;
+               isOtherShow=false;
+               isSalaryShow=!isSalaryShow;
+               break;
+           case 3:
+               isCityShow=false;
+               isOtherShow=!isOtherShow;
+               isSalaryShow=false;
+               break;
+       }
+    }
     private void setSearchList(boolean b) {
         int num=0;
+        int selectNum=0;
+        for(int j=0;j<searchList.size();j++){
+            if(searchList.get(j).isCheck()){
+                selectNum++;
+            }
+        }
         if (searchList != null && searchList.size() != 0) {
             for (int i = 0; i < searchList.size(); i++) {
                 if (!b) {
@@ -474,7 +525,7 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
                             searchList.get(i).setCheck(b);
                     }
                 } else {
-                    if(num<20) {
+                    if(num<20-selectNum) {
                         if(searchList.get(i).getIs_apply()!=1 ){
                             searchList.get(i).setCheck(b);
                             num++;
@@ -495,22 +546,11 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
         ButterKnife.bind(this);
         instance = this;
     }
-    private void doSearch(boolean b) {
-        rlSearchResultDeleteInABatches.setVisibility(View.GONE);
+    public void doSearch(boolean b) {
+       // rlSearchResultDeleteInABatches.setVisibility(View.GONE);
         SearchAdapter.setCheck(true);
         cbSearchResultSelectAll.setChecked(false);
         isCanSelectDeliver=false;
-       /* if (!"".equals(etJobSearch.getText().toString()) && etJobSearch.getText().toString() != null) {
-            jobSearchBean.setSearchName(etJobSearch.getText().toString());
-        } else {
-            jobSearchBean.setSearchName("");
-        }
-        if (!etJobSearch.getText().toString().equals(searchWord)) {
-            fieldId = "";
-            industryIdMain = "";
-            positionId = "";
-        }
-        searchWord = etJobSearch.getText().toString();*/
         if (searchWord != null && !"".equals(searchWord)) {
             jobSearchBean.setSearchName(searchWord);
         } else {
@@ -576,7 +616,6 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
         } else {
             jobSearchBean.setSalary_left("");
         }
-        //Log.i("jobSearchBean",jobSearchBean.toString());
         SearchHistoryBean historyBean = new SearchHistoryBean();
         historyBean.setCompanyType(jobSearchBean.getCompanyType());
         historyBean.setSearchName(jobSearchBean.getSearchName());
@@ -601,6 +640,13 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
     }
 
     private void initPopOther() {
+        if(popupWindowSalary!=null){
+            popupWindowSalary.dismiss();
+        }
+        if(popupWindowSalary!=null){
+            popupWindowSalary.dismiss();
+
+        }
         View viewOther = getLayoutInflater().inflate(R.layout.layout_selectother, null);
         popupWindowOther = new PopupWindow(viewOther, LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
@@ -726,6 +772,7 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
                     selectReleaseTimeList.clear();
                     selectReleaseTimeList.add(releaseTimeList.get(position));
                 }
+                releaseTimeId = FromStringToArrayList.getInstance().getDataId(selectReleaseTimeList);
                 releaseTimeAdapter.notifyDataSetChanged();
             }
         });
@@ -760,6 +807,7 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
                     selectDegreeNeedList.clear();
                     selectDegreeNeedList.add(degreeNeedList.get(position));
                 }
+                degreeNeedId = FromStringToArrayList.getInstance().getDataId(selectDegreeNeedList);
                 degreeNeedAdapter.notifyDataSetChanged();
             }
         });
@@ -792,6 +840,7 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
                     selectWorkExpList.clear();
                     selectWorkExpList.add(workExopList.get(position));
                 }
+                workExpId = FromStringToArrayList.getInstance().getDataId(selectWorkExpList);
                 workExpAdapter.notifyDataSetChanged();
             }
         });
@@ -825,6 +874,7 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
                     selectWorkTypeList.clear();
                     selectWorkTypeList.add(workTypeList.get(position));
                 }
+                workTypeId = FromStringToArrayList.getInstance().getDataId(selectWorkTypeList);
                 workTypeAdapter.notifyDataSetChanged();
             }
         });
@@ -859,6 +909,7 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
                     selectCompanyTypeList.clear();
                     selectCompanyTypeList.add(companyTypeList.get(position));
                 }
+                companyTypeId = FromStringToArrayList.getInstance().getDataId(selectCompanyTypeList);
                 companyTypeAdapter.notifyDataSetChanged();
             }
         });
@@ -876,23 +927,23 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
         popupWindowOther.setHeight(height - y);
         viewJobSearchFragment.getLocationOnScreen(location);
         popupWindowOther.setOutsideTouchable(true);
-        popupWindowOther.setFocusable(true);
         popupWindowOther.setAnimationStyle(R.style.style_pop_animation);
         popupWindowOther.showAtLocation(viewJobSearchFragment, Gravity.NO_GRAVITY, 0, y + viewJobSearchFragment.getHeight());
     }
 
     private void doSaveOther() {
-        companyTypeId = FromStringToArrayList.getInstance().getDataId(selectCompanyTypeList);
-        workExpId = FromStringToArrayList.getInstance().getDataId(selectWorkExpList);
-        workTypeId = FromStringToArrayList.getInstance().getDataId(selectWorkTypeList);
-        releaseTimeId = FromStringToArrayList.getInstance().getDataId(selectReleaseTimeList);
-        degreeNeedId = FromStringToArrayList.getInstance().getDataId(selectDegreeNeedList);
         doSearch(true);
         //Log.i("当前的数据", "------" + workExpId);
     }
     
 
     private void initPopCity() {
+       if(popupWindowSalary!=null){
+           popupWindowSalary.dismiss();
+       }
+       if(popupWindowOther!=null){
+           popupWindowOther.dismiss();
+       }
         View viewIndustry = getLayoutInflater().inflate(R.layout.layout_selectcity, null);
         popupWindowJobType = new PopupWindow(viewIndustry, LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
@@ -917,7 +968,6 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
         popupWindowJobType.setHeight(height - y);
         viewJobSearchFragment.getLocationOnScreen(location);
         popupWindowJobType.setOutsideTouchable(true);
-        popupWindowJobType.setFocusable(true);
         popupWindowJobType.setAnimationStyle(R.style.style_pop_animation);
         popupWindowJobType.showAtLocation(viewJobSearchFragment, Gravity.NO_GRAVITY, 0, y + viewJobSearchFragment.getHeight());
     }
@@ -938,7 +988,6 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
         } else {
             placeId = "";
         }
-        doSearch(true);
     }
 
     private void setFocus() {
@@ -959,16 +1008,37 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
                 finish();
                 break;
             case R.id.rl_jobSearchFragmentSelectCity:
-                setFocus();
-                initPopCity();
+
+                if(isCityShow){
+                    if(popupWindowJobType!=null) {
+                        popupWindowJobType.dismiss();
+                    }
+                }else {
+                    initPopCity();
+                }
+                setShowWatch(1);
                 break;
             case R.id.rl_jobSearchFragmentSelectSalary:
-                setFocus();
-                initPopSalary();
+
+                if(isSalaryShow){
+                    if(popupWindowSalary!=null) {
+                        popupWindowSalary.dismiss();
+                    }
+                }else {
+                    initPopSalary();
+                }
+                setShowWatch(2);
                 break;
             case R.id.rl_jobSearchFragmentSelectOther:
-                setFocus();
-                initPopOther();
+
+                if(isOtherShow){
+                    if(popupWindowOther!=null) {
+                        popupWindowOther.dismiss();
+                    }
+                }else {
+                    initPopOther();
+                }
+                setShowWatch(3);
                 break;
             case R.id.tv_searchResultDeliverAll:
                 if (searchList != null && searchList.size() != 0) {
@@ -980,8 +1050,14 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
     }
 
     private void initPopSalary() {
+        if(popupWindowJobType!=null){
+            popupWindowJobType.dismiss();
+        }
+        if(popupWindowOther!=null){
+            popupWindowOther.dismiss();
+        }
         View viewSalary = getLayoutInflater().inflate(R.layout.layout_choosesalary, null);
-        popupWindowJobType = new PopupWindow(viewSalary, LinearLayout.LayoutParams.MATCH_PARENT,
+        popupWindowSalary = new PopupWindow(viewSalary, LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
         RecyclerView rvSalary=viewSalary.findViewById(R.id.rv_chooseSalary);
        Button btnCancel=viewSalary.findViewById(R.id.btn_SalaryCancel);
@@ -1024,22 +1100,23 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
                 }
                 salary.get(position).setCheck(true);
                salaryAroundName = salary.get(position).getName();
+               salary_left = Utils.getLeftSalary(salaryAroundName);
+               salary_right = Utils.getRightSalary(salaryAroundName);
                adapter.notifyDataSetChanged();
            }
        });
        btnOk.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               salary_left = Utils.getLeftSalary(salaryAroundName);
-               salary_right = Utils.getRightSalary(salaryAroundName);
+               page=1;
                doSearch(true);
-               popupWindowJobType.dismiss();
+               popupWindowSalary.dismiss();
            }
        });
        btnCancel.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               popupWindowJobType.dismiss();
+               popupWindowSalary.dismiss();
            }
        });
         int x = location[0];
@@ -1049,13 +1126,12 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
         wm.getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;         // 屏幕宽度（像素）
         int height = dm.heightPixels;       // 屏幕高度（像素）
-        popupWindowJobType.setWidth(width);
-        popupWindowJobType.setHeight(height - y);
+        popupWindowSalary.setWidth(width);
+        popupWindowSalary.setHeight(height - y);
         viewJobSearchFragment.getLocationOnScreen(location);
-        popupWindowJobType.setOutsideTouchable(true);
-        popupWindowJobType.setFocusable(true);
-        popupWindowJobType.setAnimationStyle(R.style.style_pop_animation);
-        popupWindowJobType.showAtLocation(viewJobSearchFragment, Gravity.NO_GRAVITY, 0, y + viewJobSearchFragment.getHeight());
+        popupWindowSalary.setOutsideTouchable(true);
+        popupWindowSalary.setAnimationStyle(R.style.style_pop_animation);
+        popupWindowSalary.showAtLocation(viewJobSearchFragment, Gravity.NO_GRAVITY, 0, y + viewJobSearchFragment.getHeight());
     }
 
     private void deliverAll() {
@@ -1074,7 +1150,6 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
             mPresenter.deliverPosition(sb.toString());
         }
     }
-
     private void getNoSelectNum(List<RecommendJobBean.JobsListBean> jobsListBeanList) {
         int selectNum = 0;
         notSelectNum = 0;
@@ -1097,11 +1172,11 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
             //设置指定位置文字的颜色
             searchResultNoSelectNum.setText(ss);
         }
-        if(selectNum==0){
+       /* if(selectNum==0){
             rlSearchResultDeleteInABatches.setVisibility(View.GONE);
         }else{
             rlSearchResultDeleteInABatches.setVisibility(View.VISIBLE);
-        }
+        }*/
 
     }
 

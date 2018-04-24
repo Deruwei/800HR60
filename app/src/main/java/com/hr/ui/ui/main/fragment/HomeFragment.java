@@ -2,23 +2,17 @@ package com.hr.ui.ui.main.fragment;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
-import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.Adapter;
-import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -30,13 +24,13 @@ import com.caption.netmonitorlibrary.netStateLib.NetUtils;
 import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseFragment;
-import com.hr.ui.bean.EvenList;
 import com.hr.ui.bean.EventHomeBean;
+import com.hr.ui.bean.EventType;
+import com.hr.ui.bean.FindBean;
 import com.hr.ui.bean.HomeRecommendBean;
 import com.hr.ui.bean.RecommendJobBean;
 import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.job.activity.PositionPageActivity;
-import com.hr.ui.ui.main.activity.JobSearchResultActivity;
 import com.hr.ui.ui.main.activity.JobSerchActivity;
 import com.hr.ui.ui.main.activity.MainActivity;
 import com.hr.ui.ui.main.adapter.MyRecommendJobAdapter;
@@ -44,18 +38,20 @@ import com.hr.ui.ui.main.contract.HomeFragmentContract;
 import com.hr.ui.ui.main.modle.HomeFragmentModel;
 import com.hr.ui.ui.main.presenter.HomeFragmentPresenter;
 import com.hr.ui.ui.resume.activity.ResumeJobOrderActivity;
-import com.hr.ui.utils.ClickUtils;
+import com.hr.ui.utils.GlideImageLoader2;
 import com.hr.ui.utils.ProgressStyle;
 import com.hr.ui.utils.ToastUitl;
-import com.hr.ui.utils.datautils.FromStringToArrayList;
+import com.hr.ui.utils.Utils;
+import com.hr.ui.utils.datautils.ResumeInfoIDToString;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.CircleImageView;
-import com.hr.ui.view.DatePickerView;
 import com.hr.ui.view.MyDialog;
 import com.hr.ui.view.MyRecommendDialog;
-import com.hr.ui.view.PieChartView;
 import com.hr.ui.view.XRecyclerView;
 import com.umeng.analytics.MobclickAgent;
+import com.youth.banner.Banner;
+import com.youth.banner.BannerConfig;
+import com.youth.banner.Transformer;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -97,32 +93,40 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
     @BindView(R.id.iv_noDataSearch)
     RelativeLayout ivNoDataSearch;
     @BindView(R.id.cl_homeFragment)
-    RelativeLayout clHomeFragment;
+    FrameLayout clHomeFragment;
     @BindView(R.id.iv_noNetError)
     ImageView ivNoNetError;
     @BindView(R.id.ll_netError)
     LinearLayout llNetError;
+    @BindView(R.id.rl_homeBg)
+    RelativeLayout rlHomeBg;
+    @BindView(R.id.home_cv)
+    CardView homeCv;
     private int page = 1;
     public static HomeFragment instance;
     private MyRecommendDialog dialog;
     private String industryName;
     private MyDialog dialogMessage;
+    private Banner banner;
+    private List<String> images = new ArrayList<>();
+    private List<String> titles = new ArrayList<>();
     /**
      * 1 判断是否有第三方公司推荐职位的数据
      * 2.判断是否第三方公司推荐职位的数据满足20条
      * 3.判断是否有公司职位推荐的数据
      */
-    private boolean isHaveThirdRecommendData,isThirdRecommendDataFill,isHaveRecommendData;
+    private boolean isHaveThirdRecommendData, isThirdRecommendDataFill, isHaveRecommendData;
     private MyRecommendJobAdapter jobAdapter;
     //第三方公司推荐职位接口获取到的数据
     private List<HomeRecommendBean.JobsListBean> recommendList = new ArrayList<>();
     //公司职位推荐接口获取到的数据
-    private List<RecommendJobBean.JobsListBean> recommendJobList=new ArrayList<>();
+    private List<RecommendJobBean.JobsListBean> recommendJobList = new ArrayList<>();
     private PopupWindow popupWindowCalculateScore;
     private SharedPreferencesUtils sUtils;
-    private String personImage,jobId,jobName;
-    private int mProgress,position;
-    public static String TAG=HomeFragment.class.getSimpleName();
+    private String personImage, jobId, jobName;
+    private int mProgress, position;
+    public static String TAG = HomeFragment.class.getSimpleName();
+    private View header;
 
     public static HomeFragment newInstance(String s) {
         HomeFragment navigationFragment = new HomeFragment();
@@ -141,10 +145,10 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
     public void setImage() {
         personImage = sUtils.getStringValue(Constants.PERSONIMAGE, "");
         if (!"".equals(personImage) && personImage != null) {
-           /* Glide.with(this).load(Constants.IMAGE_BASEPATH + personImage).centerCrop().into(ivResumePersonPhoto);*/
-            Glide.with(this).load(Constants.IMAGE_BASEPATH + personImage) .fitCenter().into(ivResumePersonPhoto);
-        }else{
-           ivResumePersonPhoto.setImageResource(R.mipmap.persondefault);
+            /* Glide.with(this).load(Constants.IMAGE_BASEPATH + personImage).centerCrop().into(ivResumePersonPhoto);*/
+            Glide.with(this).load(Constants.IMAGE_BASEPATH + personImage).fitCenter().into(ivResumePersonPhoto);
+        } else {
+            ivResumePersonPhoto.setImageResource(R.mipmap.persondefault);
         }
     }
 
@@ -158,29 +162,40 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
         EventBus.getDefault().register(this);
         sUtils = new SharedPreferencesUtils(getActivity());
         refresh(true);
+        mPresenter.getNotice("98", "825");
         jobAdapter = new MyRecommendJobAdapter();
         setImage();
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity()) {
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity()) {
             @Override
             public boolean canScrollHorizontally() {
                 return false;
             }
         };
-
+        rlHomeBg.setBackgroundResource(R.color.bg_homeTitle);
         tvNoData.setText("暂无合适职位推荐，点我刷新");
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvHomeFragment.setLayoutManager(linearLayoutManager);
         rvHomeFragment.setRefreshProgressStyle(ProgressStyle.BallPulse);
         rvHomeFragment.setLoadingMoreProgressStyle(ProgressStyle.BallBeat);
+        rvHomeFragment.setScrollAlphaChangeListener(new XRecyclerView.ScrollAlphaChangeListener() {
+            @Override
+            public void onAlphaChange(int alpha) {
+                rlHomeBg.getBackground().setAlpha( alpha);
+            }
 
+            @Override
+            public int setLimitHeight() {
+                return header.getMeasuredHeight()-rlFragmentTitle.getMeasuredHeight();
+            }
+        });
         rvHomeFragment.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
-                        MobclickAgent.onEvent(HRApplication.getAppContext(),"v6_fresh_home");
+                        MobclickAgent.onEvent(HRApplication.getAppContext(), "v6_fresh_home");
                         refresh(false);
-                       jobAdapter.notifyDataSetChanged();
+                        jobAdapter.notifyDataSetChanged();
                     }
 
                 }, 1000);            //refresh data here
@@ -190,11 +205,11 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
             public void onLoadMore() {
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
-                        if(isThirdRecommendDataFill==true) {
+                        if (isThirdRecommendDataFill == true) {
                             rvHomeFragment.setLoadingMoreEnabled(false);
-                        }else{
+                        } else {
                             page++;
-                            mPresenter.getRecommendJob(page,20,false);
+                            mPresenter.getRecommendJob(page, 20, false);
                         }
                         jobAdapter.notifyDataSetChanged();
                     }
@@ -214,21 +229,20 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
     public void refresh(final boolean isrefresh) {
         page = 1;
         //获取第三方推荐职位
-        mPresenter.getRecommendJobInfo( 20, false);
+        mPresenter.getRecommendJobInfo(20, false);
         //获取公司的推荐职位
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mPresenter.getRecommendJob(page,20,isrefresh);
+                mPresenter.getRecommendJob(page, 20, isrefresh);
             }
-        },2000);
+        }, 2000);
     }
 
     @Override
     public void showLoading(String title) {
 
     }
-
     @Override
     public void stopLoading() {
 
@@ -247,10 +261,32 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
         return rootView;
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvenTypeMethod(EventType eventType) {
+        switch (eventType.getType()) {
+            case 0:
+                rlFragmentTitle.setVisibility(View.GONE);
+                break;
+            case 1:
+                rlFragmentTitle.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        if (dialog != null) {
+            dialog.dismiss();
+        }
+        if (dialogMessage != null) {
+            dialogMessage.dismiss();
+        }
+        instance = null;
+        //结束轮播
+        banner.stopAutoPlay();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -270,49 +306,50 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
             recommendList.clear();
             //Log.i("你好",jobsBeanList.size()+"");
             recommendList.addAll(jobsBeanList);
-            isHaveThirdRecommendData=true;
-            if(recommendList.size()>=20){
-                isThirdRecommendDataFill=true;
-            }else{
-                isThirdRecommendDataFill=false;
+            isHaveThirdRecommendData = true;
+            if (recommendList.size() >= 20) {
+                isThirdRecommendDataFill = true;
+            } else {
+                isThirdRecommendDataFill = false;
             }
         } else {
-            isHaveThirdRecommendData= false;
-            isThirdRecommendDataFill=false;
+            isHaveThirdRecommendData = false;
+            isThirdRecommendDataFill = false;
         }
     }
 
     @Override
     public void getResumeScoreSuccess(double score) {
         int i = (int) (score * 100);
-      /*  initCalculateScore(i);*//**/
+        /*  initCalculateScore(i);*//**/
     }
 
     @Override
     public void getRecommendJobError() {
-            if(rlEmptyView!=null) {
-                rlEmptyView.setVisibility(View.GONE);
-            }
-            if(rvHomeFragment!=null) {
-                rvHomeFragment.setVisibility(View.GONE);
-            }
-            if(rvHomeFragment!=null) {
-                llNetError.setVisibility(View.VISIBLE);
-            }
+        if (rlEmptyView != null) {
+            rlEmptyView.setVisibility(View.GONE);
+        }
+        if (rvHomeFragment != null) {
+            rvHomeFragment.setVisibility(View.GONE);
+        }
+        if (rvHomeFragment != null) {
+            llNetError.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
     public void getRecommendJobSuccess2(List<RecommendJobBean.JobsListBean> jobsListBeanList) {
-        if(jobsListBeanList!=null&&jobsListBeanList.size()!=0&&jobsListBeanList.size()!=0) {
-            isHaveRecommendData=true;
-            if(page==1){
+        //Log.i("推荐职位的信息",jobsListBeanList.toString());
+        if (jobsListBeanList != null && jobsListBeanList.size() != 0 && jobsListBeanList.size() != 0) {
+            isHaveRecommendData = true;
+            if (page == 1) {
                 recommendJobList.clear();
             }
             recommendJobList.addAll(jobsListBeanList);
-        }else{
-            if(page==1) {
+        } else {
+            if (page == 1) {
                 isHaveRecommendData = false;
-            }else{
+            } else {
                 rvHomeFragment.setNoMore(true);
                 rvHomeFragment.setLoadingMoreEnabled(false);
             }
@@ -321,14 +358,14 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
         jobAdapter.setClickCallBack(new MyRecommendJobAdapter.ItemClickCallBack() {
             @Override
             public void onItemClick(int pos) {
-                if(isThirdRecommendDataFill==false) {
+                if (isThirdRecommendDataFill == false) {
                     if (pos < recommendList.size()) {
-                        PositionPageActivity.startAction(getActivity(), recommendList.get(pos).getJob_id(),pos,TAG);
+                        PositionPageActivity.startAction(getActivity(), recommendList.get(pos).getJob_id(), pos, TAG);
                     } else {
-                        PositionPageActivity.startAction(getActivity(), recommendJobList.get(pos - recommendList.size()).getJob_id(),pos,TAG);
+                        PositionPageActivity.startAction(getActivity(), recommendJobList.get(pos - recommendList.size()).getJob_id(), pos, TAG);
                     }
-                }else{
-                    PositionPageActivity.startAction(getActivity(), recommendList.get(pos).getJob_id(),pos,TAG);
+                } else {
+                    PositionPageActivity.startAction(getActivity(), recommendList.get(pos).getJob_id(), pos, TAG);
                 }
             }
         });
@@ -336,26 +373,26 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
             @SuppressLint("ResourceAsColor")
             @Override
             public void onFastDeliverListener(int pos) {
-                position=pos;
-                dialogMessage=new MyDialog(getActivity(),2);
-                if(isThirdRecommendDataFill==false) {
+                position = pos;
+                dialogMessage = new MyDialog(getActivity(), 2);
+                if (isThirdRecommendDataFill == false) {
                     if (pos < recommendList.size()) {
-                        industryName=recommendList.get(pos).getIndustry_name();
-                        jobId=recommendList.get(pos).getJob_id();
-                        jobName=recommendList.get(pos).getJob_name();
+                        industryName = recommendList.get(pos).getIndustry_name();
+                        jobId = recommendList.get(pos).getJob_id();
+                        jobName = recommendList.get(pos).getJob_name();
                     } else {
-                        industryName=recommendJobList.get(pos - recommendList.size()).getIndustry_name();
-                        jobId=recommendJobList.get(pos - recommendList.size()).getJob_id();
-                        jobName=recommendJobList.get(pos - recommendList.size()).getJob_name();
+                        industryName = recommendJobList.get(pos - recommendList.size()).getIndustry_name();
+                        jobId = recommendJobList.get(pos - recommendList.size()).getJob_id();
+                        jobName = recommendJobList.get(pos - recommendList.size()).getJob_name();
                     }
-                }else{
-                    industryName=recommendList.get(pos).getIndustry_name();
-                    jobId=recommendList.get(pos).getJob_id();
-                    jobName=recommendList.get(pos).getJob_name();
+                } else {
+                    industryName = recommendList.get(pos).getIndustry_name();
+                    jobId = recommendList.get(pos).getJob_id();
+                    jobName = recommendList.get(pos).getJob_name();
                 }
-                String s=getString(R.string.deliverOrNot1)+"“ "+jobName+" ”"+getString(R.string.deliverOrNot2);
-                SpannableStringBuilder style=new SpannableStringBuilder(s);
-                style.setSpan(new ForegroundColorSpan(Color.RED),6,6+jobName.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);     //设置指定位置textview的背景颜色
+                String s = getString(R.string.deliverOrNot1) + "“ " + jobName + " ”" + getString(R.string.deliverOrNot2);
+                SpannableStringBuilder style = new SpannableStringBuilder(s);
+                style.setSpan(new ForegroundColorSpan(Color.RED), 6, 6 + jobName.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);     //设置指定位置textview的背景颜色
                 //设置指定位置文字的颜色
                 dialogMessage.setMessage(style);
                 dialogMessage.setNoOnclickListener("否", new MyDialog.onNoOnclickListener() {
@@ -375,33 +412,37 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
             }
         });
     }
-    private void setAdapter(){
-        if(isHaveRecommendData==true||isHaveThirdRecommendData==true){
+
+    private void setAdapter() {
+        if (isHaveRecommendData == true || isHaveThirdRecommendData == true) {
             rlEmptyView.setVisibility(View.GONE);
             rvHomeFragment.setVisibility(View.VISIBLE);
             llNetError.setVisibility(View.GONE);
-            if(isThirdRecommendDataFill){
+            if (isThirdRecommendDataFill) {
                 setDate1();
-            }else{
+            } else {
                 setData2();
             }
-        }else {
+        } else {
             rlEmptyView.setVisibility(View.VISIBLE);
             rvHomeFragment.setVisibility(View.GONE);
             llNetError.setVisibility(View.GONE);
         }
     }
+
     //第三方公司推荐职位满足20个
-    private void setDate1(){
+    private void setDate1() {
         jobAdapter = new MyRecommendJobAdapter();
         jobAdapter.setJobsListBeanList2(recommendList);
         rvHomeFragment.setAdapter(jobAdapter);
         rvHomeFragment.refreshComplete();
+        rlFragmentTitle.setVisibility(View.VISIBLE);
         rvHomeFragment.setLoadingMoreEnabled(false);
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEventMethod(EventHomeBean eventHomeBean){
-        switch (eventHomeBean.getType()){
+    public void onEventMethod(EventHomeBean eventHomeBean) {
+        switch (eventHomeBean.getType()) {
             case 0:
                 notificationDataItem(eventHomeBean.getPosition());
                 break;
@@ -410,38 +451,42 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
                 break;
         }
     }
-    public void notificationDataItem(int pos){
-        position=pos;
-        if(isThirdRecommendDataFill==false) {
+
+    public void notificationDataItem(int pos) {
+        position = pos;
+        if (isThirdRecommendDataFill == false) {
             if (position < recommendList.size()) {
                 recommendList.get(position).setIs_apply(1);
             } else {
                 recommendJobList.get(position - recommendList.size()).setIs_apply(1);
             }
-        }else{
+        } else {
             recommendList.get(position).setIs_apply(1);
         }
         jobAdapter.notifyDataSetChanged();
 
     }
+
     /**
      * 第三方公司推荐职位有数据但是不满足20个，拼接上公司职位推荐数据
      */
-    private void setData2(){
-        if(page==1) {
+    private void setData2() {
+        if (page == 1) {
             jobAdapter = new MyRecommendJobAdapter(3);
             jobAdapter.setJobsListBeanList(recommendJobList);
             jobAdapter.setJobsListBeanList2(recommendList);
             rvHomeFragment.setAdapter(jobAdapter);
             rvHomeFragment.refreshComplete();
-        }else{
+            rlFragmentTitle.setVisibility(View.VISIBLE);
+        } else {
             rvHomeFragment.loadMoreComplete();
             jobAdapter.notifyDataSetChanged();
         }
-        if(recommendJobList.size()<20){
+        if (recommendJobList.size() < 20) {
             rvHomeFragment.setLoadingMoreEnabled(false);
         }
     }
+
     @Override
     public void cantGetData() {
         /*mPresenter.getRecommendJob(page,20,true*/
@@ -451,14 +496,14 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
     public void deliverPositionSuccess() {
         MobclickAgent.onEvent(getActivity(), "v6_resume_deliver");
         ToastUitl.showShort("投递成功");
-        if(isThirdRecommendDataFill==false) {
+        if (isThirdRecommendDataFill == false) {
             if (position < recommendList.size()) {
-               recommendList.get(position).setIs_apply(1);
+                recommendList.get(position).setIs_apply(1);
             } else {
-               recommendJobList.get(position - recommendList.size()).setIs_apply(1);
+                recommendJobList.get(position - recommendList.size()).setIs_apply(1);
             }
-        }else{
-           recommendList.get(position).setIs_apply(1);
+        } else {
+            recommendList.get(position).setIs_apply(1);
         }
         jobAdapter.notifyDataSetChanged();
     }
@@ -471,6 +516,38 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
         } else {
             //ToastUitl.showShort(errorCode+"");
             setPopupwindow(1);
+        }
+    }
+
+    @Override
+    public void getNoticeSuccess(List<FindBean.ListBean> listBean) {
+        if(listBean!=null&&listBean.size()!=0){
+            for(int i=0;i<listBean.size();i++){
+                images.add(listBean.get(i).getPic_path());
+                titles.add(listBean.get(i).getTitle());
+                header = LayoutInflater.from(getActivity()).inflate(R.layout.layout_header, null);
+                banner = header.findViewById(R.id.banner);
+                //设置banner样式
+                banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
+                banner.setIndicatorGravity(BannerConfig.CENTER);
+                //设置图片加载器
+                banner.setImageLoader(new GlideImageLoader2());
+                //设置图片集合
+                banner.setImages(images);
+                //设置banner动画效果
+                banner.setBannerAnimation(Transformer.Tablet);
+                //设置标题集合（当banner样式有显示title时）
+                banner.setBannerTitles(titles);
+                //设置自动轮播，默认为true
+                banner.isAutoPlay(true);
+                //设置轮播时间
+                banner.setDelayTime(3000);
+                //设置指示器位置（当banner模式中有指示器时）
+                banner.setIndicatorGravity(BannerConfig.CENTER);
+                //banner设置方法全部调用完毕时最后调用
+                banner.start();
+                rvHomeFragment.addHeaderView(header);
+            }
         }
     }
 
@@ -572,7 +649,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
         popupWindowCalculateScore.showAtLocation(clHomeFragment, Gravity.CENTER, 0, 0);
     }*/
 
-    @OnClick({R.id.iv_ResumePersonPhoto,R.id.ll_netError, R.id.iv_noContent, R.id.iv_noDataSearch, R.id.rl_mainSearch})
+    @OnClick({R.id.iv_ResumePersonPhoto, R.id.ll_netError, R.id.iv_noContent, R.id.iv_noDataSearch, R.id.rl_mainSearch})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_netError:
@@ -586,7 +663,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
                 JobSerchActivity.startAction(getActivity());
                 break;
             case R.id.iv_noContent:
-              /*  mPresenter.getRecommendJobInfo( 20, true);*//**/
+                /*  mPresenter.getRecommendJobInfo( 20, true);*//**/
                 refresh(true);
                 break;
             case R.id.rl_mainSearch:
@@ -595,16 +672,4 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
         }
     }
 
-    @Override
-    public void onDestroy() {
-        if(dialog!=null){
-            dialog.dismiss();
-        }
-        if(dialogMessage!=null){
-            dialogMessage.dismiss();
-        }
-        instance=null;
-        EventBus.getDefault().unregister(this);
-        super.onDestroy();
-    }
 }

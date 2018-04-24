@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -64,6 +65,19 @@ public class MyRecommendJobDialogAdapter extends RecyclerView.Adapter<MyRecommen
         viewHolder.tvItemRecommendJobDialogCompanyName.setText(list.get(position).getEnterprise_name());
         viewHolder.tvItemRecommendJobDialogDate.setText(Utils.getDateMonthAndDay(list.get(position).getIssue_date()));
         viewHolder.tvItemRecommendJobDialogAddress.setText(list.get(position).getWorkplace());
+        if(list.get(position).getIs_apply()==1){
+            viewHolder.ivItemRecommendJobDialogAlreadyDeliver.setVisibility(View.VISIBLE);
+            viewHolder.cbItemRecommendJobDialog.setBackgroundResource(R.mipmap.cant_select);
+            viewHolder.rlItemRecommendJobDialog.setClickable(false);
+            viewHolder.cbItemRecommendJobDialog.setClickable(false);
+
+        }else{
+            viewHolder.ivItemRecommendJobDialogAlreadyDeliver.setVisibility(View.GONE);
+            viewHolder.cbItemRecommendJobDialog.setBackgroundResource(R.drawable.checkbox_bg);
+            viewHolder.rlItemRecommendJobDialog.setClickable(true);
+            viewHolder.cbItemRecommendJobDialog.setClickable(true);
+
+        }
         if(list.get(position).isCheck()){
             viewHolder.cbItemRecommendJobDialog.setChecked(true);
         }else{
@@ -131,7 +145,8 @@ public class MyRecommendJobDialogAdapter extends RecyclerView.Adapter<MyRecommen
         TextView tvItemRecommendJobDialogAddress;
         @BindView(R.id.tv_itemRecommendJobDialogDate)
         TextView tvItemRecommendJobDialogDate;
-
+        @BindView(R.id.iv_itemRecommendJobDialogAlreadyDeliver)
+        ImageView ivItemRecommendJobDialogAlreadyDeliver;
         public ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
