@@ -29,7 +29,7 @@ public class ResumeIntroductionPresenter extends ResumeIntroductionContract.Pres
                     JSONObject jsonObject=new JSONObject(s);
                     double error_code=jsonObject.getDouble("error_code");
                     if(error_code==0) {
-                        System.out.print(s);
+                        //System.out.print(s);
                         mView.getIntroductionSuccess();
                     }else{
                         ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) error_code));

@@ -2,10 +2,12 @@ package com.hr.ui.base;
 
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -119,6 +121,28 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         }
         return result;
     }
+    /**
+     * 兼容状态栏透明（沉浸式）
+     * @param activity
+     */
+    public static void setImmersionStateMode(Activity activity){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT != Build.VERSION_CODES.LOLLIPOP) {
+            // 透明状态栏
+            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            // 透明导航栏
+            // getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        } else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP) {
+            Window window = activity.getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS |
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    // | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.TRANSPARENT);
+            window.setNavigationBarColor(Color.TRANSPARENT);
+        }
+    }
     public static boolean FlymeSetStatusBarLightMode(Window window, boolean dark) {
         boolean result = false;
         if (window != null) {
@@ -212,6 +236,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         // 默认着色状态栏
         SetStatusBarColor();
+        setImmersionStateMode(this);
 
     }
     /*********************子类实现*****************************/

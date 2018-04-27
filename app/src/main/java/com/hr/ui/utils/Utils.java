@@ -45,11 +45,14 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
+import com.hr.ui.bean.CheckBean;
 import com.hr.ui.bean.CityBean;
 import com.hr.ui.bean.FindBean;
 import com.hr.ui.bean.ThirdLoginBean;
+import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.message.activity.WebActivity;
 import com.hr.ui.utils.datautils.FromStringToArrayList;
+import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
@@ -61,6 +64,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by wdr on 2018/1/12.
@@ -295,6 +299,50 @@ public class Utils {
             }
         }
         return selectCityList;
+     }
+
+
+     public static int getRandomInt(List<CheckBean> list,int sum){
+        Random random=new Random();
+        int n=random.nextInt(sum);
+       // Log.i("现在的数据",list.toString());
+        if (checkList(list)){
+        }else {
+            while (checkNumIsCheck(n, list)) {
+                n = random.nextInt(sum);
+            }
+        }
+        for(int i=0;i<list.size();i++){
+            if(n==list.get(i).getNum()){
+                list.get(i).setCheck(true);
+                break;
+            }
+        }
+        return n;
+     }
+     public static boolean checkNumIsCheck(int num,List<CheckBean> list){
+        for(int i=0;i<list.size();i++){
+            if(num==list.get(i).getNum()&&list.get(i).isCheck){
+                return true;
+            }
+        }
+        return false;
+     }
+     public static boolean checkList(List<CheckBean> list){
+        int num=0;
+        for(int i=0;i<list.size();i++){
+            if(list.get(i).isCheck==true){
+                num++;
+            }
+        }
+        if(num==list.size()){
+            for(int i=0;i<list.size();i++){
+                list.get(i).setCheck(false);
+            }
+            return true;
+        }else{
+            return false;
+        }
      }
     /**
      * EditText获取焦点并显示软键盘

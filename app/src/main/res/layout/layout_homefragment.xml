@@ -7,18 +7,34 @@
    <FrameLayout
        android:layout_width="match_parent"
        android:layout_height="match_parent">
-      <com.hr.ui.view.XRecyclerView
-         android:id="@+id/rv_homeFragment"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"/>
-      <include layout="@layout/layout_emptyview" />
-      <include layout="@layout/layout_neterror"/>
+      <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+         <View
+             android:id="@+id/view_hidden"
+             android:visibility="gone"
+             android:layout_width="match_parent"
+             android:layout_height="@dimen/x129"/>
+         <com.hr.ui.view.XRecyclerView
+             android:layout_below="@+id/view_hidden"
+            android:id="@+id/rv_homeFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+         <RelativeLayout
+             android:layout_below="@+id/rv_homeFragment"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+            <include layout="@layout/layout_emptyview" />
+            <include layout="@layout/layout_neterror"/>
+         </RelativeLayout>
+      </RelativeLayout>
    </FrameLayout>
    <RelativeLayout
        android:id="@+id/rl_homeBg"
        android:layout_width="match_parent"
-       android:layout_height="@dimen/x87"/>
+       android:layout_height="@dimen/x132"/>
    <RelativeLayout
+       android:layout_marginTop="@dimen/x42"
        android:id="@+id/rl_fragmentTitle"
        android:layout_width="match_parent"
        android:layout_height="@dimen/x87">

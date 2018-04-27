@@ -48,6 +48,7 @@ public class XRecyclerView extends RecyclerView {
     private ArrowRefreshHeader mRefreshHeader;
     private boolean pullRefreshEnabled = true;
     private boolean loadingMoreEnabled = true;
+    private boolean isHomeFragment;
     //下面的ItemViewType是保留值(ReservedItemViewType),如果用户的adapter与它们重复将会强制抛出异常。不过为了简化,我们检测到重复时对用户的提示是ItemViewType必须小于10000
     private static final int TYPE_REFRESH_HEADER = 10000;//设置一个很大的数字,尽可能避免和用户的adapter冲突
     private static final int TYPE_FOOTER = 10001;
@@ -63,6 +64,11 @@ public class XRecyclerView extends RecyclerView {
     // limit number to call load more
     // 控制多出多少条的时候调用 onLoadMore
     private int limitNumberToCallLoadMore = 1;
+
+    public void setHomeFragment(boolean homeFragment) {
+        isHomeFragment = homeFragment;
+        mRefreshHeader.setHomeFragment(isHomeFragment);
+    }
 
     public XRecyclerView(Context context) {
         this(context, null);
@@ -121,7 +127,13 @@ public class XRecyclerView extends RecyclerView {
             mWrapAdapter.notifyDataSetChanged();
         }
     }
-
+    public void reMoveHeaderView(View view) {
+        sHeaderTypes.remove(HEADER_INIT_INDEX + mHeaderViews.size());
+        mHeaderViews.remove(view);
+        if (mWrapAdapter != null) {
+            mWrapAdapter.notifyDataSetChanged();
+        }
+    }
     //根据header的ViewType判断是哪个header
     private View getHeaderViewByType(int itemType) {
         if(!isHeaderType(itemType)) {
@@ -374,7 +386,9 @@ public class XRecyclerView extends RecyclerView {
                     mRefreshHeader.onMove(deltaY / DRAG_RATE);
 
                     if (mRefreshHeader.getVisibleHeight() > 0 && mRefreshHeader.getState() <ArrowRefreshHeader.STATE_REFRESHING) {
-                        EventBus.getDefault().post(new EventType(0));
+                        if(isHomeFragment) {
+                            EventBus.getDefault().post(new EventType(0));
+                        }
                         return false;
                     }
                 }
@@ -829,7 +843,9 @@ public class XRecyclerView extends RecyclerView {
             return;
         }
         if(dy>0&&mRefreshHeader.getState()==ArrowRefreshHeader.STATE_NORMAL){
-            EventBus.getDefault().post(new EventType(1));
+            if(isHomeFragment) {
+                EventBus.getDefault().post(new EventType(1));
+            }
         }
         int height = scrollAlphaChangeListener.setLimitHeight();
         scrollDyCounter = scrollDyCounter + dy;

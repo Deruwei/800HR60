@@ -1,11 +1,13 @@
 package com.hr.ui.utils;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.youth.banner.loader.ImageLoader;
@@ -14,7 +16,7 @@ import java.io.File;
 
 public class GlideImageLoader2 extends ImageLoader {
     @Override
-    public void displayImage(Context context, Object path, ImageView imageView) {
+    public void displayImage(Context context, Object path, final ImageView imageView) {
         /**
          注意：
          1.图片加载器由自己选择，这里不限制，只是提供几种使用方法
@@ -22,12 +24,15 @@ public class GlideImageLoader2 extends ImageLoader {
          传输的到的是什么格式，那么这种就使用Object接收和返回，你只需要强转成你传输的类型就行，
          切记不要胡乱强转！
          */
-        Glide.with(context.getApplicationContext())                             //配置上下文
-                .load(path)      //设置图片路径(fix #8,文件名包含%符号 无法识别和显示)
-                .error(R.drawable.ic_default_image)           //设置错误图片
-                .placeholder(R.drawable.ic_default_image)     //设置占位图片
-                .diskCacheStrategy(DiskCacheStrategy.ALL)//缓存全尺寸
-                .into(imageView);
+        Glide.with(context).load(path).asBitmap()
+                .animate(R.anim.crop_image_fade_anim)
+                .fitCenter()
+                .into(new BitmapImageViewTarget(imageView) {
+                    @Override
+                    protected void setResource(Bitmap resource) {
+                        imageView.setImageBitmap(resource);
+                    }
+                });
      /*   //Glide 加载图片简单用法
         Glide.with(context).load(path).into(imageView);
 

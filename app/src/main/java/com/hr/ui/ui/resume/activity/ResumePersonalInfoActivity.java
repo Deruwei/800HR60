@@ -566,7 +566,7 @@ public class ResumePersonalInfoActivity extends BaseActivity<ResumePersonalInfoP
         }
     }
    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void setSelectCity(EventBean eventBean) { System.out.print("----"+eventBean);
+    public void setSelectCity(EventBean eventBean) { //System.out.print("----"+eventBean);
         switch (eventBean.getTag()) {
             case "ResumePersonalInfoActivity":
                 if (eventBean.getCityBean() != null) {

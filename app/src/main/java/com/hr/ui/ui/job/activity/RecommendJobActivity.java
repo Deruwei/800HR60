@@ -45,6 +45,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -88,9 +89,9 @@ public class RecommendJobActivity extends Base2Activity<RecommendJobActivityPres
      *
      * @param activity
      */
-    public static void startAction(Activity activity, PositionBean.JobInfoBean jobInfoBean) {
+    public static void startAction(Activity activity, List<RecommendJobBean.JobsListBean> list) {
         Intent intent = new Intent(activity, RecommendJobActivity.class);
-        intent.putExtra("jobInfo", jobInfoBean);
+        intent.putExtra("jobInfo", (Serializable) list);
         activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.zoom_in,
                 R.anim.zoom_out);
@@ -123,7 +124,7 @@ public class RecommendJobActivity extends Base2Activity<RecommendJobActivityPres
     @Override
     public void initView() {
         EventBus.getDefault().register(this);
-        jobInfoBean = (PositionBean.JobInfoBean) getIntent().getSerializableExtra("jobInfo");
+        list = (List<RecommendJobBean.JobsListBean>) getIntent().getSerializableExtra("jobInfo");
         sUtils = new SharedPreferencesUtils(this);
         tag = getIntent().getStringExtra("tag");
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this) {
@@ -132,12 +133,6 @@ public class RecommendJobActivity extends Base2Activity<RecommendJobActivityPres
                 return false;
             }
         };
-        JobSearchBean jobSearchBean = new JobSearchBean();
-        jobSearchBean.setIndustryId(jobInfoBean.getIndustry());
-        jobSearchBean.setPositionId(jobInfoBean.getJob_id());
-        jobSearchBean.setDegree(ResumeInfoIDToString.getDegreeNeedId(jobInfoBean.getStudy()));
-        jobSearchBean.setPlaceId(jobInfoBean.getWork_area());
-        mPresenter.getSearchList(jobSearchBean, 1, false);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvRecommendJobDialog.setLayoutManager(linearLayoutManager);
         String s = getString(R.string.RecommendDialogDeliverNum1) + (new Random().nextInt(8) + 31) + getString(R.string.RecommendDialogDeliverNum2);
@@ -145,9 +140,14 @@ public class RecommendJobActivity extends Base2Activity<RecommendJobActivityPres
         //对字符串 "系统开小差，请尝试刷新一下" 进行处理，将“刷新”两个字设置为蓝色的 且可点击的
         mStyledText.setSpan(new ForegroundColorSpan(ContextCompat.getColor(HRApplication.getAppContext(), R.color.new_main)), 15, 17, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         tvTvRecommendJobText2.setText(mStyledText);
+        setAdapter();
     }
 
     private void setAdapter() {
+        clRecommendJobActivity.setVisibility(View.VISIBLE);
+        rvRecommendJobDialog.setVisibility(View.VISIBLE);
+        btnRecommendJobDeliver.setVisibility(View.VISIBLE);
+        viewRecommendJobDialogLine.setVisibility(View.VISIBLE);
         adapter = new MyRecommendJobDialogAdapter();
         adapter.setListBeans(list);
         rvRecommendJobDialog.setAdapter(adapter);

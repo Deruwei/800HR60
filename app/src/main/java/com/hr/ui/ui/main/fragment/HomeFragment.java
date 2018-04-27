@@ -37,12 +37,11 @@ import com.hr.ui.ui.main.adapter.MyRecommendJobAdapter;
 import com.hr.ui.ui.main.contract.HomeFragmentContract;
 import com.hr.ui.ui.main.modle.HomeFragmentModel;
 import com.hr.ui.ui.main.presenter.HomeFragmentPresenter;
+import com.hr.ui.ui.message.activity.WebActivity;
 import com.hr.ui.ui.resume.activity.ResumeJobOrderActivity;
 import com.hr.ui.utils.GlideImageLoader2;
 import com.hr.ui.utils.ProgressStyle;
 import com.hr.ui.utils.ToastUitl;
-import com.hr.ui.utils.Utils;
-import com.hr.ui.utils.datautils.ResumeInfoIDToString;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.CircleImageView;
 import com.hr.ui.view.MyDialog;
@@ -52,6 +51,7 @@ import com.umeng.analytics.MobclickAgent;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
+import com.youth.banner.listener.OnBannerListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -102,12 +102,15 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
     RelativeLayout rlHomeBg;
     @BindView(R.id.home_cv)
     CardView homeCv;
+    @BindView(R.id.view_hidden)
+    View viewHidden;
     private int page = 1;
     public static HomeFragment instance;
     private MyRecommendDialog dialog;
     private String industryName;
     private MyDialog dialogMessage;
     private Banner banner;
+    private View view_hidden;
     private List<String> images = new ArrayList<>();
     private List<String> titles = new ArrayList<>();
     /**
@@ -127,6 +130,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
     private int mProgress, position;
     public static String TAG = HomeFragment.class.getSimpleName();
     private View header;
+    private boolean isHaveAds, isFreshAd;
 
     public static HomeFragment newInstance(String s) {
         HomeFragment navigationFragment = new HomeFragment();
@@ -162,7 +166,6 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
         EventBus.getDefault().register(this);
         sUtils = new SharedPreferencesUtils(getActivity());
         refresh(true);
-        mPresenter.getNotice("98", "825");
         jobAdapter = new MyRecommendJobAdapter();
         setImage();
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity()) {
@@ -175,17 +178,22 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
         tvNoData.setText("暂无合适职位推荐，点我刷新");
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rvHomeFragment.setLayoutManager(linearLayoutManager);
+        rvHomeFragment.setHomeFragment(true);
         rvHomeFragment.setRefreshProgressStyle(ProgressStyle.BallPulse);
         rvHomeFragment.setLoadingMoreProgressStyle(ProgressStyle.BallBeat);
         rvHomeFragment.setScrollAlphaChangeListener(new XRecyclerView.ScrollAlphaChangeListener() {
             @Override
             public void onAlphaChange(int alpha) {
-                rlHomeBg.getBackground().setAlpha( alpha);
+                rlHomeBg.getBackground().mutate().setAlpha(alpha);
             }
 
             @Override
             public int setLimitHeight() {
-                return header.getMeasuredHeight()-rlFragmentTitle.getMeasuredHeight();
+                if (header != null) {
+                    return header.getMeasuredHeight() - rlFragmentTitle.getMeasuredHeight();
+                } else {
+                    return 255;
+                }
             }
         });
         rvHomeFragment.setLoadingListener(new XRecyclerView.LoadingListener() {
@@ -230,6 +238,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
         page = 1;
         //获取第三方推荐职位
         mPresenter.getRecommendJobInfo(20, false);
+        mPresenter.getNotice("98", "");
         //获取公司的推荐职位
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -243,6 +252,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
     public void showLoading(String title) {
 
     }
+
     @Override
     public void stopLoading() {
 
@@ -339,7 +349,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
 
     @Override
     public void getRecommendJobSuccess2(List<RecommendJobBean.JobsListBean> jobsListBeanList) {
-        //Log.i("推荐职位的信息",jobsListBeanList.toString());
+        //Log.i("推荐职位的信息",jobsListBeanList.size()+"");
         if (jobsListBeanList != null && jobsListBeanList.size() != 0 && jobsListBeanList.size() != 0) {
             isHaveRecommendData = true;
             if (page == 1) {
@@ -351,7 +361,6 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
                 isHaveRecommendData = false;
             } else {
                 rvHomeFragment.setNoMore(true);
-                rvHomeFragment.setLoadingMoreEnabled(false);
             }
         }
         setAdapter();
@@ -424,9 +433,19 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
                 setData2();
             }
         } else {
-            rlEmptyView.setVisibility(View.VISIBLE);
-            rvHomeFragment.setVisibility(View.GONE);
-            llNetError.setVisibility(View.GONE);
+            if(isHaveAds==true){
+                jobAdapter = new MyRecommendJobAdapter();
+                rlEmptyView.setVisibility(View.VISIBLE);
+                rvHomeFragment.setAdapter(jobAdapter);
+                rvHomeFragment.setPullRefreshEnabled(false);
+                rvHomeFragment.setLoadingMoreEnabled(false);
+                rvHomeFragment.setVisibility(View.VISIBLE);
+                llNetError.setVisibility(View.GONE);
+            }else {
+                rlEmptyView.setVisibility(View.VISIBLE);
+                rvHomeFragment.setVisibility(View.GONE);
+                llNetError.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -482,9 +501,9 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
             rvHomeFragment.loadMoreComplete();
             jobAdapter.notifyDataSetChanged();
         }
-        if (recommendJobList.size() < 20) {
-            rvHomeFragment.setLoadingMoreEnabled(false);
-        }
+       /* if (recommendJobList.size() < 20) {
+            rvHomeFragment.setLoadingMoreEnabled(true);
+        }*/
     }
 
     @Override
@@ -521,34 +540,54 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
 
     @Override
     public void getNoticeSuccess(List<FindBean.ListBean> listBean) {
-        if(listBean!=null&&listBean.size()!=0){
-            for(int i=0;i<listBean.size();i++){
+        if (header != null) {
+            rvHomeFragment.reMoveHeaderView(header);
+        }
+        header = LayoutInflater.from(getActivity()).inflate(R.layout.layout_header, null);
+        banner = header.findViewById(R.id.banner);
+        titles = new ArrayList<>();
+        images = new ArrayList<>();
+        if (listBean != null && listBean.size() != 0) {
+            isHaveAds=true;
+            rvHomeFragment.setHomeFragment(true);
+            banner.setVisibility(View.VISIBLE);
+            viewHidden.setVisibility(View.GONE);
+            for (int i = 0; i < listBean.size(); i++) {
                 images.add(listBean.get(i).getPic_path());
                 titles.add(listBean.get(i).getTitle());
-                header = LayoutInflater.from(getActivity()).inflate(R.layout.layout_header, null);
-                banner = header.findViewById(R.id.banner);
-                //设置banner样式
-                banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
-                banner.setIndicatorGravity(BannerConfig.CENTER);
-                //设置图片加载器
-                banner.setImageLoader(new GlideImageLoader2());
-                //设置图片集合
-                banner.setImages(images);
-                //设置banner动画效果
-                banner.setBannerAnimation(Transformer.Tablet);
-                //设置标题集合（当banner样式有显示title时）
-                banner.setBannerTitles(titles);
-                //设置自动轮播，默认为true
-                banner.isAutoPlay(true);
-                //设置轮播时间
-                banner.setDelayTime(3000);
-                //设置指示器位置（当banner模式中有指示器时）
-                banner.setIndicatorGravity(BannerConfig.CENTER);
-                //banner设置方法全部调用完毕时最后调用
-                banner.start();
-                rvHomeFragment.addHeaderView(header);
             }
+            //设置banner样式
+            banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
+            //设置图片加载器
+            banner.setImageLoader(new GlideImageLoader2());
+            //设置图片集合
+            banner.setImages(images);
+            //设置banner动画效果
+            banner.setBannerAnimation(Transformer.Tablet);
+            //设置标题集合（当banner样式有显示title时）
+            banner.setBannerTitles(titles);
+            //设置自动轮播，默认为true
+            banner.isAutoPlay(true);
+            //设置轮播时间
+            banner.setDelayTime(3000);
+            //设置指示器位置（当banner模式中有指示器时）
+            banner.setIndicatorGravity(BannerConfig.RIGHT);
+            //banner设置方法全部调用完毕时最后调用
+            banner.start();
+            final List<FindBean.ListBean> finalListBean = listBean;
+            banner.setOnBannerListener(new OnBannerListener() {
+                @Override
+                public void OnBannerClick(int position) {
+                    WebActivity.startAction(getActivity(), finalListBean.get(position).getTopic_url());
+                }
+            });
+        } else {
+            isHaveAds=false;
+            rvHomeFragment.setHomeFragment(false);
+            banner.setVisibility(View.GONE);
+            viewHidden.setVisibility(View.VISIBLE);
         }
+        rvHomeFragment.addHeaderView(header);
     }
 
     /**

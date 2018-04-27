@@ -63,6 +63,11 @@ public class SelectIndustryAdapter extends RecyclerView.Adapter<SelectIndustryAd
     }
 
     @Override
+    public int getItemViewType(int position) {
+        return super.getItemViewType(position);
+    }
+
+    @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         if ("1".equals(canSelectOther)) {
             if (industryList.get(position).isCheck() == true) {

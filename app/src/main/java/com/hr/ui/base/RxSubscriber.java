@@ -156,6 +156,7 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
                 }
             }
             _onError(HRApplication.getAppContext().getString(R.string.no_net));
+            ToastUitl.showShort(HRApplication.getAppContext().getString(R.string.net_error));
         }
         //服务器
         else if (e instanceof ServerException) {

@@ -21,10 +21,14 @@ import android.widget.TextView;
 import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
+import com.hr.ui.bean.LoginBean;
+import com.hr.ui.constants.Constants;
+import com.hr.ui.db.LoginDBUtils;
 import com.hr.ui.ui.me.contract.ChangePswContract;
 import com.hr.ui.ui.me.model.ChangePswModel;
 import com.hr.ui.ui.me.presenter.ChangePswPresenter;
 import com.hr.ui.utils.ToastUitl;
+import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -91,6 +95,10 @@ public class ChangePswActivity extends BaseActivity<ChangePswPresenter, ChangePs
 
     @Override
     public void getChangePswSuccess() {
+        SharedPreferencesUtils sUtils=new SharedPreferencesUtils(this);
+        LoginBean loginBean=LoginDBUtils.queryDataById(sUtils.getIntValue(Constants.AUTOLOGINTYPE, 5)+"");
+        loginBean.setPassword(etChangePswNew.getText().toString());
+        LoginDBUtils.insertOrReplaceData(loginBean);
         ToastUitl.showShort("修改密码成功");
         finish();
     }

@@ -6,7 +6,9 @@ import com.hr.ui.api.ApiParameter;
 import com.hr.ui.api.HostType;
 import com.hr.ui.base.RxSchedulers;
 import com.hr.ui.base.RxSubscriber;
+import com.hr.ui.bean.JobSearchBean;
 import com.hr.ui.bean.PositionBean;
+import com.hr.ui.bean.RecommendJobBean;
 import com.hr.ui.ui.job.contract.PositionPageContract;
 import com.hr.ui.utils.EncryptUtils;
 import com.hr.ui.utils.Rc4Md5Utils;
@@ -91,5 +93,26 @@ public class PositionPageModel implements PositionPageContract.Model {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(RxSchedulers.<ResponseBody>io_main());
+    }
+    @Override
+    public Observable<RecommendJobBean> getSearchList(JobSearchBean jobSearchBean, int page) {
+        return Api.getDefault(HostType.HR).getResponseString(EncryptUtils.encrypParams(ApiParameter.getJobSearchList(jobSearchBean,page)))
+                .map(new Func1<ResponseBody, RecommendJobBean>() {
+                    @Override
+                    public RecommendJobBean call(ResponseBody responseBody) {
+                        RecommendJobBean recommendJobBean=null;
+                        try {
+                            String s=responseBody.string().toString();
+                            recommendJobBean=new Gson().fromJson(s,RecommendJobBean.class);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        return recommendJobBean;
+                    }
+                })
+                .subscribeOn(Schedulers.newThread())        //在新线程里面处理网络请求
+                .observeOn(AndroidSchedulers.mainThread())  //在主线程里面接受返回的数据
+                .compose(RxSchedulers.<RecommendJobBean>io_main());
     }
 }

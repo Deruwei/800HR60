@@ -5,6 +5,7 @@ import com.hr.ui.api.Api;
 import com.hr.ui.api.ApiParameter;
 import com.hr.ui.api.HostType;
 import com.hr.ui.base.RxSchedulers;
+import com.hr.ui.bean.FindBean;
 import com.hr.ui.bean.JobSearchBean;
 import com.hr.ui.bean.MultipleResumeBean;
 import com.hr.ui.bean.RecommendJobBean;
@@ -79,5 +80,26 @@ public class JobSearchFragmentModel implements JobSearchFragmentContract.Model {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(RxSchedulers.<ResponseBody>io_main());
+    }
+    @Override
+    public Observable<FindBean> getNotice(String cid, String aid) {
+        return Api.getDefault(HostType.HR).getResponseString(EncryptUtils.encrypParams(ApiParameter.getNotice(cid,aid)))
+                .map(new Func1<ResponseBody, FindBean>() {
+                    @Override
+                    public FindBean call(ResponseBody responseBody) {
+                        FindBean findBean=null;
+                        try {
+                            String s=responseBody.string().toString();
+                            findBean=new Gson().fromJson(s,FindBean.class);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        return findBean;
+                    }
+                })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxSchedulers.<FindBean>io_main());
     }
 }

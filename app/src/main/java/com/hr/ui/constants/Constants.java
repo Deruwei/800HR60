@@ -72,6 +72,8 @@ public class Constants {
     public static final String IS_GUIDE = "GUIDE";
     //标识是否是第一次请求验证码
     public static final String IS_FIRSTGETVALIDCODE = "ValidCode";
+
+    public static final String randomAds="ad_position";
     // 字符集编码
     public static final String ENCODE = "utf-8";
     // SharedPreference文件名

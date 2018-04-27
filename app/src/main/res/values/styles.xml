@@ -392,9 +392,13 @@
         <item name="android:layout_marginRight">@dimen/x80</item>
     </style>
     <style name="login_ImageViewHidden">
+        <item name="android:paddingLeft">@dimen/x16</item>
+        <item name="android:paddingRight">@dimen/x16</item>
+        <item name="android:paddingBottom">@dimen/x10</item>
+        <item name="android:paddingTop">@dimen/x10</item>
         <item name="android:layout_centerInParent">true</item>
-        <item name="android:layout_width">@dimen/x28</item>
-        <item name="android:layout_height">@dimen/y14</item>
+        <item name="android:layout_width">@dimen/x60</item>
+        <item name="android:layout_height">@dimen/x60</item>
         <item name="android:src">@mipmap/hidden</item>
     </style>
     <style name="login_textViewFindPsw">

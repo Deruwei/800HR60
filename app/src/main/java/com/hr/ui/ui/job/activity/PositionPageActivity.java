@@ -21,7 +21,9 @@ import com.hr.ui.R;
 import com.hr.ui.base.Base2Activity;
 import com.hr.ui.bean.EvenList;
 import com.hr.ui.bean.EventHomeBean;
+import com.hr.ui.bean.JobSearchBean;
 import com.hr.ui.bean.PositionBean;
+import com.hr.ui.bean.RecommendJobBean;
 import com.hr.ui.bean.ScanHistoryBean;
 import com.hr.ui.constants.Constants;
 import com.hr.ui.db.ScanHistoryUtils;
@@ -37,6 +39,7 @@ import com.hr.ui.utils.ClickUtils;
 import com.hr.ui.utils.EncryptUtils;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.Utils;
+import com.hr.ui.utils.datautils.ResumeInfoIDToString;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.MyRecommendDialog;
 import com.hr.ui.view.PieChartView;
@@ -46,7 +49,9 @@ import com.umeng.analytics.MobclickAgent;
 import org.greenrobot.eventbus.EventBus;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -134,7 +139,7 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
     private MyRecommendDialog dialog;
     private PositionBean.JobInfoBean jobInfoBean;
     private long currTime = 0;// 分享的点击时间
-
+    private List<RecommendJobBean.JobsListBean> list;
     /**
      * 入口
      *
@@ -329,8 +334,12 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
             EventBus.getDefault().post(new EventHomeBean(0,position));
         }
         if(sUtils.getIntValue(Constants.IS_RECOMMENDJOB,0)<3) {
-            RecommendJobActivity.startAction(this, jobInfoBean);
-            finish();
+            JobSearchBean jobSearchBean = new JobSearchBean();
+            jobSearchBean.setIndustryId(jobInfoBean.getIndustry());
+            jobSearchBean.setPositionId(jobInfoBean.getJob_id());
+            jobSearchBean.setDegree(ResumeInfoIDToString.getDegreeNeedId(jobInfoBean.getStudy()));
+            jobSearchBean.setPlaceId(jobInfoBean.getWork_area());
+            mPresenter.getSearchList(jobSearchBean,1,false);
         }else{
             ToastUitl.showShort("投递成功");
         }
@@ -378,6 +387,45 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
             }
         }, 3500);
 
+    }
+
+    @Override
+    public void getSearchDataSuccess(List<RecommendJobBean.JobsListBean> jobsListBean) {
+        list=new ArrayList<>();
+        int num = 0;
+        if (jobsListBean != null && !"".equals(jobsListBean) && jobsListBean.size() != 0) {
+            if (jobsListBean.size() > 4) {
+                for (int i = 0; i < jobsListBean.size(); i++) {
+                    if (num < 4) {
+                        if (jobsListBean.get(i).getIs_apply() == 0) {
+                            list.add(jobsListBean.get(i));
+                            num++;
+                        }
+                    } else {
+                        break;
+                    }
+                }
+            } else {
+                for (int i = 0; i < jobsListBean.size(); i++) {
+                    if (jobsListBean.get(i).getIs_apply() == 0) {
+                        list.add(jobsListBean.get(i));
+                    }
+                }
+                // list = jobsListBean;
+            }
+            for (int i = 0; i < list.size(); i++) {
+                list.get(i).setCheck(true);
+            }
+           // Log.i("到这里了","好的");
+            if(list!=null&&list.size()!=0){
+                RecommendJobActivity.startAction(this,list);
+                finish();
+            }else{
+                ToastUitl.showShort("投递成功");
+            }
+        }else{
+            ToastUitl.showShort("投递成功");
+        }
     }
 
     @Override

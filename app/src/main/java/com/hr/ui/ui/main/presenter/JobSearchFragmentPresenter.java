@@ -3,6 +3,7 @@ package com.hr.ui.ui.main.presenter;
 import android.util.Log;
 
 import com.hr.ui.base.RxSubscriber;
+import com.hr.ui.bean.FindBean;
 import com.hr.ui.bean.JobSearchBean;
 import com.hr.ui.bean.RecommendJobBean;
 import com.hr.ui.ui.main.contract.JobSearchFragmentContract;
@@ -83,6 +84,22 @@ public class JobSearchFragmentPresenter extends JobSearchFragmentContract.Presen
                     e.printStackTrace();
                 } catch (JSONException e) {
                     e.printStackTrace();
+                }
+            }
+
+            @Override
+            protected void _onError(String message) {
+
+            }
+        }));
+    }
+    @Override
+    public void getNotice(String cid,String aid) {
+        mRxManage.add(mModel.getNotice(cid,aid).subscribe(new RxSubscriber<FindBean>(mContext,false) {
+            @Override
+            protected void _onNext(FindBean findBean) throws IOException {
+                if("0".equals(findBean.getError_code())){
+                    mView.getNoticeSuccess(findBean.getList());
                 }
             }
 

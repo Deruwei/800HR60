@@ -40,6 +40,7 @@
                 android:layout_height="match_parent"
                 android:checked="true"
                 android:button="@null"
+                android:textColor="@color/new_main"
                 android:textSize="@dimen/x32"
                 android:background="@drawable/border_selector"
                 android:text="@string/phoneLogin"
@@ -51,6 +52,7 @@
                 android:layout_height="match_parent"
                 android:button="@null"
                 android:textSize="@dimen/x32"
+                android:textColor="@color/color_999"
                 android:background="@drawable/border_selector"
                 android:text="@string/accountLogin"
                 android:layout_width="0dp" />
@@ -61,6 +63,7 @@
                 android:textSize="@dimen/x32"
                 android:layout_height="match_parent"
                 android:button="@null"
+                android:textColor="@color/color_999"
                 android:background="@drawable/border_selector"
                 android:text="@string/validLogin"
                 android:layout_width="0dp" />

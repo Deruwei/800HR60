@@ -109,8 +109,14 @@
                 android:layout_marginLeft="@dimen/x10"
                 android:id="@+id/iv_changePhonePswDelete"
                 style="@style/Login_imageViewIcon"
-                android:layout_alignParentRight="true"
+                android:layout_toLeftOf="@+id/iv_changePhonePswHidden"
                 android:src="@mipmap/delete"
+                />
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:id="@+id/iv_changePhonePswHidden"
+                style="@style/login_ImageViewHidden"
+                android:layout_height="match_parent"
                 />
             <View
                 android:id="@+id/view_getValidCode3"

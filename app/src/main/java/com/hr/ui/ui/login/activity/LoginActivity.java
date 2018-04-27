@@ -46,6 +46,7 @@ import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.ToolUtils;
 import com.hr.ui.utils.Utils;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
+import com.hr.ui.view.MyDialog;
 import com.service.CodeTimerService;
 import com.umeng.analytics.MobclickAgent;
 
@@ -163,6 +164,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     private Intent mCodeTimerServiceIntent;
     public static final String CODE = "codeValidLogin";
     private PopupWindow popupWindow;
+    private MyDialog dialog;
     private int isPswLogin = 0; //0代表手机登录 1代表密码登录  2 代表验证码邓丽
 
     /**
@@ -260,8 +262,22 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     @Override
     public void phoneIsExit(String flag) {
         if ("0".equals(flag)) {
-            ToastUitl.showShort(R.string.error_phoneNotExit);
-            return;
+            dialog=new MyDialog(this,2);
+            dialog.setMessage(getString(R.string.error_phoneNotExit2));
+            dialog.setYesOnclickListener("去注册", new MyDialog.onYesOnclickListener() {
+                @Override
+                public void onYesClick() {
+                    RegisterActivity.startAction(LoginActivity.this,phoneNumberValid);
+                    dialog.dismiss();
+                }
+            });
+            dialog.setNoOnclickListener(getString(R.string.cancel), new MyDialog.onNoOnclickListener() {
+                @Override
+                public void onNoClick() {
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
         } else {
             if (type == 0) {
                 mPresenter.getLogin(phoneNumberValid, validCode, 3);
@@ -605,6 +621,9 @@ public class LoginActivity extends BaseActivity<LoginPresenter, LoginModel> impl
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if(dialog!=null){
+            dialog.dismiss();
+        }
         stopService(mCodeTimerServiceIntent);
         unregisterReceiver(mCodeTimerReceiver);
     }

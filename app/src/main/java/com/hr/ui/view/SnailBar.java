@@ -81,7 +81,7 @@ public class SnailBar extends View {
         canvas.drawRoundRect(rectBlackBg, round * 7 / 9, round * 7 / 9, mPaint);// 画出浅白色背景
 
         float section = program / maxCount;//当前值的所占总值的百分比
-        System.out.println("session=" + section);
+       // System.out.println("session=" + section);
         RectF rectProgressBg = new RectF(0, 0, (mWidth ) * section, mHeight );
             int colors[] = new int[6];
             float positions[] = new float[6];

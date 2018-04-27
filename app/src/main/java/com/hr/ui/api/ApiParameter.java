@@ -1195,9 +1195,11 @@ public class ApiParameter {
     public static HashMap<String,String> getNotice(String cid,String aId){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","mobilead.list");
-        requestMap.put("a_id", aId);
+        if(!"".equals(aId)) {
+            requestMap.put("a_id", aId);
+        }
         requestMap.put("c_id",cid);
-        requestMap.put("page_nums","2");
+        requestMap.put("page_nums","8");
         //Log.i("现在的数据",requestMap.toString());
         return requestMap;
     }

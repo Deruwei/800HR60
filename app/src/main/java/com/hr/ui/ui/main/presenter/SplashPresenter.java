@@ -91,6 +91,9 @@ public class SplashPresenter extends SplashContract.Presenter {
                 }else if(registerBean.getError_code()==301) {
                     ToastUitl.showShort(R.string.error_301);
                     mView.onConnectError();
+                }else if(registerBean.getError_code()==311){
+                    ToastUitl.showShort(R.string.error_311);
+                    mView.onConnectError();
                 }else{
                     ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) registerBean.getError_code()));
                 }

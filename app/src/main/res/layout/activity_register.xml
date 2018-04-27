@@ -131,7 +131,6 @@
                 android:id="@+id/iv_phoneRegisterHiddenPsw"
                 android:layout_alignParentRight="true"
                 style="@style/login_ImageViewHidden"
-                android:layout_height="@dimen/x40"
                 />
             <View
                 android:layout_below="@+id/et_phoneRegisterPsw"

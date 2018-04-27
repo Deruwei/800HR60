@@ -37,12 +37,16 @@ public class ArrowRefreshHeader extends LinearLayout implements BaseRefreshHeade
 
 	private Animation mRotateUpAnim;
 	private Animation mRotateDownAnim;
-	
+	private boolean isHomeFragment;
 	private static final int ROTATE_ANIM_DURATION = 180;
 
 	public int mMeasuredHeight;
 
-	public ArrowRefreshHeader(Context context) {
+    public void setHomeFragment(boolean homeFragment) {
+        isHomeFragment = homeFragment;
+    }
+
+    public ArrowRefreshHeader(Context context) {
 		super(context);
 		initView();
 	}
@@ -201,7 +205,9 @@ public class ArrowRefreshHeader extends LinearLayout implements BaseRefreshHeade
         if (height == 0) // not visible.
             isOnRefresh = false;
             if(mState==STATE_NORMAL) {
-                EventBus.getDefault().post(new EventType(1));
+                if(isHomeFragment) {
+                    EventBus.getDefault().post(new EventType(1));
+                }
             }
 
 

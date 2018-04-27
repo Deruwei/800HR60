@@ -1,5 +1,6 @@
 package com.hr.ui.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -99,7 +100,7 @@ public class RecommendJobBean {
         }
     }
 
-    public static class JobsListBean {
+    public static class JobsListBean implements Serializable{
         /**
          * job_id : YPRbV
          * job_name : 建筑设计师

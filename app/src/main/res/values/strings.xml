@@ -62,6 +62,7 @@
     <string name="error_326">请勿频繁获取验证码</string>
     <string name="error_327">手机号码已被使用</string>
     <string name="error_phoneNotExit">该手机号未被注册或绑定</string>
+    <string name="error_phoneNotExit2">该手机号未注册/绑定</string>
     <string name="error_401">职位已过期</string>
     <string name="error_402">职位已过期</string>
     <string name="error_403">职位近期已经投递过了</string>

@@ -11,6 +11,10 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.Selection;
+import android.text.Spannable;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +31,6 @@ import android.widget.Toast;
 import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
-import com.hr.ui.bean.EventBean;
 import com.hr.ui.bean.EventString;
 import com.hr.ui.bean.LoginBean;
 import com.hr.ui.constants.Constants;
@@ -91,6 +94,9 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
     View viewGetValidCode3;
     @BindView(R.id.cl_changePhone)
     ConstraintLayout clChangePhone;
+    @BindView(R.id.iv_changePhonePswHidden)
+    ImageView ivChangePhonePswHidden;
+    private boolean isHidden=true;
     private String chaptcha;
     private String autoCode;
     private Intent mCodeTimerServiceIntent;
@@ -137,8 +143,8 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
         ToastUitl.showShort("更改手机成功");
         finish();
         if (ResumePersonalInfoActivity.TAG.equals(Tag)) {
-           // ResumePersonalInfoActivity.instance.setValid(etChangePhoneNumber.getText().toString());
-            EventBus.getDefault().post(new EventString(etChangePhoneNumber.getText().toString(),"validCode"));
+            // ResumePersonalInfoActivity.instance.setValid(etChangePhoneNumber.getText().toString());
+            EventBus.getDefault().post(new EventString(etChangePhoneNumber.getText().toString(), "validCode"));
         }
 
     }
@@ -233,7 +239,7 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
         Utils.setEditViewTextChangeAndFocus(etChangePhoneValidCode, ivChangePhoneValidCodeDelete);
     }
 
-    @OnClick({R.id.tv_changePhoneValidCode, R.id.btn_changePhoneOK, R.id.iv_changePhoneNumberDelete, R.id.iv_changePhonePswDelete, R.id.iv_changePhoneValidCodeDelete})
+    @OnClick({R.id.tv_changePhoneValidCode, R.id.btn_changePhoneOK,R.id.iv_changePhonePswHidden, R.id.iv_changePhoneNumberDelete, R.id.iv_changePhonePswDelete, R.id.iv_changePhoneValidCodeDelete})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_changePhoneValidCode:
@@ -259,6 +265,25 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
                 break;
             case R.id.iv_changePhoneValidCodeDelete:
                 etChangePhoneValidCode.setText("");
+                break;
+            case R.id.iv_changePhonePswHidden:
+                if (isHidden) {
+                    //设置EditText文本为可见的
+                    ivChangePhonePswHidden.setImageResource(R.mipmap.see);
+                    etChangePhonePsw.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                } else {
+                    //设置EditText文本为隐藏的
+                    ivChangePhonePswHidden.setImageResource(R.mipmap.hidden);
+                    etChangePhonePsw.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                }
+                isHidden = !isHidden;
+                etChangePhonePsw.postInvalidate();
+                //切换后将EditText光标置于末尾
+                CharSequence charSequence = etChangePhonePsw.getText();
+                if (charSequence instanceof Spannable) {
+                    Spannable spanText = (Spannable) charSequence;
+                    Selection.setSelection(spanText, charSequence.length());
+                }
                 break;
         }
     }
@@ -297,7 +322,7 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
                 getWindow().setAttributes(lp);
             }
         });
-        if (Build.VERSION.SDK_INT >Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
             //  大于等于24即为4.4及以上执行内容
             // 设置背景颜色变暗
         } else {
@@ -336,9 +361,9 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
             ToastUitl.showShort("请填写密码");
             return;
         }
-        if(loginBean==null||"".equals(loginBean)){
+        if (loginBean == null || "".equals(loginBean)) {
             loginBean = LoginDBUtils.queryDataById(autoLoginType + "");
-        }else {
+        } else {
             if (!etChangePhonePsw.getText().toString().equals(loginBean.getPassword())) {
                 ToastUitl.showShort("密码错误，请重新输入");
                 return;

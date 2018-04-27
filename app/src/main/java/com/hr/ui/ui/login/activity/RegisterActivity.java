@@ -126,7 +126,18 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
         activity.overridePendingTransition(R.anim.fade_in,
                 R.anim.fade_out);
     }
-
+    /**
+     * 入口
+     *
+     * @param activity
+     */
+    public static void startAction(Activity activity,String phoneNumber) {
+        Intent intent = new Intent(activity, RegisterActivity.class);
+        intent.putExtra("phone",phoneNumber);
+        activity.startActivity(intent);
+        activity.overridePendingTransition(R.anim.fade_in,
+                R.anim.fade_out);
+    }
     @Override
     public void showLoading(String title) {
         Log.i(TAG, title);
@@ -234,6 +245,12 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolBar.setTitle("");
+        phoneNumber=getIntent().getStringExtra("phone");
+        if(phoneNumber!=null&&!"".equals(phoneNumber)){
+            etPhoneRegisterNumber.setText(phoneNumber);
+        }else{
+            phoneNumber="";
+        }
         toolBar.setTitleTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
         toolBar.setNavigationIcon(R.mipmap.back);
         tvToolbarTitle.setText(R.string.register);

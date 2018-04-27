@@ -5,7 +5,9 @@ import android.util.Log;
 
 import com.hr.ui.base.BasePresenter;
 import com.hr.ui.base.RxSubscriber;
+import com.hr.ui.bean.JobSearchBean;
 import com.hr.ui.bean.PositionBean;
+import com.hr.ui.bean.RecommendJobBean;
 import com.hr.ui.ui.job.contract.PositionPageContract;
 import com.hr.ui.utils.Rc4Md5Utils;
 import com.hr.ui.utils.ToastUitl;
@@ -145,4 +147,21 @@ public class PositionPagePresenter extends PositionPageContract.Presenter {
                 }
             }));
     }
+    @Override
+    public void getSearchList(JobSearchBean jobSearchBean, int page, boolean isCanRefresh) {
+        mRxManage.add(mModel.getSearchList(jobSearchBean,page).subscribe(new RxSubscriber<RecommendJobBean>(mContext,isCanRefresh) {
+            @Override
+            protected void _onNext(RecommendJobBean recommendJobBean) throws IOException {
+                if(recommendJobBean.getError_code().equals("0")) {
+                    mView.getSearchDataSuccess(recommendJobBean.getJobs_list());
+                }else{
+                }
+            }
+
+            @Override
+            protected void _onError(String message) {
+            }
+        }));
+    }
+
 }

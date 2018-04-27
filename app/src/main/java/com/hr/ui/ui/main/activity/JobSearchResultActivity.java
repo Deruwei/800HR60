@@ -33,7 +33,9 @@ import android.widget.TextView;
 
 import com.hr.ui.R;
 import com.hr.ui.base.BaseActivity;
+import com.hr.ui.bean.CheckBean;
 import com.hr.ui.bean.CityBean;
+import com.hr.ui.bean.FindBean;
 import com.hr.ui.bean.JobSearchBean;
 import com.hr.ui.bean.RecommendJobBean;
 import com.hr.ui.bean.SearchHistoryBean;
@@ -46,6 +48,7 @@ import com.hr.ui.ui.main.contract.JobSearchFragmentContract;
 import com.hr.ui.ui.main.fragment.ResumeFragment;
 import com.hr.ui.ui.main.modle.JobSearchFragmentModel;
 import com.hr.ui.ui.main.presenter.JobSearchFragmentPresenter;
+import com.hr.ui.ui.message.activity.WebActivity;
 import com.hr.ui.ui.resume.activity.ResumeJobOrderActivity;
 import com.hr.ui.utils.PopupWindowView;
 import com.hr.ui.utils.ProgressStyle;
@@ -53,6 +56,7 @@ import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.Utils;
 import com.hr.ui.utils.datautils.FromStringToArrayList;
 import com.hr.ui.utils.datautils.ResumeInfoIDToString;
+import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.utils.recyclerviewutils.OnItemClickListener;
 import com.hr.ui.view.CustomDatePicker;
 import com.hr.ui.view.MyDialog;
@@ -63,6 +67,7 @@ import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -147,6 +152,7 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
     //选择公司性质集合
     private List<CityBean> selectCompanyTypeList = new ArrayList<>();
     private MyRecommendJobAdapter SearchAdapter;
+    private List<CheckBean> list;
     //判断点击批量投递的状态
     private boolean isCanSelectDeliver;
     //投递职位和简历求职意向不相同或者简历不完整弹出的dialog
@@ -155,13 +161,14 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
     private List<RecommendJobBean.JobsListBean> searchList = new ArrayList<>();
     //置顶职位集合
     private List<RecommendJobBean.JobsListBean> topSearchList = new ArrayList<>();
+    private List<FindBean.ListBean> adsList;
     private List<CityBean> selectSalatyList=new ArrayList<>();
     private  List<CityBean> salary=new ArrayList<>();
     //页码，批量投递没有选择的列表数
     public int page = 1, notSelectNum;
     public static JobSearchResultActivity instance;
     private boolean isCityShow,isSalaryShow,isOtherShow;
-    private MyDialog myDeleteDialog;
+    private SharedPreferencesUtils sUtils;
     public static String TAG=JobSearchResultActivity.class.getSimpleName();
 
     public static void startAction(Activity activity, JobSearchBean jobSearchBean) {
@@ -196,6 +203,7 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
             MobclickAgent.onEvent(this,"v6_jobSearchByKeyword");
         }
         if (jobsListBeanList != null  && jobsListBeanList.size() != 0) {
+            rlSearchResultDeleteInABatches.setVisibility(View.VISIBLE);
             if (page == 1) {
                 SearchAdapter = new MyRecommendJobAdapter(1);
                 SearchAdapter.setCheck(true);
@@ -206,12 +214,17 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
                     }
                     searchList.addAll(topSearchList);
                 }
+                if(adsList!=null&&adsList.size()!=0){
+                    int n=Utils.getRandomInt(list,adsList.size());
+                    SearchAdapter.setAdsList(adsList,n);
+                }
                 searchList.addAll(jobsListBeanList);
                 SearchAdapter.setJobsListBeanList(searchList);
                 rvJobSearchFragment.setAdapter(SearchAdapter);
                 rvJobSearchFragment.refreshComplete();
               /*  rvJobSearchFragment.refresh();*/
             } else {
+                SearchAdapter = new MyRecommendJobAdapter(1);
                 searchList.addAll(jobsListBeanList);
                 rvJobSearchFragment.loadMoreComplete();
                 SearchAdapter.notifyDataSetChanged();
@@ -221,9 +234,18 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
             rvJobSearchFragment.setVisibility(View.VISIBLE);
         } else {
             if (page == 1) {
-                rlEmptyView.setVisibility(View.VISIBLE);
-                ivNoDataSearch.setVisibility(View.GONE);
-                rvJobSearchFragment.setVisibility(View.GONE);
+                if(adsList!=null&&adsList.size()!=0){
+                    SearchAdapter = new MyRecommendJobAdapter(1);
+                    int n=Utils.getRandomInt(list,adsList.size());
+                    SearchAdapter.setAdsList(adsList,n);
+                    rvJobSearchFragment.setAdapter(SearchAdapter);
+                    rvJobSearchFragment.refreshComplete();
+                    rlSearchResultDeleteInABatches.setVisibility(View.GONE);
+                }else {
+                    rlEmptyView.setVisibility(View.VISIBLE);
+                    ivNoDataSearch.setVisibility(View.GONE);
+                    rvJobSearchFragment.setVisibility(View.GONE);
+                }
             } else {
                 rvJobSearchFragment.setNoMore(true);
             }
@@ -254,6 +276,14 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
                 }
             }
         });
+        if(adsList!=null&&adsList.size()!=0){
+            SearchAdapter.setOnClickAdsListener(new MyRecommendJobAdapter.OnClickAdsListener() {
+                @Override
+                public void onClick(int pos) {
+                    WebActivity.startAction(JobSearchResultActivity.this,adsList.get(pos).getTopic_url());
+                }
+            });
+        }
         /*rvJobSearchFragment.refreshComplete();*/
     }
 
@@ -291,6 +321,21 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
             setPopupwindow(2);
         } else {
             setPopupwindow(1);
+        }
+    }
+
+    @Override
+    public void getNoticeSuccess(List<FindBean.ListBean> listBean) {
+        adsList=new ArrayList<>();
+        adsList.addAll(listBean);
+        if(adsList!=null&&adsList.size()!=0){
+            list=new ArrayList<>();
+            for(int i=0;i<adsList.size();i++){
+                CheckBean cb=new CheckBean();
+                cb.setCheck(false);
+                cb.setNum(i);
+                list.add(cb);
+            }
         }
     }
 
@@ -431,6 +476,7 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
         }
         jobSearchType = jobSearchBean.getJobType();
         SearchAdapter = new MyRecommendJobAdapter(1);
+        mPresenter.getNotice("99","");
         initData(jobSearchBean, true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this) {
             @Override
@@ -442,14 +488,15 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
         rvJobSearchFragment.setLayoutManager(linearLayoutManager);
         rvJobSearchFragment.setRefreshProgressStyle(ProgressStyle.BallPulse);
         rvJobSearchFragment.setLoadingMoreProgressStyle(ProgressStyle.BallBeat);
-        rvJobSearchFragment.setPullRefreshEnabled(false);
         rvJobSearchFragment.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
                         page = 1;
-                        mPresenter.getSearchList(jobSearchBean, page,false);
+                        mPresenter.getTopSearchJob(jobSearchBean);
+                        mPresenter.getSearchList(jobSearchBean, page, false);
+
                     }
 
                 }, 1000);            //refresh data here
