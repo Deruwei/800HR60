@@ -166,7 +166,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
         EventBus.getDefault().register(this);
         sUtils = new SharedPreferencesUtils(getActivity());
         refresh(true);
-        jobAdapter = new MyRecommendJobAdapter();
+        jobAdapter = new MyRecommendJobAdapter(getActivity());
         setImage();
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity()) {
             @Override
@@ -234,6 +234,10 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
         rvMsg.refresh();*/
     }
 
+    /**
+     *
+     * @param isrefresh
+     */
     public void refresh(final boolean isrefresh) {
         page = 1;
         //获取第三方推荐职位
@@ -434,7 +438,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
             }
         } else {
             if(isHaveAds==true){
-                jobAdapter = new MyRecommendJobAdapter();
+                jobAdapter = new MyRecommendJobAdapter(getActivity());
                 rlEmptyView.setVisibility(View.VISIBLE);
                 rvHomeFragment.setAdapter(jobAdapter);
                 rvHomeFragment.setPullRefreshEnabled(false);
@@ -451,7 +455,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
 
     //第三方公司推荐职位满足20个
     private void setDate1() {
-        jobAdapter = new MyRecommendJobAdapter();
+        jobAdapter = new MyRecommendJobAdapter(getActivity());
         jobAdapter.setJobsListBeanList2(recommendList);
         rvHomeFragment.setAdapter(jobAdapter);
         rvHomeFragment.refreshComplete();
@@ -491,7 +495,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
      */
     private void setData2() {
         if (page == 1) {
-            jobAdapter = new MyRecommendJobAdapter(3);
+            jobAdapter = new MyRecommendJobAdapter(getActivity(),3);
             jobAdapter.setJobsListBeanList(recommendJobList);
             jobAdapter.setJobsListBeanList2(recommendList);
             rvHomeFragment.setAdapter(jobAdapter);

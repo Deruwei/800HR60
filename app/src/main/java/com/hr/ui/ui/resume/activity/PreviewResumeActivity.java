@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -216,6 +217,8 @@ public class PreviewResumeActivity extends BaseNoConnectNetworkAcitivty {
                 TextView tvPlace = view.findViewById(R.id.tv_previewResumePlantExpPlace);
                 TextView tvVerti = view.findViewById(R.id.tv_previewResumePlantExpVerti);
                 TextView tvDes = view.findViewById(R.id.tv_previewResumePlantExpDes);
+                LinearLayout llPlantPlace=view.findViewById(R.id.ll_previewResumePlantPlace);
+                LinearLayout llPlantCer=view.findViewById(R.id.ll_previewResumePlantCer);
                 String endTime= plantListBeanList.get(i).getToyear() + "年" + plantListBeanList.get(i).getTomonth() + "月";
                 if(endTime.equals("0年0月")){
                     endTime="至今";
@@ -223,8 +226,18 @@ public class PreviewResumeActivity extends BaseNoConnectNetworkAcitivty {
                 tvTime.setText(plantListBeanList.get(i).getFromyear() + "年" + plantListBeanList.get(i).getFrommonth() + "月" + "—" +endTime);
                 tvInstruction.setText(plantListBeanList.get(i).getInstitution());
                 tvClass.setText(plantListBeanList.get(i).getCourse());
-                tvPlace.setText(FromStringToArrayList.getInstance().getCityListName(plantListBeanList.get(i).getPlace()));
-                tvVerti.setText(plantListBeanList.get(i).getCertification());
+                if(plantListBeanList.get(i).getPlace()!=null&&!"".equals(plantListBeanList.get(i).getPlace())&&!"0".equals(plantListBeanList.get(i).getPlace())) {
+                    llPlantPlace.setVisibility(View.VISIBLE);
+                    tvPlace.setText(FromStringToArrayList.getInstance().getCityListName(plantListBeanList.get(i).getPlace()));
+                }else{
+                    llPlantPlace.setVisibility(View.GONE);
+                }
+                if(!"".equals(plantListBeanList.get(i).getCertification())&&plantListBeanList.get(i).getCertification()!=null) {
+                    llPlantCer.setVisibility(View.VISIBLE);
+                    tvVerti.setText(plantListBeanList.get(i).getCertification());
+                }else{
+                    llPlantCer.setVisibility(View.GONE);
+                }
                 tvDes.setText(plantListBeanList.get(i).getTraindetail());
                 llPreviewResumePlantExp.addView(view);
             }
@@ -311,11 +324,17 @@ public class PreviewResumeActivity extends BaseNoConnectNetworkAcitivty {
                 TextView tvdegree = view.findViewById(R.id.tv_previewResumeEduDegree);
                 TextView tvMajor = view.findViewById(R.id.tv_previewResumeEduEducation);
                 TextView tvDes = view.findViewById(R.id.tv_previewResumeEduDes);
+                LinearLayout llprofessionDes=view.findViewById(R.id.ll_previewResumeProfessionDes);
                 tvEducationTime.setText(educationListBeanList.get(i).getFromyear() + "年" + educationListBeanList.get(i).getFrommonth() + "月" + "—" + educationListBeanList.get(i).getToyear() + "年" + educationListBeanList.get(i).getTomonth() + "月");
                 tvSchoolName.setText(educationListBeanList.get(i).getSchoolname());
                 tvdegree.setText(ResumeInfoIDToString.getEducationDegree(this, educationListBeanList.get(i).getDegree(), true));
                 tvMajor.setText(educationListBeanList.get(i).getMoremajor());
-                tvDes.setText(educationListBeanList.get(i).getEdudetail());
+                if(educationListBeanList.get(i).getEdudetail()!=null&&!"".equals(educationListBeanList.get(i).getEdudetail())) {
+                    llprofessionDes.setVisibility(View.VISIBLE);
+                    tvDes.setText(educationListBeanList.get(i).getEdudetail());
+                }else{
+                    llprofessionDes.setVisibility(View.GONE);
+                }
                 llPreviewResumeEducation.addView(view);
             }
         }

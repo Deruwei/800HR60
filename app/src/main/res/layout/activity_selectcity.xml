@@ -92,14 +92,20 @@
                     android:layout_height="match_parent">
 
                 </ListView>
-                <ListView
-                    android:background="@color/resumeContent_bg"
-                    android:id="@+id/lv_selectCity"
+                <RelativeLayout
                     android:layout_weight="1"
-                    android:scrollbars="none"
                     android:layout_width="0dp"
                     android:layout_height="match_parent">
-                </ListView>
+                    <ListView
+                        android:background="@color/resumeContent_bg"
+                        android:id="@+id/lv_selectCity"
+                        android:scrollbars="none"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    </ListView>
+                </RelativeLayout>
+
             </LinearLayout>
             <RelativeLayout
                 android:layout_above="@+id/ll_selectCityBottom"

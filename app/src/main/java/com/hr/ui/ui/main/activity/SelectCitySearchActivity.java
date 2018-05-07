@@ -146,7 +146,7 @@ public class SelectCitySearchActivity extends BaseNoConnectNetworkAcitivty {
     private void initData() {
         final List<CityBean> cityList1= FromStringToArrayList.getInstance().getCityList();
         final List<CityBean> cityList2=FromStringToArrayList.getInstance().getCityList();
-        cityListProvince=Utils.findProvinceCityList(cityList1);
+        cityListProvince=Utils.findProvinceCityList2(cityList1);
         if(Utils.checkListIsNotEmpty(selectCityList)){
             Utils.setSelectCityInToOriginList(selectCityList,cityListProvince);
             for(int i=0;i<selectCityList.size();i++){
@@ -156,38 +156,61 @@ public class SelectCitySearchActivity extends BaseNoConnectNetworkAcitivty {
                    Utils.setTvState(tvLocationCity,true);
                 }
             }
+        }else{
+            cityListProvince.get(0).setCheck(true);
         }
         handler.sendEmptyMessage(0);
         lvSelectProvince.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position>=4){
-                    Utils.setCityListIsAllFalse(cityListProvince,4);
+                if(position>=5){
+                    lvSelectCity.setVisibility(View.VISIBLE);
+                    Utils.setCityListIsAllFalse(cityListProvince,5);
                     cityListProvince.get(position).setCheck(true);
                     cityListCity=Utils.findCityList(cityListProvince.get(position),cityList2);
                     cityListCity=Utils.setSelectCityInToOriginList2(selectCityList,cityListCity);
                     handler.sendEmptyMessage(1);
                 }else{
-                    if(cityListProvince.get(position).isCheck()){
-                        if(cityListProvince.get(position).getName().contains(cityName)){
-                            Utils.setTvState(tvLocationCity,false);
-                            isDingWei=false;
-                        }
-                        cityListProvince.get(position).setCheck(false);
-                        selectCityList=Utils.removeList(cityListProvince.get(position),selectCityList);
-                        removeView(cityListProvince.get(position));
-                    }else{
-                        if(selectCityList.size()>=5){
-                            ToastUitl.showShort("选择城市已经达到最大值");
-                            return;
-                        }else {
-                            if(cityListProvince.get(position).getName().contains(cityName)){
-                                Utils.setTvState(tvLocationCity,true);
-                                isDingWei=true;
+                    if(position==0){
+                        if (cityListProvince.get(position).isCheck()) {
+                            cityListProvince.get(position).setCheck(false);
+                        }else{
+                            for(int i=0;i<cityListProvince.size();i++){
+                                cityListProvince.get(i).setCheck(false);
                             }
                             cityListProvince.get(position).setCheck(true);
-                            selectCityList.add(cityListProvince.get(position));
-                            addView(cityListProvince.get(position));
+                            for(int i=0;i<selectCityList.size();i++) {
+                                removeView(selectCityList.get(i));
+                            }
+                            Utils.setTvState(tvLocationCity, false);
+                            isDingWei = false;
+                            selectCityList.clear();
+                            setNum();
+                            lvSelectCity.setVisibility(View.GONE);
+                        }
+                    }else {
+                        if (cityListProvince.get(position).isCheck()) {
+                            if (cityListProvince.get(position).getName().contains(cityName)) {
+                                Utils.setTvState(tvLocationCity, false);
+                                isDingWei = false;
+                            }
+                            cityListProvince.get(position).setCheck(false);
+                            selectCityList = Utils.removeList(cityListProvince.get(position), selectCityList);
+                            removeView(cityListProvince.get(position));
+                        } else {
+                            cityListProvince.get(0).setCheck(false);
+                            if (selectCityList.size() >= 5) {
+                                ToastUitl.showShort("选择城市已经达到最大值");
+                                return;
+                            } else {
+                                if (cityListProvince.get(position).getName().contains(cityName)) {
+                                    Utils.setTvState(tvLocationCity, true);
+                                    isDingWei = true;
+                                }
+                                cityListProvince.get(position).setCheck(true);
+                                selectCityList.add(cityListProvince.get(position));
+                                addView(cityListProvince.get(position));
+                            }
                         }
                     }
                 }
@@ -400,7 +423,7 @@ public class SelectCitySearchActivity extends BaseNoConnectNetworkAcitivty {
     }
 
     private void getLeftDataFresh() {
-        for(int i=0;i<4;i++){
+        for(int i=0;i<5;i++){
             cityListProvince.get(i).setCheck(false);
             for(int j=0;j<selectCityList.size();j++){
                 if(cityListProvince.get(i).getId().equals(selectCityList.get(j).getId())){
@@ -422,8 +445,14 @@ public class SelectCitySearchActivity extends BaseNoConnectNetworkAcitivty {
         sum = selectCityList.size();
         if (sum > 0) {
             rlSelectCityShow.setVisibility(View.VISIBLE);
+            cityListProvince.get(0).setCheck(false);
+
         } else {
             rlSelectCityShow.setVisibility(View.GONE);
+            cityListProvince.get(0).setCheck(true);
+        }
+        if(provinceAdapter!=null) {
+            provinceAdapter.notifyDataSetChanged();
         }
         tvSelectCityNum.setText(sum + "");
     }

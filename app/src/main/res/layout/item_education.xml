@@ -89,6 +89,7 @@
                 style="@style/preview_itemValueLL" />
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/ll_previewResumeProfessionDes"
             android:orientation="horizontal"
             style="@style/previewResume_itemRL"
             android:layout_marginLeft="@dimen/x13"

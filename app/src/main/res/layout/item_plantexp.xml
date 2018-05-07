@@ -74,6 +74,7 @@
                 style="@style/preview_itemValueLL" />
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/ll_previewResumePlantPlace"
             android:orientation="horizontal"
             style="@style/previewResume_itemRL"
             android:layout_marginLeft="@dimen/x13"
@@ -89,6 +90,7 @@
                 style="@style/preview_itemValueLL" />
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/ll_previewResumePlantCer"
             android:orientation="horizontal"
             style="@style/previewResume_itemRL"
             android:layout_marginLeft="@dimen/x13"

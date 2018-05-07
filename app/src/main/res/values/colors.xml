@@ -9,6 +9,17 @@
     <color name="smallYellow">#FFFAF0</color>
     <color name="white">#ffffff</color>
 
+    <color name="cp_colorPrimary">#3F51B5</color>
+    <color name="cp_colorPrimaryDark">#303F9F</color>
+    <color name="cp_colorAccent">#3F51B5</color>
+
+    <color name="cp_color_gray_light">#cdcdcd</color>
+    <color name="cp_color_gray">#999999</color>
+    <color name="cp_color_gray_deep">#666666</color>
+    <color name="cp_color_gray_dark">#333333</color>
+    <color name="cp_color_section_bg">#EDEDED</color>
+    <color name="cp_color_grid_item_bg">#f5f5f5</color>
+
     <color name="itemActiveColorWithoutColoredBackground">#2196F3</color>
     <color name="colorActive">#FFFFFF</color>
     <color name="colorInactive">#e7e6e7</color>

@@ -272,7 +272,8 @@ public class JobSerchActivity extends BaseActivity<JobSearchPresenter, JobSearch
             case R.id.rl_selectCitySearch:
                 setFocus();
                 //SelectCityActivity.startAction(this, 2, TAG, selectCityList);
-                SelectCitySearchActivity.startAction(this, selectCityList);
+                SelectCitySearchActivity.startAction(this,selectCityList);
+                //SelectCityNewActivity.startAction(this, selectCityList);
                 break;
             case R.id.rl_selectIndustrySearch:
                 setFocus();

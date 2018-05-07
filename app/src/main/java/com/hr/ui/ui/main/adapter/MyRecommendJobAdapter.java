@@ -1,13 +1,13 @@
 package com.hr.ui.ui.main.adapter;
 
-import android.support.annotation.BinderThread;
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -20,13 +20,11 @@ import com.hr.ui.bean.FindBean;
 import com.hr.ui.bean.HomeRecommendBean;
 import com.hr.ui.bean.RecommendJobBean;
 import com.hr.ui.constants.Constants;
-import com.hr.ui.ui.message.activity.WebActivity;
 import com.hr.ui.utils.Utils;
 import com.hr.ui.view.PieChartView;
 import com.hr.ui.view.RoundImageView;
 
 import java.util.List;
-import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,9 +42,10 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
     private OnFastDeliverListener onFastDeliverListener;
     private OnCheckListener onCheckListener;
     private boolean isCheck, isHasAd;
-    private int limitLength = 14,n;
+    private int limitLength = 14, n;
     private ViewHolderNormal viewHolderNormal;
     private ViewHolderAd viewHolderAd;
+    private Context context;
     private OnClickAdsListener onClickAdsListener;
 
     public void setOnClickAdsListener(OnClickAdsListener onClickAdsListener) {
@@ -55,7 +54,7 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
 
     public void setAdsList(List<FindBean.ListBean> adsList, int n) {
         isHasAd = true;
-        this.n=n;
+        this.n = n;
         this.adsList = adsList;
     }
 
@@ -95,9 +94,11 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
     public interface OnCalCulateScoreClickListener {
         void onCalulateScore(int pos);
     }
-    public interface  OnClickAdsListener{
+
+    public interface OnClickAdsListener {
         void onClick(int pos);
     }
+
     public interface OnCheckListener {
         void onCheckListener(int pos, boolean b);
     }
@@ -125,10 +126,12 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
         }
     }
 
-    public MyRecommendJobAdapter() {
+    public MyRecommendJobAdapter(Context context) {
+        this.context = context;
     }
 
-    public MyRecommendJobAdapter(int type) {
+    public MyRecommendJobAdapter(Context context, int type) {
+        this.context = context;
         this.type = type;
     }
 
@@ -139,7 +142,7 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
             if (type == 1) {
                 if (viewHolder instanceof ViewHolderNormal) {
                     ((ViewHolderNormal) viewHolder).llHomeItemTop.setVisibility(View.GONE);
-                    if(isHasAd) {
+                    if (isHasAd) {
                         if (position >= 3) {
                             position = position - 1;
                         }
@@ -219,11 +222,23 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
                             }
                         });
                     }
+                    ((ViewHolderNormal) viewHolder).mflHomeFragmentCompany.removeAllViewsInLayout();
+                    if (jobsListBeanList.get(position).getOther_benefits() != null && !"".equals(jobsListBeanList.get(position).getOther_benefits())) {
+                        ((ViewHolderNormal) viewHolder).viewLineCompanyGoodness.setVisibility(View.VISIBLE);
+                        ((ViewHolderNormal) viewHolder).svCompanyGoodness.setVisibility(View.VISIBLE);
+                        String[] s = jobsListBeanList.get(position).getOther_benefits().split("，");
+                        for (int i = 0; i < s.length; i++) {
+                            addCompanyGoodness(s[i], viewHolder);
+                        }
+                    } else {
+                        ((ViewHolderNormal) viewHolder).viewLineCompanyGoodness.setVisibility(View.GONE);
+                        ((ViewHolderNormal) viewHolder).svCompanyGoodness.setVisibility(View.GONE);
+                    }
                 } else if (viewHolder instanceof ViewHolderAd) {
                     Glide.with(HRApplication.getAppContext()).load(adsList.get(n).getPic_path()).into(((ViewHolderAd) viewHolder).ivRecommendJobAdImage);
                     ((ViewHolderAd) viewHolder).tvRecommendJobAdTitle.setText(adsList.get(n).getTitle());
                     ((ViewHolderAd) viewHolder).tvRecommendJobAdDes.setText(adsList.get(n).getAd_txt());
-                    if(onClickAdsListener!=null) {
+                    if (onClickAdsListener != null) {
                         ((ViewHolderAd) viewHolder).rlRecommendJobAd.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -266,8 +281,21 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
                 ((ViewHolderNormal) viewHolder).tvRecommendPersonNum.setText(jobsListBeanList2.get(position).getNumber());
                 ((ViewHolderNormal) viewHolder).tvRecommendJobWorkYear.setText(jobsListBeanList2.get(position).getWorkyear());
                 ((ViewHolderNormal) viewHolder).tvRecommendJobCompanyType.setText(jobsListBeanList2.get(position).getCompany_type());
+                ((ViewHolderNormal) viewHolder).mflHomeFragmentCompany.removeAllViewsInLayout();
+                if (jobsListBeanList2.get(position).getOther_benefits() != null && !"".equals(jobsListBeanList2.get(position).getOther_benefits())) {
+                    ((ViewHolderNormal) viewHolder).viewLineCompanyGoodness.setVisibility(View.VISIBLE);
+                    ((ViewHolderNormal) viewHolder).svCompanyGoodness.setVisibility(View.VISIBLE);
+                    String[] s = jobsListBeanList2.get(position).getOther_benefits().split("，");
+                    for (int i = 0; i < s.length; i++) {
+                        addCompanyGoodness(s[i], viewHolder);
+                    }
+                } else {
+                    ((ViewHolderNormal) viewHolder).viewLineCompanyGoodness.setVisibility(View.GONE);
+                    ((ViewHolderNormal) viewHolder).svCompanyGoodness.setVisibility(View.GONE);
+                }
             }
         } else {
+            ((ViewHolderNormal) viewHolder).mflHomeFragmentCompany.removeAllViewsInLayout();
             if (position < jobsListBeanList2.size()) {
                 if (position == 0) {
                     ((ViewHolderNormal) viewHolder).llHomeItemTop.setVisibility(View.VISIBLE);
@@ -310,6 +338,17 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
                 //viewHolder.tvRecommendJobCompanyType.setText(jobsListBeanList2.get(position).getCompany_type());
                 int num = (int) (Double.parseDouble(jobsListBeanList2.get(position).getMatch_value()) * 100.0);
                 ((ViewHolderNormal) viewHolder).pcvNum.SetProgram(num);
+                if (jobsListBeanList2.get(position).getOther_benefits() != null && !"".equals(jobsListBeanList2.get(position).getOther_benefits())) {
+                    ((ViewHolderNormal) viewHolder).viewLineCompanyGoodness.setVisibility(View.VISIBLE);
+                    ((ViewHolderNormal) viewHolder).svCompanyGoodness.setVisibility(View.VISIBLE);
+                    String[] s = jobsListBeanList2.get(position).getOther_benefits().split("，");
+                    for (int i = 0; i < s.length; i++) {
+                        addCompanyGoodness(s[i], viewHolder);
+                    }
+                } else {
+                    ((ViewHolderNormal) viewHolder).viewLineCompanyGoodness.setVisibility(View.GONE);
+                    ((ViewHolderNormal) viewHolder).svCompanyGoodness.setVisibility(View.GONE);
+                }
             } else {
                 //Log.i("经过这里2","------");
                 int i = jobsListBeanList2.size();
@@ -342,6 +381,17 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
                 ((ViewHolderNormal) viewHolder).tvRecommendPersonNum.setText(jobsListBeanList.get(position - i).getNumber());
                 ((ViewHolderNormal) viewHolder).tvRecommendJobWorkYear.setText(jobsListBeanList.get(position - i).getWorkyear());
                 ((ViewHolderNormal) viewHolder).tvRecommendJobCompanyType.setText(jobsListBeanList.get(position - i).getCompany_type());
+                if (jobsListBeanList.get(position).getOther_benefits() != null && !"".equals(jobsListBeanList.get(position).getOther_benefits())) {
+                    ((ViewHolderNormal) viewHolder).viewLineCompanyGoodness.setVisibility(View.VISIBLE);
+                    ((ViewHolderNormal) viewHolder).svCompanyGoodness.setVisibility(View.VISIBLE);
+                    String[] s = jobsListBeanList.get(position).getOther_benefits().split("，");
+                    for (int j = 0; j < s.length; j++) {
+                        addCompanyGoodness(s[j], viewHolder);
+                    }
+                } else {
+                    ((ViewHolderNormal) viewHolder).viewLineCompanyGoodness.setVisibility(View.GONE);
+                    ((ViewHolderNormal) viewHolder).svCompanyGoodness.setVisibility(View.GONE);
+                }
             }
         }
         if (viewHolder instanceof ViewHolderNormal) {
@@ -375,26 +425,41 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
         }
     }
 
+    private void addCompanyGoodness(String name, ViewHolder viewHolder) {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.leftMargin = 15;
+        params.topMargin = 12;
+        params.bottomMargin = 12;
+        params.rightMargin = 15;
+        LinearLayout ll = (LinearLayout) LayoutInflater.from(context).inflate(
+                R.layout.item_textposition, null, false);
+        ll.setLayoutParams(params);
+        TextView tv = ll.findViewById(R.id.tv_itemTextPosition);
+        tv.setText(name);
+        ((ViewHolderNormal) viewHolder).mflHomeFragmentCompany.addView(ll);
+    }
+
     @Override
     public int getItemViewType(int position) {
         if (type == 1) {
-            if(isHasAd){
-                if(jobsListBeanList==null){
+            if (isHasAd) {
+                if (jobsListBeanList == null) {
                     return 1;
-                }else if(jobsListBeanList.size()==1){
-                    if(position==1){
+                } else if (jobsListBeanList.size() == 1) {
+                    if (position == 1) {
                         return 1;
-                    }else{
+                    } else {
                         return 0;
                     }
-                }else {
+                } else {
                     if (position == 2) {
                         return 1;
                     } else {
                         return 0;
                     }
                 }
-            }else{
+            } else {
                 return 0;
             }
 
@@ -450,10 +515,18 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
         TextView tvItemTitle;
         @BindView(R.id.ll_homeItemTop)
         LinearLayout llHomeItemTop;
+        @BindView(R.id.iv_cantCheck)
+        ImageView ivCantCheck;
         @BindView(R.id.rb_check)
         CheckBox rbCheck;
         @BindView(R.id.rl_homeFragmentItemLeft)
         RelativeLayout rlHomeFragmentItemLeft;
+        @BindView(R.id.tv_searchResultAlreadyDeliver)
+        TextView tvSearchResultAlreadyDeliver;
+        @BindView(R.id.tv_searchResultFastDeliver)
+        TextView tvSearchResultFastDeliver;
+        @BindView(R.id.fl_homeFragmentDeliver)
+        FrameLayout flHomeFragmentDeliver;
         @BindView(R.id.tv_recommendJobName)
         TextView tvRecommendJobName;
         @BindView(R.id.tv_recommendJobSalary)
@@ -488,18 +561,20 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
         TextView tvRecommendJobTime;
         @BindView(R.id.iv_recommendJobNowPublic)
         ImageView ivRecommendJobNowPublic;
+        @BindView(R.id.view_lineCompanyGoodness)
+        View viewLineCompanyGoodness;
+        @BindView(R.id.mfl_homeFragmentCompany)
+        LinearLayout mflHomeFragmentCompany;
+        @BindView(R.id.sv_CompanyGoodness)
+        HorizontalScrollView svCompanyGoodness;
+        @BindView(R.id.ll_homeContent)
+        LinearLayout llHomeContent;
         @BindView(R.id.iv_topJob)
         ImageView ivTopJob;
         @BindView(R.id.fl_content)
         FrameLayout flContent;
         @BindView(R.id.view_lineJob)
         View viewLineJob;
-        @BindView(R.id.tv_searchResultAlreadyDeliver)
-        TextView tvSearchResultAlreadyDeliver;
-        @BindView(R.id.tv_searchResultFastDeliver)
-        TextView tvSearchResultFastDeliver;
-        @BindView(R.id.iv_cantCheck)
-        ImageView ivCantCheck;
 
         public ViewHolderNormal(View view) {
             super(view);
@@ -518,6 +593,7 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
         TextView tvRecommendJobAdDes;
         @BindView(R.id.rl_recommendJobAd)
         RelativeLayout rlRecommendJobAd;
+
         public ViewHolderAd(View view) {
             super(view);
             ButterKnife.bind(this, view);

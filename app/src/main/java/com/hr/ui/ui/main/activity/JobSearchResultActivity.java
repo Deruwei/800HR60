@@ -205,7 +205,7 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
         if (jobsListBeanList != null  && jobsListBeanList.size() != 0) {
             rlSearchResultDeleteInABatches.setVisibility(View.VISIBLE);
             if (page == 1) {
-                SearchAdapter = new MyRecommendJobAdapter(1);
+                SearchAdapter = new MyRecommendJobAdapter(this,1);
                 SearchAdapter.setCheck(true);
                 searchList.clear();
                 if (topSearchList != null && !"".equals(topSearchList) && topSearchList.size() != 0) {
@@ -224,7 +224,7 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
                 rvJobSearchFragment.refreshComplete();
               /*  rvJobSearchFragment.refresh();*/
             } else {
-                SearchAdapter = new MyRecommendJobAdapter(1);
+                //SearchAdapter = new MyRecommendJobAdapter(this,1);
                 searchList.addAll(jobsListBeanList);
                 rvJobSearchFragment.loadMoreComplete();
                 SearchAdapter.notifyDataSetChanged();
@@ -235,7 +235,7 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
         } else {
             if (page == 1) {
                 if(adsList!=null&&adsList.size()!=0){
-                    SearchAdapter = new MyRecommendJobAdapter(1);
+                    SearchAdapter = new MyRecommendJobAdapter(this,1);
                     int n=Utils.getRandomInt(list,adsList.size());
                     SearchAdapter.setAdsList(adsList,n);
                     rvJobSearchFragment.setAdapter(SearchAdapter);
@@ -475,7 +475,7 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
             selectCityList = FromStringToArrayList.getInstance().getSelectCityList(placeId);
         }
         jobSearchType = jobSearchBean.getJobType();
-        SearchAdapter = new MyRecommendJobAdapter(1);
+        SearchAdapter = new MyRecommendJobAdapter(this,1);
         mPresenter.getNotice("99","");
         initData(jobSearchBean, true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this) {

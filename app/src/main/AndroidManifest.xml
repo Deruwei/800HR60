@@ -355,6 +355,10 @@
             android:windowSoftInputMode="adjustPan|stateHidden"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait"/>
+        <activity android:name=".ui.main.activity.SelectCityNewActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:theme="@style/DefaultCityPickerTheme"
+            android:screenOrientation="portrait"/>
         <activity android:name=".ui.job.activity.RecommendJobActivity"
             android:windowSoftInputMode="adjustPan|stateHidden"
             android:theme="@style/DialogTransparent"

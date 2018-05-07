@@ -73,12 +73,21 @@ public class MyProvinceAdapter extends BaseAdapter {
                 }
             }
         }else{
-            if (cityBeanList.get(position).isCheck() == true) {
-                holder.rlItemSelectCity.setBackgroundResource( R.color.resumeContent_bg);
-            }else{
-                holder.rlItemSelectCity.setBackgroundResource( R.color.white);
+            if(type==2&&position==4) {
+                if (cityBeanList.get(position).isCheck() == true) {
+                    //Log.i("id",cityBeanList.get(position).toString());
+                    holder.ivItemSelectCityCheck.setVisibility(View.VISIBLE);
+                } else {
+                    holder.ivItemSelectCityCheck.setVisibility(View.GONE);
+                }
+            }else {
+                if (cityBeanList.get(position).isCheck() == true) {
+                    holder.rlItemSelectCity.setBackgroundResource(R.color.resumeContent_bg);
+                } else {
+                    holder.rlItemSelectCity.setBackgroundResource(R.color.white);
+                }
+                holder.ivItemSelectCityCheck.setVisibility(View.GONE);
             }
-            holder.ivItemSelectCityCheck.setVisibility(View.GONE);
         }
         return convertView;
     }

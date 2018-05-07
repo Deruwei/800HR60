@@ -227,6 +227,9 @@ public class SplashPresenter extends SplashContract.Presenter {
                 try {
                     String s= responseBody.string().toString();
                     SaveFile.updateCJ(mContext,fileName,s);
+                    if(fileName.equals("city.txt")){
+                        SaveFile.updateCJ(mContext,"city_new.txt",s);
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

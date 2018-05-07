@@ -1,11 +1,15 @@
 package com.hr.ui.utils.datautils;
 
 import android.graphics.drawable.Drawable;
+import android.media.audiofx.Equalizer;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
+import com.hr.ui.bean.City;
 import com.hr.ui.bean.CityBean;
 import com.hr.ui.utils.Utils;
 
@@ -13,7 +17,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -60,6 +68,64 @@ public class FromStringToArrayList {
 
 
     }
+    public List<City> getCityList2() {
+        List<City> cityBeanList = new ArrayList<>();
+        String s = SaveFile.getDataFromInternalStorage(HRApplication.getAppContext(), "city_new.txt");
+        if (!"".equals(s)) {
+            cityBeanList = new Gson().fromJson(s, new TypeToken<List<City>>() {
+            }.getType());
+        }
+        return cityBeanList;
+
+
+    }
+    public  static List<City> sortCityList(List<City> cityList){
+        Collections.sort(cityList, new Comparator<City>(){
+            /*
+             * int compare(Person p1, Person p2) 返回一个基本类型的整型，
+             * 返回负数表示：p1 小于p2，
+             * 返回0 表示：p1和p2相等，
+             * 返回正数表示：p1大于p2
+             */
+            public int compare(City p1, City p2) {
+                //按照Person的年龄进行升序排列
+                int n=p1.getPinyin().compareToIgnoreCase(p2.getPinyin());
+                if(n>0){
+                    return 1;
+                }else if(n==0){
+                    return 0;
+                }else {
+                    return -1;
+                }
+            }
+        });
+        return  cityList;
+    }
+    public boolean checkIsMunicipality(String id){
+        boolean b=false;
+        switch (id.substring(0,2)){
+            case "11":
+                b=true;
+                break;
+            case "12":
+                b=true;
+                break;
+            case "13":
+                b=true;
+                break;
+            case "14":
+                b=true;
+                break;
+            default:
+                b=false;
+                break;
+        }
+        if(id.contains("00")){
+            b=false;
+        }
+        return b;
+    }
+
     public CityBean getLocationCityBean(String name){
         List<CityBean> cityBeanList=new ArrayList<>();
         String s=SaveFile.getDataFromInternalStorage(HRApplication.getAppContext(),"city.txt");

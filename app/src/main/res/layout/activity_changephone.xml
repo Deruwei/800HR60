@@ -86,7 +86,11 @@
                 style="@style/login_view"
                 android:layout_below="@+id/et_changePhoneValidCode" />
         </RelativeLayout>
-        <RelativeLayout style="@style/login_relativeLayout">
+        <RelativeLayout
+            android:visibility="gone"
+            style="@style/login_relativeLayout">
+
+
 
             <ImageView
                 android:id="@+id/iv_changePhonePswIcon"

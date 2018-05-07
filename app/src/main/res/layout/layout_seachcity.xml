@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_marginLeft="@dimen/x31"
+        android:layout_marginRight="@dimen/x31"
+        android:background="@drawable/edit_bg_citysearch"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x80">
+        <EditText
+            android:id="@+id/et_selectCity"
+            android:layout_marginLeft="@dimen/x30"
+            android:layout_marginRight="@dimen/x10"
+            android:background="@null"
+            android:textSize="@dimen/x32"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/iv_selectCityNewDelete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/iv_selectCityNewDelete"
+            android:layout_width="@dimen/x24"
+            android:src="@mipmap/delete"
+            android:layout_marginRight="@dimen/x20"
+            android:layout_toLeftOf="@+id/tv_selectCityNewSearch"
+            android:layout_centerVertical="true"
+            android:layout_height="@dimen/x24" />
+        <ImageView
+            android:id="@+id/tv_selectCityNewSearch"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/x30"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/search"
+            android:layout_width="@dimen/x40"
+            android:layout_height="@dimen/x40" />
+    </RelativeLayout>
+</RelativeLayout>

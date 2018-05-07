@@ -3,6 +3,7 @@ package com.hr.ui.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.afa.tourism.greendao.gen.CityDao;
 import com.afa.tourism.greendao.gen.DaoMaster;
 import com.afa.tourism.greendao.gen.LoginBeanDao;
 import com.afa.tourism.greendao.gen.ResumeDataDao;
@@ -33,7 +34,7 @@ public class HMROpenHelper extends DaoMaster.OpenHelper {
     @Override
     public void onUpgrade(Database db, int oldVersion, int newVersion) {
         //操作数据库的更新
-        MigrationHelper.migrate(db, LoginBeanDao.class, ResumeDataDao.class, ScanHistoryBeanDao.class, SearchHistoryBeanDao.class, ThirdLoginBeanDao.class);
+        MigrationHelper.migrate(db, LoginBeanDao.class, CityDao.class, ResumeDataDao.class, ScanHistoryBeanDao.class, SearchHistoryBeanDao.class, ThirdLoginBeanDao.class);
     }
 
 }

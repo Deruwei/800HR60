@@ -228,6 +228,20 @@ public class Utils {
         }
         return provinceList;
     }
+    public static List<CityBean> findProvinceCityList2(List<CityBean> list){
+        List<CityBean> provinceList=new ArrayList<>();
+        CityBean cityBean=new CityBean();
+        cityBean.setId("");
+        cityBean.setName("不限");
+        cityBean.setCheck(false);
+        provinceList.add(cityBean);
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getId().endsWith("00")) {
+                provinceList.add(list.get(i));
+            }
+        }
+        return provinceList;
+    }
     public static void setTvState(TextView tv,boolean b){
         if(b){
             tv.setBackgroundResource(R.drawable.tv_rectange_orange);

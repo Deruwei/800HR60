@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -19,7 +19,6 @@ import android.widget.TextView;
 import com.caption.netmonitorlibrary.netStateLib.NetUtils;
 import com.hr.ui.R;
 import com.hr.ui.base.Base2Activity;
-import com.hr.ui.bean.EvenList;
 import com.hr.ui.bean.EventHomeBean;
 import com.hr.ui.bean.JobSearchBean;
 import com.hr.ui.bean.PositionBean;
@@ -41,6 +40,7 @@ import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.Utils;
 import com.hr.ui.utils.datautils.ResumeInfoIDToString;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
+import com.hr.ui.view.MyFlowLayout;
 import com.hr.ui.view.MyRecommendDialog;
 import com.hr.ui.view.PieChartView;
 import com.hr.ui.view.RoundImageView;
@@ -131,15 +131,35 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
     RelativeLayout rlPositionContent;
     @BindView(R.id.iv_positionPageSmile)
     ImageView ivPositionPageSmile;
+    @BindView(R.id.iv_money)
+    ImageView ivMoney;
+    @BindView(R.id.fl_companyPageCompanyGoodness)
+    MyFlowLayout flCompanyPageCompanyGoodness;
+    @BindView(R.id.tv_position1)
+    TextView tvPosition1;
+    @BindView(R.id.view_lin3)
+    View viewLin3;
+    @BindView(R.id.view_lin4)
+    View viewLin4;
+    @BindView(R.id.iv_positionPageSharePosition)
+    ImageView ivPositionPageSharePosition;
+    @BindView(R.id.tv_positionPageShare)
+    TextView tvPositionPageShare;
+    @BindView(R.id.ll_positionPageShare)
+    LinearLayout llPositionPageShare;
+    @BindView(R.id.rl_companyGoodness)
+    RelativeLayout rlCompanyGoodness;
     private AnimationDrawable drawable;
-    private String jobId, companyId,tag;
-    private int collection, apply,position;
+    private String jobId, companyId, tag;
+    private int collection, apply, position;
     private int mWidth, mHeight;
     private SharedPreferencesUtils sUtils;
     private MyRecommendDialog dialog;
     private PositionBean.JobInfoBean jobInfoBean;
     private long currTime = 0;// 分享的点击时间
     private List<RecommendJobBean.JobsListBean> list;
+    private List<String> companyGoodnessList = new ArrayList<>();
+
     /**
      * 入口
      *
@@ -152,11 +172,12 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
         activity.overridePendingTransition(R.anim.zoom_in,
                 R.anim.zoom_out);
     }
-    public static void startAction(Activity activity, String jobId,int position,String tag) {
+
+    public static void startAction(Activity activity, String jobId, int position, String tag) {
         Intent intent = new Intent(activity, PositionPageActivity.class);
         intent.putExtra("jobId", jobId);
-        intent.putExtra("position",position);
-        intent.putExtra("tag",tag);
+        intent.putExtra("position", position);
+        intent.putExtra("tag", tag);
         activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.fade_in,
                 R.anim.fade_out);
@@ -193,11 +214,12 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
 
     /**
      * 简历不符合跳出提示框
+     *
      * @param type
      */
-    private void setPopupwindow(int type){
-        dialog=new MyRecommendDialog(this);
-        if(type==1) {
+    private void setPopupwindow(int type) {
+        dialog = new MyRecommendDialog(this);
+        if (type == 1) {
             dialog.setTitle(getString(R.string.resumeNoComplete));
             dialog.setMessage(getString(R.string.resumeNoCompleteContent));
             dialog.setNoOnclickListener(getString(R.string.known), new MyRecommendDialog.onNoOnclickListener() {
@@ -215,9 +237,9 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
                     ResumeFragment.instance.refresh();
                 }
             });
-        }else{
-            dialog.setTitle(getString(R.string.noIndustry1)+jobInfoBean.getIndustry_name()+"行业"+getString(R.string.noIndustry2));
-            dialog.setMessage(getString(R.string.noJobOrderContent1)+jobInfoBean.getIndustry_name()+"行业"+getString(R.string.noJobOrderContent2));
+        } else {
+            dialog.setTitle(getString(R.string.noIndustry1) + jobInfoBean.getIndustry_name() + "行业" + getString(R.string.noIndustry2));
+            dialog.setMessage(getString(R.string.noJobOrderContent1) + jobInfoBean.getIndustry_name() + "行业" + getString(R.string.noJobOrderContent2));
             dialog.setNoOnclickListener(getString(R.string.known), new MyRecommendDialog.onNoOnclickListener() {
                 @Override
                 public void onNoClick() {
@@ -234,9 +256,10 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
         }
         dialog.show();
     }
+
     @Override
     public void getPositionSuccess(PositionBean.JobInfoBean jobInfoBean) {
-        MobclickAgent.onEvent(this,"v6_scan_position");
+        MobclickAgent.onEvent(this, "v6_scan_position");
         rlPositionContent.setVisibility(View.VISIBLE);
         llNetError.setVisibility(View.GONE);
         initUI(jobInfoBean);
@@ -244,6 +267,8 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
 
     private void initUI(PositionBean.JobInfoBean jobInfoBean1) {
         jobInfoBean = jobInfoBean1;
+        companyGoodnessList.clear();
+        String companyGoodness=jobInfoBean.getOther_benefits();
         if (jobInfoBean != null && !"".equals(jobInfoBean) && !"[]".equals(jobInfoBean)) {
             ScanHistoryBean scanHistoryBean = new ScanHistoryBean();
             scanHistoryBean.setJobId(jobInfoBean.getJob_id());
@@ -253,7 +278,7 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
             scanHistoryBean.setJobName(jobInfoBean.getJob_name());
             scanHistoryBean.setExp(jobInfoBean.getWorkyear());
             scanHistoryBean.setSalary(jobInfoBean.getSalary());
-            scanHistoryBean.setIs_expect(jobInfoBean.getIs_expire()+"");
+            scanHistoryBean.setIs_expect(jobInfoBean.getIs_expire() + "");
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date curDate = new Date(System.currentTimeMillis());
             String str = formatter.format(curDate);
@@ -273,6 +298,18 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
             tvPositionPageCompanyScale.setText(jobInfoBean.getStuff_munber());
             tvPositionPageJobDes.setText(jobInfoBean.getSynopsis());
             collection = jobInfoBean.getIs_favourite();
+            //flCompanyPageCompanyGoodness.removeAllViewsInLayout();
+            if (companyGoodness != null&&!"".equals(companyGoodness)) {
+                String[] s = jobInfoBean.getOther_benefits().split("，");
+                rlCompanyGoodness.setVisibility(View.VISIBLE);
+                flCompanyPageCompanyGoodness.setVisibility(View.VISIBLE);
+                for (int i = 0; i < s.length; i++) {
+                    addCompanyGoodness(s[i]);
+                }
+            } else {
+                rlCompanyGoodness.setVisibility(View.GONE);
+                flCompanyPageCompanyGoodness.setVisibility(View.GONE);
+            }
           /*  if (type == 1) {
                 pcvCulScore.SetProgram(score);
                 tvPositionPageCulScore.setText(score + "分");
@@ -302,6 +339,21 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
         }
     }
 
+    private void addCompanyGoodness(String name) {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.leftMargin = 15;
+        params.topMargin = 12;
+        params.bottomMargin = 12;
+        params.rightMargin = 15;
+        LinearLayout ll = (LinearLayout) LayoutInflater.from(this).inflate(
+                R.layout.item_textposition, null, false);
+        ll.setLayoutParams(params);
+        TextView tv = ll.findViewById(R.id.tv_itemTextPosition);
+        tv.setText(name);
+        flCompanyPageCompanyGoodness.addView(ll);
+    }
+
     @Override
     public void collectionPositionSuccess() {
         ToastUitl.showShort("收藏成功");
@@ -316,7 +368,7 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
 
     @Override
     public void deliverPositionSuccess() {
-        MobclickAgent.onEvent(this,"v6_resume_deliver");
+        MobclickAgent.onEvent(this, "v6_resume_deliver");
         if (apply == 1) {
             tvPositionPageDeliverResume.setText(R.string.deliverResume);
         } else if (apply == 0) {
@@ -324,23 +376,23 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
             llPositionPageDeliverResume.setBackgroundResource(R.drawable.tv_bg_right_gray);
             tvPositionPageDeliverResume.setText(R.string.allReadyDeliver);
         }
-        if(tag.equals(JobSearchResultActivity.TAG)) {
-                JobSearchResultActivity.instance.notificationDataItem(position);
+        if (tag.equals(JobSearchResultActivity.TAG)) {
+            JobSearchResultActivity.instance.notificationDataItem(position);
         }
-        if(tag.equals(RecommendJobActivity.class.getSimpleName())){
-            EventBus.getDefault().post(new EventHomeBean(11,position));
+        if (tag.equals(RecommendJobActivity.class.getSimpleName())) {
+            EventBus.getDefault().post(new EventHomeBean(11, position));
         }
-        if(tag.equals(HomeFragment.TAG)){
-            EventBus.getDefault().post(new EventHomeBean(0,position));
+        if (tag.equals(HomeFragment.TAG)) {
+            EventBus.getDefault().post(new EventHomeBean(0, position));
         }
-        if(sUtils.getIntValue(Constants.IS_RECOMMENDJOB,0)<3) {
+        if (sUtils.getIntValue(Constants.IS_RECOMMENDJOB, 0) < 3) {
             JobSearchBean jobSearchBean = new JobSearchBean();
             jobSearchBean.setIndustryId(jobInfoBean.getIndustry());
             jobSearchBean.setPositionId(jobInfoBean.getJob_id());
             jobSearchBean.setDegree(ResumeInfoIDToString.getDegreeNeedId(jobInfoBean.getStudy()));
             jobSearchBean.setPlaceId(jobInfoBean.getWork_area());
-            mPresenter.getSearchList(jobSearchBean,1,false);
-        }else{
+            mPresenter.getSearchList(jobSearchBean, 1, false);
+        } else {
             ToastUitl.showShort("投递成功");
         }
     }
@@ -351,7 +403,7 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
         pcvCulScore.setVisibility(View.VISIBLE);
         ivLoadCul.setVisibility(View.GONE);
         llPositionPageCulScore.setEnabled(false);
-        s=Double.parseDouble(Utils.formatDouble(s,2));
+        s = Double.parseDouble(Utils.formatDouble(s, 2));
         int number = (int) (s * 100.0);
         //Log.i("当前的数字",number+"----");
         tvPositionPageCulScore.setText(number + "分");
@@ -366,9 +418,9 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
 
     @Override
     public void goToCompleteResume(int errorCode) {
-        if(errorCode==413||errorCode==417){
-           setPopupwindow(2);
-        }else{
+        if (errorCode == 413 || errorCode == 417) {
+            setPopupwindow(2);
+        } else {
             setPopupwindow(1);
         }
     }
@@ -391,7 +443,7 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
 
     @Override
     public void getSearchDataSuccess(List<RecommendJobBean.JobsListBean> jobsListBean) {
-        list=new ArrayList<>();
+        list = new ArrayList<>();
         int num = 0;
         if (jobsListBean != null && !"".equals(jobsListBean) && jobsListBean.size() != 0) {
             if (jobsListBean.size() > 4) {
@@ -416,14 +468,14 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
             for (int i = 0; i < list.size(); i++) {
                 list.get(i).setCheck(true);
             }
-           // Log.i("到这里了","好的");
-            if(list!=null&&list.size()!=0){
-                RecommendJobActivity.startAction(this,list);
+            // Log.i("到这里了","好的");
+            if (list != null && list.size() != 0) {
+                RecommendJobActivity.startAction(this, list);
                 finish();
-            }else{
+            } else {
                 ToastUitl.showShort("投递成功");
             }
-        }else{
+        } else {
             ToastUitl.showShort("投递成功");
         }
     }
@@ -442,8 +494,8 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
     public void initView() {
         sUtils = new SharedPreferencesUtils(this);
         drawable = (AnimationDrawable) ivLoadCul.getDrawable();
-        position=getIntent().getIntExtra("position",1000);
-        tag=getIntent().getStringExtra("tag");
+        position = getIntent().getIntExtra("position", 1000);
+        tag = getIntent().getStringExtra("tag");
     }
 
     @Override
@@ -458,7 +510,7 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.rl_positionPageCompanyInfo, R.id.iv_noNetError, R.id.ll_positionPageCulScore, R.id.iv_positionPageShare, R.id.iv_positionPageClose, R.id.ll_positionPageCollection, R.id.ll_positionPageDeliverResume})
+    @OnClick({R.id.rl_positionPageCompanyInfo, R.id.iv_noNetError, R.id.ll_positionPageShare, R.id.ll_positionPageCulScore, R.id.iv_positionPageShare, R.id.iv_positionPageClose, R.id.ll_positionPageCollection, R.id.ll_positionPageDeliverResume})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_noNetError:
@@ -486,6 +538,9 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
                 break;
             case R.id.ll_positionPageDeliverResume:
                 mPresenter.deliverPosition(jobId);
+                break;
+            case R.id.ll_positionPageShare:
+                doShare();
                 break;
         }
     }
@@ -537,7 +592,7 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
 
     @Override
     protected void onDestroy() {
-        if(dialog!=null){
+        if (dialog != null) {
             dialog.dismiss();
         }
         super.onDestroy();

@@ -15,6 +15,7 @@ import android.text.Selection;
 import android.text.Spannable;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -141,6 +142,14 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
     @Override
     public void changePhoneSuccess() {
         ToastUitl.showShort("更改手机成功");
+        int autoLoginType = sUtils.getIntValue(Constants.AUTOLOGINTYPE, 5);
+        LoginBean loginBean = LoginDBUtils.queryDataById(autoLoginType + "");
+        Log.i("现在的数据",loginBean.getLoginType()+"");
+        if(loginBean.getLoginType()==0){
+            loginBean.setName(etChangePhoneNumber.getText().toString());
+            LoginDBUtils.insertOrReplaceData(loginBean);
+        }
+
         finish();
         if (ResumePersonalInfoActivity.TAG.equals(Tag)) {
             // ResumePersonalInfoActivity.instance.setValid(etChangePhoneNumber.getText().toString());
@@ -180,7 +189,7 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
                 mPresenter.getCaptcha();
                 initPopWindow();
             } else {
-                mPresenter.getValidCode(etChangePhoneNumber.getText().toString(), Constants.VALIDCODE_RESETPHONEORPSW_YTPE, 1, "");
+                mPresenter.getValidCode(etChangePhoneNumber.getText().toString(), Constants.VALIDCODE_RESETORVALIDPHONE_YTPE, 1, "");
             }
         }
     }
@@ -343,8 +352,8 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
     }
 
     private void doChangePhone() {
-        int autoLoginType = sUtils.getIntValue(Constants.AUTOLOGINTYPE, 5);
-        LoginBean loginBean = LoginDBUtils.queryDataById(autoLoginType + "");
+        /*int autoLoginType = sUtils.getIntValue(Constants.AUTOLOGINTYPE, 5);
+        LoginBean loginBean = LoginDBUtils.queryDataById(autoLoginType + "");*/
         if (etChangePhoneNumber.getText().toString() == null || "".equals(etChangePhoneNumber.getText().toString())) {
             ToastUitl.showShort("请填写手机号码");
             return;
@@ -357,18 +366,18 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
             ToastUitl.showShort("请填写手机验证码");
             return;
         }
-        if (etChangePhonePsw.getText().toString() == null || "".equals(etChangePhonePsw.getText().toString())) {
+      /*  if (etChangePhonePsw.getText().toString() == null || "".equals(etChangePhonePsw.getText().toString())) {
             ToastUitl.showShort("请填写密码");
             return;
-        }
-        if (loginBean == null || "".equals(loginBean)) {
+        }*/
+       /* if (loginBean == null || "".equals(loginBean)) {
             loginBean = LoginDBUtils.queryDataById(autoLoginType + "");
         } else {
             if (!etChangePhonePsw.getText().toString().equals(loginBean.getPassword())) {
                 ToastUitl.showShort("密码错误，请重新输入");
                 return;
             }
-        }
+        }*/
         mPresenter.changePhone(etChangePhoneNumber.getText().toString(), etChangePhoneValidCode.getText().toString());
     }
 
