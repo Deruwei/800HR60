@@ -18,7 +18,7 @@ public class CodeTimer extends CountDownTimer {
      * 计时按钮显示的信息
      */
     public static final String MESSAGE = "message";
-
+    private String action;
     private Context mContext;
     private Intent mCodeReceiverIntent;
 
@@ -31,6 +31,7 @@ public class CodeTimer extends CountDownTimer {
     public CodeTimer(Context context, long millisInFuture, long countDownInterval, String action) {
         super(millisInFuture, countDownInterval);
         this.mContext = context;
+        this.action=action;
         mCodeReceiverIntent = new Intent(action);
     }
 
@@ -38,7 +39,7 @@ public class CodeTimer extends CountDownTimer {
     public void onTick(long millisUntilFinished) {
         //每过millisUntilFinished的间隔时间，就会发送广播
         mCodeReceiverIntent.putExtra(IS_ENABLE, false);
-        mCodeReceiverIntent.putExtra(MESSAGE, (millisUntilFinished / 1000) + "s 后重发");
+        mCodeReceiverIntent.putExtra(MESSAGE, (millisUntilFinished / 1000) + "s");
         mContext.sendBroadcast(mCodeReceiverIntent);
     }
 
@@ -46,7 +47,11 @@ public class CodeTimer extends CountDownTimer {
     @Override
     public void onFinish() {
         mCodeReceiverIntent.putExtra(IS_ENABLE, true);
-        mCodeReceiverIntent.putExtra(MESSAGE, "获取验证码");
+        if("codeVoiseLogin".equals(action)){
+            mCodeReceiverIntent.putExtra(MESSAGE, "语音发送");
+        }else {
+            mCodeReceiverIntent.putExtra(MESSAGE, "短信发送");
+        }
         mContext.sendBroadcast(mCodeReceiverIntent);
     }
 }

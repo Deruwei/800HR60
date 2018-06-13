@@ -116,6 +116,7 @@ public class PositionBean {
         private String work_type;
         private String invite_major;
         private String job_number;
+        private String welfare_label;
         private String did;
         private String is_show_pay_interview;
         private String parent_job_id;
@@ -159,6 +160,14 @@ public class PositionBean {
         private int is_apply;
         private String baidu_map_lon;
         private String baidu_map_lat;
+
+        public String getWelfare_label() {
+            return welfare_label;
+        }
+
+        public void setWelfare_label(String welfare_label) {
+            this.welfare_label = welfare_label;
+        }
 
         public String getJob_id() {
             return job_id;

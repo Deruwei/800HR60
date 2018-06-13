@@ -32,6 +32,13 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
+/**
+ * 求职意向中选择行业Fragment的功能点：
+ * 1.当求职意向是添加新求职意向的时候，求职意向中选择的行业在Fragment中全部设为不可以选择
+ * 2.当求职意向是修改求职意向的时候，求职意向中药修改的行业在Fragment中默认选择，其他不适修改的已选择行业设为不可选择
+ * 3.当是添加的时候在下面显示下一步的按钮，点击之后如果行业有领域则跳到选择领域，没有则跳到选择职位
+ * 4.当是修改的时候，点击行业，需要手动选择跳到选择领域或者选择职位页面
+ */
 public class IndustryFragment extends BaseFragment {
     @BindView(R.id.rv_chooseIndustry)
     RecyclerView rvChooseIndustry;
@@ -40,10 +47,10 @@ public class IndustryFragment extends BaseFragment {
     Button btnIndustryNext;
     @BindView(R.id.ll_chooseIndustryNext)
     LinearLayout llChooseIndustryNext;
-    private String indutryId;
-    private int updatePositionNum;
-    private List<CityBean> industryList;
-    private List<String> industryIds = new ArrayList<>();
+    private String indutryId;//行业的id
+    private int updatePositionNum;//求职意向要修改的位置，是添加的话是100
+    private List<CityBean> industryList;//行业信息的list集合
+    private List<String> industryIds = new ArrayList<>();//求职意向中选择职位的id的list集合
 
     @Override
     protected int getLayoutResource() {

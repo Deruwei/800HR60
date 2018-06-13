@@ -155,7 +155,7 @@ public class UserLoginActivity extends BaseActivity<LoginPresenter, LoginModel> 
 
     @Override
     public void getResumeListSuccess(MultipleResumeBean multipleResumeBean) {
-        ToolUtils.getInstance().judgeResumeMultipleOrOne(this, multipleResumeBean, userId, imageIds, mPresenter);
+        ToolUtils.getInstance().judgeResumeMultipleOrOne(this, multipleResumeBean, userId, mPresenter);
     }
 
     @Override

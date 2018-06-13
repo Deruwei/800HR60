@@ -194,7 +194,7 @@ public class RecommendJobActivity extends Base2Activity<RecommendJobActivityPres
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReceiveEvent2(EventHomeBean eventHomeBean) {
         switch (eventHomeBean.getType()) {
-            case 11:
+            case 5:
               list.get(eventHomeBean.getPosition()).setCheck(false);
               list.get(eventHomeBean.getPosition()).setIs_apply(1);
               if(adapter!=null){

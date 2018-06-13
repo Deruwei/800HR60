@@ -62,7 +62,7 @@ public class NetworkMng extends BroadcastReceiver {
 				return "wifi";
 			}
 		}
-		return "mobile";
+		return "wifi";
 	}
 
 	// 获得网络是否可用

@@ -111,7 +111,7 @@ public class HRApplication extends MobApplication {
                 };
 
         //设置监听app前后台监听
-        registerAppCallback();
+        //registerAppCallback();
     }
     private void registerAppCallback() {
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {

@@ -28,6 +28,7 @@ import com.hr.ui.ui.message.adapter.MyCompanyMessageAdapter;
 import com.hr.ui.ui.message.contract.InviteContract;
 import com.hr.ui.ui.message.model.InviteModel;
 import com.hr.ui.ui.message.presenter.InvitePresenter;
+import com.hr.ui.utils.EventBusAction;
 import com.hr.ui.utils.Utils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -189,7 +190,7 @@ public class InviteActivity extends BaseActivity<InvitePresenter, InviteModel> i
     public void setInviteIsReadSuccess() {
         //Log.i("现在的位置",position+"-----");
        // MessageFragment.instance.setInviteHide(position);
-        EventBus.getDefault().post(new EventHomeBean(3,position));
+        EventBus.getDefault().post(new EventHomeBean(EventBusAction.MESSAGEFRAGMENT_JOBINTERVIEW_MESSAGEREADSTATE,position));
     }
 
     @Override

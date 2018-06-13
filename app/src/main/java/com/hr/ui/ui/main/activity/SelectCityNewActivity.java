@@ -116,15 +116,15 @@ public class SelectCityNewActivity extends BaseNoConnectNetworkAcitivty implemen
             mHotCityList.add(hotCity);
         }
         mTotalCityList = FromStringToArrayList.getInstance().sortCityList(mTotalCityList);
-        mTotalCityList.add(0, mLocatedCity);
+        mTotalCityList.add(0, new LocatedCity("定位城市","未知","0"));
         mTotalCityList.add(1, new HotCity("热门城市", "未知", "0"));
         allCItyList = mTotalCityList;
         mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rvSelectCityNew.setLayoutManager(mLayoutManager);
         rvSelectCityNew.setHasFixedSize(true);
         rvSelectCityNew.addItemDecoration(new SectionItemDecoration(this, allCItyList), 0);
-        rvSelectCityNew.addItemDecoration(new DividerItemDecoration(this), 1);
-        mAdapter = new CityListAdapter(this, allCItyList, mHotCityList, locateState);
+        //rvSelectCityNew.addItemDecoration(new DividerItemDecoration(this), 1);
+        mAdapter = new CityListAdapter(this, allCItyList, mHotCityList, locateState,rvSelectCityNew);
         mAdapter.setInnerListener(this);
         mAdapter.setLayoutManager(mLayoutManager);
         rvSelectCityNew.setAdapter(mAdapter);

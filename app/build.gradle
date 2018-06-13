@@ -21,8 +21,8 @@ android {
         applicationId "com.hr.ui"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 72
-        versionName "6.1.0"
+        versionCode 74
+        versionName "6.1.2"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [UMENG_CHANNEL_CALUE: "umeng"]       //默认为uMeng
@@ -39,18 +39,19 @@ android {
     }
     flavorDimensions "umeng"
     productFlavors {
-        taobao { dimension "umeng" }
-        tencent { dimension "umeng" }
-        baidu { dimension "umeng" }
-        "360" { dimension "umeng" }
-        anzhi { dimension "umeng" }
-        wandoujia { dimension "umeng" }
-        xiaomi { dimension "umeng" }
-        "800hr" { dimension "umeng" }
-        huawei { dimension "umeng" }
-        vivo { dimension "umeng" }
-        oppo { dimension "umeng" }
-        meizu { dimension "umeng" }
+        n_app_taobao { dimension "umeng" }
+        n_app_tencent { dimension "umeng" }
+        n_app_baidu { dimension "umeng" }
+        n_app_360 { dimension "umeng" }
+        n_app_anzhi { dimension "umeng" }
+        n_app_wandoujia { dimension "umeng" }
+        n_app_xiaomi { dimension "umeng" }
+        n_app_800hr { dimension "umeng" }
+        n_app_huawei { dimension "umeng" }
+        c_jrtt_grapp{dimension "umeng"}
+        n_app_vivo { dimension "umeng" }
+        n_app_oppo { dimension "umeng" }
+        n_app_meizu { dimension "umeng" }
         productFlavors.all {
             flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
         }
@@ -74,39 +75,39 @@ allprojects {
     }
 }
 dependencies {
-    compile 'com.android.support:cardview-v7:26.1.0'
+    implementation 'com.android.support:cardview-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    compile 'org.greenrobot:greendao:3.2.0'
-    compile 'com.jakewharton:butterknife:8.8.1'
+    implementation 'org.greenrobot:greendao:3.2.0'
+    implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation 'com.google.code.gson:gson:2.2.4'
     //rxjava+retrofit
-    compile 'com.squareup.retrofit2:retrofit:2.0.0-beta3'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.1.2'
-    compile 'com.orhanobut:logger:1.13'
+    implementation 'com.squareup.retrofit2:retrofit:2.0.0-beta3'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.1.2'
+    implementation 'com.orhanobut:logger:1.13'
     //友盟
-    compile 'com.umeng.sdk:common:1.4.4'
-    compile 'com.umeng.sdk:analytics:7.4.4'
-    compile 'com.youth.banner:banner:1.4.10'
+    implementation 'com.umeng.sdk:common:1.4.4'
+    implementation 'com.umeng.sdk:analytics:7.4.4'
+    implementation 'com.youth.banner:banner:1.4.10'
     //打印日志
-    compile 'io.reactivex:rxjava:1.2.1'
-    compile 'io.reactivex:rxandroid:1.2.1'
-    compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta4'
-    compile 'com.networkbench.newlens.agent.android:nbs.newlens.agent:2.8.2'
+    implementation 'io.reactivex:rxjava:1.2.1'
+    implementation 'io.reactivex:rxandroid:1.2.1'
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
+    implementation 'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta4'
+    implementation 'com.networkbench.newlens.agent.android:nbs.newlens.agent:2.8.2'
     // TingYun_Version 为当前听云 APP 版本号
-    compile 'org.greenrobot:eventbus:3.1.1'
+    implementation 'org.greenrobot:eventbus:3.1.1'
     implementation 'com.android.support:design:26.1.0'
     implementation files('libs/nineoldandroids-2.4.0.jar')
-    compile 'com.android.support:multidex:1.0.2'
+    implementation 'com.android.support:multidex:1.0.2'
     implementation files('libs/BaiduLBS_Android.jar')
     /*implementation files('libs/httpmime-4.1.2.jar')*/
     implementation project(':imagepicker')
-    compile 'com.caption:netmonitorlibrary:1.0.0'
+    implementation 'com.caption:netmonitorlibrary:1.0.0'
     implementation files('libs/IndoorscapeAlbumPlugin.jar')
     implementation files('libs/MobCommons-2018.0308.1404.jar')
     implementation files('libs/MobTools-2018.0307.2123.jar')
@@ -118,10 +119,10 @@ dependencies {
     implementation files('libs/ShareSDK-Wechat-Core-3.1.4.jar')
     implementation files('libs/ShareSDK-Wechat-Favorite-3.1.4.jar')
     implementation files('libs/ShareSDK-Wechat-Moments-3.1.4.jar')
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    compile 'com.github.promeg:tinypinyin:2.0.3' // TinyPinyin核心包，约80KB
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.github.promeg:tinypinyin:2.0.3' // TinyPinyin核心包，约80KB
 
-    compile 'com.github.promeg:tinypinyin-lexicons-android-cncity:2.0.3' // 可选，适用于Android的中国地区词典
+    implementation 'com.github.promeg:tinypinyin-lexicons-android-cncity:2.0.3' // 可选，适用于Android的中国地区词典
 }
 repositories {
     mavenCentral()

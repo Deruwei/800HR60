@@ -57,7 +57,7 @@
         AppSecret="3a6e4dee55dbf34ce86178fd237e8f78"
         RedirectUrl="http://www.800hr.com/app"
         ShareByAppClient="true"
-        Enable="true" />
+        Enable="false" />
 
     
     <!-- 

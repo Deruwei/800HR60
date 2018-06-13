@@ -13,6 +13,11 @@ import android.os.SystemClock;
  */
 
 public class LongRunningService extends Service {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        startForeground(6,new Notification());
+    }
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -20,7 +25,6 @@ public class LongRunningService extends Service {
     }
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        startForeground(1,new Notification());
         AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
         int anHour = 18 * 60 * 1000; // 这是12分钟的毫秒数
         long triggerAtTime = SystemClock.elapsedRealtime() + anHour;

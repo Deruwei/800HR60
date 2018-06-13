@@ -29,6 +29,7 @@ import com.hr.ui.bean.CityBean;
 import com.hr.ui.bean.EvenList;
 import com.hr.ui.bean.JobOrderData;
 import com.hr.ui.constants.Constants;
+import com.hr.ui.ui.login.activity.PhoneLoginActivity;
 import com.hr.ui.ui.main.contract.JobOrderContract;
 import com.hr.ui.ui.main.modle.JobOrderModel;
 import com.hr.ui.ui.main.presenter.JobOrderPresenter;
@@ -404,7 +405,7 @@ public class JobOrderActivity extends BaseActivity<JobOrderPresenter, JobOrderMo
                 @Override
                 public void onYesClick() {
                     myDialog.dismiss();
-                    SplashActivity.startAction(JobOrderActivity.this,1);
+                    PhoneLoginActivity.startAction(JobOrderActivity.this);
                     SharedPreferencesUtils sUtils = new SharedPreferencesUtils(HRApplication.getAppContext());
                     sUtils.setIntValue(Constants.ISAUTOLOGIN, 0);
                     AppManager.getAppManager().finishAllActivity();

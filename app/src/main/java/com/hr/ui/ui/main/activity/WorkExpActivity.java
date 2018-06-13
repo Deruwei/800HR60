@@ -25,6 +25,7 @@ import com.hr.ui.bean.EventBean;
 import com.hr.ui.bean.EventString;
 import com.hr.ui.bean.WorkExpData;
 import com.hr.ui.constants.Constants;
+import com.hr.ui.ui.login.activity.PhoneLoginActivity;
 import com.hr.ui.ui.main.contract.WorkExpContract;
 import com.hr.ui.ui.main.modle.WorkExpModel;
 import com.hr.ui.ui.main.presenter.WorkExpPresenter;
@@ -509,7 +510,7 @@ public class WorkExpActivity extends BaseActivity<WorkExpPresenter, WorkExpModel
                 @Override
                 public void onYesClick() {
                     myDialog.dismiss();
-                    SplashActivity.startAction(WorkExpActivity.this, 1);
+                    PhoneLoginActivity.startAction(WorkExpActivity.this);
                     SharedPreferencesUtils sUtils = new SharedPreferencesUtils(HRApplication.getAppContext());
                     sUtils.setIntValue(Constants.ISAUTOLOGIN, 0);
                     AppManager.getAppManager().finishAllActivity();

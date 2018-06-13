@@ -43,17 +43,29 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.google.gson.Gson;
 import com.hr.ui.R;
+import com.hr.ui.api.Api;
+import com.hr.ui.api.ApiParameter;
+import com.hr.ui.api.ApiService;
+import com.hr.ui.api.HostType;
 import com.hr.ui.app.HRApplication;
+import com.hr.ui.bean.ArrayInfoBean;
+import com.hr.ui.bean.BaseBean;
 import com.hr.ui.bean.CheckBean;
 import com.hr.ui.bean.CityBean;
 import com.hr.ui.bean.FindBean;
+import com.hr.ui.bean.LoginBean;
+import com.hr.ui.bean.RegisterBean;
 import com.hr.ui.bean.ThirdLoginBean;
 import com.hr.ui.constants.Constants;
+import com.hr.ui.db.LoginDBUtils;
 import com.hr.ui.ui.message.activity.WebActivity;
 import com.hr.ui.utils.datautils.FromStringToArrayList;
+import com.hr.ui.utils.datautils.SaveFile;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -65,6 +77,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+
+import okhttp3.ResponseBody;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by wdr on 2018/1/12.
@@ -125,9 +143,27 @@ public class Utils {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-
+        //Log.i("版本",resultData);
         return resultData;
     }
+
+    public static boolean checkPermissionIsAllRequest(String[] permissions,List<String> mPermissionList,Context mContext){
+        mPermissionList.clear();
+        for (int i = 0; i < permissions.length; i++) {
+            if (ContextCompat.checkSelfPermission(mContext, permissions[i]) != PackageManager.PERMISSION_GRANTED) {
+                mPermissionList.add(permissions[i]);
+            }
+        }
+        /**
+         判断是否为空
+         **/
+        if (mPermissionList.isEmpty()) {//未授予的权限为空，表示都授予了
+           return true;
+        }else{
+            return false;
+        }
+    }
+
     public static boolean checkVersion(String version,String version1)
     {
         //Log.i("现在的时候",version+"----"+version1);
@@ -135,8 +171,13 @@ public class Utils {
         int second= Integer.parseInt(version.substring(version.indexOf(".")+1,version.lastIndexOf(".")));
         int third= Integer.parseInt(version.substring(version.lastIndexOf(".")+1));
         int first1= Integer.parseInt(version1.substring(0,version1.indexOf(".")));
-       int second1= Integer.parseInt(version1.substring(version1.indexOf(".")+1,version1.lastIndexOf(".")));
-        int third1= Integer.parseInt(version1.substring(version1.lastIndexOf(".")+1));
+        int second1= Integer.parseInt(version1.substring(version1.indexOf(".")+1).substring(0,version1.indexOf(".")));
+        int third1=0;
+        if(version1.substring(version1.indexOf(".")+1).substring(version1.indexOf(".")+1).contains(".")) {
+             third1 = Integer.parseInt(version1.substring(version1.indexOf(".") + 1).substring(version1.indexOf(".") + 1).substring(0, version1.indexOf(".")));
+        }else{
+            third1 = Integer.parseInt(version1.substring(version1.lastIndexOf(".")+1));
+        }
         if(first==first1&&second==second1&&third==third1){
             return false;
         }else{
@@ -785,5 +826,184 @@ public class Utils {
 
             }
         });
+    }
+    public  static void getConnect(){
+        //Log.i("你好","------");
+        ApiService RxService = Api.getDefault(HostType.HR);
+        Observable<BaseBean> Object = RxService.getConnect(EncryptUtils.encrypParams(ApiParameter.getConnect(HRApplication.getAppContext())));
+        Subscriber mSubscriber = new Subscriber<BaseBean>() {
+            @Override
+            public void onCompleted() {
+                Log.d("api", "onCompleted");
+            }
+            @Override
+            public void onError(Throwable e) {
+                Log.d("api", "onError: " + e.toString());
+            }
+
+            @Override
+            public void onNext(BaseBean baseBean) {
+                if(baseBean.getError_code()==0){
+                    SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
+                    sUtils.setStringValue(Constants.SESSION_KEY,baseBean.getSession_key());
+                    Constants.SESSION_KEY=baseBean.getSession_key();
+                    Rc4Md5Utils.secret_key = Constants.PRE_SECRET_KRY + baseBean.getSecret_key();
+                    Constants.SVR_API_VER = baseBean.getSvr_api_ver();
+                    getArray();
+                    LoginUser();
+                }
+            }
+        };
+        Object.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(mSubscriber);
+    }
+    private static void getArray(){
+        ApiService RxService = Api.getDefault(HostType.HR);
+        Observable<ResponseBody> Object = RxService.getArrayInfo();
+        Subscriber mSubscriber = new Subscriber<ResponseBody>() {
+            @Override
+            public void onCompleted() {
+                Log.d("api", "onCompleted");
+            }
+            @Override
+            public void onError(Throwable e) {
+                Log.d("api", "onError: " + e.toString());
+            }
+
+            @Override
+            public void onNext(ResponseBody responseBody) {
+                ArrayInfoBean arrayInfoBean=null;
+                try {
+                    String s=responseBody.string().toString();
+                    arrayInfoBean=new Gson().fromJson(s,ArrayInfoBean.class);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
+                if(!sUtils.getStringValue(Constants.CITY_VER,"").equals(arrayInfoBean.getCity().getVer())){
+                    getArrayData("client/file/array/city.php","city.txt");
+                }
+                if(!sUtils.getStringValue(Constants.JOB_VER,"").equals(arrayInfoBean.getJob().getVer())){
+                    getArrayData("client/file/array/job.php","job.txt");
+                }
+                if(!sUtils.getStringValue(Constants.LINGYU_VER,"").equals(arrayInfoBean.getLingyu().getVer())){
+                    getArrayData("client/file/array/lingyu.php","lingyu.txt");
+                }
+                sUtils.setStringValue(Constants.CITY_VER,arrayInfoBean.getCity().getVer());
+                sUtils.setStringValue(Constants.JOB_VER,arrayInfoBean.getJob().getVer());
+                sUtils.setStringValue(Constants.LINGYU_VER,arrayInfoBean.getLingyu().getVer());
+            }
+        };
+        Object.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(mSubscriber);
+    }
+    private static void getArrayData(String path, final String fileName){
+        ApiService RxService = Api.getDefault(HostType.HR);
+        Observable<ResponseBody> Object = RxService.getLingYuArray(path);
+        Subscriber mSubscriber = new Subscriber<ResponseBody>() {
+            @Override
+            public void onCompleted() {
+                Log.d("api", "onCompleted");
+            }
+            @Override
+            public void onError(Throwable e) {
+                Log.d("api", "onError: " + e.toString());
+            }
+
+            @Override
+            public void onNext(ResponseBody responseBody) {
+                try {
+                    String s= responseBody.string().toString();
+                    SaveFile.updateCJ(HRApplication.getAppContext(),fileName,s);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        Object.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(mSubscriber);
+    }
+    private  static  void  LoginUser(){
+        SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
+        int isAutoLogin = sUtils.getIntValue(Constants.ISAUTOLOGIN, 0);
+        int autoLoginType = sUtils.getIntValue(Constants.AUTOLOGINTYPE, 5);
+        LoginBean loginBean=null;
+        if (autoLoginType != 5) {
+            try{
+                loginBean = LoginDBUtils.queryDataById(autoLoginType + "");
+            }catch(Exception e){
+               e.printStackTrace();
+            }
+            // System.out.println("auto"+loginBean.toString());
+            //isAutoLogin是否是自动登录   0不是
+            if (isAutoLogin == 0) {
+            } else {
+                if(loginBean==null||"".equals(loginBean)){
+                }else {
+                    if (autoLoginType == 0) {
+                        getAutoPhoneLogin(loginBean,1);
+                        //mPresenter.getAutoPhoneLogin(loginBean.getName(), loginBean.getPassword(), 1, false);
+                    } else if (autoLoginType == 1) {
+                        getAutoPhoneLogin(loginBean,2);
+                       // mPresenter.getAutoPhoneLogin(loginBean.getName(), loginBean.getPassword(), 2, false);
+                    } else {
+                        getAutoThirdBindingLogin(loginBean);
+                       // mPresenter.getThirdBindingLogin(loginBean, false);
+                    }
+                }
+            }
+        }
+    }
+    private static void getAutoPhoneLogin(LoginBean loginBean,int type){
+        ApiService RxService = Api.getDefault(HostType.HR);
+        Observable<RegisterBean> Object = RxService.getLogin(EncryptUtils.encrypParams(ApiParameter.getLogin(loginBean.getName(), loginBean.getPassword(), 1)));
+        Subscriber mSubscriber = new Subscriber<RegisterBean>() {
+            @Override
+            public void onCompleted() {
+                Log.d("api", "onCompleted");
+            }
+            @Override
+            public void onError(Throwable e) {
+                Log.d("api", "onError: " + e.toString());
+            }
+
+            @Override
+            public void onNext(RegisterBean registerBean) {
+             /*   try {
+                   *//* String s= responseBody.string().toString();
+                    SaveFile.updateCJ(HRApplication.getAppContext(),fileName,s);*//*
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }*/
+            }
+        };
+        Object.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(mSubscriber);
+    }
+
+    private static void getAutoThirdBindingLogin(LoginBean loginBean){
+        ApiService RxService = Api.getDefault(HostType.HR);
+        ThirdLoginBean thirdLoginBean=new ThirdLoginBean();
+        thirdLoginBean.setSUId(loginBean.getThirdPartSUid());
+        thirdLoginBean.setUId(loginBean.getThirdPartUid());
+        thirdLoginBean.setType(loginBean.getThirdPartLoginType());
+        Observable<ResponseBody> Object = RxService.getThirdPartLogin(EncryptUtils.encrypParams(ApiParameter.getThirdPartLogin(thirdLoginBean)));
+        Subscriber mSubscriber = new Subscriber<ResponseBody>() {
+            @Override
+            public void onCompleted() {
+                Log.d("api", "onCompleted");
+            }
+            @Override
+            public void onError(Throwable e) {
+                Log.d("api", "onError: " + e.toString());
+            }
+
+            @Override
+            public void onNext(ResponseBody responseBody) {
+                /*   try {
+                 *//* String s= responseBody.string().toString();
+                    SaveFile.updateCJ(HRApplication.getAppContext(),fileName,s);*//*
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }*/
+            }
+        };
+        Object.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(mSubscriber);
     }
 }

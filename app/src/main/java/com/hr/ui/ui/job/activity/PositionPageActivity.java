@@ -36,6 +36,7 @@ import com.hr.ui.ui.main.fragment.ResumeFragment;
 import com.hr.ui.ui.resume.activity.ResumeJobOrderActivity;
 import com.hr.ui.utils.ClickUtils;
 import com.hr.ui.utils.EncryptUtils;
+import com.hr.ui.utils.EventBusAction;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.Utils;
 import com.hr.ui.utils.datautils.ResumeInfoIDToString;
@@ -56,7 +57,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.sharesdk.framework.Platform;
 import cn.sharesdk.onekeyshare.OnekeyShare;
+import cn.sharesdk.onekeyshare.ShareContentCustomizeCallback;
+import cn.sharesdk.tencent.qq.QQ;
 
 /**
  * Created by wdr on 2018/1/11.
@@ -268,7 +272,7 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
     private void initUI(PositionBean.JobInfoBean jobInfoBean1) {
         jobInfoBean = jobInfoBean1;
         companyGoodnessList.clear();
-        String companyGoodness=jobInfoBean.getOther_benefits();
+        String companyGoodness=jobInfoBean.getWelfare_label();
         if (jobInfoBean != null && !"".equals(jobInfoBean) && !"[]".equals(jobInfoBean)) {
             ScanHistoryBean scanHistoryBean = new ScanHistoryBean();
             scanHistoryBean.setJobId(jobInfoBean.getJob_id());
@@ -300,7 +304,7 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
             collection = jobInfoBean.getIs_favourite();
             //flCompanyPageCompanyGoodness.removeAllViewsInLayout();
             if (companyGoodness != null&&!"".equals(companyGoodness)) {
-                String[] s = jobInfoBean.getOther_benefits().split("，");
+                String[] s = companyGoodness.split(",");
                 rlCompanyGoodness.setVisibility(View.VISIBLE);
                 flCompanyPageCompanyGoodness.setVisibility(View.VISIBLE);
                 for (int i = 0; i < s.length; i++) {
@@ -380,10 +384,10 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
             JobSearchResultActivity.instance.notificationDataItem(position);
         }
         if (tag.equals(RecommendJobActivity.class.getSimpleName())) {
-            EventBus.getDefault().post(new EventHomeBean(11, position));
+            EventBus.getDefault().post(new EventHomeBean(EventBusAction.RECOMMENDJOBACTIVITY_UPDATEJOBDELIVERSTATE, position));
         }
         if (tag.equals(HomeFragment.TAG)) {
-            EventBus.getDefault().post(new EventHomeBean(0, position));
+            EventBus.getDefault().post(new EventHomeBean(EventBusAction.HOMEFRAGMENT_UPDATEJOBDELIVERSTATE, position));
         }
         if (sUtils.getIntValue(Constants.IS_RECOMMENDJOB, 0) < 3) {
             JobSearchBean jobSearchBean = new JobSearchBean();
@@ -551,6 +555,7 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
         oks.disableSSOWhenAuthorize();
 //                oks.addHiddenPlatform(QQ.NAME);
         String text = "";
+        String title="";
         String mobilUrl = "";
         String enterprise_name = "";
         String jobnameString = "";
@@ -569,15 +574,24 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
             jobId = jobInfoBean.getJob_id();
         }
         if (jobId != null && !"".equals(jobId) && jobnameString != null) {
-            text = "我在行业找工作上看到了" + enterprise_name + "的" + jobnameString + "职位";
+            title=jobInfoBean.getJob_name();
+            text = "诚邀您来行业找工作平台投递“" + enterprise_name + "”发布的“" + jobnameString + "”职位";
             mobilUrl = EncryptUtils.getJobUrl(jobId, jobInfoBean.getIndustry());
         }
         //System.out.println("mobilUrl==" + mobilUrl);
-        text = text + " " + mobilUrl;
         // text是分享文本，所有平台都需要这个字段
         oks.setText(text);
         // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
-        oks.setTitle(text);
+        oks.setTitle(title);
+        final String finalText = text;
+        oks.setShareContentCustomizeCallback(new ShareContentCustomizeCallback() {
+            @Override
+            public void onShare(Platform platform, Platform.ShareParams paramsToShare) {
+                if("WechatMoments".equals(platform.getName())||"QZone".equals(platform.getName())){
+                    paramsToShare.setTitle(finalText);
+                }
+            }
+        });
         // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
         oks.setTitleUrl(mobilUrl);
         // url仅在微信（包括好友和朋友圈）中使用

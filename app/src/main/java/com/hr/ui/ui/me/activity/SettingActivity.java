@@ -22,6 +22,7 @@ import com.hr.ui.base.BaseActivity;
 import com.hr.ui.bean.NoticeBean;
 import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.login.activity.CompanyRegisterActivity;
+import com.hr.ui.ui.login.activity.PhoneLoginActivity;
 import com.hr.ui.ui.main.activity.SplashActivity;
 import com.hr.ui.ui.me.contract.SettingContract;
 import com.hr.ui.ui.me.model.SettingModel;
@@ -231,7 +232,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter, SettingModel
         sUtils.setIntValue(Constants.ISAUTOLOGIN, 0);
         sUtils.setStringValue(Constants.PERSONIMAGE, "");
         AppManager.getAppManager().finishAllActivity();
-        SplashActivity.startAction(this, 1);
+        PhoneLoginActivity.startAction(this);
 
     }
 

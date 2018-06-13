@@ -2,27 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:padding="16dp">
-
-    <FrameLayout
-        android:id="@+id/cp_list_item_location_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="?attr/cpListItemHeight"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?attr/selectableItemBackground"
-        tools:ignore="UselessParent">
+    tools:ignore="RtlSymmetry"
+    android:paddingLeft="@dimen/x32"
+    android:layout_height="wrap_content">
         <TextView
+            android:layout_marginTop="@dimen/x20"
+            android:layout_marginBottom="@dimen/x20"
+            android:background="@drawable/edit_bg_citysearch"
+            android:paddingTop="@dimen/x10"
             android:id="@+id/cp_list_item_location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/cp_grid_item_padding"
-            android:paddingBottom="@dimen/cp_grid_item_padding"
-            android:gravity="center"
-            android:background="?attr/cpGridItemBackground"
-            android:textSize="?attr/cpListItemTextSize"
-            android:textColor="?attr/cpListItemTextColor"/>
-    </FrameLayout>
+            android:text="@string/collection"
+            android:paddingLeft="@dimen/x20"
+            android:paddingRight="@dimen/x20"
+            android:paddingBottom="@dimen/x10"
+            android:textColor="@color/color_333"
+            android:textSize="@dimen/x32"/>
 </LinearLayout>

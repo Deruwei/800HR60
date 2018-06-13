@@ -8,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -47,6 +48,7 @@ import com.hr.ui.ui.resume.activity.ResumeProjectExpActivity;
 import com.hr.ui.ui.resume.activity.ResumeTrainActivity;
 import com.hr.ui.ui.resume.activity.ResumeWorkExpActivity;
 import com.hr.ui.utils.Base64;
+import com.hr.ui.utils.EventBusAction;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.datautils.FromStringToArrayList;
 import com.hr.ui.utils.datautils.ResumeInfoIDToString;
@@ -78,6 +80,10 @@ import butterknife.Unbinder;
 
 /**
  * Created by wdr on 2017/11/22.
+ * 简历页功能点：
+ * 1.显示简历基本内容
+ * 2.刷新简历
+ * 3.简历完整度显示
  */
 
 public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> implements ResumeContract.View, SwipeRefreshLayout.OnRefreshListener {
@@ -168,29 +174,30 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
     LinearLayout llNetError;
     @BindView(R.id.iv_updateResume)
     ImageView ivUpdateResume;
-    private boolean isCheck;
-    private List<ResumeBean.ResumeInfoBean.AssessInfoBean> assessInfoBean;
-    private List<ResumeBean.ResumeInfoBean.OrderInfoBean> orderInfoBean;
-    private List<ResumeBean.ResumeInfoBean.TitleInfoBean> titleInfoBean;
-    private List<ResumeBean.ResumeInfoBean.BaseInfoBean> baseInfoBean;
-    private List<ResumeBean.ResumeInfoBean.EducationListBean> educationListBeanList;
-    private List<ResumeBean.ResumeInfoBean.ExperienceListBean> experienceListBeanList;
-    private List<ResumeBean.ResumeInfoBean.LanguageListBean> languageListBeanList;
-    private List<ResumeBean.ResumeInfoBean.PlantListBean> plantListBeanList;
-    private List<ResumeBean.ResumeInfoBean.ProjectListBean> projectListBeanList;
-    private List<ResumeBean.ResumeInfoBean.SkillListBean> skillListBeanList;
-    private List<ResumeBean.ResumeInfoBean.SlaveListBean> slaveListBeanList;
+    private boolean isCheck; //是否设置简历隐藏
+    private List<ResumeBean.ResumeInfoBean.AssessInfoBean> assessInfoBean;//自我评价的list集合
+    private List<ResumeBean.ResumeInfoBean.OrderInfoBean> orderInfoBean;//求职意向的list集合
+    private List<ResumeBean.ResumeInfoBean.TitleInfoBean> titleInfoBean;//简历标题信息的list集合
+    private List<ResumeBean.ResumeInfoBean.BaseInfoBean> baseInfoBean;//个人信息的list集合
+    private List<ResumeBean.ResumeInfoBean.EducationListBean> educationListBeanList;//教育背景的list集合
+    private List<ResumeBean.ResumeInfoBean.ExperienceListBean> experienceListBeanList;//工作经历的list集合
+    private List<ResumeBean.ResumeInfoBean.LanguageListBean> languageListBeanList;//语言能力的list集合
+    private List<ResumeBean.ResumeInfoBean.PlantListBean> plantListBeanList; //培训经历的list集合
+    private List<ResumeBean.ResumeInfoBean.ProjectListBean> projectListBeanList;//项目经验的list集合
+    private List<ResumeBean.ResumeInfoBean.SkillListBean> skillListBeanList; //专业技能的list集合
+    private List<ResumeBean.ResumeInfoBean.SlaveListBean> slaveListBeanList; //附件的list集合
     private Calendar calendar;
     private PopupWindow popupWindow;
-    public static final int REQUEST_CODE_SELECT = 0x10;
-    public static final int IMAGE_PICKER = 0x20;
-    private String imagePath, resumeType;
+    public static final int REQUEST_CODE_SELECT = 0x10;//选择图标的请求码
+    public static final int IMAGE_PICKER = 0x20;//选择图片的返回码
+    private String imagePath, resumeType;//图片的地址，简历的类型
     private ResumeBean.ResumeInfoBean resumeInfoBean;
-    private boolean isFlesh, isCanFresh;
+    private boolean isFlesh, isCanFresh; //是否提示刷新成功，是否可以刷新简历
     private SharedPreferencesUtils sUtils;
     private int resumeId;
     private MyDialog dialog;
     public  static ResumeFragment instance;
+    private BottomSheetDialog bottomSheetDialog;
 
     public static ResumeFragment newInstance(String s) {
         ResumeFragment navigationFragment = new ResumeFragment();
@@ -527,7 +534,7 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
         sUtils.setStringValue(Constants.PERSONIMAGE, path);
         resumeInfoBean.getBase_info().get(0).setPic_filekey(path);
         Glide.with(this).load(Constants.IMAGE_BASEPATH + path).fitCenter() .into(ivResumePersonImage);
-        EventBus.getDefault().post(new EventHomeBean(1));
+        EventBus.getDefault().post(new EventHomeBean(EventBusAction.UPDATE_USERPICTURE));
         // Log.i("okht","你好啊 "+Constants.IMAGE_BASEPATH + path);
     }
 
@@ -716,65 +723,50 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
 
 
     private void takePhoto() {
-        final View popView = LayoutInflater.from(getActivity()).inflate(R.layout.layout_takephoto, null);
-        popupWindow = new PopupWindow(popView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
-        TextView tvTakePhoto = popView.findViewById(R.id.tv_takePhoto);
-        TextView tvSelectPicture = popView.findViewById(R.id.tv_selectPicture);
-        TextView tvCancel = popView.findViewById(R.id.tv_cancelSelect);
-        FrameLayout rl_takePhoto = popView.findViewById(R.id.rl_popTakePhoto);
-        rl_takePhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-            }
-        });
-        WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
-        lp.alpha = 0.7f;
-        getActivity().getWindow().setAttributes(lp);
-        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-
-            @Override
-            public void onDismiss() {
-                WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
-                lp.alpha = 1f;
-                getActivity().getWindow().setAttributes(lp);
-            }
-        });
-        if (Build.VERSION.SDK_INT >Build.VERSION_CODES.KITKAT) {
-            //  大于等于24即为4.4及以上执行内容
-            // 设置背景颜色变暗
-        } else {
-            //  低于19即为4.4以下执行内容
-            popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        if(bottomSheetDialog!=null){
+            bottomSheetDialog.show();
+        }else {
+            bottomSheetDialog = new BottomSheetDialog(getActivity());
+            final View popView = LayoutInflater.from(getActivity()).inflate(R.layout.layout_takephoto, null);
+            TextView tvTakePhoto = popView.findViewById(R.id.tv_takePhoto);
+            TextView tvSelectPicture = popView.findViewById(R.id.tv_selectPicture);
+            TextView tvCancel = popView.findViewById(R.id.tv_cancelSelect);
+            FrameLayout rl_takePhoto = popView.findViewById(R.id.rl_popTakePhoto);
+            rl_takePhoto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    bottomSheetDialog.dismiss();
+                }
+            });
+            tvTakePhoto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), ImageGridActivity.class);
+                    intent.putExtra(ImageGridActivity.EXTRAS_TAKE_PICKERS, true); // 是否是直接打开相机
+                    startActivityForResult(intent, REQUEST_CODE_SELECT);
+                    //*CompanyDetailActivity.startAction(getActivity());*//*
+                }
+            });
+            tvSelectPicture.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), ImageGridActivity.class);
+                    startActivityForResult(intent, IMAGE_PICKER);
+                    //*CompanyDetailActivity.startAction(getActivity());
+                }
+            });
+            tvCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    bottomSheetDialog.dismiss();
+                    //*CompanyDetailActivity.startAction(getActivity());*//*
+                }
+            });
+            bottomSheetDialog.setContentView(popView);
+            //设置点击dialog外部不消失
+            bottomSheetDialog.setCanceledOnTouchOutside(true);
+            bottomSheetDialog.show();
         }
-        popupWindow.setOutsideTouchable(true);
-        tvTakePhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ImageGridActivity.class);
-                intent.putExtra(ImageGridActivity.EXTRAS_TAKE_PICKERS, true); // 是否是直接打开相机
-                startActivityForResult(intent, REQUEST_CODE_SELECT);
-                /*CompanyDetailActivity.startAction(getActivity());*/
-            }
-        });
-        tvSelectPicture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ImageGridActivity.class);
-                startActivityForResult(intent, IMAGE_PICKER);
-                /*CompanyDetailActivity.startAction(getActivity());*/
-            }
-        });
-        tvCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-                /*CompanyDetailActivity.startAction(getActivity());*/
-            }
-        });
-        View rootview = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_resume, null);
-        popupWindow.setAnimationStyle(R.style.MyPopupWindow_anim_style);
-        popupWindow.showAtLocation(rootview, Gravity.BOTTOM, 0, 0);
     }
 
     //dp转px工具
@@ -805,6 +797,9 @@ public class ResumeFragment extends BaseFragment<ResumePresenter, ResumeModel> i
     }
 
     private void uploadImage() {
+        if(bottomSheetDialog!=null&&bottomSheetDialog.isShowing()){
+            bottomSheetDialog.dismiss();
+        }
         File file = new File(imagePath);
         if (file == null || !file.exists()) {
             ToastUitl.showShort("文件不存在");

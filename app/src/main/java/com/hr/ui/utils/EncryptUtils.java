@@ -348,7 +348,7 @@ public class EncryptUtils {
 	}
 	public static  String getBenDiPhoto(Context context){
 		Resources res = context.getResources();
-		BitmapDrawable d = (BitmapDrawable) res.getDrawable(R.drawable.share_logo);
+		BitmapDrawable d = (BitmapDrawable) res.getDrawable(R.drawable.app);
 		Bitmap img = d.getBitmap();
 		int width = img.getWidth();
 		int height = img.getHeight();

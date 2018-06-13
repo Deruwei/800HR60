@@ -42,6 +42,15 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
+/**
+ * 求职意向中选择职位Fragment功能点：
+ * 1.右视图选择职位大项的时候，职位小项消失，选择职位小项的时候，职位大项消失
+ * 2.除了医药，别的行业都没有职系（医药职系有一些有职系，有一些没有，请看代码Utils.checkMedicinePositionClass2()方法）
+ * 3.选择职位的时候，下方会选择显示职位的信息，点击它之后取消选择。
+ * 4.最多可以选择5个职位
+ * 5.当是添加求职意向的时候下面有保存按钮，点击之后传值回到求职意向页面
+ * 6.当是修改求职意向的时候右上角会有保存按钮，点击之后传值回到求职意向页面
+ */
 public class PositionFragment extends BaseFragment {
     @BindView(R.id.lv_chooseJobTitleMaxTerm)
     ListView lvChooseJobTitleMaxTerm;
@@ -70,16 +79,16 @@ public class PositionFragment extends BaseFragment {
     TextView tvSelectNum;
     @BindView(R.id.cv_selectNum)
     CardView cvSelectNum;
-    private String indutryId;
-    private List<CityBean> selectPositionList = new ArrayList<>();
-    private List<CityBean> selectRealPositionList = new ArrayList<>();
-    private List<CityBean> positonLeftList = new ArrayList<>();
-    private List<CityBean> positionRightList = new ArrayList<>();
-    private int sum, currentJobPosition;
-    private List<CityBean> selectPositionClassList = new ArrayList<>();
+    private String indutryId;//选择职位的id
+    private List<CityBean> selectPositionList = new ArrayList<>(); //当前选择职位的list集合
+    private List<CityBean> selectRealPositionList = new ArrayList<>(); //最终选择职位的list集合
+    private List<CityBean> positonLeftList = new ArrayList<>();//选择职位左边视图的list集合
+    private List<CityBean> positionRightList = new ArrayList<>();//选择职位右边视图的list集合
+    private int sum, currentJobPosition;//选择职位的个数，当前右视图选择职位的位置下标
+    private List<CityBean> selectPositionClassList = new ArrayList<>();//医药中职系的list集合
     private MySelectPositionLeftAdapter leftAdapter;
     private MySelectPositionRightAdapter rightAdapter;
-    private boolean isHidden;
+    private boolean isHidden;//是够隐藏显示选择职位个数的图形
 
     @Override
     protected int getLayoutResource() {

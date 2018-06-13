@@ -42,12 +42,12 @@ public class MyJobService extends JobService {
     @Override
     public void onCreate() {
         super.onCreate();
+        startForeground(2, new Notification());
         Log.d(TAG, "onCreate: ");
     }
 
     @Override
     public boolean onStartJob(JobParameters params) {
-        startForeground(2, new Notification());
         Log.d(TAG, "onStartJob: ");
         if(isNetworkConnected()){
             new WebDownLoadTask().execute(params);

@@ -2,6 +2,7 @@ package com.hr.ui.ui.main.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -223,12 +224,12 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
                         });
                     }
                     ((ViewHolderNormal) viewHolder).mflHomeFragmentCompany.removeAllViewsInLayout();
-                    if (jobsListBeanList.get(position).getOther_benefits() != null && !"".equals(jobsListBeanList.get(position).getOther_benefits())) {
+                    if (jobsListBeanList.get(position).getWelfare_label() != null && !"".equals(jobsListBeanList.get(position).getWelfare_label())) {
                         ((ViewHolderNormal) viewHolder).viewLineCompanyGoodness.setVisibility(View.VISIBLE);
                         ((ViewHolderNormal) viewHolder).svCompanyGoodness.setVisibility(View.VISIBLE);
-                        String[] s = jobsListBeanList.get(position).getOther_benefits().split("，");
-                        for (int i = 0; i < s.length; i++) {
-                            addCompanyGoodness(s[i], viewHolder);
+                        String[] s = jobsListBeanList.get(position).getWelfare_label().split(",");
+                        for (int j = 0; j < s.length; j++) {
+                            addCompanyGoodness(s[j], viewHolder);
                         }
                     } else {
                         ((ViewHolderNormal) viewHolder).viewLineCompanyGoodness.setVisibility(View.GONE);
@@ -282,12 +283,12 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
                 ((ViewHolderNormal) viewHolder).tvRecommendJobWorkYear.setText(jobsListBeanList2.get(position).getWorkyear());
                 ((ViewHolderNormal) viewHolder).tvRecommendJobCompanyType.setText(jobsListBeanList2.get(position).getCompany_type());
                 ((ViewHolderNormal) viewHolder).mflHomeFragmentCompany.removeAllViewsInLayout();
-                if (jobsListBeanList2.get(position).getOther_benefits() != null && !"".equals(jobsListBeanList2.get(position).getOther_benefits())) {
+                if (jobsListBeanList2.get(position).getWelfare_label() != null && !"".equals(jobsListBeanList2.get(position).getWelfare_label())) {
                     ((ViewHolderNormal) viewHolder).viewLineCompanyGoodness.setVisibility(View.VISIBLE);
                     ((ViewHolderNormal) viewHolder).svCompanyGoodness.setVisibility(View.VISIBLE);
-                    String[] s = jobsListBeanList2.get(position).getOther_benefits().split("，");
-                    for (int i = 0; i < s.length; i++) {
-                        addCompanyGoodness(s[i], viewHolder);
+                    String[] s = jobsListBeanList2.get(position).getWelfare_label().split(",");
+                    for (int j = 0; j < s.length; j++) {
+                        addCompanyGoodness(s[j], viewHolder);
                     }
                 } else {
                     ((ViewHolderNormal) viewHolder).viewLineCompanyGoodness.setVisibility(View.GONE);
@@ -338,10 +339,11 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
                 //viewHolder.tvRecommendJobCompanyType.setText(jobsListBeanList2.get(position).getCompany_type());
                 int num = (int) (Double.parseDouble(jobsListBeanList2.get(position).getMatch_value()) * 100.0);
                 ((ViewHolderNormal) viewHolder).pcvNum.SetProgram(num);
-                if (jobsListBeanList2.get(position).getOther_benefits() != null && !"".equals(jobsListBeanList2.get(position).getOther_benefits())) {
+                ((ViewHolderNormal) viewHolder).mflHomeFragmentCompany.removeAllViewsInLayout();
+                if (jobsListBeanList2.get(position).getWelfare_label() != null && !"".equals(jobsListBeanList2.get(position).getWelfare_label())) {
                     ((ViewHolderNormal) viewHolder).viewLineCompanyGoodness.setVisibility(View.VISIBLE);
                     ((ViewHolderNormal) viewHolder).svCompanyGoodness.setVisibility(View.VISIBLE);
-                    String[] s = jobsListBeanList2.get(position).getOther_benefits().split("，");
+                    String[] s = jobsListBeanList2.get(position).getWelfare_label().split(",");
                     for (int i = 0; i < s.length; i++) {
                         addCompanyGoodness(s[i], viewHolder);
                     }
@@ -381,10 +383,11 @@ public class MyRecommendJobAdapter extends RecyclerView.Adapter<MyRecommendJobAd
                 ((ViewHolderNormal) viewHolder).tvRecommendPersonNum.setText(jobsListBeanList.get(position - i).getNumber());
                 ((ViewHolderNormal) viewHolder).tvRecommendJobWorkYear.setText(jobsListBeanList.get(position - i).getWorkyear());
                 ((ViewHolderNormal) viewHolder).tvRecommendJobCompanyType.setText(jobsListBeanList.get(position - i).getCompany_type());
-                if (jobsListBeanList.get(position).getOther_benefits() != null && !"".equals(jobsListBeanList.get(position).getOther_benefits())) {
+                ((ViewHolderNormal) viewHolder).mflHomeFragmentCompany.removeAllViewsInLayout();
+                if (jobsListBeanList.get(position- i).getWelfare_label() != null && !"".equals(jobsListBeanList.get(position- i).getWelfare_label())) {
                     ((ViewHolderNormal) viewHolder).viewLineCompanyGoodness.setVisibility(View.VISIBLE);
                     ((ViewHolderNormal) viewHolder).svCompanyGoodness.setVisibility(View.VISIBLE);
-                    String[] s = jobsListBeanList.get(position).getOther_benefits().split("，");
+                    String[] s = jobsListBeanList.get(position- i).getWelfare_label().split(",");
                     for (int j = 0; j < s.length; j++) {
                         addCompanyGoodness(s[j], viewHolder);
                     }

@@ -156,6 +156,7 @@
     <string name="howToGet">如何得到：</string>
     <string name="login">登录</string>
     <string name="register">注册</string>
+    <string name="anotherLoginWay">其他登录方式</string>
     <string name="phoneLogin">手机登录</string>
     <string name="userLogin">用户登录</string>
     <string name="phoneNumber">手机号码</string>
@@ -167,7 +168,10 @@
     <string name="validLogin">动态码登录</string>
     <string name="newPsw">新密码</string>
     <string name="accountLogin">账号登录</string>
+    <string name="phonePswLogin">手机密码登录</string>
+    <string name="paste">粘贴</string>
     <string name="findPsw">找回密码</string>
+    <string name="forgetPsw">忘记密码</string>
     <string name="alreadyDeliver">已投递</string>
     <string name="Seem">被查看</string>
     <string name="improper">不合适</string>
@@ -183,7 +187,9 @@
     <string name="accountNumber">用户名</string>
     <string name="findAccountPsw">找回账号密码</string>
     <string name="emailNumber">邮箱号码</string>
-    <string name="getValidCode">获取验证码</string>
+    <string name="getValidCode">短信发送</string>
+    <string name="getVoiceCode">语音发送</string>
+    <string name="or">or</string>
     <string name="ValidCode">验证码</string>
     <string name="completeRegister">完成注册</string>
     <string name="hasMoreResume">检测到您有多份简历</string>

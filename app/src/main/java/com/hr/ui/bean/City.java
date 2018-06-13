@@ -19,18 +19,23 @@ public class City {
     private String pinyin;
     @Id
     private String code;
+    private boolean isCheck;
 
-    @Generated(hash = 1232311596)
-    public City(String name, String province, String pinyin, String code) {
+
+    @Generated(hash = 1242652543)
+    public City(String name, String province, String pinyin, String code,
+            boolean isCheck) {
         this.name = name;
         this.province = province;
         this.pinyin = pinyin;
         this.code = code;
+        this.isCheck = isCheck;
     }
 
     @Generated(hash = 750791287)
     public City() {
     }
+    
 
     /***
      * 获取悬浮栏文本，（#、定位、热门 需要特殊处理）
@@ -84,5 +89,21 @@ public class City {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public boolean isCheck() {
+        return isCheck;
+    }
+
+    public void setCheck(boolean check) {
+        isCheck = check;
+    }
+
+    public boolean getIsCheck() {
+        return this.isCheck;
+    }
+
+    public void setIsCheck(boolean isCheck) {
+        this.isCheck = isCheck;
     }
 }

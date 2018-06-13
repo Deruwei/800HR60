@@ -23,6 +23,7 @@ import com.hr.ui.base.BaseActivity;
 import com.hr.ui.bean.EducationBean;
 import com.hr.ui.bean.EducationData;
 import com.hr.ui.constants.Constants;
+import com.hr.ui.ui.login.activity.PhoneLoginActivity;
 import com.hr.ui.ui.main.contract.EducationContract;
 import com.hr.ui.ui.main.modle.EducationModel;
 import com.hr.ui.ui.main.presenter.EducationPresenter;
@@ -42,6 +43,9 @@ import butterknife.OnClick;
 
 /**
  * Created by wdr on 2017/12/13.
+ *快速简历的教育背景填写页面的功能点：
+ * 1.文本编辑的时候聚焦，不编辑的时候去焦，联系着右边的删除文本按钮
+ *
  */
 
 public class EducationActivity extends BaseActivity<EducationPresenter, EducationModel> implements EducationContract.View {
@@ -384,7 +388,7 @@ public class EducationActivity extends BaseActivity<EducationPresenter, Educatio
                 @Override
                 public void onYesClick() {
                     myDialog.dismiss();
-                    SplashActivity.startAction(EducationActivity.this,1);
+                    PhoneLoginActivity.startAction(EducationActivity.this);
                     SharedPreferencesUtils sUtils = new SharedPreferencesUtils(HRApplication.getAppContext());
                     sUtils.setIntValue(Constants.ISAUTOLOGIN, 0);
                     AppManager.getAppManager().finishAllActivity();

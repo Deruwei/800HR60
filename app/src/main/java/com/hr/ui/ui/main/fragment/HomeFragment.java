@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,6 +68,10 @@ import butterknife.Unbinder;
 
 /**
  * Created by wdr on 2017/11/22.
+ * 主页的功能点：
+ * 1.顶部轮播图banner 三秒执行一次 （1）当没有广告的时候刷新搜索视图不隐藏   （2）有广告的时候时，刷新搜索视图隐藏，刷新完成之后视图显示，滑动广告搜索视图背景变色
+ * 2.主页的显示结构：（1）当有推荐职位>=20个的时候，只显示20条数据，不能上拉加载 （2）当推荐职位不满20个的时候，首先先显示推荐职位，然后在显示求职意向的职位
+ *3.速投
  */
 
 public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragmentModel> implements HomeFragmentContract.View {
@@ -107,30 +112,28 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
     private int page = 1;
     public static HomeFragment instance;
     private MyRecommendDialog dialog;
-    private String industryName;
+    private String industryName,personImage, jobId, jobName; //行业名称,用户头像，职位id,职位名称
     private MyDialog dialogMessage;
     private Banner banner;
-    private View view_hidden;
-    private List<String> images = new ArrayList<>();
-    private List<String> titles = new ArrayList<>();
+    private List<String> images = new ArrayList<>();//banner图片集合
+    private List<String> titles = new ArrayList<>();//banner标题集合
     /**
      * 1 判断是否有第三方公司推荐职位的数据
      * 2.判断是否第三方公司推荐职位的数据满足20条
-     * 3.判断是否有公司职位推荐的数据
+     * 3.判断是否有求职意向的数据
+     * 4.判断是否有下拉加载求职意向的数据
      */
-    private boolean isHaveThirdRecommendData, isThirdRecommendDataFill, isHaveRecommendData;
+    private boolean isHaveThirdRecommendData, isThirdRecommendDataFill, isHaveRecommendData,isHaveRecommendDataLoad;
     private MyRecommendJobAdapter jobAdapter;
     //第三方公司推荐职位接口获取到的数据
     private List<HomeRecommendBean.JobsListBean> recommendList = new ArrayList<>();
     //公司职位推荐接口获取到的数据
     private List<RecommendJobBean.JobsListBean> recommendJobList = new ArrayList<>();
-    private PopupWindow popupWindowCalculateScore;
     private SharedPreferencesUtils sUtils;
-    private String personImage, jobId, jobName;
-    private int mProgress, position;
+    private int position;//当前选择的位置下标
     public static String TAG = HomeFragment.class.getSimpleName();
     private View header;
-    private boolean isHaveAds, isFreshAd;
+    private boolean isHaveAds;//是否有广告
 
     public static HomeFragment newInstance(String s) {
         HomeFragment navigationFragment = new HomeFragment();
@@ -203,7 +206,6 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
                     public void run() {
                         MobclickAgent.onEvent(HRApplication.getAppContext(), "v6_fresh_home");
                         refresh(false);
-                        jobAdapter.notifyDataSetChanged();
                     }
 
                 }, 1000);            //refresh data here
@@ -219,7 +221,6 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
                             page++;
                             mPresenter.getRecommendJob(page, 20, false);
                         }
-                        jobAdapter.notifyDataSetChanged();
                     }
                 }, 1000);
             }
@@ -261,7 +262,6 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
     public void stopLoading() {
 
     }
-
     @Override
     public void showErrorTip(String msg) {
 
@@ -315,10 +315,8 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
 
     @Override
     public void getRecommendJobSuccess(List<HomeRecommendBean.JobsListBean> jobsBeanList) {
-        //Log.i("现在的数据",jobsBeanList.toString());
         if (jobsBeanList != null && !"".equals(jobsBeanList) && jobsBeanList.size() != 0) {
             recommendList.clear();
-            //Log.i("你好",jobsBeanList.size()+"");
             recommendList.addAll(jobsBeanList);
             isHaveThirdRecommendData = true;
             if (recommendList.size() >= 20) {
@@ -354,18 +352,21 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
     @Override
     public void getRecommendJobSuccess2(List<RecommendJobBean.JobsListBean> jobsListBeanList) {
         //Log.i("推荐职位的信息",jobsListBeanList.size()+"");
-        if (jobsListBeanList != null && jobsListBeanList.size() != 0 && jobsListBeanList.size() != 0) {
+        if (jobsListBeanList != null && jobsListBeanList.size() != 0 &&!"".equals(jobsListBeanList)) {
             isHaveRecommendData = true;
+            isHaveRecommendDataLoad=true;
             if (page == 1) {
                 recommendJobList.clear();
             }
             recommendJobList.addAll(jobsListBeanList);
         } else {
+            isHaveRecommendDataLoad=false;
             if (page == 1) {
                 isHaveRecommendData = false;
             } else {
                 rvHomeFragment.setNoMore(true);
             }
+
         }
         setAdapter();
         jobAdapter.setClickCallBack(new MyRecommendJobAdapter.ItemClickCallBack() {
@@ -502,12 +503,13 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
             rvHomeFragment.refreshComplete();
             rlFragmentTitle.setVisibility(View.VISIBLE);
         } else {
-            rvHomeFragment.loadMoreComplete();
-            jobAdapter.notifyDataSetChanged();
+            if(isHaveRecommendDataLoad) {
+                rvHomeFragment.loadMoreComplete();
+                jobAdapter.notifyDataSetChanged();
+            }else{
+                rvHomeFragment.setNoMore(true);
+            }
         }
-       /* if (recommendJobList.size() < 20) {
-            rvHomeFragment.setLoadingMoreEnabled(true);
-        }*/
     }
 
     @Override
@@ -534,10 +536,8 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
     @Override
     public void goToCompleteResume(int errorCode) {
         if (errorCode == 413 || errorCode == 417) {
-            //ToastUitl.showShort(errorCode+"");
             setPopupwindow(2);
         } else {
-            //ToastUitl.showShort(errorCode+"");
             setPopupwindow(1);
         }
     }
@@ -637,66 +637,10 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
         }
         dialog.show();
     }
-   /* private void initCalculateScore(final int i) {
-        View viewCalculateScore = getLayoutInflater().inflate(R.layout.layout_calculatescore, null);
-        popupWindowCalculateScore = new PopupWindow(viewCalculateScore, LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-        PieChartView pcv = viewCalculateScore.findViewById(R.id.pcv_calculateScore);
-        TextView tvScore = viewCalculateScore.findViewById(R.id.tv_calculateSore);
-        final TextView tv_culculateSoreNum = viewCalculateScore.findViewById(R.id.tv_calculateScoreNum);
-        Button btnOK = viewCalculateScore.findViewById(R.id.btn_calculateScoreOK);
-        pcv.SetProgram(i);
-        mProgress = 0;
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (mProgress < i) {
-                    mProgress++;
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            tv_culculateSoreNum.setText(mProgress + "分");
-                        }
-                    });
-                    try {
-                        Thread.sleep(22);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }).start();
-        tvScore.setText(i + "");
-        btnOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWindowCalculateScore.dismiss();
-            }
-        });
-        // 设置背景颜色变暗
-        WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
-        lp.alpha = 0.7f;
-        getActivity().getWindow().setAttributes(lp);
-        popupWindowCalculateScore.setOnDismissListener(new PopupWindow.OnDismissListener() {
-
-            @Override
-            public void onDismiss() {
-                WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
-                lp.alpha = 1f;
-                getActivity().getWindow().setAttributes(lp);
-            }
-        });
-        popupWindowCalculateScore.setFocusable(true);
-        popupWindowCalculateScore.setOutsideTouchable(false);
-        popupWindowCalculateScore.setAnimationStyle(R.style.style_pop_animation);
-        popupWindowCalculateScore.showAtLocation(clHomeFragment, Gravity.CENTER, 0, 0);
-    }*/
-
     @OnClick({R.id.iv_ResumePersonPhoto, R.id.ll_netError, R.id.iv_noContent, R.id.iv_noDataSearch, R.id.rl_mainSearch})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_netError:
-                /*mPresenter.getRecommendJobInfo(20,true);*/
                 refresh(true);
                 break;
             case R.id.iv_ResumePersonPhoto:
@@ -706,7 +650,6 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
                 JobSerchActivity.startAction(getActivity());
                 break;
             case R.id.iv_noContent:
-                /*  mPresenter.getRecommendJobInfo( 20, true);*//**/
                 refresh(true);
                 break;
             case R.id.rl_mainSearch:
@@ -714,5 +657,4 @@ public class HomeFragment extends BaseFragment<HomeFragmentPresenter, HomeFragme
                 break;
         }
     }
-
 }

@@ -2,6 +2,8 @@ package com.hr.ui.ui.login.activity;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -17,11 +19,13 @@ import android.text.Spannable;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -31,9 +35,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.caption.netmonitorlibrary.netStateLib.NetUtils;
 import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
-import com.hr.ui.base.BaseActivity;
+import com.hr.ui.base.Base3Activity;
 import com.hr.ui.bean.MultipleResumeBean;
 import com.hr.ui.bean.ResumeBean;
 import com.hr.ui.constants.Constants;
@@ -45,7 +50,10 @@ import com.hr.ui.utils.EncryptUtils;
 import com.hr.ui.utils.RegularExpression;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.ToolUtils;
+import com.hr.ui.utils.Utils;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
+import com.hr.ui.view.VerificationAction;
+import com.hr.ui.view.VerificationCodeEditText;
 import com.service.CodeTimerService;
 import com.umeng.analytics.MobclickAgent;
 
@@ -59,13 +67,11 @@ import butterknife.OnClick;
  * Created by wdr on 2017/12/5.
  */
 
-public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterModel> implements RegisterContract.View {
+public class RegisterActivity extends Base3Activity<RegisterPresenter, RegisterModel> implements RegisterContract.View {
     @BindView(R.id.tool_bar)
     Toolbar toolBar;
     @BindView(R.id.et_phoneRegisterNumber)
     EditText etPhoneRegisterNumber;
-    @BindView(R.id.et_phoneRegisterValidCode)
-    EditText etPhoneRegisterValidCode;
     @BindView(R.id.iv_phoneRegisterPswIcon)
     ImageView ivPhoneRegisterPswIcon;
     @BindView(R.id.et_phoneRegisterPsw)
@@ -99,6 +105,16 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
     ImageView ivPhoneRegisterHiddenPsw;
     @BindView(R.id.cl_register)
     ConstraintLayout clRegister;
+    @BindView(R.id.vi_phoneRegisterValidCodeInput)
+    VerificationCodeEditText viPhoneRegisterValidCodeInput;
+    @BindView(R.id.tv_phoneRegisterValidCode)
+    TextView tvPhoneRegisterValidCode;
+    @BindView(R.id.rl_phoneRegisterValidCodeDelete)
+    RelativeLayout rlPhoneRegisterValidCodeDelete;
+    @BindView(R.id.tv_phoneRegisterOr)
+    TextView tvPhoneRegisterOr;
+    @BindView(R.id.tv_phoneRegisterVoice)
+    TextView tvPhoneRegisterVoice;
     private PopupWindow popupWindow;
     private String autoCode;
     private Intent mCodeTimerServiceIntent;
@@ -126,18 +142,20 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
         activity.overridePendingTransition(R.anim.fade_in,
                 R.anim.fade_out);
     }
+
     /**
      * 入口
      *
      * @param activity
      */
-    public static void startAction(Activity activity,String phoneNumber) {
+    public static void startAction(Activity activity, String phoneNumber) {
         Intent intent = new Intent(activity, RegisterActivity.class);
-        intent.putExtra("phone",phoneNumber);
+        intent.putExtra("phone", phoneNumber);
         activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.fade_in,
                 R.anim.fade_out);
     }
+
     @Override
     public void showLoading(String title) {
         Log.i(TAG, title);
@@ -215,12 +233,12 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
     @Override
     public void sendRegisterSuccess(int userId) {
         MobclickAgent.onEvent(mContext, "v6_register_phone");
-        MobclickAgent.onEvent(this,"v6_login_phone");
+        MobclickAgent.onEvent(this, "v6_login_phone");
         sUtils.setIntValue(Constants.ISAUTOLOGIN, 1);
         sUtils.setIntValue(Constants.AUTOLOGINTYPE, 0);
         sUtils.setStringValue(Constants.USERPHONE, phoneNumber);
         this.userId = userId;
-        sUtils.setStringValue(Constants.USERID,userId+"");
+        sUtils.setStringValue(Constants.USERID, userId + "");
         mPresenter.getResumeList();
     }
 
@@ -245,11 +263,11 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolBar.setTitle("");
-        phoneNumber=getIntent().getStringExtra("phone");
-        if(phoneNumber!=null&&!"".equals(phoneNumber)){
+        phoneNumber = getIntent().getStringExtra("phone");
+        if (phoneNumber != null && !"".equals(phoneNumber)) {
             etPhoneRegisterNumber.setText(phoneNumber);
-        }else{
-            phoneNumber="";
+        } else {
+            phoneNumber = "";
         }
         toolBar.setTitleTextColor(ContextCompat.getColor(HRApplication.getAppContext(), R.color.color_333));
         toolBar.setNavigationIcon(R.mipmap.back);
@@ -260,7 +278,33 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
                 finish();
             }
         });
+        viPhoneRegisterValidCodeInput.setOnVerificationCodeChangedListener(new VerificationAction.OnVerificationCodeChangedListener() {
+            @Override
+            public void onVerCodeChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() > 0) {
+                    ivPhoneRegisterValidCodeDelete.setVisibility(View.VISIBLE);
+                } else {
+                    ivPhoneRegisterValidCodeDelete.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onInputCompleted(CharSequence s) {
+
+            }
+        });
+       /* myClipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+        viPhoneRegisterValidCodeInput.setOnLongClickLitener(new VerificationCodeEditText.OnLongClickListener() {
+            @Override
+            public void onLongClick() {
+                //ToastUitl.showShort("你好");
+                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(viPhoneRegisterValidCodeInput.getWindowToken(), 0);
+                initPopupWindow();
+            }
+        });*/
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -277,105 +321,11 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
     }
 
     private void onEditViewTextChangeAndFocusChange() {
-        etPhoneRegisterValidCode.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() > 0) {
-                    ivPhoneRegisterValidCodeDelete.setVisibility(View.VISIBLE);
-                } else {
-                    ivPhoneRegisterValidCodeDelete.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        etPhoneRegisterNumber.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() > 0) {
-                    ivPhoneRegisterPhoneDelete.setVisibility(View.VISIBLE);
-                } else {
-                    ivPhoneRegisterPhoneDelete.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        etPhoneRegisterPsw.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() > 0) {
-                    ivPhoneRegisterPswDelete.setVisibility(View.VISIBLE);
-                } else {
-                    ivPhoneRegisterPswDelete.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        etPhoneRegisterPsw.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    ivPhoneRegisterPswDelete.setVisibility(View.GONE);
-                } else {
-                    if (etPhoneRegisterPsw.getText().toString() != null && !"".equals(etPhoneRegisterPsw.getText().toString())) {
-                        ivPhoneRegisterPswDelete.setVisibility(View.VISIBLE);
-                    }
-                }
-            }
-        });
-        etPhoneRegisterNumber.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    ivPhoneRegisterPhoneDelete.setVisibility(View.GONE);
-                } else {
-                    if (etPhoneRegisterNumber.getText().toString() != null && !"".equals(etPhoneRegisterNumber.getText().toString())) {
-                        ivPhoneRegisterPhoneDelete.setVisibility(View.VISIBLE);
-                    }
-                }
-            }
-        });
-        etPhoneRegisterValidCode.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    ivPhoneRegisterValidCodeDelete.setVisibility(View.GONE);
-                } else {
-                    if (etPhoneRegisterValidCode.getText().toString() != null && !"".equals(etPhoneRegisterValidCode.getText().toString())) {
-                        ivPhoneRegisterValidCodeDelete.setVisibility(View.VISIBLE);
-                    }
-                }
-            }
-        });
+        Utils.setEditViewTextChangeAndFocus(etPhoneRegisterNumber,ivPhoneRegisterPhoneDelete);
+        Utils.setEditViewTextChangeAndFocus(etPhoneRegisterPsw,ivPhoneRegisterPswDelete);
     }
 
-    @OnClick({R.id.tv_phoneRegisterGetValidCode, R.id.btn_phoneRegisterOK, R.id.iv_phoneRegisterHiddenPsw, R.id.iv_phoneRegisterPhoneDelete, R.id.iv_phoneRegisterPswDelete, R.id.iv_phoneRegisterValidCodeDelete})
+    @OnClick({R.id.tv_phoneRegisterGetValidCode, R.id.btn_phoneRegisterOK,R.id.tv_phoneRegisterVoice, R.id.iv_phoneRegisterHiddenPsw, R.id.iv_phoneRegisterPhoneDelete, R.id.iv_phoneRegisterPswDelete, R.id.iv_phoneRegisterValidCodeDelete})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_phoneRegisterHiddenPsw:
@@ -400,14 +350,20 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
             case R.id.iv_phoneRegisterPhoneDelete:
                 etPhoneRegisterNumber.setText("");
                 break;
+            case R.id.tv_phoneRegisterVoice:
+                viPhoneRegisterValidCodeInput.setVisibility(View.VISIBLE);
+                tvPhoneRegisterValidCode.setVisibility(View.GONE);
+                break;
             case R.id.iv_phoneRegisterPswDelete:
                 etPhoneRegisterPsw.setText("");
                 break;
             case R.id.iv_phoneRegisterValidCodeDelete:
-                etPhoneRegisterValidCode.setText("");
+                viPhoneRegisterValidCodeInput.setValue("");
                 break;
             case R.id.tv_phoneRegisterGetValidCode:
                 type = 1;
+                viPhoneRegisterValidCodeInput.setVisibility(View.VISIBLE);
+                tvPhoneRegisterValidCode.setVisibility(View.GONE);
                 String phoneNumber1 = etPhoneRegisterNumber.getText().toString();
                 if (!"".equals(phoneNumber1) && phoneNumber1 != null) {
                     if (RegularExpression.isCellphone(phoneNumber1)) {
@@ -432,8 +388,8 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
 
     private void doRegister() {
         phoneNumber = etPhoneRegisterNumber.getText().toString();
-        validCode = etPhoneRegisterValidCode.getText().toString();
-        password = etPhoneRegisterPsw.getText().toString();
+        validCode = viPhoneRegisterValidCodeInput.getText().toString();
+        password = viPhoneRegisterValidCodeInput.getText().toString();
 
         if ("".equals(phoneNumber) || phoneNumber == null) {
             ToastUitl.showShort("请输入手机号码");
@@ -455,7 +411,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
             ToastUitl.showShort("请输入长度为6-25位的密码");
             return;
         }
-        type=0;
+        type = 0;
         mPresenter.validPhoneIsExit(phoneNumber);
 
     }
@@ -494,7 +450,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
                 getWindow().setAttributes(lp);
             }
         });
-        if (Build.VERSION.SDK_INT >Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
             //  大于等于19即为4.4及以上执行内容
             // 设置背景颜色变暗
         } else {
@@ -536,6 +492,16 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, RegisterMo
         super.onDestroy();
         stopService(mCodeTimerServiceIntent);
         unregisterReceiver(mCodeTimerReceiver);
+    }
+
+    @Override
+    protected void onNetworkConnected(NetUtils.NetType type) {
+        Utils.getConnect();
+    }
+
+    @Override
+    protected void onNetworkDisConnected() {
+
     }
 
     @OnClick(R.id.tv_registerHasAccount)

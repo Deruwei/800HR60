@@ -61,6 +61,7 @@ import com.hr.ui.ui.me.activity.ScanHistoryActivity;
 import com.hr.ui.ui.me.activity.SettingActivity;
 import com.hr.ui.utils.CodeTimer;
 import com.hr.ui.utils.EncryptUtils;
+import com.hr.ui.utils.EventBusAction;
 import com.hr.ui.utils.RegularExpression;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
@@ -253,7 +254,7 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
                 MobclickAgent.onEvent(this, "v6_scan_message");
                 MobclickAgent.onEvent(this, "v6_fresh_message");
                // MessageFragment.instance.getDate(false);
-                EventBus.getDefault().post(new EventHomeBean(4));
+                EventBus.getDefault().post(new EventHomeBean(EventBusAction.MESSAGEFRAGMENT_REFLESH));
             }
             if (index == 2) {
                 MobclickAgent.onEvent(this, "v6_scan_resume");

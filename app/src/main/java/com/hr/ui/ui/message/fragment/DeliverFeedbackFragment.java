@@ -21,6 +21,7 @@ import com.hr.ui.ui.message.adapter.MyDeliverFeedbackAdapter;
 import com.hr.ui.ui.message.contract.DeliverFeedbackContract;
 import com.hr.ui.ui.message.model.DeliverFeedBackFragmentModel;
 import com.hr.ui.ui.message.presenter.DeliverFeedbackFragmentPresenter;
+import com.hr.ui.utils.EventBusAction;
 import com.hr.ui.utils.ProgressStyle;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.view.XRecyclerView;
@@ -245,6 +246,6 @@ public class DeliverFeedbackFragment extends BaseFragment<DeliverFeedbackFragmen
 
     @Override
     public void setDeliverFeedBackIsReadSuccess() {
-        EventBus.getDefault().post(new EventHomeBean(2));
+        EventBus.getDefault().post(new EventHomeBean(EventBusAction.MESSAGEFRAGMENT_DELIVERFEEDBACK_READSTATE));
     }
 }

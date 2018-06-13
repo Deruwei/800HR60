@@ -1,7 +1,15 @@
 package com.hr.ui.api;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
@@ -53,7 +61,7 @@ public class ApiParameter {
         if (sUtils.getBooleanValue(Constants.IS_GUIDE, false)) {// 第一次运行
             sUtils.setBooleanValue(Constants.IS_GUIDE, true);
             requestMap.put("new_setup", "1");
-            sUtils.setStringValue(Constants.DEVICE_USER_ID, newRandomUUID());
+            sUtils.setStringValue(Constants.DEVICE_USER_ID, getPhoneInfo(context));
         } else {
             //Toast.makeText(context,"2",Toast.LENGTH_SHORT).show();
             requestMap.put("new_setup", "0");
@@ -63,10 +71,13 @@ public class ApiParameter {
         requestMap.put("width", String.valueOf(displayMetrics.widthPixels));
         requestMap.put("height", String.valueOf(displayMetrics.heightPixels));
         String username = sUtils.getStringValue(Constants.DEVICE_USER_ID, "");
-        requestMap.put("phonecode", username);
+      /*  Log.i("设备唯一码",username+"---");*/
+        if(username!=null&&!"".equals(username)) {
+            requestMap.put("phonecode", username);
+        }
         requestMap.put("model", AndroidUtils.get_model());
         requestMap.put("dnfrom", Utils.getAppMetaData(HRApplication.getAppContext(),"UMENG_CHANNEL"));
-
+        //Log.i("设备唯一码",username+"---"+Utils.getAppMetaData(HRApplication.getAppContext(),"UMENG_CHANNEL"));
         requestMap.put("network_type", new NetworkMng(context).getNetworkType());
         return requestMap;
     }
@@ -74,6 +85,13 @@ public class ApiParameter {
         String uuidRaw = UUID.randomUUID().toString();
         return uuidRaw.replaceAll("-", "");
     }
+    @SuppressLint("MissingPermission")
+    public static String getPhoneInfo(Context context) {
+            TelephonyManager tm = (TelephonyManager) context
+                    .getSystemService(Context.TELEPHONY_SERVICE);
+            return tm.getDeviceId();
+    }
+
 
     /**
      * 手机验证码
@@ -414,7 +432,7 @@ public class ApiParameter {
         requestMap.put("degree",educationData.getDegree());
         requestMap.put("moremajor",educationData.getProfession());
         requestMap.put("edudetail","");
-        Log.i("okht",requestMap.toString());
+        //Log.i("okht",requestMap.toString());
         return requestMap;
     }
 
@@ -467,7 +485,7 @@ public class ApiParameter {
             requestMap.put("resume_id", resumeId+"");
         }
         if(jobOrderData.getJobStyle()==null||"".equals(jobOrderData.getJobStyle())){
-                requestMap.put("current_workstate", "11");
+            requestMap.put("current_workstate", "11");
         }else{
             requestMap.put("current_workstate", jobOrderData.getJobStyle());
         }

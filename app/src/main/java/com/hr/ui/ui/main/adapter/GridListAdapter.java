@@ -44,18 +44,6 @@ public class GridListAdapter extends RecyclerView.Adapter<GridListAdapter.GridVi
         final City data = mData.get(pos);
         if (data == null) return;
         //设置item宽高
-        DisplayMetrics dm = mContext.getResources().getDisplayMetrics();
-        int screenWidth = dm.widthPixels;
-        TypedValue typedValue = new TypedValue();
-        mContext.getTheme().resolveAttribute(R.attr.cpGridItemSpace, typedValue, true);
-        int space = mContext.getResources().getDimensionPixelSize(typedValue.resourceId);
-        int padding = mContext.getResources().getDimensionPixelSize(R.dimen.x15);
-        int indexBarWidth = mContext.getResources().getDimensionPixelSize(R.dimen.x100);
-        int itemWidth = (screenWidth - padding - space * (SPAN_COUNT - 1) - indexBarWidth) / SPAN_COUNT;
-        ViewGroup.LayoutParams lp = holder.container.getLayoutParams();
-        lp.width = itemWidth;
-        lp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-        holder.container.setLayoutParams(lp);
 
         holder.name.setText(data.getName());
         holder.container.setOnClickListener(new View.OnClickListener() {

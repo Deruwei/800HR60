@@ -38,12 +38,14 @@ public class CityListAdapter extends RecyclerView.Adapter<CityListAdapter.BaseVi
     private InnerListener mInnerListener;
     private LinearLayoutManager mLayoutManager;
     private boolean stateChanged;
+    private RecyclerView recyclerView;
 
-    public CityListAdapter(Context context, List<City> data, List<HotCity> hotData, int state) {
+    public CityListAdapter(Context context, List<City> data, List<HotCity> hotData, int state,RecyclerView recyclerView) {
         this.mData = data;
         this.mContext = context;
         this.mHotData = hotData;
         this.locateState = state;
+        this.recyclerView=recyclerView;
     }
 
     public void setLayoutManager(LinearLayoutManager manager){
@@ -136,7 +138,7 @@ public class CityListAdapter extends RecyclerView.Adapter<CityListAdapter.BaseVi
             final int pos = holder.getAdapterPosition();
             final City data = mData.get(pos);
             if (data == null) return;
-            //设置宽高
+           /*//设置宽高
             DisplayMetrics dm = mContext.getResources().getDisplayMetrics();
             int screenWidth = dm.widthPixels;
             TypedValue typedValue = new TypedValue();
@@ -145,10 +147,10 @@ public class CityListAdapter extends RecyclerView.Adapter<CityListAdapter.BaseVi
             int padding = mContext.getResources().getDimensionPixelSize(R.dimen.x15);
             int indexBarWidth = mContext.getResources().getDimensionPixelSize(R.dimen.x100);
             int itemWidth = (screenWidth - padding - space * (GridListAdapter.SPAN_COUNT - 1) - indexBarWidth) / GridListAdapter.SPAN_COUNT;
-            ViewGroup.LayoutParams lp = ((LocationViewHolder) holder).container.getLayoutParams();
+            ViewGroup.LayoutParams lp = ((LocationViewHolder) holder).current.getLayoutParams();
             lp.width = itemWidth;
             lp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-            ((LocationViewHolder) holder).container.setLayoutParams(lp);
+            ((LocationViewHolder) holder).current.setLayoutParams(lp);*/
 
             switch (locateState){
                 case LocateState.LOCATING:
@@ -161,7 +163,7 @@ public class CityListAdapter extends RecyclerView.Adapter<CityListAdapter.BaseVi
                     ((LocationViewHolder) holder).current.setText(R.string.locationFailure);
                     break;
             }
-            ((LocationViewHolder) holder).container.setOnClickListener(new View.OnClickListener() {
+            ((LocationViewHolder) holder).current.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (locateState == LocateState.SUCCESS) {
@@ -230,20 +232,18 @@ public class CityListAdapter extends RecyclerView.Adapter<CityListAdapter.BaseVi
             mRecyclerView = itemView.findViewById(R.id.cp_hot_list);
             mRecyclerView.setHasFixedSize(true);
             mRecyclerView.setLayoutManager(new GridLayoutManager(itemView.getContext(),
-                    GridListAdapter.SPAN_COUNT, LinearLayoutManager.VERTICAL, false));
-            int space = itemView.getContext().getResources().getDimensionPixelSize(R.dimen.x30);
+                   4, GridLayoutManager.VERTICAL,false));
+           /* int space = itemView.getContext().getResources().getDimensionPixelSize(R.dimen.x30);
             mRecyclerView.addItemDecoration(new GridItemDecoration(GridListAdapter.SPAN_COUNT,
-                    space));
+                    space));*/
         }
     }
 
     public static class LocationViewHolder extends BaseViewHolder {
-        FrameLayout container;
         TextView current;
 
         LocationViewHolder(View itemView) {
             super(itemView);
-            container = itemView.findViewById(R.id.cp_list_item_location_layout);
             current = itemView.findViewById(R.id.cp_list_item_location);
         }
     }

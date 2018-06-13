@@ -18,6 +18,7 @@ import com.hr.ui.app.AppManager;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseNoConnectNetworkAcitivty;
 import com.hr.ui.constants.Constants;
+import com.hr.ui.ui.login.activity.PhoneLoginActivity;
 import com.hr.ui.ui.main.adapter.MyRobotAdapter;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.MyDialog;
@@ -136,7 +137,7 @@ public class RobotActivity extends BaseNoConnectNetworkAcitivty{
                 @Override
                 public void onYesClick() {
                     myDialog.dismiss();
-                    SplashActivity.startAction(RobotActivity.this,1);
+                    PhoneLoginActivity.startAction(RobotActivity.this);
                     SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
                     sUtils.setIntValue(Constants.ISAUTOLOGIN,0);
                     AppManager.getAppManager().finishAllActivity();

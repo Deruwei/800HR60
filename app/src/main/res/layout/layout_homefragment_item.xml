@@ -45,7 +45,7 @@
             <RelativeLayout
                 android:id="@+id/rl_homeFragmentItemLeft"
                 android:layout_width="@dimen/x63"
-                android:layout_height="@dimen/x300"
+                android:layout_height="@dimen/x200"
                 android:layout_centerVertical="true"
                 android:visibility="gone">
 

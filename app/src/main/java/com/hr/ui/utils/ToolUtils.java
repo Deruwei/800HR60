@@ -47,7 +47,7 @@ public class ToolUtils {
         }
         return instance;
     }
-    public  void judgeResumeMultipleOrOne(Activity activity, MultipleResumeBean multipleResumeBean, int userId, int[] imageIds, LoginPresenter mPresenter){
+    public  void judgeResumeMultipleOrOne(Activity activity, MultipleResumeBean multipleResumeBean, int userId, LoginPresenter mPresenter){
         SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
         sUtils.setStringValue(Constants.USERPHONE,multipleResumeBean.getBase_info().get(0).getYdphone());
         if("2".equals(multipleResumeBean.getBase_info().get(0).getYdphone_verify_status())){

@@ -62,7 +62,7 @@ public class Constants {
     public static final String IMAGE_BASEPATH2="http://img.800hr.com";
     //正式
     public static final String API_URL = "https://api.800hr.com/svrdo.php";
-    public static final String API_MIDDLE="svrdo.php";
+    public static final String API_MIDDLE="svrdo_v0.php";
     //测试
      public static final String API_URL_Text = "https://api.800hr.com/svrdo_v0.php";
      public static final String  API_MIDDLE_TEST="svrdo.php";

@@ -168,7 +168,7 @@ public class BindPhoneLoginActivity extends BaseActivity<LoginPresenter, LoginMo
 
     @Override
     public void getResumeListSuccess(MultipleResumeBean multipleResumeBean) {
-        ToolUtils.getInstance().judgeResumeMultipleOrOne(this, multipleResumeBean, userId, imageIds, mPresenter);
+        ToolUtils.getInstance().judgeResumeMultipleOrOne(this, multipleResumeBean, userId, mPresenter);
     }
 
     @Override

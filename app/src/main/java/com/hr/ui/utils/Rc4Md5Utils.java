@@ -180,9 +180,11 @@ public class Rc4Md5Utils {
             case 202:
                 return R.string.error_202;
             case 203:
-                return R.string.error_1101;
+                Utils.getConnect();
+                break;
             case 204:
-                return R.string.error_1101;
+                Utils.getConnect();
+                break;
             case 205:
                 return R.string.error_205;
          /*   case 206:

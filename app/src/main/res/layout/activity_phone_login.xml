@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
+        android:id="@+id/rl_phoneLoginRegister"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="@dimen/x84"
+        android:layout_marginRight="@dimen/x56"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_centerVertical="true"
+            android:id="@+id/iv_phoneLoginRegisterIcon"
+            android:src="@mipmap/register"
+            android:layout_marginRight="@dimen/x6"
+            android:layout_width="@dimen/x30"
+            android:layout_height="@dimen/x32" />
+        <TextView
+            android:layout_toRightOf="@id/iv_phoneLoginRegisterIcon"
+            android:layout_width="wrap_content"
+            android:text="@string/register"
+            android:textSize="@dimen/x32"
+            android:layout_centerVertical="true"
+            android:textColor="@color/new_main"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <ImageView
+        android:id="@+id/iv_phoneLoginFindJobIcon"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rl_phoneLoginRegister"
+        android:src="@mipmap/find_job"
+        android:transitionName="logo"
+        android:layout_marginTop="@dimen/x66"
+        android:layout_width="@dimen/x408"
+        android:layout_height="@dimen/x99" />
+    <LinearLayout
+        android:layout_marginLeft="@dimen/x75"
+        android:layout_marginTop="@dimen/x61"
+        android:layout_marginRight="@dimen/x75"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_phoneLoginFindJobIcon"
+        android:id="@+id/ll_phoneLogin"
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content">
+        <RelativeLayout style="@style/login_relativeLayout">
+
+            <ImageView
+                android:id="@+id/iv_phoneLoginNumberIcon"
+                style="@style/Login_imageViewIcon"
+                android:src="@mipmap/phone" />
+
+            <EditText
+                android:id="@+id/et_phoneLoginNumber"
+                style="@style/login_editText"
+                android:layout_marginRight="@dimen/x6"
+                android:maxLength="11"
+                android:layout_toLeftOf="@+id/iv_phoneLoginPhoneDelete"
+                android:layout_toRightOf="@+id/iv_phoneLoginNumberIcon"
+                android:hint="@string/phoneNumber"
+                android:inputType="number" />
+
+            <ImageView
+                android:id="@+id/iv_phoneLoginPhoneDelete"
+                style="@style/Login_imageViewIcon"
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/delete"
+                android:visibility="gone" />
+
+            <View
+                style="@style/login_view"
+                android:layout_below="@+id/et_phoneLoginNumber" />
+        </RelativeLayout>
+        <RelativeLayout
+            style="@style/login_relativeLayout">
+            <ImageView
+                android:id="@+id/iv_phoneLoginPswIcon"
+                android:src="@mipmap/psw"
+                style="@style/Login_imageViewIcon"
+                />
+            <EditText
+                android:layout_marginRight="@dimen/x10"
+                android:layout_toRightOf="@+id/iv_phoneLoginPswIcon"
+                android:inputType="textPassword"
+                android:id="@+id/et_phoneLoginPsw"
+                android:layout_toLeftOf="@+id/iv_phoneLoginPswDelete"
+                android:hint="@string/psw"
+                style="@style/login_editText"
+                />
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/iv_phoneLoginPswDelete"
+                android:src="@mipmap/delete"
+                android:layout_marginRight="@dimen/x20"
+                android:layout_toLeftOf="@+id/rl_phoneLoginHiddenPsw"
+                style="@style/Login_imageViewIcon" />
+            <RelativeLayout
+                android:id="@+id/rl_phoneLoginHiddenPsw"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/iv_phoneLoginHiddenPsw"
+                    style="@style/login_ImageViewHidden"
+                    />
+            </RelativeLayout>
+            <View
+                android:layout_below="@+id/et_phoneLoginPsw"
+                style="@style/login_view"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_phoneLoginAnotherLoginWay"
+        android:layout_width="wrap_content"
+        android:layout_height="17dp"
+        android:layout_marginLeft="@dimen/x75"
+        android:layout_marginTop="@dimen/x40"
+        android:text="@string/anotherLoginWay"
+        android:textColor="@color/new_main"
+        android:textSize="@dimen/x28"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_phoneLogin" />
+    <TextView
+        android:id="@+id/tv_phoneLoginForgetPsw"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textSize="@dimen/x28"
+        app:layout_constraintTop_toBottomOf="@+id/ll_phoneLogin"
+        android:textColor="@color/new_main"
+        android:layout_marginTop="@dimen/x40"
+        android:layout_marginRight="@dimen/x75"
+        android:text="@string/forgetPsw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <Button
+        android:layout_marginTop="@dimen/x140"
+        android:layout_marginLeft="@dimen/x75"
+        android:layout_marginRight="@dimen/x75"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_phoneLoginAnotherLoginWay"
+        android:id="@+id/btn_phoneLoginOK"
+        style="@style/login_buttonOK"
+        android:text="@string/login" />
+    <RelativeLayout
+        android:id="@+id/ll_phoneLoginBottom"
+        android:layout_marginLeft="@dimen/x33"
+        android:layout_marginRight="@dimen/x33"
+        app:layout_constraintTop_toBottomOf="@+id/btn_phoneLoginOK"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp">
+        <RelativeLayout
+            android:layout_marginBottom="@dimen/x52"
+            android:layout_above="@+id/rl_phoneLoginThirdPart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <View
+                android:layout_toLeftOf="@+id/tv_text"
+                android:layout_width="match_parent"
+                android:layout_marginRight="5dp"
+                android:layout_centerVertical="true"
+                android:layout_height="@dimen/dimen_1dp"
+                android:background="@color/thirdPartColor"/>
+            <View
+                android:layout_toRightOf="@+id/tv_text"
+                android:layout_width="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_height="@dimen/dimen_1dp"
+                android:background="@color/thirdPartColor"/>
+            <TextView
+                android:id="@+id/tv_text"
+                android:textColor="@color/thirdPartColor"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/userThirdPartLogin"
+                android:gravity="center"
+                android:textSize="@dimen/x24"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rl_phoneLoginThirdPart"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="@dimen/x208"
+            android:layout_marginLeft="@dimen/x208"
+            android:layout_marginBottom="@dimen/x54"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/iv_phoneLoginQQ"
+                android:src="@mipmap/qq"
+                android:layout_width="@dimen/x54"
+                android:layout_height="@dimen/y56" />
+            <ImageView
+                android:id="@+id/iv_phoneLoginWeChat"
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/wechat"
+                android:layout_width="@dimen/x68"
+                android:layout_height="@dimen/y54" />
+        </RelativeLayout>
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>

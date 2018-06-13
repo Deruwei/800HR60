@@ -49,7 +49,7 @@ public class SplashPresenter extends SplashContract.Presenter {
     private static final String TAG=SplashPresenter.class.getSimpleName();
     @Override
     public void getConnect(final Context context) {
-        mRxManage.add(mModel.getConnect().subscribe(new RxSubscriber<BaseBean>(mContext,true) {
+        mRxManage.add(mModel.getConnect().subscribe(new RxSubscriber<BaseBean>(mContext,false) {
 
             @Override
             protected void _onNext(BaseBean baseBean) {
@@ -201,6 +201,9 @@ public class SplashPresenter extends SplashContract.Presenter {
                 if(!sUtils.getStringValue(Constants.CITY_VER,"").equals(arrayInfoBean.getCity().getVer())||!SaveFile.fileIsExists("city.txt")){
                     getArrayData("client/file/array/city.php","city.txt");
                 }
+                if(!sUtils.getStringValue(Constants.CITY_VER,"").equals(arrayInfoBean.getCity().getVer())||!SaveFile.fileIsExists("city_new.txt")){
+                    getArrayData("client/file/array/city.php","city_new.txt");
+                }
                 if(!sUtils.getStringValue(Constants.JOB_VER,"").equals(arrayInfoBean.getJob().getVer())||!SaveFile.fileIsExists("job.txt")){
                     getArrayData("client/file/array/job.php","job.txt");
                 }
@@ -227,9 +230,6 @@ public class SplashPresenter extends SplashContract.Presenter {
                 try {
                     String s= responseBody.string().toString();
                     SaveFile.updateCJ(mContext,fileName,s);
-                    if(fileName.equals("city.txt")){
-                        SaveFile.updateCJ(mContext,"city_new.txt",s);
-                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

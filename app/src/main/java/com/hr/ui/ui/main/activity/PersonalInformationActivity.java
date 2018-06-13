@@ -9,6 +9,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -38,6 +39,7 @@ import com.hr.ui.bean.CityBean;
 import com.hr.ui.bean.EventBean;
 import com.hr.ui.bean.PersonalInformationData;
 import com.hr.ui.constants.Constants;
+import com.hr.ui.ui.login.activity.PhoneLoginActivity;
 import com.hr.ui.ui.main.contract.PersonalInformationContract;
 import com.hr.ui.ui.main.modle.PersonalInformationModel;
 import com.hr.ui.ui.main.presenter.PersonalInformationPresenter;
@@ -149,6 +151,7 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
     private String imagePath;
     private String content,workYear;
     private String resumeType;
+    private BottomSheetDialog dialog;
     /**
      * 入口
      *
@@ -486,7 +489,7 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
                 @Override
                 public void onYesClick() {
                     myDialog.dismiss();
-                    SplashActivity.startAction(PersonalInformationActivity.this,1);
+                    PhoneLoginActivity.startAction(PersonalInformationActivity.this);
                     SharedPreferencesUtils sUtils = new SharedPreferencesUtils(HRApplication.getAppContext());
                     sUtils.setIntValue(Constants.ISAUTOLOGIN, 0);
                     AppManager.getAppManager().finishAllActivity();
@@ -515,65 +518,49 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
         return super.onKeyDown(keyCode, event);
     }
     private void takePhoto() {
-        final View popView = LayoutInflater.from(this).inflate(R.layout.layout_takephoto, null);
-        popupWindow = new PopupWindow(popView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, true);
-        TextView tvTakePhoto = popView.findViewById(R.id.tv_takePhoto);
-        TextView tvSelectPicture = popView.findViewById(R.id.tv_selectPicture);
-        TextView tvCancel = popView.findViewById(R.id.tv_cancelSelect);
-        FrameLayout rl_takePhoto=popView.findViewById(R.id.rl_popTakePhoto);
-        rl_takePhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-            }
-        });
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.alpha = 0.7f;
-        getWindow().setAttributes(lp);
-        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-
-            @Override
-            public void onDismiss() {
-                WindowManager.LayoutParams lp = getWindow().getAttributes();
-                lp.alpha = 1f;
-               getWindow().setAttributes(lp);
-            }
-        });
-        if (Build.VERSION.SDK_INT >Build.VERSION_CODES.KITKAT) {
-            //  大于等于24即为4.4及以上执行内容
-            // 设置背景颜色变暗
-        } else {
-            //  低于19即为4.4以下执行内容
-            popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        if(dialog!=null){
+            dialog.show();
+        }else{
+            dialog=new BottomSheetDialog(this);
+            View popView = LayoutInflater.from(this).inflate(R.layout.layout_takephoto, null);
+            TextView tvTakePhoto = popView.findViewById(R.id.tv_takePhoto);
+            TextView tvSelectPicture = popView.findViewById(R.id.tv_selectPicture);
+            TextView tvCancel = popView.findViewById(R.id.tv_cancelSelect);
+            FrameLayout rl_takePhoto=popView.findViewById(R.id.rl_popTakePhoto);
+            rl_takePhoto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    popupWindow.dismiss();
+                }
+            });
+            tvTakePhoto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(PersonalInformationActivity.this, ImageGridActivity.class);
+                    intent.putExtra(ImageGridActivity.EXTRAS_TAKE_PICKERS, true); // 是否是直接打开相机
+                    startActivityForResult(intent, REQUEST_CODE_SELECT);
+                    /*CompanyDetailActivity.startAction(getActivity());*/
+                }
+            });
+            tvSelectPicture.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(PersonalInformationActivity.this, ImageGridActivity.class);
+                    startActivityForResult(intent, IMAGE_PICKER);
+                    /*CompanyDetailActivity.startAction(getActivity());*/
+                }
+            });
+            tvCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    popupWindow.dismiss();
+                    /*CompanyDetailActivity.startAction(getActivity());*/
+                }
+            });
+            dialog.setContentView(popView);
+            dialog.setCanceledOnTouchOutside(true);
+            dialog.show();
         }
-        popupWindow.setOutsideTouchable(true);
-        tvTakePhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(PersonalInformationActivity.this, ImageGridActivity.class);
-                intent.putExtra(ImageGridActivity.EXTRAS_TAKE_PICKERS, true); // 是否是直接打开相机
-                startActivityForResult(intent, REQUEST_CODE_SELECT);
-                /*CompanyDetailActivity.startAction(getActivity());*/
-            }
-        });
-        tvSelectPicture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(PersonalInformationActivity.this, ImageGridActivity.class);
-                startActivityForResult(intent, IMAGE_PICKER);
-                /*CompanyDetailActivity.startAction(getActivity());*/
-            }
-        });
-        tvCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-                /*CompanyDetailActivity.startAction(getActivity());*/
-            }
-        });
-        View rootview = LayoutInflater.from(PersonalInformationActivity.this).inflate(R.layout.fragment_resume, null);
-        popupWindow.setAnimationStyle(R.style.MyPopupWindow_anim_style);
-        popupWindow.showAtLocation(rootview, Gravity.BOTTOM, 0, 0);
     }
 
     @Override
@@ -598,6 +585,9 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
     }
 
     private void uploadImage() {
+        if(dialog!=null&&dialog.isShowing()){
+            dialog.dismiss();
+        }
         File file = new File(imagePath);
         if (file == null || !file.exists()) {
             ToastUitl.showShort("文件不存在");

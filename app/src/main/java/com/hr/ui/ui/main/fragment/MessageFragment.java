@@ -56,6 +56,10 @@ import butterknife.Unbinder;
 
 /**
  * Created by wdr on 2018/1/15.
+ * 消息页功能点：
+ * 1.当有投递反馈的时候显示新消息提示，查看则消失
+ * 2.每天8：00am职场资讯显示新消息提示，查看则消失
+ * 3.当有邀请面试的时候，显示邀请面试消息提示，查看则消失
  */
 
 public class MessageFragment extends BaseFragment<MessageFragmentPresenter, MessageFragmentModel> implements MessageFragmentContract.View, SwipeRefreshLayout.OnRefreshListener {

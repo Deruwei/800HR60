@@ -420,7 +420,9 @@ public abstract class Base2Activity<T extends BasePresenter, E extends BaseModel
         if(!isConfigChange){
             AppManager.getAppManager().finishActivity(this);
         }
-
+        if(mNetChangeObserver!=null){
+            NetStateReceiver.removeRegisterObserver(mNetChangeObserver);
+        }
     }
     /**
      * 网络连接状态

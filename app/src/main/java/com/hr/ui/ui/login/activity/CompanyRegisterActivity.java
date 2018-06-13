@@ -22,8 +22,10 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.caption.netmonitorlibrary.netStateLib.NetUtils;
 import com.hr.ui.R;
 import com.hr.ui.app.HRApplication;
+import com.hr.ui.base.Base3Activity;
 import com.hr.ui.base.BaseActivity;
 import com.hr.ui.bean.CityBean;
 import com.hr.ui.bean.CompanyRegisterBean;
@@ -50,7 +52,7 @@ import butterknife.OnClick;
  * Created by wdr on 2018/2/6.
  */
 
-public class CompanyRegisterActivity extends BaseActivity<CompanyRegisterPresenter, CompanyRegisterModel> implements CompanyRegisterContract.View {
+public class CompanyRegisterActivity extends Base3Activity<CompanyRegisterPresenter, CompanyRegisterModel> implements CompanyRegisterContract.View {
     @BindView(R.id.tv_toolbarTitle)
     TextView tvToolbarTitle;
     @BindView(R.id.toolbarAdd)
@@ -170,6 +172,16 @@ public class CompanyRegisterActivity extends BaseActivity<CompanyRegisterPresent
                 finish();
             }
         });
+    }
+
+    @Override
+    protected void onNetworkConnected(NetUtils.NetType type) {
+        Utils.getConnect();
+    }
+
+    @Override
+    protected void onNetworkDisConnected() {
+
     }
 
     @Override

@@ -191,6 +191,7 @@ public class RecommendJobBean {
         private String recruit_students;
         private String job_slogan;
         private String address;
+        private String welfare_label;
         private String applied_nums;
         private String applied_time;
         private String favourite_time;
@@ -218,6 +219,13 @@ public class RecommendJobBean {
         private boolean isTop;
         private boolean isCheck;
 
+        public String getWelfare_label() {
+            return welfare_label;
+        }
+
+        public void setWelfare_label(String welfare_label) {
+            this.welfare_label = welfare_label;
+        }
 
         public int getIs_shoufa() {
             return is_shoufa;

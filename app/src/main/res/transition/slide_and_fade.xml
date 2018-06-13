@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transitionSet xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+    <fade android:duration="500">
+        <targets>
+            <target android:targetId="@id/ll_phoneLogin"/>
+            <target android:targetId="@id/rl_phoneLoginRegister"/>
+        </targets>
+    </fade>
+
+    <slide android:startDelay="600">
+        <targets>
+            <target android:targetId="@id/iv_phoneLoginQQ"/>
+        </targets>
+    </slide>
+    <slide android:startDelay="700">
+        <targets>
+            <target android:targetId="@id/iv_phoneLoginWeChat"/>
+        </targets>
+    </slide>
+
+    <slide
+        android:slideEdge="left"
+        android:startDelay="500"
+        tools:targetApi="lollipop">
+        <targets>
+            <target android:targetId="@id/tv_phoneLoginForgetPsw"/>
+        </targets>
+    </slide>
+    <slide
+        android:slideEdge="left"
+        android:startDelay="500"
+        tools:targetApi="lollipop">
+        <targets>
+            <target android:targetId="@id/tv_phoneLoginAnotherLoginWay"/>
+        </targets>
+    </slide>
+</transitionSet>

@@ -14,6 +14,7 @@ import com.hr.ui.api.HostType;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.bean.ArrayInfoBean;
 import com.hr.ui.bean.BaseBean;
+import com.hr.ui.bean.ResultBean;
 import com.hr.ui.constants.Constants;
 import com.hr.ui.ui.job.activity.PositionPageActivity;
 import com.hr.ui.utils.EncryptUtils;
@@ -119,26 +120,10 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
                     LoadingDialog.cancelDialogForLoading();
                 }
             }
-            String s="";
-            if(t instanceof ResponseBody){
-                s=((ResponseBody) t).string().toString();
-            }else{
-                s=t.toString();
-            }
-            //Log.i("当前的数据1",s+"---");
-            if(s.contains("error_code")){
-                s=s.substring(s.indexOf("error_code")+2);
-                s=s.substring(s.indexOf("=")+1);
-                s=s.substring(0,s.indexOf(","));
-                if(s.contains("'")){
-                    s=s.substring(s.indexOf("'")+1,s.lastIndexOf("'"));
-                }
-            }
-            //Log.i("当前的数据",s+"---");
-            if ("204".equals(s) || "203".equals(s) || "205".equals(s) || "303".equals(s)||"205.2".equals(s)) {
-               // Constants.SESSION_KEY = "";
-                getConnect();
-            }
+           /* if(t.toString().contains("error_code")){
+                ResultBean resultBean= (ResultBean) t;
+                if(t.)
+            }*/
         } catch (IOException e) {
             e.printStackTrace();
         }

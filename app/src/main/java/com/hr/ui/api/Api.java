@@ -104,11 +104,10 @@ public class Api {
             @Override
             public Response intercept(Chain chain) throws IOException {
                 Request build = chain.request().newBuilder()
-              /*  .addHeader("Accept-Encoding", "gzip")
-                .addHeader("Charset", "utf-8")
+                //.addHeader("Accept-Encoding", "gzip")
+                /*.addHeader("Charset", "utf-8")
                 .addHeader("Content-Type", "application/json")
                 .addHeader("Connection", "Keep-alive")*/
-                       .addHeader("Content-Type", "application/json")
                        /* .addHeader("Connection", "Keep-alive")*/
                         .build();
                 return chain.proceed(build);

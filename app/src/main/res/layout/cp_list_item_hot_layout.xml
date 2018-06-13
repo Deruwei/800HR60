@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:overScrollMode="never"
-    android:paddingLeft="16dp"
-    android:paddingBottom="16dp"
-    android:paddingTop="16dp"
+    android:paddingLeft="@dimen/x32"
+    android:paddingBottom="@dimen/x20"
+    android:paddingTop="@dimen/x20"
     android:paddingRight="@dimen/cp_index_bar_width"
     android:paddingEnd="@dimen/cp_index_bar_width"
-    android:paddingStart="16dp" />
+    android:paddingStart="@dimen/x32" />

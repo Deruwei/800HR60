@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -10,7 +10,10 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-    　　
+    　　 <item name="android:windowContentTransitions" tools:targetApi="lollipop">true</item>
+        <item name="android:windowActivityTransitions" tools:targetApi="lollipop">true</item>
+        <item name="android:windowAllowEnterTransitionOverlap" tools:targetApi="lollipop">false</item>
+        <item name="android:windowAllowReturnTransitionOverlap" tools:targetApi="lollipop">false</item>
     　　<item name="android:windowIsTranslucent">true</item>
     </style>
     <!--冷启动界面-->
@@ -371,7 +374,7 @@
         <item name="android:layout_height">@dimen/x1</item>
     </style>
     <style name="login_buttonOK">
-        <item name="android:layout_marginTop">@dimen/y92</item>
+        <item name="android:layout_marginTop">@dimen/x80</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/y90</item>
         <item name="android:textSize">@dimen/x36</item>
@@ -387,9 +390,9 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">vertical</item>
-        <item name="android:layout_marginTop">@dimen/y40</item>
-        <item name="android:layout_marginLeft">@dimen/x80</item>
-        <item name="android:layout_marginRight">@dimen/x80</item>
+        <item name="android:layout_marginTop">@dimen/x30</item>
+        <item name="android:layout_marginLeft">@dimen/x75</item>
+        <item name="android:layout_marginRight">@dimen/x75</item>
     </style>
     <style name="login_ImageViewHidden">
         <item name="android:paddingLeft">@dimen/x16</item>

@@ -31,6 +31,12 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
+/**
+ * 求职意向选择领域的Fragment功能点：
+ * 1.最多选择5个领域
+ * 2.当是添加求职意向的时候，下面会有下一步提示
+ * 3.当是修改求职意向的时候，用户自行跳转
+ */
 public class FunctionFragment extends BaseFragment {
     @BindView(R.id.rv_chooseTerritory)
     RecyclerView rvChooseTerritory;
@@ -39,8 +45,8 @@ public class FunctionFragment extends BaseFragment {
     @BindView(R.id.ll_chooseTerritory)
     LinearLayout llChooseTerritory;
     Unbinder unbinder;
-    private List<CityBean> selectFuncList = new ArrayList<>();
-    private String industryId;
+    private List<CityBean> selectFuncList = new ArrayList<>();//选择的领域list集合
+    private String industryId;//选择的行业Id
     private SelectIndustryAdapter territoryAdapter;
 
     @Override

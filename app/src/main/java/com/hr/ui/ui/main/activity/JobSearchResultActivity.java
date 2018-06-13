@@ -404,27 +404,9 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
         mPresenter.getSearchList(jobSearchBean, page, b);
         mPresenter.getTopSearchJob(jobSearchBean);
     }
-
-    /**
-     * 初始化选择薪资范围控件
-     */
-   /* private void initDialog() {
-        datePickerSalaryAround = new CustomDatePicker(this, new CustomDatePicker.ResultHandler() {
-            @Override
-            public void handle(String time) {
-                tvSalaryAround.setText(time);
-                salaryAroundName = time;
-                salary_left = Utils.getLeftSalary(time);
-                salary_right = Utils.getRightSalary(time);
-                //salaryAroundId = ResumeInfoIDToString.getSalaryAroundId(JobSearchResultActivity.this, time);
-            }
-        }, getResources().getStringArray(R.array.salaryAround));
-    }*/
    public void notificationDataItem(int position){
-       //Log.i("到",position+"");
        searchList.get(position).setIs_apply(1);
        searchList.get(position).setCheck(false);
-       //Log.i("到",searchList.get(position).toString());
        SearchAdapter.notifyDataSetChanged();
        getNoSelectNum(searchList);
 
@@ -685,7 +667,6 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
 
         //rvJobSearchFragment.refresh();
     }
-
     private void initPopOther() {
         if(popupWindowSalary!=null){
             popupWindowSalary.dismiss();
@@ -977,13 +958,9 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
         popupWindowOther.setAnimationStyle(R.style.style_pop_animation);
         popupWindowOther.showAtLocation(viewJobSearchFragment, Gravity.NO_GRAVITY, 0, y + viewJobSearchFragment.getHeight());
     }
-
     private void doSaveOther() {
         doSearch(true);
-        //Log.i("当前的数据", "------" + workExpId);
     }
-    
-
     private void initPopCity() {
        if(popupWindowSalary!=null){
            popupWindowSalary.dismiss();
@@ -1018,7 +995,6 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
         popupWindowJobType.setAnimationStyle(R.style.style_pop_animation);
         popupWindowJobType.showAtLocation(viewJobSearchFragment, Gravity.NO_GRAVITY, 0, y + viewJobSearchFragment.getHeight());
     }
-
     public void setPlaceId(List<CityBean> selectCityList1) {
         if (!"".equals(selectCityList1) && selectCityList1 != null && selectCityList1.size() != 0) {
             selectCityList = new ArrayList<>();
@@ -1036,15 +1012,6 @@ public class JobSearchResultActivity extends BaseActivity<JobSearchFragmentPrese
             placeId = "";
         }
     }
-
-    private void setFocus() {
-        rlJobSearchFragmentTop.setFocusableInTouchMode(true);
-        rlJobSearchFragmentTop.setFocusable(true);
-        rlJobSearchFragmentTop.requestFocus();
-        rlJobSearchFragmentTop.findFocus();
-    }
-
-
     @OnClick({R.id.tv_searchResultDeliverAll, R.id.rl_searchResultBack,R.id.rl_jobSearchFragmentSelectSalary, R.id.rl_jobSearchFragmentBack, R.id.rl_jobSearchFragmentSelectCity, R.id.rl_jobSearchFragmentSelectOther})
     public void onViewClicked(View view) {
         switch (view.getId()) {

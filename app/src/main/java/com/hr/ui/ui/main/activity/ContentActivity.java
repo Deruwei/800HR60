@@ -30,6 +30,8 @@ import butterknife.OnClick;
 
 /**
  * Created by wdr on 2017/12/15.
+ * 编辑文本(项目职责)页面功能点:
+ *
  */
 
 public class ContentActivity extends BaseNoConnectNetworkAcitivty {

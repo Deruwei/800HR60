@@ -53,11 +53,11 @@ public class DownloadSignatureServic extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        startForeground(8,new Notification());
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        startForeground(8,new Notification());
         Log.e(TAG, "onStartCommand");
         if(intent!=null&&intent.getExtras()!=null) {
             urlStr = (String) intent.getExtras().get("signatureurl");

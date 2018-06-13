@@ -117,6 +117,7 @@ public class HomeRecommendBean {
         private String job_slogan;
         private String show_language;
         private String address;
+        private String welfare_label;
         private String enterprise_id;
         private String ent_logo;
         private String func;
@@ -143,6 +144,14 @@ public class HomeRecommendBean {
         private int is_expire;
         private int is_apply;
         private int is_shoufa;
+
+        public String getWelfare_label() {
+            return welfare_label;
+        }
+
+        public void setWelfare_label(String welfare_label) {
+            this.welfare_label = welfare_label;
+        }
 
         public int getIs_favourite() {
             return is_favourite;

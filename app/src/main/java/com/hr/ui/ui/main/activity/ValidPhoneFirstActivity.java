@@ -30,6 +30,7 @@ import com.hr.ui.app.AppManager;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.base.BaseActivity;
 import com.hr.ui.constants.Constants;
+import com.hr.ui.ui.login.activity.PhoneLoginActivity;
 import com.hr.ui.ui.me.activity.ChangePhoneActivity;
 import com.hr.ui.ui.me.contract.ValidPhoneContract;
 import com.hr.ui.ui.me.model.ValidPhoneModel;
@@ -191,7 +192,7 @@ public class ValidPhoneFirstActivity extends BaseActivity<ValidPhonePresenter, V
         toolBar.setNavigationOnClickListener(new android.view.View.OnClickListener() {
             @Override
             public void onClick(android.view.View v) {
-                SplashActivity.startAction(ValidPhoneFirstActivity.this,1);
+                PhoneLoginActivity.startAction(ValidPhoneFirstActivity.this);
                 SharedPreferencesUtils sUtils=new SharedPreferencesUtils(HRApplication.getAppContext());
                 sUtils.setIntValue(Constants.ISAUTOLOGIN,0);
                 AppManager.getAppManager().finishAllActivity();
