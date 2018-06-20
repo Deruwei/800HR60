@@ -22,9 +22,9 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.util.Pair;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AnticipateOvershootInterpolator;
-import android.view.animation.DecelerateInterpolator;
-import android.view.animation.OvershootInterpolator;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -50,7 +50,6 @@ import com.hr.ui.utils.Utils;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.MyDialog;
 import com.hr.ui.view.PopWindowUpdate;
-import com.hr.ui.view.ViewUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
@@ -72,6 +71,8 @@ public class SplashActivity extends Base3Activity<SplashPresenter, SplashModel> 
     ImageView ivSplashLogo;
     @BindView(R.id.iv_splashLogoBottom)
     ImageView ivSplashLogoBottom;
+    @BindView(R.id.rl_splash)
+    FrameLayout rlSplash;
     private SharedPreferencesUtils sUtils;
     private int isAutoLogin, autoLoginType;
     public static SplashActivity instance;
@@ -134,7 +135,7 @@ public class SplashActivity extends Base3Activity<SplashPresenter, SplashModel> 
                 setViewVisible();
             }
         }
-       // ivSplashLogo.setVisibility(View.VISIBLE);
+        // ivSplashLogo.setVisibility(View.VISIBLE);
       /*  AnimatorSet animatorSet = new AnimatorSet();//组合动画
         ObjectAnimator objectAnimator1 = ObjectAnimator.ofFloat(ivSplashLogo, "rotation", 0, 360);
         ObjectAnimator scaleX = ObjectAnimator.ofFloat(ivSplashLogo, "scaleX", 0, 1f);
@@ -145,15 +146,14 @@ public class SplashActivity extends Base3Activity<SplashPresenter, SplashModel> 
         animatorSet.start();*/
 
         Animator castleAni = getCastleShowingAnimator();
-        AnimatorSet ser=new AnimatorSet();
+        AnimatorSet ser = new AnimatorSet();
         ser.play(castleAni);
         ser.setDuration(2000);
         ser.start();
-
         ivSplashLogoBottom.setVisibility(View.VISIBLE);
         ObjectAnimator moveIn = ObjectAnimator.ofFloat(ivSplashLogoBottom, "translationX", -700f, 0f);
         moveIn.setDuration(1000);
-        ObjectAnimator fadeInOut = ObjectAnimator.ofFloat(ivSplashLogoBottom, "alpha",  0f, 1f);
+        ObjectAnimator fadeInOut = ObjectAnimator.ofFloat(ivSplashLogoBottom, "alpha", 0f, 1f);
         AnimatorSet animSet = new AnimatorSet();
         animSet.play(moveIn).with(fadeInOut);
         animSet.setInterpolator(new AnticipateOvershootInterpolator());
@@ -168,11 +168,9 @@ public class SplashActivity extends Base3Activity<SplashPresenter, SplashModel> 
          int densityDPI = dm.densityDpi;     // 屏幕密度（每寸像素：120(ldpi)/160(mdpi)/213(tvdpi)/240(hdpi)/320(xhdpi)）
         Toast.makeText(this, "真实分辨率："+screenWidth+"*"+screenHeight+"  每英寸:"+densityDPI, Toast.LENGTH_LONG).show();*/
     }
+
     private Animator getCastleShowingAnimator() {
-        float castleSY = ViewUtil.getScreenHeight(this) + ViewUtil.dp2Px(this, 240);
-        float castleDY =
-                ViewUtil.getScreenHeight(this) - ViewUtil.dp2Px(this, 240) - ViewUtil.dp2Px(this, 30);
-        PropertyValuesHolder castleX1 = PropertyValuesHolder.ofFloat("y", -700, 0f);
+        PropertyValuesHolder castleX1 = PropertyValuesHolder.ofFloat("y", -1.0f, 0f);
 
         PropertyValuesHolder castleScaleX = PropertyValuesHolder.ofFloat("scaleX", 0f, 1.0f);
         PropertyValuesHolder castleScaleY = PropertyValuesHolder.ofFloat("scaleY", 0f, 1.0f);
@@ -180,7 +178,7 @@ public class SplashActivity extends Base3Activity<SplashPresenter, SplashModel> 
         ObjectAnimator castleAni = ObjectAnimator
                 .ofPropertyValuesHolder(ivSplashLogo, castleX1, castleScaleX, castleScaleY);
         castleAni.addListener(new ViewShowListener(ivSplashLogo));
-        castleAni.setInterpolator(new AnticipateOvershootInterpolator());
+        castleAni.setInterpolator(new AccelerateDecelerateInterpolator());
         return castleAni;
     }
 
@@ -198,7 +196,13 @@ public class SplashActivity extends Base3Activity<SplashPresenter, SplashModel> 
 
         @Override
         public void onAnimationEnd(Animator animator) {
-
+               // view.setVisibility(View.GONE);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    rlSplash.setVisibility(View.GONE);
+                }
+            },300);
         }
 
         @Override
@@ -211,6 +215,7 @@ public class SplashActivity extends Base3Activity<SplashPresenter, SplashModel> 
 
         }
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -312,7 +317,7 @@ public class SplashActivity extends Base3Activity<SplashPresenter, SplashModel> 
         if (sUtils.getBooleanValue(Constants.IS_GUIDE, false) == false) {
             /*  WelcomeActivity.startAction(SplashActivity.this, requestCode);*/
         } else {
-           handler.sendEmptyMessageDelayed(0, 2000);
+            handler.sendEmptyMessageDelayed(1, 2000);
 
         }
     }
@@ -321,15 +326,12 @@ public class SplashActivity extends Base3Activity<SplashPresenter, SplashModel> 
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case 0:
+                case 1:
                     Intent intent = new Intent(SplashActivity.this, PhoneLoginActivity.class);
                     ActivityOptionsCompat activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                            SplashActivity.this,
-                            new Pair<View, String>(ivSplashLogo,
-                                    PhoneLoginActivity.VIEW_LOGO));
+                            SplashActivity.this);
                     // ActivityCompat是android支持库中用来适应不同android版本的
                     ActivityCompat.startActivity(SplashActivity.this, intent, activityOptions.toBundle());
-                    finish();
                     break;
                 case 2:
                     if (autoLoginType == 0) {
@@ -415,7 +417,7 @@ public class SplashActivity extends Base3Activity<SplashPresenter, SplashModel> 
                 if (loginBean == null || "".equals(loginBean)) {
                     setViewVisible();
                 } else {
-                    handler.sendEmptyMessageDelayed(2,2000);
+                    handler.sendEmptyMessageDelayed(2, 2000);
                 }
             }
         } else {

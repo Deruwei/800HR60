@@ -18,7 +18,7 @@ public interface FindPasswordContract  {
     interface Model extends BaseModel{
 
         Observable<NoDataBean> resetPhonePsw(String phoneNumber,String validCode,String newPsw);
-        Observable<ValidCodeBean> getValidCode(String phoneNumber,String captcha,int type,String way);
+        Observable<ValidCodeBean> getValidCode(String phoneNumber,String captcha,int type,String way,int validType);
         Observable<AutoCodeBean> getAutoCode();
         Observable<ResponseBody> validPhoneIsExit(String phone);
     }
@@ -31,7 +31,7 @@ public interface FindPasswordContract  {
     }
     abstract class Presenter extends BasePresenter<View,Model>{
         public abstract void resetPhonePsw(String phoneNumber,String validCode,String newPsw);
-        public abstract void getValidCode(String phoneNumber,String captcha,int type,String way );
+        public abstract void getValidCode(String phoneNumber,String captcha,int type,String way,int validType );
         public abstract void getAutoCode();
         public abstract void validPhoneIsExit(String phone);
     }

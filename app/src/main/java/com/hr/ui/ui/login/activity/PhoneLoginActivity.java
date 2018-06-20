@@ -3,8 +3,10 @@ package com.hr.ui.ui.login.activity;
 import android.animation.Animator;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
@@ -52,6 +54,7 @@ import com.hr.ui.utils.ToolUtils;
 import com.hr.ui.utils.Utils;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.PopupWindowComment;
+import com.hr.ui.view.RenderingView;
 import com.umeng.analytics.MobclickAgent;
 
 import java.lang.reflect.GenericDeclaration;
@@ -69,7 +72,7 @@ public class PhoneLoginActivity extends Base4Activity<LoginPresenter, LoginModel
     @BindView(R.id.rl_phoneLoginRegister)
     RelativeLayout rlPhoneLoginRegister;
     @BindView(R.id.iv_phoneLoginFindJobIcon)
-    ImageView ivPhoneLoginFindJobIcon;
+    RenderingView ivPhoneLoginFindJobIcon;
     @BindView(R.id.iv_phoneLoginNumberIcon)
     ImageView ivPhoneLoginNumberIcon;
     @BindView(R.id.et_phoneLoginNumber)
@@ -130,12 +133,11 @@ public class PhoneLoginActivity extends Base4Activity<LoginPresenter, LoginModel
         Utils.setEditViewTextChangeAndFocus(etPhoneLoginNumber,ivPhoneLoginPhoneDelete);
         Utils.setEditViewTextChangeAndFocus(etPhoneLoginPsw, ivPhoneLoginPswDelete);
        /* ViewCompat.se*/
-        ViewCompat.setTransitionName(ivPhoneLoginFindJobIcon, VIEW_LOGO);
-
+       // ViewCompat.setTransitionName(ivPhoneLoginFindJobIcon, VIEW_LOGO);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             Slide slide = new Slide();
             slide.setDuration(1000);
-            slide.setSlideEdge(Gravity.LEFT);
+            slide.setSlideEdge(Gravity.BOTTOM);
             getWindow().setEnterTransition(slide);
             getWindow().setReenterTransition(new Explode().setDuration(1000));
             getWindow().setExitTransition(new Fade().setDuration(1000));
@@ -144,7 +146,13 @@ public class PhoneLoginActivity extends Base4Activity<LoginPresenter, LoginModel
             getWindow().setReenterTransition(initContentEnterTransition());*/
                 //getWindow().setReturnTransition(TransitionInflater.from(this).inflateTransition(R.transition.return_slide));
         }
-
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ivPhoneLoginFindJobIcon.setVisibility(View.VISIBLE);
+                ivPhoneLoginFindJobIcon.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.find_job));
+            }
+        },1000);
     }
 
     private long exitTime = 0;

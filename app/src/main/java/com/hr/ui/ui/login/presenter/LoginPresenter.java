@@ -216,8 +216,8 @@ public class LoginPresenter extends LoginContract.Presenter {
         }));
     }
     @Override
-    public void getValidCode(final String phoneNumber, String captcha,int type,String way) {
-        mRxManage.add(mModel.getValidCode(phoneNumber,captcha,type,way).subscribe(new RxSubscriber<ValidCodeBean>(mContext,false) {
+    public void getValidCode(final String phoneNumber, String captcha,int type,String way,int validType) {
+        mRxManage.add(mModel.getValidCode(phoneNumber,captcha,type,way,validType).subscribe(new RxSubscriber<ValidCodeBean>(mContext,false) {
             @Override
             public void onStart() {
                 super.onStart();

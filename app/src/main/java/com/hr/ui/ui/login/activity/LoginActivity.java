@@ -144,12 +144,11 @@ public class LoginActivity extends Base3Activity<LoginPresenter, LoginModel> imp
     private String phoneNum, userNum, phoneNumberValid = "", psw, psw2, validCode;
     private SharedPreferencesUtils sUtils;
     private ArrayList<String> titles;
-    private int userId, code, type;
+    private int userId, code,validType=1, type,isPswLogin = 1; // 1代表密码登录  2 代表验证码登录;
     private Intent mCodeTimerServiceIntent, mVoiseTimerServiceIntent;
-    public static final String CODE = "codeValidLogin", VOISECODE = "codeVoiseLogin";
+    public static final String CODE = "codeValidLogin", VOICECODE = "codeVoiceLogin";
     private PopupWindow popupWindow;
     private MyDialog dialog;
-    private int isPswLogin = 1; // 1代表密码登录  2 代表验证码邓丽
 
     /**
      * 入口
@@ -267,7 +266,7 @@ public class LoginActivity extends Base3Activity<LoginPresenter, LoginModel> imp
                     initPopWindow();
                     mPresenter.getAutoCode();
                 } else {
-                    mPresenter.getValidCode(phoneNumberValid, "", 0, Constants.VALIDCODE_LOGIN_YTPE);
+                    mPresenter.getValidCode(phoneNumberValid, "", 0, Constants.VALIDCODE_LOGIN_YTPE,validType);
                 }
             }
         }
@@ -288,7 +287,7 @@ public class LoginActivity extends Base3Activity<LoginPresenter, LoginModel> imp
             public void onClick(View v) {
                 String autoCodeText = etAutoCode.getText().toString();
                 if (autoCodeText != null && !"".equals(autoCodeText)) {
-                    mPresenter.getValidCode(etPhoneLoginNumber2.getText().toString(), autoCodeText, 1, Constants.VALIDCODE_LOGIN_YTPE);
+                    mPresenter.getValidCode(etPhoneLoginNumber2.getText().toString(), autoCodeText, 1, Constants.VALIDCODE_LOGIN_YTPE,validType);
                 } else {
                     ToastUitl.show("请填写图形验证码", Toast.LENGTH_SHORT);
                 }
@@ -331,10 +330,19 @@ public class LoginActivity extends Base3Activity<LoginPresenter, LoginModel> imp
         this.code = code;
         sUtils.setIntValue("code", code);
         tvSendValidCode.setEnabled(false);
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
-            startForegroundService(mCodeTimerServiceIntent);
-        } else {
-            startService(mCodeTimerServiceIntent);
+        tvSendVoiceCode.setEnabled(false);
+        if(validType==2) {
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
+                startForegroundService(mVoiseTimerServiceIntent);
+            } else {
+                startService(mVoiseTimerServiceIntent);
+            }
+        }else {
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
+                startForegroundService(mCodeTimerServiceIntent);
+            } else {
+                startService(mCodeTimerServiceIntent);
+            }
         }
         if (popupWindow != null) {
             popupWindow.dismiss();
@@ -406,12 +414,12 @@ public class LoginActivity extends Base3Activity<LoginPresenter, LoginModel> imp
         mCodeTimerServiceIntent.setAction(CODE);
         //语音验证码计时服务
         mVoiseTimerServiceIntent = new Intent(this, CodeTimerService.class);
-        mVoiseTimerServiceIntent.setAction(VOISECODE);
+        mVoiseTimerServiceIntent.setAction(VOICECODE);
         //注册接收验证码计时器信息的广播
         IntentFilter filter = new IntentFilter(CODE);
         registerReceiver(mCodeTimerReceiver, filter);
 
-        IntentFilter filter1 = new IntentFilter(VOISECODE);
+        IntentFilter filter1 = new IntentFilter(VOICECODE);
         registerReceiver(mCodeTimerReceiver, filter1);
         setFocusChangeAndEditViewTextChange();
     }
@@ -428,10 +436,12 @@ public class LoginActivity extends Base3Activity<LoginPresenter, LoginModel> imp
                 boolean isEnable = intent.getBooleanExtra(CodeTimer.IS_ENABLE, false);
                 String message = intent.getStringExtra(CodeTimer.MESSAGE);
                 tvSendValidCode.setEnabled(isEnable);
+                tvSendVoiceCode.setEnabled(isEnable);
                 tvSendValidCode.setText(message);
-            } else if (VOISECODE.equals(action)) {
+            } else if (VOICECODE.equals(action)) {
                 boolean isEnable = intent.getBooleanExtra(CodeTimer.IS_ENABLE, false);
                 String message = intent.getStringExtra(CodeTimer.MESSAGE);
+                tvSendValidCode.setEnabled(isEnable);
                 tvSendVoiceCode.setEnabled(isEnable);
                 tvSendVoiceCode.setText(message);
             }
@@ -502,33 +512,12 @@ public class LoginActivity extends Base3Activity<LoginPresenter, LoginModel> imp
                 viLoginValidCode.setValue("");
                 break;
             case R.id.tv_sendVoiceCode:
-                tvPhoneLoginValid.setVisibility(View.GONE);
-                viLoginValidCode.setVisibility(View.VISIBLE);
-                tvSendVoiceCode.setEnabled(false);
-                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
-                    startForegroundService(mVoiseTimerServiceIntent);
-                } else {
-                    startService(mVoiseTimerServiceIntent);
-                }
+                validType=2;
+                doSendValidCode();
                 break;
             case R.id.tv_sendValidCode:
-                tvPhoneLoginValid.setVisibility(View.GONE);
-                viLoginValidCode.setVisibility(View.VISIBLE);
-                type = 1;
-                String phoneNumber1 = etPhoneLoginNumber2.getText().toString();
-                if (!"".equals(phoneNumber1) && phoneNumber1 != null) {
-                    if (RegularExpression.isCellphone(phoneNumber1)) {
-                        if (phoneNumberValid.equals(phoneNumber1)) {
-                            code = 0;
-                        }
-                        phoneNumberValid = phoneNumber1;
-                        mPresenter.validPhoneIsExit(phoneNumberValid);
-                    } else {
-                        ToastUitl.show("请输入正确的手机号码", Toast.LENGTH_SHORT);
-                    }
-                } else {
-                    ToastUitl.show("请输入手机号码", Toast.LENGTH_SHORT);
-                }
+                validType=1;
+                doSendValidCode();
                 break;
             case R.id.tv_phoneLoginAccountLogin:
                 PhoneLoginActivity.startAction(this);
@@ -547,6 +536,26 @@ public class LoginActivity extends Base3Activity<LoginPresenter, LoginModel> imp
             case R.id.iv_phoneLoginWeChat:
                 ThirdPartLoginUtils.LoginWeChat(mPresenter);
                 break;
+        }
+    }
+
+    private void doSendValidCode() {
+        tvPhoneLoginValid.setVisibility(View.GONE);
+        viLoginValidCode.setVisibility(View.VISIBLE);
+        type = 1;
+        String phoneNumber1 = etPhoneLoginNumber2.getText().toString();
+        if (!"".equals(phoneNumber1) && phoneNumber1 != null) {
+            if (RegularExpression.isCellphone(phoneNumber1)) {
+                if (phoneNumberValid.equals(phoneNumber1)) {
+                    code = 0;
+                }
+                phoneNumberValid = phoneNumber1;
+                mPresenter.validPhoneIsExit(phoneNumberValid);
+            } else {
+                ToastUitl.show("请输入正确的手机号码", Toast.LENGTH_SHORT);
+            }
+        } else {
+            ToastUitl.show("请输入手机号码", Toast.LENGTH_SHORT);
         }
     }
 

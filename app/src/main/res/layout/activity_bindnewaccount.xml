@@ -61,30 +61,73 @@
                 />
             <EditText
                 android:layout_toRightOf="@+id/iv_bindNewAccountValidCodeIcon"
-                android:id="@+id/et_bindPhoneAccountValidCode"
+                android:id="@+id/tv_bindPhoneAccountValidCode"
                 android:singleLine="true"
                 android:inputType="number"
                 android:layout_marginRight="@dimen/x10"
-                android:layout_toLeftOf="@+id/iv_bindNewAccountGetValidCodeDelete"
+                android:layout_toLeftOf="@+id/rl_bindNewAccountGetValidCodeDelete"
                 style="@style/login_editText"
                 android:hint="@string/ValidCode"
                 />
-            <ImageView
+            <com.hr.ui.view.VerificationCodeEditText
+                android:layout_toRightOf="@+id/iv_bindNewAccountValidCodeIcon"
+                android:id="@+id/vi_bindPhoneAccountValidCode"
+                android:singleLine="true"
                 android:visibility="gone"
-                android:id="@+id/iv_bindNewAccountGetValidCodeDelete"
-                android:src="@mipmap/delete"
+                app:bottomLineHeight="@dimen/x2"
+                app:bottomLineNormalColor="@color/cp_color_gray_light"
+                app:bottomLineSelectedColor="@color/new_main2"
+                app:figures="4"
+                android:hint="@string/ValidCode"
+                android:inputType="number"
+                app:selectedBackgroundColor="@color/smallYellow"
+                app:verCodeMargin="@dimen/x10"
+                android:layout_marginRight="@dimen/x10"
+                android:layout_toLeftOf="@+id/rl_bindNewAccountGetValidCodeDelete"
+                style="@style/login_editText"/>
+            <RelativeLayout
+                android:id="@+id/rl_bindNewAccountGetValidCodeDelete"
+                style="@style/Login_imageViewIcon"
                 android:layout_marginRight="@dimen/x20"
                 android:layout_toLeftOf="@+id/tv_bindNewAccountGetValidCode"
-                style="@style/Login_imageViewIcon" />
+               >
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/iv_bindNewAccountGetValidCodeDelete"
+                    android:src="@mipmap/delete"
+                    style="@style/Login_imageViewIcon" />
+            </RelativeLayout>
             <TextView
-                android:layout_above="@+id/View_validCode3"
+                android:layout_centerVertical="true"
                 android:id="@+id/tv_bindNewAccountGetValidCode"
-                style="@style/login_textViewValidCode"
+                android:layout_width="@dimen/x50"
+                android:layout_height="wrap_content"
                 android:text="@string/getValidCode"
-                />
+                android:layout_toLeftOf="@+id/tv_bindNewAccountOr"
+                android:textColor="@color/new_main"
+                android:textSize="@dimen/x24" />
+            <TextView
+                android:id="@+id/tv_bindNewAccountOr"
+                android:layout_width="@dimen/x40"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/tv_bindNewAccountVoice"
+                android:text="@string/or"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/x24" />
+            <TextView
+                android:id="@+id/tv_bindNewAccountVoice"
+                android:layout_width="@dimen/x50"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:text="@string/getVoiceCode"
+                android:textColor="@color/new_main"
+                android:textSize="@dimen/x24" />
             <View
                 android:id="@+id/View_validCode3"
-                android:layout_below="@+id/et_bindPhoneAccountValidCode"
+                android:layout_alignParentBottom="true"
                 style="@style/login_view"/>
         </RelativeLayout>
 

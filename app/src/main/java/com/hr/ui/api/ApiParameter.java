@@ -101,11 +101,12 @@ public class ApiParameter {
      * @param way 1注册，2登录，3找回密码，4修改、验证手机，5修改手机+密码
      * @return
      */
-    public static HashMap<String,String> getValidCode(Context context,String phoneNum,String captcha,int type,String way){
+    public static HashMap<String,String> getValidCode(Context context,String phoneNum,String captcha,int type,String way,int validType){
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","user.phonetoken");
         requestMap.put("user_phone",phoneNum);
         requestMap.put("type",way);
+        requestMap.put("channel",validType+"");
         if(type==1) {
             requestMap.put("captcha", captcha);
         }
@@ -178,6 +179,7 @@ public class ApiParameter {
         requestMap.put("industry","10");
         requestMap.put("user_pwd",psw);
         requestMap.put("token",validCode);
+        Log.i("现在的数据",requestMap.toString());
         return requestMap;
     }
 

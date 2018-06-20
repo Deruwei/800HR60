@@ -47,7 +47,7 @@ public class CodeTimer extends CountDownTimer {
     @Override
     public void onFinish() {
         mCodeReceiverIntent.putExtra(IS_ENABLE, true);
-        if("codeVoiseLogin".equals(action)){
+        if(action.contains("Voice")){
             mCodeReceiverIntent.putExtra(MESSAGE, "语音发送");
         }else {
             mCodeReceiverIntent.putExtra(MESSAGE, "短信发送");

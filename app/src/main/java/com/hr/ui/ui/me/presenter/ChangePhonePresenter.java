@@ -62,8 +62,8 @@ public class ChangePhonePresenter extends ChangePhoneContract.Presenter {
     }
 
     @Override
-    public void getValidCode(String phoneNumber, String type,int way, String captcha) {
-        mRxManage.add(mModel.getValidCode(phoneNumber,type,way,captcha).subscribe(new RxSubscriber<ValidCodeBean>(mContext,false) {
+    public void getValidCode(String phoneNumber, String type,int way, String captcha,int validType) {
+        mRxManage.add(mModel.getValidCode(phoneNumber,type,way,captcha,validType).subscribe(new RxSubscriber<ValidCodeBean>(mContext,false) {
             @Override
             protected void _onNext(ValidCodeBean baseBean) {
                 mView.stopLoading();

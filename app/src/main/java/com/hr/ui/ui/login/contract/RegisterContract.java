@@ -27,7 +27,7 @@ public interface RegisterContract {
         Observable<MultipleResumeBean> getResumeList();
         Observable<ResumeBean> getResumeData(String resumeId);
         Observable<ResponseBody> validPhoneIsExit(String phone);
-        Observable<ValidCodeBean> getValidCode(String phoneNumber,String captcha,int type,String way);
+        Observable<ValidCodeBean> getValidCode(String phoneNumber,String captcha,int type,String way,int validType);
         Observable<AutoCodeBean> getAutoCode();
     }
     interface  View extends BaseView{
@@ -48,7 +48,7 @@ public interface RegisterContract {
         public abstract void getResumeList();
         public abstract void getResumeData(String resumeId);
         public abstract void validPhoneIsExit(String phone);
-        public abstract  void getValidCode(String phoneNumber,String captcha,int type,String way);
+        public abstract  void getValidCode(String phoneNumber,String captcha,int type,String way,int validType);
         public abstract void getAutoCode();
     }
 }

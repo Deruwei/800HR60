@@ -38,8 +38,8 @@ public class FindPasswordModel implements FindPasswordContract.Model {
     }
 
     @Override
-    public Observable<ValidCodeBean> getValidCode(String phoneNumber, String captcha, int type, String way) {
-        return Api.getDefault(HostType.HR).getValidCode(EncryptUtils.encrypParams(ApiParameter.getValidCode(HRApplication.getAppContext(),phoneNumber,captcha,type,way)))
+    public Observable<ValidCodeBean> getValidCode(String phoneNumber, String captcha, int type, String way,int validType) {
+        return Api.getDefault(HostType.HR).getValidCode(EncryptUtils.encrypParams(ApiParameter.getValidCode(HRApplication.getAppContext(),phoneNumber,captcha,type,way,validType)))
                 .map(new Func1<ValidCodeBean, ValidCodeBean>() {
                     @Override
                     public ValidCodeBean call(ValidCodeBean validCodeBean) {

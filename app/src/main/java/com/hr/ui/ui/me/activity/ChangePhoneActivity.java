@@ -46,6 +46,8 @@ import com.hr.ui.utils.RegularExpression;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.Utils;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
+import com.hr.ui.view.VerificationAction;
+import com.hr.ui.view.VerificationCodeEditText;
 import com.service.CodeTimerService;
 
 import org.greenrobot.eventbus.EventBus;
@@ -73,10 +75,6 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
     EditText etChangePhoneNumber;
     @BindView(R.id.iv_changePhoneValidCodeIcon)
     ImageView ivChangePhoneValidCodeIcon;
-    @BindView(R.id.et_changePhoneValidCode)
-    EditText etChangePhoneValidCode;
-    @BindView(R.id.tv_changePhoneValidCode)
-    TextView tvChangePhoneValidCode;
     @BindView(R.id.view_getValidCode2)
     View viewGetValidCode2;
     @BindView(R.id.btn_changePhoneOK)
@@ -97,15 +95,27 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
     ConstraintLayout clChangePhone;
     @BindView(R.id.iv_changePhonePswHidden)
     ImageView ivChangePhonePswHidden;
-    private boolean isHidden=true;
+    @BindView(R.id.tv_changePhoneValidCode)
+    TextView tvChangePhoneValidCode;
+    @BindView(R.id.vi_changePhoneNumber)
+    VerificationCodeEditText viChangePhoneNumber;
+    @BindView(R.id.rl_changePhoneValidCodeDelete)
+    RelativeLayout rlChangePhoneValidCodeDelete;
+    @BindView(R.id.tv_changePhoneGetValidCode)
+    TextView tvChangePhoneGetValidCode;
+    @BindView(R.id.tv_changePhoneOr)
+    TextView tvChangePhoneOr;
+    @BindView(R.id.tv_changePhoneVoice)
+    TextView tvChangePhoneVoice;
+    private boolean isHidden = true;
     private String chaptcha;
     private String autoCode;
-    private Intent mCodeTimerServiceIntent;
-    public static final String CODE = "codeChangePhone";
+    private Intent mCodeTimerServiceIntent,mCodeTimerServiceVoiceIntent;
+    public static final String CODE = "codeChangePhone",VOICECODE="codeVoiceChange";
     private ImageView ivAutoCode;
     private EditText etAutoCode;
     private SharedPreferencesUtils sUtils;
-    private int code;
+    private int code, validType = 1;
     private String Tag;
     private PopupWindow popupWindow;
 
@@ -144,8 +154,8 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
         ToastUitl.showShort("更改手机成功");
         int autoLoginType = sUtils.getIntValue(Constants.AUTOLOGINTYPE, 5);
         LoginBean loginBean = LoginDBUtils.queryDataById(autoLoginType + "");
-        Log.i("现在的数据",loginBean.getLoginType()+"");
-        if(loginBean.getLoginType()==0){
+       // Log.i("现在的数据", loginBean.getLoginType() + "");
+        if (loginBean.getLoginType() == 0) {
             loginBean.setName(etChangePhoneNumber.getText().toString());
             LoginDBUtils.insertOrReplaceData(loginBean);
         }
@@ -162,11 +172,20 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
     public void getValidCodeSuccess(int code) {
         this.code = code;
         sUtils.setIntValue("code", code);
-        tvChangePhoneValidCode.setEnabled(false);
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
-            startForegroundService(mCodeTimerServiceIntent);
-        } else {
-            startService(mCodeTimerServiceIntent);
+        tvChangePhoneGetValidCode.setEnabled(false);
+        tvChangePhoneVoice.setEnabled(false);
+        if(validType==1) {
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
+                startForegroundService(mCodeTimerServiceIntent);
+            } else {
+                startService(mCodeTimerServiceIntent);
+            }
+        }else{
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
+                startForegroundService(mCodeTimerServiceVoiceIntent);
+            } else {
+                startService(mCodeTimerServiceVoiceIntent);
+            }
         }
         if (popupWindow != null) {
             popupWindow.dismiss();
@@ -189,7 +208,7 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
                 mPresenter.getCaptcha();
                 initPopWindow();
             } else {
-                mPresenter.getValidCode(etChangePhoneNumber.getText().toString(), Constants.VALIDCODE_RESETORVALIDPHONE_YTPE, 1, "");
+                mPresenter.getValidCode(etChangePhoneNumber.getText().toString(), Constants.VALIDCODE_RESETORVALIDPHONE_YTPE, 1, "", validType);
             }
         }
     }
@@ -236,32 +255,48 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
         ButterKnife.bind(this);
         mCodeTimerServiceIntent = new Intent(this, CodeTimerService.class);
         mCodeTimerServiceIntent.setAction(CODE);
+
+        mCodeTimerServiceVoiceIntent=new Intent(this,CodeTimerService.class);
+        mCodeTimerServiceVoiceIntent.setAction(VOICECODE);
         //注册接收验证码计时器信息的广播
         IntentFilter filter = new IntentFilter(CODE);
         registerReceiver(mCodeTimerReceiver, filter);
+
+        IntentFilter filterVoice=new IntentFilter(VOICECODE);
+        registerReceiver(mCodeTimerReceiver,filterVoice);
         editViewTextChangeAndFocos();
     }
 
     private void editViewTextChangeAndFocos() {
         Utils.setEditViewTextChangeAndFocus(etChangePhoneNumber, ivChangePhoneNumberDelete);
         Utils.setEditViewTextChangeAndFocus(etChangePhonePsw, ivChangePhonePswDelete);
-        Utils.setEditViewTextChangeAndFocus(etChangePhoneValidCode, ivChangePhoneValidCodeDelete);
+        viChangePhoneNumber.setOnVerificationCodeChangedListener(new VerificationAction.OnVerificationCodeChangedListener() {
+            @Override
+            public void onVerCodeChanged(CharSequence s, int start, int before, int count) {
+                if(s.length()>0){
+                    ivChangePhoneValidCodeDelete.setVisibility(View.VISIBLE);
+                }else{
+                    ivChangePhoneValidCodeDelete.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onInputCompleted(CharSequence s) {
+
+            }
+        });
     }
 
-    @OnClick({R.id.tv_changePhoneValidCode, R.id.btn_changePhoneOK,R.id.iv_changePhonePswHidden, R.id.iv_changePhoneNumberDelete, R.id.iv_changePhonePswDelete, R.id.iv_changePhoneValidCodeDelete})
+    @OnClick({R.id.tv_changePhoneGetValidCode, R.id.tv_changePhoneVoice,R.id.btn_changePhoneOK, R.id.iv_changePhonePswHidden, R.id.iv_changePhoneNumberDelete, R.id.iv_changePhonePswDelete, R.id.iv_changePhoneValidCodeDelete})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.tv_changePhoneValidCode:
-                String phoneNumber = etChangePhoneNumber.getText().toString();
-                if (!"".equals(phoneNumber) && phoneNumber != null) {
-                    if (RegularExpression.isCellphone(phoneNumber)) {
-                        mPresenter.validPhoneIsExit(phoneNumber);
-                    } else {
-                        ToastUitl.show("请输入正确的手机号码", Toast.LENGTH_SHORT);
-                    }
-                } else {
-                    ToastUitl.show("请输入手机号码", Toast.LENGTH_SHORT);
-                }
+            case R.id.tv_changePhoneGetValidCode:
+                validType=1;
+              doSendValidCode();
+                break;
+            case R.id.tv_changePhoneVoice:
+                validType=2;
+                doSendValidCode();
                 break;
             case R.id.btn_changePhoneOK:
                 doChangePhone();
@@ -273,7 +308,7 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
                 etChangePhonePsw.setText("");
                 break;
             case R.id.iv_changePhoneValidCodeDelete:
-                etChangePhoneValidCode.setText("");
+                viChangePhoneNumber.setText("");
                 break;
             case R.id.iv_changePhonePswHidden:
                 if (isHidden) {
@@ -297,6 +332,21 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
         }
     }
 
+    private void doSendValidCode() {
+        tvChangePhoneValidCode.setVisibility(View.GONE);
+        viChangePhoneNumber.setVisibility(View.VISIBLE);
+        String phoneNumber = etChangePhoneNumber.getText().toString();
+        if (!"".equals(phoneNumber) && phoneNumber != null) {
+            if (RegularExpression.isCellphone(phoneNumber)) {
+                mPresenter.validPhoneIsExit(phoneNumber);
+            } else {
+                ToastUitl.show("请输入正确的手机号码", Toast.LENGTH_SHORT);
+            }
+        } else {
+            ToastUitl.show("请输入手机号码", Toast.LENGTH_SHORT);
+        }
+    }
+
     /**
      * 图形验证码界面   String phoneNumber, String type,int way, String captcha
      */
@@ -313,7 +363,7 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
             public void onClick(View v) {
                 String autoCodeText = etAutoCode.getText().toString();
                 if (autoCodeText != null && !"".equals(autoCodeText)) {
-                    mPresenter.getValidCode(etChangePhoneNumber.getText().toString(), Constants.VALIDCODE_RESETORVALIDPHONE_YTPE, 1, autoCodeText);
+                    mPresenter.getValidCode(etChangePhoneNumber.getText().toString(), Constants.VALIDCODE_RESETORVALIDPHONE_YTPE, 1, autoCodeText, validType);
                 } else {
                     ToastUitl.show("请填写图形验证码", Toast.LENGTH_SHORT);
                 }
@@ -362,7 +412,7 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
             ToastUitl.showShort("请填写正确的手机号码");
             return;
         }
-        if (etChangePhoneValidCode.getText().toString() == null || "".equals(etChangePhoneValidCode.getText().toString())) {
+        if (viChangePhoneNumber.getText().toString() == null || "".equals(viChangePhoneNumber.getText().toString())) {
             ToastUitl.showShort("请填写手机验证码");
             return;
         }
@@ -378,7 +428,7 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
                 return;
             }
         }*/
-        mPresenter.changePhone(etChangePhoneNumber.getText().toString(), etChangePhoneValidCode.getText().toString());
+        mPresenter.changePhone(etChangePhoneNumber.getText().toString(), viChangePhoneNumber.getText().toString());
     }
 
     /**
@@ -392,8 +442,14 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
                 //接收信息，改变button的点击状态和text
                 boolean isEnable = intent.getBooleanExtra(CodeTimer.IS_ENABLE, false);
                 String message = intent.getStringExtra(CodeTimer.MESSAGE);
-                tvChangePhoneValidCode.setEnabled(isEnable);
-                tvChangePhoneValidCode.setText(message);
+                tvChangePhoneGetValidCode.setEnabled(isEnable);
+                tvChangePhoneGetValidCode.setText(message);
+            }else if(VOICECODE.equals(action)){
+                boolean isEnable = intent.getBooleanExtra(CodeTimer.IS_ENABLE, false);
+                String message = intent.getStringExtra(CodeTimer.MESSAGE);
+                tvChangePhoneGetValidCode.setEnabled(isEnable);
+                tvChangePhoneVoice.setEnabled(isEnable);
+                tvChangePhoneVoice.setText(message);
             }
         }
     };

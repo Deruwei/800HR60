@@ -48,7 +48,10 @@ import com.hr.ui.utils.EncryptUtils;
 import com.hr.ui.utils.RegularExpression;
 import com.hr.ui.utils.ToastUitl;
 import com.hr.ui.utils.ToolUtils;
+import com.hr.ui.utils.Utils;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
+import com.hr.ui.view.VerificationAction;
+import com.hr.ui.view.VerificationCodeEditText;
 import com.service.CodeTimerService;
 import com.umeng.analytics.MobclickAgent;
 
@@ -70,8 +73,6 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
     Toolbar toolBar;
     @BindView(R.id.et_bindNewAccountNumber)
     EditText etBindNewAccountNumber;
-    @BindView(R.id.et_bindPhoneAccountValidCode)
-    EditText etBindPhoneAccountValidCode;
     @BindView(R.id.et_bindNewAccountPsw)
     EditText etBindNewAccountPsw;
     @BindView(R.id.tv_bindNewAccountGetValidCode)
@@ -106,11 +107,21 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
     TextView tvBindNewAccountPhone;
     @BindView(R.id.cl_bindNewPhone)
     ConstraintLayout clBindNewPhone;
+    @BindView(R.id.tv_bindPhoneAccountValidCode)
+    EditText tvBindPhoneAccountValidCode;
+    @BindView(R.id.vi_bindPhoneAccountValidCode)
+    VerificationCodeEditText viBindPhoneAccountValidCode;
+    @BindView(R.id.rl_bindNewAccountGetValidCodeDelete)
+    RelativeLayout rlBindNewAccountGetValidCodeDelete;
+    @BindView(R.id.tv_bindNewAccountOr)
+    TextView tvBindNewAccountOr;
+    @BindView(R.id.tv_bindNewAccountVoice)
+    TextView tvBindNewAccountVoice;
     private SharedPreferencesUtils sUtils;
     private PopupWindow popupWindow;
     private String autoCode;
-    private Intent mCodeTimerServiceIntent;
-    public static final String CODE = "codeBind";
+    private Intent mCodeTimerServiceIntent,mCodeTimerServiceVoiceIntent;
+    public static final String CODE = "codeBind",VOICECODE="codeVoiceBind";
     private ImageView ivAutoCode;
     private EditText etAutoCode;
     private String uid;
@@ -121,7 +132,7 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
     private String phoneNumber, password;
     private int[] imageIds = {R.mipmap.resume1, R.mipmap.resume2, R.mipmap.resume3, R.mipmap.resume4, R.mipmap.resume5};
     private ArrayList<String> titles;
-    private int userId;
+    private int userId, validType = 1;
 
     /**
      * 入口
@@ -183,10 +194,19 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
         this.code = code;
         sUtils.setIntValue("code", code);
         tvBindNewAccountGetValidCode.setEnabled(false);
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
-            startForegroundService(mCodeTimerServiceIntent);
-        } else {
-            startService(mCodeTimerServiceIntent);
+        tvBindNewAccountVoice.setEnabled(false);
+        if(validType==1) {
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
+                startForegroundService(mCodeTimerServiceIntent);
+            } else {
+                startService(mCodeTimerServiceIntent);
+            }
+        }else{
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
+                startForegroundService(mCodeTimerServiceVoiceIntent);
+            } else {
+                startService(mCodeTimerServiceVoiceIntent);
+            }
         }
         if (popupWindow != null) {
             popupWindow.dismiss();
@@ -197,7 +217,6 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
     public void sendAutoCode(String autoCode) {
         this.autoCode = autoCode;
         ivAutoCode.setImageBitmap(EncryptUtils.stringtoBitmap(autoCode));
-
     }
 
     @Override
@@ -220,8 +239,8 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
 
     @Override
     public void bindingSuccess(int userId) {
-        MobclickAgent.onEvent(this,"v6_login_thirdPart");
-        MobclickAgent.onProfileSignIn("WB",userId+"");
+        MobclickAgent.onEvent(this, "v6_login_thirdPart");
+        MobclickAgent.onProfileSignIn("WB", userId + "");
         sUtils.setIntValue(Constants.ISAUTOLOGIN, 1);
         LoginBean loginBean = new LoginBean();
         if ("qq".equals(Constants.TYPE_THIRDPARTLOGIN)) {
@@ -231,7 +250,7 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
             loginBean.setLoginType(3);
             sUtils.setIntValue(Constants.AUTOLOGINTYPE, 3);
         }
-        sUtils.setStringValue(Constants.USERID,userId+"");
+        sUtils.setStringValue(Constants.USERID, userId + "");
         loginBean.setName(phoneNumber);
         loginBean.setPassword(password);
         loginBean.setThirdPartUid(uid);
@@ -272,7 +291,7 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
                     mPresenter.getAutoCode();
 
                 } else {
-                    mPresenter.getValidCode(phoneNumber, "", 0, Constants.VALIDCODE_REGISTER_YTPE);
+                    mPresenter.getValidCode(phoneNumber, "", 0, Constants.VALIDCODE_REGISTER_YTPE, validType);
                 }
             }
         }
@@ -287,112 +306,39 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
         //验证码计时器服务
         mCodeTimerServiceIntent = new Intent(this, CodeTimerService.class);
         mCodeTimerServiceIntent.setAction(CODE);
+
+        mCodeTimerServiceVoiceIntent=new Intent(this,CodeTimerService.class);
+        mCodeTimerServiceVoiceIntent.setAction(VOICECODE);
         //注册接收验证码计时器信息的广播
         IntentFilter filter = new IntentFilter(CODE);
         registerReceiver(mCodeTimerReceiver, filter);
+
+        IntentFilter filterVoice=new IntentFilter(VOICECODE);
+        registerReceiver(mCodeTimerReceiver,filterVoice);
         onEditViewTextChangeAndFocusChange();
     }
 
     private void onEditViewTextChangeAndFocusChange() {
-        etBindNewAccountNumber.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        Utils.setEditViewTextChangeAndFocus(etBindNewAccountNumber,ivBindNewAccountNumberDelete);
+        Utils.setEditViewTextChangeAndFocus(etBindNewAccountPsw,ivBindNewAccountPswDelete);
+        viBindPhoneAccountValidCode.setOnVerificationCodeChangedListener(new VerificationAction.OnVerificationCodeChangedListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    ivBindNewAccountNumberDelete.setVisibility(View.GONE);
-                } else {
-                    if (etBindNewAccountNumber.getText().toString() != null && !"".equals(etBindNewAccountNumber.getText().toString())) {
-                        ivBindNewAccountNumberDelete.setVisibility(View.VISIBLE);
-                    }
-                }
-            }
-        });
-        etBindNewAccountPsw.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    ivBindNewAccountPswDelete.setVisibility(View.GONE);
-                } else {
-                    if (etBindNewAccountPsw.getText().toString() != null && !"".equals(etBindNewAccountPsw.getText().toString())) {
-                        ivBindNewAccountPswDelete.setVisibility(View.VISIBLE);
-                    }
-                }
-            }
-        });
-        etBindPhoneAccountValidCode.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    ivBindNewAccountGetValidCodeDelete.setVisibility(View.GONE);
-                } else {
-                    if (etBindPhoneAccountValidCode.getText().toString() != null && !"".equals(etBindPhoneAccountValidCode.getText().toString())) {
-                        ivBindNewAccountGetValidCodeDelete.setVisibility(View.VISIBLE);
-                    }
-                }
-            }
-        });
-        etBindNewAccountNumber.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() > 0) {
-                    ivBindNewAccountNumberDelete.setVisibility(View.VISIBLE);
-                } else {
-                    ivBindNewAccountNumberDelete.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        etBindNewAccountPsw.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() > 0) {
-                    ivBindNewAccountPswDelete.setVisibility(View.VISIBLE);
-                } else {
-                    ivBindNewAccountPswDelete.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        etBindPhoneAccountValidCode.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() > 0) {
+            public void onVerCodeChanged(CharSequence s, int start, int before, int count) {
+                if(s.length()>0){
                     ivBindNewAccountGetValidCodeDelete.setVisibility(View.VISIBLE);
-                } else {
+                }else{
                     ivBindNewAccountGetValidCodeDelete.setVisibility(View.GONE);
                 }
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-
+            public void onInputCompleted(CharSequence s) {
+                validCode=s.toString();
             }
         });
     }
 
-    @OnClick({R.id.tv_bindNewAccountGetValidCode, R.id.tv_bindNewAccountPhone, R.id.rl_bindNewAccountHiddenPsw, R.id.iv_bindNewAccountNumberDelete, R.id.iv_bindNewAccountPswDelete, R.id.iv_bindNewAccountGetValidCodeDelete, R.id.btn_bindNewAccountOK, R.id.tv_bindNewAccountFindPsw})
+    @OnClick({R.id.tv_bindNewAccountGetValidCode, R.id.tv_bindNewAccountPhone,R.id.tv_bindNewAccountVoice, R.id.rl_bindNewAccountHiddenPsw, R.id.iv_bindNewAccountNumberDelete, R.id.iv_bindNewAccountPswDelete, R.id.iv_bindNewAccountGetValidCodeDelete, R.id.btn_bindNewAccountOK, R.id.tv_bindNewAccountFindPsw})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_bindNewAccountHiddenPsw:
@@ -421,23 +367,16 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
                 etBindNewAccountPsw.setText("");
                 break;
             case R.id.iv_bindNewAccountGetValidCodeDelete:
-                etBindPhoneAccountValidCode.setText("");
+                viBindPhoneAccountValidCode.setText("");
                 break;
             case R.id.tv_bindNewAccountGetValidCode:
-                type = 1;
-                String phoneNumber1 = etBindNewAccountNumber.getText().toString();
-                if (!"".equals(phoneNumber1) && phoneNumber1 != null) {
-                    if (RegularExpression.isCellphone(phoneNumber1)) {
-                        phoneNumber = phoneNumber1;
-                        mPresenter.validPhoneIsExit(phoneNumber);
-                    } else {
-                        ToastUitl.show("请输入正确的手机号码", Toast.LENGTH_SHORT);
-                    }
-                } else {
-                    ToastUitl.show("请输入手机号码", Toast.LENGTH_SHORT);
-                }
+               validType=1;
+               doSendValidCode();
                 break;
-
+            case R.id.tv_bindNewAccountVoice:
+                validType=2;
+                doSendValidCode();
+                break;
             case R.id.btn_bindNewAccountOK:
                 type = 0;
                 doRegister();
@@ -451,9 +390,26 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
         }
     }
 
+    private void doSendValidCode() {
+        tvBindPhoneAccountValidCode.setVisibility(View.GONE);
+        viBindPhoneAccountValidCode.setVisibility(View.VISIBLE);
+        type = 1;
+        String phoneNumber1 = etBindNewAccountNumber.getText().toString();
+        if (!"".equals(phoneNumber1) && phoneNumber1 != null) {
+            if (RegularExpression.isCellphone(phoneNumber1)) {
+                phoneNumber = phoneNumber1;
+                mPresenter.validPhoneIsExit(phoneNumber);
+            } else {
+                ToastUitl.show("请输入正确的手机号码", Toast.LENGTH_SHORT);
+            }
+        } else {
+            ToastUitl.show("请输入手机号码", Toast.LENGTH_SHORT);
+        }
+    }
+
     private void doRegister() {
         phoneNumber = etBindNewAccountNumber.getText().toString();
-        validCode = etBindPhoneAccountValidCode.getText().toString();
+        validCode = viBindPhoneAccountValidCode.getText().toString();
         password = etBindNewAccountPsw.getText().toString();
 
         if ("".equals(phoneNumber) || phoneNumber == null) {
@@ -476,7 +432,7 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
             ToastUitl.showShort("请输入长度为6-25位的密码");
             return;
         }
-        type=0;
+        type = 0;
         mPresenter.validPhoneIsExit(phoneNumber);
     }
 
@@ -493,6 +449,12 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
                 String message = intent.getStringExtra(CodeTimer.MESSAGE);
                 tvBindNewAccountGetValidCode.setEnabled(isEnable);
                 tvBindNewAccountGetValidCode.setText(message);
+            }else if(VOICECODE.equals(action)){
+                boolean isEnable = intent.getBooleanExtra(CodeTimer.IS_ENABLE, false);
+                String message = intent.getStringExtra(CodeTimer.MESSAGE);
+                tvBindNewAccountGetValidCode.setEnabled(isEnable);
+                tvBindNewAccountVoice.setEnabled(isEnable);
+                tvBindNewAccountVoice.setText(message);
             }
         }
     };
@@ -513,7 +475,7 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
             public void onClick(View v) {
                 String autoCodeText = etAutoCode.getText().toString();
                 if (autoCodeText != null && !"".equals(autoCodeText)) {
-                    mPresenter.getValidCode(etBindNewAccountNumber.getText().toString(), etAutoCode.getText().toString(), 1, Constants.VALIDCODE_REGISTER_YTPE);
+                    mPresenter.getValidCode(etBindNewAccountNumber.getText().toString(), etAutoCode.getText().toString(), 1, Constants.VALIDCODE_REGISTER_YTPE, validType);
                 } else {
                     ToastUitl.show("请填写图形验证码", Toast.LENGTH_SHORT);
                 }
@@ -531,7 +493,7 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
                 getWindow().setAttributes(lp);
             }
         });
-        if (Build.VERSION.SDK_INT >Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
             //  大于等于19即为4.4及以上执行内容
             // 设置背景颜色变暗
         } else {
@@ -555,6 +517,7 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
     protected void onDestroy() {
         super.onDestroy();
         stopService(mCodeTimerServiceIntent);
+        stopService(mCodeTimerServiceVoiceIntent);
         unregisterReceiver(mCodeTimerReceiver);
     }
 }

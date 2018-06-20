@@ -29,10 +29,12 @@
                 />
             <TextView
                 android:layout_toRightOf="@+id/iv_validPhoneNumberIcon"
+                android:layout_toLeftOf="@+id/iv_validPhoneNumberDelete"
                 android:id="@+id/tv_validPhoneNumber"
                 android:inputType="number"
                 android:maxLength="11"
                 android:singleLine="true"
+                android:layout_marginRight="@dimen/x10"
                 style="@style/login_editText"
                 android:hint="@string/phoneNumber"
                 />
@@ -47,24 +49,74 @@
                 android:layout_height="@dimen/y30"
                 android:src="@mipmap/validcode" />
 
-            <EditText
-                android:id="@+id/et_validPhoneValidCode"
+            <TextView
+                android:id="@+id/tv_validPhoneValidCode"
                 style="@style/login_editText"
-                android:layout_toLeftOf="@+id/tv_validPhoneValidCode"
+                android:layout_toLeftOf="@+id/rl_validPhoneValidCodeDelete"
                 android:layout_toRightOf="@+id/iv_validPhoneValidCodeIcon"
                 android:hint="@string/ValidCode"
                 android:inputType="number"
                 android:singleLine="true" />
-
+            <com.hr.ui.view.VerificationCodeEditText
+                android:id="@+id/vi_validPhoneValidCode"
+                style="@style/login_editText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_toLeftOf="@+id/rl_validPhoneValidCodeDelete"
+                android:layout_toRightOf="@+id/iv_validPhoneValidCodeIcon"
+                app:bottomLineHeight="@dimen/x2"
+                app:bottomLineNormalColor="@color/cp_color_gray_light"
+                app:bottomLineSelectedColor="@color/new_main2"
+                app:figures="4"
+                android:layout_marginRight="@dimen/x10"
+                android:singleLine="true"
+                android:inputType="number"
+                app:selectedBackgroundColor="@color/smallYellow"
+                app:verCodeMargin="@dimen/x10" />
+            <RelativeLayout
+                android:layout_marginRight="@dimen/x20"
+                android:id="@+id/rl_validPhoneValidCodeDelete"
+                style="@style/Login_imageViewIcon"
+                android:layout_toLeftOf="@+id/tv_validPhoneGetValidCode">
+                <ImageView
+                    android:id="@+id/iv_validPhoneValidCodeDelete"
+                    style="@style/Login_imageViewIcon"
+                    android:src="@mipmap/delete"
+                    android:visibility="gone" />
+            </RelativeLayout>
             <TextView
-                android:id="@+id/tv_validPhoneValidCode"
-                style="@style/login_textViewValidCode"
-                android:layout_above="@+id/view_getValidCodeValid" />
-
+                android:layout_centerVertical="true"
+                android:id="@+id/tv_validPhoneGetValidCode"
+                android:layout_width="@dimen/x50"
+                android:layout_height="wrap_content"
+                android:text="@string/getValidCode"
+                android:layout_toLeftOf="@+id/tv_validPhoneOr"
+                android:textColor="@color/new_main"
+                android:textSize="@dimen/x24" />
+            <TextView
+                android:id="@+id/tv_validPhoneOr"
+                android:layout_width="@dimen/x40"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/tv_validPhoneVoice"
+                android:text="@string/or"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/x24" />
+            <TextView
+                android:id="@+id/tv_validPhoneVoice"
+                android:layout_width="@dimen/x50"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:text="@string/getVoiceCode"
+                android:textColor="@color/new_main"
+                android:textSize="@dimen/x24" />
             <View
                 android:id="@+id/view_getValidCodeValid"
                 style="@style/login_view"
-                android:layout_below="@+id/et_validPhoneValidCode" />
+                android:layout_alignParentBottom="true" />
         </RelativeLayout>
         <Button
             android:id="@+id/btn_validPhoneOK"

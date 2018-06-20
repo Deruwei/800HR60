@@ -7,6 +7,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -117,8 +118,8 @@ public class RegisterActivity extends Base3Activity<RegisterPresenter, RegisterM
     TextView tvPhoneRegisterVoice;
     private PopupWindow popupWindow;
     private String autoCode;
-    private Intent mCodeTimerServiceIntent;
-    public static final String CODE = "code";
+    private Intent mCodeTimerServiceIntent,mCodeTimerServiceVoiceIntent;
+    public static final String CODE = "code",VOICECODE="codeVoiceRegister";
     private ImageView ivAutoCode;
     private EditText etAutoCode;
     private SharedPreferencesUtils sUtils;
@@ -128,7 +129,7 @@ public class RegisterActivity extends Base3Activity<RegisterPresenter, RegisterM
     private String phoneNumber = "", password;
     private int[] imageIds = {R.mipmap.resume1, R.mipmap.resume2, R.mipmap.resume3, R.mipmap.resume4, R.mipmap.resume5};
     private ArrayList<String> titles;
-    private int userId;
+    private int userId,validType=1;
     private boolean isHidden = true;
 
     /**
@@ -175,11 +176,20 @@ public class RegisterActivity extends Base3Activity<RegisterPresenter, RegisterM
     public void sendValidCode(int code) {
         this.code = code;
         sUtils.setIntValue("code", code);
+        tvPhoneRegisterVoice.setEnabled(false);
         tvPhoneRegisterGetValidCode.setEnabled(false);
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
-            startForegroundService(mCodeTimerServiceIntent);
-        } else {
-            startService(mCodeTimerServiceIntent);
+        if(validType==1) {
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
+                startForegroundService(mCodeTimerServiceIntent);
+            } else {
+                startService(mCodeTimerServiceIntent);
+            }
+        }else{
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
+                startForegroundService(mCodeTimerServiceVoiceIntent);
+            } else {
+                startService(mCodeTimerServiceVoiceIntent);
+            }
         }
         if (popupWindow != null) {
             popupWindow.dismiss();
@@ -223,7 +233,7 @@ public class RegisterActivity extends Base3Activity<RegisterPresenter, RegisterM
                     mPresenter.getAutoCode();
 
                 } else {
-                    mPresenter.getValidCode(phoneNumber, "", 0, Constants.VALIDCODE_REGISTER_YTPE);
+                    mPresenter.getValidCode(phoneNumber, "", 0, Constants.VALIDCODE_REGISTER_YTPE,validType);
                 }
             }
         }
@@ -311,12 +321,18 @@ public class RegisterActivity extends Base3Activity<RegisterPresenter, RegisterM
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
-        //验证码计时器服务
+        //短信验证码计时器服务
         mCodeTimerServiceIntent = new Intent(this, CodeTimerService.class);
         mCodeTimerServiceIntent.setAction(CODE);
-        //注册接收验证码计时器信息的广播
+
+        //语音验证码计时器服务
+        mCodeTimerServiceVoiceIntent=new Intent(this,CodeTimerService.class);
+        mCodeTimerServiceVoiceIntent.setAction(VOICECODE);
+        //注册接收短信验证码和语音验证码计时器信息的广播
+        IntentFilter filterVoice=new IntentFilter(VOICECODE);
         IntentFilter filter = new IntentFilter(CODE);
         registerReceiver(mCodeTimerReceiver, filter);
+        registerReceiver(mCodeTimerReceiver,filterVoice);
         onEditViewTextChangeAndFocusChange();
     }
 
@@ -351,8 +367,8 @@ public class RegisterActivity extends Base3Activity<RegisterPresenter, RegisterM
                 etPhoneRegisterNumber.setText("");
                 break;
             case R.id.tv_phoneRegisterVoice:
-                viPhoneRegisterValidCodeInput.setVisibility(View.VISIBLE);
-                tvPhoneRegisterValidCode.setVisibility(View.GONE);
+                validType=2;
+                doSendValidCode();
                 break;
             case R.id.iv_phoneRegisterPswDelete:
                 etPhoneRegisterPsw.setText("");
@@ -361,23 +377,8 @@ public class RegisterActivity extends Base3Activity<RegisterPresenter, RegisterM
                 viPhoneRegisterValidCodeInput.setValue("");
                 break;
             case R.id.tv_phoneRegisterGetValidCode:
-                type = 1;
-                viPhoneRegisterValidCodeInput.setVisibility(View.VISIBLE);
-                tvPhoneRegisterValidCode.setVisibility(View.GONE);
-                String phoneNumber1 = etPhoneRegisterNumber.getText().toString();
-                if (!"".equals(phoneNumber1) && phoneNumber1 != null) {
-                    if (RegularExpression.isCellphone(phoneNumber1)) {
-                        if (phoneNumber.equals(phoneNumber1)) {
-                            code = 0;
-                        }
-                        phoneNumber = phoneNumber1;
-                        mPresenter.validPhoneIsExit(phoneNumber);
-                    } else {
-                        ToastUitl.show("请输入正确的手机号码", Toast.LENGTH_SHORT);
-                    }
-                } else {
-                    ToastUitl.show("请输入手机号码", Toast.LENGTH_SHORT);
-                }
+                validType=1;
+                doSendValidCode();
                 break;
             case R.id.btn_phoneRegisterOK:
                 type = 0;
@@ -386,10 +387,30 @@ public class RegisterActivity extends Base3Activity<RegisterPresenter, RegisterM
         }
     }
 
+    private void doSendValidCode() {
+        type = 1;
+        viPhoneRegisterValidCodeInput.setVisibility(View.VISIBLE);
+        tvPhoneRegisterValidCode.setVisibility(View.GONE);
+        String phoneNumber1 = etPhoneRegisterNumber.getText().toString();
+        if (!"".equals(phoneNumber1) && phoneNumber1 != null) {
+            if (RegularExpression.isCellphone(phoneNumber1)) {
+                if (phoneNumber.equals(phoneNumber1)) {
+                    code = 0;
+                }
+                phoneNumber = phoneNumber1;
+                mPresenter.validPhoneIsExit(phoneNumber);
+            } else {
+                ToastUitl.show("请输入正确的手机号码", Toast.LENGTH_SHORT);
+            }
+        } else {
+            ToastUitl.show("请输入手机号码", Toast.LENGTH_SHORT);
+        }
+    }
+
     private void doRegister() {
         phoneNumber = etPhoneRegisterNumber.getText().toString();
         validCode = viPhoneRegisterValidCodeInput.getText().toString();
-        password = viPhoneRegisterValidCodeInput.getText().toString();
+        password = etPhoneRegisterPsw.getText().toString();
 
         if ("".equals(phoneNumber) || phoneNumber == null) {
             ToastUitl.showShort("请输入手机号码");
@@ -431,35 +452,26 @@ public class RegisterActivity extends Base3Activity<RegisterPresenter, RegisterM
             public void onClick(View v) {
                 String autoCodeText = etAutoCode.getText().toString();
                 if (autoCodeText != null && !"".equals(autoCodeText)) {
-                    mPresenter.getValidCode(etPhoneRegisterNumber.getText().toString(), autoCodeText, 1, Constants.VALIDCODE_REGISTER_YTPE);
+                    mPresenter.getValidCode(etPhoneRegisterNumber.getText().toString(), autoCodeText, 1, Constants.VALIDCODE_REGISTER_YTPE,validType);
                 } else {
                     ToastUitl.show("请填写图形验证码", Toast.LENGTH_SHORT);
                 }
             }
         });
 
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.alpha = 0.7f;
-        getWindow().setAttributes(lp);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setFocusable(true);
+//消失的时候设置窗体背景变亮
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-
             @Override
             public void onDismiss() {
                 WindowManager.LayoutParams lp = getWindow().getAttributes();
-                lp.alpha = 1f;
+                lp.alpha = 1.0f;
                 getWindow().setAttributes(lp);
+
             }
         });
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
-            //  大于等于19即为4.4及以上执行内容
-            // 设置背景颜色变暗
-        } else {
-            //  低于19即为4.4以下执行内容
-            popupWindow.setBackgroundDrawable(new BitmapDrawable());
-        }
-
-        popupWindow.setFocusable(true);
-        popupWindow.setOutsideTouchable(true);
         tvReflesh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -482,7 +494,15 @@ public class RegisterActivity extends Base3Activity<RegisterPresenter, RegisterM
                 boolean isEnable = intent.getBooleanExtra(CodeTimer.IS_ENABLE, false);
                 String message = intent.getStringExtra(CodeTimer.MESSAGE);
                 tvPhoneRegisterGetValidCode.setEnabled(isEnable);
+                tvPhoneRegisterVoice.setEnabled(isEnable);
                 tvPhoneRegisterGetValidCode.setText(message);
+            }else if(VOICECODE.equals(action)){
+                //接收信息，改变button的点击状态和text
+                boolean isEnable = intent.getBooleanExtra(CodeTimer.IS_ENABLE, false);
+                String message = intent.getStringExtra(CodeTimer.MESSAGE);
+                tvPhoneRegisterGetValidCode.setEnabled(isEnable);
+                tvPhoneRegisterVoice.setEnabled(isEnable);
+                tvPhoneRegisterVoice.setText(message);
             }
         }
     };
@@ -491,6 +511,7 @@ public class RegisterActivity extends Base3Activity<RegisterPresenter, RegisterM
     protected void onDestroy() {
         super.onDestroy();
         stopService(mCodeTimerServiceIntent);
+        stopService(mCodeTimerServiceVoiceIntent);
         unregisterReceiver(mCodeTimerReceiver);
     }
 

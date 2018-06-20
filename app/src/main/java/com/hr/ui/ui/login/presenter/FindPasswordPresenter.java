@@ -54,8 +54,8 @@ public class FindPasswordPresenter extends FindPasswordContract.Presenter {
     }
 
     @Override
-    public void getValidCode(String phoneNumber, String captcha, int type, String way) {
-        mRxManage.add(mModel.getValidCode(phoneNumber,captcha,type,way).subscribe(new RxSubscriber<ValidCodeBean>(mContext,false) {
+    public void getValidCode(String phoneNumber, String captcha, int type, String way,int validType) {
+        mRxManage.add(mModel.getValidCode(phoneNumber,captcha,type,way,validType).subscribe(new RxSubscriber<ValidCodeBean>(mContext,false) {
             @Override
             protected void _onNext(ValidCodeBean validCodeBean) {
                // Log.i("现在的数据",validCodeBean.toString());

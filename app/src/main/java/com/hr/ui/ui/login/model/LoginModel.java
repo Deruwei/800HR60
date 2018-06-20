@@ -122,8 +122,8 @@ public class LoginModel implements LoginContract.Model {
                 .compose(RxSchedulers.<ResumeBean>io_main());
     }
     @Override
-    public Observable<ValidCodeBean> getValidCode(String phoneNum, String captcha, int type, String way) {
-        return Api.getDefault(HostType.HR).getValidCode(EncryptUtils.encrypParams(ApiParameter.getValidCode(HRApplication.getAppContext(),phoneNum,captcha,type,way)))
+    public Observable<ValidCodeBean> getValidCode(String phoneNum, String captcha, int type, String way,int validType) {
+        return Api.getDefault(HostType.HR).getValidCode(EncryptUtils.encrypParams(ApiParameter.getValidCode(HRApplication.getAppContext(),phoneNum,captcha,type,way,validType)))
                 .map(new Func1<ValidCodeBean, ValidCodeBean>() {
                     @Override
                     public ValidCodeBean call(ValidCodeBean baseBean) {

@@ -17,7 +17,7 @@ import rx.Observable;
 public interface ValidPhoneContract {
     interface Model extends BaseModel{
         Observable<ResponseBody> validPhone(String phoneNumber, String validCode);
-        Observable<ValidCodeBean> getValidCode(String phoneNumber, String type, int way, String captcha);
+        Observable<ValidCodeBean> getValidCode(String phoneNumber, String type, int way, String captcha,int validType);
         Observable<AutoCodeBean> getCaptcha();
         Observable<ResponseBody> validPhoneIsExit(String phone);
     }
@@ -30,7 +30,7 @@ public interface ValidPhoneContract {
     }
     abstract class Presenter extends BasePresenter<View,Model>{
         public abstract void validPhone(String phoneNumber,String validCode);
-        public abstract void getValidCode(String phoneNumber,String type,int way,String captcha);
+        public abstract void getValidCode(String phoneNumber,String type,int way,String captcha,int validType);
         public abstract void getCaptcha();
         public abstract void validPhoneIsExit(String phone);
     }

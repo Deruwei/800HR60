@@ -59,32 +59,75 @@
                 android:layout_height="@dimen/y30"
                 android:src="@mipmap/validcode" />
 
-            <EditText
-                android:id="@+id/et_changePhoneValidCode"
+            <TextView
+                android:id="@+id/tv_changePhoneValidCode"
                 style="@style/login_editText"
-                android:layout_toLeftOf="@+id/iv_changePhoneValidCodeDelete"
+                android:layout_toLeftOf="@+id/rl_changePhoneValidCodeDelete"
                 android:layout_toRightOf="@+id/iv_changePhoneValidCodeIcon"
                 android:hint="@string/ValidCode"
                 android:inputType="number"
                 android:singleLine="true" />
-            <ImageView
+            <com.hr.ui.view.VerificationCodeEditText
+                android:id="@+id/vi_changePhoneNumber"
+                style="@style/login_editText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:visibility="gone"
+                android:layout_toLeftOf="@+id/rl_changePhoneValidCodeDelete"
+                android:layout_toRightOf="@+id/iv_changePhoneValidCodeIcon"
+                app:bottomLineHeight="@dimen/x2"
+                app:bottomLineNormalColor="@color/cp_color_gray_light"
+                app:bottomLineSelectedColor="@color/new_main2"
+                app:figures="4"
+                android:layout_marginRight="@dimen/x10"
+                android:singleLine="true"
+                android:inputType="number"
+                app:selectedBackgroundColor="@color/smallYellow"
+                app:verCodeMargin="@dimen/x10" />
+            <RelativeLayout
                 android:layout_marginLeft="@dimen/x10"
-                android:id="@+id/iv_changePhoneValidCodeDelete"
-                android:layout_toLeftOf="@+id/tv_changePhoneValidCode"
-                style="@style/Login_imageViewIcon"
-                android:src="@mipmap/delete"
-                />
+                android:id="@+id/rl_changePhoneValidCodeDelete"
+                android:layout_toLeftOf="@+id/tv_changePhoneGetValidCode"
+                style="@style/Login_imageViewIcon">
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/iv_changePhoneValidCodeDelete"
+                    style="@style/Login_imageViewIcon"
+                    android:src="@mipmap/delete"
+                    />
+            </RelativeLayout>
             <TextView
-                android:layout_marginLeft="@dimen/x20"
-                android:id="@+id/tv_changePhoneValidCode"
-                style="@style/login_textViewValidCode"
-                android:layout_above="@+id/view_getValidCode2" />
-
+                android:layout_centerVertical="true"
+                android:id="@+id/tv_changePhoneGetValidCode"
+                android:layout_width="@dimen/x50"
+                android:layout_height="wrap_content"
+                android:text="@string/getValidCode"
+                android:layout_toLeftOf="@+id/tv_changePhoneOr"
+                android:textColor="@color/new_main"
+                android:textSize="@dimen/x24" />
+            <TextView
+                android:id="@+id/tv_changePhoneOr"
+                android:layout_width="@dimen/x40"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/tv_changePhoneVoice"
+                android:text="@string/or"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/x24" />
+            <TextView
+                android:id="@+id/tv_changePhoneVoice"
+                android:layout_width="@dimen/x50"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:text="@string/getVoiceCode"
+                android:textColor="@color/new_main"
+                android:textSize="@dimen/x24" />
             <View
                 android:id="@+id/view_getValidCode2"
                 style="@style/login_view"
-                android:layout_below="@+id/et_changePhoneValidCode" />
+                android:layout_alignParentBottom="true" />
         </RelativeLayout>
         <RelativeLayout
             android:visibility="gone"

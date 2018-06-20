@@ -81,7 +81,7 @@
                 app:bottomLineHeight="@dimen/x2"
                 app:bottomLineNormalColor="@color/cp_color_gray_light"
                 app:bottomLineSelectedColor="@color/new_main2"
-                app:figures="6"
+                app:figures="4"
                 android:hint="@string/ValidCode"
                 android:inputType="number"
                 app:selectedBackgroundColor="@color/smallYellow"

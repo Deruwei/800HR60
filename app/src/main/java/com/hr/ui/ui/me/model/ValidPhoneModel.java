@@ -36,8 +36,8 @@ public class ValidPhoneModel implements ValidPhoneContract.Model{
     }
 
     @Override
-    public Observable<ValidCodeBean> getValidCode(String phoneNumber, String type, int way, String captcha) {
-        return Api.getDefault(HostType.HR).getValidCode(EncryptUtils.encrypParams(ApiParameter.getValidCode(HRApplication.getAppContext(),phoneNumber,captcha,way,type)))
+    public Observable<ValidCodeBean> getValidCode(String phoneNumber, String type, int way, String captcha,int validType) {
+        return Api.getDefault(HostType.HR).getValidCode(EncryptUtils.encrypParams(ApiParameter.getValidCode(HRApplication.getAppContext(),phoneNumber,captcha,way,type,validType)))
                 .map(new Func1<ValidCodeBean, ValidCodeBean>() {
                     @Override
                     public ValidCodeBean call(ValidCodeBean baseBean) {
