@@ -83,7 +83,12 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        isConfigChange=false;
+            if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
+
+                finish();
+                return;
+            }
+            isConfigChange=false;
         mRxManager=new RxManager();
         doBeforeSetcontentView();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
@@ -173,12 +178,10 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-
             // 获得当前得到焦点的View，一般情况下就是EditText（特殊情况就是轨迹求或者实体案件会移动焦点）
             View v = getCurrentFocus();
             if (isShouldHideInput(v, ev)) {
                 hideSoftInput(v.getWindowToken());
-
             }
         }
         return super.dispatchTouchEvent(ev);

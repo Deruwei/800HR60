@@ -31,6 +31,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.SocketException;
+import java.security.cert.CertPathValidatorException;
+import java.security.cert.CertificateException;
+
+import javax.net.ssl.SSLHandshakeException;
 
 import okhttp3.ResponseBody;
 import rx.Observable;
@@ -111,7 +116,6 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
     @Override
     public void onNext(T t) {
         try {
-            _onNext(t);
             if(isShow==true) {
                 isShow=false;
                 if(mContext instanceof PositionPageActivity) {
@@ -120,6 +124,7 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
                     LoadingDialog.cancelDialogForLoading();
                 }
             }
+            _onNext(t);
            /* if(t.toString().contains("error_code")){
                 ResultBean resultBean= (ResultBean) t;
                 if(t.)
@@ -142,6 +147,17 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
             }
             _onError(HRApplication.getAppContext().getString(R.string.no_net));
             ToastUitl.showShort(HRApplication.getAppContext().getString(R.string.net_error));
+        }else if (e  instanceof SSLHandshakeException){
+            if (isShow == true) {
+                isShow=false;
+                if (mContext instanceof PositionPageActivity) {
+                    LoadingDialog2.cancelDialogForLoading();
+                } else {
+                    LoadingDialog.cancelDialogForLoading();
+                }
+            }
+            ToastUitl.showShort(HRApplication.getAppContext().getString(R.string.net_error));
+            _onError(e.getMessage());
         }
         //服务器
         else if (e instanceof ServerException) {
@@ -153,9 +169,22 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
                     LoadingDialog.cancelDialogForLoading();
                 }
             }
+            ToastUitl.showShort(HRApplication.getAppContext().getString(R.string.net_error));
             _onError(e.getMessage());
         }else {
-            new Handler().postDelayed(new Runnable() {
+            if (isShow == true) {
+                isShow=false;
+                if (mContext instanceof PositionPageActivity) {
+                    LoadingDialog2.cancelDialogForLoading();
+                } else {
+                    LoadingDialog.cancelDialogForLoading();
+                }
+            }
+            if(e.getMessage()!=null) {
+                ToastUitl.showShort(HRApplication.getAppContext().getString(R.string.net_error));
+                _onError(e.getMessage());
+            }
+           /* new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     if (isShow == true) {
@@ -174,6 +203,7 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
                 }
             }, 3000);
 
+*/
         }
     }
 

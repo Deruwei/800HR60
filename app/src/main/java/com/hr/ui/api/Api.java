@@ -12,6 +12,7 @@ import android.util.SparseArray;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonReader;
 import com.hr.ui.app.HRApplication;
 import com.hr.ui.bean.BaseBean;
 import com.hr.ui.constants.Constants;
@@ -49,7 +50,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class Api {
     //读超时长，单位：毫秒
-    public static final int READ_TIME_OUT = 20000;
+    public static final int READ_TIME_OUT = 6000;
     //连接时长，单位：毫秒
     public static final int CONNECT_TIME_OUT =20000;
     public Retrofit retrofit;
@@ -130,7 +131,13 @@ public class Api {
                 .getSocketFactory(), 80));
         registry.register(new Scheme("https", SSLSocketFactory
                 .getSocketFactory(), 443));*/
-        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").serializeNulls().create();
+
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
+                .enableComplexMapKeySerialization()//支持Map的key为复杂对象的形式
+                .serializeNulls() //智能null
+                .setPrettyPrinting()// 调教格式
+                .disableHtmlEscaping() //默认是GSON把HTML 转义的
+                .create();
         retrofit = new Retrofit.Builder()
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create(gson))

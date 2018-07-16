@@ -46,5 +46,24 @@ public class MainPresenter extends MainContract.Presenter {
             }
         }));
     }
+    @Override
+    public void bindJpush(String registerId) {
+        mRxManage.add(mModel.bindJpush(registerId).subscribe(new RxSubscriber<ResponseBody>(mContext,false) {
+            @Override
+            protected void _onNext(ResponseBody responseBody)  {
+                try {
+                    String s= responseBody.string().toString();
+                    Log.i("1099","JPUSH"+s);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            protected void _onError(String message) {
+                //ToastUitl.showShort(message);
+            }
+        }));
+    }
 
 }

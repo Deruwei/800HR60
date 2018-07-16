@@ -38,11 +38,18 @@ public class FindPasswordPresenter extends FindPasswordContract.Presenter {
                     mView.resetPasswordSuccess();
                 }else if(noDataBean.getError_code()==201) {
                   /*  if ("token".equals(noDataBean.getError_field())){*/
-                        ToastUitl.showShort(R.string.error_validCode);
+                        ToastUitl.showShort(R.string.error_phoneOrPsw);
                   /*  }else{
                         ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) noDataBean.getError_code()));
                     }*/
-                } else{
+                } else if(noDataBean.getError_code()==330) {
+                    /*  if ("token".equals(noDataBean.getError_field())){*/
+                    ToastUitl.showShort(R.string.error_validCode);
+                  /*  }else{
+                        ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) noDataBean.getError_code()));
+                    }*/
+                }
+                else{
                     ToastUitl.showShort(Rc4Md5Utils.getErrorResourceId((int) noDataBean.getError_code()));
                 }
             }

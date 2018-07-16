@@ -74,7 +74,8 @@ public class SplashPresenter extends SplashContract.Presenter {
 
             @Override
             protected void _onError(String message) {
-                //ToastUitl.showShort(message);
+                //ToastUitl.showShort("错误");
+               // Log.i("到这里了","haode ");
                 mView.onConnectError();
             }
         }));
@@ -221,6 +222,7 @@ public class SplashPresenter extends SplashContract.Presenter {
             }
         }));
     }
+
 
     @Override
     public void getArrayData(final String path, final String fileName) {

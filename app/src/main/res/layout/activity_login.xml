@@ -163,9 +163,8 @@
                         android:id="@+id/vi_loginValidCode"
                         style="@style/login_editText"
                         android:visibility="gone"
-                        android:layout_width="wrap_content"
+                        android:layout_width="@dimen/x250"
                         android:layout_height="wrap_content"
-                        android:layout_toLeftOf="@+id/rl_loginDelete"
                         android:layout_toRightOf="@+id/iv_phoneLoginValidIcon"
                         android:hint="@string/ValidCode"
                         android:inputType="number"
@@ -194,7 +193,7 @@
 
                     <TextView
                         android:id="@+id/tv_sendValidCode"
-                        android:layout_width="@dimen/x50"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toLeftOf="@+id/tv_loginOr"
                         android:layout_centerVertical="true"
@@ -206,23 +205,33 @@
                         android:id="@+id/tv_loginOr"
                         android:layout_width="@dimen/x50"
                         android:layout_height="wrap_content"
-                        android:layout_toLeftOf="@+id/tv_sendVoiceCode"
+                        android:layout_toLeftOf="@+id/rl_sendVoiceCode"
                         android:layout_centerVertical="true"
                         android:text="@string/or"
                         android:gravity="center"
                         android:textColor="@color/black"
                         android:textSize="@dimen/x24"></TextView>
-
-                    <TextView
-                        android:id="@+id/tv_sendVoiceCode"
-                        android:layout_width="@dimen/x50"
-                        android:layout_height="wrap_content"
+                    <FrameLayout
+                        android:id="@+id/rl_sendVoiceCode"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:text="@string/getVoiceCode"
-                        android:textColor="@color/new_main"
-                        android:textSize="@dimen/x24"></TextView>
-
+                        android:layout_width="@dimen/x50"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:id="@+id/iv_sendVoiceCode"
+                            android:paddingLeft="@dimen/x13"
+                            android:paddingRight="@dimen/x13"
+                            android:layout_gravity="center"
+                            android:src="@mipmap/voice_orange"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:id="@+id/tv_sendVoiceCode"
+                            android:layout_width="@dimen/x50"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/new_main"
+                            android:textSize="@dimen/x24"></TextView>
+                    </FrameLayout>
                     <View
                         style="@style/login_view"
                         android:layout_alignParentBottom="true" />

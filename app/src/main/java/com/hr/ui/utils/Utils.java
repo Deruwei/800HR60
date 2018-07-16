@@ -12,6 +12,7 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
@@ -35,6 +36,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -64,6 +66,7 @@ import com.hr.ui.ui.message.activity.WebActivity;
 import com.hr.ui.utils.datautils.FromStringToArrayList;
 import com.hr.ui.utils.datautils.SaveFile;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
+import com.hr.ui.view.VerificationCodeEditText;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -119,6 +122,21 @@ public class Utils {
         DisplayMetrics outMetrics = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics( outMetrics);
         return outMetrics .widthPixels ;
+    }
+
+    public static Drawable getMaskDrawable(Context context, int maskId) {
+        Drawable drawable;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            drawable = context.getDrawable(maskId);
+        } else {
+            drawable = context.getResources().getDrawable(maskId);
+        }
+
+        if (drawable == null) {
+            throw new IllegalArgumentException("maskId is invalid");
+        }
+
+        return drawable;
     }
     /**
      * 获取application中指定的meta-data。本例中，调用方法时key就是UMENG_CHANNEL
@@ -793,6 +811,20 @@ public class Utils {
             }
         });
     }
+    public static void setIM(VerificationCodeEditText et,Context context){
+        et.setFocusable(true);
+        et.setFocusableInTouchMode(true);
+        et.requestFocus();
+        InputMethodManager im= (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        im.showSoftInput(et,0);
+    }
+    public static void setIM2(EditText et,Context context){
+        et.setFocusable(true);
+        et.setFocusableInTouchMode(true);
+        et.requestFocus();
+        InputMethodManager im= (InputMethodManager)context .getSystemService(Context.INPUT_METHOD_SERVICE);
+        im.showSoftInput(et,0);
+    }
     public static void setEditViewTextChangeAndFocus(final EditText et, final ImageView iv){
         et.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -829,6 +861,7 @@ public class Utils {
     }
     public  static void getConnect(){
         //Log.i("你好","------");
+        ToastUitl.showShort("网络出了小差");
         ApiService RxService = Api.getDefault(HostType.HR);
         Observable<BaseBean> Object = RxService.getConnect(EncryptUtils.encrypParams(ApiParameter.getConnect(HRApplication.getAppContext())));
         Subscriber mSubscriber = new Subscriber<BaseBean>() {

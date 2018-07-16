@@ -18,6 +18,12 @@ public class RegularExpression {
         Matcher matcher = pattern.matcher(str);
         return matcher.matches();
     }
+
+    /**
+     * 验证该字符串是否是数字
+     * @param str
+     * @return
+     */
     public static boolean isNumber(String str){
         Pattern pattern=Pattern.compile("^\\d{3,4}-\\d{7,8}$");
         Matcher matcher=pattern.matcher(str);
@@ -30,7 +36,7 @@ public class RegularExpression {
      */
     //"^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$"
     public static boolean isEmail(String str){
-        Pattern pattern = Pattern.compile("^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$");
+        Pattern pattern = Pattern.compile("^[a-zA-Z0-9][\\w\\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\\w\\.-]*[a-zA-Z0-9]\\.[a-zA-Z][a-zA-Z\\.]*[a-zA-Z]$");
         Matcher matcher = pattern.matcher(str);
         return matcher.matches();
     }

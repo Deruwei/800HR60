@@ -1,5 +1,6 @@
 package com.hr.ui.ui.me.presenter;
 
+import com.hr.ui.R;
 import com.hr.ui.base.RxSubscriber;
 import com.hr.ui.bean.NoticeBean;
 import com.hr.ui.bean.NoticeData;
@@ -43,7 +44,7 @@ public class SettingPresenter extends SettingContract.Presenter {
 
             @Override
             protected void _onError(String message) {
-                ToastUitl.showShort(message);
+                ToastUitl.showShort(R.string.net_error);
             }
         }));
     }

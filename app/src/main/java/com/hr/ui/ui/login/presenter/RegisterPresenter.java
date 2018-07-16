@@ -112,7 +112,7 @@ public class RegisterPresenter extends RegisterContract.Presenter {
                     loginBean.setPassword(psw);
                     LoginDBUtils.insertData(loginBean);
                     mView.sendRegisterSuccess(registerBean.getUser_id());
-                }else if(registerBean.getError_code()==201){
+                }else if(registerBean.getError_code()==330){
                     ToastUitl.showShort(R.string.error_validCode);
                 }
                 else{

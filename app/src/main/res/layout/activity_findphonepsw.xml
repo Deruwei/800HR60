@@ -68,10 +68,10 @@
             <com.hr.ui.view.VerificationCodeEditText
                 android:id="@+id/vi_findPhonePswValidCode"
                 style="@style/login_editText"
-                android:layout_toLeftOf="@+id/rl_findPhonePswValidCodeDelete"
                 android:layout_toRightOf="@+id/iv_findPhonePswValidCodeIcon"
                 android:layout_marginRight="@dimen/x20"
                 app:bottomLineHeight="@dimen/x2"
+                android:layout_width="@dimen/x250"
                 app:bottomLineNormalColor="@color/cp_color_gray_light"
                 app:bottomLineSelectedColor="@color/new_main2"
                 app:figures="4"
@@ -96,7 +96,7 @@
             <TextView
                 android:layout_centerVertical="true"
                 android:id="@+id/tv_findPhonePswGetValidCode"
-                android:layout_width="@dimen/x50"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/getValidCode"
                 android:layout_toLeftOf="@+id/tv_findPhonePswOr"
@@ -107,20 +107,33 @@
                 android:layout_width="@dimen/x40"
                 android:layout_centerVertical="true"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@+id/tv_findPhonePswVoice"
+                android:layout_toLeftOf="@+id/fl_findPhonePswVoice"
                 android:text="@string/or"
                 android:gravity="center"
                 android:textColor="@color/black"
                 android:textSize="@dimen/x24" />
-            <TextView
-                android:id="@+id/tv_findPhonePswVoice"
-                android:layout_width="@dimen/x50"
-                android:layout_height="wrap_content"
+            <FrameLayout
+                android:id="@+id/fl_findPhonePswVoice"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:text="@string/getVoiceCode"
-                android:textColor="@color/new_main"
-                android:textSize="@dimen/x24" />
+                android:layout_width="@dimen/x50"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/iv_findPhonePswVoice"
+                    android:layout_gravity="center"
+                    android:paddingRight="@dimen/x13"
+                    android:paddingLeft="@dimen/x13"
+                    android:src="@mipmap/voice_orange"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tv_findPhonePswVoice"
+                    android:layout_width="@dimen/x50"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/new_main"
+                    android:textSize="@dimen/x24" />
+            </FrameLayout>
             <View
                 android:id="@+id/view_getValidCode2"
                 style="@style/login_view"
@@ -155,6 +168,7 @@
                 android:layout_toLeftOf="@+id/rl_findPhonePswHiddenPsw"
                 style="@style/Login_imageViewIcon" />
             <RelativeLayout
+                android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/rl_findPhonePswHiddenPsw"

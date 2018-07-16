@@ -5,26 +5,21 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
 import android.text.Selection;
 import android.text.Spannable;
-import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -52,6 +47,7 @@ import com.hr.ui.utils.Utils;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.VerificationAction;
 import com.hr.ui.view.VerificationCodeEditText;
+import com.hr.ui.view.dialog.ValidDialog;
 import com.service.CodeTimerService;
 import com.umeng.analytics.MobclickAgent;
 
@@ -108,7 +104,7 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
     @BindView(R.id.cl_bindNewPhone)
     ConstraintLayout clBindNewPhone;
     @BindView(R.id.tv_bindPhoneAccountValidCode)
-    EditText tvBindPhoneAccountValidCode;
+    TextView tvBindPhoneAccountValidCode;
     @BindView(R.id.vi_bindPhoneAccountValidCode)
     VerificationCodeEditText viBindPhoneAccountValidCode;
     @BindView(R.id.rl_bindNewAccountGetValidCodeDelete)
@@ -117,11 +113,15 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
     TextView tvBindNewAccountOr;
     @BindView(R.id.tv_bindNewAccountVoice)
     TextView tvBindNewAccountVoice;
+    @BindView(R.id.iv_bindNewAccountVoice)
+    ImageView ivBindNewAccountVoice;
+    @BindView(R.id.rl_bindNewAccountVoice)
+    FrameLayout rlBindNewAccountVoice;
     private SharedPreferencesUtils sUtils;
     private PopupWindow popupWindow;
     private String autoCode;
-    private Intent mCodeTimerServiceIntent,mCodeTimerServiceVoiceIntent;
-    public static final String CODE = "codeBind",VOICECODE="codeVoiceBind";
+    private Intent mCodeTimerServiceIntent, mCodeTimerServiceVoiceIntent;
+    public static final String CODE = "codeBind", VOICECODE = "codeVoiceBind";
     private ImageView ivAutoCode;
     private EditText etAutoCode;
     private String uid;
@@ -133,6 +133,7 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
     private int[] imageIds = {R.mipmap.resume1, R.mipmap.resume2, R.mipmap.resume3, R.mipmap.resume4, R.mipmap.resume5};
     private ArrayList<String> titles;
     private int userId, validType = 1;
+    private ValidDialog validDialog;
 
     /**
      * 入口
@@ -194,29 +195,39 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
         this.code = code;
         sUtils.setIntValue("code", code);
         tvBindNewAccountGetValidCode.setEnabled(false);
-        tvBindNewAccountVoice.setEnabled(false);
-        if(validType==1) {
+        ivBindNewAccountVoice.setEnabled(false);
+        if (validType == 1) {
+            ToastUitl.showShort(R.string.validAlreadySend);
+            ivBindNewAccountVoice.setImageResource(R.mipmap.voice_grey);
+            tvBindNewAccountGetValidCode.setTextColor(ContextCompat.getColor(this,R.color.color_999));
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
                 startForegroundService(mCodeTimerServiceIntent);
             } else {
                 startService(mCodeTimerServiceIntent);
             }
-        }else{
+        } else {
+            ToastUitl.showShort(R.string.voiceAlreadySend);
+            tvBindNewAccountGetValidCode.setTextColor(ContextCompat.getColor(this,R.color.color_999));
+            tvBindNewAccountVoice.setTextColor(ContextCompat.getColor(this,R.color.color_999));
+            ivBindNewAccountVoice.setVisibility(View.GONE);
+            tvBindNewAccountVoice.setVisibility(View.VISIBLE);
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
                 startForegroundService(mCodeTimerServiceVoiceIntent);
             } else {
                 startService(mCodeTimerServiceVoiceIntent);
             }
         }
-        if (popupWindow != null) {
-            popupWindow.dismiss();
+        if (validDialog != null) {
+            validDialog.dismiss();
         }
     }
 
     @Override
     public void sendAutoCode(String autoCode) {
         this.autoCode = autoCode;
-        ivAutoCode.setImageBitmap(EncryptUtils.stringtoBitmap(autoCode));
+        if (validDialog != null) {
+            validDialog.setImageBitMap(EncryptUtils.stringtoBitmap(autoCode));
+        }
     }
 
     @Override
@@ -274,7 +285,9 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
     @Override
     public void needToGetAutoCode() {
         ToastUitl.showShort("图形验证码错误");
-        etAutoCode.setText("");
+        if (validDialog != null) {
+            validDialog.setText("");
+        }
         mPresenter.getAutoCode();
     }
 
@@ -307,38 +320,38 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
         mCodeTimerServiceIntent = new Intent(this, CodeTimerService.class);
         mCodeTimerServiceIntent.setAction(CODE);
 
-        mCodeTimerServiceVoiceIntent=new Intent(this,CodeTimerService.class);
+        mCodeTimerServiceVoiceIntent = new Intent(this, CodeTimerService.class);
         mCodeTimerServiceVoiceIntent.setAction(VOICECODE);
         //注册接收验证码计时器信息的广播
         IntentFilter filter = new IntentFilter(CODE);
         registerReceiver(mCodeTimerReceiver, filter);
 
-        IntentFilter filterVoice=new IntentFilter(VOICECODE);
-        registerReceiver(mCodeTimerReceiver,filterVoice);
+        IntentFilter filterVoice = new IntentFilter(VOICECODE);
+        registerReceiver(mCodeTimerReceiver, filterVoice);
         onEditViewTextChangeAndFocusChange();
     }
 
     private void onEditViewTextChangeAndFocusChange() {
-        Utils.setEditViewTextChangeAndFocus(etBindNewAccountNumber,ivBindNewAccountNumberDelete);
-        Utils.setEditViewTextChangeAndFocus(etBindNewAccountPsw,ivBindNewAccountPswDelete);
+        Utils.setEditViewTextChangeAndFocus(etBindNewAccountNumber, ivBindNewAccountNumberDelete);
+        Utils.setEditViewTextChangeAndFocus(etBindNewAccountPsw, ivBindNewAccountPswDelete);
         viBindPhoneAccountValidCode.setOnVerificationCodeChangedListener(new VerificationAction.OnVerificationCodeChangedListener() {
             @Override
             public void onVerCodeChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()>0){
+                if (s.length() > 0) {
                     ivBindNewAccountGetValidCodeDelete.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     ivBindNewAccountGetValidCodeDelete.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onInputCompleted(CharSequence s) {
-                validCode=s.toString();
+                validCode = s.toString();
             }
         });
     }
 
-    @OnClick({R.id.tv_bindNewAccountGetValidCode, R.id.tv_bindNewAccountPhone,R.id.tv_bindNewAccountVoice, R.id.rl_bindNewAccountHiddenPsw, R.id.iv_bindNewAccountNumberDelete, R.id.iv_bindNewAccountPswDelete, R.id.iv_bindNewAccountGetValidCodeDelete, R.id.btn_bindNewAccountOK, R.id.tv_bindNewAccountFindPsw})
+    @OnClick({R.id.tv_bindNewAccountGetValidCode,R.id.tv_bindPhoneAccountValidCode, R.id.tv_bindNewAccountPhone, R.id.iv_bindNewAccountVoice, R.id.rl_bindNewAccountHiddenPsw, R.id.iv_bindNewAccountNumberDelete, R.id.iv_bindNewAccountPswDelete, R.id.iv_bindNewAccountGetValidCodeDelete, R.id.btn_bindNewAccountOK, R.id.tv_bindNewAccountFindPsw})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_bindNewAccountHiddenPsw:
@@ -370,16 +383,21 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
                 viBindPhoneAccountValidCode.setText("");
                 break;
             case R.id.tv_bindNewAccountGetValidCode:
-               validType=1;
-               doSendValidCode();
+                validType = 1;
+                doSendValidCode();
                 break;
-            case R.id.tv_bindNewAccountVoice:
-                validType=2;
+            case R.id.iv_bindNewAccountVoice:
+                validType = 2;
                 doSendValidCode();
                 break;
             case R.id.btn_bindNewAccountOK:
                 type = 0;
                 doRegister();
+                break;
+            case R.id.tv_bindPhoneAccountValidCode:
+                tvBindPhoneAccountValidCode.setVisibility(View.GONE);
+                viBindPhoneAccountValidCode.setVisibility(View.VISIBLE);
+                Utils.setIM(viBindPhoneAccountValidCode,this);
                 break;
             case R.id.tv_bindNewAccountPhone:
                 BindPhoneLoginActivity.startAction(this);
@@ -394,6 +412,7 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
         tvBindPhoneAccountValidCode.setVisibility(View.GONE);
         viBindPhoneAccountValidCode.setVisibility(View.VISIBLE);
         type = 1;
+        Utils.setIM(viBindPhoneAccountValidCode,this);
         String phoneNumber1 = etBindNewAccountNumber.getText().toString();
         if (!"".equals(phoneNumber1) && phoneNumber1 != null) {
             if (RegularExpression.isCellphone(phoneNumber1)) {
@@ -443,17 +462,24 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
+            boolean isEnable = intent.getBooleanExtra(CodeTimer.IS_ENABLE, false);
+            if(isEnable){
+                ivBindNewAccountVoice.setVisibility(View.VISIBLE);
+                tvBindNewAccountVoice.setVisibility(View.GONE);
+                ivBindNewAccountVoice.setImageResource(R.mipmap.voice_orange);
+                tvBindNewAccountVoice.setTextColor(ContextCompat.getColor(BindNewAccountAcitvity.this,R.color.new_main));
+                tvBindNewAccountGetValidCode.setTextColor(ContextCompat.getColor(BindNewAccountAcitvity.this,R.color.new_main));
+            }
             if (CODE.equals(action)) {
                 //接收信息，改变button的点击状态和text
-                boolean isEnable = intent.getBooleanExtra(CodeTimer.IS_ENABLE, false);
                 String message = intent.getStringExtra(CodeTimer.MESSAGE);
                 tvBindNewAccountGetValidCode.setEnabled(isEnable);
+                ivBindNewAccountVoice.setEnabled(isEnable);
                 tvBindNewAccountGetValidCode.setText(message);
-            }else if(VOICECODE.equals(action)){
-                boolean isEnable = intent.getBooleanExtra(CodeTimer.IS_ENABLE, false);
+            } else if (VOICECODE.equals(action)) {
                 String message = intent.getStringExtra(CodeTimer.MESSAGE);
                 tvBindNewAccountGetValidCode.setEnabled(isEnable);
-                tvBindNewAccountVoice.setEnabled(isEnable);
+                ivBindNewAccountVoice.setEnabled(isEnable);
                 tvBindNewAccountVoice.setText(message);
             }
         }
@@ -463,59 +489,32 @@ public class BindNewAccountAcitvity extends BaseActivity<RegisterPresenter, Regi
      * 图形验证码界面
      */
     public void initPopWindow() {
-        final View popView = LayoutInflater.from(this).inflate(R.layout.layout_autocode, null);
-        popupWindow = new PopupWindow(popView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
-        popupWindow.setOutsideTouchable(true);
-        ivAutoCode = popView.findViewById(R.id.vc_image);
-        TextView tvReflesh = popView.findViewById(R.id.vc_refresh);
-        etAutoCode = popView.findViewById(R.id.vc_code);
-        RelativeLayout rlConfirm = popView.findViewById(R.id.rl__item_autocode_confirm);
-        rlConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String autoCodeText = etAutoCode.getText().toString();
-                if (autoCodeText != null && !"".equals(autoCodeText)) {
-                    mPresenter.getValidCode(etBindNewAccountNumber.getText().toString(), etAutoCode.getText().toString(), 1, Constants.VALIDCODE_REGISTER_YTPE, validType);
-                } else {
-                    ToastUitl.show("请填写图形验证码", Toast.LENGTH_SHORT);
-                }
-            }
-        });
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.alpha = 0.7f;
-        getWindow().setAttributes(lp);
-        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-
-            @Override
-            public void onDismiss() {
-                WindowManager.LayoutParams lp = getWindow().getAttributes();
-                lp.alpha = 1f;
-                getWindow().setAttributes(lp);
-            }
-        });
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
-            //  大于等于19即为4.4及以上执行内容
-            // 设置背景颜色变暗
+        if (validDialog != null) {
+            validDialog.show();
         } else {
-            //  低于19即为4.4以下执行内容
-            popupWindow.setBackgroundDrawable(new BitmapDrawable());
+            validDialog = new ValidDialog(this);
+            validDialog.setOnConfirmListener(new ValidDialog.OnConfirmListener() {
+                @Override
+                public void onConfirm(String autoCode) {
+                    mPresenter.getValidCode(etBindNewAccountNumber.getText().toString(), autoCode, 1, Constants.VALIDCODE_REGISTER_YTPE, validType);
+                }
+            });
+            validDialog.setOnRefleshClickListener(new ValidDialog.OnRefleshClickListener() {
+                @Override
+                public void doReflesh() {
+                    mPresenter.getAutoCode();
+                }
+            });
+            validDialog.show();
         }
-
-        popupWindow.setFocusable(true);
-        popupWindow.setOutsideTouchable(true);
-        tvReflesh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPresenter.getAutoCode();
-            }
-        });
-        View rootview = LayoutInflater.from(this).inflate(R.layout.activity_register, null);
-        popupWindow.showAtLocation(clBindNewPhone, Gravity.CENTER, 0, 0);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (validDialog != null) {
+            validDialog.dismiss();
+        }
         stopService(mCodeTimerServiceIntent);
         stopService(mCodeTimerServiceVoiceIntent);
         unregisterReceiver(mCodeTimerReceiver);

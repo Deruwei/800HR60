@@ -14,9 +14,6 @@ import android.util.Log;
  */
 public class AndroidSystemInfo {
     /**
-     * 获取系统版本
-     */
-    /**
      * 获得版本名称
      */
     public static String getVerName(Context context) {

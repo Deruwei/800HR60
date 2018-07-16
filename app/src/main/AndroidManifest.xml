@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.hr.ui"
-    android:versionCode="74"
-    android:versionName="6.1.2">
+    android:versionCode="69"
+    android:versionName="6.0.2.1">
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <!-- 添加必要的权限shareSDK -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
@@ -14,8 +14,10 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.READ_LOGS"
         tools:ignore="ProtectedPermissions" />
     <!-- SD卡读取权限，用户写入离线定位数据-->
@@ -25,6 +27,7 @@
         tools:replace="android:allowBackup"
         android:name=".app.HRApplication"
         android:allowBackup="false"
+        android:persistent="true"
         android:resizeableActivity="true"
         android:icon="@drawable/app"
         android:label="@string/app_name"
@@ -36,7 +39,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <!-- 极光推送-->
+        <receiver
+            android:name="com.service.JPushReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <!--Required 用户注册SDK的intent-->
+                <action android:name="cn.jpush.android.intent.REGISTRATION" />
+                <!--Required 用户接收SDK消息的intent-->
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
+                <!--Required 用户接收SDK通知栏信息的intent-->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
+                <!--Required 用户打开自定义通知栏的intent-->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
+                <!-- 接收网络变化 连接/断开 since 1.6.3 -->
+                <action android:name="cn.jpush.android.intent.CONNECTION" />
+                <action android:name="android.intent.action.BOOT_COMPLETED"/><!--开机广播-->
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/><!--网络状态改变广播-->
+                <category android:name="com.hr.ui" />
+            </intent-filter>
+        </receiver>
         <!--shareSDK-->
         <activity
             android:name="com.mob.tools.MobUIShell"

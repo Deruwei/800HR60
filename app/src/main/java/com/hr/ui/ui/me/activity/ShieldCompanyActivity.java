@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -25,6 +26,7 @@ import com.hr.ui.ui.me.model.ShieldCompanyModel;
 import com.hr.ui.ui.me.presenter.ShieldCompanyPresenter;
 import com.hr.ui.utils.ProgressStyle;
 import com.hr.ui.utils.ToastUitl;
+import com.hr.ui.view.MyDialog;
 import com.hr.ui.view.XRecyclerView;
 
 import java.util.ArrayList;
@@ -79,7 +81,7 @@ public class ShieldCompanyActivity extends BaseActivity<ShieldCompanyPresenter, 
     private int type = 1;//1代表显示已屏蔽企业  2标识搜索结果
     private int sheldNum;
     private int position;
-
+    private MyDialog myDialog;
     public static void startAction(Activity activity) {
         Intent intent = new Intent(activity, ShieldCompanyActivity.class);
         activity.startActivity(intent);
@@ -311,7 +313,7 @@ public class ShieldCompanyActivity extends BaseActivity<ShieldCompanyPresenter, 
     }
 
     @Override
-    public void getShieldCompanyDataSuccess(List<ShieldCompanyBean.EliminateListBean> eliminateListBeans) {
+    public void getShieldCompanyDataSuccess(final List<ShieldCompanyBean.EliminateListBean> eliminateListBeans) {
         eliminateListBeanList.clear();
         if (eliminateListBeans != null && !"".equals(eliminateListBeans) && eliminateListBeans.size() != 0) {
             rvShieldCompany.setVisibility(View.VISIBLE);
@@ -337,9 +339,25 @@ public class ShieldCompanyActivity extends BaseActivity<ShieldCompanyPresenter, 
         });*//**/
         shieldCompanyDataAdapter.setOnViewClick(new MyShieldCompanyDataAdapter.OnViewClick() {
             @Override
-            public void onViewClick(TextView btn, int position1) {
-                mPresenter.deleteShieldCompany(eliminateListBeanList.get(position1).getId());
+            public void onViewClick(TextView btn,  int position1) {
                 position=position1;
+                myDialog=new MyDialog(ShieldCompanyActivity.this);
+                myDialog.setTitle(getString(R.string.warmNotice));
+                myDialog.setMessage("是否取消屏蔽关键词 “"+eliminateListBeanList.get(position).getEliminate_txt()+"”？");
+                myDialog.setYesOnclickListener(getString(R.string.sure), new MyDialog.onYesOnclickListener() {
+                    @Override
+                    public void onYesClick() {
+                        mPresenter.deleteShieldCompany(eliminateListBeanList.get(position).getId());
+                        myDialog.dismiss();
+                    }
+                });
+                myDialog.setNoOnclickListener(getString(R.string.cancel), new MyDialog.onNoOnclickListener() {
+                    @Override
+                    public void onNoClick() {
+                        myDialog.dismiss();
+                    }
+                });
+                myDialog.show();
             }
         });
     }
@@ -415,5 +433,13 @@ public class ShieldCompanyActivity extends BaseActivity<ShieldCompanyPresenter, 
         sheldNum--;
         setNum();
         shieldCompanyDataAdapter.doDelete(position+1);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(myDialog!=null){
+            myDialog.dismiss();
+        }
     }
 }

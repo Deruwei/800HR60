@@ -59,4 +59,11 @@ public class MainModel implements MainContract.Model {
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(RxSchedulers.<FindBean>io_main());
     }
+    @Override
+    public Observable<ResponseBody> bindJpush(String registerId) {
+        return Api.getDefault(HostType.HR).getResponseString(EncryptUtils.encrypParams(ApiParameter.bindJpush(registerId)))
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxSchedulers.<ResponseBody>io_main());
+    }
 }

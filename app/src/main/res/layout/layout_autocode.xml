@@ -67,6 +67,8 @@
                     android:singleLine="true"
                     android:layout_marginRight="@dimen/x20"
                     android:inputType="number"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/x89" />
                 <View

@@ -42,6 +42,8 @@ import com.umeng.commonsdk.UMConfigure;
 
 import java.util.Calendar;
 
+import cn.jpush.android.api.JPushInterface;
+
 /**
  * Created by wdr on 2017/11/20.
  */
@@ -54,6 +56,7 @@ public class HRApplication extends MobApplication {
     public static final String CODE = "connectCode";
     private String nbsAppKey="8a97e06a76944ee3886dafe60f20a809";
     private CountDownTimer countDownTimer;
+    private SharedPreferencesUtils sUtils;
 
     public static HRApplication getAppContext() {
         return hrApplication;
@@ -82,6 +85,13 @@ public class HRApplication extends MobApplication {
         if(hrApplication == null)
             hrApplication = this;
         init();
+        sUtils=new SharedPreferencesUtils(this);
+        //极光推送
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
+        String registrationId = JPushInterface.getRegistrationID(this);
+       sUtils.setStringValue(Constants.REGISTERID,registrationId);
+
         SDKInitializer.initialize(getApplicationContext());
         initPhotoPicker();
         setupDatabase();

@@ -30,6 +30,7 @@
                 android:id="@+id/et_bindPhoneLoginNumber"
                 style="@style/login_editText"
                 android:singleLine="true"
+                android:maxLength="11"
                 android:layout_marginRight="@dimen/x10"
                 android:inputType="number"
                 android:hint="@string/phoneNumber"

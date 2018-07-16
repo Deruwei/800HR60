@@ -22,11 +22,13 @@ import rx.Observable;
 public interface MainContract {
     interface Model extends BaseModel{
         Observable<FindBean> getNotice(String cid,String aid);
+        Observable<ResponseBody> bindJpush(String registerId);
     }
     interface View extends BaseView{
        void getNoticeSuccess(List<FindBean.ListBean> listBean);
     }
     abstract class Presenter extends BasePresenter<View,Model>{
        public abstract void getNotice(String cid,String aid);
+        public abstract void bindJpush(String registerId);
     }
 }

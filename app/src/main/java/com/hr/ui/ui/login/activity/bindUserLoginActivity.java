@@ -115,6 +115,7 @@ public class bindUserLoginActivity extends BaseActivity<LoginPresenter, LoginMod
     @Override
     public void sendLoginSuccess(int userId) {
         MobclickAgent.onProfileSignIn(userId+"");
+        sUtils.setStringValue(Constants.USERID, userId + "");
         thirdPartBean = new ThirdLoginBean();
         List<ThirdLoginBean> thirdPartBeanList = ThirdPartDao.queryThirdPart(Constants.TYPE_THIRDPARTLOGIN);
         for (int i = 0; i < thirdPartBeanList.size(); i++) {

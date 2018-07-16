@@ -295,11 +295,16 @@ public class MainActivity extends BaseActivity<MainPresenter, MainModel> impleme
     @Override
     public void initView() {
         instance = this;
+        sUtis = new SharedPreferencesUtils(this);
         EventBus.getDefault().register(this);
         mPresenter.getNotice("96", "794,796,797,798");
+      /*  String registerId=sUtis.getStringValue(Constants.REGISTERID,"");
+        Log.i("1099",""+registerId);
+        if(registerId!=null&&!"".equals(registerId)){
+            mPresenter.bindJpush(registerId);
+        }*/
         /*userId = getIntent().getIntExtra("userId", 0);*/
         rbResume1 = rbResume;
-        sUtis = new SharedPreferencesUtils(this);
         initFragment();
         /**
          * 获取状态栏高度——方法1

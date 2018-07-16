@@ -441,7 +441,7 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
                 llPositionPageCulScore.setEnabled(true);
                 ToastUitl.showShort(R.string.error_cul);
             }
-        }, 3500);
+        }, 2000);
 
     }
 
@@ -614,7 +614,7 @@ public class PositionPageActivity extends Base2Activity<PositionPagePresenter, P
 
     @Override
     protected void onNetworkConnected(NetUtils.NetType type) {
-        mPresenter.getPositionData(jobId, this);
+       // mPresenter.getPositionData(jobId, this);
     }
 
     @Override

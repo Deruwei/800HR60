@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -14,13 +13,11 @@ import android.text.Selection;
 import android.text.Spannable;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -51,6 +48,7 @@ import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.MyDialog;
 import com.hr.ui.view.VerificationAction;
 import com.hr.ui.view.VerificationCodeEditText;
+import com.hr.ui.view.dialog.ValidDialog;
 import com.service.CodeTimerService;
 import com.umeng.analytics.MobclickAgent;
 
@@ -138,17 +136,22 @@ public class LoginActivity extends Base3Activity<LoginPresenter, LoginModel> imp
     VerificationCodeEditText viLoginValidCode;
     @BindView(R.id.rl_loginDelete)
     RelativeLayout rlLoginDelete;
+    @BindView(R.id.iv_sendVoiceCode)
+    ImageView ivSendVoiceCode;
+    @BindView(R.id.rl_sendVoiceCode)
+    FrameLayout rlSendVoiceCode;
     private ImageView ivAutoCode;
     private EditText etAutoCode;
     private boolean isHidden = true, isHiddleUser = true;
     private String phoneNum, userNum, phoneNumberValid = "", psw, psw2, validCode;
     private SharedPreferencesUtils sUtils;
     private ArrayList<String> titles;
-    private int userId, code,validType=1, type,isPswLogin = 1; // 1代表密码登录  2 代表验证码登录;
+    private int userId, code, validType = 1, type, isPswLogin = 1; // 1代表密码登录  2 代表验证码登录;
     private Intent mCodeTimerServiceIntent, mVoiseTimerServiceIntent;
     public static final String CODE = "codeValidLogin", VOICECODE = "codeVoiceLogin";
     private PopupWindow popupWindow;
     private MyDialog dialog;
+    private ValidDialog validDialog;
 
     /**
      * 入口
@@ -197,6 +200,7 @@ public class LoginActivity extends Base3Activity<LoginPresenter, LoginModel> imp
     @Override
     public void thirdPartLoginSuccess(int userId) {
         this.userId = userId;
+        sUtils.setStringValue(Constants.USERID, userId + "");
         MobclickAgent.onEvent(this, "v6_login_thirdPart");
         MobclickAgent.onProfileSignIn("WB", userId + "");
         sUtils.setIntValue(Constants.ISAUTOLOGIN, 1);
@@ -234,7 +238,9 @@ public class LoginActivity extends Base3Activity<LoginPresenter, LoginModel> imp
     @Override
     public void needToGetAutoCode() {
         ToastUitl.showShort("图形验证码错误");
-        etAutoCode.setText("");
+        if (validDialog != null) {
+            validDialog.setText("");
+        }
         mPresenter.getAutoCode();
     }
 
@@ -266,7 +272,7 @@ public class LoginActivity extends Base3Activity<LoginPresenter, LoginModel> imp
                     initPopWindow();
                     mPresenter.getAutoCode();
                 } else {
-                    mPresenter.getValidCode(phoneNumberValid, "", 0, Constants.VALIDCODE_LOGIN_YTPE,validType);
+                    mPresenter.getValidCode(phoneNumberValid, "", 0, Constants.VALIDCODE_LOGIN_YTPE, validType);
                 }
             }
         }
@@ -276,53 +282,25 @@ public class LoginActivity extends Base3Activity<LoginPresenter, LoginModel> imp
      * 图形验证码界面
      */
     public void initPopWindow() {
-        final View popView = LayoutInflater.from(this).inflate(R.layout.layout_autocode, null);
-        popupWindow = new PopupWindow(popView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
-        ivAutoCode = popView.findViewById(R.id.vc_image);
-        TextView tvReflesh = popView.findViewById(R.id.vc_refresh);
-        etAutoCode = popView.findViewById(R.id.vc_code);
-        RelativeLayout rlConfirm = popView.findViewById(R.id.rl__item_autocode_confirm);
-        rlConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String autoCodeText = etAutoCode.getText().toString();
-                if (autoCodeText != null && !"".equals(autoCodeText)) {
-                    mPresenter.getValidCode(etPhoneLoginNumber2.getText().toString(), autoCodeText, 1, Constants.VALIDCODE_LOGIN_YTPE,validType);
-                } else {
-                    ToastUitl.show("请填写图形验证码", Toast.LENGTH_SHORT);
-                }
-            }
-        });
-
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.alpha = 0.7f;
-        getWindow().setAttributes(lp);
-        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-
-            @Override
-            public void onDismiss() {
-                WindowManager.LayoutParams lp = getWindow().getAttributes();
-                lp.alpha = 1f;
-                getWindow().setAttributes(lp);
-            }
-        });
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
-            //  大于等于19即为4.4及以上执行内容
-            // 设置背景颜色变暗
+        if (validDialog != null) {
+            validDialog.show();
         } else {
-            //  低于19即为4.4以下执行内容
-            popupWindow.setBackgroundDrawable(new BitmapDrawable());
+            validDialog = new ValidDialog(this);
+            validDialog.setOnConfirmListener(new ValidDialog.OnConfirmListener() {
+                @Override
+                public void onConfirm(String autoCode) {
+                    mPresenter.getValidCode(etPhoneLoginNumber2.getText().toString(), autoCode, 1, Constants.VALIDCODE_LOGIN_YTPE, validType);
+                }
+            });
+            validDialog.setOnRefleshClickListener(new ValidDialog.OnRefleshClickListener() {
+                @Override
+                public void doReflesh() {
+                    mPresenter.getAutoCode();
+                }
+            });
+            validDialog.show();
         }
 
-        popupWindow.setFocusable(true);
-        popupWindow.setOutsideTouchable(true);
-        tvReflesh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPresenter.getAutoCode();
-            }
-        });
-        popupWindow.showAtLocation(clPhoneLogin, Gravity.CENTER, 0, 0);
     }
 
     @Override
@@ -330,28 +308,38 @@ public class LoginActivity extends Base3Activity<LoginPresenter, LoginModel> imp
         this.code = code;
         sUtils.setIntValue("code", code);
         tvSendValidCode.setEnabled(false);
-        tvSendVoiceCode.setEnabled(false);
-        if(validType==2) {
+        ivSendVoiceCode.setEnabled(false);
+        if (validType == 2) {
+            ToastUitl.showShort(R.string.voiceAlreadySend);
+            tvSendValidCode.setTextColor(ContextCompat.getColor(this,R.color.color_999));
+            tvSendVoiceCode.setTextColor(ContextCompat.getColor(this,R.color.color_999));
+            ivSendVoiceCode.setVisibility(View.GONE);
+            tvSendVoiceCode.setVisibility(View.VISIBLE);
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
                 startForegroundService(mVoiseTimerServiceIntent);
             } else {
                 startService(mVoiseTimerServiceIntent);
             }
-        }else {
+        } else {
+            ToastUitl.showShort(R.string.validAlreadySend);
+            ivSendVoiceCode.setImageResource(R.mipmap.voice_grey);
+            tvSendValidCode.setTextColor(ContextCompat.getColor(this,R.color.color_999));
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
                 startForegroundService(mCodeTimerServiceIntent);
             } else {
                 startService(mCodeTimerServiceIntent);
             }
         }
-        if (popupWindow != null) {
-            popupWindow.dismiss();
+        if (validDialog != null) {
+            validDialog.dismiss();
         }
     }
 
     @Override
     public void sendAutoCode(String autoCode) {
-        ivAutoCode.setImageBitmap(EncryptUtils.stringtoBitmap(autoCode));
+        if (validDialog != null) {
+            validDialog.setImageBitMap(EncryptUtils.stringtoBitmap(autoCode));
+        }
     }
 
     private long exitTime = 0;
@@ -390,9 +378,9 @@ public class LoginActivity extends Base3Activity<LoginPresenter, LoginModel> imp
         viLoginValidCode.setOnVerificationCodeChangedListener(new VerificationAction.OnVerificationCodeChangedListener() {
             @Override
             public void onVerCodeChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()>0){
+                if (s.length() > 0) {
                     ivPhoneLoginValidDelete.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     ivPhoneLoginValidDelete.setVisibility(View.GONE);
                 }
             }
@@ -431,18 +419,23 @@ public class LoginActivity extends Base3Activity<LoginPresenter, LoginModel> imp
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
+            boolean isEnable = intent.getBooleanExtra(CodeTimer.IS_ENABLE, false);
+            if(isEnable){
+                ivSendVoiceCode.setVisibility(View.VISIBLE);
+                ivSendVoiceCode.setImageResource(R.mipmap.voice_orange);
+                tvSendVoiceCode.setVisibility(View.GONE);
+                tvSendValidCode.setTextColor(ContextCompat.getColor(LoginActivity.this,R.color.new_main));
+            }
             if (CODE.equals(action)) {
                 //接收信息，改变button的点击状态和text
-                boolean isEnable = intent.getBooleanExtra(CodeTimer.IS_ENABLE, false);
                 String message = intent.getStringExtra(CodeTimer.MESSAGE);
                 tvSendValidCode.setEnabled(isEnable);
-                tvSendVoiceCode.setEnabled(isEnable);
+                ivSendVoiceCode.setEnabled(isEnable);
                 tvSendValidCode.setText(message);
             } else if (VOICECODE.equals(action)) {
-                boolean isEnable = intent.getBooleanExtra(CodeTimer.IS_ENABLE, false);
                 String message = intent.getStringExtra(CodeTimer.MESSAGE);
                 tvSendValidCode.setEnabled(isEnable);
-                tvSendVoiceCode.setEnabled(isEnable);
+                ivSendVoiceCode.setEnabled(isEnable);
                 tvSendVoiceCode.setText(message);
             }
         }
@@ -454,7 +447,7 @@ public class LoginActivity extends Base3Activity<LoginPresenter, LoginModel> imp
         Utils.setEditViewTextChangeAndFocus(etUserLoginPsw, ivUserLoginPswDelete);
     }
 
-    @OnClick({R.id.rl_userLoginHiddenPsw, R.id.rl_loginRegister,R.id.iv_userLoginNumberDelete, R.id.iv_userLoginPswDelete, R.id.rb_userLogin, R.id.tv_sendValidCode, R.id.tv_sendVoiceCode, R.id.iv_phoneLoginPhoneDelete2, R.id.iv_phoneLoginValidDelete, R.id.rb_validCodeLogin, R.id.btn_phoneLoginOK, R.id.tv_phoneLoginAccountLogin, R.id.tv_phoneLoginFindPsw, R.id.iv_phoneLoginQQ, R.id.iv_phoneLoginWeChat})
+    @OnClick({R.id.rl_userLoginHiddenPsw, R.id.tv_phoneLoginValid,R.id.rl_loginRegister, R.id.iv_userLoginNumberDelete, R.id.iv_userLoginPswDelete, R.id.rb_userLogin, R.id.tv_sendValidCode, R.id.iv_sendVoiceCode, R.id.iv_phoneLoginPhoneDelete2, R.id.iv_phoneLoginValidDelete, R.id.rb_validCodeLogin, R.id.btn_phoneLoginOK, R.id.tv_phoneLoginAccountLogin, R.id.tv_phoneLoginFindPsw, R.id.iv_phoneLoginQQ, R.id.iv_phoneLoginWeChat})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_loginRegister:
@@ -511,12 +504,12 @@ public class LoginActivity extends Base3Activity<LoginPresenter, LoginModel> imp
             case R.id.iv_phoneLoginValidDelete:
                 viLoginValidCode.setValue("");
                 break;
-            case R.id.tv_sendVoiceCode:
-                validType=2;
+            case R.id.iv_sendVoiceCode:
+                validType = 2;
                 doSendValidCode();
                 break;
             case R.id.tv_sendValidCode:
-                validType=1;
+                validType = 1;
                 doSendValidCode();
                 break;
             case R.id.tv_phoneLoginAccountLogin:
@@ -533,6 +526,11 @@ public class LoginActivity extends Base3Activity<LoginPresenter, LoginModel> imp
             case R.id.iv_phoneLoginQQ:
                 ThirdPartLoginUtils.LoginQQ(mPresenter);
                 break;
+            case R.id.tv_phoneLoginValid:
+                tvPhoneLoginValid.setVisibility(View.GONE);
+                viLoginValidCode.setVisibility(View.VISIBLE);
+                Utils.setIM(viLoginValidCode,this);
+                break;
             case R.id.iv_phoneLoginWeChat:
                 ThirdPartLoginUtils.LoginWeChat(mPresenter);
                 break;
@@ -544,6 +542,7 @@ public class LoginActivity extends Base3Activity<LoginPresenter, LoginModel> imp
         viLoginValidCode.setVisibility(View.VISIBLE);
         type = 1;
         String phoneNumber1 = etPhoneLoginNumber2.getText().toString();
+        Utils.setIM(viLoginValidCode,this);
         if (!"".equals(phoneNumber1) && phoneNumber1 != null) {
             if (RegularExpression.isCellphone(phoneNumber1)) {
                 if (phoneNumberValid.equals(phoneNumber1)) {
@@ -577,7 +576,7 @@ public class LoginActivity extends Base3Activity<LoginPresenter, LoginModel> imp
             mPresenter.getLogin(userNum, psw2, 2);
         } else {
             phoneNumberValid = etPhoneLoginNumber2.getText().toString();
-            validCode = viLoginValidCode.getText().toString();
+            validCode = viLoginValidCode.getTextString();
             if ("".equals(phoneNumberValid) || phoneNumberValid == null) {
                 ToastUitl.showShort("请输入手机号码");
                 return;
@@ -601,13 +600,17 @@ public class LoginActivity extends Base3Activity<LoginPresenter, LoginModel> imp
         if (dialog != null) {
             dialog.dismiss();
         }
+        if (validDialog != null) {
+            validDialog.dismiss();
+        }
         stopService(mCodeTimerServiceIntent);
+        stopService(mVoiseTimerServiceIntent);
         unregisterReceiver(mCodeTimerReceiver);
     }
 
     @Override
     protected void onNetworkConnected(NetUtils.NetType type) {
-        Utils.getConnect();
+        /*Utils.getConnect();*/
     }
 
     @Override

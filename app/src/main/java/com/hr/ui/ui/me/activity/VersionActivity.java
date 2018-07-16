@@ -186,7 +186,7 @@ public class VersionActivity extends BaseActivity<VersionPresenter, VersionModel
         if(Utils.checkVersion(androidBean.getVer(),BuildConfig.VERSION_NAME)==false){
             ToastUitl.showShort("已经是最新版本了");
         }else {
-            popWindowUpdate = new PopWindowUpdate(this, new PopupWindow(this), androidBean, clVersion);
+            popWindowUpdate = new PopWindowUpdate(this, androidBean, clVersion);
         }
     }
 }

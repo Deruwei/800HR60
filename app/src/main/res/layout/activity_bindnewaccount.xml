@@ -1,197 +1,221 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cl_bindNewPhone"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:background="@color/white"
-    android:focusable="true"
-    android:id="@+id/cl_bindNewPhone"
-    android:focusableInTouchMode="true"
     android:clipToPadding="true"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <include layout="@layout/layout_toolbar"
+    android:fitsSystemWindows="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <include
         android:id="@+id/in_bindNewAccount"
-        />
+        layout="@layout/layout_toolbar" />
+
     <LinearLayout
+        style="@style/login_contentLinearLayout"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/in_bindNewAccount"
-        style="@style/login_contentLinearLayout"
-        android:layout_height="0dp">
-        <RelativeLayout
-            style="@style/login_relativeLayout">
+        app:layout_constraintTop_toBottomOf="@+id/in_bindNewAccount">
+
+        <RelativeLayout style="@style/login_relativeLayout">
+
             <ImageView
-                android:layout_marginLeft="@dimen/x3"
                 android:id="@+id/iv_bindNewAccountNumberIcon"
                 style="@style/Login_imageViewIcon"
-                android:src="@mipmap/phone"
-                />
+                android:layout_marginLeft="@dimen/x3"
+                android:src="@mipmap/phone" />
+
             <EditText
-                android:layout_toRightOf="@+id/iv_bindNewAccountNumberIcon"
                 android:id="@+id/et_bindNewAccountNumber"
+                style="@style/login_editText"
+                android:layout_marginRight="@dimen/x10"
+                android:layout_toLeftOf="@+id/iv_bindNewAccountNumberDelete"
+                android:layout_toRightOf="@+id/iv_bindNewAccountNumberIcon"
+                android:hint="@string/phoneNumber"
                 android:inputType="number"
                 android:maxLength="11"
-                android:layout_toLeftOf="@+id/iv_bindNewAccountNumberDelete"
-                android:singleLine="true"
-                android:layout_marginRight="@dimen/x10"
-                style="@style/login_editText"
-                android:hint="@string/phoneNumber"
-                />
+                android:singleLine="true" />
+
             <ImageView
-                android:visibility="gone"
                 android:id="@+id/iv_bindNewAccountNumberDelete"
-                android:src="@mipmap/delete"
+                style="@style/Login_imageViewIcon"
                 android:layout_alignParentRight="true"
-                style="@style/Login_imageViewIcon" />
+                android:src="@mipmap/delete"
+                android:visibility="gone" />
+
             <View
-                android:layout_below="@+id/et_bindNewAccountNumber"
-                style="@style/login_view"/>
+                style="@style/login_view"
+                android:layout_below="@+id/et_bindNewAccountNumber" />
         </RelativeLayout>
 
-        <RelativeLayout
-            style="@style/login_relativeLayout"
-            >
+        <RelativeLayout style="@style/login_relativeLayout">
+
             <ImageView
                 android:id="@+id/iv_bindNewAccountValidCodeIcon"
-                android:src="@mipmap/validcode"
                 style="@style/Login_imageViewIcon"
                 android:layout_width="@dimen/x35"
                 android:layout_height="@dimen/y30"
-                />
-            <EditText
-                android:layout_toRightOf="@+id/iv_bindNewAccountValidCodeIcon"
+                android:src="@mipmap/validcode" />
+
+            <TextView
                 android:id="@+id/tv_bindPhoneAccountValidCode"
-                android:singleLine="true"
-                android:inputType="number"
+                style="@style/login_editText"
                 android:layout_marginRight="@dimen/x10"
                 android:layout_toLeftOf="@+id/rl_bindNewAccountGetValidCodeDelete"
-                style="@style/login_editText"
-                android:hint="@string/ValidCode"
-                />
-            <com.hr.ui.view.VerificationCodeEditText
                 android:layout_toRightOf="@+id/iv_bindNewAccountValidCodeIcon"
+                android:hint="@string/ValidCode"
+                android:inputType="number"
+                android:singleLine="true" />
+
+            <com.hr.ui.view.VerificationCodeEditText
                 android:id="@+id/vi_bindPhoneAccountValidCode"
+                style="@style/login_editText"
+                android:layout_marginRight="@dimen/x10"
+                android:layout_width="@dimen/x250"
+                android:layout_toRightOf="@+id/iv_bindNewAccountValidCodeIcon"
+                android:hint="@string/ValidCode"
+                android:inputType="number"
                 android:singleLine="true"
                 android:visibility="gone"
                 app:bottomLineHeight="@dimen/x2"
                 app:bottomLineNormalColor="@color/cp_color_gray_light"
                 app:bottomLineSelectedColor="@color/new_main2"
                 app:figures="4"
-                android:hint="@string/ValidCode"
-                android:inputType="number"
                 app:selectedBackgroundColor="@color/smallYellow"
-                app:verCodeMargin="@dimen/x10"
-                android:layout_marginRight="@dimen/x10"
-                android:layout_toLeftOf="@+id/rl_bindNewAccountGetValidCodeDelete"
-                style="@style/login_editText"/>
+                app:verCodeMargin="@dimen/x10" />
+
             <RelativeLayout
                 android:id="@+id/rl_bindNewAccountGetValidCodeDelete"
                 style="@style/Login_imageViewIcon"
                 android:layout_marginRight="@dimen/x20"
-                android:layout_toLeftOf="@+id/tv_bindNewAccountGetValidCode"
-               >
+                android:layout_toLeftOf="@+id/tv_bindNewAccountGetValidCode">
+
                 <ImageView
-                    android:visibility="gone"
                     android:id="@+id/iv_bindNewAccountGetValidCodeDelete"
+                    style="@style/Login_imageViewIcon"
                     android:src="@mipmap/delete"
-                    style="@style/Login_imageViewIcon" />
+                    android:visibility="gone" />
             </RelativeLayout>
+
             <TextView
-                android:layout_centerVertical="true"
                 android:id="@+id/tv_bindNewAccountGetValidCode"
-                android:layout_width="@dimen/x50"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/getValidCode"
+                android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/tv_bindNewAccountOr"
+                android:text="@string/getValidCode"
                 android:textColor="@color/new_main"
                 android:textSize="@dimen/x24" />
+
             <TextView
                 android:id="@+id/tv_bindNewAccountOr"
                 android:layout_width="@dimen/x40"
-                android:layout_centerVertical="true"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@+id/tv_bindNewAccountVoice"
-                android:text="@string/or"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/rl_bindNewAccountVoice"
                 android:gravity="center"
+                android:text="@string/or"
                 android:textColor="@color/black"
                 android:textSize="@dimen/x24" />
-            <TextView
-                android:id="@+id/tv_bindNewAccountVoice"
-                android:layout_width="@dimen/x50"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:text="@string/getVoiceCode"
-                android:textColor="@color/new_main"
-                android:textSize="@dimen/x24" />
-            <View
-                android:id="@+id/View_validCode3"
-                android:layout_alignParentBottom="true"
-                style="@style/login_view"/>
-        </RelativeLayout>
 
-        <RelativeLayout
-            style="@style/login_relativeLayout">
-            <ImageView
-                android:layout_marginLeft="@dimen/x3"
-                android:id="@+id/iv_bindNewAccountPswIcon"
-                style="@style/Login_imageViewIcon"
-                android:src="@mipmap/psw"
-                android:layout_width="@dimen/x30"
-                android:layout_height="@dimen/y40"
-                />
-            <EditText
-                android:layout_toRightOf="@+id/iv_bindNewAccountPswIcon"
-                android:id="@+id/et_bindNewAccountPsw"
-                android:singleLine="true"
-                android:layout_marginRight="@dimen/x10"
-                android:inputType="textPassword"
-                android:layout_toLeftOf="@+id/iv_bindNewAccountPswDelete"
-                style="@style/login_editText"
-                android:hint="@string/psw"
-                />
-            <ImageView
-                android:visibility="gone"
-                android:id="@+id/iv_bindNewAccountPswDelete"
-                android:src="@mipmap/delete"
-                android:layout_marginRight="@dimen/x20"
-                android:layout_toLeftOf="@+id/rl_bindNewAccountHiddenPsw"
-                style="@style/Login_imageViewIcon" />
-            <RelativeLayout
-                android:id="@+id/rl_bindNewAccountHiddenPsw"
+            <FrameLayout
+                android:id="@+id/rl_bindNewAccountVoice"
                 android:layout_alignParentRight="true"
-                android:layout_width="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_width="@dimen/x50"
                 android:layout_height="wrap_content">
                 <ImageView
-                    android:id="@+id/iv_bindNewAccountHiddenPsw"
-                    style="@style/login_ImageViewHidden"
-                    />
-            </RelativeLayout>
+                    android:id="@+id/iv_bindNewAccountVoice"
+                    android:src="@mipmap/voice_orange"
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x36"
+                    android:paddingLeft="@dimen/x13"
+                    android:paddingRight="@dimen/x13"/>
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tv_bindNewAccountVoice"
+                    android:layout_width="@dimen/x50"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/new_main"
+                    android:textSize="@dimen/x24" />
+            </FrameLayout>
+
             <View
-                android:layout_below="@+id/et_bindNewAccountPsw"
-                style="@style/login_view"/>
+                android:id="@+id/View_validCode3"
+                style="@style/login_view"
+                android:layout_alignParentBottom="true" />
         </RelativeLayout>
+
+        <RelativeLayout style="@style/login_relativeLayout">
+
+            <ImageView
+                android:id="@+id/iv_bindNewAccountPswIcon"
+                style="@style/Login_imageViewIcon"
+                android:layout_width="@dimen/x30"
+                android:layout_height="@dimen/y40"
+                android:layout_marginLeft="@dimen/x3"
+                android:src="@mipmap/psw" />
+
+            <EditText
+                android:id="@+id/et_bindNewAccountPsw"
+                style="@style/login_editText"
+                android:layout_marginRight="@dimen/x10"
+                android:layout_toLeftOf="@+id/iv_bindNewAccountPswDelete"
+                android:layout_toRightOf="@+id/iv_bindNewAccountPswIcon"
+                android:hint="@string/psw"
+                android:inputType="textPassword"
+                android:singleLine="true" />
+
+            <ImageView
+                android:id="@+id/iv_bindNewAccountPswDelete"
+                style="@style/Login_imageViewIcon"
+                android:layout_marginRight="@dimen/x20"
+                android:layout_toLeftOf="@+id/rl_bindNewAccountHiddenPsw"
+                android:src="@mipmap/delete"
+                android:visibility="gone" />
+
+            <RelativeLayout
+                android:id="@+id/rl_bindNewAccountHiddenPsw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true">
+
+                <ImageView
+                    android:id="@+id/iv_bindNewAccountHiddenPsw"
+                    style="@style/login_ImageViewHidden" />
+            </RelativeLayout>
+
+            <View
+                style="@style/login_view"
+                android:layout_below="@+id/et_bindNewAccountPsw" />
+        </RelativeLayout>
+
         <Button
             android:id="@+id/btn_bindNewAccountOK"
-            android:text="@string/bindNewAccount"
             style="@style/login_buttonOK"
-            />
+            android:text="@string/bindNewAccount" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
                 android:id="@+id/tv_bindNewAccountPhone"
-                android:text="@string/hasPhoneAcccount"
                 style="@style/login_textViewFindPsw"
-                />
+                android:text="@string/hasPhoneAcccount" />
+
             <TextView
                 android:id="@+id/tv_bindNewAccountFindPsw"
-                android:layout_alignParentRight="true"
-                android:text="@string/hasUserAccount"
                 style="@style/login_textViewFindPsw"
-                />
+                android:layout_alignParentRight="true"
+                android:text="@string/hasUserAccount" />
         </RelativeLayout>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

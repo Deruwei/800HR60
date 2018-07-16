@@ -215,13 +215,20 @@ public class VerificationCodeEditText extends android.support.v7.widget.AppCompa
         findFocus();
         postInvalidate();
     }
-
+    public String getTextString(){
+        String text=getText().toString();
+        if("————".equals(text)){
+            return "";
+        }else{
+            return text;
+        }
+    }
     @Override
     protected void onDraw(Canvas canvas) {
         mCurrentPosition = getText().length();
         int width = mEachRectLength - getPaddingLeft() - getPaddingRight();
         int height = getMeasuredHeight() - getPaddingTop() - getPaddingBottom();
-        for (int i = 0; i < mFigures; i++) {
+       /* for (int i = 0; i < mFigures; i++) {
             canvas.save();
             int start = width * i + i * mVerCodeMargin;
             int end = width + start;
@@ -232,10 +239,10 @@ public class VerificationCodeEditText extends android.support.v7.widget.AppCompa
                 canvas.drawRect(start, 0, end, height, mNormalBackgroundPaint);
             }
             canvas.restore();
-        }
+        }*/
         //绘制文字
        value = getText().toString();
-        for (int i = 0; i < value.length(); i++) {
+        for (int i = 0; i < mFigures; i++) {
             canvas.save();
             int start = width * i + i * mVerCodeMargin;
             float x = start + width / 2;
@@ -245,11 +252,15 @@ public class VerificationCodeEditText extends android.support.v7.widget.AppCompa
             Paint.FontMetrics fontMetrics = paint.getFontMetrics();
             float baseline = (height - fontMetrics.bottom + fontMetrics.top) / 2
                     - fontMetrics.top;
-            canvas.drawText(String.valueOf(value.charAt(i)), x, baseline, paint);
+            if(i<value.length()) {
+                canvas.drawText(String.valueOf(value.charAt(i)), x, baseline, paint);
+            }else{
+                canvas.drawText("—", x, baseline, paint);
+            }
             canvas.restore();
         }
         //绘制底线
-        for (int i = 0; i < mFigures; i++) {
+       /* for (int i = 0; i < mFigures; i++) {
             canvas.save();
             float lineY = height - mBottomLineHeight / 2;
             int start = width * i + i * mVerCodeMargin;
@@ -260,7 +271,7 @@ public class VerificationCodeEditText extends android.support.v7.widget.AppCompa
                 canvas.drawRect(start, 0, end, height, mBottomNormalPaint);
             }
             canvas.restore();
-        }
+        }*/
     }
 
     @Override

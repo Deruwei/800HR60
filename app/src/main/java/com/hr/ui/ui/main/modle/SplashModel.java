@@ -135,6 +135,7 @@ public class SplashModel implements SplashContract.Model {
                 .compose(RxSchedulers.<ArrayInfoBean>io_main());
     }
 
+
     @Override
     public Observable<ResponseBody> getArrayData(String path, String fileName) {
         return Api.getDefault(HostType.HR).getLingYuArray(path)

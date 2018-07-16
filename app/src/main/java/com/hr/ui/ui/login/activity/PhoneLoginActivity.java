@@ -190,6 +190,7 @@ public class PhoneLoginActivity extends Base4Activity<LoginPresenter, LoginModel
         MobclickAgent.onEvent(this, "v6_login_phone");
         sUtils.setIntValue(Constants.ISAUTOLOGIN, 1);
         sUtils.setIntValue(Constants.AUTOLOGINTYPE, 0);
+        sUtils.setStringValue(Constants.USERID, userId + "");
         sUtils.setStringValue(Constants.USERPHONE, phoneLoginNumber);
         mPresenter.getResumeList();
     }
@@ -199,6 +200,7 @@ public class PhoneLoginActivity extends Base4Activity<LoginPresenter, LoginModel
         this.userId = userId;
         MobclickAgent.onEvent(this, "v6_login_thirdPart");
         MobclickAgent.onProfileSignIn("WB", userId + "");
+        sUtils.setStringValue(Constants.USERID, userId + "");
         sUtils.setIntValue(Constants.ISAUTOLOGIN, 1);
         if ("qq".equals(Constants.TYPE_THIRDPARTLOGIN)) {
             sUtils.setIntValue(Constants.AUTOLOGINTYPE, 2);
@@ -306,7 +308,7 @@ public class PhoneLoginActivity extends Base4Activity<LoginPresenter, LoginModel
     }
     @Override
     protected void onNetworkConnected(NetUtils.NetType type) {
-        Utils.getConnect();
+        /*Utils.getConnect();*/
     }
 
     @Override

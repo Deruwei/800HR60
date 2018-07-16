@@ -48,9 +48,9 @@ public class CodeTimer extends CountDownTimer {
     public void onFinish() {
         mCodeReceiverIntent.putExtra(IS_ENABLE, true);
         if(action.contains("Voice")){
-            mCodeReceiverIntent.putExtra(MESSAGE, "语音发送");
+            mCodeReceiverIntent.putExtra(MESSAGE, "");
         }else {
-            mCodeReceiverIntent.putExtra(MESSAGE, "短信发送");
+            mCodeReceiverIntent.putExtra(MESSAGE, "短信验证码");
         }
         mContext.sendBroadcast(mCodeReceiverIntent);
     }

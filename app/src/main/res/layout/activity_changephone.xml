@@ -70,10 +70,9 @@
             <com.hr.ui.view.VerificationCodeEditText
                 android:id="@+id/vi_changePhoneNumber"
                 style="@style/login_editText"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/x250"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                android:layout_toLeftOf="@+id/rl_changePhoneValidCodeDelete"
                 android:layout_toRightOf="@+id/iv_changePhoneValidCodeIcon"
                 app:bottomLineHeight="@dimen/x2"
                 app:bottomLineNormalColor="@color/cp_color_gray_light"
@@ -97,9 +96,10 @@
                     />
             </RelativeLayout>
             <TextView
+                android:layout_marginLeft="@dimen/x20"
                 android:layout_centerVertical="true"
                 android:id="@+id/tv_changePhoneGetValidCode"
-                android:layout_width="@dimen/x50"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/getValidCode"
                 android:layout_toLeftOf="@+id/tv_changePhoneOr"
@@ -110,20 +110,33 @@
                 android:layout_width="@dimen/x40"
                 android:layout_centerVertical="true"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@+id/tv_changePhoneVoice"
+                android:layout_toLeftOf="@+id/fl_changePhoneVoice"
                 android:text="@string/or"
                 android:gravity="center"
                 android:textColor="@color/black"
                 android:textSize="@dimen/x24" />
-            <TextView
-                android:id="@+id/tv_changePhoneVoice"
-                android:layout_width="@dimen/x50"
-                android:layout_height="wrap_content"
+            <FrameLayout
+                android:id="@+id/fl_changePhoneVoice"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:text="@string/getVoiceCode"
-                android:textColor="@color/new_main"
-                android:textSize="@dimen/x24" />
+                android:layout_width="@dimen/x50"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/iv_changePhoneVoice"
+                    android:paddingLeft="@dimen/x13"
+                    android:layout_gravity="center"
+                    android:paddingRight="@dimen/x13"
+                    android:src="@mipmap/voice_orange"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x36" />
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/tv_changePhoneVoice"
+                    android:layout_width="@dimen/x50"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/new_main"
+                    android:textSize="@dimen/x24" />
+            </FrameLayout>
             <View
                 android:id="@+id/view_getValidCode2"
                 style="@style/login_view"

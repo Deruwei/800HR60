@@ -128,7 +128,7 @@ public class XRecyclerView extends RecyclerView {
         }
     }
     public void reMoveHeaderView(View view) {
-        sHeaderTypes.remove(HEADER_INIT_INDEX + mHeaderViews.size());
+        sHeaderTypes.remove(0);
         mHeaderViews.remove(view);
         if (mWrapAdapter != null) {
             mWrapAdapter.notifyDataSetChanged();

@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -15,15 +14,11 @@ import android.text.Selection;
 import android.text.Spannable;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -48,6 +43,7 @@ import com.hr.ui.utils.Utils;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.VerificationAction;
 import com.hr.ui.view.VerificationCodeEditText;
+import com.hr.ui.view.dialog.ValidDialog;
 import com.service.CodeTimerService;
 
 import org.greenrobot.eventbus.EventBus;
@@ -107,17 +103,22 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
     TextView tvChangePhoneOr;
     @BindView(R.id.tv_changePhoneVoice)
     TextView tvChangePhoneVoice;
+    @BindView(R.id.iv_changePhoneVoice)
+    ImageView ivChangePhoneVoice;
+    @BindView(R.id.fl_changePhoneVoice)
+    FrameLayout flChangePhoneVoice;
     private boolean isHidden = true;
     private String chaptcha;
     private String autoCode;
-    private Intent mCodeTimerServiceIntent,mCodeTimerServiceVoiceIntent;
-    public static final String CODE = "codeChangePhone",VOICECODE="codeVoiceChange";
+    private Intent mCodeTimerServiceIntent, mCodeTimerServiceVoiceIntent;
+    public static final String CODE = "codeChangePhone", VOICECODE = "codeVoiceChange";
     private ImageView ivAutoCode;
     private EditText etAutoCode;
     private SharedPreferencesUtils sUtils;
     private int code, validType = 1;
     private String Tag;
     private PopupWindow popupWindow;
+    private ValidDialog validDialog;
 
     public static void startAction(Activity activity) {
         Intent intent = new Intent(activity, ChangePhoneActivity.class);
@@ -154,7 +155,7 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
         ToastUitl.showShort("更改手机成功");
         int autoLoginType = sUtils.getIntValue(Constants.AUTOLOGINTYPE, 5);
         LoginBean loginBean = LoginDBUtils.queryDataById(autoLoginType + "");
-       // Log.i("现在的数据", loginBean.getLoginType() + "");
+        // Log.i("现在的数据", loginBean.getLoginType() + "");
         if (loginBean.getLoginType() == 0) {
             loginBean.setName(etChangePhoneNumber.getText().toString());
             LoginDBUtils.insertOrReplaceData(loginBean);
@@ -173,29 +174,39 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
         this.code = code;
         sUtils.setIntValue("code", code);
         tvChangePhoneGetValidCode.setEnabled(false);
-        tvChangePhoneVoice.setEnabled(false);
-        if(validType==1) {
+        ivChangePhoneVoice.setEnabled(false);
+        if (validType == 1) {
+            ToastUitl.showShort(R.string.validAlreadySend);
+            ivChangePhoneVoice.setImageResource(R.mipmap.voice_grey);
+            tvChangePhoneGetValidCode.setTextColor(ContextCompat.getColor(this,R.color.color_999));
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
                 startForegroundService(mCodeTimerServiceIntent);
             } else {
                 startService(mCodeTimerServiceIntent);
             }
-        }else{
+        } else {
+            ToastUitl.showShort(R.string.voiceAlreadySend);
+            tvChangePhoneGetValidCode.setTextColor(ContextCompat.getColor(this,R.color.color_999));
+            tvChangePhoneVoice.setTextColor(ContextCompat.getColor(this,R.color.color_999));
+            ivChangePhoneVoice.setVisibility(View.GONE);
+            tvChangePhoneVoice.setVisibility(View.VISIBLE);
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
                 startForegroundService(mCodeTimerServiceVoiceIntent);
             } else {
                 startService(mCodeTimerServiceVoiceIntent);
             }
         }
-        if (popupWindow != null) {
-            popupWindow.dismiss();
+        if (validDialog != null) {
+            validDialog.dismiss();
         }
     }
 
     @Override
     public void getCaptchaSuccess(String autoCode) {
         this.autoCode = autoCode;
-        ivAutoCode.setImageBitmap(EncryptUtils.stringtoBitmap(autoCode));
+        if (validDialog != null) {
+            validDialog.setImageBitMap(EncryptUtils.stringtoBitmap(autoCode));
+        }
     }
 
     @Override
@@ -215,7 +226,9 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
 
     @Override
     public void getValidCodeFailt() {
-        etAutoCode.setText("");
+        if (validDialog != null) {
+            validDialog.setText("");
+        }
         mPresenter.getCaptcha();
     }
 
@@ -256,14 +269,14 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
         mCodeTimerServiceIntent = new Intent(this, CodeTimerService.class);
         mCodeTimerServiceIntent.setAction(CODE);
 
-        mCodeTimerServiceVoiceIntent=new Intent(this,CodeTimerService.class);
+        mCodeTimerServiceVoiceIntent = new Intent(this, CodeTimerService.class);
         mCodeTimerServiceVoiceIntent.setAction(VOICECODE);
         //注册接收验证码计时器信息的广播
         IntentFilter filter = new IntentFilter(CODE);
         registerReceiver(mCodeTimerReceiver, filter);
 
-        IntentFilter filterVoice=new IntentFilter(VOICECODE);
-        registerReceiver(mCodeTimerReceiver,filterVoice);
+        IntentFilter filterVoice = new IntentFilter(VOICECODE);
+        registerReceiver(mCodeTimerReceiver, filterVoice);
         editViewTextChangeAndFocos();
     }
 
@@ -273,9 +286,9 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
         viChangePhoneNumber.setOnVerificationCodeChangedListener(new VerificationAction.OnVerificationCodeChangedListener() {
             @Override
             public void onVerCodeChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()>0){
+                if (s.length() > 0) {
                     ivChangePhoneValidCodeDelete.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     ivChangePhoneValidCodeDelete.setVisibility(View.GONE);
                 }
             }
@@ -287,15 +300,20 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
         });
     }
 
-    @OnClick({R.id.tv_changePhoneGetValidCode, R.id.tv_changePhoneVoice,R.id.btn_changePhoneOK, R.id.iv_changePhonePswHidden, R.id.iv_changePhoneNumberDelete, R.id.iv_changePhonePswDelete, R.id.iv_changePhoneValidCodeDelete})
+    @OnClick({R.id.tv_changePhoneGetValidCode, R.id.tv_changePhoneValidCode,R.id.iv_changePhoneVoice, R.id.btn_changePhoneOK, R.id.iv_changePhonePswHidden, R.id.iv_changePhoneNumberDelete, R.id.iv_changePhonePswDelete, R.id.iv_changePhoneValidCodeDelete})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.tv_changePhoneGetValidCode:
-                validType=1;
-              doSendValidCode();
+            case R.id.tv_changePhoneValidCode:
+                tvChangePhoneValidCode.setVisibility(View.GONE);
+                viChangePhoneNumber.setVisibility(View.VISIBLE);
+                Utils.setIM(viChangePhoneNumber,this);
                 break;
-            case R.id.tv_changePhoneVoice:
-                validType=2;
+            case R.id.tv_changePhoneGetValidCode:
+                validType = 1;
+                doSendValidCode();
+                break;
+            case R.id.iv_changePhoneVoice:
+                validType = 2;
                 doSendValidCode();
                 break;
             case R.id.btn_changePhoneOK:
@@ -335,6 +353,7 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
     private void doSendValidCode() {
         tvChangePhoneValidCode.setVisibility(View.GONE);
         viChangePhoneNumber.setVisibility(View.VISIBLE);
+        Utils.setIM(viChangePhoneNumber,this);
         String phoneNumber = etChangePhoneNumber.getText().toString();
         if (!"".equals(phoneNumber) && phoneNumber != null) {
             if (RegularExpression.isCellphone(phoneNumber)) {
@@ -351,84 +370,42 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
      * 图形验证码界面   String phoneNumber, String type,int way, String captcha
      */
     public void initPopWindow() {
-        final View popView = LayoutInflater.from(this).inflate(R.layout.layout_autocode, null);
-        popupWindow = new PopupWindow(popView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
-        popupWindow.setOutsideTouchable(true);
-        ivAutoCode = popView.findViewById(R.id.vc_image);
-        TextView tvReflesh = popView.findViewById(R.id.vc_refresh);
-        etAutoCode = popView.findViewById(R.id.vc_code);
-        RelativeLayout rlConfirm = popView.findViewById(R.id.rl__item_autocode_confirm);
-        rlConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String autoCodeText = etAutoCode.getText().toString();
-                if (autoCodeText != null && !"".equals(autoCodeText)) {
-                    mPresenter.getValidCode(etChangePhoneNumber.getText().toString(), Constants.VALIDCODE_RESETORVALIDPHONE_YTPE, 1, autoCodeText, validType);
-                } else {
-                    ToastUitl.show("请填写图形验证码", Toast.LENGTH_SHORT);
-                }
-            }
-        });
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.alpha = 0.7f;
-        getWindow().setAttributes(lp);
-        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-
-            @Override
-            public void onDismiss() {
-                WindowManager.LayoutParams lp = getWindow().getAttributes();
-                lp.alpha = 1f;
-                getWindow().setAttributes(lp);
-            }
-        });
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
-            //  大于等于24即为4.4及以上执行内容
-            // 设置背景颜色变暗
+        if (validDialog != null) {
+            validDialog.show();
         } else {
-            //  低于19即为4.4以下执行内容
-            popupWindow.setBackgroundDrawable(new BitmapDrawable());
+            validDialog = new ValidDialog(this);
+            validDialog.setOnConfirmListener(new ValidDialog.OnConfirmListener() {
+                @Override
+                public void onConfirm(String autoCode) {
+                    mPresenter.getValidCode(etChangePhoneNumber.getText().toString(), Constants.VALIDCODE_RESETORVALIDPHONE_YTPE, 1, autoCode, validType);
+                }
+            });
+            validDialog.setOnRefleshClickListener(new ValidDialog.OnRefleshClickListener() {
+                @Override
+                public void doReflesh() {
+                    mPresenter.getCaptcha();
+                }
+            });
+            validDialog.show();
         }
-
-        popupWindow.setFocusable(true);
-        popupWindow.setOutsideTouchable(true);
-        tvReflesh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPresenter.getCaptcha();
-            }
-        });
-        View rootview = LayoutInflater.from(this).inflate(R.layout.activity_register, null);
-        popupWindow.showAtLocation(clChangePhone, Gravity.CENTER, 0, 0);
     }
 
     private void doChangePhone() {
         /*int autoLoginType = sUtils.getIntValue(Constants.AUTOLOGINTYPE, 5);
         LoginBean loginBean = LoginDBUtils.queryDataById(autoLoginType + "");*/
         if (etChangePhoneNumber.getText().toString() == null || "".equals(etChangePhoneNumber.getText().toString())) {
-            ToastUitl.showShort("请填写手机号码");
+            ToastUitl.showShort("请输入手机号码");
             return;
         }
         if (RegularExpression.isCellphone(etChangePhoneNumber.getText().toString()) == false) {
-            ToastUitl.showShort("请填写正确的手机号码");
+            ToastUitl.showShort("请输入正确的手机号码");
             return;
         }
-        if (viChangePhoneNumber.getText().toString() == null || "".equals(viChangePhoneNumber.getText().toString())) {
-            ToastUitl.showShort("请填写手机验证码");
+        if (viChangePhoneNumber.getTextString() == null || "".equals(viChangePhoneNumber.getTextString())) {
+            ToastUitl.showShort("请输入验证码");
             return;
         }
-      /*  if (etChangePhonePsw.getText().toString() == null || "".equals(etChangePhonePsw.getText().toString())) {
-            ToastUitl.showShort("请填写密码");
-            return;
-        }*/
-       /* if (loginBean == null || "".equals(loginBean)) {
-            loginBean = LoginDBUtils.queryDataById(autoLoginType + "");
-        } else {
-            if (!etChangePhonePsw.getText().toString().equals(loginBean.getPassword())) {
-                ToastUitl.showShort("密码错误，请重新输入");
-                return;
-            }
-        }*/
-        mPresenter.changePhone(etChangePhoneNumber.getText().toString(), viChangePhoneNumber.getText().toString());
+        mPresenter.changePhone(etChangePhoneNumber.getText().toString(), viChangePhoneNumber.getTextString());
     }
 
     /**
@@ -438,19 +415,38 @@ public class ChangePhoneActivity extends BaseActivity<ChangePhonePresenter, Chan
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
+            boolean isEnable = intent.getBooleanExtra(CodeTimer.IS_ENABLE, false);
+            if(isEnable) {
+                tvChangePhoneVoice.setVisibility(View.GONE);
+                ivChangePhoneVoice.setVisibility(View.VISIBLE);
+                ivChangePhoneVoice.setImageResource(R.mipmap.voice_orange);
+                tvChangePhoneGetValidCode.setTextColor(ContextCompat.getColor(ChangePhoneActivity.this,R.color.new_main));
+                tvChangePhoneVoice.setTextColor(ContextCompat.getColor(ChangePhoneActivity.this,R.color.new_main));
+            }
+
             if (CODE.equals(action)) {
                 //接收信息，改变button的点击状态和text
-                boolean isEnable = intent.getBooleanExtra(CodeTimer.IS_ENABLE, false);
                 String message = intent.getStringExtra(CodeTimer.MESSAGE);
                 tvChangePhoneGetValidCode.setEnabled(isEnable);
+                ivChangePhoneVoice.setEnabled(isEnable);
                 tvChangePhoneGetValidCode.setText(message);
-            }else if(VOICECODE.equals(action)){
-                boolean isEnable = intent.getBooleanExtra(CodeTimer.IS_ENABLE, false);
+            } else if (VOICECODE.equals(action)) {
                 String message = intent.getStringExtra(CodeTimer.MESSAGE);
                 tvChangePhoneGetValidCode.setEnabled(isEnable);
-                tvChangePhoneVoice.setEnabled(isEnable);
+                ivChangePhoneVoice.setEnabled(isEnable);
                 tvChangePhoneVoice.setText(message);
             }
         }
     };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (validDialog != null) {
+            validDialog.dismiss();
+        }
+        stopService(mCodeTimerServiceIntent);
+        stopService(mCodeTimerServiceVoiceIntent);
+        unregisterReceiver(mCodeTimerReceiver);
+    }
 }

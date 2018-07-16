@@ -83,7 +83,12 @@ public abstract class Base4Activity<T extends BasePresenter, E extends BaseModel
         @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        isConfigChange=false;
+            if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
+
+                finish();
+                return;
+            }
+            isConfigChange=false;
         mRxManager=new RxManager();
         doBeforeSetcontentView();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);

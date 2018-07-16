@@ -136,7 +136,6 @@ public class ValidPhonePresenter extends ValidPhoneContract.Presenter {
 
             @Override
             protected void _onError(String message) {
-
             }
         }));
     }

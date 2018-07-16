@@ -21,6 +21,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.util.Pair;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AnticipateOvershootInterpolator;
@@ -82,18 +83,10 @@ public class SplashActivity extends Base3Activity<SplashPresenter, SplashModel> 
     private int[] imageIds = {R.mipmap.resume1, R.mipmap.resume2, R.mipmap.resume3, R.mipmap.resume4, R.mipmap.resume5};
     private ArrayList<String> titles;
     private int userId;
-    private int type;
-    private PopupWindow popupWindow;
-    public boolean isAllreadyInstance = true, isConnect = true, isGotoSettings;
+    private PopWindowUpdate popWindowUpdate;
+    public boolean isAllreadyInstance = true,isCanReflesh=true, isConnect = true, isGotoSettings,isGetAllPermission;//1.是否到了版本更新界面  2.是否要再次连接服务器   3，网络是否连接成功  4.是否要去权限设置页
     private MyDialog myDialog;
 
-    public static void startAction(Activity activity, int type) {
-        Intent intent = new Intent(activity, SplashActivity.class);
-        intent.putExtra("type", type);
-        activity.startActivity(intent);
-        activity.overridePendingTransition(R.anim.fade_in,
-                R.anim.fade_out);
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -115,36 +108,18 @@ public class SplashActivity extends Base3Activity<SplashPresenter, SplashModel> 
     @Override
     public void initView() {
         instance = this;
-        /* MobclickAgent.onEvent(this,"v6_test");*/
-        type = getIntent().getIntExtra("type", 0);
         sUtils = new SharedPreferencesUtils(this);
-        /*sUtils.setIntValue("code",0);*/
         isAutoLogin = sUtils.getIntValue(Constants.ISAUTOLOGIN, 0);
         autoLoginType = sUtils.getIntValue(Constants.AUTOLOGINTYPE, 5);
-       /* if(Utils.isWifiProxy(this)){
-            ToastUitl.showShort(getString(R.string.proxy));
-        }*/
         if (sUtils.getBooleanValue(Constants.IS_GUIDE, false) == false) {
             MobclickAgent.onEvent(this, "v6_firstStartApp");
             sUtils.setBooleanValue(Constants.ISFIRSTINTO, true);
             WelcomeActivity.startAction(SplashActivity.this, REQUEST_CODE);
         } else {
-            if (type != 1) {
-                checkPermissionReadPhoneState();
-            } else {
-                setViewVisible();
-            }
+            doAnimator();
         }
-        // ivSplashLogo.setVisibility(View.VISIBLE);
-      /*  AnimatorSet animatorSet = new AnimatorSet();//组合动画
-        ObjectAnimator objectAnimator1 = ObjectAnimator.ofFloat(ivSplashLogo, "rotation", 0, 360);
-        ObjectAnimator scaleX = ObjectAnimator.ofFloat(ivSplashLogo, "scaleX", 0, 1f);
-        ObjectAnimator scaleY = ObjectAnimator.ofFloat(ivSplashLogo, "scaleY", 0, 1f);
-        animatorSet.setDuration(2000);
-        animatorSet.setInterpolator(new DecelerateInterpolator());
-        animatorSet.play(scaleX).with(scaleY).with(objectAnimator1);   //两个动画同时开始
-        animatorSet.start();*/
-
+    }
+    private  void doAnimator(){
         Animator castleAni = getCastleShowingAnimator();
         AnimatorSet ser = new AnimatorSet();
         ser.play(castleAni);
@@ -159,16 +134,7 @@ public class SplashActivity extends Base3Activity<SplashPresenter, SplashModel> 
         animSet.setInterpolator(new AnticipateOvershootInterpolator());
         animSet.setDuration(2000);
         animSet.start();
-
-       /* int screenWidth = getWindowManager().getDefaultDisplay().getWidth();//真实分辨率 宽
-         int screenHeight = getWindowManager().getDefaultDisplay().getHeight();//真实分辨率 高*/
-        /* setViewVisible();*/
-        /* DisplayMetrics dm = new DisplayMetrics();
-         dm = getResources().getDisplayMetrics();
-         int densityDPI = dm.densityDpi;     // 屏幕密度（每寸像素：120(ldpi)/160(mdpi)/213(tvdpi)/240(hdpi)/320(xhdpi)）
-        Toast.makeText(this, "真实分辨率："+screenWidth+"*"+screenHeight+"  每英寸:"+densityDPI, Toast.LENGTH_LONG).show();*/
     }
-
     private Animator getCastleShowingAnimator() {
         PropertyValuesHolder castleX1 = PropertyValuesHolder.ofFloat("y", -1.0f, 0f);
 
@@ -197,12 +163,13 @@ public class SplashActivity extends Base3Activity<SplashPresenter, SplashModel> 
         @Override
         public void onAnimationEnd(Animator animator) {
                // view.setVisibility(View.GONE);
-            new Handler().postDelayed(new Runnable() {
+            checkPermissionReadPhoneState();
+          /*  new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     rlSplash.setVisibility(View.GONE);
                 }
-            },300);
+            },300);*/
         }
 
         @Override
@@ -222,12 +189,13 @@ public class SplashActivity extends Base3Activity<SplashPresenter, SplashModel> 
         if (isGotoSettings) {
             isGotoSettings = false;
             if (Utils.checkPermissionIsAllRequest(permissions, mPermissionList, this)) {
-                mPresenter.getConnect(this);
+                getConnect();
             } else {
                 showDialog();
             }
         }
         if (isAllreadyInstance == false) {
+            //Log.i("现在的数据","here");
             isAllreadyInstance = true;
             doAutoLogin();
         }
@@ -243,10 +211,7 @@ public class SplashActivity extends Base3Activity<SplashPresenter, SplashModel> 
         /**
          判断是否为空
          **/
-        if (mPermissionList.isEmpty()) {//未授予的权限为空，表示都授予了
-            //* setViewVisible();*//*
-            //delayEntryPage();
-        } else {//请求权限方法
+        if (!mPermissionList.isEmpty()) {//未授予的权限为空，表示都授予了
             String[] permissions = mPermissionList.toArray(new String[mPermissionList.size()]);//将List转为数组
             ActivityCompat.requestPermissions(SplashActivity.this, permissions, 1);
         }
@@ -275,7 +240,8 @@ public class SplashActivity extends Base3Activity<SplashPresenter, SplashModel> 
                     }
                 }
                 if (isAllRequest && grantResults.length != 0) {
-                    mPresenter.getConnect(this);
+                    //Log.i("到这里了","===============");
+                   checkPermissionReadPhoneState();
                 }
                 break;
             default:
@@ -317,8 +283,7 @@ public class SplashActivity extends Base3Activity<SplashPresenter, SplashModel> 
         if (sUtils.getBooleanValue(Constants.IS_GUIDE, false) == false) {
             /*  WelcomeActivity.startAction(SplashActivity.this, requestCode);*/
         } else {
-            handler.sendEmptyMessageDelayed(1, 2000);
-
+            handler.sendEmptyMessageDelayed(1, 0);
         }
     }
 
@@ -349,12 +314,14 @@ public class SplashActivity extends Base3Activity<SplashPresenter, SplashModel> 
     @Override
     public void SendConnectSuccess() {
         // getPermission();
+        isCanReflesh=false;
         mPresenter.getVersion(BuildConfig.VERSION_NAME);
         BaiDuLocationUtils.getInstance().initData();
     }
 
     @Override
     public void phoneLoginSuccess(int userId) {
+        sUtils.setStringValue(Constants.USERID, userId + "");
         if (autoLoginType == 0) {
             MobclickAgent.onEvent(this, "v6_login_phone");
             MobclickAgent.onProfileSignIn(userId + "");
@@ -370,6 +337,7 @@ public class SplashActivity extends Base3Activity<SplashPresenter, SplashModel> 
     @Override
     public void thirdBindingLoginSuccess(int userId) {
         this.userId = userId;
+        sUtils.setStringValue(Constants.USERID, userId + "");
         MobclickAgent.onEvent(this, "v6_login_thirdPart");
         MobclickAgent.onProfileSignIn("WB", userId + "");
         mPresenter.getResumeList();
@@ -388,6 +356,8 @@ public class SplashActivity extends Base3Activity<SplashPresenter, SplashModel> 
 
     @Override
     public void onConnectError() {
+        rlSplash.setVisibility(View.GONE);
+        isCanReflesh=true;
         setViewVisible();
     }
 
@@ -396,31 +366,35 @@ public class SplashActivity extends Base3Activity<SplashPresenter, SplashModel> 
         String version = androidBean.getVer();
         String version1 = BuildConfig.VERSION_NAME;
         if (Utils.checkVersion(version, version1) == true) {
-            popupWindow = new PopupWindow(this);
-            PopWindowUpdate popWindowUpdate = new PopWindowUpdate(this, popupWindow, androidBean, clSplash);
+           popWindowUpdate = new PopWindowUpdate(this, androidBean, clSplash);
+           popWindowUpdate.show();
         }
-        if (popupWindow == null) {
+        if(popWindowUpdate==null||!popWindowUpdate.isShowing()){
+            rlSplash.setVisibility(View.GONE);
             doAutoLogin();
         }
     }
-
+    private void getConnect(){
+        mPresenter.getConnect(this);
+    }
     public void doAutoLogin() {
         if (autoLoginType != 5) {
             try {
                 loginBean = LoginDBUtils.queryDataById(autoLoginType + "");
             } catch (Exception e) {
+                // mPresenter.getConnect(this);
                 setViewVisible();
             }
-            if (isAutoLogin == 0) {
-                setViewVisible();
-            } else {
-                if (loginBean == null || "".equals(loginBean)) {
+            if (isAutoLogin != 0) {
+                if (loginBean != null && !"".equals(loginBean)) {
+                    handler.sendEmptyMessageDelayed(2, 0);
+                }else{
                     setViewVisible();
-                } else {
-                    handler.sendEmptyMessageDelayed(2, 2000);
                 }
+            }else{
+                setViewVisible();
             }
-        } else {
+        }else{
             setViewVisible();
         }
     }
@@ -431,7 +405,7 @@ public class SplashActivity extends Base3Activity<SplashPresenter, SplashModel> 
         switch (requestCode) {
             case 1000:
                 if (resultCode == WelcomeActivity.ResultCode) {
-                    //checkPermissionReadPhoneState();
+                    doAnimator();
                 }
                 break;
         }
@@ -439,7 +413,7 @@ public class SplashActivity extends Base3Activity<SplashPresenter, SplashModel> 
 
     private void checkPermissionReadPhoneState() {
         //检查版本是否大于M
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+      /*  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {*/
             mPermissionList.clear();
             for (int i = 0; i < permissions.length; i++) {
                 if (ContextCompat.checkSelfPermission(mContext, permissions[i]) != PackageManager.PERMISSION_GRANTED) {
@@ -449,13 +423,14 @@ public class SplashActivity extends Base3Activity<SplashPresenter, SplashModel> 
             /**
              * 判断是否为空
              */
-            if (mPermissionList.isEmpty()) {//未授予的权限为空，表示都授予了
+            if (mPermissionList.isEmpty() ) {//未授予的权限为空，表示都授予了
                 mPresenter.getConnect(this);
-            } /*else {//请求权限方法
+               // Log.i("到这里了","===============2");
+            } else {//请求权限方法
                 String[] permissions = mPermissionList.toArray(new String[mPermissionList.size()]);//将List转为数组
                 ActivityCompat.requestPermissions(SplashActivity.this, permissions, 1);
-            }*/
-        }
+            }
+        /*}*/
     }
 
     @Override
@@ -475,11 +450,14 @@ public class SplashActivity extends Base3Activity<SplashPresenter, SplashModel> 
 
     @Override
     protected void onDestroy() {
-        if (popupWindow != null) {
-            popupWindow.dismiss();
-        }
+       if(popWindowUpdate!=null){
+           popWindowUpdate.dismiss();
+       }
         if (instance != null) {
             instance = null;
+        }
+        if(myDialog!=null){
+            myDialog.dismiss();
         }
         BaiDuLocationUtils.getInstance().stopLocation();
         super.onDestroy();
@@ -488,25 +466,28 @@ public class SplashActivity extends Base3Activity<SplashPresenter, SplashModel> 
     @Override
     protected void onNetworkConnected(NetUtils.NetType type) {
         // Log.i("type类型",type.name()+"------");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            mPermissionList.clear();
+            if(!isConnect&&isCanReflesh==true){
+                getConnect();
+                isConnect=true;
+            }
+         /*   mPermissionList.clear();
             for (int i = 0; i < permissions.length; i++) {
                 if (ContextCompat.checkSelfPermission(mContext, permissions[i]) != PackageManager.PERMISSION_GRANTED) {
                     mPermissionList.add(permissions[i]);
                 }
             }
-            /**
+            *//**
              * 判断是否为空
-             */
+             *//*
             if (mPermissionList.size() == 0) {//未授予的权限为空，表示都授予了
-                if (isConnect == false) {
-                    mPresenter.getConnect(this);
+                if (isConnect == false&&isCanReflesh==true) {
+                   // Log.i("带这里了","-------");
+                    getConnect();
                 }
             } else {//请求权限方法
                 String[] permissions = mPermissionList.toArray(new String[mPermissionList.size()]);//将List转为数组
                 ActivityCompat.requestPermissions(SplashActivity.this, permissions, 1);
-            }
-        }
+            }*/
     }
 
     @Override

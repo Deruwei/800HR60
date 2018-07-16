@@ -3,6 +3,7 @@ package com.hr.ui.ui.me.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -20,9 +21,11 @@ import com.hr.ui.base.BaseActivity;
 import com.hr.ui.ui.me.contract.FeedBackContract;
 import com.hr.ui.ui.me.model.FeedBackModel;
 import com.hr.ui.ui.me.presenter.FeedbackPresenter;
+import com.hr.ui.utils.ClickUtils;
 import com.hr.ui.utils.EncryptUtils;
 import com.hr.ui.utils.RegularExpression;
 import com.hr.ui.utils.ToastUitl;
+import com.hr.ui.utils.Utils;
 import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
@@ -157,6 +160,10 @@ public class FeedBackActivity extends BaseActivity<FeedbackPresenter, FeedBackMo
             ToastUitl.showShort("请填写正确的电子邮件");
             return;
         }
-        mPresenter.feedBack(etFeedBackContent.getText().toString(),etFeedbackEmail.getText().toString());
+        if(ClickUtils.isFastClick()){
+            ToastUitl.showShort(R.string.error_request);
+        }else {
+            mPresenter.feedBack(etFeedBackContent.getText().toString(), etFeedbackEmail.getText().toString());
+        }
     }
 }

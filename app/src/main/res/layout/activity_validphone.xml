@@ -1,43 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cl_validPhone"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:clipToPadding="true"
-    android:focusable="true"
-    android:id="@+id/cl_validPhone"
-    android:focusableInTouchMode="true"
     android:background="@color/white"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <include layout="@layout/layout_toolbar"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <include
         android:id="@+id/in_validPhone"
-        />
+        layout="@layout/layout_toolbar" />
+
     <LinearLayout
+        style="@style/login_contentLinearLayout"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/in_validPhone"
-        style="@style/login_contentLinearLayout"
-        android:layout_height="0dp">
-        <RelativeLayout
-            style="@style/login_relativeLayout">
+        app:layout_constraintTop_toBottomOf="@+id/in_validPhone">
+
+        <RelativeLayout style="@style/login_relativeLayout">
+
             <ImageView
-                android:layout_marginLeft="@dimen/x3"
                 android:id="@+id/iv_validPhoneNumberIcon"
-                android:src="@mipmap/phone"
                 style="@style/Login_imageViewIcon"
-                />
+                android:layout_marginLeft="@dimen/x3"
+                android:src="@mipmap/phone" />
+
             <TextView
-                android:layout_toRightOf="@+id/iv_validPhoneNumberIcon"
-                android:layout_toLeftOf="@+id/iv_validPhoneNumberDelete"
                 android:id="@+id/tv_validPhoneNumber"
+                style="@style/login_editText"
+                android:layout_marginRight="@dimen/x10"
+                android:layout_toLeftOf="@+id/iv_validPhoneNumberDelete"
+                android:layout_toRightOf="@+id/iv_validPhoneNumberIcon"
+                android:hint="@string/phoneNumber"
                 android:inputType="number"
                 android:maxLength="11"
-                android:singleLine="true"
-                android:layout_marginRight="@dimen/x10"
-                style="@style/login_editText"
-                android:hint="@string/phoneNumber"
-                />
+                android:singleLine="true" />
+            <View
+                style="@style/login_view"
+                android:layout_alignParentBottom="true" />
         </RelativeLayout>
 
         <RelativeLayout style="@style/login_relativeLayout">
@@ -57,77 +62,100 @@
                 android:hint="@string/ValidCode"
                 android:inputType="number"
                 android:singleLine="true" />
+
             <com.hr.ui.view.VerificationCodeEditText
                 android:id="@+id/vi_validPhoneValidCode"
                 style="@style/login_editText"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/x250"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:layout_toLeftOf="@+id/rl_validPhoneValidCodeDelete"
+                android:layout_marginRight="@dimen/x10"
                 android:layout_toRightOf="@+id/iv_validPhoneValidCodeIcon"
+                android:inputType="number"
+                android:singleLine="true"
+                android:visibility="gone"
                 app:bottomLineHeight="@dimen/x2"
                 app:bottomLineNormalColor="@color/cp_color_gray_light"
                 app:bottomLineSelectedColor="@color/new_main2"
                 app:figures="4"
-                android:layout_marginRight="@dimen/x10"
-                android:singleLine="true"
-                android:inputType="number"
                 app:selectedBackgroundColor="@color/smallYellow"
-                app:verCodeMargin="@dimen/x10" />
+                app:verCodeMargin="@dimen/x5" />
+
             <RelativeLayout
-                android:layout_marginRight="@dimen/x20"
                 android:id="@+id/rl_validPhoneValidCodeDelete"
                 style="@style/Login_imageViewIcon"
+                android:layout_marginRight="@dimen/x20"
                 android:layout_toLeftOf="@+id/tv_validPhoneGetValidCode">
+
                 <ImageView
                     android:id="@+id/iv_validPhoneValidCodeDelete"
                     style="@style/Login_imageViewIcon"
                     android:src="@mipmap/delete"
                     android:visibility="gone" />
             </RelativeLayout>
+
             <TextView
-                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/x10"
                 android:id="@+id/tv_validPhoneGetValidCode"
-                android:layout_width="@dimen/x50"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/getValidCode"
+                android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/tv_validPhoneOr"
+                android:text="@string/getValidCode"
                 android:textColor="@color/new_main"
                 android:textSize="@dimen/x24" />
+
             <TextView
                 android:id="@+id/tv_validPhoneOr"
-                android:layout_width="@dimen/x40"
-                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@+id/tv_validPhoneVoice"
-                android:text="@string/or"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/fl_validPhoneVoice"
                 android:gravity="center"
+                android:text="@string/or"
                 android:textColor="@color/black"
                 android:textSize="@dimen/x24" />
-            <TextView
-                android:id="@+id/tv_validPhoneVoice"
+
+            <FrameLayout
+                android:id="@+id/fl_validPhoneVoice"
                 android:layout_width="@dimen/x50"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:text="@string/getVoiceCode"
-                android:textColor="@color/new_main"
-                android:textSize="@dimen/x24" />
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/iv_validPhoneVoice"
+                    android:layout_gravity="center"
+                    android:paddingLeft="@dimen/x13"
+                    android:paddingRight="@dimen/x13"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x36"
+                    android:src="@mipmap/voice_orange" />
+
+                <TextView
+                    android:id="@+id/tv_validPhoneVoice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/new_main"
+                    android:textSize="@dimen/x24"
+                    android:visibility="gone" />
+            </FrameLayout>
+
             <View
                 android:id="@+id/view_getValidCodeValid"
                 style="@style/login_view"
                 android:layout_alignParentBottom="true" />
         </RelativeLayout>
+
         <Button
             android:id="@+id/btn_validPhoneOK"
-            android:text="@string/valid"
             style="@style/login_buttonOK"
-            />
+            android:text="@string/valid" />
+
         <TextView
-            android:layout_gravity="right"
             android:id="@+id/tv_validPhoneChangePhone"
-            android:text="@string/changeTelephoneNumber"
-            style="@style/login_textViewFindPsw" />
+            style="@style/login_textViewFindPsw"
+            android:layout_gravity="right"
+            android:text="@string/changeTelephoneNumber" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

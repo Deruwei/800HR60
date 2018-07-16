@@ -55,3 +55,14 @@
 -keepattributes Exceptions, Signature, InnerClasses
 -keepattributes SourceFile,LineNumberTable
 # End NetworkBench Lens
+
+#极光推送
+-dontoptimize
+-dontpreverify
+-dontwarn cn.jpush.**
+-keep class cn.jpush.** { *; }
+-keep class * extends cn.jpush.android.helpers.JPushMessageReceiver { *; }
+
+-dontwarn cn.jiguang.**
+-keep class cn.jiguang.** { *; }
+#end

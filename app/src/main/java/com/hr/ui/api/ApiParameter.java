@@ -3,6 +3,7 @@ package com.hr.ui.api;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.BitmapDrawable;
@@ -43,16 +44,16 @@ import cn.sharesdk.framework.Platform;
  */
 
 public class ApiParameter {
-    public static final String TAG=ApiParameter.class.getSimpleName();
+    public static final String TAG = ApiParameter.class.getSimpleName();
 
     /**
      * 连接服务器
      * @param context
      * @return
      */
-    public static HashMap<String,String> getConnect(Context context){
-        SharedPreferencesUtils sUtils=new SharedPreferencesUtils(context);
-        HashMap<String,String> requestMap=new HashMap<>();
+    public static HashMap<String, String> getConnect(Context context) {
+        SharedPreferencesUtils sUtils = new SharedPreferencesUtils(context);
+        HashMap<String, String> requestMap = new HashMap<>();
         requestMap.put("method", "user.connect");
         requestMap.put("api_ver", Constants.API_VER);
         requestMap.put("client_ver", BuildConfig.VERSION_NAME);
@@ -66,30 +67,48 @@ public class ApiParameter {
             //Toast.makeText(context,"2",Toast.LENGTH_SHORT).show();
             requestMap.put("new_setup", "0");
         }
+
         requestMap.put("appcode", Constants.APPCODE);
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         requestMap.put("width", String.valueOf(displayMetrics.widthPixels));
         requestMap.put("height", String.valueOf(displayMetrics.heightPixels));
         String username = sUtils.getStringValue(Constants.DEVICE_USER_ID, "");
-      /*  Log.i("设备唯一码",username+"---");*/
-        if(username!=null&&!"".equals(username)) {
+        /*  Log.i("设备唯一码",username+"---");*/
+        if (username != null && !"".equals(username)) {
             requestMap.put("phonecode", username);
+        }else{
+            sUtils.setStringValue(Constants.DEVICE_USER_ID, getPhoneInfo(context));
         }
         requestMap.put("model", AndroidUtils.get_model());
-        requestMap.put("dnfrom", Utils.getAppMetaData(HRApplication.getAppContext(),"UMENG_CHANNEL"));
+        requestMap.put("dnfrom", Utils.getAppMetaData(HRApplication.getAppContext(), "UMENG_CHANNEL"));
         //Log.i("设备唯一码",username+"---"+Utils.getAppMetaData(HRApplication.getAppContext(),"UMENG_CHANNEL"));
         requestMap.put("network_type", new NetworkMng(context).getNetworkType());
         return requestMap;
     }
+
     private static String newRandomUUID() {// add by yl
         String uuidRaw = UUID.randomUUID().toString();
         return uuidRaw.replaceAll("-", "");
     }
-    @SuppressLint("MissingPermission")
+
     public static String getPhoneInfo(Context context) {
-            TelephonyManager tm = (TelephonyManager) context
-                    .getSystemService(Context.TELEPHONY_SERVICE);
+        TelephonyManager tm = (TelephonyManager) context
+                .getSystemService(Context.TELEPHONY_SERVICE);
+
+        if (ActivityCompat.checkSelfPermission(HRApplication.getAppContext(), Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            //Log.i("到这里了",""+tm.getDeviceId());
+            Log.i("现在的数据",tm.getDeviceId()+"--------");
             return tm.getDeviceId();
+        }else{
+            return "";
+        }
     }
 
 
@@ -145,7 +164,17 @@ public class ApiParameter {
         requestMap.put("phonecode",ims);
         return requestMap;
     }
-
+    /**
+     * 绑定极光推送
+     * @param registerID
+     * @return
+     */
+    public static HashMap<String,String> bindJpush(String registerID){
+        HashMap<String,String> requestMap=new HashMap<>();
+        requestMap.put("method","user.pushtoken");
+        requestMap.put("pushtoken",registerID);
+        return requestMap;
+    }
     /**
      * 设置通知开关
      * @param noticeData   通知的数据
@@ -1233,6 +1262,7 @@ public class ApiParameter {
         HashMap<String,String> requestMap=new HashMap<>();
         requestMap.put("method","job.resumematch");
         requestMap.put("match", id);
+        //Log.i("id",id+"-----");
         return requestMap;
     }
 

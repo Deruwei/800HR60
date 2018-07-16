@@ -57,14 +57,13 @@
             android:layout_height="@dimen/y30"
             android:src="@mipmap/validcode" />
 
-        <EditText
-            android:id="@+id/et_validPhoneValidCode"
+        <TextView
+            android:id="@+id/tv_validPhoneValidCode2"
             style="@style/login_editText"
             android:layout_marginRight="@dimen/x10"
             android:layout_toLeftOf="@+id/iv_validPhoneValidCodeDelete"
             android:layout_toRightOf="@+id/iv_validPhoneValidCodeIcon"
             android:hint="@string/ValidCode"
-            android:inputType="number"
             android:singleLine="true" />
         <ImageView
             android:layout_marginRight="@dimen/x20"
@@ -82,7 +81,7 @@
         <View
             android:id="@+id/view_getValidCodeValid"
             style="@style/login_view"
-            android:layout_below="@+id/et_validPhoneValidCode" />
+            android:layout_below="@+id/tv_validPhoneValidCode2" />
     </RelativeLayout>
     <Button
         android:id="@+id/btn_validPhoneOK"

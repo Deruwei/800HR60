@@ -22,6 +22,7 @@ public class Constants {
     public static final String INDUSTRY_ID="industryId";
     public static final String RESUME_STARTTYPE="start_type";//表示快速简历页面在哪页停止，然后进入主页面
     public static final String RESUME_STOPTYPE="stop_type";
+    public static final String REGISTERID="register_id";
     //数据库名称
     public static final String CURRENT_TIME="current_time";
     public static final String DB_NAME="hr_db";
@@ -55,7 +56,7 @@ public class Constants {
     //当前使用的设备
     public static final String OS_NAME = "android";
     //api版本 正式库现在为4.0  测试库 2.0最佳
-    public static final String API_VER = "2.0";
+    public static final String API_VER = "4.0";
     //头像的头地址
     public static final String IMAGE_BASEPATH="http://file.800hr.com/";
     //普通图片的头地址
@@ -65,7 +66,7 @@ public class Constants {
     public static final String API_MIDDLE="svrdo_v0.php";
     //测试
      public static final String API_URL_Text = "https://api.800hr.com/svrdo_v0.php";
-     public static final String  API_MIDDLE_TEST="svrdo_v0.php";
+     public static final String  API_MIDDLE_TEST="svrdo.php";
     // SharedPreference中标识设备ID的字符
     public static final String DEVICE_USER_ID = "device_user_id";
     //标识是否是第一次进入app

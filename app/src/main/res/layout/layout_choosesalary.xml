@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/resumeContent_bg">
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_chooseSalary"
+        android:layout_above="@+id/ll_chooseSalaryNext"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </android.support.v7.widget.RecyclerView>
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:id="@+id/ll_chooseSalaryNext"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="@dimen/x100">
+        <Button
+            android:id="@+id/btn_SalaryCancel"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:text="@string/cancel"
+            android:textSize="@dimen/x36"
+            android:textColor="@color/white"
+            android:background="@color/color_333"
+            android:layout_height="match_parent" />
+        <Button
+            android:id="@+id/btn_SalaryOK"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:text="@string/sure"
+            android:textSize="@dimen/x36"
+            android:textColor="@color/white"
+            android:background="@color/new_main"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+</RelativeLayout>

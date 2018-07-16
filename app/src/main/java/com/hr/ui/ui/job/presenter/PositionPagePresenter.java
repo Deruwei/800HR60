@@ -17,6 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import okhttp3.ResponseBody;
 
@@ -124,10 +125,10 @@ public class PositionPagePresenter extends PositionPageContract.Presenter {
                         JSONObject jsonObject=new JSONObject(s);
                         String error=jsonObject.getString("error_code");
                         if("0".equals(error)){
-                            JSONArray array=jsonObject.getJSONArray("list");
-                            if(array==null){
+                            if(!jsonObject.toString().contains("score")){
                                 mView.retryCulScore();
                             }else {
+                                JSONArray array=jsonObject.getJSONArray("list");
                                 double score = array.getJSONObject(0).getDouble("score");
                                 mView.getResumeScoreSuccess(score);
                             }

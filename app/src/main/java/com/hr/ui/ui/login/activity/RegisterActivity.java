@@ -2,35 +2,25 @@ package com.hr.ui.ui.login.activity;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
 import android.text.Selection;
 import android.text.Spannable;
-import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -55,6 +45,7 @@ import com.hr.ui.utils.Utils;
 import com.hr.ui.utils.datautils.SharedPreferencesUtils;
 import com.hr.ui.view.VerificationAction;
 import com.hr.ui.view.VerificationCodeEditText;
+import com.hr.ui.view.dialog.ValidDialog;
 import com.service.CodeTimerService;
 import com.umeng.analytics.MobclickAgent;
 
@@ -116,12 +107,15 @@ public class RegisterActivity extends Base3Activity<RegisterPresenter, RegisterM
     TextView tvPhoneRegisterOr;
     @BindView(R.id.tv_phoneRegisterVoice)
     TextView tvPhoneRegisterVoice;
+    @BindView(R.id.iv_phoneRegisterVoice)
+    ImageView ivPhoneRegisterVoice;
+    @BindView(R.id.fl_phoneRegisterVoice)
+    FrameLayout flPhoneRegisterVoice;
     private PopupWindow popupWindow;
     private String autoCode;
-    private Intent mCodeTimerServiceIntent,mCodeTimerServiceVoiceIntent;
-    public static final String CODE = "code",VOICECODE="codeVoiceRegister";
-    private ImageView ivAutoCode;
-    private EditText etAutoCode;
+    private ValidDialog validDialog;
+    private Intent mCodeTimerServiceIntent, mCodeTimerServiceVoiceIntent;
+    public static final String CODE = "code", VOICECODE = "codeVoiceRegister";
     private SharedPreferencesUtils sUtils;
     private int code;
     private String validCode;
@@ -129,7 +123,7 @@ public class RegisterActivity extends Base3Activity<RegisterPresenter, RegisterM
     private String phoneNumber = "", password;
     private int[] imageIds = {R.mipmap.resume1, R.mipmap.resume2, R.mipmap.resume3, R.mipmap.resume4, R.mipmap.resume5};
     private ArrayList<String> titles;
-    private int userId,validType=1;
+    private int userId, validType = 1;
     private boolean isHidden = true;
 
     /**
@@ -176,30 +170,41 @@ public class RegisterActivity extends Base3Activity<RegisterPresenter, RegisterM
     public void sendValidCode(int code) {
         this.code = code;
         sUtils.setIntValue("code", code);
-        tvPhoneRegisterVoice.setEnabled(false);
+        Utils.setIM(viPhoneRegisterValidCodeInput,this);
+        ivPhoneRegisterVoice.setEnabled(false);
         tvPhoneRegisterGetValidCode.setEnabled(false);
-        if(validType==1) {
+        if (validType == 1) {
+            ToastUitl.showShort(R.string.validAlreadySend);
+            ivPhoneRegisterVoice.setImageResource(R.mipmap.voice_grey);
+            tvPhoneRegisterGetValidCode.setTextColor(ContextCompat.getColor(this,R.color.color_999));
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
                 startForegroundService(mCodeTimerServiceIntent);
             } else {
                 startService(mCodeTimerServiceIntent);
             }
-        }else{
+        } else {
+            ToastUitl.showShort(R.string.voiceAlreadySend);
+            tvPhoneRegisterGetValidCode.setTextColor(ContextCompat.getColor(this,R.color.color_999));
+            tvPhoneRegisterVoice.setTextColor(ContextCompat.getColor(this,R.color.color_999));
+            ivPhoneRegisterVoice.setVisibility(View.GONE);
+            tvPhoneRegisterVoice.setVisibility(View.VISIBLE);
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
                 startForegroundService(mCodeTimerServiceVoiceIntent);
             } else {
                 startService(mCodeTimerServiceVoiceIntent);
             }
         }
-        if (popupWindow != null) {
-            popupWindow.dismiss();
+        if (validDialog != null) {
+            validDialog.dismiss();
         }
     }
 
     @Override
     public void sendAutoCode(String autoCode) {
         this.autoCode = autoCode;
-        ivAutoCode.setImageBitmap(EncryptUtils.stringtoBitmap(autoCode));
+        if (validDialog != null) {
+            validDialog.setImageBitMap(EncryptUtils.stringtoBitmap(autoCode));
+        }
     }
 
     @Override
@@ -215,7 +220,9 @@ public class RegisterActivity extends Base3Activity<RegisterPresenter, RegisterM
     @Override
     public void needToGetAutoCode() {
         ToastUitl.showShort("图形验证码错误");
-        etAutoCode.setText("");
+        if (validDialog != null) {
+            validDialog.setText("");
+        }
         mPresenter.getAutoCode();
     }
 
@@ -233,7 +240,7 @@ public class RegisterActivity extends Base3Activity<RegisterPresenter, RegisterM
                     mPresenter.getAutoCode();
 
                 } else {
-                    mPresenter.getValidCode(phoneNumber, "", 0, Constants.VALIDCODE_REGISTER_YTPE,validType);
+                    mPresenter.getValidCode(phoneNumber, "", 0, Constants.VALIDCODE_REGISTER_YTPE, validType);
                 }
             }
         }
@@ -326,24 +333,29 @@ public class RegisterActivity extends Base3Activity<RegisterPresenter, RegisterM
         mCodeTimerServiceIntent.setAction(CODE);
 
         //语音验证码计时器服务
-        mCodeTimerServiceVoiceIntent=new Intent(this,CodeTimerService.class);
+        mCodeTimerServiceVoiceIntent = new Intent(this, CodeTimerService.class);
         mCodeTimerServiceVoiceIntent.setAction(VOICECODE);
         //注册接收短信验证码和语音验证码计时器信息的广播
-        IntentFilter filterVoice=new IntentFilter(VOICECODE);
+        IntentFilter filterVoice = new IntentFilter(VOICECODE);
         IntentFilter filter = new IntentFilter(CODE);
         registerReceiver(mCodeTimerReceiver, filter);
-        registerReceiver(mCodeTimerReceiver,filterVoice);
+        registerReceiver(mCodeTimerReceiver, filterVoice);
         onEditViewTextChangeAndFocusChange();
     }
 
     private void onEditViewTextChangeAndFocusChange() {
-        Utils.setEditViewTextChangeAndFocus(etPhoneRegisterNumber,ivPhoneRegisterPhoneDelete);
-        Utils.setEditViewTextChangeAndFocus(etPhoneRegisterPsw,ivPhoneRegisterPswDelete);
+        Utils.setEditViewTextChangeAndFocus(etPhoneRegisterNumber, ivPhoneRegisterPhoneDelete);
+        Utils.setEditViewTextChangeAndFocus(etPhoneRegisterPsw, ivPhoneRegisterPswDelete);
     }
 
-    @OnClick({R.id.tv_phoneRegisterGetValidCode, R.id.btn_phoneRegisterOK,R.id.tv_phoneRegisterVoice, R.id.iv_phoneRegisterHiddenPsw, R.id.iv_phoneRegisterPhoneDelete, R.id.iv_phoneRegisterPswDelete, R.id.iv_phoneRegisterValidCodeDelete})
+    @OnClick({R.id.tv_phoneRegisterGetValidCode,R.id.tv_phoneRegisterValidCode, R.id.btn_phoneRegisterOK, R.id.iv_phoneRegisterVoice, R.id.iv_phoneRegisterHiddenPsw, R.id.iv_phoneRegisterPhoneDelete, R.id.iv_phoneRegisterPswDelete, R.id.iv_phoneRegisterValidCodeDelete})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.tv_phoneRegisterValidCode:
+                tvPhoneRegisterValidCode.setVisibility(View.GONE);
+                viPhoneRegisterValidCodeInput.setVisibility(View.VISIBLE);
+                Utils.setIM(viPhoneRegisterValidCodeInput,this);
+                break;
             case R.id.iv_phoneRegisterHiddenPsw:
                 if (isHidden) {
                     //设置EditText文本为可见的
@@ -366,8 +378,8 @@ public class RegisterActivity extends Base3Activity<RegisterPresenter, RegisterM
             case R.id.iv_phoneRegisterPhoneDelete:
                 etPhoneRegisterNumber.setText("");
                 break;
-            case R.id.tv_phoneRegisterVoice:
-                validType=2;
+            case R.id.iv_phoneRegisterVoice:
+                validType = 2;
                 doSendValidCode();
                 break;
             case R.id.iv_phoneRegisterPswDelete:
@@ -377,7 +389,7 @@ public class RegisterActivity extends Base3Activity<RegisterPresenter, RegisterM
                 viPhoneRegisterValidCodeInput.setValue("");
                 break;
             case R.id.tv_phoneRegisterGetValidCode:
-                validType=1;
+                validType = 1;
                 doSendValidCode();
                 break;
             case R.id.btn_phoneRegisterOK:
@@ -386,7 +398,6 @@ public class RegisterActivity extends Base3Activity<RegisterPresenter, RegisterM
                 break;
         }
     }
-
     private void doSendValidCode() {
         type = 1;
         viPhoneRegisterValidCodeInput.setVisibility(View.VISIBLE);
@@ -409,7 +420,7 @@ public class RegisterActivity extends Base3Activity<RegisterPresenter, RegisterM
 
     private void doRegister() {
         phoneNumber = etPhoneRegisterNumber.getText().toString();
-        validCode = viPhoneRegisterValidCodeInput.getText().toString();
+        validCode = viPhoneRegisterValidCodeInput.getTextString();
         password = etPhoneRegisterPsw.getText().toString();
 
         if ("".equals(phoneNumber) || phoneNumber == null) {
@@ -441,45 +452,24 @@ public class RegisterActivity extends Base3Activity<RegisterPresenter, RegisterM
      * 图形验证码界面
      */
     public void initPopWindow() {
-        final View popView = LayoutInflater.from(this).inflate(R.layout.layout_autocode, null);
-        popupWindow = new PopupWindow(popView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
-        ivAutoCode = popView.findViewById(R.id.vc_image);
-        TextView tvReflesh = popView.findViewById(R.id.vc_refresh);
-        etAutoCode = popView.findViewById(R.id.vc_code);
-        RelativeLayout rlConfirm = popView.findViewById(R.id.rl__item_autocode_confirm);
-        rlConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String autoCodeText = etAutoCode.getText().toString();
-                if (autoCodeText != null && !"".equals(autoCodeText)) {
-                    mPresenter.getValidCode(etPhoneRegisterNumber.getText().toString(), autoCodeText, 1, Constants.VALIDCODE_REGISTER_YTPE,validType);
-                } else {
-                    ToastUitl.show("请填写图形验证码", Toast.LENGTH_SHORT);
+        if (validDialog != null) {
+            validDialog.show();
+        } else {
+            validDialog = new ValidDialog(this);
+            validDialog.setOnConfirmListener(new ValidDialog.OnConfirmListener() {
+                @Override
+                public void onConfirm(String autoCode) {
+                    mPresenter.getValidCode(etPhoneRegisterNumber.getText().toString(), autoCode, 1, Constants.VALIDCODE_REGISTER_YTPE, validType);
                 }
-            }
-        });
-
-        popupWindow.setBackgroundDrawable(new BitmapDrawable());
-        popupWindow.setOutsideTouchable(true);
-        popupWindow.setFocusable(true);
-//消失的时候设置窗体背景变亮
-        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                WindowManager.LayoutParams lp = getWindow().getAttributes();
-                lp.alpha = 1.0f;
-                getWindow().setAttributes(lp);
-
-            }
-        });
-        tvReflesh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPresenter.getAutoCode();
-            }
-        });
-        View rootview = LayoutInflater.from(this).inflate(R.layout.activity_register, null);
-        popupWindow.showAtLocation(clRegister, Gravity.CENTER, 0, 0);
+            });
+            validDialog.setOnRefleshClickListener(new ValidDialog.OnRefleshClickListener() {
+                @Override
+                public void doReflesh() {
+                    mPresenter.getAutoCode();
+                }
+            });
+            validDialog.show();
+        }
     }
 
     /**
@@ -489,19 +479,25 @@ public class RegisterActivity extends Base3Activity<RegisterPresenter, RegisterM
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
+            boolean isEnable = intent.getBooleanExtra(CodeTimer.IS_ENABLE, false);
+            if(isEnable){
+                ivPhoneRegisterVoice.setImageResource(R.mipmap.voice_orange);
+                ivPhoneRegisterVoice.setVisibility(View.VISIBLE);
+                tvPhoneRegisterGetValidCode.setTextColor(ContextCompat.getColor(RegisterActivity.this,R.color.new_main));
+                tvPhoneRegisterVoice.setTextColor(ContextCompat.getColor(RegisterActivity.this,R.color.new_main));
+                tvPhoneRegisterVoice.setVisibility(View.GONE);
+            }
             if (CODE.equals(action)) {
                 //接收信息，改变button的点击状态和text
-                boolean isEnable = intent.getBooleanExtra(CodeTimer.IS_ENABLE, false);
                 String message = intent.getStringExtra(CodeTimer.MESSAGE);
                 tvPhoneRegisterGetValidCode.setEnabled(isEnable);
-                tvPhoneRegisterVoice.setEnabled(isEnable);
+                ivPhoneRegisterVoice.setEnabled(isEnable);
                 tvPhoneRegisterGetValidCode.setText(message);
-            }else if(VOICECODE.equals(action)){
+            } else if (VOICECODE.equals(action)) {
                 //接收信息，改变button的点击状态和text
-                boolean isEnable = intent.getBooleanExtra(CodeTimer.IS_ENABLE, false);
                 String message = intent.getStringExtra(CodeTimer.MESSAGE);
                 tvPhoneRegisterGetValidCode.setEnabled(isEnable);
-                tvPhoneRegisterVoice.setEnabled(isEnable);
+                ivPhoneRegisterVoice.setEnabled(isEnable);
                 tvPhoneRegisterVoice.setText(message);
             }
         }
@@ -513,11 +509,14 @@ public class RegisterActivity extends Base3Activity<RegisterPresenter, RegisterM
         stopService(mCodeTimerServiceIntent);
         stopService(mCodeTimerServiceVoiceIntent);
         unregisterReceiver(mCodeTimerReceiver);
+        if (validDialog != null) {
+            validDialog.dismiss();
+        }
     }
 
     @Override
     protected void onNetworkConnected(NetUtils.NetType type) {
-        Utils.getConnect();
+        /* Utils.getConnect();*/
     }
 
     @Override

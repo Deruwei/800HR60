@@ -49,7 +49,7 @@ public class LoginPresenter extends LoginContract.Presenter {
                     loginBean.setPassword(psw);
                     LoginDBUtils.insertData(loginBean);
                     mView.sendLoginSuccess(registerBean.getUser_id());
-                }else if(registerBean.getError_code()==311){
+                }else if(registerBean.getError_code()==311||registerBean.getError_code()==301){
                     if(type==1){
                         ToastUitl.showShort(R.string.error_phoneOrPsw);
                     }else{
@@ -57,7 +57,7 @@ public class LoginPresenter extends LoginContract.Presenter {
                     }
                 }else{
                     if(type==3){
-                        if(registerBean.getError_code()==201){
+                        if(registerBean.getError_code()==330){
                             ToastUitl.showShort(R.string.error_validCode);
                         }
                     }else {

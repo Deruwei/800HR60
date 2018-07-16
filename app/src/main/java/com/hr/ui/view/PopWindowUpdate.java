@@ -2,8 +2,10 @@ package com.hr.ui.view;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -16,6 +18,7 @@ import android.support.v4.content.FileProvider;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -42,7 +45,7 @@ import java.net.URLConnection;
  * Created by wdr on 2018/1/31.
  */
 
-public class PopWindowUpdate {
+public class PopWindowUpdate  extends Dialog {
     private int program;
     protected static final String fileRootPath = Environment.getExternalStorageDirectory() + File.separator;
     protected static final String fileDownloadPath = "sunrise/download/";
@@ -56,22 +59,26 @@ public class PopWindowUpdate {
     protected File downloaddir, downloadfile, downloadfiletemp;
     private Activity activity;
     private  TextView tvUpdateNow;
-    private PopupWindow popupWindow;
     private VersionBean.AndroidBean androidBean;
     private  BeerProgressView pb_update;
     private View viewMain;
-    public PopWindowUpdate(Activity activity,PopupWindow popupWindow, VersionBean.AndroidBean androidBean, View view){
+    public PopWindowUpdate(Activity activity, VersionBean.AndroidBean androidBean, View view){
+        super(activity,R.style.MyUpdateDialog);
         this.activity=activity;
-        this.popupWindow=popupWindow;
         this.androidBean=androidBean;
         this.viewMain=view;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         initView();
     }
 
     private void initView() {
-        View view = activity.getLayoutInflater().inflate(R.layout.layout_update, null);
-        popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
+        LayoutInflater inflater = LayoutInflater.from(activity);
+        View view = inflater.inflate(R.layout.layout_update, null);
+        setContentView(view);
         TextView tvUpdateContent=view.findViewById(R.id.tv_updateContent);
         tvUpdateNow=view.findViewById(R.id.tv_updateNow);
         pb_update=view.findViewById(R.id.pb_update);
@@ -79,22 +86,14 @@ public class PopWindowUpdate {
         ivUpdateCancle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                popupWindow.dismiss();
+               dismiss();
             }
         });
         tvUpdateContent.setText(androidBean.getText());
         tvUpdateContent.setMovementMethod(ScrollingMovementMethod.getInstance());
-        // 设置背景颜色变暗
-        WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
-        lp.alpha = 0.7f;
-        activity.getWindow().setAttributes(lp);
-        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-
+        setOnDismissListener(new OnDismissListener() {
             @Override
-            public void onDismiss() {
-                WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
-                lp.alpha = 1f;
-                activity.getWindow().setAttributes(lp);
+            public void onDismiss(DialogInterface dialog) {
                 if(SplashActivity.instance.isAllreadyInstance==true) {
                     SplashActivity.instance.doAutoLogin();
                 }
@@ -106,10 +105,7 @@ public class PopWindowUpdate {
                 downLoadApp();
             }
         });
-        popupWindow.setFocusable(true);
-        popupWindow.setOutsideTouchable(false);
-        popupWindow.setAnimationStyle(R.style.style_pop_animation2);
-        popupWindow.showAtLocation(viewMain, Gravity.CENTER, 0, 0);
+        setCanceledOnTouchOutside(false);
     }
     private void downLoadApp(){
         String s=androidBean.getUrl()+"android/800hr.apk";
@@ -141,11 +137,9 @@ public class PopWindowUpdate {
      */
     public void installApp(Context context, String filePath) {
         File file = new File(filePath);
-        SplashActivity.instance.isAllreadyInstance=false;
-        if(popupWindow!=null) {
-            popupWindow.dismiss();
-        }
         //Log.i("文件的路径",filePath+"");
+        SplashActivity.instance.isAllreadyInstance=false;
+        dismiss();
         if (file.exists()) {
             if (Build.VERSION.SDK_INT >= 24) {//判读版本是否在7.0以上
                 Uri apkUri = FileProvider.getUriForFile(context, "com.hr.ui.fileProvider", file);//在AndroidManifest中的android:authorities值
@@ -273,5 +267,4 @@ public class PopWindowUpdate {
 
 
     }
-
 }

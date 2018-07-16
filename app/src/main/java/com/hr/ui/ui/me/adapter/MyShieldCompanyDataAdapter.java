@@ -60,7 +60,7 @@ public class MyShieldCompanyDataAdapter extends RecyclerView.Adapter<MyShieldCom
 
     //将数据与界面进行绑定的操作
     @Override
-    public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
+    public void onBindViewHolder( ViewHolder viewHolder, final int position) {
        viewHolder.tvItemShieldCompanyName.setText(favouriteListBeanList.get(position).getEliminate_txt());
        viewHolder.tvItemShieldCompanyIndustry.setVisibility(View.GONE);
        viewHolder.tvItemShieldCompanySetShield.setText(HRApplication.getAppContext().getString(R.string.shieldCancel));
@@ -73,11 +73,12 @@ public class MyShieldCompanyDataAdapter extends RecyclerView.Adapter<MyShieldCom
                 }
             });
         }
+        final ViewHolder viewHolder1=viewHolder;
         if (onViewClick != null) {
             viewHolder.tvItemShieldCompanySetShield.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onViewClick.onViewClick((TextView) v, viewHolder.getAdapterPosition()-1);
+                    onViewClick.onViewClick((TextView) v, viewHolder1.getAdapterPosition()-1);
                 }
             });
         }

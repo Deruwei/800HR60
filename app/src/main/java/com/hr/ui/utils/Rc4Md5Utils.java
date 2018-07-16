@@ -186,7 +186,8 @@ public class Rc4Md5Utils {
                 Utils.getConnect();
                 break;
             case 205:
-                return R.string.error_205;
+                Utils.getConnect();
+                break;
          /*   case 206:
                 return R.string.error_206;*/
             case 207:
@@ -198,7 +199,7 @@ public class Rc4Md5Utils {
             case 210:
                 return R.string.error_210;
             case 301:
-                return R.string.error_311;
+                return R.string.error_301;
             case 302:
                 return R.string.error_302;
             case 303:
@@ -239,6 +240,8 @@ public class Rc4Md5Utils {
                 return R.string.error_321;
             case 327:
                 return R.string.error_327;
+            case 330:
+                return R.string.error_validCode;
             case 401:
                 return R.string.error_401;
             case 402:
